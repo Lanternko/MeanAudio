@@ -1,5 +1,6 @@
 run_*.sh
 log/
+logs/
 saves
 saves/
 output/
@@ -15,6 +16,17 @@ wandb/
 training/example_output/
 app/
 docs/
+eval_output/
+.hydra/
+outputs/
+test_phase*/
+*.pth
+*.npz
+*.flac
+*.bak
+*.bak2
+*.backup
+fix_*.py
 
 data/*
 !data/.gitkeep

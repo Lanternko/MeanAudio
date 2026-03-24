@@ -4,6 +4,7 @@ from pathlib import Path
 import os
 import torch
 import torchaudio
+import soundfile as sf
 import csv
 from meanaudio.eval_utils import (ModelConfig, all_model_cfg, generate_fm, generate_mf, setup_eval_logging)
 from meanaudio.model.flow_matching import FlowMatching
@@ -33,6 +34,7 @@ def main():
     parser.add_argument('--cfg_strength', type=float, default=4.5,
                         help='If you use meanflow, CFG is integrated in model training. So simply set this <1 to avoid an additional unconditional infer.')
     parser.add_argument('--num_steps', type=int, default=25)
+    parser.add_argument('--quality_level', type=int, default=9, help='Quality level for inference (0-9)')
     parser.add_argument('--output', type=Path, help='Output directory', default='./output')
     parser.add_argument('--seed', type=int, help='Random seed', default=42)
     parser.add_argument('--full_precision', action='store_true')
@@ -42,6 +44,9 @@ def main():
     parser.add_argument('--text_c_dim', type=int, default=512, 
                         help='Dim of the text_features_c, 1024 for pooled T5 and 512 for CLAP')
     parser.add_argument('--debug', action='store_true')
+    parser.add_argument('--tsv', type=str,
+                        default='./sets/test-audiocaps.tsv',
+                        help='Path to TSV file with id and caption columns')
     parser.add_argument('--use_meanflow', action='store_true', help='Whether or not use mean flow for inference')
     args = parser.parse_args()
     
@@ -100,14 +105,16 @@ def main():
     seq_cfg.duration = duration
     net.update_seq_lengths(seq_cfg.latent_seq_len)
 
-    eval_file =  './sets/test-audiocaps.tsv' 
+    eval_file = args.tsv
     audio_ids=[]  
     text_prompts=[]
+    q_levels=[]
     with open(eval_file, 'r') as f:
             reader = csv.DictReader(f, delimiter='\t') 
             for row in reader:
                 audio_ids.append(row['id'])
                 text_prompts.append(row['caption'])
+                q_levels.append(int(row['q_level']) if 'q_level' in row else args.quality_level)
 
     for k in tqdm(range(0, len(text_prompts))):
         prompt = text_prompts[k]
@@ -120,10 +127,11 @@ def main():
                                 net=net,
                                 mf=mf,
                                 rng=rng,
-                                cfg_strength=cfg_strength)
+                                cfg_strength=cfg_strength,
+                                q_level=q_levels[k])
             audio = audios.float().cpu()[0]
             save_paths = output_dir / f'{audio_ids[k]}.flac'
-            torchaudio.save(save_paths, audio, seq_cfg.sampling_rate)
+            sf.write(str(save_paths), audio.squeeze(0).numpy(), seq_cfg.sampling_rate)
             log.info(f'Audio saved to {save_paths}')
             log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
 
@@ -141,7 +149,7 @@ def main():
             audio = audios.float().cpu()[0]
             
             save_paths = output_dir / f'{audio_ids[k]}.flac'
-            torchaudio.save(save_paths, audio, seq_cfg.sampling_rate)
+            sf.write(str(save_paths), audio.squeeze(0).numpy(), seq_cfg.sampling_rate)
             log.info(f'Audio saved to {save_paths}')
             log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
 

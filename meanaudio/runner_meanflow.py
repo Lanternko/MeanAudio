@@ -8,8 +8,8 @@ from typing import Optional, Union
 import torch
 import torch.distributed
 import torch.optim as optim
-from av_bench.evaluate import evaluate
-from av_bench.extract import extract
+# from av_bench.evaluate import evaluate
+# from av_bench.extract import extract
 from nitrous_ema import PostHocEMA
 from omegaconf import DictConfig
 from torch.nn.parallel import DistributedDataParallel as DDP
@@ -184,8 +184,15 @@ class RunnerMeanFlow:
                                                              (1 - (x / total_num_iter))**0.9)
             elif cfg['lr_schedule'] == 'step':
                 total_num_iter = cfg['num_iterations']
-                lr_schedule_steps = [int(0.8 * total_num_iter), int(0.9 * total_num_iter)]
-                log.info(f'Assigning lr steps: {lr_schedule_steps}')
+                accum = cfg.get('accumulation_steps', 1) if isinstance(cfg, dict) else getattr(cfg, 'accumulation_steps', 1)
+                effective_iters = total_num_iter // accum
+                cfg_steps = cfg.get('lr_schedule_steps', None) if isinstance(cfg, dict) else getattr(cfg, 'lr_schedule_steps', None)
+                if cfg_steps and cfg_steps != [int(0.8 * total_num_iter), int(0.9 * total_num_iter)]:
+                    lr_schedule_steps = cfg_steps
+                    log.info(f'Using user-defined lr steps: {lr_schedule_steps}')
+                else:
+                    lr_schedule_steps = [int(0.8 * effective_iters), int(0.9 * effective_iters)]
+                    log.info(f'Assigning lr steps (accum-adjusted): {lr_schedule_steps}')
                 next_scheduler = optim.lr_scheduler.MultiStepLR(self.optimizer,
                                                                 lr_schedule_steps,
                                                                 cfg['lr_schedule_gamma'])
@@ -199,6 +206,7 @@ class RunnerMeanFlow:
             # Logging info
             self.log_text_interval = cfg['log_text_interval']
             self.log_extra_interval = cfg['log_extra_interval']
+            self.accumulation_steps = cfg.get('accumulation_steps', 1) if isinstance(cfg, dict) else getattr(cfg, 'accumulation_steps', 1)
             self.save_weights_interval = cfg['save_weights_interval']
             self.save_checkpoint_interval = cfg['save_checkpoint_interval']
             self.save_copy_iterations = cfg['save_copy_iterations']
@@ -217,6 +225,7 @@ class RunnerMeanFlow:
         text_f_c: torch.Tensor, 
         a_mean: torch.Tensor,
         a_std: torch.Tensor,
+        q: torch.Tensor = None,
         # it: torch.Tensor
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         # sample
@@ -241,7 +250,8 @@ class RunnerMeanFlow:
                                   text_f_undrop,
                                   text_f_c_undrop,
                                   self.network.module.empty_string_feat,
-                                  self.network.module.empty_string_feat_c)
+                                  self.network.module.empty_string_feat_c,
+                                  q=q)
         mean_loss = loss.mean()
         return x1, loss, mean_loss, t, r
 
@@ -292,7 +302,8 @@ class RunnerMeanFlow:
                 unmasked_text_f = text_f.clone()
                 unmasked_text_f_c = text_f_c.clone()
             #with torch.amp.autocast('cuda', enabled=False):
-            x1, loss, mean_loss, t,r = self.train_fn(text_f, text_f_c, a_mean, a_std)
+            q = data['q_level'].cuda(non_blocking=True) if 'q_level' in data else None
+            x1, loss, mean_loss, t,r = self.train_fn(text_f, text_f_c, a_mean, a_std, q=q)
            
             self.train_integrator.add_dict({'loss': mean_loss})
 
@@ -312,25 +323,33 @@ class RunnerMeanFlow:
                     step=it  # explicitly x-axis it
                 )
 
-        # Backward pass
-        self.optimizer.zero_grad(set_to_none=True)
+        # Backward pass (supports gradient accumulation)
+        loss_scaled = mean_loss / self.accumulation_steps
         if self.enable_grad_scaler:
-            self.scaler.scale(mean_loss).backward()
-            self.scaler.unscale_(self.optimizer)
-            grad_norm = torch.nn.utils.clip_grad_norm_(self.network.parameters(),
-                                                       self.clip_grad_norm)
-            self.scaler.step(self.optimizer)
-            self.scaler.update()
+            self.scaler.scale(loss_scaled).backward()
         else:
-            mean_loss.backward()
-            grad_norm = torch.nn.utils.clip_grad_norm_(self.network.parameters(),
-                                                       self.clip_grad_norm)
-            self.optimizer.step()
+            loss_scaled.backward()
 
-        if self.ema is not None and it >= self.ema_start:
-            self.ema.update()
-        self.scheduler.step()
-        self.integrator.add_scalar('grad_norm', grad_norm)
+        if (it + 1) % self.accumulation_steps == 0:
+            if self.enable_grad_scaler:
+                self.scaler.unscale_(self.optimizer)
+                grad_norm = torch.nn.utils.clip_grad_norm_(self.network.parameters(),
+                                                           self.clip_grad_norm)
+                self.scaler.step(self.optimizer)
+                self.scaler.update()
+            else:
+                grad_norm = torch.nn.utils.clip_grad_norm_(self.network.parameters(),
+                                                           self.clip_grad_norm)
+                self.optimizer.step()
+
+            self.optimizer.zero_grad(set_to_none=True)
+
+            if self.ema is not None and it >= self.ema_start:
+                self.ema.update()
+            self.scheduler.step()
+            self.integrator.add_scalar('grad_norm', grad_norm)
+        else:
+            grad_norm = torch.tensor(0.0)
 
         self.enter_val()
         with torch.amp.autocast('cuda', enabled=self.use_amp,
@@ -355,8 +374,8 @@ class RunnerMeanFlow:
                     text_f_c = unmasked_text_f_c[0:1]  # the first element with same sequence
                     conditions = self.network.module.preprocess_conditions(text_f, text_f_c)
                     empty_conditions = self.network.module.get_empty_conditions(x0.shape[0])
-                    cfg_ode_wrapper = lambda t,r,x: self.network.module.ode_wrapper(
-                        t,r,x, conditions, empty_conditions, self.cfg_strength)
+                    cfg_ode_wrapper = lambda t,x: self.network.module.ode_wrapper(
+                        t, x, conditions, empty_conditions, self.cfg_strength)
                     x1_hat = self.mf.to_data(cfg_ode_wrapper, x0)
                     x1_hat = self.network.module.unnormalize(x1_hat)
                     mel = self.features.decode(x1_hat)
@@ -421,8 +440,8 @@ class RunnerMeanFlow:
             x0 = torch.empty_like(a_mean).normal_(generator=self.rng)
             conditions = self.network.module.preprocess_conditions(text_f, text_f_c)
             empty_conditions = self.network.module.get_empty_conditions(x0.shape[0])
-            cfg_ode_wrapper = lambda t, r, x: self.network.module.ode_wrapper(
-                t, r, x, conditions, empty_conditions, self.cfg_strength)
+            cfg_ode_wrapper = lambda t, x: self.network.module.ode_wrapper(
+                t, x, conditions, empty_conditions, self.cfg_strength)
             x1_hat = self.mf.to_data(cfg_ode_wrapper, x0)
             x1_hat = self.network.module.unnormalize(x1_hat)
             mel = self.features.decode(x1_hat)
@@ -458,15 +477,7 @@ class RunnerMeanFlow:
     def eval(self, audio_dir: Path, it: int, data_cfg: DictConfig) -> dict[str, float]:
         with torch.amp.autocast('cuda', enabled=False):
             if local_rank == 0:
-                extract(audio_path=audio_dir,
-                        output_path=audio_dir / 'cache',
-                        device='cuda',
-                        batch_size=16,  # btz=16: avoid OOM
-                        skip_video_related=True,  # avoid extracting video related features 
-                        audio_length=10) 
-                output_metrics = evaluate(gt_audio_cache=Path(data_cfg.gt_cache),
-                                          skip_video_related=True, 
-                                          pred_audio_cache=audio_dir / 'cache')
+                output_metrics = {}
                 for k, v in output_metrics.items():
                     # pad k to 10 characters
                     # pad v to 10 decimal places
@@ -558,16 +569,18 @@ class RunnerMeanFlow:
 
         it = checkpoint['it']
         weights = checkpoint['weights']
-        optimizer = checkpoint['optimizer']
-        scheduler = checkpoint['scheduler']
+        optimizer = checkpoint.get('optimizer')
+        scheduler = checkpoint.get('scheduler')
         if self.ema is not None:
             self.ema.load_state_dict(checkpoint['ema'])
             self.log.info(f'EMA states loaded from step {self.ema.step}')
 
         map_location = 'cuda:%d' % local_rank
         self.network.module.load_state_dict(weights)   # directly load weights to model
-        self.optimizer.load_state_dict(optimizer)
-        self.scheduler.load_state_dict(scheduler)
+        if optimizer is not None:
+            self.optimizer.load_state_dict(optimizer)
+        if scheduler is not None:
+            self.scheduler.load_state_dict(scheduler)
 
         self.log.info(f'Global iteration {it} loaded.')
         self.log.info('Network weights, optimizer states, and scheduler states loaded.')

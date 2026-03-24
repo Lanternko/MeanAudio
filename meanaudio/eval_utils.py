@@ -122,6 +122,7 @@ def generate_mf(
     mf: MeanFlow,
     rng: torch.Generator,
     cfg_strength: float,
+    q_level: int = 0,
 ) -> torch.Tensor:
     # generate audio with mean flow
     device = feature_utils.device
@@ -150,8 +151,9 @@ def generate_mf(
     empty_conditions = net.get_empty_conditions(
         bs, negative_text_features=negative_text_features if negative_text is not None else None)
 
+    q = torch.full((bs,), q_level, dtype=torch.long, device=device)  # inference quality level
     cfg_ode_wrapper = lambda t, r, x: net.ode_wrapper(t, r, x, preprocessed_conditions, empty_conditions,
-                                                      cfg_strength)
+                                                      cfg_strength, q=q)
     x1 = mf.to_data(cfg_ode_wrapper, x0)
     x1 = net.unnormalize(x1)
     spec = feature_utils.decode(x1)

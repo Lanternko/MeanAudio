@@ -223,7 +223,7 @@ class FluxAudio(nn.Module):
         flow = self.final_layer(latent, extended_c)  # (B, N, out_dim), remove t
         return flow
 
-    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, t: torch.Tensor) -> torch.Tensor:
+    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, t: torch.Tensor, **kwargs) -> torch.Tensor:
         """
         latent: (B, N, C) 
         text_f: (B, T, D)
@@ -277,7 +277,7 @@ class FluxAudio(nn.Module):
 
         if 'empty_string_feat_c' not in src_dict.keys():  # FIXME: issue of version mismatch here
             src_dict['empty_string_feat_c'] = src_dict['empty_string_feat'].mean(dim=0)
-        self.load_state_dict(src_dict, strict=True)
+        self.load_state_dict(src_dict, strict=False)
 
     @property
     def device(self) -> torch.device:
@@ -343,6 +343,8 @@ class MeanAudio(nn.Module):
         self.r_embed = TimestepEmbedder(hidden_dim,
                                         frequency_embedding_size=256,
                                         max_period=10000)
+        #add quality embedding
+        self.q_embed = nn.Embedding(11, hidden_dim)  # level 0-9 + null token (10)
         self.joint_blocks = nn.ModuleList([
             JointBlock(hidden_dim,
                          num_heads,
@@ -465,8 +467,8 @@ class MeanAudio(nn.Module):
         return PreprocessedConditions(text_f=text_f,
                                         text_f_c=text_f_c)
 
-    def predict_flow(self, latent: torch.Tensor, t: torch.Tensor,r: torch.Tensor,#need r<t
-                     conditions: PreprocessedConditions) -> torch.Tensor:
+    def predict_flow(self, latent: torch.Tensor, t: torch.Tensor, r: torch.Tensor,  # need r<t
+                     conditions: PreprocessedConditions, q: torch.Tensor = None) -> torch.Tensor:
         """
         for non-cacheable computations
         """
@@ -479,9 +481,9 @@ class MeanAudio(nn.Module):
 
         latent = self.audio_input_proj(latent)  # (B, N, D)
         #easy try:same embed
-        global_c = self.t_embed(t).unsqueeze(1) + self.r_embed(r).unsqueeze(1) + text_f_c.unsqueeze(1)  # (B, 1, D)
+        global_c = self.t_embed(t).unsqueeze(1) + self.r_embed(r).unsqueeze(1) + text_f_c.unsqueeze(1) + self.q_embed(q).unsqueeze(1)  # (B, 1, D)
 
-        extended_c = global_c  # !TODO add fine-grained control
+        extended_c = global_c  # quality-aware conditioning via q_embed
 
         for block in self.joint_blocks:
             latent, text_f = block(latent, text_f, global_c, extended_c, self.latent_rot, self.text_rot)  # (B, N, D)
@@ -492,7 +494,7 @@ class MeanAudio(nn.Module):
         flow = self.final_layer(latent, extended_c)  # (B, N, out_dim), remove t
         return flow
 
-    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, r: torch.Tensor,t: torch.Tensor) -> torch.Tensor:
+    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, r: torch.Tensor, t: torch.Tensor, q: torch.Tensor = None) -> torch.Tensor:
         """
         latent: (B, N, C) 
         text_f: (B, T, D)
@@ -504,7 +506,9 @@ class MeanAudio(nn.Module):
         
         conditions = self.preprocess_conditions(text_f, text_f_c)  # cachable operations 
         #print(conditions)
-        flow = self.predict_flow(latent, t,r, conditions)  # non-cachable operations
+        if q is None:
+            q = torch.full((latent.shape[0],), 9, dtype=torch.long, device=latent.device)
+        flow = self.predict_flow(latent, t, r, conditions, q)  # non-cachable operations
         return flow
 
     def get_empty_string_sequence(self, bs: int) -> tuple[torch.Tensor, torch.Tensor]:
@@ -531,15 +535,16 @@ class MeanAudio(nn.Module):
         return conditions
 
     def ode_wrapper(self, t: torch.Tensor, r: torch.Tensor, latent: torch.Tensor, conditions: PreprocessedConditions,
-                    empty_conditions: PreprocessedConditions, cfg_strength: float) -> torch.Tensor:
+                    empty_conditions: PreprocessedConditions, cfg_strength: float, q: torch.Tensor = None) -> torch.Tensor:
         t = t * torch.ones(len(latent), device=latent.device, dtype=latent.dtype)
         r = r * torch.ones(len(latent), device=latent.device, dtype=latent.dtype)
-        #(r)
+        if q is None:
+            q = torch.full((len(latent),), 9, dtype=torch.long, device=latent.device)
         if cfg_strength < 1.0:
-            return self.predict_flow(latent, t,r, conditions)
+            return self.predict_flow(latent, t, r, conditions, q)
         else:
-            return (cfg_strength * self.predict_flow(latent, t,r, conditions) +
-                    (1 - cfg_strength) * self.predict_flow(latent, t,r, empty_conditions))
+            return (cfg_strength * self.predict_flow(latent, t, r, conditions, q) +
+                    (1 - cfg_strength) * self.predict_flow(latent, t, r, empty_conditions, q))
     
 
     def load_weights(self, src_dict) -> None:
@@ -566,7 +571,7 @@ class MeanAudio(nn.Module):
             src_dict['empty_string_feat_c'] = src_dict['empty_string_feat'].mean(dim=0)
         if '_extra_state' in src_dict:
             del src_dict['_extra_state']
-        self.load_state_dict(src_dict, strict=True)
+        self.load_state_dict(src_dict, strict=False)
 
     @property
     def device(self) -> torch.device:

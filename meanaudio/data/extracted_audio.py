@@ -25,13 +25,21 @@ class ExtractedAudio(Dataset):
         data_dim: dict[str, int],
         repa_npz_dir: Optional[Union[str, Path]],   # if passed, repa features (zs) would be returned
         exclude_cls: Optional[bool], 
-        repa_version: Optional[int], 
+        repa_version: Optional[int],
+        gt_cache: Optional[Union[str, Path]] = None,
     ):
         super().__init__()
         self.data_dim = data_dim
         self.df_list = pd.read_csv(tsv_path, sep='\t').to_dict('records') # id, caption
         self.ids = [str(d['id']) for d in self.df_list]
-        npz_files = glob.glob(f"{npz_dir}/*.npz")
+        if gt_cache is not None:
+            with open(gt_cache, 'r') as _f:
+                npz_files = [line.strip() for line in _f if line.strip()]
+            log.info(f'Loaded NPZ list from gt_cache: {len(npz_files)} files')
+        else:
+            npz_files = [f'{i}.npz' for i in range(len(self.df_list))]
+            log.info(f'Using sequential NPZ indices: {len(npz_files)} files')
+        self.npz_files = npz_files
         self.concat_text_fc = concat_text_fc
         self.exclude_cls = exclude_cls
         self.repa_version = repa_version
@@ -41,10 +49,10 @@ class ExtractedAudio(Dataset):
 
         # dimension check
         sample = np.load(f'{npz_dir}/0.npz')  
-        mean_s = [len(npz_files)] + list(sample['mean'].shape)
-        std_s = [len(npz_files)] + list(sample['std'].shape)
-        text_features_s = [len(npz_files)] + list(sample['text_features'].shape)
-        text_features_c_s = [len(npz_files)] + list(sample['text_features_c'].shape)
+        mean_s = [len(self.df_list)] + list(sample['mean'].shape)
+        std_s = [len(self.df_list)] + list(sample['std'].shape)
+        text_features_s = [len(self.df_list)] + list(sample['text_features'].shape)
+        text_features_c_s = [len(self.df_list)] + list(sample['text_features_c'].shape)
         if self.concat_text_fc: 
             text_features_c_s[-1] = text_features_c_s[-1] + text_features_s[-1]
 
@@ -54,7 +62,7 @@ class ExtractedAudio(Dataset):
         log.info(f'Loaded text features: {text_features_s}.')
         log.info(f'Loaded text features_c: {text_features_c_s}.') 
 
-        assert len(npz_files) == len(self.df_list), 'Number mismatch between npz files and tsv items'
+        # assert len(npz_files) == len(self.df_list), 'Number mismatch between npz files and tsv items'
         assert mean_s[1] == self.data_dim['latent_seq_len'], \
             f'{mean_s[1]} != {self.data_dim["latent_seq_len"]}'
         assert std_s[1] == self.data_dim['latent_seq_len'], \
@@ -95,7 +103,7 @@ class ExtractedAudio(Dataset):
         raise NotImplementedError('Please manually compute latent stats outside. ')
     
     def __getitem__(self, idx):
-        npz_path = f'{self.npz_dir}/{idx}.npz'
+        npz_path = f'{self.npz_dir}/{self.npz_files[idx]}'
         np_data = np.load(npz_path)
         text_features = torch.from_numpy(np_data['text_features'])
         text_features_c = torch.from_numpy(np_data['text_features_c'])
@@ -103,6 +111,7 @@ class ExtractedAudio(Dataset):
             text_features_c = torch.cat([text_features.mean(dim=-2),
                                          text_features_c], dim=-1)   # [b, d+d_c]
 
+        q_level = int(self.df_list[idx]['q_level']) if 'q_level' in self.df_list[idx] else 9
         out_dict = {
             'id': str(self.df_list[idx]['id']),
             'a_mean': torch.from_numpy(np_data['mean']), 
@@ -110,6 +119,7 @@ class ExtractedAudio(Dataset):
             'text_features': text_features, 
             'text_features_c': text_features_c,
             'caption': self.df_list[idx]['caption'],
+            'q_level': torch.tensor(q_level, dtype=torch.long),
         }
         if self.repa_npz_dir != None: 
             repa_npz_path = f'{self.repa_npz_dir}/{idx}.npz'
