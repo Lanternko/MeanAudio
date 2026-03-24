@@ -75,6 +75,7 @@ def generate_fm(
     fm: FlowMatching,
     rng: torch.Generator,
     cfg_strength: float,
+    q_level: int = 10,
 ) -> torch.Tensor:
     # generate audio with vanilla flow matching
 
@@ -104,8 +105,9 @@ def generate_fm(
     empty_conditions = net.get_empty_conditions(
         bs, negative_text_features=negative_text_features if negative_text is not None else None)
 
+    q = torch.full((bs,), q_level, dtype=torch.long, device=device)
     cfg_ode_wrapper = lambda t, x: net.ode_wrapper(t, x, preprocessed_conditions, empty_conditions,
-                                                   cfg_strength)
+                                                   cfg_strength, q=q)
     x1 = fm.to_data(cfg_ode_wrapper, x0)
     x1 = net.unnormalize(x1)
     spec = feature_utils.decode(x1)

@@ -20,7 +20,7 @@ set -e  # 任何指令失敗即中止
 # 實驗參數設定（每次新實驗只需修改此區塊）
 # ============================================================
 
-EXP_PREFIX="phase6_v1"           # 實驗名稱前綴，自動生成 exp_id
+EXP_PREFIX="phase6_v2"           # 實驗名稱前綴，自動生成 exp_id
 
 BATCH_SIZE=8                      # 物理 batch size（每張 GPU）
 ACCUM_STEPS=1                     # Gradient accumulation 步數（V4 不使用累積）
@@ -147,15 +147,89 @@ torchrun --standalone --nproc_per_node=1 train.py \
     model=meanaudio_s \
     exp_id="$EXP_S2" \
     num_iterations=$(( S1_ITERATIONS + S2_ITERATIONS )) \
+    "lr_schedule_steps=[999999,999999]" \
     "${COMMON_ARGS[@]}" \
     2>&1 | tee "$LOG_DIR/${EXP_S2}.log"
+
+echo "[Stage 2] 訓練完成"
+
+# ============================================================
+# Eval：Stage 1 中間結果（FluxAudio + q_embed）
+# ============================================================
+
+S1_EMA="$WORK_DIR/exps/$EXP_S1/${EXP_S1}_ema_final.pth"
+EVAL_S1_OUT="$WORK_DIR/eval_output/${EXP_S1}_q9"
+
+echo "[Eval S1] 生成音訊：$EVAL_S1_OUT"
+python eval.py \
+    --variant "fluxaudio_s" \
+    --model_path "$S1_EMA" \
+    --output "$EVAL_S1_OUT/audio" \
+    --cfg_strength 4.5 \
+    --encoder_name t5_clap \
+    --duration 10 \
+    --text_c_dim 512 \
+    --num_steps 25 \
+    --quality_level 9 \
+    --tsv ./sets/test-audiocaps.tsv \
+    --full_precision \
+    2>&1 | tee "$LOG_DIR/${EXP_S1}_eval.log"
+
+echo "[Eval S1] 計算 CLAP + FAD"
+python av-benchmark/evaluate.py \
+    --gt_audio gt_audio \
+    --gt_cache ./data/audiocaps/test-features \
+    --pred_audio "$EVAL_S1_OUT/audio" \
+    --pred_cache "$EVAL_S1_OUT/cache" \
+    --audio_length=10 \
+    --recompute_pred_cache \
+    --skip_video_related \
+    --output_metrics_dir="$EVAL_S1_OUT" \
+    2>&1 | tee "$LOG_DIR/${EXP_S1}_metrics.log"
+
+# ============================================================
+# Eval：Stage 2 最終結果（MeanAudio + q_embed）
+# ============================================================
+
+S2_EMA="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
+EVAL_S2_OUT="$WORK_DIR/eval_output/${EXP_S2}_q9"
+
+echo "[Eval S2] 生成音訊：$EVAL_S2_OUT"
+python eval.py \
+    --variant "meanaudio_s" \
+    --model_path "$S2_EMA" \
+    --output "$EVAL_S2_OUT/audio" \
+    --cfg_strength 0.9 \
+    --encoder_name t5_clap \
+    --duration 10 \
+    --text_c_dim 512 \
+    --num_steps 1 \
+    --use_meanflow \
+    --quality_level 9 \
+    --tsv ./sets/test-audiocaps.tsv \
+    --full_precision \
+    2>&1 | tee "$LOG_DIR/${EXP_S2}_eval.log"
+
+echo "[Eval S2] 計算 CLAP + FAD"
+python av-benchmark/evaluate.py \
+    --gt_audio gt_audio \
+    --gt_cache ./data/audiocaps/test-features \
+    --pred_audio "$EVAL_S2_OUT/audio" \
+    --pred_cache "$EVAL_S2_OUT/cache" \
+    --audio_length=10 \
+    --recompute_pred_cache \
+    --skip_video_related \
+    --output_metrics_dir="$EVAL_S2_OUT" \
+    2>&1 | tee "$LOG_DIR/${EXP_S2}_metrics.log"
 
 # ============================================================
 # 完成
 # ============================================================
 
 echo "======================================================"
-echo "  Phase 訓練完成"
-echo "  S1 EMA : exps/$EXP_S1/${EXP_S1}_ema_final.pth"
-echo "  S2 EMA : exps/$EXP_S2/${EXP_S2}_ema_final.pth"
+echo "  Phase 訓練 + Eval 完成"
+echo "  S1 EMA    : exps/$EXP_S1/${EXP_S1}_ema_final.pth"
+echo "  S2 EMA    : exps/$EXP_S2/${EXP_S2}_ema_final.pth"
+echo "  S1 Metrics: eval_output/${EXP_S1}_q9/"
+echo "  S2 Metrics: eval_output/${EXP_S2}_q9/"
 echo "======================================================"

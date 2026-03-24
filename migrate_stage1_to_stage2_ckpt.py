@@ -67,26 +67,28 @@ def main():
     ema.update(new_ema_entries)
     s1["ema"] = ema
 
-    # ── 初始化 q_embed（主模型 + EMA）────────────────────────
-    print("[2c/4] 初始化 q_embed（主模型）")
+    # ── q_embed（主模型）：Stage 1 已訓練則保留，否則隨機初始化 ──
     import torch.nn as nn
     hidden_dim = weights["t_embed.mlp.0.weight"].shape[0]
-    q_embed_weight = nn.Embedding(11, hidden_dim).weight.data
-    weights["q_embed.weight"] = q_embed_weight
-    print(f"      q_embed.weight 初始化完成  shape={q_embed_weight.shape}")
+    if "q_embed.weight" in weights:
+        print(f"[2c/4] q_embed 已存在 Stage 1 checkpoint，直接保留（Phase 6 V2+）")
+        print(f"      q_embed.weight  shape={weights['q_embed.weight'].shape}")
+    else:
+        print("[2c/4] q_embed 不存在，隨機初始化（Phase 6 V1 以前的 checkpoint）")
+        q_embed_weight = nn.Embedding(11, hidden_dim).weight.data
+        weights["q_embed.weight"] = q_embed_weight
+        print(f"      q_embed.weight 隨機初始化  shape={q_embed_weight.shape}")
 
-    print("[2d/4] 初始化 q_embed（EMA models）")
-    new_ema_q = {}
-    for k in list(ema.keys()):
-        if "ema_models.0.ema_model.t_embed.mlp.0.weight" in k:
-            prefix = k.replace("t_embed.mlp.0.weight", "")
-            new_ema_q[prefix.replace(prefix.split("ema_model.")[0] + "ema_model.", 
-                      prefix.split("ema_model.")[0] + "ema_model.") + "q_embed.weight"] = q_embed_weight.clone()
-    # 用更直接的方式
+    # ── q_embed（EMA models）：同上邏輯 ──────────────────────
+    print("[2d/4] q_embed（EMA models）")
     for prefix in ["ema_models.0.ema_model.", "ema_models.1.ema_model."]:
         key = prefix + "q_embed.weight"
-        ema[key] = q_embed_weight.clone()
-        print(f"      {key}  shape={q_embed_weight.shape}")
+        if key in ema:
+            print(f"      {key} 已存在，保留  shape={ema[key].shape}")
+        else:
+            q_embed_weight = nn.Embedding(11, hidden_dim).weight.data
+            ema[key] = q_embed_weight.clone()
+            print(f"      {key} 隨機初始化  shape={q_embed_weight.shape}")
     s1["ema"] = ema
 
     # ── 清除 optimizer / scheduler state ───────────────────

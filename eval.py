@@ -145,7 +145,8 @@ def main():
                                 net=net,
                                 fm=fm,
                                 rng=rng,
-                                cfg_strength=cfg_strength)
+                                cfg_strength=cfg_strength,
+                                q_level=q_levels[k])
             audio = audios.float().cpu()[0]
             
             save_paths = output_dir / f'{audio_ids[k]}.flac'
