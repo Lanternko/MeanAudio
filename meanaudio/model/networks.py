@@ -75,7 +75,8 @@ class FluxAudio(nn.Module):
         self.t_embed = TimestepEmbedder(hidden_dim,
                                         frequency_embedding_size=256,
                                         max_period=10000)
-        
+        self.q_embed = nn.Embedding(11, hidden_dim)  # level 0-9 + null token (10)
+
         self.joint_blocks = nn.ModuleList([
             JointBlock(hidden_dim,
                          num_heads,
@@ -100,7 +101,7 @@ class FluxAudio(nn.Module):
 
         if empty_string_feat is None:
             empty_string_feat = torch.zeros((text_seq_len, text_dim))
-        if empty_string_feat_c is None: 
+        if empty_string_feat_c is None:
             empty_string_feat_c = torch.zeros((text_c_dim))
 
         assert empty_string_feat.shape[-1] == text_dim, f'{empty_string_feat.shape[-1]} == {text_dim}'
@@ -109,18 +110,18 @@ class FluxAudio(nn.Module):
         self.latent_mean = nn.Parameter(latent_mean.view(1, 1, -1), requires_grad=False)  # (1, 1, d)
         self.latent_std = nn.Parameter(latent_std.view(1, 1, -1), requires_grad=False)   # (1, 1, d)
 
-        self.empty_string_feat = nn.Parameter(empty_string_feat, requires_grad=False) 
+        self.empty_string_feat = nn.Parameter(empty_string_feat, requires_grad=False)
         self.empty_string_feat_c = nn.Parameter(empty_string_feat_c, requires_grad=False)
 
 
         self.initialize_weights()
-        if self.use_rope: 
+        if self.use_rope:
             log.info("Network: Enabling RoPE embeddings")
             self.initialize_rotations()
-        else: 
+        else:
             log.info("Network: RoPE embedding disabled")
             self.latent_rot = None
-            self.text_rot = None  
+            self.text_rot = None
 
     def initialize_rotations(self):
         base_freq = 1.0
@@ -132,15 +133,15 @@ class FluxAudio(nn.Module):
         text_rot = compute_rope_rotations(self._text_seq_len,
                                           self.hidden_dim // self.num_heads,
                                           10000,
-                                          freq_scaling=base_freq, 
+                                          freq_scaling=base_freq,
                                           device=self.device)
 
         self.latent_rot = nn.Buffer(latent_rot, persistent=False)  # will not be saved into state dict
         self.text_rot = nn.Buffer(text_rot, persistent=False)
 
-    def update_seq_lengths(self, latent_seq_len: int) -> None: 
+    def update_seq_lengths(self, latent_seq_len: int) -> None:
         self._latent_seq_len = latent_seq_len
-        if self.use_rope: 
+        if self.use_rope:
             self.initialize_rotations()   # after changing seq_len we need to re-initialize RoPE to match new seq_len
 
     def initialize_weights(self):
@@ -181,7 +182,7 @@ class FluxAudio(nn.Module):
         # return x * self.latent_std + self.latent_mean
         return x.mul_(self.latent_std).add_(self.latent_mean)
 
-    def preprocess_conditions(self, text_f: torch.Tensor, text_f_c: torch.Tensor) -> PreprocessedConditions:  
+    def preprocess_conditions(self, text_f: torch.Tensor, text_f_c: torch.Tensor) -> PreprocessedConditions:
         """
         cache computations that do not depend on the latent/time step
         i.e., the features are reused over steps during inference
@@ -191,7 +192,7 @@ class FluxAudio(nn.Module):
         bs = text_f.shape[0]
 
         # get global and local text features
-        # NOTE here the order of projection has been changed so global and local features are projected seperately 
+        # NOTE here the order of projection has been changed so global and local features are projected seperately
         text_f_c = self.text_cond_proj(text_f_c)  # (B, D)
         text_f = self.text_input_proj(text_f)  # (B, VN, D)
 
@@ -199,7 +200,7 @@ class FluxAudio(nn.Module):
                                         text_f_c=text_f_c)
 
     def predict_flow(self, latent: torch.Tensor, t: torch.Tensor,
-                     conditions: PreprocessedConditions) -> torch.Tensor:
+                     conditions: PreprocessedConditions, q: torch.Tensor = None) -> torch.Tensor:
         """
         for non-cacheable computations
         """
@@ -210,7 +211,9 @@ class FluxAudio(nn.Module):
 
         latent = self.audio_input_proj(latent)  # (B, N, D)
 
-        global_c = self.t_embed(t).unsqueeze(1) + text_f_c.unsqueeze(1)  # (B, 1, D)
+        if q is None:
+            q = torch.full((latent.shape[0],), 10, dtype=torch.long, device=latent.device)
+        global_c = self.t_embed(t).unsqueeze(1) + text_f_c.unsqueeze(1) + self.q_embed(q).unsqueeze(1)  # (B, 1, D)
 
         extended_c = global_c  # extended_c: Latent_c, global_c: Text_c
 
@@ -223,14 +226,14 @@ class FluxAudio(nn.Module):
         flow = self.final_layer(latent, extended_c)  # (B, N, out_dim), remove t
         return flow
 
-    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, t: torch.Tensor, **kwargs) -> torch.Tensor:
+    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, t: torch.Tensor, q: torch.Tensor = None, **kwargs) -> torch.Tensor:
         """
-        latent: (B, N, C) 
+        latent: (B, N, C)
         text_f: (B, T, D)
         t: (B,)
         """
-        conditions = self.preprocess_conditions(text_f, text_f_c)  # cachable operations 
-        flow = self.predict_flow(latent, t, conditions)  # non-cachable operations
+        conditions = self.preprocess_conditions(text_f, text_f_c)  # cachable operations
+        flow = self.predict_flow(latent, t, conditions, q)  # non-cachable operations
         return flow
 
     def get_empty_string_sequence(self, bs: int) -> tuple[torch.Tensor, torch.Tensor]:
@@ -242,30 +245,32 @@ class FluxAudio(nn.Module):
             bs: int,
             *,
             negative_text_features: Optional[torch.Tensor] = None) -> PreprocessedConditions:
-        if negative_text_features is not None:  
-            empty_string_feat, empty_string_feat_c = negative_text_features  
+        if negative_text_features is not None:
+            empty_string_feat, empty_string_feat_c = negative_text_features
         else:
             empty_string_feat, empty_string_feat_c = self.get_empty_string_sequence(1)
 
         conditions = self.preprocess_conditions(empty_string_feat,
                                                 empty_string_feat_c)  # use encoder's empty features
-        
+
         if negative_text_features is None:
             conditions.text_f = conditions.text_f.expand(bs, -1, -1)
-            
+
             conditions.text_f_c = conditions.text_f_c.expand(bs, -1)
 
         return conditions
 
     def ode_wrapper(self, t: torch.Tensor, latent: torch.Tensor, conditions: PreprocessedConditions,
-                    empty_conditions: PreprocessedConditions, cfg_strength: float) -> torch.Tensor:
+                    empty_conditions: PreprocessedConditions, cfg_strength: float, q: torch.Tensor = None) -> torch.Tensor:
         t = t * torch.ones(len(latent), device=latent.device, dtype=latent.dtype)
+        if q is None:
+            q = torch.full((len(latent),), 10, dtype=torch.long, device=latent.device)
 
         if cfg_strength < 1.0:
-            return self.predict_flow(latent, t, conditions)
+            return self.predict_flow(latent, t, conditions, q)
         else:
-            return (cfg_strength * self.predict_flow(latent, t, conditions) +
-                    (1 - cfg_strength) * self.predict_flow(latent, t, empty_conditions))
+            return (cfg_strength * self.predict_flow(latent, t, conditions, q) +
+                    (1 - cfg_strength) * self.predict_flow(latent, t, empty_conditions, q))
 
     def load_weights(self, src_dict) -> None:
         if 't_embed.freqs' in src_dict:

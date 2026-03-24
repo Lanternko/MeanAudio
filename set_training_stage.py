@@ -38,13 +38,14 @@ MEAN_FLOW_PATH = Path.home() / "MeanAudio/meanaudio/model/mean_flow.py"
 # 切換至 Stage 2 時：將 stage1_text → stage2_text
 
 PATCHES = [
-    # patch 1：u_t 呼叫，移除 r=t
+    # patch 1：u_t 呼叫，移除 r=t（保留 q=null_token）
     (
         # Stage 1
         "            u_t = fn(latent=z, \n"
         "                     text_f=u_text_f,\n"
         "                     text_f_c=u_text_f_c,\n"
-        "                     t=t).detach().requires_grad_(False)",
+        "                     t=t,\n"
+        "                     q=torch.full_like(q, 10) if q is not None else None).detach().requires_grad_(False)",
         # Stage 2
         "            u_t = fn(latent=z, \n"
         "                     text_f=u_text_f,\n"
@@ -53,13 +54,14 @@ PATCHES = [
         "                     t=t,\n"
         "                     q=torch.full_like(q, 10) if q is not None else None).detach().requires_grad_(False)",
     ),
-    # patch 2：u_t_c 呼叫，移除 r=t
+    # patch 2：u_t_c 呼叫，移除 r=t（保留 q=q）
     (
         # Stage 1
         "            u_t_c = fn(latent=z, \n"
         "                       text_f=text_f_undrop,\n"
         "                       text_f_c=text_f_c_undrop,\n"
-        "                       t=t).detach().requires_grad_(False)",
+        "                       t=t,\n"
+        "                       q=q).detach().requires_grad_(False)",
         # Stage 2
         "            u_t_c = fn(latent=z, \n"
         "                       text_f=text_f_undrop,\n"
