@@ -1,14 +1,14 @@
 AudioCaps_npz:
   tag: train
   tsv: /mnt/HDD/kojiek/phase4_jamendo_data/meanaudio_captions.tsv
-  npz_dir: /home/kojiek/research_dev/meanaudio_training/npz
+  npz_dir: /home/kojiek/research/meanaudio_training/npz
   output_subdir: null
   repa_npz_dir: null
 
 AudioCaps_val_npz:
   tag: val
   tsv: /mnt/HDD/kojiek/phase4_jamendo_data/meanaudio_captions.tsv
-  npz_dir: /home/kojiek/research_dev/meanaudio_training/npz
+  npz_dir: /home/kojiek/research/meanaudio_training/npz
   output_subdir: null
   repa_npz_dir: null
   gt_cache: null
@@ -16,7 +16,7 @@ AudioCaps_val_npz:
 AudioCaps_test_npz:
   tag: test
   tsv: /mnt/HDD/kojiek/phase4_jamendo_data/meanaudio_captions.tsv
-  npz_dir: /home/kojiek/research_dev/meanaudio_training/npz
+  npz_dir: /home/kojiek/research/meanaudio_training/npz
   output_subdir: null
   repa_npz_dir: null
   gt_cache: null
