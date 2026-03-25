@@ -251,7 +251,7 @@ def train(cfg: DictConfig):
     distributed.barrier()
 
     log.info(f'Evaluation: {cfg}')  
-    sample(cfg)  
+    # # sample(cfg)  
  
     # clean-up
     log.complete()

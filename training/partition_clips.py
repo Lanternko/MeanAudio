@@ -4,6 +4,25 @@ from pathlib import Path
 
 import pandas as pd
 import torchaudio
+
+# Wrapper for soundfile (torchaudio backend issue fix)
+def _load_audio_soundfile(path):
+    """Load audio using soundfile instead of torchaudio"""
+    import soundfile as sf
+    import torch
+    audio, sr = sf.read(str(path))
+    # Convert to torch tensor and ensure [channels, samples] format
+    audio = torch.from_numpy(audio).float()
+    if audio.ndim == 1:
+        audio = audio.unsqueeze(0)  # [samples] -> [1, samples]
+    else:
+        audio = audio.transpose(0, 1)  # [samples, channels] -> [channels, samples]
+    return audio, sr
+
+# Monkey patch torchaudio.load
+import torchaudio
+torchaudio.load = _load_audio_soundfile
+
 from tqdm import tqdm
 
 min_length_sec = 10

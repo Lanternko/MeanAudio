@@ -9,8 +9,8 @@ from typing import Optional, Union
 import torch
 import torch.distributed
 import torch.optim as optim
-from av_bench.evaluate import evaluate
-from av_bench.extract import extract
+# # from av_bench.evaluate import evaluate
+# # from av_bench.extract import extract
 from nitrous_ema import PostHocEMA
 from omegaconf import DictConfig
 from torch.nn.parallel import DistributedDataParallel as DDP
@@ -465,17 +465,9 @@ class RunnerFlowMatching:
     @torch.inference_mode()
     def eval(self, audio_dir: Path, it: int, data_cfg: DictConfig) -> dict[str, float]:
         with torch.amp.autocast('cuda', enabled=False):
+            output_metrics = {}  # Placeholder for disabled evaluation
             if local_rank == 0:
-                extract(audio_path=audio_dir,
-                        output_path=audio_dir / 'cache',
-                        device='cuda',
-                        batch_size=16,  # btz=16: avoid OOM
-                        num_workers=4,
-                        skip_video_related=True,  # avoid extracting video related features 
-                        audio_length=10) 
-                output_metrics = evaluate(gt_audio_cache=Path(data_cfg.gt_cache),
-                                          skip_video_related=True, 
-                                          pred_audio_cache=audio_dir / 'cache')
+                pass
                 for k, v in output_metrics.items():
                     # pad k to 10 characters
                     # pad v to 10 decimal places

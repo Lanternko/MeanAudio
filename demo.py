@@ -134,7 +134,8 @@ def MeanAudioDemoInfer(
     audio = audios.float().cpu()[0]
     safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
     save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{seed}.wav'
-    torchaudio.save(save_path, audio, seq_cfg.sampling_rate)
+    import soundfile as sf
+    sf.write(save_path, audio.squeeze(0).numpy(), seq_cfg.sampling_rate)
     log.info(f'Audio saved to {save_path}')
     log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
     return save_path

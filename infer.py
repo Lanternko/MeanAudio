@@ -116,7 +116,8 @@ def main():
             audio = audios.float().cpu()[0]
             safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
             save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{args.seed}.wav'
-            torchaudio.save( save_path, audio, seq_cfg.sampling_rate)
+            import soundfile as sf
+            import os; save_str = str(save_path); os.makedirs(os.path.dirname(save_str), exist_ok=True); save_str = save_str[:200] + ".wav" if len(os.path.basename(save_str)) > 200 else save_str; sf.write(save_str, audio.cpu().numpy().T, seq_cfg.sampling_rate)
             log.info(f'Audio saved to {save_path}')
         log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
     else:
