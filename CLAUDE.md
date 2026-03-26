@@ -8,6 +8,10 @@
 
 目前進行到 **Phase 6 V2**：quality-aware conditioning（q_embed，0~10 的品質信號從 Stage 1 就開始訓練）。
 
+**下一個方向（Phase 7 候選）**：
+1. Native q inference（每個 clip 用自己的 q_level）— 教授假設 FAD 可改善
+2. 引入 Meta Audiobox Aesthetics 自動評分取代 FAD（若和聽感更相關）
+
 ---
 
 ## 目錄結構
@@ -116,8 +120,13 @@ LEARNING_RATE=1e-4
 
 ### 客觀評估（CLAP + FAD，與 baseline 比較用）
 
+**TSV 選擇**：
+- `phase4_test.tsv`：只有 `id` + `caption`，搭配 `--quality_level N` 使用
+- `phase6_test.tsv`：同一批 clip + `q_level` 欄位，native_q inference 用（不傳 `--quality_level`）
+
 **Step 1：生成音訊（Jamendo test set，90k 筆，約 2 小時）**
 ```bash
+# 固定 q_level（如 q=9）
 python eval.py \
     --variant meanaudio_s \
     --model_path exps/EXPNAME/EXPNAME_ema_final.pth \
@@ -128,6 +137,17 @@ python eval.py \
     --cfg_strength 0.5 --quality_level 9 \
     --full_precision \
     2>&1 | tee ~/logs/EXPNAME_eval.log
+
+# native_q（每個 clip 用自己的 q_level）
+python eval.py \
+    --variant meanaudio_s \
+    --model_path exps/EXPNAME/EXPNAME_ema_final.pth \
+    --output eval_output/EXPNAME_native_q_jamendo/audio \
+    --tsv /mnt/HDD/kojiek/phase4_jamendo_data/phase6_test.tsv \
+    --use_meanflow --num_steps 1 \
+    --encoder_name t5_clap --text_c_dim 512 \
+    --cfg_strength 0.5 --full_precision \
+    2>&1 | tee ~/logs/EXPNAME_native_q_eval.log
 ```
 
 **Step 2：計算 metrics（CLAP + FAD）**
@@ -156,10 +176,12 @@ python infer.py \
     --prompt "PROMPT"
 ```
 
-三首固定 prompt：
+五首固定 prompt（`--output_name` 命名規則：`<phase>_<style>`）：
 - **鋼琴**：`This is a piano cover of a glam metal music piece. The piece is being played gently on a keyboard with a grand piano sound. There is a calming, relaxing atmosphere in this piece.`
 - **重金屬**：`This is the recording of a heavy metal music piece. There is a male vocalist singing melodically in the lead. The main tune is being played by the distorted electric guitar while the bass guitar is playing in the background. The rhythmic background consists of a simple acoustic drum beat. The atmosphere is aggressive.`
 - **Lo-Fi 民謠**：`The low quality recording features a live performance of a folk song that consists of an arpeggiated electric guitar melody played over groovy bass, punchy snare and shimmering cymbals. It sounds energetic and the recording is noisy and in mono.`
+- **EDM**：`This is an electronic dance music piece. There is a synth lead playing the main melody. The beat consists of a kick drum, clap, hi-hat and synthesized bass. The atmosphere is energetic and euphoric.`
+- **Cinematic**：`This is a cinematic orchestral piece. There are strings playing a sweeping melody with brass accents. The piece builds in intensity with a dramatic crescendo. The atmosphere is epic and emotional.`
 
 下載到本機（Mac terminal）：
 ```bash
@@ -174,6 +196,13 @@ scp -P 22 -r kojiek@140.122.184.29:~/MeanAudio/eval_output/EXPNAME_subjective/ ~
 | phase4_v2 | 0.1929 | 1.5853 |
 | phase6_v1 (q=9) | 0.1898 | 1.7628 |
 | **phase6_v2 (q=9)** | **0.2139** | 2.5849 |
+| phase6_v2 q=0 | TBD | TBD |
+| phase6_v2 q=4 | TBD | TBD |
+| phase6_v2 q=7 | TBD | TBD |
+| phase6_v2 q=8 | TBD | TBD |
+| phase6_v2 native_q | TBD | TBD |
+
+> q-level sweep 進行中（tmux: `q_sweep`），結果在 `eval_output/metrics/phase6_v2_q*/metrics.txt`
 
 ---
 
@@ -183,3 +212,7 @@ scp -P 22 -r kojiek@140.122.184.29:~/MeanAudio/eval_output/EXPNAME_subjective/ ~
 - `run_*.sh` 已在 `.gitignore`，臨時腳本可用這個命名規則避免 commit
 - `exps/`、`eval_output/`、`*.pth`、`*.flac` 都在 `.gitignore`，不會進 git
 - 資料路徑：`/mnt/HDD/kojiek/phase4_jamendo_data/`
+
+### Backward Compatibility（pre-Phase6 checkpoints）
+
+Phase6 以前的 checkpoint 沒有 `q_embed.weight`。`load_weights()` 會自動偵測並將 q_embed **歸零**（不影響 global_c），並印出 WARNING。phase4_v2 / phase6_v1 等舊 checkpoint 可正常使用。
