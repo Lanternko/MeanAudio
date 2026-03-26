@@ -45,6 +45,7 @@ def main():
     parser.add_argument('--debug', action='store_true')
     parser.add_argument('--use_meanflow', action='store_true', help='Whether or not use mean flow for inference')
     parser.add_argument('--quality_level', type=int, default=9, help='Quality level 0-9 (10=null token)')
+    parser.add_argument('--output_name', type=str, default=None, help='Custom output filename (without extension)')
     args = parser.parse_args()
 
     if args.debug: 
@@ -116,10 +117,15 @@ def main():
                                   cfg_strength=cfg_strength,
                                   q_level=args.quality_level)
             audio = audios.float().cpu()[0]
-            safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
-            save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{args.seed}.wav'
+            if args.output_name:
+                filename = args.output_name
+            else:
+                safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
+                filename = f'{safe_filename}--numsteps{num_steps}--seed{args.seed}'
+                filename = filename[:196]
             import soundfile as sf
-            import os; save_str = str(save_path); os.makedirs(os.path.dirname(save_str), exist_ok=True); save_str = save_str[:200] + ".wav" if len(os.path.basename(save_str)) > 200 else save_str; sf.write(save_str, audio.cpu().numpy().T, seq_cfg.sampling_rate)
+            save_path = output_dir / f'{filename}.wav'
+            sf.write(str(save_path), audio.cpu().numpy().T, seq_cfg.sampling_rate)
             log.info(f'Audio saved to {save_path}')
         log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
     else:
@@ -135,8 +141,13 @@ def main():
                                   cfg_strength=cfg_strength,
                                   q_level=args.quality_level)
             audio = audios.float().cpu()[0]
-            safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
-            save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{args.seed}.wav'
+            if args.output_name:
+                filename = args.output_name
+            else:
+                safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
+                filename = f'{safe_filename}--numsteps{num_steps}--seed{args.seed}'
+                filename = filename[:196]
+            save_path = output_dir / f'{filename}.wav'
             torchaudio.save(save_path, audio, seq_cfg.sampling_rate)
 
             log.info(f'Audio saved to {save_path}')

@@ -273,6 +273,8 @@ class FluxAudio(nn.Module):
                     (1 - cfg_strength) * self.predict_flow(latent, t, empty_conditions, q))
 
     def load_weights(self, src_dict) -> None:
+        has_q_embed = 'q_embed.weight' in src_dict
+
         if 't_embed.freqs' in src_dict:
             del src_dict['t_embed.freqs']
         if 'latent_rot' in src_dict:
@@ -283,6 +285,15 @@ class FluxAudio(nn.Module):
         if 'empty_string_feat_c' not in src_dict.keys():  # FIXME: issue of version mismatch here
             src_dict['empty_string_feat_c'] = src_dict['empty_string_feat'].mean(dim=0)
         self.load_state_dict(src_dict, strict=False)
+
+        # Backward compat: if checkpoint has no q_embed (pre-Phase6), zero it out
+        # so it contributes nothing to global_c and audio is not corrupted.
+        if not has_q_embed:
+            import logging
+            logging.getLogger().warning(
+                'q_embed.weight not found in checkpoint (pre-Phase6 ckpt). '
+                'Zeroing q_embed weights for backward compatibility.')
+            torch.nn.init.zeros_(self.q_embed.weight)
 
     @property
     def device(self) -> torch.device:
@@ -563,6 +574,8 @@ class MeanAudio(nn.Module):
             return new_state_dict
  
         src_dict=remove_prefix(src_dict)
+        has_q_embed = 'q_embed.weight' in src_dict
+
         if 't_embed.freqs' in src_dict:
             del src_dict['t_embed.freqs']
         if 'r_embed.freqs' in src_dict:
@@ -577,6 +590,15 @@ class MeanAudio(nn.Module):
         if '_extra_state' in src_dict:
             del src_dict['_extra_state']
         self.load_state_dict(src_dict, strict=False)
+
+        # Backward compat: if checkpoint has no q_embed (pre-Phase6), zero it out
+        # so it contributes nothing to global_c and audio is not corrupted.
+        if not has_q_embed:
+            import logging
+            logging.getLogger().warning(
+                'q_embed.weight not found in checkpoint (pre-Phase6 ckpt). '
+                'Zeroing q_embed weights for backward compatibility.')
+            torch.nn.init.zeros_(self.q_embed.weight)
 
     @property
     def device(self) -> torch.device:
