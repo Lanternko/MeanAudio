@@ -114,26 +114,66 @@ LEARNING_RATE=1e-4
 
 ## Eval
 
+### 客觀評估（CLAP + FAD，與 baseline 比較用）
+
+**Step 1：生成音訊（Jamendo test set，90k 筆，約 2 小時）**
 ```bash
-# Stage 2 eval（MeanAudio，1 step）
 python eval.py \
     --variant meanaudio_s \
     --model_path exps/EXPNAME/EXPNAME_ema_final.pth \
-    --output eval_output/EXPNAME_q9/audio \
+    --output eval_output/EXPNAME_jamendo/audio \
+    --tsv /mnt/HDD/kojiek/phase4_jamendo_data/phase4_test.tsv \
     --use_meanflow --num_steps 1 \
     --encoder_name t5_clap --text_c_dim 512 \
-    --cfg_strength 0.9 --quality_level 9 \
-    --tsv sets/test-audiocaps.tsv --full_precision
-
-# CLAP + FAD
-python av-benchmark/evaluate.py \
-    --gt_cache ./data/audiocaps/test-features \
-    --pred_audio eval_output/EXPNAME_q9/audio \
-    --pred_cache eval_output/EXPNAME_q9/cache \
-    --audio_length=10 --recompute_pred_cache \
-    --skip_video_related \
-    --output_metrics_dir=eval_output/EXPNAME_q9
+    --cfg_strength 0.5 --quality_level 9 \
+    --full_precision \
+    2>&1 | tee ~/logs/EXPNAME_eval.log
 ```
+
+**Step 2：計算 metrics（CLAP + FAD）**
+```bash
+python ~/research/meanaudio_eval/phase4_eval.py \
+    --gen_dir eval_output/EXPNAME_jamendo/audio \
+    --exp_name EXPNAME \
+    --num_samples 2048 \
+    2>&1 | tee ~/logs/EXPNAME_metrics.log
+```
+
+結果存在 `eval_output/metrics/EXPNAME/metrics.txt`。
+
+### 主觀評估（人耳，三首固定 prompt）
+
+25 steps + cfg_strength 3.5，音質比單步好：
+
+```bash
+python infer.py \
+    --variant meanaudio_s \
+    --model_path exps/EXPNAME/EXPNAME_ema_final.pth \
+    --output eval_output/EXPNAME_subjective \
+    --encoder_name t5_clap --text_c_dim 512 \
+    --use_meanflow --num_steps 25 --cfg_strength 3.5 \
+    --quality_level 9 --full_precision \
+    --prompt "PROMPT"
+```
+
+三首固定 prompt：
+- **鋼琴**：`This is a piano cover of a glam metal music piece. The piece is being played gently on a keyboard with a grand piano sound. There is a calming, relaxing atmosphere in this piece.`
+- **重金屬**：`This is the recording of a heavy metal music piece. There is a male vocalist singing melodically in the lead. The main tune is being played by the distorted electric guitar while the bass guitar is playing in the background. The rhythmic background consists of a simple acoustic drum beat. The atmosphere is aggressive.`
+- **Lo-Fi 民謠**：`The low quality recording features a live performance of a folk song that consists of an arpeggiated electric guitar melody played over groovy bass, punchy snare and shimmering cymbals. It sounds energetic and the recording is noisy and in mono.`
+
+下載到本機（Mac terminal）：
+```bash
+scp -P 22 -r kojiek@140.122.184.29:~/MeanAudio/eval_output/EXPNAME_subjective/ ~/Downloads/EXPNAME_subjective/
+```
+
+### Baseline 數字（Jamendo test set，n=2048）
+
+| Phase | CLAP ↑ | FAD ↓ |
+|-------|--------|-------|
+| phase4_v1 | 0.1957 | 1.5548 |
+| phase4_v2 | 0.1929 | 1.5853 |
+| phase6_v1 (q=9) | 0.1898 | 1.7628 |
+| **phase6_v2 (q=9)** | **0.2139** | 2.5849 |
 
 ---
 

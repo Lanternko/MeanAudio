@@ -44,6 +44,7 @@ def main():
                         help='Dim of the text_features_c, 1024 for pooled T5 and 512 for CLAP')
     parser.add_argument('--debug', action='store_true')
     parser.add_argument('--use_meanflow', action='store_true', help='Whether or not use mean flow for inference')
+    parser.add_argument('--quality_level', type=int, default=9, help='Quality level 0-9 (10=null token)')
     args = parser.parse_args()
 
     if args.debug: 
@@ -112,7 +113,8 @@ def main():
                                   net=net,
                                   mf=mf,
                                   rng=rng,
-                                  cfg_strength=cfg_strength)
+                                  cfg_strength=cfg_strength,
+                                  q_level=args.quality_level)
             audio = audios.float().cpu()[0]
             safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
             save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{args.seed}.wav'
@@ -130,7 +132,8 @@ def main():
                                   net=net,
                                   fm=fm,
                                   rng=rng,
-                                  cfg_strength=cfg_strength)
+                                  cfg_strength=cfg_strength,
+                                  q_level=args.quality_level)
             audio = audios.float().cpu()[0]
             safe_filename = prompt.replace(' ', '_').replace('/', '_').replace('.', '')
             save_path = output_dir / f'{safe_filename}--numsteps{num_steps}--seed{args.seed}.wav'
