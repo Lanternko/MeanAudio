@@ -9,8 +9,9 @@
 目前進行到 **Phase 6 V2**：quality-aware conditioning（q_embed，0~10 的品質信號從 Stage 1 就開始訓練）。
 
 **下一個方向（Phase 7 候選）**：
-1. Native q inference（每個 clip 用自己的 q_level）— 教授假設 FAD 可改善
-2. 引入 Meta Audiobox Aesthetics 自動評分取代 FAD（若和聽感更相關）
+1. Native q inference（每個 clip 用自己的 q_level）— 教授假設 FAD 可改善 ✅ 已驗證（FAD 1.12 vs q=9 的 2.58）
+2. 引入 Meta Audiobox Aesthetics 自動評分取代 FAD（若和聽感更相關）✅ 已安裝（`pip install audiobox_aesthetics`）
+3. Caption-audio CLAP 相似度過濾訓練資料（教授新方向，見下方研究方向）
 
 ---
 
@@ -196,13 +197,14 @@ scp -P 22 -r kojiek@140.122.184.29:~/MeanAudio/eval_output/EXPNAME_subjective/ ~
 | phase4_v2 | 0.1929 | 1.5853 |
 | phase6_v1 (q=9) | 0.1898 | 1.7628 |
 | **phase6_v2 (q=9)** | **0.2139** | 2.5849 |
-| phase6_v2 q=0 | TBD | TBD |
-| phase6_v2 q=4 | TBD | TBD |
-| phase6_v2 q=7 | TBD | TBD |
-| phase6_v2 q=8 | TBD | TBD |
-| phase6_v2 native_q | TBD | TBD |
+| phase6_v2 q=0 | 0.0340 | 9.7771 |
+| phase6_v2 q=6 | 0.1979 | **1.0549** |
+| phase6_v2 q=7 | 0.1956 | 1.1327 |
+| phase6_v2 q=8 | 0.1939 | 1.1518 |
+| phase6_v2 native_q | 0.1950 | 1.1153 |
+| phase6_v2 q=5 | 0.1846 | 1.5495 |
 
-> q-level sweep 進行中（tmux: `q_sweep`），結果在 `eval_output/metrics/phase6_v2_q*/metrics.txt`
+> FAD 呈 U 型曲線：最低點在 q≈6（接近 test set 均值 q≈7.3）；q=9 CLAP 最高但 FAD 最差，因為強制高品質信號把生成分佈推離 reference 分佈中心。U 型已驗證（q=5 FAD 1.55，q=9 FAD 2.58，q=6 最低 1.05）。
 
 ---
 
@@ -216,3 +218,83 @@ scp -P 22 -r kojiek@140.122.184.29:~/MeanAudio/eval_output/EXPNAME_subjective/ ~
 ### Backward Compatibility（pre-Phase6 checkpoints）
 
 Phase6 以前的 checkpoint 沒有 `q_embed.weight`。`load_weights()` 會自動偵測並將 q_embed **歸零**（不影響 global_c），並印出 WARNING。phase4_v2 / phase6_v1 等舊 checkpoint 可正常使用。
+
+---
+
+## 教授討論紀錄
+
+### 2026-03-27 — 資料品質、評估指標、Phase 7 方向
+
+**資料品質過濾的效果（尚未定論）**
+
+兩種假說：
+- **假說 A（大數法則）**：資料夠多，爛的 caption 被平均掉，過濾不重要
+- **假說 B（方法問題）**：我們的過濾方式本身不夠好，才沒看到效果
+
+教授直覺傾向假說 B：「如果 caption 是爛的，怎麼可能訓出好的模型？」→ 需要實驗驗證。
+
+**評估指標：聽感 > CLAP**
+
+> 「CLAP 很好啦，通常也可以相信，只是 CLAP score 到底代表了什麼，我個人覺得還是耳聽為憑。你聽起來覺得有變好就是有變好。這些其實都是輔助。」
+
+→ 主觀評估不能省，metrics 是輔助工具。
+
+**新的資料過濾方向：Caption-Audio CLAP 相似度**
+
+- 不用 cross-model consistency（現行做法）
+- 改算 **caption ↔ audio CLAP 相似度**，高相似度 = 好 caption
+- 預先計算存起來，訓練時直接讀，成本可攤平
+
+**⚠️ Data Leakage 原則**
+
+> 「如果訓練資料過濾用了 CLAP，evaluation 就不能用 CLAP。」
+
+| 過濾方法 | 可用 eval | 不可用 eval |
+|----------|-----------|------------|
+| Caption-audio CLAP 過濾 | FAD、Meta Aesthetics | ❌ CLAP |
+| 不用 CLAP 過濾 | CLAP + FAD | — |
+
+→ Phase 7 若採用 CLAP 過濾資料，evaluation 需改用 FAD 或 Meta Audiobox Aesthetics。
+
+---
+
+## Meta Audiobox Aesthetics 指標
+
+### 安裝
+```bash
+pip install audiobox_aesthetics   # CC-BY 4.0，無需申請，自動下載權重
+```
+
+### 四個子指標
+| 指標 | 名稱 | 物理意義 |
+|------|------|---------|
+| **CE** | Content Enjoyment | 主觀聽感、情感影響、藝術性、整體喜好 |
+| CU | Content Usefulness | 內容是否符合使用情境 |
+| PC | Production Complexity | 製作複雜度 |
+| **PQ** | Production Quality | 技術品質：清晰度、保真度、無雜訊失真 |
+
+### 與人類 MOS 的相關係數（文獻，PAM-music，utterance-level）
+| 指標 | ↔ 人類 OVL | ↔ 人類真實標註 | 備註 |
+|------|-----------|--------------|------|
+| **CE** | **0.528** | **0.661** | 單樣本層級 |
+| **PQ** | 0.464 | 0.587 | 單樣本層級 |
+
+成對偏好預測準確率（From Aesthetics to Human Preferences）：
+- CE、CU：> 60%（顯著高於盲猜 50%）
+- PQ（保真度偏好）：59.1%
+
+→ **CE 與人類主觀評分相關性最強**，是評估「音樂品質提升」的最佳指標。
+
+### 已採用此指標的論文（學術引用依據）
+- **LeVo (2025)**：多偏好對齊歌曲生成，評估 Suno-V4.5、Mureka-O1、YuE
+- **ACE-Step (2025)**：音樂生成基礎模型，Table 1 全面採用四指標
+- **SongBloom (2025)**、**MIDI-SAG (2025)**：客觀評估全面採用
+- **SMART**：直接用 CE 作為 RL reward 微調符號音樂生成
+- **AudioMOS Challenge 2025（Track 2）**：以四指標作為官方評測框架
+
+### 對 MeanAudio 研究的意義
+- **CE** → 回答「quality conditioning 是否讓音樂更好聽、更有藝術性」
+- **PQ** → 回答「是否降低了低品質訓練資料帶來的技術瑕疵（雜訊、失真）」
+- 最強論述：CE 和 PQ **同時提升** = q_embed 帶來全方位感知品質升級；只有 PQ 升而 CE 不動 = 只學會「清理背景雜訊」
+- 學術寫作建議：**四個指標全部列出**（如 LeVo、ACE-Step 做法），以 CE 為主軸論述
+- ⚠️ 若用 CLAP 過濾訓練資料，evaluation 改用 Audiobox Aesthetics（避免 data leakage）
