@@ -6,12 +6,18 @@
 - **Stage 1**：FluxAudio（Flow Matching，單向 ODE）
 - **Stage 2**：MeanAudio（Mean Flow，更快推理）
 
-目前進行到 **Phase 6 V2**：quality-aware conditioning（q_embed，0~10 的品質信號從 Stage 1 就開始訓練）。
+目前進行到 **Phase 7**：caption 選擇策略實驗（random vs CLAP-best）。
 
-**下一個方向（Phase 7 候選）**：
-1. Native q inference（每個 clip 用自己的 q_level）— 教授假設 FAD 可改善 ✅ 已驗證（FAD 1.12 vs q=9 的 2.58）
-2. 引入 Meta Audiobox Aesthetics 自動評分取代 FAD（若和聽感更相關）✅ 已安裝（`pip install audiobox_aesthetics`）
-3. Caption-audio CLAP 相似度過濾訓練資料（教授新方向，見下方研究方向）
+| Phase | 核心改動 | 狀態 |
+|-------|---------|------|
+| Phase 4 V2 | 基礎 MeanFlow 兩階段訓練 | ✅ Baseline |
+| Phase 6 V2 | q_embed quality conditioning（0~9） | ✅ 完成 |
+| Phase 7 V1 | Caption 隨機選一（5 選 1，seed=42） | ✅ 完成，**目前最佳** |
+| Phase 7 V2 | Caption 取 CLAP-audio 相似度最高 | ✅ 完成，劣於 V1 |
+
+**下一個方向（Phase 8 候選）**：
+- Caption 品質過濾（低 CLAP 相似度 caption 直接丟棄，不用 random 補）
+- 若用 CLAP 過濾 → evaluation 改用 AES（data leakage 原則）
 
 ---
 
@@ -119,7 +125,9 @@ LEARNING_RATE=1e-4
 
 ## Eval
 
-### 客觀評估（CLAP + FAD，與 baseline 比較用）
+### 客觀評估（CLAP + AES，與 baseline 比較用）
+
+> **主要指標**：CLAP ↑、CE ↑、PQ ↑（FAD 僅供歷史參考，不再作為主要指標）
 
 **TSV 選擇**：
 - `phase4_test.tsv`：只有 `id` + `caption`，搭配 `--quality_level N` 使用
@@ -151,7 +159,7 @@ python eval.py \
     2>&1 | tee ~/logs/EXPNAME_native_q_eval.log
 ```
 
-**Step 2：計算 metrics（CLAP + FAD）**
+**Step 2：計算 metrics（CLAP + AES）**
 ```bash
 python ~/research/meanaudio_eval/phase4_eval.py \
     --gen_dir eval_output/EXPNAME_jamendo/audio \
@@ -160,7 +168,8 @@ python ~/research/meanaudio_eval/phase4_eval.py \
     2>&1 | tee ~/logs/EXPNAME_metrics.log
 ```
 
-結果存在 `eval_output/metrics/EXPNAME/metrics.txt`。
+> `--fad` flag 預設關閉，AES（CE/CU/PC/PQ）預設開啟。
+> 結果存在 `eval_output/metrics/EXPNAME/metrics.txt`。
 
 ### 主觀評估（人耳，三首固定 prompt）
 
@@ -189,22 +198,20 @@ python infer.py \
 scp -P 22 -r kojiek@140.122.184.29:~/MeanAudio/eval_output/EXPNAME_subjective/ ~/Downloads/EXPNAME_subjective/
 ```
 
-### Baseline 數字（Jamendo test set，n=2048）
+### 目前最佳數字（Jamendo test set，n=2048）
 
-| Phase | CLAP ↑ | FAD ↓ |
-|-------|--------|-------|
-| phase4_v1 | 0.1957 | 1.5548 |
-| phase4_v2 | 0.1929 | 1.5853 |
-| phase6_v1 (q=9) | 0.1898 | 1.7628 |
-| **phase6_v2 (q=9)** | **0.2139** | 2.5849 |
-| phase6_v2 q=0 | 0.0340 | 9.7771 |
-| phase6_v2 q=6 | 0.1979 | **1.0549** |
-| phase6_v2 q=7 | 0.1956 | 1.1327 |
-| phase6_v2 q=8 | 0.1939 | 1.1518 |
-| phase6_v2 native_q | 0.1950 | 1.1153 |
-| phase6_v2 q=5 | 0.1846 | 1.5495 |
+> 主要指標：CLAP ↑、CE ↑、PQ ↑。完整實驗記錄見 `EXPERIMENT_LOG.md`。
 
-> FAD 呈 U 型曲線：最低點在 q≈6（接近 test set 均值 q≈7.3）；q=9 CLAP 最高但 FAD 最差，因為強制高品質信號把生成分佈推離 reference 分佈中心。U 型已驗證（q=5 FAD 1.55，q=9 FAD 2.58，q=6 最低 1.05）。
+| Phase | Caption 策略 | q | CLAP ↑ | CE ↑ | PQ ↑ |
+|-------|------------|---|--------|------|------|
+| phase4_v2 | best-consensus | — | 0.1929 | 5.905 | 6.620 |
+| phase6_v2 | best-consensus | q=6 | 0.1979 | 6.175 | 6.859 |
+| phase6_v2 | best-consensus | q=9 | **0.2139** | 6.109 | 6.821 |
+| **phase7_v1** | **random** | **q=6** | 0.1980 | **6.276** | 6.936 |
+| **phase7_v1** | **random** | **q=9** | 0.1984 | 6.254 | **6.939** |
+| phase7_v2 | CLAP-best | q=6 | 0.1943 | 6.230 | 6.938 |
+
+**→ Phase 7 V1 (random caption) 是目前最佳模型，詳細分析見 `EXPERIMENT_LOG.md`。**
 
 ---
 
