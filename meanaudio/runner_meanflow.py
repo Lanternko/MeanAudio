@@ -302,7 +302,8 @@ class RunnerMeanFlow:
                 unmasked_text_f = text_f.clone()
                 unmasked_text_f_c = text_f_c.clone()
             #with torch.amp.autocast('cuda', enabled=False):
-            q = data['q_level'].cuda(non_blocking=True) if 'q_level' in data else None
+            use_q = self.cfg.get('use_q_conditioning', True)
+            q = data['q_level'].cuda(non_blocking=True) if ('q_level' in data and use_q) else None
             x1, loss, mean_loss, t,r = self.train_fn(text_f, text_f_c, a_mean, a_std, q=q)
            
             self.train_integrator.add_dict({'loss': mean_loss})

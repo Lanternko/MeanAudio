@@ -35,6 +35,7 @@ def main():
                         help='If you use meanflow, CFG is integrated in model training. So simply set this <1 to avoid an additional unconditional infer.')
     parser.add_argument('--num_steps', type=int, default=25)
     parser.add_argument('--quality_level', type=int, default=9, help='Quality level for inference (0-9)')
+    parser.add_argument('--no_q', action='store_true', help='Disable q conditioning (use null token=10); for models trained without q conditioning')
     parser.add_argument('--output', type=Path, help='Output directory', default='./output')
     parser.add_argument('--seed', type=int, help='Random seed', default=42)
     parser.add_argument('--full_precision', action='store_true')
@@ -114,7 +115,10 @@ def main():
             for row in reader:
                 audio_ids.append(row['id'])
                 text_prompts.append(row['caption'])
-                q_levels.append(int(row['q_level']) if 'q_level' in row else args.quality_level)
+                if args.no_q:
+                    q_levels.append(10)  # null token, consistent with training without q conditioning
+                else:
+                    q_levels.append(int(row['q_level']) if 'q_level' in row else args.quality_level)
 
     for k in tqdm(range(0, len(text_prompts))):
         prompt = text_prompts[k]

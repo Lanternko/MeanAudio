@@ -20,7 +20,7 @@ set -e  # 任何指令失敗即中止
 # 實驗參數設定（每次新實驗只需修改此區塊）
 # ============================================================
 
-EXP_PREFIX="phase7_v1"           # 實驗名稱前綴，自動生成 exp_id
+EXP_PREFIX="phase8"              # 實驗名稱前綴，自動生成 exp_id
 
 BATCH_SIZE=8                      # 物理 batch size（每張 GPU）
 ACCUM_STEPS=1                     # Gradient accumulation 步數（V4 不使用累積）
@@ -30,6 +30,8 @@ S1_ITERATIONS=400000              # Stage 1 總 micro-steps
 S2_ITERATIONS=200000              # Stage 2 總 micro-steps
 
 LEARNING_RATE=1e-4                # 初始學習率（Stage 1 & 2 共用）
+
+USE_Q_CONDITIONING=false          # true = 使用 q embedding；false = 不使用（null token）
 
 # ── LR 衰減點（Stage 2 專用）────────────────────────────────
 # 自動計算：Stage 2 有效 macro-steps = S2_ITERATIONS / ACCUM_STEPS
@@ -65,6 +67,7 @@ COMMON_ARGS=(
     save_checkpoint_interval=20000
     +use_rope=False
     +use_wandb=False
+    "+use_q_conditioning=$USE_Q_CONDITIONING"
     val_interval=999999
     eval_interval=999999
     save_eval_interval=999999
@@ -162,9 +165,17 @@ EVAL_SCRIPT="$HOME/research/meanaudio_eval/phase4_eval.py"
 TSV_FIXED="$DATA_DIR/phase4_test.tsv"
 TSV_NATIVE="$DATA_DIR/phase6_test.tsv"
 
-for Q in 6 9; do
-    EVAL_OUT="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_jamendo"
-    echo "[Eval S2] 生成音訊 q=${Q}：$EVAL_OUT"
+# use_q_conditioning=false の場合は --no_q フラグを付ける（untrained q_embed を使わせない）
+NO_Q_FLAG=""
+if [ "$USE_Q_CONDITIONING" = "false" ]; then
+    NO_Q_FLAG="--no_q"
+    echo "[Eval] USE_Q_CONDITIONING=false → --no_q を使用（null token q=10）"
+fi
+
+if [ "$USE_Q_CONDITIONING" = "false" ]; then
+    # q conditioning なし → q sweep 不要、1回だけ eval
+    EVAL_OUT="$WORK_DIR/eval_output/${EXP_S2}_no_q_jamendo"
+    echo "[Eval S2] 生成音訊（no_q）：$EVAL_OUT"
     python eval.py \
         --variant "meanaudio_s" \
         --model_path "$S2_EMA" \
@@ -172,36 +183,57 @@ for Q in 6 9; do
         --tsv "$TSV_FIXED" \
         --use_meanflow --num_steps 1 \
         --encoder_name t5_clap --text_c_dim 512 \
-        --cfg_strength 0.5 --quality_level $Q \
+        --cfg_strength 0.5 $NO_Q_FLAG \
         --full_precision \
-        2>&1 | tee "$LOG_DIR/${EXP_S2}_q${Q}_eval.log"
+        2>&1 | tee "$LOG_DIR/${EXP_S2}_no_q_eval.log"
 
     python "$EVAL_SCRIPT" \
         --gen_dir "$EVAL_OUT/audio" \
-        --exp_name "${EXP_S2}_q${Q}" \
+        --exp_name "${EXP_S2}_no_q" \
         --num_samples 2048 \
-        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_q${Q}_eval.log"
-done
+        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_no_q_eval.log"
+else
+    for Q in 6 9; do
+        EVAL_OUT="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_jamendo"
+        echo "[Eval S2] 生成音訊 q=${Q}：$EVAL_OUT"
+        python eval.py \
+            --variant "meanaudio_s" \
+            --model_path "$S2_EMA" \
+            --output "$EVAL_OUT/audio" \
+            --tsv "$TSV_FIXED" \
+            --use_meanflow --num_steps 1 \
+            --encoder_name t5_clap --text_c_dim 512 \
+            --cfg_strength 0.5 --quality_level $Q \
+            --full_precision \
+            2>&1 | tee "$LOG_DIR/${EXP_S2}_q${Q}_eval.log"
 
-# native_q
-EVAL_OUT_NQ="$WORK_DIR/eval_output/${EXP_S2}_native_q_jamendo"
-echo "[Eval S2] 生成音訊 native_q：$EVAL_OUT_NQ"
-python eval.py \
-    --variant "meanaudio_s" \
-    --model_path "$S2_EMA" \
-    --output "$EVAL_OUT_NQ/audio" \
-    --tsv "$TSV_NATIVE" \
-    --use_meanflow --num_steps 1 \
-    --encoder_name t5_clap --text_c_dim 512 \
-    --cfg_strength 0.5 \
-    --full_precision \
-    2>&1 | tee "$LOG_DIR/${EXP_S2}_native_q_eval.log"
+        python "$EVAL_SCRIPT" \
+            --gen_dir "$EVAL_OUT/audio" \
+            --exp_name "${EXP_S2}_q${Q}" \
+            --num_samples 2048 \
+            2>&1 | tee -a "$LOG_DIR/${EXP_S2}_q${Q}_eval.log"
+    done
 
-python "$EVAL_SCRIPT" \
-    --gen_dir "$EVAL_OUT_NQ/audio" \
-    --exp_name "${EXP_S2}_native_q" \
-    --num_samples 2048 \
-    2>&1 | tee -a "$LOG_DIR/${EXP_S2}_native_q_eval.log"
+    # native_q
+    EVAL_OUT_NQ="$WORK_DIR/eval_output/${EXP_S2}_native_q_jamendo"
+    echo "[Eval S2] 生成音訊 native_q：$EVAL_OUT_NQ"
+    python eval.py \
+        --variant "meanaudio_s" \
+        --model_path "$S2_EMA" \
+        --output "$EVAL_OUT_NQ/audio" \
+        --tsv "$TSV_NATIVE" \
+        --use_meanflow --num_steps 1 \
+        --encoder_name t5_clap --text_c_dim 512 \
+        --cfg_strength 0.5 \
+        --full_precision \
+        2>&1 | tee "$LOG_DIR/${EXP_S2}_native_q_eval.log"
+
+    python "$EVAL_SCRIPT" \
+        --gen_dir "$EVAL_OUT_NQ/audio" \
+        --exp_name "${EXP_S2}_native_q" \
+        --num_samples 2048 \
+        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_native_q_eval.log"
+fi
 
 # ============================================================
 # 完成
