@@ -6,7 +6,7 @@
 - **Stage 1**：FluxAudio（Flow Matching，單向 ODE）
 - **Stage 2**：MeanAudio（Mean Flow，更快推理）
 
-目前進行到 **Phase 7**：caption 選擇策略實驗（random vs CLAP-best）。
+目前進行到 **Phase 8**：驗證 q embedding 的獨立貢獻（random caption，無 q conditioning）。
 
 | Phase | 核心改動 | 狀態 |
 |-------|---------|------|
@@ -14,10 +14,24 @@
 | Phase 6 V2 | q_embed quality conditioning（0~9） | ✅ 完成 |
 | Phase 7 V1 | Caption 隨機選一（5 選 1，seed=42） | ✅ 完成，**目前最佳** |
 | Phase 7 V2 | Caption 取 CLAP-audio 相似度最高 | ✅ 完成，劣於 V1 |
+| Phase 7 V3 | Caption 取 worst-consensus（text-text sim 最低） | ✅ 完成，≈ V1 |
+| Phase 8 | Random caption，無 q conditioning | ✅ 完成，q embedding 有獨立貢獻 |
 
-**下一個方向（Phase 8 候選）**：
-- Caption 品質過濾（低 CLAP 相似度 caption 直接丟棄，不用 random 補）
-- 若用 CLAP 過濾 → evaluation 改用 AES（data leakage 原則）
+**下一個方向（Phase 9 候選）**：
+- 以 Meta Audiobox PQ 分數取代 mean_similarity 作為 q conditioning 信號
+- 若用 Audiobox → evaluation 改用 CE（data leakage 原則）
+
+---
+
+## 文件導覽
+
+| 何時查閱 | 文件 |
+|---------|------|
+| 快速查目前狀態、指令、架構說明 | 本檔案（`CLAUDE.md`） |
+| 查某個 Phase 的完整數據、結論、對比表 | `docs/experiments/Phase4_to_Phase8_Complete_Summary.md` |
+| 查文獻對本研究的啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |
+| 查 checkpoint / log / TSV / NPZ 的實際路徑 | `~/research/README.md` |
+| 查累積實驗數字（含舊版中間結果） | `EXPERIMENT_LOG.md` |
 
 ---
 
