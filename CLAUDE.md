@@ -6,20 +6,46 @@
 - **Stage 1**：FluxAudio（Flow Matching，單向 ODE）
 - **Stage 2**：MeanAudio（Mean Flow，更快推理）
 
-目前進行到 **Phase 8**：驗證 q embedding 的獨立貢獻（random caption，無 q conditioning）。
+目前進行到 **Phase 8 V4**：驗證 Qwen2-Audio 作為 captioning model 的泛化性。
 
-| Phase | 核心改動 | 狀態 |
-|-------|---------|------|
-| Phase 4 V2 | 基礎 MeanFlow 兩階段訓練 | ✅ Baseline |
-| Phase 6 V2 | q_embed quality conditioning（0~9） | ✅ 完成 |
-| Phase 7 V1 | Caption 隨機選一（5 選 1，seed=42） | ✅ 完成，**目前最佳** |
-| Phase 7 V2 | Caption 取 CLAP-audio 相似度最高 | ✅ 完成，劣於 V1 |
-| Phase 7 V3 | Caption 取 worst-consensus（text-text sim 最低） | ✅ 完成，≈ V1 |
-| Phase 8 | Random caption，無 q conditioning | ✅ 完成，q embedding 有獨立貢獻 |
+| Phase（內部） | 對外名稱 | 核心改動 | 狀態 |
+|--------------|---------|---------|------|
+| Phase 4 V2 | `JamendoFull-BestConsensus-NoQ` | 基礎 MeanFlow 兩階段訓練 | ✅ Baseline（歷史參考） |
+| Phase 5 V1 | `JamendoHalf-BestConsensus-NoQ-HardFilter` | 117K 硬過濾 | ✅ 完成，退步（資料量 -53%） |
+| Phase 5 V2 | `JamendoHalf-BestConsensus-NoQ-Random` | 117K 隨機抽樣 | ✅ 完成，≈ V1（量是問題） |
+| Phase 6 V1 | `JamendoFull-BestConsensus-MeanSim-Q-S2Only` | q 只在 Stage 2 | ✅ 完成，效果受限 |
+| Phase 6 V2 | `JamendoFull-BestConsensus-MeanSim-Q` | q Stage 1+2 | ✅ 完成 |
+| Phase 7 V1 | `JamendoFull-Random-MeanSim-Q` | Caption 隨機選一（seed=42） | ✅ 完成，**目前最佳** |
+| Phase 7 V2 | `JamendoFull-CLAPBest-MeanSim-Q` | Caption 取 CLAP 最高 | ✅ 完成，劣於 V1 |
+| Phase 7 V3 | `JamendoFull-WorstConsensus-MeanSim-Q` | Caption 取最低共識 | ✅ 完成，≈ V1 |
+| Phase 8 | `JamendoFull-Random-NoQ` | 無 q conditioning（消融） | ✅ 完成，q embedding 有獨立貢獻 |
+| Phase 8 V2 | `JamendoFull-Random-AudioboxPQ-Q` | q 信號改用 Audiobox PQ | ✅ 完成，劣於 Phase 7 V1 |
+| Phase 8 V3 | `JamendoFull-Random-CLAP-Q` | q 信號改用 audio-text CLAP sim | ✅ 完成，全面退步（信號語義錯誤） |
+| Phase 8 V4 | `JamendoFull-Qwen2Audio-MeanSim-Q` | Caption 換用 Qwen2-Audio-7B | 🔄 前處理中（caption 生成中） |
 
-**下一個方向（Phase 9 候選）**：
-- 以 Meta Audiobox PQ 分數取代 mean_similarity 作為 q conditioning 信號
-- 若用 Audiobox → evaluation 改用 CE（data leakage 原則）
+> Phase 編號作內部追蹤用；對外報告和論文使用描述性名稱（`資料集-Caption策略-Q信號`）。
+
+**下一個方向（Phase 9 候選，教授討論 2026-04-04）**：
+
+優先順序如下：
+
+1. **CLAP score as q signal**（第一優先，「相對 minor」，先確認有沒有效）
+   - 設定：JamendoFull + random caption + audio-text CLAP sim 作為 q 信號
+   - 與 Phase 7 V1 完全相同，只換 q 信號來源（單一變量）
+   - 需對 251K clip 預算 audio-text CLAP sim → 重訓
+   - ⚠️ data leakage：若用 CLAP 過濾/標記，evaluation 改用 Audiobox AES
+
+2. **換 captioning model**（第二優先）
+   - 目的：證明 random + q conditioning 對任何 captioning model 都有效（泛化性）
+   - 具體做法待定
+
+3. **多 captioning model 綜合**（第三優先，待前兩個有結果再討論）
+   - 多個 model 各生成 caption，交給 LLM 綜合成完整 prompt
+   - 或單一 model 跑 5 次再綜合
+
+> **mean_similarity vs CLAP score as q 的根本差異**：
+> - mean_similarity：5 個 caption 的 text-text 相似度平均 → 衡量 caption 群一致性
+> - CLAP score：audio-text CLAP 相似度 → 衡量 caption 有多準確描述音訊
 
 ---
 
@@ -89,6 +115,10 @@ phase6_v2: 簡短描述
 ---
 
 ## 訓練流程
+
+> **長時間任務一律用 tmux**（預估超過 5 分鐘的 job 都用 `tmux new-session -d -s <name>`，不用背景 Bash task）
+> **連續任務一律用 `&&` 串接**（不要分段執行再等使用者回來確認，讓整條 pipeline 在 tmux 裡自動跑完）
+> **修改主 repo 檔案時，路徑必須是 `~/MeanAudio/`**，不是 worktree（`~/.claude/worktrees/...`）
 
 ```bash
 # 開新 tmux session
