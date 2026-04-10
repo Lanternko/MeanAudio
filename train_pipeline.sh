@@ -20,7 +20,7 @@ set -e  # 任何指令失敗即中止
 # 實驗參數設定（每次新實驗只需修改此區塊）
 # ============================================================
 
-EXP_PREFIX="phase8_v3"           # 實驗名稱前綴，自動生成 exp_id
+EXP_PREFIX="phase8_v5"           # 實驗名稱前綴，自動生成 exp_id
 
 BATCH_SIZE=8                      # 物理 batch size（每張 GPU）
 ACCUM_STEPS=1                     # Gradient accumulation 步數（V4 不使用累積）
@@ -31,7 +31,7 @@ S2_ITERATIONS=200000              # Stage 2 總 micro-steps
 
 LEARNING_RATE=1e-4                # 初始學習率（Stage 1 & 2 共用）
 
-USE_Q_CONDITIONING=true           # true = 使用 q embedding；false = 不使用（null token）
+USE_Q_CONDITIONING=false          # true = 使用 q embedding；false = 不使用（null token）
 
 # ── LR 衰減點（Stage 2 專用）────────────────────────────────
 # 自動計算：Stage 2 有效 macro-steps = S2_ITERATIONS / ACCUM_STEPS
@@ -71,7 +71,7 @@ COMMON_ARGS=(
     val_interval=999999
     eval_interval=999999
     save_eval_interval=999999
-    "data.AudioCaps_npz.tsv=$DATA_DIR/phase8_v3_train.tsv"
+    "data.AudioCaps_npz.tsv=$DATA_DIR/phase8_v5_train.tsv"
     "data.AudioCaps_val_npz.tsv=$DATA_DIR/phase4_val.tsv"
     "+data.AudioCaps_npz.gt_cache=$DATA_DIR/npz_cache_train.txt"
     "+data.AudioCaps_val_npz.gt_cache=$DATA_DIR/npz_cache_val.txt"
@@ -162,7 +162,7 @@ echo "[Stage 2] 訓練完成"
 
 S2_EMA="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
 EVAL_SCRIPT="$HOME/research/meanaudio_eval/phase4_eval.py"
-TSV_FIXED="$DATA_DIR/phase4_test.tsv"
+TSV_FIXED="$DATA_DIR/phase8_v5_test.tsv"
 TSV_NATIVE="$DATA_DIR/phase6_test.tsv"
 
 # use_q_conditioning=false の場合は --no_q フラグを付ける（untrained q_embed を使わせない）
