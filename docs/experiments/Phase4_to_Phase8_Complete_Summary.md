@@ -3,7 +3,7 @@
 **專案**：MeanAudio — 文字驅動音訊生成（Jamendo 訓練集，251K clips）
 **評估集**：Jamendo test set，n=2048（random subset from 90,063 clips）
 **主要指標**：CLAP ↑、CE ↑、PQ ↑（FAD 已降為歷史參考，不再作為主要指標）
-**更新日期**：2026-04-05
+**更新日期**：2026-04-11
 
 ---
 
@@ -26,7 +26,8 @@
 | Phase 8 | JamendoFull-Random-NoQ |
 | Phase 8 V2 | JamendoFull-Random-AudioboxPQ-Q |
 | Phase 8 V3 | JamendoFull-Random-CLAP-Q |
-| Phase 8 V4 | JamendoFull-Qwen2Audio-MeanSim-Q |
+| Phase 8 V4（進行中） | JamendoFull-Qwen2Audio-MeanSim-Q |
+| Phase 8 V5（進行中） | JamendoFull-Random-RewardPrompt-NoQ |
 
 ---
 
@@ -292,7 +293,91 @@ audio-text CLAP 相似度作為 q 信號的根本問題：
 
 ---
 
-## 十一、貢獻分解總表
+## 十一、JamendoFull-Random-CLAP-Q（Phase 8 V3）完整分析
+
+### 目標
+以 audio-text CLAP similarity 作為 q conditioning 信號，測試「caption 對音訊的描述準確度」是否優於 mean_similarity。
+
+### 設定
+- Caption：random（沿用 phase7_v1_train.tsv，seed=42）
+- q 信號：每個 clip 的 audio-text CLAP similarity，percentile-based 均等分佈（每 level 各約 25,160 筆）
+- CLAP 模型：`music_speech_audioset_epoch_15_esc_89.98.pt`（與 eval 一致）
+- CLAP sim 分佈：mean=0.2485，範圍 [-0.25, 0.58]
+
+### 數據（cfg=0.5）
+
+| q 設定 | CLAP | CE | PQ |
+|--------|------|----|----|
+| q=6 | 0.1582 | 5.761 | 6.720 |
+| q=9 | 0.1508 | 5.749 | 6.714 |
+| native_q | 0.1691 | 5.866 | 6.736 |
+
+### CFG 對照實驗
+
+| cfg | CLAP | CE | PQ |
+|-----|------|----|----|
+| 0.5 | 0.1691 | 5.866 | 6.736 |
+| 3.5 | 0.1304 | 5.058 | 6.136 |
+
+cfg=3.5 讓所有模型全面退步（p7v1 也退步），確認這是 MeanFlow 架構的普遍特性——模型訓練時 null_condition_probability=0.1，未針對強 CFG extrapolation 訓練。cfg<1 時只跑 conditional branch，cfg≥1 才做 extrapolation。**cfg=0.5 是正確的 eval 設定。**
+
+### 失敗原因分析
+
+**根本原因：LP-MusicCaps captioning bias 導致 genre shortcut。**
+
+高 CLAP sim（q=9）的 clip 系統性地偏向 piano/acoustic，因為這類音樂特徵清晰、LP-MusicCaps 容易精確描述：
+
+| q level | piano 佔比 | noisy 佔比 |
+|---------|-----------|-----------|
+| q=0~1 | 10.4% | 21.0% |
+| q=8~9 | 21.2% | 6.9% |
+
+模型學到「q=9 → piano/acoustic 風格」。Inference 時 q=9 帶著 genre bias，導致 RMS 偏低（-4 到 -8 dB）、CLAP 下降、CE/PQ 下降。
+
+主觀聽感 OK 是因為主觀測試用 25 steps + cfg=3.5，強力 CFG 壓制了偏移；eval 用 1 step + cfg=0.5（pure conditional），偏移完全暴露。
+
+**設計原則補充：** q 信號不只要和 text encoder 正交，還要對音樂類型保持中立。mean_similarity（text-text）滿足此條件；audio-text CLAP similarity 不滿足。
+
+### 與 MR-FlowDPO 的差異
+
+| | Phase 8 V3 | MR-FlowDPO Reward Prompting |
+|---|---|---|
+| CLAP 進入方式 | 量化成 q_level → q_embed → AdaLN | 寫成文字 → FLAN-T5 → text branch |
+| 模型學到什麼 | genre shortcut | prompt 語義描述 |
+| 結果 | 有害 | 有正面提升 |
+
+---
+
+## 十二、JamendoFull-Random-RewardPrompt-NoQ（Phase 8 V5）
+
+### 目標
+參考 MR-FlowDPO 的 Reward Prompting 子概念，將 CLAP score 直接寫進 caption 文字前綴，不使用 q_embed，驗證「走 text encoder 路徑」是否能避免 Phase 8 V3 的 genre bias 問題。
+
+### 設定
+- Caption：在 phase7_v1_train.tsv 的 random caption 前加前綴
+  - 訓練時：`"Text alignment is {clap_sim:.2f}. {原本 caption}"`（實際分數）
+  - Eval 時：`"Text alignment is 0.58. {原本 caption}"`（固定 99 percentile 最高值）
+- q conditioning：**關閉**（USE_Q_CONDITIONING=false）
+- TSV 格式：兩欄（id、caption），無 q_level
+- 對照：Phase 8（JamendoFull-Random-NoQ），唯一差異是 caption 有無前綴
+
+### 與 MR-FlowDPO 的關係
+本實驗為簡化版 baseline，僅實現 Reward Prompting 子概念：
+- ✅ Reward Prompting（單一 reward：CLAP）
+- ❌ MRSD preference pair construction
+- ❌ DPO fine-tuning
+- ❌ Multi-reward（未加入 Audiobox PQ、HuBERT semantic consistency）
+
+### 數據
+*訓練中，結果待補。*
+
+### 預期
+若有效：支持「CLAP score 走 text path 比走 q_embed 更安全」的假說，為後續 multi-reward prompting 提供依據。
+若無效：排除 reward prompting 路線，專注 Qwen2-Audio captioning 方向。
+
+---
+
+## 十三、貢獻分解總表
 
 | 系統 | vs Baseline CLAP | vs Baseline CE | vs Baseline PQ |
 |------|-----------------|----------------|----------------|
@@ -303,7 +388,7 @@ audio-text CLAP 相似度作為 q 信號的根本問題：
 
 ---
 
-## 十二、累積學習原則
+## 十四、累積學習原則
 
 1. **CLAP score ≠ 感知品質**：q=9 CLAP 最高但 FAD/CE 不佳；CLAP 是輔助工具，CE/PQ 更可靠
 2. **Hard filtering 有害，data quantity matters**：Phase 5 驗證，資料量 -53% 導致全面退步，與過濾品質無關
@@ -314,13 +399,14 @@ audio-text CLAP 相似度作為 q 信號的根本問題：
 
 ---
 
-## 十三、未來待做清單
+## 十五、未來待做清單
 
-- [x] **Phase 8 V2（JamendoFull-Random-AudioboxPQ-Q）**：Audiobox PQ 作為 q 信號 → 完成，全面劣於 Phase 7 V1
-- [x] **Phase 8 V3（JamendoFull-Random-CLAP-Q）**：audio-text CLAP score 作為 q 信號 → 完成，全面退步（q 信號語義錯誤）
-- [ ] **Phase 8 V4（JamendoFull-Qwen2Audio-MeanSim-Q）**：換 captioning model（Qwen2-Audio-7B-Instruct），q 信號沿用 mean_similarity → 進行中（caption 生成中）
-- [ ] **換 captioning model（其他）**：驗證 random + q conditioning 對任何 captioning model 都有效（泛化性，第二優先）
-- [ ] **多 captioning model 綜合**：多模型輸出交由 LLM 綜合為單一 prompt（第三優先，待前兩個有結果再討論）
-- [ ] **Inference-only 實驗**：對同一音訊的 5 個 caption 取 text embedding 平均再輸入模型（zero-cost，不需重訓）
-- [ ] **PE-AV 替換 CLAP**：評估以 Meta PE-AV 取代 LAION-CLAP 作為更可靠的 evaluation encoder（long-term）
-- [ ] **討論 Phase 10 方向**：Resonate 的 Flow-GRPO + LALM reward 作為後續 RL fine-tuning 方向
+- [x] **JamendoFull-Random-AudioboxPQ-Q**：Audiobox PQ 作為 q 信號 → 無效
+- [x] **JamendoFull-Random-CLAP-Q**：audio-text CLAP 作為 q 信號 → 有害（genre bias）
+- [ ] **JamendoFull-Random-RewardPrompt-NoQ**（進行中）：CLAP score 寫進 caption 前綴
+- [ ] **JamendoFull-Qwen2Audio-MeanSim-Q**（進行中）：Qwen2-Audio caption，預計 4/12 完成
+- [ ] **CFG sweep 實驗**：對 Phase 7 V1 跑 cfg=0/0.5/0.9/1.0/1.5/2.0/3.5，確認最佳 eval 設定
+- [ ] **Piano/非 piano 分組測試**：驗證 Phase 8 V3 的 genre bias 假說
+- [ ] **主觀聆聽測試**：確認 Phase 7 V1 人耳可感受到差異（ISMIR 必要條件）
+- [ ] **Multi-reward Prompting**：若 V5 有效，加入 Audiobox PQ 和 HuBERT semantic consistency
+- [ ] **PE-AV 替換 CLAP**：long-term，評估更可靠的 evaluation encoder

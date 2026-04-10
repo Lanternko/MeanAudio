@@ -15,7 +15,6 @@ wandb/
 .vscode/
 training/example_output/
 app/
-docs/
 eval_output/
 .hydra/
 outputs/
