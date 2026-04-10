@@ -50,8 +50,9 @@ def main():
                         help='Path to TSV file with id and caption columns')
     parser.add_argument('--use_meanflow', action='store_true', help='Whether or not use mean flow for inference')
     args = parser.parse_args()
-    
-    if args.debug: 
+    log.info(f'Eval args: {vars(args)}')
+
+    if args.debug:
         import debugpy
         debugpy.listen(6665) 
         print("Waiting for debugger attach (rank 0)...")
