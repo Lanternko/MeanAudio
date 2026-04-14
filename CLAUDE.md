@@ -114,6 +114,52 @@ phase6_v2: 簡短描述
 
 ---
 
+## 實驗前 Checklist（每次新實驗必做）
+
+> **違反任何一項都可能燒掉數小時 GPU 時間。**
+
+### 1. 腳本推上 GitHub（`~/research` repo）
+
+每次實驗開始前，確認所有會用到的腳本已 commit 並 push：
+
+```bash
+cd ~/research
+git status                  # 確認有無未 commit 的修改
+git add <修改的檔案>
+git commit -m "phase_X: 說明改動"
+git push
+```
+
+**必須 push 的情境**：
+- 新增或修改任何 `meanaudio_training/` 或 `meanaudio_eval/` 下的腳本
+- 修改 `gen_*.py`、`phase4_eval.py`、`sanity_check_*.py`
+
+### 2. 資料前處理 sanity check（生成訓練 TSV 後必做）
+
+```bash
+# Caption 多樣性驗證（唯一率 < 90% 視為異常，停止訓練）
+python3 -c "
+import csv
+caps = [r['caption'] for r in csv.DictReader(open('train.tsv'), delimiter='\t')]
+unique = len(set(caps))
+print(f'Caption 多樣性：{unique}/{len(caps)} unique ({unique/len(caps)*100:.1f}%)')
+assert unique > len(caps) * 0.9, 'Caption collapse！唯一率 < 90%，請檢查前處理腳本'
+"
+```
+
+或直接跑 50-clip 驗證腳本：
+```bash
+cd ~/research/meanaudio_training && python sanity_check_50.py
+```
+
+### 3. 評估測試集確認
+
+- **標準 eval TSV**：`/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv`（5,521 筆 MusicCaps）
+- **舊版**（Phase 4–8 V3 歷史比較用）：`phase4_test.tsv`（90,063 筆 LP-MusicCaps）
+- eval 腳本必須明確傳 `--tsv`，不依賴 hardcode default
+
+---
+
 ## 訓練流程
 
 > **長時間任務一律用 tmux**（預估超過 5 分鐘的 job 都用 `tmux new-session -d -s <name>`，不用背景 Bash task）
