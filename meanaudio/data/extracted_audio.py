@@ -1,4 +1,5 @@
 import logging
+import random
 from pathlib import Path
 from typing import Union, Optional
 
@@ -15,18 +16,19 @@ import torch.nn.functional as F
 log = logging.getLogger()
 
 
-class ExtractedAudio(Dataset):  
+class ExtractedAudio(Dataset):
     def __init__(
         self,
         tsv_path: Union[str, Path],
         *,
-        concat_text_fc: bool, 
+        concat_text_fc: bool,
         npz_dir: Union[str, Path],
         data_dim: dict[str, int],
         repa_npz_dir: Optional[Union[str, Path]],   # if passed, repa features (zs) would be returned
-        exclude_cls: Optional[bool], 
+        exclude_cls: Optional[bool],
         repa_version: Optional[int],
         gt_cache: Optional[Union[str, Path]] = None,
+        multi_cap: bool = False,   # if True, NPZ stores N captions [N, seq_len, dim]; random one picked per __getitem__
     ):
         super().__init__()
         self.data_dim = data_dim
@@ -43,9 +45,12 @@ class ExtractedAudio(Dataset):
         self.concat_text_fc = concat_text_fc
         self.exclude_cls = exclude_cls
         self.repa_version = repa_version
-    
-        if self.concat_text_fc: 
+        self.multi_cap = multi_cap
+
+        if self.concat_text_fc:
             log.info(f'We will concat the pooled text_features and text_features_c for text condition')
+        if self.multi_cap:
+            log.info(f'multi_cap=True: caption randomly sampled per __getitem__')
 
         # dimension check（使用 npz_files[0] 而非 hardcode 0.npz，相容 gt_cache 不含 0.npz 的情況）
         if not npz_files:
@@ -53,9 +58,10 @@ class ExtractedAudio(Dataset):
         sample = np.load(f'{npz_dir}/{npz_files[0]}')
         mean_s = [len(self.df_list)] + list(sample['mean'].shape)
         std_s = [len(self.df_list)] + list(sample['std'].shape)
-        text_features_s = [len(self.df_list)] + list(sample['text_features'].shape)
-        text_features_c_s = [len(self.df_list)] + list(sample['text_features_c'].shape)
-        if self.concat_text_fc: 
+        # multi_cap: text_features shape is [N, seq_len, dim]; use last two dims for check
+        text_features_s = [len(self.df_list)] + list(sample['text_features'].shape[-2:])
+        text_features_c_s = [len(self.df_list)] + list(sample['text_features_c'].shape[-1:])
+        if self.concat_text_fc:
             text_features_c_s[-1] = text_features_c_s[-1] + text_features_s[-1]
 
         log.info(f'Loading {len(npz_files)} npz files from {npz_dir}')
@@ -107,9 +113,16 @@ class ExtractedAudio(Dataset):
     def __getitem__(self, idx):
         npz_path = f'{self.npz_dir}/{self.npz_files[idx]}'
         np_data = np.load(npz_path)
-        text_features = torch.from_numpy(np_data['text_features'])
-        text_features_c = torch.from_numpy(np_data['text_features_c'])
-        if self.concat_text_fc: 
+        if self.multi_cap:
+            # text_features: [N, seq_len, dim], text_features_c: [N, dim]
+            n_caps = np_data['text_features'].shape[0]
+            cap_idx = random.randint(0, n_caps - 1)
+            text_features = torch.from_numpy(np_data['text_features'][cap_idx])
+            text_features_c = torch.from_numpy(np_data['text_features_c'][cap_idx])
+        else:
+            text_features = torch.from_numpy(np_data['text_features'])
+            text_features_c = torch.from_numpy(np_data['text_features_c'])
+        if self.concat_text_fc:
             text_features_c = torch.cat([text_features.mean(dim=-2),
                                          text_features_c], dim=-1)   # [b, d+d_c]
 

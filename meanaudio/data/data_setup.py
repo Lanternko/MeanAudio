@@ -31,7 +31,8 @@ def load_audio_data(cfg: DictConfig, data_cfg: DictConfig) -> Dataset:
                             repa_npz_dir=data_cfg.repa_npz_dir,
                             exclude_cls=cfg.get('exclude_cls', False),
                             repa_version=cfg.get('repa_version', 1),
-                            gt_cache=data_cfg.get('gt_cache', None))
+                            gt_cache=data_cfg.get('gt_cache', None),
+                            multi_cap=cfg.get('multi_cap', False))
     return dataset
 
 
