@@ -47,8 +47,10 @@ class ExtractedAudio(Dataset):
         if self.concat_text_fc: 
             log.info(f'We will concat the pooled text_features and text_features_c for text condition')
 
-        # dimension check
-        sample = np.load(f'{npz_dir}/0.npz')  
+        # dimension check（使用 npz_files[0] 而非 hardcode 0.npz，相容 gt_cache 不含 0.npz 的情況）
+        if not npz_files:
+            raise FileNotFoundError(f'No NPZ files found in {npz_dir}')
+        sample = np.load(f'{npz_dir}/{npz_files[0]}')
         mean_s = [len(self.df_list)] + list(sample['mean'].shape)
         std_s = [len(self.df_list)] + list(sample['std'].shape)
         text_features_s = [len(self.df_list)] + list(sample['text_features'].shape)
