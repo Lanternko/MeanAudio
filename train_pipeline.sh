@@ -75,7 +75,7 @@ COMMON_ARGS=(
     "data.AudioCaps_val_npz.tsv=$DATA_DIR/phase4_val.tsv"
     "+data.AudioCaps_npz.gt_cache=$DATA_DIR/npz_cache_train.txt"
     "+data.AudioCaps_val_npz.gt_cache=$DATA_DIR/npz_cache_val.txt"
-    "+data.AudioCaps_npz.npz_dir=$HOME/research/meanaudio_training/npz_phase8v4"
+    "++data.AudioCaps_npz.npz_dir=$HOME/research/meanaudio_training/npz_phase8v4"
 )
 
 # ============================================================

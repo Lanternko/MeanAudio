@@ -122,6 +122,9 @@ def main():
                     q_levels.append(int(row['q_level']) if 'q_level' in row else args.quality_level)
 
     for k in tqdm(range(0, len(text_prompts))):
+        save_paths = output_dir / f'{audio_ids[k]}.flac'
+        if save_paths.exists():
+            continue
         prompt = text_prompts[k]
         if args.use_meanflow:
             log.info(f'Prompt: {prompt}')
@@ -135,8 +138,14 @@ def main():
                                 cfg_strength=cfg_strength,
                                 q_level=q_levels[k])
             audio = audios.float().cpu()[0]
-            save_paths = output_dir / f'{audio_ids[k]}.flac'
-            sf.write(str(save_paths), audio.squeeze(0).numpy(), seq_cfg.sampling_rate)
+            if torch.isnan(audio).any() or torch.isinf(audio).any():
+                log.warning(f'NaN/Inf in audio for {audio_ids[k]}, skipping')
+                continue
+            try:
+                sf.write(str(save_paths), audio.squeeze(0).numpy(), seq_cfg.sampling_rate)
+            except Exception as e:
+                log.warning(f'Failed to write audio for {audio_ids[k]}: {e}, skipping')
+                continue
             log.info(f'Audio saved to {save_paths}')
             log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
 
@@ -153,9 +162,14 @@ def main():
                                 cfg_strength=cfg_strength,
                                 q_level=q_levels[k])
             audio = audios.float().cpu()[0]
-            
-            save_paths = output_dir / f'{audio_ids[k]}.flac'
-            sf.write(str(save_paths), audio.squeeze(0).numpy(), seq_cfg.sampling_rate)
+            if torch.isnan(audio).any() or torch.isinf(audio).any():
+                log.warning(f'NaN/Inf in audio for {audio_ids[k]}, skipping')
+                continue
+            try:
+                sf.write(str(save_paths), audio.squeeze(0).numpy(), seq_cfg.sampling_rate)
+            except Exception as e:
+                log.warning(f'Failed to write audio for {audio_ids[k]}: {e}, skipping')
+                continue
             log.info(f'Audio saved to {save_paths}')
             log.info('Memory usage: %.2f GB', torch.cuda.max_memory_allocated() / (2**30))
 
