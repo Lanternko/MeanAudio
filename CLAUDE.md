@@ -23,6 +23,7 @@
 | Phase 狀態、實驗進度、NPZ/captioning 檔案狀態 | `docs/experiments/phase_status.md` |
 | Phase 9/9.5 實驗設計、multi_cap 機制、LP-MusicCaps 真相 | `docs/experiments/phase9_design.md` |
 | 完整實驗數字（Jamendo + MusicCaps） | `docs/experiments/best_results.md` |
+| 訓練 / Eval 時間估算（S1=12.3h, S2=6.7h, eval=3h）+ bug-fix 驗證排程 | `docs/experiments/training_time_estimates.md` |
 | 教授討論紀錄（Lane A/B/C、data leakage） | `docs/meetings/` |
 | Meta Audiobox Aesthetics 指標細節 | `docs/metrics/audiobox_aesthetics.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
@@ -95,8 +96,10 @@ MeanAudio/
    cd ~/research/meanaudio_training && python sanity_check_50.py
    ```
 3. **Eval TSV 確認**（必須明確傳 `--tsv`，不依賴 hardcode default）：
-   - MusicCaps (ISMIR benchmark)：`/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv`
-   - Jamendo 歷史比較：`phase4_test.tsv`（90,063 筆）
+   - **預設：MusicCaps** (ISMIR 黃金標準，2026-04-19 定為主要 benchmark)：`/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv`（5,527 筆，~11 min eval）
+     - 理由：ISMIR benchmark 發表用；無 data leakage（訓練 Jamendo、eval MusicCaps）；16x 比 Jamendo 快
+   - **次要：Jamendo** 歷史比較：`phase4_test.tsv`（90,063 筆，~3.1 hr eval）— 只在需要跟 Phase 4-8 舊數字對照時才跑
+   - **快速 sanity**：`eval.py` **無** `--num_samples` 參數；要做 2048 筆小 subset sanity 須先 `head -n 2049 <TSV> > <TSV>_2048.tsv` 切檔再傳 `--tsv`。`phase4_eval.py` 的 `--num_samples` 只控制 metric 計算樣本數，不影響生成數量
 
 ---
 

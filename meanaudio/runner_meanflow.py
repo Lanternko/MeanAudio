@@ -235,8 +235,8 @@ class RunnerMeanFlow:
 
         x1 = self.network.module.normalize(x1)
 
-        text_f_undrop = text_f
-        text_f_c_undrop = text_f_c
+        text_f_undrop = text_f.clone()      # FIX 2026-04-19: must clone, else in-place null mask below pollutes undrop used for CFG target
+        text_f_c_undrop = text_f_c.clone()  # FIX 2026-04-19: same reason
         samples = torch.rand(bs, device=x1.device, generator=self.rng)
         null_text = (samples < self.null_condition_probability)
         text_f[null_text] = self.network.module.empty_string_feat
@@ -265,8 +265,8 @@ class RunnerMeanFlow:
         # normalize the latents
         x1 = self.network.module.normalize(x1)
 
-        text_f_undrop = text_f
-        text_f_c_undrop = text_f_c
+        text_f_undrop = text_f.clone()      # FIX 2026-04-19: must clone, else in-place null mask below pollutes undrop used for CFG target
+        text_f_c_undrop = text_f_c.clone()  # FIX 2026-04-19: same reason
         samples = torch.rand(bs, device=x1.device, generator=self.rng)
         null_text = (samples < self.null_condition_probability)
         text_f[null_text] = self.network.module.empty_string_feat

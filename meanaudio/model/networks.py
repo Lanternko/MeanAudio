@@ -523,7 +523,7 @@ class MeanAudio(nn.Module):
         conditions = self.preprocess_conditions(text_f, text_f_c)  # cachable operations 
         #print(conditions)
         if q is None:
-            q = torch.full((latent.shape[0],), 9, dtype=torch.long, device=latent.device)
+            q = torch.full((latent.shape[0],), 10, dtype=torch.long, device=latent.device)  # FIX 2026-04-19: null token is 10, not 9 (matches FluxAudio + eval.py --no_q)
         flow = self.predict_flow(latent, t, r, conditions, q)  # non-cachable operations
         return flow
 
@@ -555,7 +555,7 @@ class MeanAudio(nn.Module):
         t = t * torch.ones(len(latent), device=latent.device, dtype=latent.dtype)
         r = r * torch.ones(len(latent), device=latent.device, dtype=latent.dtype)
         if q is None:
-            q = torch.full((len(latent),), 9, dtype=torch.long, device=latent.device)
+            q = torch.full((len(latent),), 10, dtype=torch.long, device=latent.device)  # FIX 2026-04-19: null token is 10, not 9 (matches FluxAudio + eval.py --no_q)
         if cfg_strength < 1.0:
             return self.predict_flow(latent, t, r, conditions, q)
         else:
