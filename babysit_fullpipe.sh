@@ -17,16 +17,41 @@ DASHBOARD="$HOME/logs/fullpipe_dashboard.txt"
 HIST="$HOME/logs/fullpipe_babysit_history.log"
 INTERVAL=300   # 5 min
 
+# 會自動找的 tmux session 名（第一個活的就追，順序 = 優先級）
+CANDIDATES="p9v1_ablation p9v1_salvage fullpipe"
+
+# 會自動找的 log file（按時間排序，最新的當 master）
+find_latest_log() {
+    ls -t "$HOME/logs/"phase9_v1*.log "$HOME/logs/"fullpipe_*.log 2>/dev/null \
+        | grep -v "babysit\|dashboard" \
+        | head -1
+}
+
 while true; do
     TS=$(date -Iseconds)
-    MASTER=$(readlink "$HOME/logs/fullpipe_latest.log" 2>/dev/null || echo "(no symlink)")
 
-    # tmux 狀態
-    if tmux has-session -t fullpipe 2>/dev/null; then
-        TMUX_STATE="ALIVE"
+    # 找活著的 tmux session
+    ACTIVE_TMUX=""
+    for s in $CANDIDATES; do
+        if tmux has-session -t "$s" 2>/dev/null; then
+            ACTIVE_TMUX="$s"
+            break
+        fi
+    done
+
+    if [ -n "$ACTIVE_TMUX" ]; then
+        TMUX_STATE="ALIVE ($ACTIVE_TMUX)"
     else
-        TMUX_STATE="DEAD"
+        TMUX_STATE="DEAD (none of: $CANDIDATES)"
     fi
+
+    # 找最新 master log（追最活躍的）
+    MASTER=$(find_latest_log)
+    if [ -z "$MASTER" ]; then
+        MASTER="(no log found)"
+    fi
+    # 同步更新 symlink 讓外部也能讀
+    [ -f "$MASTER" ] && ln -sfn "$MASTER" "$HOME/logs/fullpipe_latest.log"
 
     # GPU
     GPU_UTIL=$(nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader 2>/dev/null | head -1 | tr -d '% ')
@@ -34,8 +59,8 @@ while true; do
     GPU_PROC=$(nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader 2>/dev/null | head -3 | tr '\n' '|')
 
     # log 尾 120 行，解最新資訊
-    if [ -f "$HOME/logs/fullpipe_latest.log" ]; then
-        TAIL=$(tail -120 "$HOME/logs/fullpipe_latest.log" | tr '\r' '\n')
+    if [ -f "$MASTER" ]; then
+        TAIL=$(tail -120 "$MASTER" | tr '\r' '\n')
     else
         TAIL=""
     fi
@@ -43,8 +68,8 @@ while true; do
     # 最新 iter / loss（訓練中）
     LATEST_IT=$(echo "$TAIL" | grep -oE 'it +[0-9]+:.*loss:[0-9.]+' | tail -1)
     # 最新 MARKER — 整個 log 掃（tail 120 行可能全是 tqdm 進度條，markers 藏在前面）
-    if [ -f "$HOME/logs/fullpipe_latest.log" ]; then
-        LATEST_MARKER=$(grep -E 'LANE_[A-Z0-9_]+|MC_EVAL_|fullpipe (START|FINISH)|\[Stage [12]\]|\[遷移\]|\[Pre-flight|\[Eval S[12]\]|訓練完成|移植完成|NPZ dir is valid|\[FAIL\]|\[WARN\]' "$HOME/logs/fullpipe_latest.log" \
+    if [ -f "$MASTER" ]; then
+        LATEST_MARKER=$(grep -E 'LANE_[A-Z0-9_]+|MC_EVAL_|fullpipe (START|FINISH)|\[Stage [12]\]|\[遷移\]|\[Pre-flight|\[Eval S[12]\]|訓練完成|移植完成|NPZ dir is valid|\[FAIL\]|\[WARN\]' "$MASTER" \
             | tail -1 \
             | grep -oE '(LANE_[A-Z0-9_]+|MC_EVAL_[A-Z]+ [a-z0-9_]+|fullpipe (START|FINISH)|\[Stage [12]\][^[]*|\[遷移\][^[]*|\[Pre-flight\][^[]*|\[Eval S[12]\][^[]*|訓練完成|移植完成|NPZ dir is valid[^[]*|\[FAIL\][^[]*|\[WARN\][^[]*)' \
             | head -c 100)
@@ -60,8 +85,8 @@ while true; do
 
     # 異常偵測
     ALERT=""
-    if [ "$TMUX_STATE" = "DEAD" ]; then
-        ALERT="ALERT: tmux fullpipe DEAD — pipeline crashed or manually stopped"
+    if [ -z "$ACTIVE_TMUX" ]; then
+        ALERT="ALERT: no active pipeline tmux (tried: $CANDIDATES)"
     elif echo "$TAIL" | tail -40 | grep -qE 'Traceback|CRITICAL|CUDA out of memory|OOM|Killed|loss:[nN][aA][nN]'; then
         MATCH=$(echo "$TAIL" | tail -40 | grep -oE 'Traceback.*|CRITICAL.*|CUDA out of memory|OOM.*|Killed.*|loss:[nN][aA][nN].*' | head -1)
         ALERT="ALERT: crash signature detected — $MATCH"
