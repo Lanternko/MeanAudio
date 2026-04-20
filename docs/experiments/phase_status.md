@@ -16,16 +16,30 @@
 | Phase 8 V2 | `JamendoFull-Random-AudioboxPQ-Q` | q 信號改用 Audiobox PQ | ✅ 完成，劣於 Phase 7 V1 |
 | Phase 8 V3 | `JamendoFull-Random-CLAP-Q` | q 信號改用 audio-text CLAP sim | ✅ 完成，全面退步（信號語義錯誤） |
 | Phase 8 V4 | `JamendoFull-Qwen2Audio-MeanSim-Q` | Caption 換用 Qwen2-Audio-7B | ❌ 廢棄（僅1 cap/clip，不支援 true random） |
-| Phase 9 V1 | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ⏳ 待啟動（2026-04-18 修復完成）|
-| Phase 9 V2 | `JamendoFull-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 caps | ⏳ 待啟動（跟隨 V1，共用同一 NPZ 目錄）|
-| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps (Writing/Summary/Paraphrase/Attribute/NaturalProse)，動態採樣，無 Q | ⏸️ Captioning 暫停於 slot 0 = 232,681/251,599（92.5%）。2026-04-18 教授指示：先完成 Lane A → Lane B (P9 V1/V2) → Lane C (Qwen resume)|
-| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ⏳ 待 Qwen captions 完成後開訓 |
+| Phase 9 V1 (buggy) | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ❌ 廢棄（帶 q=9→10 bug、undrop 別名 bug，Jamendo CLAP 0.0260 崩盤）|
+| **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random → **multi_cap 呈 unconditional drift**（跨 test set 一致）|
+| Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
+| **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps CLAP 0.0403（**反而低於 V1**），AES 全降 → **Q(basedon 5 caps) 與 multi_cap(random 1/5) 訓練 mismatch**，Q 在此情境有害 |
+| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | ⚠️ **建議暫緩**：既然 multi_cap 本質性不適合 MeanAudio（V1/V2 雙重失敗），換 captioner 大概率同樣結果，不值得 ~20 hr 投入 |
+| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ⚠️ **建議暫緩**：同上 |
 
 ## Phase 9 NPZ 前處理狀態（2026-04-18）
 
 - `gen_multicap_npz.py` 已跑完，iter 6243 崩潰原因為 `~/phase9_multicap_npz/990.npz` 和 `1218.npz` 缺 `text_features_c`
 - 已透過 `gen_multicap_npz.py --resume` 重新生成，251,599/251,599 齊全
 - `train_pipeline_phase9_v1.sh` 已加上 pre-flight 驗證
+
+## Phase 9 V1/V2 bugfix 核心發現（2026-04-20/21）
+
+**三個結構性 bug（Codex 抓到兩個關鍵）**：
+1. `networks.py:526/558` MeanAudio q=None 填 9（應為 10 null token）→ `use_q_conditioning=False` 實驗 train/eval mismatch。Codex 2026-04-19 發現。
+2. `runner_meanflow.py:238-239/268-269` `text_f_undrop = text_f` 是別名不是 clone → in-place null mask 污染 CFG target。Claude 2026-04-19 獨立發現。
+3. `runner_flowmatching.py` 完全沒讀 q_level、沒傳 q 到 FluxAudio → 所有 Phase 6+「+Q」實驗 S1 都沒訓 q_embed[0-9]。Codex 2026-04-20 發現。已修 6 處（L224/252/262/285/307-309/414-416）。
+
+**實測結論**：
+- multi_cap + NoQ (V1)：CLAP 0.0650 < static random NoQ (Phase 8) 0.1851 → unconditional drift
+- multi_cap + Q E2E (V2)：CLAP 0.0403 < V1 → Q 與 multi_cap 訓練訊號衝突
+- **multi_cap true random 路線放棄**，回歸 Phase 7 V1 (static random + Q) 為基準
 
 ## Phase 9.5 Qwen captioning 狀態
 
