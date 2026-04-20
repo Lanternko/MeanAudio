@@ -215,12 +215,13 @@ class RunnerFlowMatching:
         else:
             self.enter_val()
 
-    def train_fn( 
+    def train_fn(
         self,
         text_f: torch.Tensor,
-        text_f_c: torch.Tensor, 
+        text_f_c: torch.Tensor,
         a_mean: torch.Tensor,
         a_std: torch.Tensor,
+        q: torch.Tensor = None,  # FIX 2026-04-20: Stage 1 was ignoring q conditioning entirely
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         # sample
         a_randn = torch.empty_like(a_mean).normal_(generator=self.rng)
@@ -246,9 +247,9 @@ class RunnerFlowMatching:
 
         # samples = torch.rand(bs, device=x1.device, generator=self.rng) 
         null_text_c = (samples < self.null_condition_probability)  # here we do null condition together
-        text_f_c[null_text_c] = self.network.module.empty_string_feat_c  
+        text_f_c[null_text_c] = self.network.module.empty_string_feat_c
 
-        pred_v = self.network(xt, text_f, text_f_c, t)
+        pred_v = self.network(xt, text_f, text_f_c, t, q=q)  # FIX 2026-04-20: pass q to FluxAudio (was dropped entirely before)
         loss = self.fm.loss(pred_v, x0, x1)
         mean_loss = loss.mean()
         return x1, loss, mean_loss, t
@@ -256,8 +257,9 @@ class RunnerFlowMatching:
     def val_fn(
         self,
         text_f: torch.Tensor,
-        text_f_c: torch.Tensor, 
+        text_f_c: torch.Tensor,
         x1: torch.Tensor,
+        q: torch.Tensor = None,  # FIX 2026-04-20: Stage 1 was ignoring q conditioning entirely
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         bs = x1.shape[0]  # batch_size * seq_len * num_channels
         # normalize the latents
@@ -280,7 +282,7 @@ class RunnerFlowMatching:
         null_text_c = (samples < self.null_condition_probability)
         text_f_c[null_text_c] = self.network.module.empty_string_feat_c
 
-        pred_v = self.network(xt, text_f, text_f_c, t)
+        pred_v = self.network(xt, text_f, text_f_c, t, q=q)  # FIX 2026-04-20: pass q to FluxAudio
 
         loss = self.fm.loss(pred_v, x0, x1)
         mean_loss = loss.mean()
@@ -302,7 +304,10 @@ class RunnerFlowMatching:
             if it % self.log_extra_interval == 0:
                 unmasked_text_f = text_f.clone()
                 unmasked_text_f_c = text_f_c.clone()
-            x1, loss, mean_loss, t = self.train_fn(text_f, text_f_c, a_mean, a_std)
+            # FIX 2026-04-20: read q_level like runner_meanflow does (Stage 1 was ignoring q entirely)
+            use_q = self.cfg.get('use_q_conditioning', True)
+            q = data['q_level'].cuda(non_blocking=True) if ('q_level' in data and use_q) else None
+            x1, loss, mean_loss, t = self.train_fn(text_f, text_f_c, a_mean, a_std, q=q)
 
             self.train_integrator.add_dict({'loss': mean_loss})
 
@@ -406,7 +411,10 @@ class RunnerFlowMatching:
             x1 = a_mean + a_std * a_randn  # differs from train_pass is that validation_pass pass x1 into val_fn
 
             self.log.data_timer.end()
-            loss, mean_loss, t = self.val_fn(text_f.clone(), text_f_c.clone(), x1)
+            # FIX 2026-04-20: read q_level like runner_meanflow does (Stage 1 was ignoring q entirely)
+            use_q = self.cfg.get('use_q_conditioning', True)
+            q = data['q_level'].cuda(non_blocking=True) if ('q_level' in data and use_q) else None
+            loss, mean_loss, t = self.val_fn(text_f.clone(), text_f_c.clone(), x1, q=q)
 
             self.val_integrator.add_binned_tensor('binned_loss', loss, t)
             self.val_integrator.add_dict({'loss': mean_loss})
