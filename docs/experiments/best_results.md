@@ -41,16 +41,28 @@
 - **Random caption 的獨立貢獻**（CE/PQ）：no-Q 情境下 +0.454/+0.311；+Q 情境下 +0.099/+0.061（Q 吸收部分 diversity 效益 → 替代關係，非純加成）
 - **Jamendo vs MusicCaps 排序倒轉**：Phase 6 V2 在 Jamendo 領先 Phase 7 V1（0.2139 vs 0.1984），但 MusicCaps 上 Phase 7 V1 領先（0.1975 vs 0.1943）→ best-consensus 有 Jamendo 特化 overfitting，random 更穩健
 
-### Phase 9 系列新發現（2026-04-20/21）
-- **multi-cap true random 對 CLAP 有大幅傷害**：V1 0.0650 / V2 0.0403，遠低於 static random 的 0.185-0.198
-- **AES 卻可能提升**：V1 在 AES 四項全面超過 Phase 8（模型產生「好聽但不貼 prompt」的音樂）
-- **Q 在 multi_cap 情境反而更糟**：V2 < V1（全指標）→ q 信號 (basedon 5 caps) 與訓練輸入 (random 1/5) 不 coherent
-- **Phase 6+ 所有 "+Q" 實驗都是 half-Q**（S1 沒讀 q），P9 V2 是第一個真 Q end-to-end，但因 multi_cap 環境下產生副作用，不等於 Q 本身失敗
+### Phase 9 系列新觀察（2026-04-20/21，需更多 control 才能下定論）
+- **觀察**：multi-cap true random 下 CLAP 降低（V1 0.0650 / V2 0.0403，vs static 0.185-0.198）
+- **觀察**：V1 AES 四項超過 Phase 8，V2 反而 AES 下降 → V1 呈「好聽但不貼 prompt」，V2 特性未明
+- **觀察**：V2 (q=9) < V1（全指標）→ 假說是 aggregate-q 與 random-1/5 caption mismatch，但未對 q sweep 驗證
+- **方法論注意**：Phase 6+ 所有 "+Q" 實驗都是 half-Q（S1 runner 沒傳 q，Codex 2026-04-20 發現）。P9 V2 是**第一個真 full Q E2E**。V2 變差可能來自 (a) multi_cap 本身、(b) full Q 可能就不如 half Q、(c) q=9 不是最適 — **三個 confound 尚未拆開**
 
-## 結論
+## 結論（截至 2026-04-21，Codex review 後 conservative 版本）
 
-**Phase 7 V1（static random caption + half Q）在兩個 benchmark 上都是最佳**（Jamendo 最佳或並列最佳、MusicCaps 全面最佳）。
+**Phase 7 V1（static random + half Q）目前仍是已測中最佳**（Jamendo + MusicCaps 雙料）。
 
-- ✅ static random + Q 是 MeanAudio 最穩健路線
-- ❌ multi-cap true random 本質不適合（兩個 variant 都失敗）
-- 🤔 真 Q end-to-end 在 static random 上能否超越 half-Q 仍是未解問題（未測）
+### 可以下的結論
+- ✅ **static random + half Q** 是目前最穩健已驗證路線
+- ✅ P9 V1 bugfix 跨 test set 一致（Jamendo 0.0589 / MusicCaps 0.0650），**不是 Jamendo overfit**
+- ⚠️ P9 V1/V2 在 **current setup** 下 underperform Phase 7 V1
+- ⚠️ multi-cap route 目前 **not promising**（≠ intrinsically incompatible）
+
+### 尚不能下的結論（缺 control 實驗）
+- ❓「**multi_cap 本質不適合 MeanAudio**」— 需先做 **Phase 7 V1 static-random + full Q E2E** 作 control 才能分離「multi_cap 效應」vs「full Q vs half Q 效應」。目前 V2 vs 舊 Phase 7 V1 混了兩個變量
+- ❓「**Q 在 multi_cap 有害**」— P9 V2 僅測 `q=9`，但訓練分布眾數在 q=7/8，**最適 q 未知**。必須 sweep q=6/7/8 才算完整
+- ❓「**aggregate-q + random-1/5 caption 是 mismatch 主因**」— 此為目前最合理假說但未證，需更多實驗支持
+
+### 建議下一步
+1. **P9 V2 q sweep**（~2 hr 總計）：q=6/7/8，看是否有 q_level 讓 V2 追上或超過 V1
+2. **Phase 7 V1 full-Q rerun**（~20 hr）：乾淨 control，分離 multi_cap 與 full Q 獨立效應
+3. 完成以上才能下定論

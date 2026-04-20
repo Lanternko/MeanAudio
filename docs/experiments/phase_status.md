@@ -19,9 +19,9 @@
 | Phase 9 V1 (buggy) | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ❌ 廢棄（帶 q=9→10 bug、undrop 別名 bug，Jamendo CLAP 0.0260 崩盤）|
 | **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random → **multi_cap 呈 unconditional drift**（跨 test set 一致）|
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
-| **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps CLAP 0.0403（**反而低於 V1**），AES 全降 → **Q(basedon 5 caps) 與 multi_cap(random 1/5) 訓練 mismatch**，Q 在此情境有害 |
-| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | ⚠️ **建議暫緩**：既然 multi_cap 本質性不適合 MeanAudio（V1/V2 雙重失敗），換 captioner 大概率同樣結果，不值得 ~20 hr 投入 |
-| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ⚠️ **建議暫緩**：同上 |
+| **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
+| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | ⏸️ 暫緩：待 P9 V2 q sweep + Phase 7 V1 full-Q control 完成才決定（避免在 multi_cap 路線未完全釐清前擴展）|
+| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ⏸️ 暫緩：同上 |
 
 ## Phase 9 NPZ 前處理狀態（2026-04-18）
 
@@ -36,10 +36,18 @@
 2. `runner_meanflow.py:238-239/268-269` `text_f_undrop = text_f` 是別名不是 clone → in-place null mask 污染 CFG target。Claude 2026-04-19 獨立發現。
 3. `runner_flowmatching.py` 完全沒讀 q_level、沒傳 q 到 FluxAudio → 所有 Phase 6+「+Q」實驗 S1 都沒訓 q_embed[0-9]。Codex 2026-04-20 發現。已修 6 處（L224/252/262/285/307-309/414-416）。
 
-**實測結論**：
-- multi_cap + NoQ (V1)：CLAP 0.0650 < static random NoQ (Phase 8) 0.1851 → unconditional drift
-- multi_cap + Q E2E (V2)：CLAP 0.0403 < V1 → Q 與 multi_cap 訓練訊號衝突
-- **multi_cap true random 路線放棄**，回歸 Phase 7 V1 (static random + Q) 為基準
+**實測觀察（需 control 佐證）**：
+- multi_cap + NoQ (V1)：CLAP 0.0650 < static random NoQ (Phase 8) 0.1851。AES 超 Phase 8，跨 test set 一致（非 overfit）
+- multi_cap + Q E2E (V2, q=9)：CLAP 0.0403 < V1。**但只測了 q=9，未 q sweep**
+
+**Codex 2026-04-21 警告的 confound**：
+- V2 比歷史 Phase 7 V1 (0.1975) 差，但那是 half-Q；V2 是真 full Q → 混了 (a) multi_cap 效應、(b) full Q vs half Q、(c) q=9 vs 最適 q 三個變量
+- 不能直接下「multi_cap 本質性不適合」的定論
+
+**下一步（最小實驗清單）**：
+1. **P9 V2 q sweep** (~2 hr)：`--quality_level 6/7/8`，用既有 S2 EMA，只重跑 eval
+2. **Phase 7 V1 full-Q control** (~20 hr)：S1+S2 真 Q end-to-end + static random
+3. 以上完成才能分離 multi_cap 與 full Q 的獨立效應
 
 ## Phase 9.5 Qwen captioning 狀態
 
