@@ -69,17 +69,32 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 ### 已被 falsify 的 strong version
 
 「P9 V2 的差可以完全歸因於 multi-cap」不成立。P9 V2 gap 至少包含：
-1. 一個 general full-Q penalty（~0.02 CLAP，來源是 S1 Q 訓練 / S2 clone fix / 兩者交互，未分離）
+1. **Clean-implementation penalty** ~0.02 CLAP（相對 historical half-Q baseline 的觀察，attribution 未分離在 S1 q training vs S2 clone fix）
 2. 一個 P9-specific residual（~0.13 CLAP，行為上與 multi-cap 強相關但未證因果）
 
-### 下一步（規劃中，尚未啟動）
+### 尚不能寫的 strong claims（Codex 2026-04-22 verdict）
 
-**Clean S2 only ablation**（staged，非全矩陣）：用歷史 P7 V1 S1 ckpt + 只重訓 S2 with clone fix + 5 eval。成本 ~7 hr。
+- 「full-Q 本身有代價」/ `full-Q has a cost` — 等 Clean S2 only ablation 才能寫這麼強
+- 「clone fix 造成 drop」
+- 「S1 q-training 造成 drop」
 
-判讀規則：
-- ≈ 0.1984 → clone fix 不是主因，主要代價來自 S1 真訓 q
-- ≈ 0.1799 → clone fix 就足以解釋 drop
-- 中間 → 兩者各貢獻
+安全寫法：`the clean full-Q control bundle underperforms the historical half-Q baseline by ~8-12% CLAP`，或 `a clean-implementation penalty of ~0.02 CLAP is observed, but its attribution remains unresolved`。
+
+### Confound 記錄
+
+- **A. gt_cache / TSV alignment**：✅ 已驗證 — 歷史與 rerun 都用 `npz_cache_train.txt` (MD5 `1e1641f0...`) + `~/research/meanaudio_training/npz`，相同。
+- **B. Pseudo EMA bootstrap**：僅適用 Clean S2 only ablation，不適用 finished full-Q control rerun（後者是從零訓 S1）。
+- **C. Eval pipeline 版本**：歷史 (Mar 2026) 與 rerun (Apr 2026) 都用當前 eval 流程 + num_samples=2048 metric。顯式驗證 TODO（若有疑問可跑歷史 ckpt eval 驗證是否還得 0.1984）。
+
+### 執行中（2026-04-22）
+
+4. **Clean S2 only ablation** (`phase7_v1_s2only_ablation`, tmux `p7v1_s2only`)：用歷史 P7 V1 S1 weights (wrapped into load-compatible pseudo training-state ckpt) + 只重訓 S2 with clone fix + 5 eval。成本 ~18 hr wall clock。
+   - **Pseudo-EMA bootstrap confound**：兩條 ema_models (sigma 0.05 / 0.1) 都從同一份 `_ema_final.pth` 起跑，**非歷史真實雙軌跡**，是 load-compatible approximation，**不是 semantic equivalent**。
+   - **保險**：ablation 完成時同時 eval `last.pth`（online weights）與 `ema_final.pth`（post-S2 EMA）。若兩者方向一致，pseudo-EMA confound 疑慮小。
+   - 判讀：
+     - ≈ 0.1984 → clone fix 非主因，主要代價來自 S1 真訓 q
+     - ≈ 0.1799 → clone fix 就足以解釋 drop
+     - 中間 → 兩者各貢獻
 
 ## Phase 9 caption responsiveness — behavior-level 診斷（2026-04-21）
 
