@@ -103,6 +103,57 @@ MeanAudio/
 
 ---
 
+## 實驗中/後 Monitoring（launch ≠ done）
+
+> **啟動實驗不等於完成 — 不 monitor 就等於沒跑（可能悄悄掛掉、stall、或產生 NaN/全 0 音檔而你不知道）。**
+
+**每次啟動 tmux 訓練或 eval job 後，必須主動排定 monitoring：**
+
+1. **第一次 check（啟動後 1~2 分鐘內）**：確認 job 真的在跑
+   - `tmux ls` 看 session 還在
+   - `nvidia-smi` GPU 有吃到（memory > 1 GB、util > 0%）
+   - 讀 log 開頭：無 import error / OOM / checkpoint load error
+   - 有 progress bar（`it/s` 合理，不是卡住）
+
+2. **定期 check（用 `ScheduleWakeup` 或 `/loop`，間隔依 job 長度）**：
+   - **短 job（<30 min）**：每 5~10 min check 一次
+   - **中 job（30 min ~ 2 hr）**：每 20~30 min check（用 `ScheduleWakeup delaySeconds=1200~1800`）
+   - **長 job（>2 hr）**：每 30~60 min，關鍵轉折點（Stage 切換、eval 開始）加 check
+
+3. **每次 check 要看的東西**：
+   - tmux session 還活著（`tmux ls`）
+   - GPU 還在跑（util > 0%，memory 沒降到閒置）
+   - log tail 有新行（沒 stall）
+   - 無 exception / NaN / OOM traceback
+   - 預期的階段轉換有發生（e.g. gen 完換 metrics、Q 切換到下一個）
+
+4. **結果 sanity check（每個階段完成時）**：
+   - Gen 完：`ls <output>/audio | wc -l` 接近預期數、抽一個 `soxi` 看長度/取樣率正常、檔案 size > 0
+   - Metrics 完：`cat metrics.txt` 無 NaN、數字在合理範圍（CLAP 0.05~0.25、CE 5~8、PQ 5~8）
+   - 發現異常 → 先懷疑 bug（見 `memory/feedback_suspect_bug_before_explaining.md`）
+
+5. **禁止「啟動後就當完成」** — 沒排 monitoring 等於沒做這份工作。
+
+---
+
+## GPU idle backlog policy
+
+> **GPU 不該 idle；但只有已定義、可恢復、可插隊的實驗，才能在 idle 時自動接手跑。**
+
+4 個 guardrail（詳見 `memory/feedback_gpu_idle_backlog_policy_2026_04_21.md`）：
+
+1. 只能自動開**已排隊、已定義目的**的實驗 — 不能因 GPU 空就臨時發明題目
+2. 必須**可恢復** — checkpoint 有、resume 驗證過、save interval 合理
+3. 優先級分類：
+   - **P0**：短 probe / sanity / bug verification — 隨時可插隊
+   - **P1**：關鍵 control run（例 P7 V1 full-Q control）
+   - **P2**：探索型長實驗 — 沒更明確 backlog 時才跑
+4. 啟動時**留紀錄**（跑什麼、為什麼現在跑、checkpoint 點、被插隊時的停機點），不默默開
+
+**流程**：自動啟動前先逐項檢查這 4 個 guardrail，檢查通過才動。
+
+---
+
 ## 訓練流程
 
 > 長時間任務一律用 **tmux**（超過 5 分鐘的 job 都用 `tmux new-session -d -s <name>`）
@@ -169,7 +220,7 @@ python ~/research/meanaudio_eval/phase4_eval.py \
 
 結果：`eval_output/metrics/EXP/metrics.txt`。完整數字見 `docs/experiments/best_results.md`。
 
-主觀評估五首 prompt 見 `docs/eval/subjective_prompts.md`（25 steps + cfg 3.5）。
+主觀評估五首 prompt 見 `docs/eval/subjective_prompts.md`（25 steps + **cfg 0.5**）。**不要用 cfg ≥ 2.0** — 在非 null Q + 高能量 prompt 會觸發波形飽和（crest < 2.0，2026-04-21 於 subjective_ab v3 踩坑，mc18_abl_A–J 證實，york135 指出）。
 
 ---
 

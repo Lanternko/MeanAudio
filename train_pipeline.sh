@@ -20,7 +20,7 @@ set -e  # 任何指令失敗即中止
 # 實驗參數設定（每次新實驗只需修改此區塊）
 # ============================================================
 
-EXP_PREFIX="phase8_v4"           # 實驗名稱前綴，自動生成 exp_id
+EXP_PREFIX="phase7_v1_s2only_ablation"  # 實驗名稱前綴，自動生成 exp_id
 
 BATCH_SIZE=8                      # 物理 batch size（每張 GPU）
 ACCUM_STEPS=1                     # Gradient accumulation 步數（V4 不使用累積）
@@ -71,11 +71,11 @@ COMMON_ARGS=(
     val_interval=999999
     eval_interval=999999
     save_eval_interval=999999
-    "data.AudioCaps_npz.tsv=$DATA_DIR/phase8_v4_train.tsv"
+    "data.AudioCaps_npz.tsv=$DATA_DIR/phase7_v1_train.tsv"
     "data.AudioCaps_val_npz.tsv=$DATA_DIR/phase4_val.tsv"
     "+data.AudioCaps_npz.gt_cache=$DATA_DIR/npz_cache_train.txt"
     "+data.AudioCaps_val_npz.gt_cache=$DATA_DIR/npz_cache_val.txt"
-    "++data.AudioCaps_npz.npz_dir=$HOME/research/meanaudio_training/npz_phase8v4"
+    "++data.AudioCaps_npz.npz_dir=$HOME/research/meanaudio_training/npz"
 )
 
 # ============================================================

@@ -17,7 +17,7 @@
 | Phase 8 V3 | `JamendoFull-Random-CLAP-Q` | q 信號改用 audio-text CLAP sim | ✅ 完成，全面退步（信號語義錯誤） |
 | Phase 8 V4 | `JamendoFull-Qwen2Audio-MeanSim-Q` | Caption 換用 Qwen2-Audio-7B | ❌ 廢棄（僅1 cap/clip，不支援 true random） |
 | Phase 9 V1 (buggy) | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ❌ 廢棄（帶 q=9→10 bug、undrop 別名 bug，Jamendo CLAP 0.0260 崩盤）|
-| **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random → **multi_cap 呈 unconditional drift**（跨 test set 一致）|
+| **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
 | **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
 | Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | ⏸️ 暫緩：待 P9 V2 q sweep + Phase 7 V1 full-Q control 完成才決定（避免在 multi_cap 路線未完全釐清前擴展）|
@@ -44,10 +44,84 @@
 - V2 比歷史 Phase 7 V1 (0.1975) 差，但那是 half-Q；V2 是真 full Q → 混了 (a) multi_cap 效應、(b) full Q vs half Q、(c) q=9 vs 最適 q 三個變量
 - 不能直接下「multi_cap 本質性不適合」的定論
 
-**下一步（最小實驗清單）**：
-1. **P9 V2 q sweep** (~2 hr)：`--quality_level 6/7/8`，用既有 S2 EMA，只重跑 eval
-2. **Phase 7 V1 full-Q control** (~20 hr)：S1+S2 真 Q end-to-end + static random
-3. 以上完成才能分離 multi_cap 與 full Q 的獨立效應
+**已完成（2026-04-21）**：
+1. **P9 V2 q sweep**：q=6/7/8/9 皆 flat（CLAP 0.0402–0.0417）→ P9 V2 failure 不能歸因於 q=9 選錯
+2. **P7 V1 q-sweep**（既有 checkpoint）：q=0/3/6/9 顯示 support-set gating — q=0/3 OOD 區 CLAP ≤ 0.045，q=6/9 in-support 區 CLAP ~0.197 等價。Q 表現為 coarse regime marker，非 ordinal quality controller
+
+**已完成（2026-04-22）**：
+3. **Phase 7 V1 full-Q control rerun**（~36 hr wall clock）：乾淨 implementation (S1 q-passing fix + S2 text_f_undrop clone fix) 下的 full-Q E2E。全 5 eval 一致低於歷史 P7 V1 best ~8-12% CLAP：
+   - Jamendo q=6: 0.1816 vs 0.1980（−8.3%）
+   - Jamendo q=9: 0.1799 vs 0.1984（−9.3%）
+   - Jamendo native_q: 0.1801 vs 0.1977（−8.9%）
+   - MusicCaps q=9: **0.1748 vs 0.1975（−11.5%）**
+   - MusicCaps q=6: 0.1759（歷史無直接對照）
+   - support-set gating 行為 replicate（q=6/9/native_q 內部差 ≤ 0.002）
+
+**這個 control 的活躍 implementation 差異只有 2 個**（非 3 個）：
+- S1 runner_flowmatching q-passing fix（S1 現在真訓 q_embed[0-9]）
+- S2 runner_meanflow `text_f_undrop.clone()` fix（CFG target 不再被污染）
+- `networks.py q=None→10` fix 不活躍（train+eval 都用顯式 q_level）
+
+### Puzzle — apparent tension with historical P6 V1 vs V2
+
+Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evidence that Stage 1 successfully trained q embeddings. At that time, the runner_flowmatching q-passing bug was still present, so P6 V2 tested the presence of a q_embed layer in the Stage 1 architecture, not effective Stage 1 q learning. The current P7 full-Q rerun shares the former but differs in two active respects: Stage 1 q embeddings are now actually trained, and the Stage 2 text_f_undrop alias bug is fixed. Therefore, the current drop should not be summarized as "full-Q is harmful"; it remains compatible with at least two unresolved contributors: effective Stage 1 q training, the Stage 2 clone fix, or their interaction.
+
+### 已被 falsify 的 strong version
+
+「P9 V2 的差可以完全歸因於 multi-cap」不成立。P9 V2 gap 至少包含：
+1. 一個 general full-Q penalty（~0.02 CLAP，來源是 S1 Q 訓練 / S2 clone fix / 兩者交互，未分離）
+2. 一個 P9-specific residual（~0.13 CLAP，行為上與 multi-cap 強相關但未證因果）
+
+### 下一步（規劃中，尚未啟動）
+
+**Clean S2 only ablation**（staged，非全矩陣）：用歷史 P7 V1 S1 ckpt + 只重訓 S2 with clone fix + 5 eval。成本 ~7 hr。
+
+判讀規則：
+- ≈ 0.1984 → clone fix 不是主因，主要代價來自 S1 真訓 q
+- ≈ 0.1799 → clone fix 就足以解釋 drop
+- 中間 → 兩者各貢獻
+
+## Phase 9 caption responsiveness — behavior-level 診斷（2026-04-21）
+
+**Behavior-level association**（非 causal / 非 mechanistic claim）：在目前實作下，**single-cap 訓練組**保有明顯 prompt steering；**multi-cap 訓練組**的 same-seed prompt steering 大幅衰弱。
+
+**方法**：
+- 固定 cfg=0.5, num_steps=1（benchmark-matching）
+- 4 個 A/B prompt pair（樂器、人聲、鼓、編制密度），每 pair 同 seed 對打
+- 3 seeds × 2 prompts × 4 pairs = 24 檔/model
+- 量 `(A-B L2) / (noise L2)` ratio — **noise L2 是同 prompt 不同 seed 的 L2 baseline**
+- Probe battery 375-state grid（6 ckpts S1+S2、5 seeds、5 timesteps、10 prompt pairs、4 metrics）determinism check d=0 通過
+- P9 V2 q=9 sanity 與 q=8 差距 |Δ| ≤ 0.006，q sweep 結論穩定
+
+**結果 — 4 模型 2x2 分組（A/B same-seed L2 / noise L2）**：
+
+| Model | 01 instr | 02 vocals | 03 drums | 04 density |
+|---|---:|---:|---:|---:|
+| **P7 V1** (Q, single-cap) | 1.457 | 1.071 | 1.702 | 0.884 |
+| **P8** (NoQ, single-cap) | 1.121 | 0.950 | 1.723 | 0.913 |
+| **P9 V1** (NoQ, multi-cap) | 0.075 | 0.025 | 0.068 | 0.147 |
+| **P9 V2** (Q=9, multi-cap) | 0.015 | 0.012 | 0.021 | 0.056 |
+
+- ratio > 1 ⇒ prompt 效應 > noise 效應（single-cap 組）
+- ratio < 0.2 ⇒ noise 主導、prompt 微弱（multi-cap 組）
+- **Q 與架構都不是區分因素**；single-cap vs multi-cap 是行為分界線
+
+**可說**：
+- Same-seed prompt steering weakens strongly in multi-cap runs（behavior-level association）
+- P9 不是完全不看 caption；prompt effect 已經弱到遠小於 noise effect
+- P9 V1 殘留最弱反應維度：density（0.147）與 instrument/drums（~0.07），vocals 最弱（0.025）
+- P9 V2 在所有維度比 V1 更弱（0.01-0.06）
+- Probe battery 一致：P9 a/c ratio 0.001-0.015 vs P7 0.10-0.21（差 20-200x）；P9 S1→S2 ratio 再跌 4-6x，P7 沒跌
+
+**不能說**：
+- ❌ multi-cap "導致" conditioning 失敗（correlation, not causation；data 混合比例、lr 等 confound 未控制）
+- ❌ text_cond_proj 梯度被毒、weight 崩壞等 mechanism
+- ❌ P9 "unconditional generation"（殘留 ratio 非 0）
+- ❌ P9 "完全不看 caption"
+
+**Artifacts**（`eval_output/probe_subjective_v2/`）：
+- `p7v1/`、`p8/`、`p9v1/`、`p9v2/`（q=8）、`p9v2_q9/`（sanity）各 24 wav
+- `probe_battery_results.json` 3450 條 records
 
 ## Phase 9.5 Qwen captioning 狀態
 

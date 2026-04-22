@@ -27,12 +27,16 @@
 | phase8 | random (static) | ✗ | `--no_q` | 0.1851 | 5.913 | 6.747 | 4.983 | 6.544 |
 | phase9_v1_bugfix² | multi-cap true-random | ✗ | `--no_q` | 0.0650 | 6.2626 | 6.8051 | 5.4256 | 6.6834 |
 | phase9_v2_bugfix³ | multi-cap true-random | ✓ (E2E) | q=9 | 0.0403 | 5.2981 | 6.2673 | 5.3742 | 5.9666 |
+| phase7_v1_fullq_control⁴ | random (static) | ✓ (E2E, clean impl) | q=9 | 0.1748 | 5.5436 | 6.5875 | 5.0712 | 6.5153 |
+| phase7_v1_fullq_control⁴ | random (static) | ✓ (E2E, clean impl) | q=6 | 0.1759 | 5.5429 | 6.6054 | 5.0262 | 6.4856 |
 
 ¹ Phase 6/7 系列的「+Q」實際是 S2-only Q（runner_flowmatching.py 沒讀 q_level，2026-04-20 Codex 發現）。S1 只訓了 `q_embed[10]`。數字反映 half-Q 訓練。
 
-² Phase 9 V1 bugfix：修兩個 bug（networks.py q=None 填 10、runner_meanflow.py undrop .clone）後重跑。CLAP 從崩前 Jamendo 0.0260 提升到 0.0650，跨 test set 一致（Jamendo 0.0589）→ 不是 bug 主因，multi_cap 本質性 unconditional drift。
+² Phase 9 V1 bugfix：修兩個 bug（networks.py q=None 填 10、runner_meanflow.py undrop .clone）後重跑。CLAP 從崩前 Jamendo 0.0260 提升到 0.0650，跨 test set 一致（Jamendo 0.0589）→ bug 不是全部原因，但 bug fix 後 CLAP 仍遠低於 static-random baseline，該殘差尚未被單一機制定位。
 
-³ Phase 9 V2 bugfix：除上述外再修 runner_flowmatching.py（6 處加 q 參數），S1+S2 真 Q end-to-end 訓練。CLAP **反而** 0.0403 < V1 的 0.0650 → **Q + multi_cap true random 訓練訊號衝突**：q 信號基於全 5 caps 算、實際輸入是隨機 1/5 → 模型被矛盾信號撕扯。
+³ Phase 9 V2 bugfix：除上述外再修 runner_flowmatching.py（6 處加 q 參數），S1+S2 真 Q end-to-end 訓練。CLAP 0.0403 < V1 的 0.0650；q sweep (6–9) 幾乎 flat (0.0402–0.0417)。Plausible 假說：aggregate-q（基於全 5 cap 的 MeanSim）與訓練時餵 random 1-of-5 caption 之間的 supervision 不一致。P7 V1 q-sweep 顯示 q 在 in-support regime 內近乎 flat（q=6 vs q=9 ΔCLAP=0.0015），所以 P9 V2 flatness 本身 does not by itself identify multi-cap as the cause。需 static-random full-Q control 分離 multi-cap 與 full-Q 效應。
+
+⁴ P7 V1 full-Q control (2026-04-22)：乾淨 implementation (S1 q-passing fix + S2 text_f_undrop clone fix) 下的 P7 V1 full-Q E2E。全 5 eval 一致低於歷史 P7 V1 best ~8-12% CLAP（Jamendo q=6: 0.1816 / q=9: 0.1799 / native_q: 0.1801；MusicCaps q=6: 0.1759 / q=9: 0.1748）。**Historical P6 V2 should not be interpreted as evidence that Stage 1 successfully trained q embeddings, because the later-discovered runner_flowmatching q-passing bug was still present at that time.** 活躍的 implementation 差異為 S1 q-passing fix + S2 clone fix，co-varied。需要 Clean S2 only ablation 才能分離。詳見 `memory/project_p7_fullq_control_finding_2026_04_22.md`。
 
 ## MusicCaps 關鍵讀數
 
@@ -52,17 +56,20 @@
 **Phase 7 V1（static random + half Q）目前仍是已測中最佳**（Jamendo + MusicCaps 雙料）。
 
 ### 可以下的結論
-- ✅ **static random + half Q** 是目前最穩健已驗證路線
-- ✅ P9 V1 bugfix 跨 test set 一致（Jamendo 0.0589 / MusicCaps 0.0650），**不是 Jamendo overfit**
-- ⚠️ P9 V1/V2 在 **current setup** 下 underperform Phase 7 V1
-- ⚠️ multi-cap route 目前 **not promising**（≠ intrinsically incompatible）
+- **static random + half Q** 是目前已測路線中最穩健經驗基線
+- P9 V1 bugfix 跨 test set 一致（Jamendo 0.0589 / MusicCaps 0.0650），**不是 Jamendo overfit**
+- P9 V1/V2 在 **current setup** 下 underperform Phase 7 V1
+- Under current implementation, multi-cap full-Q has not shown an advantage. Before a static-random full-Q control is run, this failure should not be attributed specifically to multi-cap itself.
+
+### Q behavior in P7 V1 (2026-04-21)
+P7 V1 q-sweep on MusicCaps indicates **support-set gating** rather than ordinal quality control. OOD q values (q=0/3) yield CLAP ≤ 0.045, while in-support q values (q=6/9) yield CLAP ≈ 0.197 and are nearly equivalent (ΔCLAP = 0.0015). Historical Jamendo results for q=6/9/native_q are likewise all ≈ 0.198. Current evidence therefore supports q as a coarse in-support gating signal rather than a strong ordinal quality controller. P7 V1's high CLAP should not be attributed primarily to fine-grained q scaling.
 
 ### 尚不能下的結論（缺 control 實驗）
-- ❓「**multi_cap 本質不適合 MeanAudio**」— 需先做 **Phase 7 V1 static-random + full Q E2E** 作 control 才能分離「multi_cap 效應」vs「full Q vs half Q 效應」。目前 V2 vs 舊 Phase 7 V1 混了兩個變量
-- ❓「**Q 在 multi_cap 有害**」— P9 V2 僅測 `q=9`，但訓練分布眾數在 q=7/8，**最適 q 未知**。必須 sweep q=6/7/8 才算完整
-- ❓「**aggregate-q + random-1/5 caption 是 mismatch 主因**」— 此為目前最合理假說但未證，需更多實驗支持
+- 「**multi_cap 本質不適合 MeanAudio**」— 需先做 **Phase 7 V1 static-random + full Q E2E** 作 control 才能分離「multi_cap 效應」vs「full Q vs half Q 效應」。目前 V2 vs 舊 Phase 7 V1 混了兩個變量。
+- 「**Q 在 multi_cap 有害**」— P9 V2 q sweep 顯示 q=6/7/8/9 flat (~0.04)，但 P7 V1 q-sweep 顯示 q 在 in-support 內本來就 flat，所以此現象本身不成鑑別證據。
+- 「**aggregate-q + random-1/5 caption 是 mismatch 主因**」— working hypothesis，未證。
 
-### 建議下一步
-1. **P9 V2 q sweep**（~2 hr 總計）：q=6/7/8，看是否有 q_level 讓 V2 追上或超過 V1
-2. **Phase 7 V1 full-Q rerun**（~20 hr）：乾淨 control，分離 multi_cap 與 full Q 獨立效應
-3. 完成以上才能下定論
+### 下一步（已在執行）
+1. **P9 V2 q sweep**（完成 2026-04-21）：q=6/7/8/9 皆 flat（CLAP 0.0402–0.0417），P9 V2 failure 不能歸因於 q=9 選錯。
+2. **P7 V1 q-sweep**（完成 2026-04-21）：support-set gating behavior 確立。
+3. **Phase 7 V1 full-Q rerun**（計畫中，~20 hr）：**non-inferiority control**，拆 half-Q vs full-Q 混淆因子。Calibration：若結果顯著 > 0.1984，先懷疑其他變因。

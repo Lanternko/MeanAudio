@@ -1,6 +1,20 @@
 # 主觀評估固定 prompt 與下載流程
 
-25 steps + cfg_strength 3.5，音質比單步好。
+25 steps + **cfg_strength 0.5**（pure conditional 分支，無 guidance 放大）。
+
+> ⚠️ **歷史踩坑（2026-04-21 修正）**：原本這裡寫 `cfg 3.5`，結果 subjective_ab v3 全 48 檔用 cfg=3.5 生成，導致 P7V1 + 非 null Q + 高能量 prompt（如 EDM/Trap/Dubstep）有 2/24 嚴重波形飽和（crest < 2.0）。Ablation mc18_abl_A–J 證實：cfg ≥ 2.0 會觸發 guidance 過度放大分支，cfg < 1.0 回傳 pure conditional 即正常（crest 3.49）。與 CLAUDE.md eval 段 `--cfg_strength 0.5` 對齊。York135 2026-04-21 指出此矛盾。
+
+## ⚠️ q 旗標選擇（同 `memory/reference_eval_q_flag_rule.md`）
+
+`infer.py` **沒有 `--no_q` flag**（只有 `eval.py` 有）。NoQ 模型要用 **`--quality_level 10`**（null token 的 workaround）：
+
+| 訓練時 q conditioning | Phase 例 | `infer.py` 旗標 |
+|---|---|---|
+| **true**（q 0~9 訓練） | 6 V2、7 V1/V2、9 V2、9.5 V2 | `--quality_level 9` |
+| **false**（永遠 null token） | 8、9 V1、9.5 V1 | **`--quality_level 10`** |
+| **pre-Phase 6**（無 q_embed 層） | 4 V2、5 V1/V2 | 兩者等價 |
+
+**踩坑紀錄**：2026-04-21 對 P9 V1 誤用 `--quality_level 9` → 所有 5 首 pairwise cos-sim 1.0000 + 音量飽和 clipping（未訓練 q=9 embedding 的 artifact）。歷史腳本 `run_subjective_jamendo.sh` 已正確處理（Phase 8 用 q=10），但 `subjective_prompts.md` 範例原本只寫 q=9 誤導。
 
 ## 推理指令
 
@@ -10,8 +24,8 @@ python infer.py \
     --model_path exps/EXPNAME/EXPNAME_ema_final.pth \
     --output eval_output/EXPNAME_subjective \
     --encoder_name t5_clap --text_c_dim 512 \
-    --use_meanflow --num_steps 25 --cfg_strength 3.5 \
-    --quality_level 9 --full_precision \
+    --use_meanflow --num_steps 25 --cfg_strength 0.5 \
+    --quality_level {9|10} --full_precision \
     --prompt "PROMPT"
 ```
 
