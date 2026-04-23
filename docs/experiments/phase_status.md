@@ -86,15 +86,24 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 - **B. Pseudo EMA bootstrap**：僅適用 Clean S2 only ablation，不適用 finished full-Q control rerun（後者是從零訓 S1）。
 - **C. Eval pipeline 版本**：歷史 (Mar 2026) 與 rerun (Apr 2026) 都用當前 eval 流程 + num_samples=2048 metric。顯式驗證 TODO（若有疑問可跑歷史 ckpt eval 驗證是否還得 0.1984）。
 
-### 執行中（2026-04-22）
+### ✅ 完成（2026-04-23）
 
-4. **Clean S2 only ablation** (`phase7_v1_s2only_ablation`, tmux `p7v1_s2only`)：用歷史 P7 V1 S1 weights (wrapped into load-compatible pseudo training-state ckpt) + 只重訓 S2 with clone fix + 5 eval。成本 ~18 hr wall clock。
+4. **Clean S2 only ablation** (`phase7_v1_s2only_ablation`, tmux `p7v1_s2only`)：用歷史 P7 V1 S1 weights (wrapped into load-compatible pseudo training-state ckpt) + 只重訓 S2 with clone fix + 5 eval（Jamendo q=6/q=9/native_q + MusicCaps q=6/q=9）。
+
+   **EMA final 結果（5/5 eval 完成）**：
+   | Eval | Historical | fullq_control | s2only | s2only Δ vs hist |
+   |---|---|---|---|---|
+   | Jamendo q=6 CLAP | 0.1980 | 0.1816 | **0.2008** | +0.0028 (+1.4%) |
+   | Jamendo q=9 CLAP | 0.1984 | 0.1799 | **0.1993** | +0.0009 (+0.5%) |
+   | Jamendo native_q CLAP | 0.1977 | 0.1801 | **0.1995** | +0.0018 (+0.9%) |
+   | MusicCaps q=6 CLAP | — | 0.1759 | **0.1981** | — |
+   | MusicCaps q=9 CLAP | 0.1975 | 0.1748 | **0.1951** | −0.0024 (−1.2%) |
+
+   **Attribution（5/5 一致訊號）**：s2only ≈ historical across all evals；fullq_control 持續低 ~8-12%。
+   **結論**：The ~8-12% CLAP drop in fullq_control is attributable to Stage 1 effective q training (S1 q-passing fix), not to the Stage 2 text_f_undrop clone fix.
+
    - **Pseudo-EMA bootstrap confound**：兩條 ema_models (sigma 0.05 / 0.1) 都從同一份 `_ema_final.pth` 起跑，**非歷史真實雙軌跡**，是 load-compatible approximation，**不是 semantic equivalent**。
-   - **保險**：ablation 完成時同時 eval `last.pth`（online weights）與 `ema_final.pth`（post-S2 EMA）。若兩者方向一致，pseudo-EMA confound 疑慮小。
-   - 判讀：
-     - ≈ 0.1984 → clone fix 非主因，主要代價來自 S1 真訓 q
-     - ≈ 0.1799 → clone fix 就足以解釋 drop
-     - 中間 → 兩者各貢獻
+   - **Last.pth insurance**：`p7v1_s2only_lastpth` session 執行中（Jamendo q=9 + MusicCaps q=9 from online `last.pth`，~2 hr ETA）。若方向一致，pseudo-EMA confound 疑慮小。
 
 ## Phase 9 caption responsiveness — behavior-level 診斷（2026-04-21）
 

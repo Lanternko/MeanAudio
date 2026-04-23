@@ -29,6 +29,8 @@
 | phase9_v2_bugfix³ | multi-cap true-random | ✓ (E2E) | q=9 | 0.0403 | 5.2981 | 6.2673 | 5.3742 | 5.9666 |
 | phase7_v1_fullq_control⁴ | random (static) | ✓ (E2E, clean impl) | q=9 | 0.1748 | 5.5436 | 6.5875 | 5.0712 | 6.5153 |
 | phase7_v1_fullq_control⁴ | random (static) | ✓ (E2E, clean impl) | q=6 | 0.1759 | 5.5429 | 6.6054 | 5.0262 | 6.4856 |
+| phase7_v1_s2only_ablation⁵ | random (static) | ✓ (S2-only, pseudo-S1) | q=9 | 0.1951 | 6.0130 | 6.8891 | 4.8035 | 6.7467 |
+| phase7_v1_s2only_ablation⁵ | random (static) | ✓ (S2-only, pseudo-S1) | q=6 | 0.1981 | 6.0977 | 6.8860 | 4.9574 | 6.7641 |
 
 ¹ Phase 6/7 系列的「+Q」實際是 S2-only Q（runner_flowmatching.py 沒讀 q_level，2026-04-20 Codex 發現）。S1 只訓了 `q_embed[10]`。數字反映 half-Q 訓練。
 
@@ -36,7 +38,9 @@
 
 ³ Phase 9 V2 bugfix：除上述外再修 runner_flowmatching.py（6 處加 q 參數），S1+S2 真 Q end-to-end 訓練。CLAP 0.0403 < V1 的 0.0650；q sweep (6–9) 幾乎 flat (0.0402–0.0417)。Plausible 假說：aggregate-q（基於全 5 cap 的 MeanSim）與訓練時餵 random 1-of-5 caption 之間的 supervision 不一致。P7 V1 q-sweep 顯示 q 在 in-support regime 內近乎 flat（q=6 vs q=9 ΔCLAP=0.0015），所以 P9 V2 flatness 本身 does not by itself identify multi-cap as the cause。Static-random full-Q control 已完成（見 footnote ⁴）；P9 V2 drop 至少含 clean-implementation penalty (~0.02) + P9-specific residual (~0.13)，後者歸因待 Clean S2 only ablation 出結果。
 
-⁴ P7 V1 full-Q control (2026-04-22)：乾淨 implementation (S1 q-passing fix + S2 text_f_undrop clone fix) 下的 P7 V1 full-Q E2E。全 5 eval 一致低於歷史 P7 V1 best ~8-12% CLAP（Jamendo q=6: 0.1816 / q=9: 0.1799 / native_q: 0.1801；MusicCaps q=6: 0.1759 / q=9: 0.1748）。**Historical P6 V2 should not be interpreted as evidence that Stage 1 successfully trained q embeddings, because the later-discovered runner_flowmatching q-passing bug was still present at that time.** 活躍的 implementation 差異為 S1 q-passing fix + S2 clone fix，co-varied。需要 Clean S2 only ablation 才能分離。詳見 `memory/project_p7_fullq_control_finding_2026_04_22.md`。
+⁴ P7 V1 full-Q control (2026-04-22)：乾淨 implementation (S1 q-passing fix + S2 text_f_undrop clone fix) 下的 P7 V1 full-Q E2E。全 5 eval 一致低於歷史 P7 V1 best ~8-12% CLAP（Jamendo q=6: 0.1816 / q=9: 0.1799 / native_q: 0.1801；MusicCaps q=6: 0.1759 / q=9: 0.1748）。**Historical P6 V2 should not be interpreted as evidence that Stage 1 successfully trained q embeddings, because the later-discovered runner_flowmatching q-passing bug was still present at that time.** 活躍的 implementation 差異為 S1 q-passing fix + S2 clone fix，co-varied。見 footnote ⁵ 的 Clean S2 only ablation 結果。詳見 `memory/project_p7_fullq_control_finding_2026_04_22.md`。
+
+⁵ P7 V1 Clean S2 only ablation (2026-04-23)：歷史 P7 V1 S1 weights（load-compatible approximation，pseudo-EMA bootstrap）＋只重訓 S2 with text_f_undrop clone fix。全 5 EMA eval 一致接近歷史 P7 V1 best（Jamendo q=6: 0.2008 / q=9: 0.1993 / native_q: 0.1995；MusicCaps q=6: 0.1981 / q=9: 0.1951），與 fullq_control 的 ~8-12% drop 形成明確對比。**Attribution: the ~8-12% CLAP drop observed in fullq_control is attributable to Stage 1 effective q training (S1 q-passing fix), not to the Stage 2 text_f_undrop clone fix.** Confound: pseudo-EMA bootstrap（兩條 ema_models 從同一份 _ema_final.pth 起跑，非歷史真實雙軌跡）；last.pth insurance eval 進行中以驗證 EMA 未受污染。
 
 ## MusicCaps 關鍵讀數
 
@@ -60,7 +64,7 @@
 - P9 V1 bugfix 跨 test set 一致（Jamendo 0.0589 / MusicCaps 0.0650），**不是 Jamendo overfit**
 - P9 V1/V2 在 **current setup** 下 underperform Phase 7 V1
 - **Clean full-Q control bundle underperforms historical half-Q baseline by ~8-12% CLAP** (P7 V1 full-Q control, 2026-04-22, 見 footnote ⁴)。This falsifies the strong version of "P9 V2 drop attributed entirely to multi-cap"。
-- The ~0.02 CLAP penalty between clean full-Q and historical half-Q has **unresolved attribution** between Stage 1 effective q training and Stage 2 clone fix. Clean S2 only ablation pending.
+- **The ~0.02 CLAP penalty between clean full-Q (fullq_control) and historical half-Q is attributable to Stage 1 effective q training (S1 q-passing fix), not the Stage 2 clone fix.** Evidence: Clean S2 only ablation (footnote ⁵, 2026-04-23) shows 5/5 evals near historical (Jamendo q=6: 0.2008 / q=9: 0.1993 / native_q: 0.1995; MC q=6: 0.1981 / q=9: 0.1951), vs fullq_control's consistent −8-12%. Last.pth insurance eval pending to verify pseudo-EMA bootstrap does not confound EMA results.
 
 ### Q behavior in P7 V1 (2026-04-21)
 P7 V1 q-sweep on MusicCaps indicates **support-set gating** rather than ordinal quality control. OOD q values (q=0/3) yield CLAP ≤ 0.045, while in-support q values (q=6/9) yield CLAP ≈ 0.197 and are nearly equivalent (ΔCLAP = 0.0015). Historical Jamendo results for q=6/9/native_q are likewise all ≈ 0.198. Current evidence therefore supports q as a coarse in-support gating signal rather than a strong ordinal quality controller. P7 V1's high CLAP should not be attributed primarily to fine-grained q scaling.
@@ -74,4 +78,4 @@ P7 V1 q-sweep on MusicCaps indicates **support-set gating** rather than ordinal 
 1. **P9 V2 q sweep**（完成 2026-04-21）：q=6/7/8/9 皆 flat（CLAP 0.0402–0.0417），P9 V2 failure 不能歸因於 q=9 選錯。
 2. **P7 V1 q-sweep**（完成 2026-04-21）：support-set gating behavior 確立。
 3. **P7 V1 full-Q control rerun**（完成 2026-04-22）：MusicCaps q=9 CLAP 0.1748（vs historical 0.1975，−11.5%），全 5 eval 一致降 ~8-12%。詳見 footnote ⁴。Falsifies 「P9 drop 全怪 multi-cap」強版本；但「full-Q 本身有代價」還不能說，因 active implementation differences 含 S1 q-passing fix 與 S2 clone fix，co-varied。
-4. **Clean S2 only ablation**（執行中 2026-04-22，~18 hr ETA）：historical P7 V1 S1 weights + 只重訓 S2 with clone fix。判讀：若 ≈ 0.1984 → clone fix 非主因；若 ≈ 0.1799 → clone fix 就是主因。Pseudo-EMA bootstrap confound：兩條 ema_models (sigma 0.05/0.1) 都從同一份 _ema_final.pth 起跑，非歷史真實雙軌跡。Ablation 出結果時同時報 `last.pth` 與 `ema_final.pth` eval 做保險。
+4. **Clean S2 only ablation**（✅ 完成 2026-04-23）：historical P7 V1 S1 weights + 只重訓 S2 with clone fix。5/5 EMA eval 一致接近 historical（判讀：case 1，clone fix 非主因，S1 真訓 q 才是主因）。Last.pth insurance eval 進行中（~2 hr）以核實 pseudo-EMA bootstrap 未污染結果。詳見 `best_results.md` footnote ⁵ + `phase_status.md`。
