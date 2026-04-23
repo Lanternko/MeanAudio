@@ -100,7 +100,7 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
    | MusicCaps q=9 CLAP | 0.1975 | 0.1748 | **0.1951** | −0.0024 (−1.2%) |
 
    **Attribution（5/5 一致訊號）**：s2only ≈ historical across all evals；fullq_control 持續低 ~8-12%。
-   **結論**：The ~8-12% CLAP drop in fullq_control is attributable to Stage 1 effective q training (S1 q-passing fix), not to the Stage 2 text_f_undrop clone fix.
+   **結論**：The Stage 2 text_f_undrop clone fix is not the main driver of the ~8-12% CLAP drop in fullq_control. The primary remaining contributor is Stage 1 effective q training (enabled by the runner_flowmatching q-passing fix).
 
    - **Pseudo-EMA bootstrap confound**：兩條 ema_models (sigma 0.05 / 0.1) 都從同一份 `_ema_final.pth` 起跑，**非歷史真實雙軌跡**，是 load-compatible approximation，**不是 semantic equivalent**。
    - **Last.pth insurance**：`p7v1_s2only_lastpth` session 執行中（Jamendo q=9 + MusicCaps q=9 from online `last.pth`，~2 hr ETA）。若方向一致，pseudo-EMA confound 疑慮小。
