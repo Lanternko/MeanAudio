@@ -72,13 +72,17 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 1. **Clean-implementation penalty** ~0.02 CLAP（相對 historical half-Q baseline 的觀察，attribution 未分離在 S1 q training vs S2 clone fix）
 2. 一個 P9-specific residual（~0.13 CLAP，行為上與 multi-cap 強相關但未證因果）
 
-### 尚不能寫的 strong claims（Codex 2026-04-22 verdict）
+### ✅ 已解決（2026-04-24 ablation chain 完整後）
 
-- 「full-Q 本身有代價」/ `full-Q has a cost` — 等 Clean S2 only ablation 才能寫這麼強
-- 「clone fix 造成 drop」
-- 「S1 q-training 造成 drop」
+- ~~「clone fix 造成 drop」~~ → **已 falsify**：s2only 5/5 eval ≈ historical，clone fix 非主因
+- ~~「pseudo-EMA bootstrap 膨脹 ema_final」~~ → **已 falsify**：兩實驗 EMA gap 一致（~13-14%），結構性現象
+- **現在可以寫**：`The primary remaining contributor is Stage 1 effective q training.`
 
-安全寫法：`the clean full-Q control bundle underperforms the historical half-Q baseline by ~8-12% CLAP`，或 `a clean-implementation penalty of ~0.02 CLAP is observed, but its attribution remains unresolved`。
+### 仍不能寫的 strong claims
+
+- 「full-Q 本身有代價」/ `S1 q training 本質上有害` — 有代價是觀察，mechanism 未證
+- 「S1 q-training 造成 drop」（mechanism claim）— 只能說 primary remaining contributor，不能說 causation
+- 「multi-cap 本質不適合 MeanAudio」— P9-specific residual 仍未有 mechanism proof
 
 ### Confound 記錄
 
@@ -103,7 +107,18 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
    **結論**：The Stage 2 text_f_undrop clone fix is not the main driver of the ~8-12% CLAP drop in fullq_control. The primary remaining contributor is Stage 1 effective q training (enabled by the runner_flowmatching q-passing fix).
 
    - **Pseudo-EMA bootstrap confound**：兩條 ema_models (sigma 0.05 / 0.1) 都從同一份 `_ema_final.pth` 起跑，**非歷史真實雙軌跡**，是 load-compatible approximation，**不是 semantic equivalent**。
-   - **Last.pth insurance**：`p7v1_s2only_lastpth` session 執行中（Jamendo q=9 + MusicCaps q=9 from online `last.pth`，~2 hr ETA）。若方向一致，pseudo-EMA confound 疑慮小。
+   - **Last.pth insurance ✅ 完成（2026-04-24）**：
+     | | ema_final q=9 | last.pth q=9 | EMA gap |
+     |---|---|---|---|
+     | s2only ablation | 0.1993 | 0.1757 | +13.4% |
+     | fullq_control | 0.1799 | 0.1575 | +14.2% |
+     兩者 EMA-vs-online gap 一致（~13-14%）→ **pseudo-EMA bootstrap confound 排除**，gap 為 S2 訓練結構性現象。
+
+5. **最終 drop 拆解（2026-04-24 定稿）**：
+   - **General penalty ~0.02 CLAP**：主要來自 S1 effective q training（runner_flowmatching q-passing fix 啟用後）
+   - **P9-specific residual ~0.13 CLAP**：行為上與 multi-cap 強相關，機制未證
+   - **S2 clone fix**：不是 fullq_control drop 的主因（已 falsify）
+   - **Pseudo-EMA bootstrap**：不影響 ema_final 比較結論（已 falsify）
 
 ## Phase 9 caption responsiveness — behavior-level 診斷（2026-04-21）
 
