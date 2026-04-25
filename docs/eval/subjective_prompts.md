@@ -63,3 +63,40 @@ This is a cinematic orchestral piece. There are strings playing a sweeping melod
 ```bash
 scp -P 22 -r kojiek@140.122.184.29:~/MeanAudio/eval_output/EXPNAME_subjective/ ~/Downloads/EXPNAME_subjective/
 ```
+
+---
+
+## 補充：MusicCaps-sampled subjective A/B（v3，n=30 paired, cfg=0.5）
+
+除了上面 5 首固定 prompt 的聽測外，2026-04-21/22 另起一條 MusicCaps 隨機抽樣的 paired A/B，用於「對 P7V1 / P8V1 做小 n 但 paired 的 CLAP + AES 客觀量化」。
+
+**方法**：
+- Prompt pool：MusicCaps test TSV（5,521 rows），`random.Random(42).sample(pool, 24)` → 後追加 `random.Random(43).sample(remainder, 6)` → 共 30 prompts (mc01–mc30)
+- 每 prompt × {P7 V1 Q=9, P8 V1 NoQ (q=10 workaround)} = 60 wav，固定 infer_seed=42, num_steps=25, **cfg=0.5**
+- Peak-normalize 到 −1 dBFS 後再計算 CLAP / AES
+
+**相關腳本**（uncommitted，位於 repo root）：
+- `sample_musiccaps_v3.py` + `sample_musiccaps_v3_extend.py`：抽 prompt，寫 `sampled_prompts.tsv`
+- `run_subjective_ab_v3.sh` + `run_subjective_ab_v3_extend.sh`：跑 infer.py 產生音檔
+- `normalize_ab_v3.py`：peak-normalize 到 −1 dBFS
+- `write_metadata_v3.py`：寫 `metadata.json`
+- `aes_subjective_v4.py` + `clap_subjective_v4.py`：計算客觀分（⚠️ 檔名寫 v4，實際讀取 `subjective_ab_v3/audio/` 並將結果寫入 `subjective_ab_v4/`；v4 只是結果目錄命名，不是第四版實驗）
+
+**Artifacts**：
+- 音檔：`eval_output/subjective_ab_v3/audio/`（60 wav，cfg=0.5 修正後）
+- 崩壞版：`eval_output/subjective_ab_v3/audio_cfg35_broken/`（cfg=3.5 歷史踩坑證據）
+- 客觀分：`eval_output/subjective_ab_v4/{clap_scores.json, aes_scores.json}`
+
+**結果摘要（n=30 paired）**：
+
+| 指標 | P7 V1 (Q=9) | P8 V1 (NoQ) | Δ (P7−P8) |
+|------|-------------|-------------|-----------|
+| CLAP mean | **0.2285** | 0.2072 | **+0.0213** |
+| AES CE | **6.473** | 6.294 | +0.179 |
+| AES CU | 7.291 | **7.440** | −0.149 |
+| AES PC | 4.603 | **4.774** | −0.171 |
+| AES PQ | 7.001 | **7.104** | −0.103 |
+
+- **Paired CLAP**：P7 wins 20/30、P8 wins 10/30（biggest P7 wins: mc12/mc13/mc18；biggest P8 wins: mc07/mc19/mc27）
+- **方向一致**：CLAP 上 P7V1 領先 +0.0213（vs n=5,521 MusicCaps benchmark +0.0124），AES 上兩模型接近、P8 略高 CU/PC/PQ、P7 略高 CE
+- 無波形飽和（最低 PQ 4.29 > cfg=3.5 廢棄版本的 saturation 標準）
