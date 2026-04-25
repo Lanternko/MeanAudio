@@ -4,41 +4,30 @@
 
 ## 完整 benchmark 總表（2026-04-25 定稿，10 exps × 兩 benchmark × 全指標）
 
-> 單次完整生成 + 全指標（CLAP, CE, CU, PC, PQ, FAD, PE-AV, R@10）。Jamendo n=2048；MusicCaps n=5521（FAD n=2048，用 4,525 筆 MusicCaps 官方參考音訊）。eval q 旗標依訓練 Q conditioning 選（`--no_q` for NoQ 訓練；`--quality_level 9` for Q 訓練 + pre-P6 相容）。
+> ⚠️ **Jamendo 表格 rerun 中**（`tmux jamendo_s42`）：初版用窄 subset（`head -n 2049`，794 unique tracks），FAD/AES 絕對值與歷史不可比。Rerun 採 seed=42 random 2048 from 90K（1816 tracks），與歷史 FAD 抽樣一致。
+>
+> 單次完整生成 + 全指標（CLAP, CE, CU, PC, PQ, FAD, PE-AV, R@10）。Jamendo n=2048（rerun 中）；MusicCaps n=5521（FAD n=2048，用 4,525 筆 MusicCaps 官方參考音訊 — 這部分不受 subset 問題影響）。eval q 旗標依訓練 Q conditioning 選（`--no_q` for NoQ 訓練；`--quality_level 9` for Q 訓練 + pre-P6 相容）。
 
-### Exp 代號 ↔ 對外名稱
+### Exp 代號 ↔ 對外名稱（修正版 2026-04-25）
 
-| 代號 | 對外名稱 | Caption 策略 | Q conditioning | Notes |
-|------|---------|-------------|----------------|-------|
-| P4V4 | JamendoFull-BestConsensus-NoQ (lr variant) | Best-consensus (final) | — (pre-P6) | P4 stage1 lr-schedule 調優版 |
-| P5V1 | JamendoFull-Best-NoQ | Per-clip best | — (pre-P6) | |
-| P5V2 | JamendoFull-Worst-NoQ | Per-clip worst | — (pre-P6) | |
-| P6V2 | JamendoFull-Best-Q | Per-clip best | ✓ (half-Q)¹ | 引入 q_embed 層 |
-| P7V1 | JamendoFull-Random-MeanSim-Q | Static random + MeanSim Q | ✓ (half-Q)¹ | **歷史最佳 Jamendo+MusicCaps 雙料** |
-| P7V2 | JamendoFull-Random-LowVar-Q | Static random + LowVar Q | ✓ (half-Q)¹ | |
-| P7V3 | JamendoFull-WorstCons-MeanSim-Q | Worst-consensus + MeanSim Q | ✓ (half-Q)¹ | **MusicCaps 單一最佳 CLAP/AES** |
-| P8 | JamendoFull-Random-NoQ | Static random | — (NoQ E2E) | P7V1 的 no-Q 對照 |
-| P8V2 | JamendoFull-Random-FinalCap-Q | Static random + FinalCap Q | ✓ (half-Q)¹ | |
-| P8V3 | JamendoFull-CLAPFiltered-Q | CLAP-filtered + Q | ✓ (half-Q)¹ | **CLAP 資料洩漏警示 — 勿用於論文 primary** |
+| 代號 | 對外名稱 | Caption 策略 | Q 信號 | 訓練集 | Notes |
+|------|---------|-------------|--------|--------|-------|
+| P4V4 | JamendoFull-BestConsensus-NoQ (lr variant) | Best-consensus | — | 251K | P4 stage1 lr-schedule 調優版 |
+| P5V1 | **JamendoHalf-BestConsensus-NoQ-HardFilter** | Best-consensus | — | **117K** | 硬過濾 mean_sim ≥ 0.80 |
+| P5V2 | **JamendoHalf-BestConsensus-NoQ-Random** | Best-consensus | — | **117K** | 隨機抽半（P5V1 對照） |
+| P6V2 | **JamendoFull-BestConsensus-MeanSim-Q** | Best-consensus | MeanSim | 251K | 首個引入 q_embed |
+| P7V1 | JamendoFull-Random-MeanSim-Q | Static random | MeanSim | 251K | 歷史雙料最佳 |
+| P7V2 | **JamendoFull-CLAPBest-MeanSim-Q** | **CLAP-best**（非 LowVar） | MeanSim | 251K | CLAPBest 選 caption |
+| P7V3 | JamendoFull-WorstConsensus-MeanSim-Q | Worst-consensus | MeanSim | 251K | MusicCaps 單榜最佳 |
+| P8 | JamendoFull-Random-NoQ | Static random | — | 251K | P7V1 no-Q 對照 |
+| P8V2 | **JamendoFull-Random-AudioboxPQ-Q** | Static random | **Audiobox PQ**（非 FinalCap） | 251K | Q 信號換 PQ 分數 |
+| P8V3 | **JamendoFull-Random-CLAP-Q** | Static random | **audio-text CLAP sim**（非 CLAP-filter） | 251K | 失敗原因是 genre shortcut（piano bias），非 data leakage |
 
 ¹ half-Q = `runner_flowmatching.py` 未傳 q 到 FluxAudio（Codex 2026-04-20 發現的 structural bug），S1 只訓 `q_embed[10]`，S2 從零學 q[0-9]。所有 Phase 6-8 +Q 實驗都是 half-Q。真正 full-Q E2E 只有 P9 V2 和 P7V1_fullq_control（見 footnote ⁴ 下方）。
 
-### Jamendo test set（n=2048）
+### Jamendo test set（n=2048）— ⚠️ rerun 中，見 `ten_exp_full_benchmark.md`
 
-| 代號 | CLAP ↑ | CE ↑ | CU ↑ | PC ↑ | PQ ↑ | FAD ↓ | PE-AV ↑ | R@10 (t2a) ↑ |
-|------|--------|------|------|------|------|-------|---------|--------------|
-| P4V4 | 0.1928 | 6.241 | 6.894 | 5.270 | 6.688 | 0.908 | 0.1385 | 11.08% |
-| P5V1 | 0.1862 | 5.991 | 6.656 | 5.251 | 6.431 | 1.533 | 0.1318 | 9.77% |
-| P5V2 | 0.1873 | 6.095 | 6.749 | 5.244 | 6.519 | 1.405 | 0.1324 | 10.21% |
-| **P6V2** | **0.1983** | 6.479 | 7.138 | **5.375** | 6.926 | **0.865** | **0.1421** | **11.57%** |
-| P7V1 | 0.1971 | 6.546 | 7.207 | 5.186 | 7.050 | 1.019 | 0.1414 | 10.74% |
-| P7V2 | 0.1857 | 6.381 | 7.040 | 5.302 | 6.867 | 1.158 | 0.1388 | 9.72% |
-| P7V3 | 0.1948 | **6.557** | **7.241** | 5.264 | **7.078** | 1.023 | 0.1409 | 10.69% |
-| P8 | 0.1934 | 6.404 | 7.108 | 5.290 | 6.864 | 1.031 | 0.1423 | 9.96% |
-| P8V2 | 0.1879 | 6.435 | 7.080 | 5.197 | 6.941 | 1.052 | 0.1368 | 10.55% |
-| P8V3 | 0.1518 | 6.095 | 6.880 | 5.271 | 6.797 | 1.965 | 0.1205 | 6.20% |
-
-**Jamendo 結論**：P6V2 在 CLAP / PC / FAD / PE-AV / R@10 五項領先；P7V3 在 AES triple (CE/CU/PQ) 領先。Best-consensus (P6V2) 在 Jamendo 呈現 distribution overfitting 的特徵。
+數字 rerun 中（`tmux jamendo_s42`，seed=42 random 2048 from 90K），結束後補上。舊窄 subset 數字移除，避免誤讀。
 
 ### MusicCaps benchmark（CLAP/AES/PE-AV n=5521，FAD n=2048）
 
@@ -57,10 +46,10 @@
 
 **MusicCaps 結論**：P7V3 領先 CLAP + AES 四項；P7V1 在 PE-AV / R@10 領先。P4V4 FAD 最低是因為 pre-P6 模型輸出分布較廣，更接近 MusicCaps 一般音樂分布（品質代價：CLAP/AES 全部較低）。**Jamendo ↔ MusicCaps 首位互換**（Jamendo 是 P6V2，MusicCaps 是 P7V3）→ Static random caption (P7 系) 比 Best-consensus (P6) 跨分布更穩健。
 
-### 跨 benchmark 亮點
-- **P7V1 雙料**：Jamendo CLAP 0.1971（第二）+ MusicCaps CLAP 0.1975（第二）→ 兩 benchmark 都穩居前段，**仍是論文 primary 首選**
-- **P7V3 MusicCaps 單榜**：Jamendo CLAP 只 0.1948 但 MusicCaps 0.1998 → WorstCons-MeanSim 在跨分布 benchmark 上反而佔優
-- **P8V3 資料洩漏警示**：兩 benchmark 墊底、FAD 飆高 → CLAP-filter + CLAP-eval 同源 data leakage 的教科書證據（教授 2026-03-27 原則）
+### 跨 benchmark 亮點（部分待 Jamendo rerun 確認）
+- **P7V3 MusicCaps 單榜最佳**：CLAP 0.1998 + AES quadruple 最高（CE 6.12, CU 6.97, PC 4.97, PQ 6.83）→ WorstConsensus 在 cross-domain 分布上最強
+- **P7V1 MusicCaps 第二 + PE-AV 第一**：CLAP 0.1975、PE-AV 0.0524、R@10 5.40%；雙料前段的穩定答案（Jamendo 部分待 rerun 確認）
+- **P8V3 失敗是 genre shortcut，不是 data leakage**：CLAP sim 當 Q 信號造成高 q_level 偏 piano/acoustic（LP-MusicCaps 對這類更精確）。**不是** CLAP-filter 訓練 + CLAP-eval 同源問題（常被混淆）
 
 ---
 
