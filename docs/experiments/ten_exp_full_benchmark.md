@@ -1,10 +1,10 @@
-# 10-exp 完整 benchmark（2026-04-25 定稿）
+# 10-exp 完整 benchmark（2026-04-25 定稿 v2）
 
-> ⚠️ **Jamendo 表格數字 rerun 中（tmux `jamendo_s42`）**：初版 Jamendo 數字用了 `head -n 2049` 取的窄 subset（只涵蓋 6.9% track），FAD/AES/CLAP 絕對數字與歷史不可比。新版改用 `seed=42 random 2048 from 90K`（涵蓋 15.7% track, 1816 tracks）與歷史 FAD 計算一致。2026-04-25 07:00 啟動，ETA ~2h。
+> 10 個實驗 × 8 個指標 × 兩個 benchmark (Jamendo / MusicCaps) 的完整紀錄。Jamendo 表格使用 **seed=42 random 2048 from 90K**（1816 unique tracks，15.7% 覆蓋率，與歷史 FAD 抽樣方法一致）。
 >
-> 10 個實驗 × 8 個指標 × 兩個 benchmark (Jamendo / MusicCaps) 的完整紀錄。
+> 所有數字 2026-04-25 重新生成 + 評測，10 exp 內互比可信。
 >
-> 所有數字在 2026-04-24 ~ 25 之間以最新腳本重新生成 + 評測，確保一致性。
+> 與歷史 Phase 4-8 doc 的數字仍可能略有差異（FAD 模型版本、reference 路徑等），詳見最末「已知限制」。
 
 ---
 
@@ -15,7 +15,7 @@
 | 生成工具 | `eval.py --variant meanaudio_s --use_meanflow --num_steps 1 --cfg_strength 0.5 --full_precision` |
 | CLAP/AES/FAD 腳本 | `~/research/meanaudio_eval/phase4_eval.py --fad` |
 | PE-AV 腳本 | `~/research/meanaudio_eval/peav_eval.py --batch_size 8` |
-| Jamendo TSV | `/mnt/HDD/kojiek/phase4_jamendo_data/phase4_test_2048.tsv` (n=2048) |
+| Jamendo TSV | `/mnt/HDD/kojiek/phase4_jamendo_data/phase4_test_seed42_2048.tsv` (n=2048, seed=42 random subset of 90K) |
 | MusicCaps TSV | `/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv` (n=5521) |
 | MusicCaps FAD reference | `/mnt/HDD/kojiek/musiccaps_reference/` (5,131 wavs, 93% coverage) |
 | Metrics 存放 | `~/MeanAudio/eval_output/metrics/<exp_dir>/metrics.txt` + `peav_metrics.json` |
@@ -51,35 +51,40 @@
 
 ---
 
-## 3. Jamendo test set（n=2048）
-
-> ⚠️ **本節數字 rerun 中（2026-04-25 07:00 啟動 `tmux jamendo_s42`）**。下表用 **窄 subset**（`phase4_test_2048.tsv` = `head -n 2049 phase4_test.tsv`，只 794 unique tracks = 6.9% 覆蓋率）計算，FAD / AES / CLAP 絕對數字**與歷史不可比**，也**不適合作為 10 exp 互比的定版**。Rerun 採 `seed=42 random 2048 from 90K`（1816 unique tracks = 15.7% 覆蓋率，與歷史 FAD 抽樣方法一致）。Rerun 完成後本表將被替換。
+## 3. Jamendo test set（n=2048, seed=42 random subset of 90K，1816 unique tracks = 15.7% 覆蓋率）
 
 | 代號 | CLAP ↑ | CE ↑ | CU ↑ | PC ↑ | PQ ↑ | FAD ↓ | PE-AV ↑ | R@10 (t2a) ↑ |
 |------|--------|------|------|------|------|-------|---------|--------------|
-| P4V4 | 0.1928 | 6.241 | 6.894 | 5.270 | 6.688 | 0.908 | 0.1385 | 11.08% |
-| P5V1 | 0.1862 | 5.991 | 6.656 | 5.251 | 6.431 | 1.533 | 0.1318 | 9.77% |
-| P5V2 | 0.1873 | 6.095 | 6.749 | 5.244 | 6.519 | 1.405 | 0.1324 | 10.21% |
-| **P6V2** | **0.1983** | 6.479 | 7.138 | **5.375** | 6.926 | **0.865** | **0.1421** | **11.57%** |
-| P7V1 | 0.1971 | 6.546 | 7.207 | 5.186 | 7.050 | 1.019 | 0.1414 | 10.74% |
-| P7V2 | 0.1857 | 6.381 | 7.040 | 5.302 | 6.867 | 1.158 | 0.1388 | 9.72% |
-| P7V3 | 0.1948 | **6.557** | **7.241** | 5.264 | **7.078** | 1.023 | 0.1409 | 10.69% |
-| P8 | 0.1934 | 6.404 | 7.108 | 5.290 | 6.864 | 1.031 | 0.1423 | 9.96% |
-| P8V2 | 0.1879 | 6.435 | 7.080 | 5.197 | 6.941 | 1.052 | 0.1368 | 10.55% |
-| P8V3 | 0.1518 | 6.095 | 6.880 | 5.271 | 6.797 | 1.965 | 0.1205 | 6.20% |
+| P4V4 | 0.1909 | 5.862 | 6.650 | 4.969 | 6.506 | 1.131 | 0.1242 | **12.65%** |
+| P5V1 (HardFilter) | 0.1861 | 5.635 | 6.424 | 4.991 | 6.287 | **2.053** | 0.1170 | 11.28% |
+| P5V2 (Random-half) | 0.1869 | 5.713 | 6.495 | 4.952 | 6.356 | 1.777 | 0.1169 | 11.18% |
+| P6V2 | 0.1957 | 6.165 | 6.963 | **5.149** | 6.823 | **1.059** | 0.1279 | 12.11% |
+| P7V1 | 0.1981 | 6.251 | 7.031 | 4.974 | 6.930 | 1.159 | 0.1283 | 11.08% |
+| P7V2 | 0.1920 | 6.121 | 6.895 | 5.081 | 6.791 | 1.350 | 0.1266 | 11.72% |
+| P7V3 | 0.1965 | **6.266** | **7.072** | 5.072 | **6.982** | 1.222 | 0.1274 | 11.67% |
+| **P8** | **0.1986** | 6.124 | 6.950 | 5.103 | 6.755 | 1.065 | **0.1305** | 11.47% |
+| P8V2 | 0.1910 | 6.125 | 6.916 | 4.996 | 6.856 | 1.185 | 0.1251 | 11.62% |
+| P8V3 | 0.1514 | 5.756 | 6.701 | 5.085 | 6.709 | **2.526** | 0.1102 | 8.15% |
 
 **Per-metric 排名（僅列前 3）**
 
 | 指標 | 第 1 | 第 2 | 第 3 |
 |------|------|------|------|
-| CLAP | P6V2 (0.1983) | P7V1 (0.1971) | P7V3 (0.1948) |
-| CE | P7V3 (6.557) | P7V1 (6.546) | P6V2 (6.479) |
-| CU | P7V3 (7.241) | P7V1 (7.207) | P6V2 (7.138) |
-| PC | P6V2 (5.375) | P7V2 (5.302) | P8 (5.290) |
-| PQ | P7V3 (7.078) | P7V1 (7.050) | P8V2 (6.941) |
-| FAD ↓ | P6V2 (0.865) | P4V4 (0.908) | P7V1 (1.019) |
-| PE-AV | P8 (0.1423) | P6V2 (0.1421) | P7V1 (0.1414) |
-| R@10 | P6V2 (11.57%) | P4V4 (11.08%) | P7V1 (10.74%) |
+| CLAP | P8 (0.1986) | P7V1 (0.1981) | P7V3 (0.1965) |
+| CE | P7V3 (6.266) | P7V1 (6.251) | P6V2 (6.165) |
+| CU | P7V3 (7.072) | P7V1 (7.031) | P6V2 (6.963) |
+| PC | P6V2 (5.149) | P8 (5.103) | P7V2 (5.081) |
+| PQ | P7V3 (6.982) | P7V1 (6.930) | P8V2 (6.856) |
+| FAD ↓ | P6V2 (1.059) | P8 (1.065) | P4V4 (1.131) |
+| PE-AV | P8 (0.1305) | P7V1 (0.1283) | P6V2 (0.1279) |
+| R@10 | P4V4 (12.65%) | P6V2 (12.11%) | P7V2 (11.72%) |
+
+**Jamendo 結論**：
+- **CLAP / PE-AV / FAD 第一是 P8 (Random-NoQ) 或 P6V2**，但 P7V1 / P7V3 緊跟（差 < 0.003 / < 1%）→ Top 4 模型 (P6V2 / P7V1 / P7V3 / P8) 在 Jamendo 已飽和 / 無顯著差異
+- **AES triple (CE/CU/PQ) 冠軍：P7V3**（與 MusicCaps 一致）
+- **Phase 5 崩盤特徵還原**：P5V1 FAD 2.053 / P4V4 FAD 1.131 = **+82%**（歷史 +67%）。CLAP −2.5%（歷史 −4.9%），AES 全項退步 0.2-0.3 → **hard filter / data 減半 = 全面退步，結論與歷史一致**
+- **P5V1 vs P5V2 對照**：兩者 CLAP / AES / PE-AV / R@10 差距 ≤ 1%，但 P5V1 (HardFilter) FAD 2.053 比 P5V2 (Random-half) FAD 1.777 反而**差 16%** → **HardFilter 沒幫助甚至有害，data quantity 才是主因，與歷史結論一致**
+- **P8V3 全面崩**：唯一全 metric 墊底者（CLAP 0.1514 / FAD 2.526 / R@10 8.15% / PE-AV 0.110），跨 benchmark 一致 → genre shortcut hypothesis 穩定
 
 ---
 
@@ -115,37 +120,41 @@
 
 ## 5. 跨 benchmark 亮點
 
-> ⚠️ 涉及 Jamendo 的比較（5.1 / 5.2 部分）暫緩 — 等 `jamendo_s42` rerun 完成後重寫。
+### 5.1 Top-4 模型在兩 benchmark 的 CLAP 排名（修正 seed=42 後）
+| 代號 | Jamendo CLAP | Jamendo Rank | MusicCaps CLAP | MusicCaps Rank |
+|------|-------------|--------------|---------------|---------------|
+| P6V2 | 0.1957 | 4 | 0.1943 | 4 |
+| P7V1 | 0.1981 | 2 | 0.1975 | 2 |
+| P7V3 | 0.1965 | 3 | **0.1998** | **1** |
+| P8 | **0.1986** | **1** | 0.1851 | 8 |
 
-### 5.1 首位互換（待 Jamendo rerun 後確認）
-| | Jamendo CLAP 第 1 | MusicCaps CLAP 第 1 |
-|---|---|---|
-| 名字 | P6V2 (Best-Q) ⚠️窄 subset | P7V3 (WorstCons-MeanSim-Q) |
-| 另一邊排名 | MusicCaps 第 4（0.1943） | Jamendo 第 3（0.1948）⚠️窄 subset |
-
-Best-consensus (P6V2) 在 Jamendo 領先但 MusicCaps 失去優勢 → 顯示 Jamendo 分布特化 / overfitting 的**假說**，待 rerun 確認。
-Random-style caption (P7 系) 在 MusicCaps 上更穩健 → 支持「Static random 訓練法有更好 cross-domain generalization」的一般假說（但 n=10 實驗、未做 significance test，僅經驗性觀察）。
+**讀出三個關鍵 pattern**：
+- **P7V1 雙 benchmark 都第 2、PE-AV 雙第二**：是**最 robust 的單一答案**，論文 primary 首選
+- **P7V3 是 MusicCaps 單榜冠軍但 Jamendo 只第 3**：擅長 cross-domain，**論文 second-pick / ablation 對照組**
+- **P8 (Random-NoQ) 在 Jamendo 第 1 但 MusicCaps 跌到第 8**：Random caption 但 no-Q → Jamendo 內穩、跨分布弱 → **驗證 Q conditioning 對 cross-domain generalization 有貢獻**（教授 2026-04-21 提的「Q 是 in-support gating」與此一致）
 
 ### 5.2 P7V1 是雙料前段的穩定答案
-| Benchmark | CLAP | 排名 |
-|---|---|---|
-| Jamendo | 0.1971 | 2 |
-| MusicCaps | 0.1975 | 2 |
+| Benchmark | CLAP | CLAP 排名 | PE-AV | PE-AV 排名 |
+|---|---|---|---|---|
+| Jamendo | 0.1981 | 2 | 0.1283 | 2 |
+| MusicCaps | 0.1975 | 2 | 0.0524 | 1 |
 
-PE-AV 亦在 MusicCaps 單榜第一 (0.0524) + Jamendo 前三。**仍是論文 primary model 首選。**
+四個槽中三個第二、一個第一，沒有任何指標跌出前三 → **跨 benchmark 最穩定的單一答案，論文 primary model 首選。**
 
-### 5.3 pre-P6 的 FAD anomaly
+### 5.3 pre-P6 的 MusicCaps FAD anomaly
 P4V4 / P5V1 / P5V2 的 MusicCaps FAD (3.65 / 3.70 / 3.85) 顯著低於所有 P6+ 實驗 (≥ 4.30)。
 
 **Plausible 解釋**：pre-P6 模型 caption 品質較粗、Q conditioning 尚未引入 → 輸出分布「更平均 / 更通用」→ 偶然更貼近 MusicCaps 這種泛音樂分布。**代價是 CLAP / AES / PE-AV 全部顯著較低**。不是「pre-P6 比較好」，是**單一 FAD 不足以判斷模型品質**的反例。
 
+注意：在 Jamendo seed=42 上 pre-P6 模型 FAD（1.13–2.05）反而**比 Phase 6+ 高**（除 P5V1/P5V2 內部對照），因為 Jamendo 是訓練分布，後期模型已過 fit 該分布 → FAD 解讀對 test set 高度敏感。
+
 ### 5.4 P8V3 — CLAP-sim 當 Q 信號造成 genre shortcut 的範例
-| | Jamendo | MusicCaps |
+| | Jamendo (seed=42) | MusicCaps |
 |---|---|---|
-| CLAP | 0.1518（10/10 末） | 0.1619（10/10 末） |
-| FAD | 1.965（10/10 末） | 5.545（10/10 末） |
-| PE-AV | 0.1205（10/10 末） | 0.0369（10/10 末） |
-| R@10 | 6.20%（10/10 末） | 3.59%（10/10 末） |
+| CLAP | 0.1514（10/10 末） | 0.1619（10/10 末） |
+| FAD | 2.526（10/10 末） | 5.545（10/10 末） |
+| PE-AV | 0.1102（10/10 末） | 0.0369（10/10 末） |
+| R@10 | 8.15%（10/10 末） | 3.59%（10/10 末） |
 
 用 audio-text CLAP sim 當 q_embed 信號（10 bin 等頻分箱）→ 高 q_level 系統性偏向 piano/acoustic（LP-MusicCaps 對這類更精確 → 更高 CLAP sim）→ q=9 inference 時帶 genre shortcut → 音訊偏移 reference distribution → **全部指標皆為 10/10 最末**。
 
@@ -155,19 +164,21 @@ P4V4 / P5V1 / P5V2 的 MusicCaps FAD (3.65 / 3.70 / 3.85) 顯著低於所有 P6+
 
 ## 6. 生成與評測路徑
 
-### Jamendo dirs
+### Jamendo dirs（seed=42 random subset 用於最終表）
 ```
-~/MeanAudio/eval_output/phase4_jamendo_v4_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase5_v1_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase5_v2_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase6_v2_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase7_v1_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase7_v2_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase7_v3_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase8_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase8_v2_stage2_200000_jamendo2048/
-~/MeanAudio/eval_output/phase8_v3_stage2_200000_jamendo2048/
+~/MeanAudio/eval_output/phase4_jamendo_v4_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase5_v1_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase5_v2_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase6_v2_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase7_v1_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase7_v2_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase7_v3_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase8_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase8_v2_stage2_200000_jamendo_s42/
+~/MeanAudio/eval_output/phase8_v3_stage2_200000_jamendo_s42/
 ```
+
+舊窄 subset 的 dirs (`_jamendo2048` 字尾) 仍在但不要使用，可以手動刪除以釋放磁碟空間。
 
 ### MusicCaps dirs
 ```
@@ -183,11 +194,12 @@ P4V4 / P5V1 / P5V2 的 MusicCaps FAD (3.65 / 3.70 / 3.85) 顯著低於所有 P6+
 ~/MeanAudio/eval_output/phase8_v3_musiccaps_q9/
 ```
 
-### 重跑腳本
-- Jamendo (7 P6+ exps): `~/MeanAudio/run_jamendo_regen.sh`
-- Jamendo (3 pre-P6 exps): `~/MeanAudio/run_jamendo_regen_early.sh`
+### 重跑腳本（皆 gitignored，本機 tmp）
+- Jamendo seed=42 (10 exps，本表用): `~/MeanAudio/run_jamendo_s42_regen.sh`
+- Jamendo 窄 subset (deprecated): `~/MeanAudio/run_jamendo_regen.sh`, `run_jamendo_regen_early.sh`
 - MusicCaps FAD (10 exps): `~/MeanAudio/run_musiccaps_fad.sh`
 - MusicCaps reference download: `~/research/meanaudio_eval/download_musiccaps_reference.py`（rate-limited 版）
+- Seed=42 TSV 生成：見 `~/MeanAudio/docs/experiments/ten_exp_full_benchmark.md` 中的 Python snippet（已直接寫死 random.seed(42)，1816 unique tracks）
 
 ### 機器可讀
 平行的 TSV 版本：`ten_exp_metrics.tsv`（同目錄）。

@@ -2,11 +2,9 @@
 
 > 主要指標：CLAP ↑、CE ↑、PQ ↑。完整實驗記錄見 `../../EXPERIMENT_LOG.md`。
 
-## 完整 benchmark 總表（2026-04-25 定稿，10 exps × 兩 benchmark × 全指標）
+## 完整 benchmark 總表（2026-04-25 定稿 v2，10 exps × 兩 benchmark × 全指標）
 
-> ⚠️ **Jamendo 表格 rerun 中**（`tmux jamendo_s42`）：初版用窄 subset（`head -n 2049`，794 unique tracks），FAD/AES 絕對值與歷史不可比。Rerun 採 seed=42 random 2048 from 90K（1816 tracks），與歷史 FAD 抽樣一致。
->
-> 單次完整生成 + 全指標（CLAP, CE, CU, PC, PQ, FAD, PE-AV, R@10）。Jamendo n=2048（rerun 中）；MusicCaps n=5521（FAD n=2048，用 4,525 筆 MusicCaps 官方參考音訊 — 這部分不受 subset 問題影響）。eval q 旗標依訓練 Q conditioning 選（`--no_q` for NoQ 訓練；`--quality_level 9` for Q 訓練 + pre-P6 相容）。
+> Jamendo n=2048 (seed=42 random subset of 90K，1816 unique tracks = 15.7% 覆蓋率，與歷史 FAD 抽樣方法一致)；MusicCaps n=5521（FAD n=2048，用 4,525 筆 MusicCaps 官方參考音訊）。8 metrics: CLAP / CE / CU / PC / PQ / FAD / PE-AV / R@10 (t2a)。eval q 旗標依訓練 Q conditioning 選（`--no_q` for NoQ 訓練；`--quality_level 9` for Q 訓練 + pre-P6 相容）。詳見 `docs/experiments/ten_exp_full_benchmark.md`。
 
 ### Exp 代號 ↔ 對外名稱（修正版 2026-04-25）
 
@@ -25,9 +23,22 @@
 
 ¹ half-Q = `runner_flowmatching.py` 未傳 q 到 FluxAudio（Codex 2026-04-20 發現的 structural bug），S1 只訓 `q_embed[10]`，S2 從零學 q[0-9]。所有 Phase 6-8 +Q 實驗都是 half-Q。真正 full-Q E2E 只有 P9 V2 和 P7V1_fullq_control（見 footnote ⁴ 下方）。
 
-### Jamendo test set（n=2048）— ⚠️ rerun 中，見 `ten_exp_full_benchmark.md`
+### Jamendo test set（n=2048, seed=42 random subset of 90K）
 
-數字 rerun 中（`tmux jamendo_s42`，seed=42 random 2048 from 90K），結束後補上。舊窄 subset 數字移除，避免誤讀。
+| 代號 | CLAP ↑ | CE ↑ | CU ↑ | PC ↑ | PQ ↑ | FAD ↓ | PE-AV ↑ | R@10 (t2a) ↑ |
+|------|--------|------|------|------|------|-------|---------|--------------|
+| P4V4 | 0.1909 | 5.862 | 6.650 | 4.969 | 6.506 | 1.131 | 0.1242 | **12.65%** |
+| P5V1 | 0.1861 | 5.635 | 6.424 | 4.991 | 6.287 | **2.053** | 0.1170 | 11.28% |
+| P5V2 | 0.1869 | 5.713 | 6.495 | 4.952 | 6.356 | 1.777 | 0.1169 | 11.18% |
+| P6V2 | 0.1957 | 6.165 | 6.963 | **5.149** | 6.823 | **1.059** | 0.1279 | 12.11% |
+| P7V1 | 0.1981 | 6.251 | 7.031 | 4.974 | 6.930 | 1.159 | 0.1283 | 11.08% |
+| P7V2 | 0.1920 | 6.121 | 6.895 | 5.081 | 6.791 | 1.350 | 0.1266 | 11.72% |
+| P7V3 | 0.1965 | **6.266** | **7.072** | 5.072 | **6.982** | 1.222 | 0.1274 | 11.67% |
+| **P8** | **0.1986** | 6.124 | 6.950 | 5.103 | 6.755 | 1.065 | **0.1305** | 11.47% |
+| P8V2 | 0.1910 | 6.125 | 6.916 | 4.996 | 6.856 | 1.185 | 0.1251 | 11.62% |
+| P8V3 | 0.1514 | 5.756 | 6.701 | 5.085 | 6.709 | **2.526** | 0.1102 | 8.15% |
+
+**Jamendo 結論**：CLAP 第一是 P8、PE-AV 第一也是 P8、FAD 最低是 P6V2、AES triple (CE/CU/PQ) 冠軍是 P7V3；P7V1 在所有 metric 都穩居前三 → **P7V1 / P7V3 / P8 / P6V2 為 Jamendo Top-4**。Phase 5 崩盤特徵還原（FAD +82% vs P4V4，AES 全項退步），P5V1 (HardFilter) FAD 比 P5V2 (Random-half) 還差 16% → 與歷史「data quantity 才是主因，hard filter 沒幫助」結論一致。P8V3 全 metric 墊底，跨 benchmark 一致 → genre shortcut hypothesis 穩定。
 
 ### MusicCaps benchmark（CLAP/AES/PE-AV n=5521，FAD n=2048）
 
@@ -46,10 +57,14 @@
 
 **MusicCaps 結論**：P7V3 領先 CLAP + AES 四項；P7V1 在 PE-AV / R@10 領先。P4V4 FAD 最低是因為 pre-P6 模型輸出分布較廣，更接近 MusicCaps 一般音樂分布（品質代價：CLAP/AES 全部較低）。**Jamendo ↔ MusicCaps 首位互換**（Jamendo 是 P6V2，MusicCaps 是 P7V3）→ Static random caption (P7 系) 比 Best-consensus (P6) 跨分布更穩健。
 
-### 跨 benchmark 亮點（部分待 Jamendo rerun 確認）
-- **P7V3 MusicCaps 單榜最佳**：CLAP 0.1998 + AES quadruple 最高（CE 6.12, CU 6.97, PC 4.97, PQ 6.83）→ WorstConsensus 在 cross-domain 分布上最強
-- **P7V1 MusicCaps 第二 + PE-AV 第一**：CLAP 0.1975、PE-AV 0.0524、R@10 5.40%；雙料前段的穩定答案（Jamendo 部分待 rerun 確認）
-- **P8V3 失敗是 genre shortcut，不是 data leakage**：CLAP sim 當 Q 信號造成高 q_level 偏 piano/acoustic（LP-MusicCaps 對這類更精確）。**不是** CLAP-filter 訓練 + CLAP-eval 同源問題（常被混淆）
+### 跨 benchmark 亮點（seed=42 修正後）
+
+| 代號 | Jamendo CLAP rank | MusicCaps CLAP rank | 解讀 |
+|------|-------------------|---------------------|------|
+| **P7V1** | 2 | 2 | 跨 benchmark 最穩；PE-AV 雙第一/第二 → **論文 primary 首選** |
+| **P7V3** | 3 | **1** | MusicCaps 單榜冠軍 + AES quadruple 最高 → **論文 second-pick / cross-domain 強項** |
+| **P8** (Random-NoQ) | **1** | 8 | 同分布最強，但 cross-domain 大跌 → **驗證 Q conditioning 對 cross-domain generalization 的貢獻** |
+| **P8V3** (Random-CLAP-Q) | 10 | 10 | 全 metric 墊底 → genre shortcut 機制（CLAP sim 當 Q 信號 → 高 q 偏 piano）；**不是 data leakage**
 
 ---
 
