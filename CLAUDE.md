@@ -10,7 +10,7 @@
 
 **目前最佳**：Phase 7 V1 (`JamendoFull-Random-MeanSim-Q`) — Jamendo + MusicCaps benchmark 雙料最佳。
 
-**當前排程**（教授 2026-04-18 指示）：Lane A (MusicCaps benchmark ✅) → Lane B (P9 V1/V2 訓練) → Lane C (Qwen resume)。
+**當前排程**（教授 2026-04-18 指示）：Lane A (MusicCaps benchmark ✅) → Lane B (P9 V1/V2 ✅) → Lane C (**Qwen captioning 進行中 2026-04-25/26**，slot 0 ✅、slot 1 🔄；ETA 全 5 slot 末 ~4/28 15:00；n=11 早期取樣 55% consistent / 27% mild / 18% clear contradiction，hypothesis 不破)。
 
 > Phase 編號作內部追蹤，對外報告/論文用描述性名稱（`資料集-Caption策略-Q信號`）。
 

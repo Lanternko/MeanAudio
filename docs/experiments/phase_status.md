@@ -20,8 +20,8 @@
 | **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
 | **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
-| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | ⏸️ 暫緩：待 P9 V2 q sweep + Phase 7 V1 full-Q control 完成才決定（避免在 multi_cap 路線未完全釐清前擴展）|
-| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ⏸️ 暫緩：同上 |
+| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | 🔄 **Captioning 進行中**（2026-04-25 18:06 啟動 `tmux qwen_omni`，Slot 0 ✅ 251,599、Slot 1 進行中、ETA slot 1 末 ~15:00 4/26、全 5 slot 末 ~28:00 4/27）|
+| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | 🔄 同上（共用 captions） |
 
 ## Phase 9 NPZ 前處理狀態（2026-04-18）
 
@@ -162,11 +162,35 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 - `p7v1/`、`p8/`、`p9v1/`、`p9v2/`（q=8）、`p9v2_q9/`（sanity）各 24 wav
 - `probe_battery_results.json` 3450 條 records
 
-## Phase 9.5 Qwen captioning 狀態
+## Phase 9.5 Qwen captioning 狀態（2026-04-25/26 active）
 
-- Slot 0 captioning 暫停於 232,681/251,599（92.5%），Lane C 時恢復
+**Lane C 啟動 2026-04-25 18:06** — `tmux qwen_omni` 跑 `gen_qwen25omni_captions.py --slot all --resume`，GPU 99% / 24 GB（獨佔）。
+
+| Slot | Task framing | 狀態 |
+|------|-------------|------|
+| 0 | NaturalProse | ✅ **251,599 / 251,599** done (4/26 ~03:47 estimate) |
+| 1 | Summary | 🔄 進行中 (~67K / 251K @ 00:58 4/26) |
+| 2 | Writing | ⏸️ 等 slot 1 |
+| 3 | Paraphrase | ⏸️ 等 slot 2 |
+| 4 | Attribute | ⏸️ 等 slot 3 |
+
 - 模型：`Qwen/Qwen2.5-Omni-3B`（Thinker-only，SDPA attention）
 - 輸入：`phase7_v1_train.tsv` (251,599 clips) + audio root `/home/hsiehyian/dataset/segments_no_vocals`
-- 輸出：`/mnt/HDD/kojiek/phase4_jamendo_data/phase9_omni_captions_slot{0..4}.jsonl` → merge 後 `phase9_omni_captions.jsonl`
+- 輸出：`/mnt/HDD/kojiek/phase4_jamendo_data/phase9_omni_captions_slot{0..4}.jsonl`
+- Throughput: ~216 captions/min sustained (varies 144–280 based on audio difficulty)
+- ETA: slot 1 末 ~15:00 4/26、slot 2 ~07:00 4/27、slot 3 ~23:00 4/27、slot 4 ~15:00 4/28（約 2.5 天）
+
+### n=11 早期 diversity sample（slot 0 vs slot 1，2026-04-25 21:34）
+
+| 評估 | 數量 | 解讀 |
+|------|------|------|
+| ✅ Consistent (multi-task 真產生 valid 多角度) | 6/11 = 55% | 同 genre / 同 instruments / 同 mood，差別只是 verbosity 或 task focus |
+| ⚠️ Mild contradiction / ambiguous | 3/11 = 27% | 同 genre 但 energy 描述偏移（e.g. soft vs vibrant reggae） |
+| ❌ Clear contradiction (hallucination) | 2/11 = 18% | 互斥屬性（acoustic vs electric guitar、somber slow vs feel-good upbeat） |
+
+**對 P9.5 訓練的意涵**（Day 4 全 100 筆完整檢查再定論）：
+- 82% at-least-同義 → multi-cap 有真正的 diversity 信號（hypothesis 仍成立）
+- 18% hallucination 給訓練信號加噪聲，但**不是垃圾資料**（語意仍在，只是樂器/情緒 misjudge）
+- **觀察點**：mean_sim 信號可能被「captioner stability」而非「audio difficulty」污染 → 與 `project_mean_sim_interpretation_hypothesis.md` 反向假設可能對應，P9.5 訓完後值得分析 q 分布 vs audio 特徵
 
 詳細設計見 `phase9_design.md`，Lane A/B/C 排程見 `../meetings/2026-04-18_lane_abc_and_lpmc.md`。
