@@ -47,6 +47,59 @@ def encode_clap(model, texts):
         emb = model.get_text_embedding(texts, use_tensor=True)  # [B, 512]
     return emb.cpu().float().numpy()
 
+MANIFEST_NAME = "MANIFEST.tsv"   # 寫入 NEW_NPZ_DIR；記錄 (idx, clip_id, npz_fname)
+                                  # 第二次跑（resume / 不同 TSV 重用同 dir）會 cross-check
+
+
+def write_manifest(new_npz_dir, df, npz_files):
+    """寫 MANIFEST.tsv：idx, clip_id, npz_fname (positional alignment 的 ground truth)。"""
+    manifest_path = new_npz_dir / MANIFEST_NAME
+    with manifest_path.open("w") as f:
+        f.write("idx\tclip_id\tnpz_fname\n")
+        for i, (clip_id, npz_fname) in enumerate(zip(df["id"].tolist(), npz_files)):
+            f.write(f"{i}\t{clip_id}\t{npz_fname}\n")
+    print(f"[Manifest] wrote {manifest_path} ({len(df):,} rows)")
+
+
+def verify_manifest(new_npz_dir, df, npz_files):
+    """若 NEW_NPZ_DIR 已有 MANIFEST.tsv，驗證 current TSV 的 (idx, clip_id, npz_fname) 三元組
+    100% 對齊舊 manifest。任一格 mismatch 即 abort（防 TSV reorder 後 silent corruption）。"""
+    manifest_path = new_npz_dir / MANIFEST_NAME
+    if not manifest_path.exists():
+        return False
+    print(f"[Manifest] found existing {manifest_path}, verifying alignment...")
+    expected = []
+    with manifest_path.open() as f:
+        next(f)  # header
+        for line in f:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) != 3:
+                continue
+            expected.append((int(parts[0]), parts[1], parts[2]))
+    if len(expected) != len(df):
+        raise SystemExit(
+            f"❌ MANIFEST 行數 ({len(expected)}) != current TSV 行數 ({len(df)}). "
+            f"NEW_NPZ_DIR 已被另一份 TSV 寫過，必須先清理或換 dir。"
+        )
+    bad = []
+    current_ids = df["id"].tolist()
+    for (m_idx, m_id, m_npz), c_id, c_npz in zip(expected, current_ids, npz_files):
+        if m_id != c_id or m_npz != c_npz:
+            bad.append((m_idx, (m_id, m_npz), (c_id, c_npz)))
+            if len(bad) >= 5:
+                break
+    if bad:
+        msg = "\n".join(
+            f"  idx={i}: manifest={old} vs current={new}" for i, old, new in bad
+        )
+        raise SystemExit(
+            f"❌ MANIFEST mismatch — current TSV/gt_cache 順序與舊 NPZ 不一致：\n{msg}\n"
+            f"silent corruption 風險 (text_features 配錯 audio latent)。Abort."
+        )
+    print(f"[Manifest] ✅ {len(expected):,} 三元組全部對齊")
+    return True
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--batch_size", type=int, default=64)
@@ -62,11 +115,13 @@ def main():
 
     with open(GT_CACHE) as f:
         npz_files = [line.strip() for line in f if line.strip()]
-    assert len(npz_files) == len(df), \
-        f"gt_cache 行數 ({len(npz_files)}) != TSV 行數 ({len(df)})"
+    if len(npz_files) != len(df):
+        raise SystemExit(
+            f"❌ gt_cache 行數 ({len(npz_files)}) != TSV 行數 ({len(df)})"
+        )
 
     if args.dry_run:
-        df = df.iloc[:100]
+        df = df.iloc[:100].reset_index(drop=True)
         npz_files = npz_files[:100]
         print("DRY RUN: 只處理前 100 筆")
 
@@ -80,6 +135,12 @@ def main():
     clap_model = clap_model.to(device)
 
     NEW_NPZ_DIR.mkdir(parents=True, exist_ok=True)
+
+    # MANIFEST 對齊檢查（防 silent corruption；Codex 2026-04-26 P1+P2.3）
+    # - 第一次跑：寫 manifest
+    # - 後續跑：verify current TSV/gt_cache 與舊 manifest 完全一致，否則 abort
+    if not verify_manifest(NEW_NPZ_DIR, df, npz_files):
+        write_manifest(NEW_NPZ_DIR, df, npz_files)
 
     captions = df["caption"].tolist()
     total = len(captions)
