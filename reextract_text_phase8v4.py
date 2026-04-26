@@ -139,8 +139,14 @@ def main():
     # MANIFEST 對齊檢查（防 silent corruption；Codex 2026-04-26 P1+P2.3）
     # - 第一次跑：寫 manifest
     # - 後續跑：verify current TSV/gt_cache 與舊 manifest 完全一致，否則 abort
-    if not verify_manifest(NEW_NPZ_DIR, df, npz_files):
-        write_manifest(NEW_NPZ_DIR, df, npz_files)
+    # ⚠️ dry_run 不寫真 MANIFEST（只 100 行），否則之後 full run 會被擋；
+    #     dry_run 也跳過 verify_manifest（避免拿 100-row 跟 full manifest 比 mismatch）
+    #     Codex 2026-04-26 review P2 點出
+    if args.dry_run:
+        print("[Manifest] DRY RUN: 跳過 MANIFEST 寫入與驗證")
+    else:
+        if not verify_manifest(NEW_NPZ_DIR, df, npz_files):
+            write_manifest(NEW_NPZ_DIR, df, npz_files)
 
     captions = df["caption"].tolist()
     total = len(captions)
