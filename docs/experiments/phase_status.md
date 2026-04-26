@@ -16,7 +16,7 @@
 | Phase 8 V2 | `JamendoFull-Random-AudioboxPQ-Q` | q 信號改用 Audiobox PQ | ✅ 完成，劣於 Phase 7 V1 |
 | Phase 8 V3 | `JamendoFull-Random-CLAP-Q` | q 信號改用 audio-text CLAP sim | ✅ 完成，全面退步（信號語義錯誤） |
 | ~~Phase 8 V4 (舊)~~ | `JamendoFull-Qwen2Audio-MeanSim-Q` | Caption 換用 Qwen2-Audio-7B | ❌ 廢棄（僅1 cap/clip，不支援 true random）→ V4 名額重用給 PromptConsistency 實驗 |
-| **Phase 8 V4** | `JamendoFull-Random-PromptConsistency-NoQ` | mean_similarity raw float 寫進 caption prefix `[consistency=X.XX]`，訊號全走 text encoder（QA-MDT 風格），不依賴 q_embed。eval inference prefix 固定 `0.90`（in-support，median–p90 區間） | 🔄 **2026-04-26 啟動**（tmux `phase8_v4`）。Train TSV `phase8_v4_train.tsv`（251,599 prefixed）、NPZ `npz_phase8v4/`（重編 251,599）、eval TSVs (Jamendo seed42_2048 + MusicCaps) 帶 `0.90` 固定 prefix + `\n`/`\r` normalize |
+| **Phase 8 V4** | `JamendoFull-Random-PromptConsistency-NoQ` | mean_similarity raw float 寫進 caption prefix `[consistency=X.XX]`，訊號全走 text encoder（QA-MDT 風格），不依賴 q_embed。eval inference prefix 固定 `0.90`（in-support，median–p90 區間） | ✅ **完成 2026-04-27**。MusicCaps CLAP **0.0571**、Jamendo seed42 CLAP **0.0591**。**⚠️ P9 multi-cap 模式重現**：CLAP 大跌（vs P8 NoQ baseline 0.1851），但 AES 僅小跌（PC 甚至超 P8）。Pattern：「好聽但不貼 prompt」。假說：`[consistency=X.XX]` prefix 主導 T5 encoding，semantic caption 訊號被稀釋（與 multi-cap collapse 機制類似）。見下方 Phase 8 V4 分析段 |
 | Phase 9 V1 (buggy) | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ❌ 廢棄（帶 q=9→10 bug、undrop 別名 bug，Jamendo CLAP 0.0260 崩盤）|
 | **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
@@ -195,3 +195,43 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 - **觀察點**：mean_sim 信號可能被「captioner stability」而非「audio difficulty」污染 → 與 `project_mean_sim_interpretation_hypothesis.md` 反向假設可能對應，P9.5 訓完後值得分析 q 分布 vs audio 特徵
 
 詳細設計見 `phase9_design.md`，Lane A/B/C 排程見 `../meetings/2026-04-18_lane_abc_and_lpmc.md`。
+
+## Phase 8 V4 結果與分析（2026-04-27 完成）
+
+### 數字
+
+| Benchmark | CLAP ↑ | CE ↑ | CU ↑ | PC ↑ | PQ ↑ |
+|-----------|--------|------|------|------|------|
+| MusicCaps n=5521 | **0.0571** | 5.7708 | 6.5038 | 5.2716 | 6.4163 |
+| Jamendo seed42 n=2048 | **0.0591** | 5.7342 | 6.4665 | 5.2631 | 6.3741 |
+
+### 與 P8 NoQ baseline 比較
+
+| 指標 | P8 V4（PromptConsistency-NoQ） | P8（Random-NoQ） | Δ |
+|------|-------------------------------|-----------------|---|
+| MusicCaps CLAP | 0.0571 | 0.1851 | **−67%** |
+| Jamendo CLAP | 0.0591 | 0.1986 | **−70%** |
+| MusicCaps CE | 5.771 | 5.913 | −2.4% |
+| MusicCaps PQ | 6.416 | 6.544 | −2.0% |
+| MusicCaps PC | **5.272** | 4.983 | **+5.8%** ↑ |
+
+### 診斷：P9 multi-cap 模式重現
+
+**Pattern**：CLAP 大跌（~70%）但 AES 僅小跌（CE/PQ −2-3%），PC 反而上升。這與 P9 V1 NoQ 的「好聽但不貼 prompt」模式幾乎完全一致（P9 V1 MusicCaps CLAP 0.0650、AES 超 P8）。
+
+**最可能的機制（working hypothesis，未證）**：
+- `[consistency=X.XX]` 前綴佔據 T5 token sequence 前幾個位置，主導 text embedding 的主要方向
+- 模型學到「consistency 數值 → 音質/風格」的 shortcut，不需仔細解析後面的 semantic caption
+- 結果：生成音訊的**音質/一致性良好**（AES 維持），但**語義對應弱化**（CLAP 崩潰）
+- 機制上與 multi-cap collapse 類似：text conditioning 的 semantic channel 被另一個更強的結構性訊號佔據
+
+**對 QA-MDT 類方法的啟示**：
+- QA-MDT 原始設計中，quality token 是離散分類（`[high]`/`[medium]`/`[low]`），semantic caption 仍完整保留
+- P8 V4 用 raw float prefix（`[consistency=0.83]`），T5 把它 encode 成連續向量，可能擠壓了後續 caption 的影響力
+- 更好的設計可能是：quality token 接 special token embedding（獨立 vocab），不走 text encoder；或 caption 保持原樣，quality 信號走 separate q_embed pathway（回到 Phase 7 V1 的設計）
+
+### 結論
+
+P8 V4 實驗回答了一個明確問題：**把 consistency 分數 verbalize 為 text prefix 並讓 T5/CLAP 吸收，不是有效的 quality conditioning 方法**。它反而削弱了 semantic text conditioning，效果類似 multi-cap 的 text conditioning collapse。
+
+P7 V1（MeanSim-Q，q_embed 走 separate embedding pathway）仍是此問題的更好解法。P8 V4 負面結果本身對論文有 ablation 價值（支持「quality 信號應走 dedicated pathway 而非混入 text encoder」的論點）。
