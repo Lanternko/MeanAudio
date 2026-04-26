@@ -15,13 +15,14 @@
 | Phase 8 | `JamendoFull-Random-NoQ` | 無 q conditioning（消融） | ✅ 完成，q embedding 有獨立貢獻 |
 | Phase 8 V2 | `JamendoFull-Random-AudioboxPQ-Q` | q 信號改用 Audiobox PQ | ✅ 完成，劣於 Phase 7 V1 |
 | Phase 8 V3 | `JamendoFull-Random-CLAP-Q` | q 信號改用 audio-text CLAP sim | ✅ 完成，全面退步（信號語義錯誤） |
-| Phase 8 V4 | `JamendoFull-Qwen2Audio-MeanSim-Q` | Caption 換用 Qwen2-Audio-7B | ❌ 廢棄（僅1 cap/clip，不支援 true random） |
+| ~~Phase 8 V4 (舊)~~ | `JamendoFull-Qwen2Audio-MeanSim-Q` | Caption 換用 Qwen2-Audio-7B | ❌ 廢棄（僅1 cap/clip，不支援 true random）→ V4 名額重用給 PromptConsistency 實驗 |
+| **Phase 8 V4** | `JamendoFull-Random-PromptConsistency-NoQ` | mean_similarity raw float 寫進 caption prefix `[consistency=X.XX]`，訊號全走 text encoder（QA-MDT 風格），不依賴 q_embed。eval inference prefix 固定 `0.90`（in-support，median–p90 區間） | 🔄 **2026-04-26 啟動**（tmux `phase8_v4`）。Train TSV `phase8_v4_train.tsv`（251,599 prefixed）、NPZ `npz_phase8v4/`（重編 251,599）、eval TSVs (Jamendo seed42_2048 + MusicCaps) 帶 `0.90` 固定 prefix + `\n`/`\r` normalize |
 | Phase 9 V1 (buggy) | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ❌ 廢棄（帶 q=9→10 bug、undrop 別名 bug，Jamendo CLAP 0.0260 崩盤）|
 | **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
 | **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
-| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | 🔄 **Captioning 進行中**（2026-04-25 18:06 啟動 `tmux qwen_omni`，Slot 0 ✅ 251,599、Slot 1 進行中、ETA slot 1 末 ~15:00 4/26、全 5 slot 末 ~28:00 4/27）|
-| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | 🔄 同上（共用 captions） |
+| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | ⏸️ **Captioning 暫停 2026-04-26**（Slot 0 ✅ 251,599、Slot 1 ~67K 後停；ETA 期限內跑不完，讓位給 P8 V4 PromptConsistency 實驗。jsonl 不丟，可後續 `--resume`） |
+| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ⏸️ 同上（共用 captions） |
 
 ## Phase 9 NPZ 前處理狀態（2026-04-18）
 

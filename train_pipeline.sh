@@ -22,7 +22,11 @@ set -eo pipefail  # -e: 任何指令失敗即中止；-o pipefail: pipe exit cod
 # 實驗參數設定（每次新實驗只需修改此區塊）
 # ============================================================
 
-EXP_PREFIX="phase7_v1_s2only_ablation"  # 實驗名稱前綴，自動生成 exp_id
+EXP_PREFIX="phase8_v4"                  # 實驗名稱前綴，自動生成 exp_id
+                                        # P8 V4 = JamendoFull-Random-PromptConsistency-NoQ
+                                        # caption 帶 [consistency=X.XX] prefix（raw float），
+                                        # 訊號全走 text encoder，不依賴 q_embed。
+                                        # eval inference prefix 固定 [consistency=0.90]（in-support）
 
 BATCH_SIZE=8                      # 物理 batch size（每張 GPU）
 ACCUM_STEPS=1                     # Gradient accumulation 步數（V4 不使用累積）
@@ -33,7 +37,7 @@ S2_ITERATIONS=200000              # Stage 2 總 micro-steps
 
 LEARNING_RATE=1e-4                # 初始學習率（Stage 1 & 2 共用）
 
-USE_Q_CONDITIONING=true           # true = 使用 q embedding；false = 不使用（null token）
+USE_Q_CONDITIONING=false          # P8 V4: false → consistency 訊號走 text prefix，不走 q_embed
 
 # ── LR 衰減點（Stage 2 專用）────────────────────────────────
 # 自動計算：Stage 2 有效 macro-steps = S2_ITERATIONS / ACCUM_STEPS
@@ -73,11 +77,11 @@ COMMON_ARGS=(
     val_interval=999999
     eval_interval=999999
     save_eval_interval=999999
-    "data.AudioCaps_npz.tsv=$DATA_DIR/phase7_v1_train.tsv"
+    "data.AudioCaps_npz.tsv=$DATA_DIR/phase8_v4_train.tsv"
     "data.AudioCaps_val_npz.tsv=$DATA_DIR/phase4_val.tsv"
     "+data.AudioCaps_npz.gt_cache=$DATA_DIR/npz_cache_train.txt"
     "+data.AudioCaps_val_npz.gt_cache=$DATA_DIR/npz_cache_val.txt"
-    "++data.AudioCaps_npz.npz_dir=$HOME/research/meanaudio_training/npz"
+    "++data.AudioCaps_npz.npz_dir=$HOME/research/meanaudio_training/npz_phase8v4"
 )
 
 # ============================================================
@@ -176,25 +180,54 @@ if [ "$USE_Q_CONDITIONING" = "false" ]; then
 fi
 
 if [ "$USE_Q_CONDITIONING" = "false" ]; then
-    # q conditioning なし → q sweep 不要、1回だけ eval
-    EVAL_OUT="$WORK_DIR/eval_output/${EXP_S2}_no_q_jamendo"
-    echo "[Eval S2] 生成音訊（no_q）：$EVAL_OUT"
+    # q conditioning なし → q sweep 不要
+    # P8 V4: 兩 benchmark eval（10-exp 標準）
+    #   - MusicCaps n=5521（primary, ISMIR 黃金標準）
+    #   - Jamendo seed=42 random 2048（secondary, 跨 benchmark）
+    # 重要：eval.py 用 prefixed TSV（model expects prefix）；
+    # phase4_eval.py 用 ORIGINAL unprefixed TSV（CLAP 比較自然語意，不含控制 token）
+
+    # ── Eval 1: MusicCaps (primary) ─────────────────────────
+    EVAL_OUT_MC="$WORK_DIR/eval_output/${EXP_S2}_no_q_musiccaps"
+    echo "[Eval S2 / MusicCaps] gen → $EVAL_OUT_MC"
     python eval.py \
         --variant "meanaudio_s" \
         --model_path "$S2_EMA" \
-        --output "$EVAL_OUT/audio" \
-        --tsv "$TSV_FIXED" \
+        --output "$EVAL_OUT_MC/audio" \
+        --tsv "$DATA_DIR/phase8_v4_musiccaps_test.tsv" \
         --use_meanflow --num_steps 1 \
         --encoder_name t5_clap --text_c_dim 512 \
         --cfg_strength 0.5 $NO_Q_FLAG \
         --full_precision \
-        2>&1 | tee "$LOG_DIR/${EXP_S2}_no_q_eval.log"
+        2>&1 | tee "$LOG_DIR/${EXP_S2}_no_q_musiccaps_eval.log"
 
     python "$EVAL_SCRIPT" \
-        --gen_dir "$EVAL_OUT/audio" \
-        --exp_name "${EXP_S2}_no_q" \
+        --gen_dir "$EVAL_OUT_MC/audio" \
+        --tsv "$DATA_DIR/musiccaps_test.tsv" \
+        --exp_name "${EXP_S2}_no_q_musiccaps" \
+        --num_samples 5521 \
+        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_no_q_musiccaps_eval.log"
+
+    # ── Eval 2: Jamendo seed=42 2048 (secondary) ────────────
+    EVAL_OUT_JM="$WORK_DIR/eval_output/${EXP_S2}_no_q_jamendo_seed42_2048"
+    echo "[Eval S2 / Jamendo seed42_2048] gen → $EVAL_OUT_JM"
+    python eval.py \
+        --variant "meanaudio_s" \
+        --model_path "$S2_EMA" \
+        --output "$EVAL_OUT_JM/audio" \
+        --tsv "$DATA_DIR/phase8_v4_jamendo_seed42_2048.tsv" \
+        --use_meanflow --num_steps 1 \
+        --encoder_name t5_clap --text_c_dim 512 \
+        --cfg_strength 0.5 $NO_Q_FLAG \
+        --full_precision \
+        2>&1 | tee "$LOG_DIR/${EXP_S2}_no_q_jamendo_eval.log"
+
+    python "$EVAL_SCRIPT" \
+        --gen_dir "$EVAL_OUT_JM/audio" \
+        --tsv "$DATA_DIR/phase4_test_seed42_2048.tsv" \
+        --exp_name "${EXP_S2}_no_q_jamendo_seed42_2048" \
         --num_samples 2048 \
-        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_no_q_eval.log"
+        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_no_q_jamendo_eval.log"
 else
     for Q in 6 9; do
         EVAL_OUT="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_jamendo"
