@@ -66,7 +66,7 @@ dual_ref_metrics() {
 EVAL_OUT_MC="$WORK_DIR/eval_output/${EXP_S2}_no_q_musiccaps_p100"
 LOG_MC="$LOG_DIR/${EXP_S2}_no_q_musiccaps_p100_eval.log"
 
-if [ -d "$EVAL_OUT_MC/audio" ] && [ "$(ls -1 $EVAL_OUT_MC/audio/*.flac 2>/dev/null | wc -l)" -ge 5520 ]; then
+if [ -d "$EVAL_OUT_MC/audio" ] && [ "$(ls -1 $EVAL_OUT_MC/audio/*.flac 2>/dev/null | wc -l)" -eq 5521 ]; then
     echo "[MC p100] audio 已生成，跳過 gen" | tee "$LOG_MC"
 else
     echo "[MC p100] gen → $EVAL_OUT_MC"
@@ -94,7 +94,7 @@ dual_ref_metrics \
 EVAL_OUT_JM="$WORK_DIR/eval_output/${EXP_S2}_no_q_jamendo_seed42_2048_p100"
 LOG_JM="$LOG_DIR/${EXP_S2}_no_q_jamendo_p100_eval.log"
 
-if [ -d "$EVAL_OUT_JM/audio" ] && [ "$(ls -1 $EVAL_OUT_JM/audio/*.flac 2>/dev/null | wc -l)" -ge 2047 ]; then
+if [ -d "$EVAL_OUT_JM/audio" ] && [ "$(ls -1 $EVAL_OUT_JM/audio/*.flac 2>/dev/null | wc -l)" -eq 2048 ]; then
     echo "[JM p100] audio 已生成，跳過 gen" | tee "$LOG_JM"
 else
     echo "[JM p100] gen → $EVAL_OUT_JM"

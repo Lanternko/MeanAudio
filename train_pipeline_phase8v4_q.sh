@@ -138,53 +138,15 @@ echo "[Stage 2] 訓練完成"
 S2_EMA="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
 EVAL_SCRIPT="$HOME/research/meanaudio_eval/phase4_eval.py"
 
-# P8 V4 +Q：兩 benchmark × q sweep（與 P7 V1 fullq_control 同層級對照）
-for Q in 6 9; do
-    # ── MusicCaps (primary) ───────────────────────────
-    EVAL_OUT_MC="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_musiccaps"
-    echo "[Eval S2 / MusicCaps q=${Q}] gen → $EVAL_OUT_MC"
-    python eval.py \
-        --variant "meanaudio_s" \
-        --model_path "$S2_EMA" \
-        --output "$EVAL_OUT_MC/audio" \
-        --tsv "$DATA_DIR/phase8_v4_musiccaps_test.tsv" \
-        --use_meanflow --num_steps 1 \
-        --encoder_name t5_clap --text_c_dim 512 \
-        --cfg_strength 0.5 --quality_level $Q \
-        --full_precision \
-        2>&1 | tee "$LOG_DIR/${EXP_S2}_q${Q}_musiccaps_eval.log"
-
-    python "$EVAL_SCRIPT" \
-        --gen_dir "$EVAL_OUT_MC/audio" \
-        --tsv "$DATA_DIR/musiccaps_test.tsv" \
-        --exp_name "${EXP_S2}_q${Q}_musiccaps" \
-        --num_samples 5521 \
-        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_q${Q}_musiccaps_eval.log"
-
-    # ── Jamendo seed=42 2048 (secondary) ──────────────
-    EVAL_OUT_JM="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_jamendo_seed42_2048"
-    echo "[Eval S2 / Jamendo seed42_2048 q=${Q}] gen → $EVAL_OUT_JM"
-    python eval.py \
-        --variant "meanaudio_s" \
-        --model_path "$S2_EMA" \
-        --output "$EVAL_OUT_JM/audio" \
-        --tsv "$DATA_DIR/phase8_v4_jamendo_seed42_2048.tsv" \
-        --use_meanflow --num_steps 1 \
-        --encoder_name t5_clap --text_c_dim 512 \
-        --cfg_strength 0.5 --quality_level $Q \
-        --full_precision \
-        2>&1 | tee "$LOG_DIR/${EXP_S2}_q${Q}_jamendo_eval.log"
-
-    python "$EVAL_SCRIPT" \
-        --gen_dir "$EVAL_OUT_JM/audio" \
-        --tsv "$DATA_DIR/phase4_test_seed42_2048.tsv" \
-        --exp_name "${EXP_S2}_q${Q}_jamendo_seed42_2048" \
-        --num_samples 2048 \
-        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_q${Q}_jamendo_eval.log"
-done
+# Codex Round 2 P1 2026-04-27: embedded eval block 已移除，
+# 委派給 eval_p8v4_q.sh（dual-ref + suffixed exp names）。
+# 這支 train pipeline 結束時直接呼叫 eval_p8v4_q.sh，避免邏輯分裂。
+# 若 priority queue 也呼叫同一支腳本，會 skip-if-exists（gen 跳過、metric 重算 OK）。
+echo "[Eval] 委派給 eval_p8v4_q.sh（dual-ref）..."
+bash "$WORK_DIR/eval_p8v4_q.sh"
 
 echo "======================================================"
 echo "  P8 V4 + Q 訓練 + Eval 完成"
 echo "  S2 EMA    : exps/$EXP_S2/${EXP_S2}_ema_final.pth"
-echo "  Metrics   : eval_output/metrics/${EXP_S2}_q{6,9}_{musiccaps,jamendo_seed42_2048}/"
+echo "  Metrics   : eval_output/metrics/${EXP_S2}_q{6,9}_{musiccaps,jamendo_seed42_2048}_{prefixed,natural}_ref/"
 echo "======================================================"

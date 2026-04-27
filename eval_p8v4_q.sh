@@ -48,7 +48,7 @@ for Q in 6 9; do
     EVAL_OUT_MC="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_musiccaps"
     LOG_MC="$LOG_DIR/${EXP_S2}_q${Q}_musiccaps_eval.log"
 
-    if [ -d "$EVAL_OUT_MC/audio" ] && [ "$(ls -1 $EVAL_OUT_MC/audio/*.flac 2>/dev/null | wc -l)" -ge 5520 ]; then
+    if [ -d "$EVAL_OUT_MC/audio" ] && [ "$(ls -1 $EVAL_OUT_MC/audio/*.flac 2>/dev/null | wc -l)" -eq 5521 ]; then
         echo "[MC q=$Q] audio 已生成，跳過 gen" | tee "$LOG_MC"
     else
         echo "[Eval / MusicCaps q=${Q}] gen → $EVAL_OUT_MC"
@@ -75,7 +75,7 @@ for Q in 6 9; do
     EVAL_OUT_JM="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_jamendo_seed42_2048"
     LOG_JM="$LOG_DIR/${EXP_S2}_q${Q}_jamendo_eval.log"
 
-    if [ -d "$EVAL_OUT_JM/audio" ] && [ "$(ls -1 $EVAL_OUT_JM/audio/*.flac 2>/dev/null | wc -l)" -ge 2047 ]; then
+    if [ -d "$EVAL_OUT_JM/audio" ] && [ "$(ls -1 $EVAL_OUT_JM/audio/*.flac 2>/dev/null | wc -l)" -eq 2048 ]; then
         echo "[JM q=$Q] audio 已生成，跳過 gen" | tee "$LOG_JM"
     else
         echo "[Eval / Jamendo seed42 q=${Q}] gen → $EVAL_OUT_JM"
