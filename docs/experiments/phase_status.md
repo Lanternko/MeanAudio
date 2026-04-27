@@ -17,7 +17,7 @@
 | Phase 8 V3 | `JamendoFull-Random-CLAP-Q` | q 信號改用 audio-text CLAP sim | ✅ 完成，全面退步（信號語義錯誤） |
 | ~~Phase 8 V4 (舊)~~ | `JamendoFull-Qwen2Audio-MeanSim-Q` | Caption 換用 Qwen2-Audio-7B | ❌ 廢棄（僅1 cap/clip，不支援 true random）→ V4 名額重用給 PromptConsistency 實驗 |
 | **Phase 8 V4** | `JamendoFull-Random-PromptConsistency-NoQ` | mean_similarity raw float 寫進 caption prefix `[consistency=X.XX]`，訊號全走 text encoder（QA-MDT 風格），不依賴 q_embed。eval inference prefix 固定 `0.90`（in-support，median–p90 區間） | ✅ **完成 2026-04-27**。**Natural-ref CLAP**：MusicCaps 0.0571 / Jamendo seed42 0.0591（vs P8 NoQ baseline 0.1851 / 0.1986），AES 僅小跌（PC 甚至略升）。⚠️ 這是 **natural-ref**（metric tsv 用原始未 prefix caption）— 只能說 cross-format alignment 弱，不等於 prompt-following 失敗。Prompt-following（prefixed-ref CLAP）+ dual-ref backfill 排在 priority queue（Codex Round 2 P1 驅動）。Working hypotheses（行為類似 P9 multi-cap 但 mechanism 未證）見下方分析段 |
-| **Phase 8 V4 Q** | `JamendoFull-Random-PromptConsistency-S2OnlyQ` | 同 P8 V4（保留 `[consistency=X.XX]` prefix），但 S2 開 `use_q_conditioning=true`（複用 P8 V4 S1 NoQ ckpt）。測試問題：text prefix + q_embed 雙 pathway 並存能否救回 semantic CLAP？ | 🔄 **2026-04-27 啟動**（tmux `p8v4q`）。S1 來源 = phase8_v4_stage1_400000（NoQ 既有）；S2 全新 (`phase8_v4_q_stage2_200000`)，從零訓 q_embed。Eval 計畫：q=6 + q=9 × MusicCaps + Jamendo seed42（4 跑）。⚠️ caveat：S1 沒看過 Q → S2-only Q regime（half-Q 等級劣化已知）|
+| **Phase 8 V4 Q** | `JamendoFull-Random-PromptConsistency-S2OnlyQ` | 同 P8 V4（保留 `[consistency=X.XX]` prefix），但 S2 開 `use_q_conditioning=true`（複用 P8 V4 S1 NoQ ckpt）。測試問題：text prefix + q_embed 雙 pathway 並存能否救回 semantic CLAP？ | ✅ **完成 2026-04-27**（dual-ref）。**MusicCaps**：q=6 prefixed_ref **0.0626** / natural_ref 0.0562；q=9 prefixed_ref 0.0598 / natural_ref 0.0539。**Jamendo seed42**：q=6 prefixed_ref 0.0450 / natural_ref 0.0447；q=9 prefixed_ref 0.0417 / natural_ref 0.0411。**讀數**：(1) prefixed_ref 一致高於 natural_ref（MC ~+11%、JM ~+1%）→ 模型有在 follow prompt format；(2) 加 Q pathway 沒救回 CLAP（vs P7 V1 ~0.20 仍差 3-4×）；(3) MC q=6 > q=9（P7 V1 是 flat，這裡不同）。⚠️ caveat：S1 沒看過 Q → S2-only Q regime（half-Q 等級劣化已知）|
 | Phase 9 V1 (buggy) | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ❌ 廢棄（帶 q=9→10 bug、undrop 別名 bug，Jamendo CLAP 0.0260 崩盤）|
 | **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
@@ -242,9 +242,29 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 - ❌ 「複製 multi-cap text conditioning collapse」（行為相似 ≠ 同機制）
 
 **待 dual-ref + 後續 ablation 補完**：
-- prefixed-ref CLAP（P8 V4 NoQ p=0.90 / p=1.00、P8 V4 Q）— 測 prompt-following
-- P8 V4 + Q variant（S2-only Q）— 測 q_embed pathway 是否能補
-- 若 prefixed-ref CLAP 也低 → 才能說 prompt-following 弱；若 prefixed-ref CLAP 高、natural-ref 低 → 純 cross-format mismatch（模型確實 follow 了 prefixed prompt，只是與 natural caption 偏離）
+- ~~prefixed-ref CLAP（P8 V4 Q）~~ ✅ **完成 2026-04-27 14:25**：MC q=6 prefixed=0.0626 / natural=0.0562；q=9 prefixed=0.0598 / natural=0.0539。**Δ ~+11% on MC**, **~+1% on JM**。Prefixed_ref 高於 natural_ref → 模型有 follow prompt format，只是與 natural caption 對齊度低
+- prefixed-ref backfill for P8 V4 NoQ p=0.90 baseline — 跑中（priority queue #1.5）
+- prefixed-ref + natural-ref for P8 V4 NoQ p=1.00 — 跑中（priority queue #2）
+- P7 V1 q=0..9 q-sweep on MusicCaps — 跑中（priority queue #3）
+
+### Dual-ref 結果讀解（P8 V4 Q，2026-04-27）
+
+|  | MC q=6 | MC q=9 | JM q=6 | JM q=9 |
+|---|---|---|---|---|
+| prefixed_ref CLAP | **0.0626** | 0.0598 | 0.0450 | 0.0417 |
+| natural_ref CLAP  | 0.0562 | 0.0539 | 0.0447 | 0.0411 |
+| Δ (P>N) | +0.0064 (+11%) | +0.0059 (+11%) | +0.0003 (+1%) | +0.0006 (+1%) |
+| vs P7 V1 baseline | × 3.2 較低 | × 3.3 較低 | × 4.4 較低 | × 4.7 較低 |
+
+**可說（observation）**：
+- Prefixed_ref 一致高於 natural_ref，**MC 上幅度顯著（~11%）**、JM 上接近 noise（~1%）
+- 即使用 prefixed_ref（對 P8 V4 Q 較有利的 metric），CLAP 仍遠低於 P7 V1（~0.20）→ **加 q_embed pathway 無法補回 prefix 設計造成的 CLAP 缺口**
+- q=6 略高於 q=9（與 P7 V1 在 in-support 區的 flat 行為不同；可能 S2-only Q regime 的副作用）
+
+**不能說**：
+- ❌ 「prefix 沒影響語意」— prefixed_ref 仍遠低於 P7 V1 baseline，只是 prefixed 比 natural 多 ~11%
+- ❌ 「q_embed pathway 無效」— 這次 S2-only Q + 跟 prefix 共用 text encoder 是混在一起的（confound：S2-only regime + prefix 同存）
+- ❌ MC/JM 差異反映「prefix vs no-prefix」— JM 也用 prefix，差異更可能是 cross-domain vs in-domain
 
 ### 後續 ablation：prefix value sweep（2026-04-27 排隊中）
 
