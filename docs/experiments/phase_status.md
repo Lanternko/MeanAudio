@@ -236,3 +236,17 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 P8 V4 實驗回答了一個明確問題：**把 consistency 分數 verbalize 為 text prefix 並讓 T5/CLAP 吸收，不是有效的 quality conditioning 方法**。它反而削弱了 semantic text conditioning，效果類似 multi-cap 的 text conditioning collapse。
 
 P7 V1（MeanSim-Q，q_embed 走 separate embedding pathway）仍是此問題的更好解法。P8 V4 負面結果本身對論文有 ablation 價值（支持「quality 信號應走 dedicated pathway 而非混入 text encoder」的論點）。
+
+### 後續 ablation：prefix value sweep（2026-04-27 排隊中）
+
+**P8 V4 NoQ + `[consistency=1.00]` eval**（用既有 ckpt，不重訓）：
+- 動機：0.90 是 in-support p90，是否 push 到 1.00 邊界值會更好/更差？
+- caveat：1.00 是 OOD-edge（PM 2026-04-26 警告原則），這是 paper-completeness ablation
+- TSV：`~/eval_tsvs_p100/phase8_v4_{musiccaps_test,jamendo_seed42_2048}_p100.tsv`
+- Pipeline：`~/MeanAudio/eval_p8v4_noq_p100.sh`
+- 排隊：等 P8 V4 Q (S2 + 4-eval) 跑完才插隊（避免 GPU 衝突）
+- ETA：P8 V4 Q ~14:15 完 → p100 eval ~14:35 完
+
+### 平行進行：P8 V4 + Q 變體（2026-04-27）
+
+`phase8_v4_q_stage2_200000`（tmux `p8v4q`）：複用 P8 V4 S1（NoQ ckpt），S2 開 `use_q_conditioning=true`。測試假說：text prefix + q_embed 雙 pathway 並存能否救回 semantic CLAP？S2 from scratch q_embed → S2-only Q regime，已知 half-Q 等級劣化。Eval q=6 + q=9 × MusicCaps + Jamendo seed42 (4 跑)。S2 速度 0.110 s/iter, ETA 13:15 訓練完、~14:15 全 eval 完。
