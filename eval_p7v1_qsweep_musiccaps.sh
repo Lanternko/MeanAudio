@@ -40,10 +40,20 @@ echo "======================================================"
 for Q in 0 1 2 3 4 5 6 7 8 9; do
     EVAL_OUT="$WORK_DIR/eval_output/${EXP}_q${Q}_musiccaps_qsweep"
     LOG="$LOG_DIR/${EXP}_q${Q}_musiccaps_qsweep_eval.log"
+    METRICS_FILE="$WORK_DIR/eval_output/metrics/${EXP}_q${Q}_musiccaps_qsweep/metrics.txt"
+    MARKER_FILE="$WORK_DIR/eval_output/metrics/${EXP}_q${Q}_musiccaps_qsweep/.run_manifest"
 
-    if [ -f "$WORK_DIR/eval_output/metrics/${EXP}_q${Q}_musiccaps_qsweep/metrics.txt" ]; then
-        echo "[q=$Q] ✅ metrics already exist, skip"
-        continue
+    # Codex P2 2026-04-27: skip-if-exists 不能只看 metrics.txt 存在；
+    # 加 marker 記錄 (model_path, tsv, num_samples)，若不一致就重跑。
+    if [ -f "$METRICS_FILE" ] && [ -f "$MARKER_FILE" ]; then
+        EXPECTED_MARKER="$(printf '%s\n%s\n%s' "$EMA" "$DATA_DIR/musiccaps_test.tsv" 5521)"
+        ACTUAL_MARKER="$(cat $MARKER_FILE)"
+        if [ "$EXPECTED_MARKER" = "$ACTUAL_MARKER" ]; then
+            echo "[q=$Q] ✅ metrics 已存在且 marker 一致，skip"
+            continue
+        else
+            echo "[q=$Q] ⚠️ marker mismatch, 重跑"
+        fi
     fi
 
     echo "[q=${Q}] gen → $EVAL_OUT"
@@ -64,6 +74,10 @@ for Q in 0 1 2 3 4 5 6 7 8 9; do
         --exp_name "${EXP}_q${Q}_musiccaps_qsweep" \
         --num_samples 5521 \
         2>&1 | tee -a "$LOG"
+
+    # 寫 marker（給下次 skip 檢查用）
+    mkdir -p "$(dirname $MARKER_FILE)"
+    printf '%s\n%s\n%s' "$EMA" "$DATA_DIR/musiccaps_test.tsv" 5521 > "$MARKER_FILE"
 done
 
 echo "======================================================"

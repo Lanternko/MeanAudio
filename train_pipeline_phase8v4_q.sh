@@ -93,12 +93,22 @@ echo "======================================================"
 # ============================================================
 # Checkpoint 遷移
 # ============================================================
+# Codex P1 2026-04-27: migration overwrite guard — 防止重跑覆蓋進行中
+# 的 S2 ckpt（會破壞訓練狀態）。要強制重做請設 FORCE_MIGRATE=1。
 
-echo "[遷移] $S1_CKPT → $S2_CKPT"
-python "$MIGRATE_SCRIPT" \
-    --s1_ckpt "$S1_CKPT" \
-    --s2_out  "$S2_CKPT"
-echo "[遷移] 完成"
+if [ -f "$S2_CKPT" ] && [ "${FORCE_MIGRATE:-0}" != "1" ]; then
+    echo "ℹ️  S2 ckpt 已存在，跳過遷移：$S2_CKPT"
+    echo "    若要強制重做，重跑時加 FORCE_MIGRATE=1"
+else
+    if [ -f "$S2_CKPT" ]; then
+        echo "⚠️  FORCE_MIGRATE=1 — 覆蓋既有 S2 ckpt：$S2_CKPT"
+    fi
+    echo "[遷移] $S1_CKPT → $S2_CKPT"
+    python "$MIGRATE_SCRIPT" \
+        --s1_ckpt "$S1_CKPT" \
+        --s2_out  "$S2_CKPT"
+    echo "[遷移] 完成"
+fi
 
 # ============================================================
 # Stage 2

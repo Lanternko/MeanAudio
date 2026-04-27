@@ -218,24 +218,33 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 
 ### 診斷：P9 multi-cap 模式重現
 
-**Pattern**：CLAP 大跌（~70%）但 AES 僅小跌（CE/PQ −2-3%），PC 反而上升。這與 P9 V1 NoQ 的「好聽但不貼 prompt」模式幾乎完全一致（P9 V1 MusicCaps CLAP 0.0650、AES 超 P8）。
+**Pattern (behavior-level observation)**：CLAP（natural-ref）大跌（~70%）但 AES 僅小跌（CE/PQ −2-3%），PC 反而上升。這與 P9 V1 NoQ 的「好聽但不貼 prompt」模式相似（P9 V1 MusicCaps natural-ref CLAP 0.0650、AES 超 P8）。
 
-**最可能的機制（working hypothesis，未證）**：
-- `[consistency=X.XX]` 前綴佔據 T5 token sequence 前幾個位置，主導 text embedding 的主要方向
-- 模型學到「consistency 數值 → 音質/風格」的 shortcut，不需仔細解析後面的 semantic caption
-- 結果：生成音訊的**音質/一致性良好**（AES 維持），但**語義對應弱化**（CLAP 崩潰）
-- 機制上與 multi-cap collapse 類似：text conditioning 的 semantic channel 被另一個更強的結構性訊號佔據
+**⚠️ Codex P1 2026-04-27 caveat**：上述 CLAP 0.0571 / 0.0591 是 **natural-ref**（metric tsv = 原始未 prefix caption；generation tsv = 帶 `[consistency=0.90]` prefix）。**這只是 cross-format alignment，不是 prompt-following metric**。要真正測「模型有沒有跟著 prompt 走」必須補 prefixed-ref pass（generation 與 metric 同 TSV）。dual-ref backfill 排在 2026-04-27 priority queue #1.5。
 
-**對 QA-MDT 類方法的啟示**：
-- QA-MDT 原始設計中，quality token 是離散分類（`[high]`/`[medium]`/`[low]`），semantic caption 仍完整保留
-- P8 V4 用 raw float prefix（`[consistency=0.83]`），T5 把它 encode 成連續向量，可能擠壓了後續 caption 的影響力
-- 更好的設計可能是：quality token 接 special token embedding（獨立 vocab），不走 text encoder；或 caption 保持原樣，quality 信號走 separate q_embed pathway（回到 Phase 7 V1 的設計）
+**Working hypotheses（需 embedding/probe evidence 才能升級為 mechanism claim）**：
+- H1: `[consistency=X.XX]` 前綴占據 T5 token sequence 前幾個位置，可能影響 text embedding 主方向（**未測 embedding norm/方向變化**）
+- H2: 模型可能學到「consistency 數值 → 音質/風格」捷徑而 underweight 語義 caption（**未做 attention/probe 驗證**）
+- H3: 行為層觀察（CLAP↓ + AES≈持平 + PC↑）與 multi-cap collapse 模式相似（**僅相似，未證共享機制**）
 
-### 結論
+**對 QA-MDT 類方法的觀察**（design suggestion，非 finding）：
+- QA-MDT 原始設計用離散 quality token（`[high]`/`[medium]`/`[low]`），semantic caption 完整保留
+- P8 V4 用 raw float prefix `[consistency=0.83]`，T5 encode 成連續向量
+- 一個可能的設計改進：quality token 接 special-vocab embedding 或走 separate q_embed pathway（與 P7 V1 同層）
 
-P8 V4 實驗回答了一個明確問題：**把 consistency 分數 verbalize 為 text prefix 並讓 T5/CLAP 吸收，不是有效的 quality conditioning 方法**。它反而削弱了 semantic text conditioning，效果類似 multi-cap 的 text conditioning collapse。
+### 暫定結論（pending dual-ref result + ablation chain）
 
-P7 V1（MeanSim-Q，q_embed 走 separate embedding pathway）仍是此問題的更好解法。P8 V4 負面結果本身對論文有 ablation 價值（支持「quality 信號應走 dedicated pathway 而非混入 text encoder」的論點）。
+**已證（behavior-level）**：在 natural-ref CLAP 上，P8 V4 NoQ 的 prompt prefix 設計顯著低於 P8 NoQ baseline。AES 維持/PC 微升。
+
+**尚不能證**：
+- ❌ 「prefix 主導 T5」（mechanism claim — 需 embedding 變化證據）
+- ❌ 「shortcut learning」（需 probe / attention evidence）
+- ❌ 「複製 multi-cap text conditioning collapse」（行為相似 ≠ 同機制）
+
+**待 dual-ref + 後續 ablation 補完**：
+- prefixed-ref CLAP（P8 V4 NoQ p=0.90 / p=1.00、P8 V4 Q）— 測 prompt-following
+- P8 V4 + Q variant（S2-only Q）— 測 q_embed pathway 是否能補
+- 若 prefixed-ref CLAP 也低 → 才能說 prompt-following 弱；若 prefixed-ref CLAP 高、natural-ref 低 → 純 cross-format mismatch（模型確實 follow 了 prefixed prompt，只是與 natural caption 偏離）
 
 ### 後續 ablation：prefix value sweep（2026-04-27 排隊中）
 
