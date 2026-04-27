@@ -61,6 +61,66 @@
 
 ¹ **P8V4 CLAP 是 natural-ref**（metric tsv = 原始未 prefix caption；generation tsv = `[consistency=0.90]` prefix）。這只測 cross-format alignment to natural caption，**不是** prompt-following（後者要 metric 與 generation 同 TSV）。Prefixed-ref backfill 排在 2026-04-27 priority queue，數字補完後再更新此表（Codex Round 1 P1 + Round 2 P2 驅動）。
 
+² **P8V4Q dual-ref（2026-04-27）**：上表第一個 CLAP 數字是 **prefixed_ref**（metric tsv 帶 `[consistency=0.90]` prefix），第二個是 **natural_ref**（原始未 prefix）。AES 兩種 ref 相同（同 audio）。完整 8 個 metric file 在 `eval_output/metrics/phase8_v4_q_stage2_200000_q{6,9}_{musiccaps,jamendo_seed42_2048}_{prefixed,natural}_ref/`。⚠️ S2-only Q regime（S1 沒看過 Q），與 P7 V1 等級不可直接比較。
+
+## P8 V4 系列 dual-ref + PE-AV 完整結果（2026-04-27 補完）
+
+> Codex P1 review 後產出的完整 prompt-following + PE-AV retrieval 結果。下表 generation 都用 prefixed TSV（`[consistency=X.XX] <caption>`）。
+
+### MusicCaps n=5521
+
+| Exp | gen prefix | metric ref | CLAP | peav_score | t2a R@10 |
+|-----|-----------|------------|------|------------|----------|
+| P7 V1 (baseline) | none | natural | 0.1975 | +0.052* | 5.4%* |
+| P8 V4 NoQ | s=0.90 | prefixed | **0.0665** | (no) | (no) |
+| P8 V4 NoQ | s=0.90 | natural | 0.0571 | (no) | (no) |
+| P8 V4 NoQ | s=1.00 | prefixed | **0.0676** | **−0.0416** | 0.217% |
+| P8 V4 NoQ | s=1.00 | natural | 0.0571 | **−0.0378** | 0.199% |
+| P8 V4 Q q=6 | s=0.90 | prefixed | 0.0626 | (no) | (no) |
+| P8 V4 Q q=6 | s=0.90 | natural | 0.0562 | (no) | (no) |
+| P8 V4 Q q=9 | s=0.90 | prefixed | 0.0598 | (no) | (no) |
+| P8 V4 Q q=9 | s=0.90 | natural | 0.0539 | (no) | (no) |
+
+*P7 V1 PE-AV 為 n=30 random subset 的歷史值，不直接 1:1 對應 full 5521；但量級對比仍可參考。
+
+### Jamendo seed=42 n=2048
+
+| Exp | gen prefix | metric ref | CLAP | peav_score | t2a R@10 |
+|-----|-----------|------------|------|------------|----------|
+| P7 V1 (baseline) | none | natural | 0.1981 | (no) | (no) |
+| P8 V4 NoQ | s=0.90 | prefixed | 0.0619 | (no) | (no) |
+| P8 V4 NoQ | s=0.90 | natural | 0.0591 | (no) | (no) |
+| P8 V4 NoQ | s=1.00 | prefixed | **0.0648** | **−0.0037** | 0.488% |
+| P8 V4 NoQ | s=1.00 | natural | 0.0591 | **+0.0073** | 0.488% |
+| P8 V4 Q q=6 | s=0.90 | prefixed | 0.0450 | (no) | (no) |
+| P8 V4 Q q=6 | s=0.90 | natural | 0.0447 | (no) | (no) |
+| P8 V4 Q q=9 | s=0.90 | prefixed | 0.0417 | (no) | (no) |
+| P8 V4 Q q=9 | s=0.90 | natural | 0.0411 | (no) | (no) |
+
+### 三 metric 一致 verdict（MusicCaps）
+
+P8 V4 NoQ s=1.0 vs P7 V1 baseline：CLAP 2.9× 劣化、peav_score sign flip、t2a R@10 27× 劣化。**PE-AV 反映的劣化遠大於 CLAP**——支持「prefix 設計實質傷害 prompt-following」。詳見 `phase_status.md` 同段。
+
+### Prefix 值（0.90 vs 1.00）影響極小
+
+| 指標 | s=0.90 | s=1.00 | Δ |
+|------|--------|--------|---|
+| MC prefixed_ref CLAP | 0.0665 | 0.0676 | +1.7% |
+| MC natural_ref CLAP | 0.0571 | 0.0571 | **0.0%** |
+| JM prefixed_ref CLAP | 0.0619 | 0.0648 | +4.7% |
+| JM natural_ref CLAP | 0.0591 | 0.0591 | **0.0%** |
+| 全 AES 指標 | (s=0.90) | (s=1.00) | < 0.002 (noise) |
+
+**Natural_ref CLAP 對 prefix 值完全 invariant**（0.90 vs 1.00 差距為 0.0000）→ prefix 結構（佔 token、改 T5 embedding 主方向）才是核心，**值的選擇不重要**。
+
+## P7 V1 q-sweep on MusicCaps（2026-04-27 完整 q=0..9）
+
+詳見 `phase_status.md` 同段。要點：
+- **q=9 = 0.1975 完全等於 historical baseline** → eval pipeline reproducible 驗證
+- **支援集邊界精確定位 q=4↔q=5**（CLAP 0.0591 → 0.1871）
+- **In-support plateau q=5..9 範圍 0.1871 ~ 0.1975**（q=5 偏低，q=6-9 緊密）
+- **q=3 negative CLAP (−0.0113)**：q_embed[3] 從未訓過，OOD 隨機與 prompt 反相關
+
 **MusicCaps 結論**：P7V3 領先 CLAP + AES 四項；P7V1 在 PE-AV / R@10 領先。P4V4 FAD 最低是因為 pre-P6 模型輸出分布較廣，更接近 MusicCaps 一般音樂分布（品質代價：CLAP/AES 全部較低）。**Jamendo ↔ MusicCaps 首位互換**（Jamendo 是 P6V2，MusicCaps 是 P7V3）→ Static random caption (P7 系) 比 Best-consensus (P6) 跨分布更穩健。
 
 ### 跨 benchmark 亮點（seed=42 修正後）

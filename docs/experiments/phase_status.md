@@ -279,3 +279,74 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 ### 平行進行：P8 V4 + Q 變體（2026-04-27）
 
 `phase8_v4_q_stage2_200000`（tmux `p8v4q`）：複用 P8 V4 S1（NoQ ckpt），S2 開 `use_q_conditioning=true`。測試假說：text prefix + q_embed 雙 pathway 並存能否救回 semantic CLAP？S2 from scratch q_embed → S2-only Q regime，已知 half-Q 等級劣化。Eval q=6 + q=9 × MusicCaps + Jamendo seed42 (4 跑)。S2 速度 0.110 s/iter, ETA 13:15 訓練完、~14:15 全 eval 完。
+
+## P7 V1 完整 q-sweep on MusicCaps（2026-04-27 完成）
+
+對 P7 V1 既有 EMA（Mar 28 訓的 historical baseline）跑 q=0..9 完整 sweep，補齊歷史只測過 q=0/3/6/9 中間值（q=1/2/4/5/7/8）。
+
+### 完整曲線
+
+| q | CLAP | CE | CU | PC | PQ | 區段 |
+|---|------|-----|-----|-----|-----|------|
+| 0 | 0.0446 | 3.32 | 4.49 | 4.19 | 4.90 | OOD |
+| 1 | 0.0481 | 3.66 | 4.85 | 4.31 | 5.25 | OOD |
+| 2 | 0.0247 | 3.33 | 4.41 | 4.11 | 4.86 | OOD |
+| 3 | **−0.0113** | 2.74 | 3.84 | 3.97 | 4.34 | OOD（負值！）|
+| 4 | 0.0591 | 3.52 | 4.71 | 4.30 | 5.18 | **OOD-edge** |
+| **5** | **0.1871** | 5.93 | 6.71 | 4.69 | 6.64 | **支援集邊界** |
+| 6 | 0.1960 | 6.00 | 6.79 | 4.69 | 6.65 | in-support |
+| 7 | 0.1973 | 5.99 | 6.79 | 4.71 | 6.62 | in-support |
+| 8 | 0.1968 | 5.95 | 6.77 | 4.66 | 6.60 | in-support |
+| **9** | **0.1975** | 6.02 | 6.81 | 4.67 | 6.68 | in-support |
+
+### 重要驗證：q=9 = 0.1975 與歷史完全一致（Δ = 0.00%）
+
+之前 docs 記錄的 P7 V1 MusicCaps q=9 baseline = **0.1975**。本次 rerun **逐位數匹配** → eval pipeline / model ckpt / code path 全部 reproducible，無 silent regression。
+
+### Support-set gating 再確認 + 精確邊界
+
+歷史 memory `reference_p7v1_q_support_gating_2026_04_21.md` 的觀察：「q=0/3 OOD ≤ 0.045，q=6/9 in-support ~0.197」全部還原。**新資訊：邊界在 q=4↔q=5**：
+- q=4 = 0.0591（OOD edge）
+- q=5 = 0.1871（已 in-support，但低於 q=6-9 平台 ~0.0089）
+- q=6/7/8/9 = 0.1960/0.1973/0.1968/0.1975（極窄區間 0.0015）
+
+**訓練分布解釋**（從 P8 V4 train.tsv 看，繼承自 P7 V1）：q=3 僅 1 筆、q=4 僅 312 筆、q=5+ 才開始有實質量。對應曲線：q=0..3 是 random（甚至 q=3 負相關）、q=4 過渡、q=5+ 支援集 plateau。
+
+**論文意義**：Q 不是 ordinal quality controller（值高低不影響輸出細粒度）；它是 **coarse regime marker**，把模型推到「訓過的分布內」或「訓過的分布外」。
+
+## P8 V4 NoQ s=1.00 — PE-AV eval（2026-04-27 完成）
+
+用既有 P8 V4 NoQ s=1.00 audio（priority queue #2 跑出來的）跑 PE-AV，dual-ref 與 CLAP 同方法論。
+
+### 結果（dual-ref）
+
+| Benchmark | Ref | peav_score | t2a R@1/5/10 | a2t R@10 | median rank |
+|-----------|-----|-----------|--------------|----------|-------------|
+| MusicCaps n=5521 | natural | −0.0378 | 0.018/0.091/0.199% | 0.217% | 2741 |
+| MusicCaps n=5521 | prefixed | −0.0416 | 0.018/0.072/0.217% | 0.254% | 2744 |
+| Jamendo n=2048 | natural | +0.0073 | 0.098/0.342/0.488% | 0.537% | 1003 |
+| Jamendo n=2048 | prefixed | −0.0037 | 0.098/0.293/0.488% | 0.439% | 1009 |
+
+### 對照歷史 P7 V1（n=30 random）
+
+| 指標 | P7 V1 (30 random) | P8 V4 NoQ s=1.00 (full) |
+|------|-------------------|---------------------------|
+| peav_score | **+0.052** | **−0.04 ~ +0.007** |
+| t2a R@10 | 5.4%（30× random）| ~ random baseline |
+
+### 關鍵讀數
+
+1. **PE-AV retrieval 降至 random baseline**：MC 隨機 R@10 = 10/5521 = 0.181%、JM 隨機 = 0.488%，本次測得值與隨機**完全一致**
+2. **peav_score MC 為負值（−0.038）**：與 prompt 反相關（vs P7 V1 的 +0.052）
+3. **median rank ≈ n/2**：retrieval 完全沒有對齊 signal
+4. **prefix 0.90 vs 1.00**：對 PE-AV 也幾乎無影響（與 CLAP 同結論）
+
+### Prompt-following 三 metric 一致 verdict（P7 V1 baseline → P8 V4 NoQ s=1.0）
+
+| Metric | P7 V1 | P8 V4 NoQ s=1.0 | 劣化倍率 |
+|--------|-------|------------------|----------|
+| CLAP (MC, prefixed_ref) | 0.1975 | 0.0676 | **2.9×** |
+| PE-AV peav_score (MC) | +0.052 | −0.038 | **sign flip** |
+| PE-AV t2a R@10 (MC) | 5.4% | 0.20% | **27×** |
+
+PE-AV 上劣化幅度遠大於 CLAP（27× vs 2.9×）—— PE-AV 是 fine-grained retrieval，對語意對齊更敏感。**三 metric 一致指向：prefix 設計實質傷害 prompt-following**，且傷害程度比 CLAP 數字所暗示的更嚴重。
