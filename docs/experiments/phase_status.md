@@ -384,18 +384,45 @@ q=9 比其他 q 高 2-5×，與 P8 bug 確認（null 訓在 q[9]）完全吻合�
 
 目的：驗證 eval.py 內部 `--no_q ≡ --quality_level 10`（兩者均走 q[10]）。若完全相同，pipeline 一致性確認。
 
-### P8 V4 NoQ q-sweep control（bug-free ckpt，q=5..10，dual-ref）
+### P8 V4 NoQ q-sweep control（bug-free ckpt，q=5..10，dual-ref）✅ 2026-04-28 完成
 
-針對 P8 V4（2026-04-26 訓練、bug 已修）：
-- preflight 驗證：q[5..9] random（untouched）、q[10] trained null ✅
-- q=10 sanity：應 ≈ --no_q baseline
-- q=5..9：random init，作為 Fig.2 第三條線（supplementary）
+針對 P8 V4（2026-04-26 訓練、bug 已修）:
 
-### 待 q-sweep 完成後 Fig.2 設計
+**Preflight**（q_embed row diff, S1→S2）：
+- q[0..9] delta_l2 = 0.000000（untouched）✅
+- q[10] delta_l2 = 2.268874（TRAINED null）✅
 
-**Main figure**：P7 V1 trained-Q curve (q=5..9) + P8 NoQ baseline horizontal（0.1907 proxy 或 rerun 數字）+ P8 NoQ random-q curve（q=5..9）
+**完整結果（MusicCaps n=5521）**：
 
-**Supplementary inset**：P8 V4 NoQ control（不同訓練機制，不直接比較 CLAP 絕對值）
+| q | prefixed_ref CLAP | natural_ref CLAP | 解釋 |
+|---|---|---|---|
+| `--no_q` baseline | **+0.0665** | **+0.0571** | 訓練 null token（q[10]） |
+| 5 | −0.0306 | −0.0480 | random init，主動干擾 |
+| 6 | −0.0042 | −0.0173 | random init，近乎 random |
+| 7 | −0.0318 | −0.0397 | random init，主動干擾 |
+| 8 | −0.0009 | −0.0182 | random init，接近 zero |
+| 9 | +0.0008 | −0.0154 | random init，prefixed 勉強正 |
+| **10** | **+0.0665** | **+0.0571** | ✅ 訓練 null = baseline（sanity 通過） |
+
+**關鍵讀數**：
+1. **q=10 ≡ --no_q baseline**（兩 ref 完全一致）— `--quality_level 10` 與 `--no_q` pipeline 行為等效，P8 V4 code path 一致
+2. **q=5..9 全部 ≤ +0.001**（natural_ref 全負）— random init embedding 主動干擾生成，不只是「沒有幫助」
+3. **P8 NoQ qsweep 的 q=9 異常（0.1907）在 P8 V4 不存在**：P8 V4 用 bug-free code，null 正確在 q[10]，q=5..9 都是 random
+4. **⚠️ 注意：絕對值不能與 P8 NoQ / P7 V1 直接比較**（P8 V4 有 prefix dominance，CLAP magnitude 不同量級）
+
+**Fig.2 用途**：P8 V4 NoQ control 只作 supplementary inset（不同訓練機制，Y 軸量級不同），不放進 P8 NoQ vs P7 V1 主圖。
+
+### Fig.2 設計（2026-04-28 data 齊全）
+
+**Main figure**（同 Y 軸，同模型系列）：
+- P7 V1 trained-Q curve：q=5: 0.1871、q=6: 0.1960、q=7: 0.1973、q=8: 0.1968、q=9: 0.1975
+- P8 NoQ horizontal baseline：`--no_q` = 0.1851（pipeline-consistent，注意 train/eval mismatch caveat）
+- P8 NoQ random-q curve：q=5: 0.0920、q=6: 0.0681、q=7: 0.0418、q=8: 0.0709、q=9: 0.1907（trained null via bug）
+
+**Supplementary inset**（P8 V4 NoQ，不同 Y 軸，量級 ~0.06 vs ~0.18）：
+- Baseline --no_q: prefixed=0.0665, natural=0.0571
+- q=5..9 all negative (random init hurts)
+- q=10 = baseline (trained null verified)
 
 ## TODO：Retrain P8 NoQ bug-free（排隊中，未跑）
 
