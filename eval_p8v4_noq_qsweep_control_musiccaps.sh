@@ -184,8 +184,10 @@ echo "  Baseline (--no_q, trained q[10]):  prefixed=$baseline_clap_p  natural=$b
 
 # ============================================================
 # q-sweep control with full identity manifest
+# q=5..9: random q rows (untrained for P8 V4)
+# q=10:   sanity check — trained null token, should ≈ --no_q baseline
 # ============================================================
-for Q in 5 6 7 8 9; do
+for Q in 5 6 7 8 9 10; do
     EVAL_OUT="$WORK_DIR/eval_output/${EXP}_q${Q}_musiccaps_qsweep_control"
     LOG="$LOG_DIR/${EXP}_q${Q}_musiccaps_qsweep_control_eval.log"
     BASE="${EXP}_q${Q}_musiccaps_qsweep_control"
