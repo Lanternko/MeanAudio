@@ -350,3 +350,76 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 | PE-AV t2a R@10 (MC) | 5.4% | 0.20% | **27×** |
 
 PE-AV 上劣化幅度遠大於 CLAP（27× vs 2.9×）—— PE-AV 是 fine-grained retrieval，對語意對齊更敏感。**三 metric 一致指向：prefix 設計實質傷害 prompt-following**，且傷害程度比 CLAP 數字所暗示的更嚴重。
+
+## P8 NoQ q-sweep control（2026-04-27/28 完成）
+
+### 背景
+
+Wei-Jaw 建議：Fig.2 加入 P8 NoQ baseline 橫線，並跑 q=5..9 control 確認 random init q_embed 的效應（對照 P7 V1 trained Q curve）。同時發現 P8 NoQ 本身存在 `networks.py q=None→9` bug（null token 訓在 q[9] 而非 q[10]）。
+
+### P8 NoQ q=9 結果 — 揭露 bug
+
+| q | CLAP | 解釋 |
+|---|------|------|
+| q=5 | 0.0920 | random init (untrained) |
+| q=6 | 0.0681 | random init |
+| q=7 | 0.0418 | random init |
+| q=8 | 0.0709 | random init |
+| **q=9** | **0.1907** | **bug 暴露 trained null（本應在 q[10]）** |
+
+q=9 比其他 q 高 2-5×，與 P8 bug 確認（null 訓在 q[9]）完全吻合。q=9 可視為「最接近 bug-free P8 baseline 的 proxy」。
+
+### Bug-free P8 baseline 估計 vs P7 V1
+
+- P8 q=9（exposed trained null）= **0.1907**
+- P7 V1 MusicCaps q=9（true trained）= **0.1975**
+- 估計缺口：~0.007（3-4%），非歷史所說的 +6.7%
+- 若 retrain P8 NoQ bug-free，預期結果 ~0.190 — 仍略低於 P7 V1
+
+### P8 NoQ --no_q baseline rerun（2026-04-28，同 pipeline）
+
+等同「訓練 null 在 q[9]，但 eval 強制走 q[10]（untrained random）」→ train/eval mismatch 的 pipeline-consistent baseline。
+
+### P8 q=10 sanity check
+
+目的：驗證 eval.py 內部 `--no_q ≡ --quality_level 10`（兩者均走 q[10]）。若完全相同，pipeline 一致性確認。
+
+### P8 V4 NoQ q-sweep control（bug-free ckpt，q=5..10，dual-ref）
+
+針對 P8 V4（2026-04-26 訓練、bug 已修）：
+- preflight 驗證：q[5..9] random（untouched）、q[10] trained null ✅
+- q=10 sanity：應 ≈ --no_q baseline
+- q=5..9：random init，作為 Fig.2 第三條線（supplementary）
+
+### 待 q-sweep 完成後 Fig.2 設計
+
+**Main figure**：P7 V1 trained-Q curve (q=5..9) + P8 NoQ baseline horizontal（0.1907 proxy 或 rerun 數字）+ P8 NoQ random-q curve（q=5..9）
+
+**Supplementary inset**：P8 V4 NoQ control（不同訓練機制，不直接比較 CLAP 絕對值）
+
+## TODO：Retrain P8 NoQ bug-free（排隊中，未跑）
+
+**目的**：用修好 `networks.py`（q=None→10）的 codebase 從頭 retrain P8 NoQ，得到乾淨 baseline，正確估計 Q conditioning 貢獻度。
+
+**動機**：
+- P8 歷史 baseline 0.1851 = `--no_q` 走 q[10]（untrained）= train/eval mismatch artifact
+- 真正 bug-free baseline 應 ≈ 0.190（q=9 proxy）— Q 貢獻只有 ~3-4%，非歷史所說的 +6.7%
+- 這個數字對論文 Table 1 有實質影響（Q conditioning 的貢獻從 6.7% 縮為 3-4%）
+
+**設定（草稿）**：
+```bash
+EXP_PREFIX="phase8_nobug"          # 或 phase8_v2_clean
+USE_Q_CONDITIONING=false
+S1_ITERATIONS=400000
+S2_ITERATIONS=200000
+# networks.py q=None→10（已修）
+# runner_flowmatching.py q-passing（已修，但 NoQ 訓練不傳 q，不影響）
+```
+
+**ETA**：~19h GPU（S1 12.3h + S2 6.7h），eval ~11 min（MusicCaps）
+
+**Priority**：P1（論文 Table 1 必要）；插隊時間：P9.5 captioning 結束後 / Fig.2 data 收齊後
+
+**Blockers**：
+1. /mnt/HDD 空間（需 ~5 GB checkpoint）→ 先確認有空間
+2. P9.5 captioning 是否持續（NoQ 重訓與 captioning 可能衝 GPU）
