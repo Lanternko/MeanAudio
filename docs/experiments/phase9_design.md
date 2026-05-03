@@ -15,11 +15,25 @@ Phase 7 V1 的 random 是每個 clip 在 TSV 生成時 seed=42 選定，**整個
 | **Phase 9.5 V1** | Qwen2.5-Omni 5 task caps | 無 Q |
 | **Phase 9.5 V2** | Qwen2.5-Omni 5 task caps | pairwise MeanSim of 5 task captions |
 
-## Phase 9.5 為主結果（2026-04-17 確認）
+## Phase 9.5 為主結果（2026-04-17 確認；2026-05-03 framing 修正）
 
-LP-MusicCaps 的 Jamendo caption 是透過第三方模型輸出，審稿人可能質疑「不是真實 human caption」。用自家跑的 Qwen2.5-Omni 多面向 caption 能同時證明：
-1. diversity hypothesis 跨 captioner 成立
+LP-MusicCaps 的 Jamendo caption 是透過第三方模型輸出，審稿人可能質疑「不是真實 human caption」。用自家跑的 Qwen2.5-Omni 多面向 caption 可以同時：
+1. 觀察 multi-cap collapse 模式在另一組 caption 來源是否重現
 2. 不依賴第三方資料集
+
+### ⚠️ Framing caveat：P9.5 不是 isolated cross-captioner control（Codex 2026-05-03 review）
+
+P9.5 vs P9 同時改變兩件事：
+- **Captioner**：LP-MusicCaps captioning model → Qwen2.5-Omni-3B
+- **Diversity 機制**：seed-sampled decoding noise → task-framed prompting
+
+這兩個變量綁在一起，**P9.5 是 task-framed Qwen multi-cap variant / stress test，不是 captioner-only control**。
+
+✅ 可以說：「P9.5 evaluates whether the Phase 9 multi-caption failure persists under a different caption-generation regime (Qwen task-framed vs LP-MC seed-sampled). This changes both the captioner and the source of caption diversity.」
+
+❌ 不能寫：「P9.5 驗證 cross-captioner diversity hypothesis」（會讓 reviewer 以為隔離了 captioner 因子）。
+
+要做真正 captioner-only control 需要：同 captioner 出 seed-sampled vs task-framed 兩組（GPU 預算外，論文不在 scope）。
 
 ### ⚠️ LP-MusicCaps Jamendo caption 的真實生成方式
 
@@ -66,3 +80,32 @@ Config 加 `multi_cap: true` 即可啟用，向下相容（舊 NPZ 不受影響�
 - **CLAP score**：audio-text CLAP 相似度 → 衡量 caption 有多**準確**描述音訊
 
 這兩種 diversity 機制（seed-noise vs task-framing）的對比本身就是有意思的研究問題：哪個產生的 MeanSim 更能當品質 q 信號。
+
+## P9.5 launch plan（Codex 2026-05-03 confirmed）
+
+### 三個設計決定
+
+1. **S1 ckpt：從零 retrain Qwen S1+S2，不 reuse P9 V1 LP-MC S1**
+   - Reuse 會讓 Stage 1 text-conditioning prior 已在 LP-MC 上 formed，S2 換 Qwen 引入 S1 prior mismatch
+   - 可以用 reuse 做 fast smoke test debug，不能放進主結論
+2. **q_level binning：Qwen 獨立 percentile-equal-frequency 0-9**
+   - 不共用 LP-MC bin edges（Qwen mean_sim 分布很可能 shift，共用會偏斜分布造成 support-set confound）
+   - q=N **是 captioner-local percentile bucket，不是跨 captioner 絕對等級**。論文/圖表報 raw mean_sim 分布 + bin edges
+3. **Eval：MusicCaps n=5527 primary + Jamendo seed42 n=2048 secondary**
+   - Full Jamendo 90k 不需要，除非兩 set 方向不一致
+   - Jamendo seed42 多 ~30 min，能對齊 P7/P8/P9 historical in-domain sanity
+
+### Sequential gating：V1 先，V2 看結果
+
+只在 P9.5 V1 NoQ 出現以下 **任一** 訊號才啟動 V2 Q：
+- V1 CLAP 明顯優於 P9 V1 bugfix (0.0650 MusicCaps)，或
+- V1 same-seed prompt steering 沒崩（probe `(A-B L2)/(noise L2)` ratio > 0.2）
+
+若 V1 跟 P9 V1 一樣低 + steering 崩 → V2 多半只是確認失敗，不優先燒 GPU。
+
+### 啟動流程
+
+1. Qwen merged caption sanity：251,599 rows、每 row 5 captions、無空 caption、ID order 對齊 `phase7_v1_train.tsv`、slot 順序正確
+2. 產 Qwen multi-cap NPZ + manifest：`idx / id / npz_fname / caption_sha / slot_count`（防 silent collision）
+3. P9.5 V1 NoQ 從零 S1+S2 + dual eval (MusicCaps + Jamendo seed42)
+4. V1 結果評估 → 決定是否啟 V2 Q (Qwen mean_sim binned)
