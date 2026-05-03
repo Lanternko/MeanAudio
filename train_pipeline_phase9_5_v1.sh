@@ -145,17 +145,17 @@ python "$HOME/research/meanaudio_training/validate_multicap_npz.py" \
     --tsv "$TRAIN_TSV" --npz_dir "$MULTICAP_NPZ" --deep 200
 
 # ============================================================
-# Stage 1
+# Stage 1 — FluxAudio (Flow Matching), no r param
 # ============================================================
 echo "[Stage 1] launching $EXP_S1"
 python "$STAGE_SCRIPT" --stage 1
 
 torchrun --standalone --nproc_per_node=1 train.py \
     data=meanaudio \
-    model=meanaudio_s \
+    model=fluxaudio_s \
     exp_id="$EXP_S1" \
     num_iterations=$S1_ITERATIONS \
-    "lr_schedule_steps=[999999,999999]" \
+    "lr_schedule_steps=[320000,360000]" \
     "${COMMON_ARGS[@]}" \
     2>&1 | tee "$LOG_DIR/${EXP_S1}.log"
 
@@ -205,6 +205,14 @@ python "$EVAL_SCRIPT" \
     --gen_dir "$EVAL_OUT_MC/audio" \
     --tsv "$TSV_MUSICCAPS" \
     --exp_name "${EXP_S2}_musiccaps" \
+    --num_samples 5521 \
+    2>&1 | tee -a "$LOG_DIR/${EXP_S2}_musiccaps_eval.log"
+
+# Also compute n=2048 subset for apples-to-apples comparison vs P9 V1 bugfix (0.0650 baseline)
+python "$EVAL_SCRIPT" \
+    --gen_dir "$EVAL_OUT_MC/audio" \
+    --tsv "$TSV_MUSICCAPS" \
+    --exp_name "${EXP_S2}_musiccaps_n2048" \
     --num_samples 2048 \
     2>&1 | tee -a "$LOG_DIR/${EXP_S2}_musiccaps_eval.log"
 
