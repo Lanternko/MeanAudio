@@ -22,8 +22,8 @@
 | **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
 | **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
-| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | ⏸️ **Captioning 暫停 2026-04-26**（Slot 0 ✅ 251,599、Slot 1 ~67K 後停；ETA 期限內跑不完，讓位給 P8 V4 PromptConsistency 實驗。jsonl 不丟，可後續 `--resume`） |
-| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ⏸️ 同上（共用 captions） |
+| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | 🟢 **Captioning 完成 2026-05-02**（5 slots × 251,599 + auto-merge → `phase9_omni_captions.jsonl` 182MB）。可開訓 |
+| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | 🟢 同上（共用 captions），可開訓 |
 
 ## Phase 9 NPZ 前處理狀態（2026-04-18）
 
@@ -164,23 +164,39 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 - `p7v1/`、`p8/`、`p9v1/`、`p9v2/`（q=8）、`p9v2_q9/`（sanity）各 24 wav
 - `probe_battery_results.json` 3450 條 records
 
-## Phase 9.5 Qwen captioning 狀態（2026-04-25/26 active）
+## Phase 9.5 Qwen captioning 狀態（✅ 2026-05-02 完成）
 
-**Lane C 啟動 2026-04-25 18:06** — `tmux qwen_omni` 跑 `gen_qwen25omni_captions.py --slot all --resume`，GPU 99% / 24 GB（獨佔）。
+**最終狀態**：5 slots × 251,599 全部完成，自動 merge → `phase9_omni_captions.jsonl`（251,599 行 / 182 MB）。
 
-| Slot | Task framing | 狀態 |
-|------|-------------|------|
-| 0 | NaturalProse | ✅ **251,599 / 251,599** done (4/26 ~03:47 estimate) |
-| 1 | Summary | 🔄 進行中 (~67K / 251K @ 00:58 4/26) |
-| 2 | Writing | ⏸️ 等 slot 1 |
-| 3 | Paraphrase | ⏸️ 等 slot 2 |
-| 4 | Attribute | ⏸️ 等 slot 3 |
+| Slot | Task framing | 行數 | 狀態 |
+|------|-------------|------|------|
+| 0 | Writing（詳細自然描述句） | 251,599 | ✅ 4/26 完成 |
+| 1 | Summary（壓縮為短句） | 251,599 | ✅ |
+| 2 | Paraphrase（豐富詞彙改寫） | 251,599 | ✅ |
+| 3 | Attribute（屬性為主） | 251,599 | ✅ |
+| 4 | NaturalProse（中性敘述） | 251,599 | ✅ |
+
+> **修正**：先前 docs 記錄的 slot 順序誤標（slot 0 寫成 NaturalProse、slot 4 寫成 Attribute）。
+> 實際 PROMPTS 順序見 `gen_qwen25omni_captions.py:55-65`。
 
 - 模型：`Qwen/Qwen2.5-Omni-3B`（Thinker-only，SDPA attention）
 - 輸入：`phase7_v1_train.tsv` (251,599 clips) + audio root `/home/hsiehyian/dataset/segments_no_vocals`
-- 輸出：`/mnt/HDD/kojiek/phase4_jamendo_data/phase9_omni_captions_slot{0..4}.jsonl`
-- Throughput: ~216 captions/min sustained (varies 144–280 based on audio difficulty)
-- ETA: slot 1 末 ~15:00 4/26、slot 2 ~07:00 4/27、slot 3 ~23:00 4/27、slot 4 ~15:00 4/28（約 2.5 天）
+- 輸出：
+  - 個別：`/mnt/HDD/kojiek/phase4_jamendo_data/phase9_omni_captions_slot{0..4}.jsonl`
+  - Merge：`/mnt/HDD/kojiek/phase4_jamendo_data/phase9_omni_captions.jsonl`（每行 `{"id":..., "captions":[c0..c4]}`）
+
+### 階段二 resume run 實測（2026-04-28 20:13 → 2026-05-02 12:53，~88h wallclock）
+
+完成的工作量：slot 1 殘餘 183,471 + slots 2/3/4 各 251,599 = **938,268 captions**（約佔總 1,257,995 的 75%）
+
+| 階段 | 速度 (s/batch, batch=20) | 備註 |
+|------|------------------------|------|
+| GPU 共用 hsiehyian (7.7 GB) | ~10.5 s/it（約 2 caps/s） | slots 1, 2 早期 |
+| GPU 獨佔 | ~5 s/it（約 4 caps/s） | hsiehyian 結束後 |
+
+- BATCH_SIZE 從 32 降至 20（避免與 hsiehyian training 共用時 OOM；獨佔時可回 32）
+- 一次 silent SIGKILL 崩潰（啟動後 ~20 min），`--resume` 完整恢復無資料遺失
+- 全程自動 merge（`--slot all` 跑完 5 slots 後自動觸發 `merge_slots()`）
 
 ### n=11 早期 diversity sample（slot 0 vs slot 1，2026-04-25 21:34）
 
