@@ -175,44 +175,53 @@ V1 結果若**任一**符合就跑 V2，否則 SKIP：
 
 ---
 
-## 5. 解讀
+## 5. 解讀（嚴格分層 — Codex 5/5 review 收斂版）
 
-### 5.1 可宣稱（behavior-level finding）
+### 5.1 已證明（observation level）
 
-**Multi-cap collapse 跨 captioner（LP-MC vs Qwen）+ 跨 diversity 機制（seed vs task）成立**：
+- P9.5 V1（Qwen task-framed multi-cap NoQ）也落在 collapse 區：MusicCaps CLAP **0.0609**、Jamendo seed42 CLAP **0.0594**
+- P9.5 V1 same-seed prompt steering ratio 全 4 pair 都很低：**0.022–0.044**
+- 此 pattern 與 P9 V1（LP-MC seed-sampled multi-cap NoQ，CLAP 0.0650 / steering 0.025–0.147）一致
+- P7 V1 / P8 single-cap 明顯健康（CLAP 0.18-0.20、steering 0.9-1.7）；P9 / P9.5 multi-cap 明顯不健康
 
-- LP-MC seed-sampled multi-cap → CLAP 0.0650, steering 0.025-0.147
-- Qwen task-framed multi-cap → CLAP 0.0609, steering 0.022-0.044
+### 5.2 高可信推論（behavior-level，非 mechanism 證明）
 
-不是 LP-MC seed-noise 特有 artifact，不是 captioner 品質問題。
-是 **train-paradigm 級失敗**（每 iter random 1-of-5 caption supervision），跟 caption source 無關。
+- Collapse 不是 LP-MusicCaps seed-sampling 特有
+- Qwen task-framing diversity 沒救回 multi-cap random-pick 訓練
+- 問題**更可能**來自 multi-cap supervision 的形式（random 1-of-5 caption per iter），而不是單一 captioner 的 caption 品質
+- captioner-specific artifact 的可能性**降低，但尚未完全排除**
 
-### 5.2 不能宣稱（mechanism 未證）
+### 5.3 不能宣稱（已被 Codex 5/5 review 否決）
 
-- ❌「multi-cap 本質不適合 audio generation」  
-  （沒做 lr / data ratio / batch-cap-pairing 等 ablation）
-- ❌「Qwen 比 LP-MC 差」  
-  （只 6.3% 差距，可能是 noise；單一 run）
-- ❌「task-framed 不如 seed-sampled」  
-  （reverse claim 同樣沒 mechanism evidence）
+- ❌「證明 multi-cap 本質不可用」
+- ❌「證明跟 caption source 無關」（沒掃多種 captioner 不能 categorical claim）
+- ❌「證明是 random 1-of-5 的 causal effect」（沒 isolated control）
+- ❌「V2 一定會失敗」（V2 SKIP 是 gate 觸發，不是預測）
+- ❌「task-framed 不如 seed-sampled」/「Qwen 比 LP-MC 差」（單 run、6.3% 差距，可能 noise）
 
-### 5.3 對論文的價值
+### 5.4 V2 SKIP 的正確 wording
 
-P9.5 把 P9 「可能只是 LP-MC 雜亂」這個 reviewer 反駁路線封掉了：
+> Because V1 failed the pre-defined launch gate (MC CLAP > 0.0650 OR any pair steering > 0.2),
+> we did not spend additional GPU on the Q-conditioned variant.
 
-- 若 reviewer 質疑「P9 失敗只是 LP 第三方 caption 問題」→ 可以指 P9.5 用自家 Qwen 也同樣 collapse
-- 若 reviewer 質疑「seed-sampled diversity 不夠結構化」→ 可以指 P9.5 task-framed 結構化 prompt 也救不回
-- 教授要的「不依賴第三方資料集」目標達成
+**不要寫**「V2 跑只會確認失敗」。是 gate 觸發、不是預測。
 
-Negative finding 但 robust，比 P9 單一觀察強。
+### 5.5 對論文的價值
 
-### 5.4 工作假說（未證）
+P9.5 把 P9 的「可能只是 LP-MC 雜亂」這條 reviewer 反駁路線變弱：
 
-multi_cap=True 訓練機制（每 iter 隨機抽 5 cap 中 1）對 text encoder 有結構性傷害，可能性：
+- 質疑「P9 失敗只是 LP 第三方 caption 問題」→ 可指 P9.5 用自家 Qwen 也落在 collapse 區間
+- 質疑「seed-sampled diversity 不夠結構化」→ 可指 P9.5 task-framed 結構化 prompt 也沒救回
+
+Negative finding 但 robust，比 P9 單一觀察強 — 但要當 robustness evidence 寫，不是 categorical proof。
+
+### 5.6 工作假說（未證、不寫進 paper claim）
+
+multi_cap=True 訓練機制（每 iter 隨機抽 5 cap 中 1）**可能**對 text encoder 有結構性傷害：
 - T5 forward 接到 5 個非常不同的 text features 但都對同一 audio target → 等效 noise injection
-- random pick 把 caption→audio 變 1-to-many → conditional generative 學不出穩定 prior
+- Random pick 把 caption→audio 變 1-to-many → conditional generative 學不出穩定 prior
 
-要證 mechanism 需要再做 ablation（不在當前 scope）。
+這些是 hypothesis，不是 result。要證 mechanism 需要 isolated control（見 §7）。
 
 ---
 
@@ -254,19 +263,52 @@ multi_cap=True 訓練機制（每 iter 隨機抽 5 cap 中 1）對 text encoder 
 
 ---
 
-## 7. 後續可選（未做，依需求）
+## 7. 後續優先順序（Codex 5/5 review）
 
-1. **Qwen mean_sim 分布 figure**（30 min GPU）  
-   跑 `gen_phase9_5_q_levels.py` 可拿 Qwen-local mean_sim 分布 + bin edges，與 LP-MC 分布並陳，
-   給 paper figure 證實 distribution shape 確實不同。
+### 為了當前 paper / meeting
 
-2. **Probe battery 完整 4 模型對比**（~30 min）  
-   對 P7 V1 / P8 / P9 V1 / P9.5 V1 跑同樣 24-wav probe，產 2x2 collapse 表，
-   強化「task-framed 也 collapse」claim。
+1. **不開新訓練**（不跑 V2，不跑 Qwen 全套 phase replay — 太貴且不乾淨）
+2. **鎖定主線 narrative**：
+   - Phase 5：hard filtering 失敗（資料量 vs 品質）
+   - Phase 7 V1：q_embed conditioning 有效，最佳輸出
+   - Phase 8：NoQ single-cap baseline 健康
+   - Phase 9 / 9.5：multi-cap random-pick 失敗，跨 LP-MC + Qwen 都 collapse
+   - P8 V4：把數字寫進 prompt 失敗 → 支持「embedding condition」優於「prompt token」
+3. **補最小圖表**（不補大實驗）：
+   - **Steering ratio bar plot**：P7 V1 / P8 vs P9 V1 / P9.5 V1（最直接支撐 multi-cap 不健康主張）
+   - Hard filtering table：P4V2 / P5V1 / P5V2
+   - Main results table：P8 NoQ / P7 V1 / P9 V1 / P9.5 V1
+4. **不放 Phase 7 full-Q ablation 進報告**（internal debugging，非 paper 主線）
 
-3. **Captioner-only control**（~38h GPU + caption gen）  
-   真正 isolated control：用 Qwen 跑 5 個 seed-sampled vs 5 個 task-framed 兩組對照。
-   Codex 點明這才是 cross-captioner-only 結論。預算外，論文不在 scope。
+### Deadline 後若要補 causal proof — 唯一值錢的實驗
+
+**Qwen static single-cap NoQ**（從 5 caps 固定選一條 per clip，不做 random 1-of-5）
+
+| 結果 | 解讀 |
+|---|---|
+| Qwen static single-cap **健康** | 問題就是 multi-cap random-pick 訓練形式 |
+| Qwen static single-cap **也 collapse** | 問題可能是 Qwen caption style / task framing 本身（不是 multi-cap） |
+
+這是**唯一能拆「multi-cap random-pick」vs「Qwen caption 本身」的 isolated control**。
+
+不應該重做 Qwen 全套 phase（confounders 一起變：captioner、style、task framing、q 分布、文字長度）。
+
+### 不建議的選項（Codex 否決）
+
+- ❌「Qwen 重做全部實驗」（太貴 + 不乾淨）
+- ❌「P9.5 V2」（V1 已 fail gate，無資訊量）
+- ❌「Qwen mean_sim 分布 figure」優先（不如 steering bar plot 直接）
+
+---
+
+## 8. Paper / meeting 一句版
+
+> P9.5 used a different captioner and task-framed diversity, yet the model still
+> falls in the Phase 9 collapse regime: MusicCaps CLAP ~0.061 and same-seed
+> prompt steering at most 0.044. This weakens the "LP-MC artifact" hypothesis
+> and supports the view that the current multi-cap random-pick training recipe
+> is strongly correlated with weak prompt conditioning. This is a strong
+> association, not a complete causal proof.
 
 ---
 
