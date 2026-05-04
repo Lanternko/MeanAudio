@@ -31,7 +31,14 @@ fi
 
 echo "Probing model: $MODEL_EMA"
 
-OUT=eval_output/p9_5_v1_steering_probe
+# Auto-derive output dir from model basename if not overridden
+if [ -z "${PROBE_OUT:-}" ]; then
+    base=$(basename "$MODEL_EMA" .pth)
+    base=${base%_ema_final}
+    PROBE_OUT="eval_output/${base}_steering_probe"
+fi
+OUT="$PROBE_OUT"
+echo "  output dir: $OUT"
 mkdir -p "$OUT/audio"
 
 SEEDS=(42 123 456)
@@ -47,11 +54,17 @@ PROMPTS[04_density_B]='Dense orchestral trailer music with full ensemble.'
 
 PAIRS=(01_instrument 02_vocals 03_drums 04_density)
 
-# infer.py NoQ workaround per memory feedback_infer_no_q_workaround.md:
-#   infer.py 沒 --no_q → 用 --quality_level 10 (null token) for NoQ models
+# PROBE_QUALITY env var:
+#   - For NoQ models (P9.5 V1, P8-Qwen): use 10 (null token via --quality_level workaround
+#     since infer.py has no --no_q; see feedback_infer_no_q_workaround.md)
+#   - For Q-trained models (P7V1-Qwen): use 9 (or other in-support q level)
+#   - default: 10 (NoQ)
+PROBE_QUALITY="${PROBE_QUALITY:-10}"
+echo "  using --quality_level $PROBE_QUALITY (set PROBE_QUALITY env for Q-trained models)"
+
 BASE_ARGS="--variant meanaudio_s --encoder_name t5_clap --text_c_dim 512 \
     --use_meanflow --num_steps 1 --cfg_strength 0.5 --full_precision \
-    --quality_level 10 \
+    --quality_level $PROBE_QUALITY \
     --model_path $MODEL_EMA --output $OUT/audio"
 
 echo "=== generating 24 wav (4 pairs × 3 seeds × 2 prompts) ==="
@@ -70,12 +83,12 @@ for pair in "${PAIRS[@]}"; do
 done
 
 echo "=== computing ratios ==="
-python - <<'PYEOF'
+python - <<PYEOF
 import numpy as np, soundfile as sf
 from pathlib import Path
 from itertools import combinations
 
-OUT = Path('eval_output/p9_5_v1_steering_probe/audio')
+OUT = Path('$OUT/audio')
 PAIRS = ['01_instrument', '02_vocals', '03_drums', '04_density']
 SEEDS = [42, 123, 456]
 
