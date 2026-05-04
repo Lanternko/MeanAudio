@@ -22,8 +22,8 @@
 | **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
 | **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
-| Phase 9.5 V1 | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps | 🟢 **Captioning 完成 2026-05-02**（5 slots × 251,599 + auto-merge → `phase9_omni_captions.jsonl` 182MB）。可開訓 |
-| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | 🟢 同上（共用 captions），可開訓 |
+| **Phase 9.5 V1** | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps，從零 S1+S2 | ✅ **完成 2026-05-04**。MC n=5521 CLAP **0.0609**（vs P9 V1 0.0650，**重現 multi-cap collapse**）；JM seed42 CLAP 0.0594；steering ratio max 0.044（vs P9 V1 0.025-0.147 同級 collapse）|
+| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ❌ **SKIP 2026-05-04**（Codex sequential gate 兩條件全 fail：MC CLAP < 0.0650 + steering < 0.2；V2 跑只會確認失敗，省 19h GPU）|
 
 ## Phase 9 NPZ 前處理狀態（2026-04-18）
 
