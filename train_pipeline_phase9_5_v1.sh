@@ -90,6 +90,36 @@ COMMON_ARGS=(
     "++multi_cap=True"
 )
 
+# ============================================================
+# Pre-flight 0: checkpoint overwrite guard (Codex P1 2026-05-04)
+# ============================================================
+# Refuse to overwrite existing finished work unless explicitly forced.
+# Checks both ckpt_last.pth (resumable) and ema_final.pth (finished signal).
+# Set FORCE_RESTART=1 to start over (deletes existing exp dirs first).
+# Set FORCE_MIGRATE=1 to allow migrate to overwrite an existing S2 ckpt.
+
+S1_EMA_FINAL="$WORK_DIR/exps/$EXP_S1/${EXP_S1}_ema_final.pth"
+S2_EMA_FINAL_PATH="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
+
+if [ "${FORCE_RESTART:-0}" = "1" ]; then
+    echo "[Pre-flight 0] FORCE_RESTART=1 — wiping existing exp dirs"
+    rm -rf "$WORK_DIR/exps/$EXP_S1" "$WORK_DIR/exps/$EXP_S2"
+elif [ -f "$S2_EMA_FINAL_PATH" ]; then
+    echo "[Pre-flight 0] [ABORT] S2 ema_final exists — V1 already finished"
+    echo "  $S2_EMA_FINAL_PATH"
+    echo "  Set FORCE_RESTART=1 to retrain from scratch (will DELETE exp dirs)."
+    exit 10
+elif [ -f "$S1_EMA_FINAL" ] && [ ! -f "$S1_CKPT" ]; then
+    echo "[Pre-flight 0] [ABORT] S1 ema_final exists but no ckpt_last (cannot resume safely)"
+    echo "  $S1_EMA_FINAL"
+    echo "  Set FORCE_RESTART=1 to retrain from scratch."
+    exit 10
+elif [ -f "$S1_CKPT" ] || [ -f "$S2_CKPT" ]; then
+    echo "[Pre-flight 0] [INFO] existing ckpts detected — train.py will resume from ckpt_last"
+    [ -f "$S1_CKPT" ] && echo "  S1 ckpt: $S1_CKPT"
+    [ -f "$S2_CKPT" ] && echo "  S2 ckpt: $S2_CKPT"
+fi
+
 mkdir -p "$LOG_DIR" "$WORK_DIR/exps/$EXP_S1" "$WORK_DIR/exps/$EXP_S2"
 cd "$WORK_DIR"
 export CUDA_VISIBLE_DEVICES=0
@@ -162,10 +192,14 @@ torchrun --standalone --nproc_per_node=1 train.py \
 echo "[Stage 1] done. ckpt at $S1_CKPT"
 
 # ============================================================
-# Migrate
+# Migrate (with overwrite guard)
 # ============================================================
-echo "[Migrate] $S1_CKPT → $S2_CKPT"
-python "$MIGRATE_SCRIPT" --s1_ckpt "$S1_CKPT" --s2_out "$S2_CKPT"
+if [ -f "$S2_CKPT" ] && [ "${FORCE_MIGRATE:-0}" != "1" ]; then
+    echo "[Migrate] [SKIP] $S2_CKPT already exists (set FORCE_MIGRATE=1 to overwrite)"
+else
+    echo "[Migrate] $S1_CKPT → $S2_CKPT"
+    python "$MIGRATE_SCRIPT" --s1_ckpt "$S1_CKPT" --s2_out "$S2_CKPT"
+fi
 
 # ============================================================
 # Stage 2

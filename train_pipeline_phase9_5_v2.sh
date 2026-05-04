@@ -97,6 +97,28 @@ COMMON_ARGS=(
     "++multi_cap=True"
 )
 
+# ============================================================
+# Pre-flight 0: checkpoint overwrite guard (Codex P1 2026-05-04)
+# ============================================================
+S1_EMA_FINAL="$WORK_DIR/exps/$EXP_S1/${EXP_S1}_ema_final.pth"
+S2_EMA_FINAL_PATH="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
+
+if [ "${FORCE_RESTART:-0}" = "1" ]; then
+    echo "[Pre-flight 0] FORCE_RESTART=1 — wiping existing exp dirs"
+    rm -rf "$WORK_DIR/exps/$EXP_S1" "$WORK_DIR/exps/$EXP_S2"
+elif [ -f "$S2_EMA_FINAL_PATH" ]; then
+    echo "[Pre-flight 0] [ABORT] V2 already finished (S2 ema_final exists)"
+    echo "  $S2_EMA_FINAL_PATH"
+    exit 10
+elif [ -f "$S1_EMA_FINAL" ] && [ ! -f "$S1_CKPT" ]; then
+    echo "[Pre-flight 0] [ABORT] S1 ema_final exists but no ckpt_last (cannot resume safely)"
+    exit 10
+elif [ -f "$S1_CKPT" ] || [ -f "$S2_CKPT" ]; then
+    echo "[Pre-flight 0] [INFO] existing ckpts detected — train.py will resume"
+    [ -f "$S1_CKPT" ] && echo "  S1 ckpt: $S1_CKPT"
+    [ -f "$S2_CKPT" ] && echo "  S2 ckpt: $S2_CKPT"
+fi
+
 mkdir -p "$LOG_DIR" "$WORK_DIR/exps/$EXP_S1" "$WORK_DIR/exps/$EXP_S2"
 cd "$WORK_DIR"
 export CUDA_VISIBLE_DEVICES=0
@@ -136,17 +158,50 @@ print('[OK] runner_meanflow.py clone fix active')
 "
 
 python -c "
+import re
 with open('meanaudio/runner_flowmatching.py') as f:
     code = f.read()
-if 'q_level' not in code:
-    raise SystemExit('[FAIL] runner_flowmatching.py missing q_level reads')
-print('[OK] runner_flowmatching.py q passing active (S1 actually trains q_embed[0..9])')
+
+# Codex P2 2026-05-04: not enough to grep 'q_level'. Verify the actual data
+# pathway: data dict reads q_level AND that q flows into network call.
+checks = []
+
+# 1) q_level read from data dict
+if not re.search(r'data\\[\\s*[\"\\']q_level[\"\\']\\s*\\]', code) and 'q_level' not in code:
+    checks.append('q_level not read from data dict')
+
+# 2) network/loss called with q=
+#    historic bug: runner_flowmatching ignored q. Look for q= in network/loss call.
+network_with_q = re.search(r'self\\.(network|loss_fn|fm)\\([^)]{0,400}q\\s*=\\s*q', code, re.DOTALL)
+fn_with_q      = re.search(r'\\bfn\\([^)]{0,400}q\\s*=\\s*q', code, re.DOTALL)
+loss_call_q    = re.search(r'\\.loss\\([^)]{0,400}q\\s*=\\s*q', code, re.DOTALL)
+if not (network_with_q or fn_with_q or loss_call_q):
+    checks.append('no network/fn/loss call passing q=q (q-passing fix may be missing)')
+
+if checks:
+    print('[FAIL] runner_flowmatching.py q-passing audit failed:')
+    for c in checks:
+        print(f'   - {c}')
+    raise SystemExit(1)
+
+# Bonus: count q references to make sure it's not dead code
+n_q_refs = len(re.findall(r'\\bq_level\\b|\\bq\\s*=\\s*q\\b', code))
+print(f'[OK] runner_flowmatching.py q-passing verified ({n_q_refs} q references in code)')
 "
 
 # ============================================================
-# Pre-flight B: V2 train TSV must exist with real q_level (not V1 dummy)
+# Pre-flight B: V2 train TSV — strict checks (Codex P1 2026-05-04)
 # ============================================================
-echo "[Pre-flight B] verify V2 train TSV has real q_level distribution"
+# 1) row count == phase7_v1_train.tsv (expected 251,599)
+# 2) all q_level values are integers in {0..9} (no missing, no out-of-range)
+# 3) bin populated reasonably (each bin ≥ 1% of total) — equal-freq sanity
+# 4) bin_edges JSON exists with N+1 edges + per-bin counts
+# 5) bin_edges source matches phase9_omni_captions.jsonl (provenance)
+
+echo "[Pre-flight B] verify V2 train TSV has correctly binned q_level"
+
+REF_TSV="/mnt/HDD/kojiek/phase4_jamendo_data/phase7_v1_train.tsv"
+BIN_EDGES_JSON="$HOME/research/meanaudio_training/phase9_5_bin_edges.json"
 
 if [ ! -f "$TRAIN_TSV" ]; then
     echo "[FAIL] $TRAIN_TSV not found"
@@ -154,21 +209,94 @@ if [ ! -f "$TRAIN_TSV" ]; then
     exit 1
 fi
 
-python -c "
-import csv, sys
+if [ ! -f "$BIN_EDGES_JSON" ]; then
+    echo "[FAIL] $BIN_EDGES_JSON not found (q_levels script must have produced it)"
+    echo "       Run: python ~/research/meanaudio_training/gen_phase9_5_q_levels.py"
+    exit 1
+fi
+
+python - <<PYEOF
+import csv, json, sys
 from collections import Counter
-with open('$TRAIN_TSV') as f:
+from pathlib import Path
+
+train_tsv = Path('$TRAIN_TSV')
+ref_tsv   = Path('$REF_TSV')
+bin_edges_json = Path('$BIN_EDGES_JSON')
+
+with open(train_tsv) as f:
     rows = list(csv.DictReader(f, delimiter='\t'))
-counts = Counter(r['q_level'] for r in rows)
-print(f'  rows: {len(rows):,}')
-print(f'  q_level distribution: {dict(sorted(counts.items()))}')
-unique_q = len(counts)
-if unique_q < 5:
-    print(f'[FAIL] only {unique_q} unique q values — looks like V1 dummy TSV')
-    print('       Run: python ~/research/meanaudio_training/gen_phase9_5_q_levels.py')
+with open(ref_tsv) as f:
+    ref_rows = list(csv.DictReader(f, delimiter='\t'))
+
+n_rows = len(rows)
+n_ref  = len(ref_rows)
+print(f'  TSV rows: {n_rows:,}  (ref phase7_v1: {n_ref:,})')
+if n_rows != n_ref:
+    print(f'[FAIL] row count {n_rows:,} != ref {n_ref:,}')
     sys.exit(1)
-print(f'[OK] {unique_q} q bins populated (Qwen-local percentile-equal-frequency)')
-"
+
+# id order alignment
+mismatches = 0
+for i, (r, ref) in enumerate(zip(rows, ref_rows)):
+    if r['id'] != ref['id']:
+        mismatches += 1
+        if mismatches <= 3:
+            print(f'  [MISMATCH] idx {i}: V2={r["id"]} ref={ref["id"]}')
+if mismatches:
+    print(f'[FAIL] {mismatches} id-order mismatches vs phase7_v1_train.tsv')
+    sys.exit(1)
+
+# q_level integer check + range
+bad = []
+for i, r in enumerate(rows):
+    q = r.get('q_level', '')
+    try:
+        qi = int(q)
+        if qi < 0 or qi > 9:
+            bad.append((i, q, 'out-of-range'))
+    except ValueError:
+        bad.append((i, q, 'non-integer'))
+if bad:
+    print(f'[FAIL] {len(bad)} rows have invalid q_level')
+    for i, q, why in bad[:5]:
+        print(f'  idx {i}: q_level={q!r} ({why})')
+    sys.exit(1)
+
+counts = Counter(int(r['q_level']) for r in rows)
+print(f'  q_level distribution: {dict(sorted(counts.items()))}')
+
+# All 10 bins should be present (equal-freq target: 10% each, allow 1% floor)
+unique_q = len(counts)
+floor = max(1, n_rows // 100)  # 1% of total
+sparse_bins = [(q, c) for q, c in counts.items() if c < floor]
+if unique_q < 10:
+    missing = sorted(set(range(10)) - set(counts.keys()))
+    print(f'[WARN] only {unique_q}/10 bins populated. Missing: {missing}')
+    print('       (acceptable if Qwen mean_sim distribution has gaps)')
+if sparse_bins:
+    print(f'[WARN] sparse bins (< 1% = {floor:,}): {sparse_bins}')
+print(f'[OK] {unique_q}/10 bins, all q in [0..9], rows match ref')
+
+# bin_edges JSON structure check
+with open(bin_edges_json) as f:
+    bins = json.load(f)
+required = ('n_bins', 'edges', 'counts_per_bin', 'fallback_q', 'source')
+missing = [k for k in required if k not in bins]
+if missing:
+    print(f'[FAIL] bin_edges.json missing keys: {missing}')
+    sys.exit(1)
+n_bins = bins['n_bins']
+edges  = bins['edges']
+if len(edges) != n_bins + 1:
+    print(f'[FAIL] edges len {len(edges)} != n_bins+1 ({n_bins+1})')
+    sys.exit(1)
+src = bins.get('source', '')
+if 'phase9_omni_captions' not in src:
+    print(f'[FAIL] bin_edges source not from Qwen merged JSONL: {src!r}')
+    sys.exit(1)
+print(f'[OK] bin_edges.json: {n_bins} bins, edges {edges[0]:.4f} → {edges[-1]:.4f}, src={src}')
+PYEOF
 
 # ============================================================
 # Pre-flight C: NPZ
@@ -195,10 +323,14 @@ torchrun --standalone --nproc_per_node=1 train.py \
 echo "[Stage 1] done. ckpt at $S1_CKPT"
 
 # ============================================================
-# Migrate (preserves trained q_embed[0..9])
+# Migrate (preserves trained q_embed[0..9]) — with overwrite guard
 # ============================================================
-echo "[Migrate] $S1_CKPT → $S2_CKPT"
-python "$MIGRATE_SCRIPT" --s1_ckpt "$S1_CKPT" --s2_out "$S2_CKPT"
+if [ -f "$S2_CKPT" ] && [ "${FORCE_MIGRATE:-0}" != "1" ]; then
+    echo "[Migrate] [SKIP] $S2_CKPT already exists (set FORCE_MIGRATE=1 to overwrite)"
+else
+    echo "[Migrate] $S1_CKPT → $S2_CKPT"
+    python "$MIGRATE_SCRIPT" --s1_ckpt "$S1_CKPT" --s2_out "$S2_CKPT"
+fi
 
 # ============================================================
 # Stage 2 — MeanAudio with Q
@@ -218,12 +350,15 @@ torchrun --standalone --nproc_per_node=1 train.py \
 echo "[Stage 2] done"
 
 # ============================================================
-# Eval: q sweep {6, 9} × {MusicCaps, Jamendo seed42}
-#   q=6: in-support boundary (per P7 V1 q-sweep pattern, support-set gating)
-#   q=9: high-confidence end (P9 V2 baseline)
+# Eval (Codex P2 2026-05-04 — Qwen-local q ≠ P7 LP-MC q):
+#   MusicCaps: full q sweep 5..9 (don't assume P7 support set transfers)
+#   Jamendo seed42: q=6, 9 only (auxiliary)
 # ============================================================
-for Q in 6 9; do
-    # ── MusicCaps q=$Q ──────────────────────────────────────
+MC_Q_VALUES="${MC_Q_VALUES:-5 6 7 8 9}"
+JM_Q_VALUES="${JM_Q_VALUES:-6 9}"
+
+# ── MusicCaps q sweep ───────────────────────────────────────
+for Q in $MC_Q_VALUES; do
     EVAL_OUT_MC="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_musiccaps"
     echo "[Eval MusicCaps q=$Q] gen → $EVAL_OUT_MC"
 
@@ -253,8 +388,10 @@ for Q in 6 9; do
         --exp_name "${EXP_S2}_q${Q}_musiccaps_n2048" \
         --num_samples 2048 \
         2>&1 | tee -a "$LOG_DIR/${EXP_S2}_q${Q}_musiccaps_eval.log"
+done
 
-    # ── Jamendo seed42 q=$Q ─────────────────────────────────
+# ── Jamendo seed42 (auxiliary, only q=6/9) ─────────────────
+for Q in $JM_Q_VALUES; do
     EVAL_OUT_JM="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_jamendo_s42"
     echo "[Eval Jamendo s42 q=$Q] gen → $EVAL_OUT_JM"
 
