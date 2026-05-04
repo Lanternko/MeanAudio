@@ -1,0 +1,283 @@
+# Phase 9.5 — 意義、訓練設置、測試目標、結果
+
+> 對外名稱：`JamendoFull-QwenOmni-TrueRandom-NoQ` (V1) / `...MeanSim-Q` (V2 已 SKIP)
+> 完成 2026-05-04。設計討論見 `phase9_design.md`，Codex 2 輪 review 見 commit history。
+
+---
+
+## 1. 意義（為什麼跑）
+
+### 1.1 起源：P9 失敗歸因不確定
+
+Phase 9 V1（multi-cap NoQ，LP-MusicCaps 5 caps）跑出 MusicCaps CLAP **0.0650**，
+遠低於 P8 single-cap NoQ（0.1851）和 P7 V1 Q（0.1975）。
+失敗來源有兩個 working hypotheses：
+
+- **H_paradigm**：`multi_cap=True` 訓練範式（每 iter 對每 clip 隨機抽 5-of-1 caption）的 supervision noise 本質傷害 prompt-conditioning
+- **H_caption**：LP-MusicCaps 5 caps 的 seed-sampled decoding noise 太雜亂；換結構化 caption 應該能救
+
+### 1.2 LP-MusicCaps Jamendo 5 caps 的真相（york135 4/18 澄清）
+
+我們手上的 `results_20260119_043407.jsonl` **不是** LP-MusicCaps 論文原始 4-task pipeline 的產物，
+而是 wei-jaw 用 LP-MC captioning model 跑 **5 個不同 seed** 出來的：
+
+- 5 caps 之間 diversity 來自 **decoding 隨機性**（同 model 同輸入不同 seed）
+- 描述同一段音訊，用詞不同
+- LP-MusicCaps 論文的 4-task 設計**從未套用於 Jamendo**
+
+### 1.3 P9.5 兩個目的（教授 4/17 確認）
+
+1. 自家跑 caption（不依賴第三方），答審稿人「真實 caption 來源」質疑
+2. 看 multi-cap collapse 是否在另一組 caption 來源 + 不同 diversity 機制下仍成立
+
+### 1.4 Framing 紅線（Codex 5/3 review）
+
+❌ 不能寫：「P9.5 是 cross-captioner control」/「驗證 cross-captioner diversity hypothesis」  
+✅ 該寫：「task-framed Qwen multi-cap variant / stress test」
+
+理由：同時改了 **captioner**（LP-MC → Qwen）和 **diversity 機制**（seed-sampled → task-framed），
+兩個變因綁在一起 → stress test 不是 isolated control。
+真正的 captioner-only control 需要：同 captioner 出 seed-sampled vs task-framed 兩組。
+
+---
+
+## 2. 訓練設置
+
+### 2.1 Caption 來源：Qwen2.5-Omni-3B 5-task captioning
+
+對 251,599 個 Jamendo segments 跑 5 次 Qwen2.5-Omni-3B caption，每次用不同 task framing：
+
+| Slot | Task prompt 方向 | Mean words |
+|---|---|---|
+| 0 | Writing：詳細自然描述句 | ~21 |
+| 1 | Summary：壓縮綜合短句 | ~21 |
+| 2 | Paraphrase：豐富詞彙改寫 | ~24 |
+| 3 | Attribute Prediction：屬性為主 | ~25 |
+| 4 | NaturalProse：中性自然敘述 | ~20 |
+
+每個 caption **皆 comprehensive**（涵蓋樂器+情緒+節奏+風格），不是 aspect 切片。
+Diversity 來自 **task framing**（不同 prompt 引出不同視角），不是 seed noise。
+
+**Captioning 規模**：251,599 × 5 = 1,257,995 captions，~88h wall clock（混 GPU 共用 + 獨佔），
+產出 `phase9_omni_captions.jsonl`（182 MB，5/2 完成）。
+
+**Sanity（n=200 抽樣）**：
+- 100% 唯一率（無 caption collapse）
+- CLAP text-c pairwise mean_sim 平均 0.644，range 0.418-0.839（健康多樣性）
+
+### 2.2 Caption-source 對比（vs LP-MC）
+
+| 維度 | LP-MC (P9) | Qwen P9.5 |
+|---|---|---|
+| Captioning model | LP-MusicCaps captioning model | Qwen2.5-Omni-3B |
+| Diversity 機制 | **5 different seeds** | **5 different task prompts** |
+| Caption 性質 | 同視角不同詞語 | 不同視角各自 comprehensive |
+| 5 caps 結構 | 描述同一面向 | 5 個 framing |
+
+### 2.3 訓練 pipeline（共通）
+
+| 維度 | 設定 |
+|---|---|
+| Audio dataset | Jamendo 251,599 segments（同 P7/P8/P9 的 phase7_v1_train.tsv ID order）|
+| Latent encoder/VAE | 同 historical（mean/std reuse 自原 single-cap NPZ）|
+| Model | FluxAudio_s (S1) → MeanAudio_s (S2)（Flow Matching → MeanFlow）|
+| Batch / lr | 8 / 1e-4 |
+| Iter | S1 400K + S2 200K |
+| LR schedule | S1 [320000, 360000]、S2 [999999, 999999]（無 decay）|
+| Bug fixes 套用 | networks.py q=10 + runner_meanflow clone + runner_flowmatching q-passing |
+
+### 2.4 V1 vs V2 差異
+
+| 維度 | V1 (NoQ) | V2 (Q) — 已 SKIP |
+|---|---|---|
+| `multi_cap=True` | ✓ | ✓ |
+| `use_q_conditioning` | false | true |
+| Q signal | 無 | pairwise text-text CLAP cos sim of 5 Qwen caps，**Qwen-local** percentile bin 0..9 |
+| Train TSV | `phase9_5_train.tsv` (slot 0 caption + dummy q=5) | `phase9_5_v2_train.tsv` (real q_level，未產出) |
+| S1 + S2 | 從零 | 從零（Codex P1：不可 reuse P9 V1 LP S1，會混 prior）|
+| Eval q | `--no_q` (null token) | q sweep {5..9} on MusicCaps（Codex P2：Qwen q 是 captioner-local，不沿用 P7 q=6/9 假設）|
+
+### 2.5 multi_cap=True 機制（`extracted_audio.py`）
+
+```python
+if self.multi_cap:
+    cap_idx = random.randint(0, n_caps - 1)
+    text_features   = np_data['text_features'][cap_idx]    # NPZ [5,77,1024]
+    text_features_c = np_data['text_features_c'][cap_idx]  # NPZ [5,512]
+```
+
+NPZ 每檔存 5 個 T5+CLAP 編碼，每 iter 隨機抽 1 個當 supervision。
+**唯一改動**：NPZ 裡的 5 caps 從 LP-MC seed-sampled 換成 Qwen task-framed。
+
+---
+
+## 3. 要測什麼
+
+### 3.1 主問題
+
+> **Multi-cap collapse 在「換 captioner + 換 diversity 機制」之後是否還會發生？**
+
+### 3.2 副問題
+
+1. Qwen task-framed 是不是比 LP seed-sampled 更好？
+2. 換高品質 caption 救得回 prompt conditioning 嗎？
+
+### 3.3 V2 launch gate（Codex 5/3 sequential gating）
+
+V1 結果若**任一**符合就跑 V2，否則 SKIP：
+- MC CLAP > 0.0650（超過 P9 V1 baseline）
+- 任一 prompt-pair same-seed steering ratio > 0.2（沒 collapse）
+
+---
+
+## 4. 結果（2026-05-04 完成）
+
+### 4.1 V1 metrics
+
+| Benchmark | CLAP ↑ | CE ↑ | CU ↑ | PC ↑ | PQ ↑ |
+|---|---|---|---|---|---|
+| MusicCaps n=5521 | **0.0609** | 6.07 | 6.63 | 5.42 | 6.52 |
+| Jamendo seed42 n=2048 | 0.0594 | 6.04 | 6.61 | 5.42 | 6.50 |
+
+### 4.2 對照 baselines
+
+| Model | MC CLAP | Steering max | 解讀 |
+|---|---|---|---|
+| P7 V1 (Q, single-cap) | 0.1975 | 1.702 | 健康 prompt-dominant |
+| P8 (NoQ, single-cap) | 0.1851 | 1.723 | 健康 prompt-dominant |
+| P9 V1 (NoQ, LP multi) | 0.0650 | 0.147 | LP collapse |
+| **P9.5 V1 (NoQ, Qwen multi)** | **0.0609** | **0.044** | **Qwen collapse, 略劣於 P9 V1** |
+
+> CLAP 全量 n=5521（`phase4_eval.py --num_samples` 只控 FAD，CLAP/AES 永遠跑全量）。
+> 跨 phase 直接對照成立，無 sample-size confound。
+
+### 4.3 Steering probe 細節（`probe_v1_steering.sh`）
+
+4 prompt pairs × 3 seeds × 2 prompts = 24 wav，量 `(A-B L2) / (noise L2)` ratio：
+
+| pair | A-B L2 | noise L2 | ratio |
+|---|---|---|---|
+| 01 instrument (piano vs EDM) | 2.703 | 79.846 | 0.034 |
+| 02 vocals (instrumental vs pop vocal) | 3.461 | 80.389 | 0.043 |
+| 03 drums (drumless vs techno) | 3.491 | 80.006 | 0.044 |
+| 04 density (sparse violin vs dense orchestra) | 1.790 | 79.846 | 0.022 |
+
+**Max ratio 0.044**，全 4 pair 都遠低於 noise 主導門檻（1.0）。
+
+### 4.4 V2 verdict
+
+| Codex gate | 數值 | 結果 |
+|---|---|---|
+| MC CLAP > 0.0650 | 0.0609 | ❌ |
+| 任一 pair steering > 0.2 | max 0.044 | ❌ |
+
+→ **V2 SKIP**。再跑 19h 只會確認失敗。Q variant 在 P9 V2 已驗證更差（CLAP 0.0403）。
+
+---
+
+## 5. 解讀
+
+### 5.1 可宣稱（behavior-level finding）
+
+**Multi-cap collapse 跨 captioner（LP-MC vs Qwen）+ 跨 diversity 機制（seed vs task）成立**：
+
+- LP-MC seed-sampled multi-cap → CLAP 0.0650, steering 0.025-0.147
+- Qwen task-framed multi-cap → CLAP 0.0609, steering 0.022-0.044
+
+不是 LP-MC seed-noise 特有 artifact，不是 captioner 品質問題。
+是 **train-paradigm 級失敗**（每 iter random 1-of-5 caption supervision），跟 caption source 無關。
+
+### 5.2 不能宣稱（mechanism 未證）
+
+- ❌「multi-cap 本質不適合 audio generation」  
+  （沒做 lr / data ratio / batch-cap-pairing 等 ablation）
+- ❌「Qwen 比 LP-MC 差」  
+  （只 6.3% 差距，可能是 noise；單一 run）
+- ❌「task-framed 不如 seed-sampled」  
+  （reverse claim 同樣沒 mechanism evidence）
+
+### 5.3 對論文的價值
+
+P9.5 把 P9 「可能只是 LP-MC 雜亂」這個 reviewer 反駁路線封掉了：
+
+- 若 reviewer 質疑「P9 失敗只是 LP 第三方 caption 問題」→ 可以指 P9.5 用自家 Qwen 也同樣 collapse
+- 若 reviewer 質疑「seed-sampled diversity 不夠結構化」→ 可以指 P9.5 task-framed 結構化 prompt 也救不回
+- 教授要的「不依賴第三方資料集」目標達成
+
+Negative finding 但 robust，比 P9 單一觀察強。
+
+### 5.4 工作假說（未證）
+
+multi_cap=True 訓練機制（每 iter 隨機抽 5 cap 中 1）對 text encoder 有結構性傷害，可能性：
+- T5 forward 接到 5 個非常不同的 text features 但都對同一 audio target → 等效 noise injection
+- random pick 把 caption→audio 變 1-to-many → conditional generative 學不出穩定 prior
+
+要證 mechanism 需要再做 ablation（不在當前 scope）。
+
+---
+
+## 6. Artifacts
+
+### Checkpoints
+- `~/MeanAudio/exps/phase9_5_v1_stage1_400000/`（42G，含 80 個 intermediate ema）
+- `~/MeanAudio/exps/phase9_5_v1_stage2_200000/`（24G）
+- `_ema_final.pth` 各 459MB
+
+### Eval audio
+- `~/MeanAudio/eval_output/phase9_5_v1_stage2_200000_musiccaps/` (5527 wav)
+- `~/MeanAudio/eval_output/phase9_5_v1_stage2_200000_jamendo_s42/` (2048 wav)
+
+### Metrics
+- `eval_output/metrics/phase9_5_v1_stage2_200000_musiccaps/metrics.txt` (n=5521)
+- `eval_output/metrics/phase9_5_v1_stage2_200000_musiccaps_n2048/metrics.txt` (backfill, 同數字 — `--num_samples` 只控 FAD)
+- `eval_output/metrics/phase9_5_v1_stage2_200000_jamendo_s42/metrics.txt`
+
+### Probe
+- `~/MeanAudio/eval_output/p9_5_v1_steering_probe/audio/` (24 wav)
+- `~/logs/p9_5_v1_steering_probe.log`
+
+### Provenance manifest
+- `~/research/meanaudio_training/phase9_5_manifest.json`
+  - JSONL sha256 + TSV sha256 + reference TSV first-1000 id hash
+  - NPZ size mode {1638140 bytes: 251599 files}
+  - 3 validations recorded（sanity_qwen_jsonl + npz_full_deep_validate + post_npz_sanity_50）
+
+### Pipeline scripts
+- `train_pipeline_phase9_5_v1.sh`（含 Pre-flight 0 overwrite guard，executed）
+- `train_pipeline_phase9_5_v2.sh`（hardened with q_level preflight + q sweep 5..9，未執行）
+- `probe_v1_steering.sh`
+
+### Prep scripts
+- `~/research/meanaudio_training/sanity_qwen_jsonl.py`
+- `~/research/meanaudio_training/gen_phase9_5_v1_tsv.py`
+- `~/research/meanaudio_training/gen_phase9_5_q_levels.py`（V2 用，未執行）
+
+---
+
+## 7. 後續可選（未做，依需求）
+
+1. **Qwen mean_sim 分布 figure**（30 min GPU）  
+   跑 `gen_phase9_5_q_levels.py` 可拿 Qwen-local mean_sim 分布 + bin edges，與 LP-MC 分布並陳，
+   給 paper figure 證實 distribution shape 確實不同。
+
+2. **Probe battery 完整 4 模型對比**（~30 min）  
+   對 P7 V1 / P8 / P9 V1 / P9.5 V1 跑同樣 24-wav probe，產 2x2 collapse 表，
+   強化「task-framed 也 collapse」claim。
+
+3. **Captioner-only control**（~38h GPU + caption gen）  
+   真正 isolated control：用 Qwen 跑 5 個 seed-sampled vs 5 個 task-framed 兩組對照。
+   Codex 點明這才是 cross-captioner-only 結論。預算外，論文不在 scope。
+
+---
+
+## 引用
+
+- 設計討論：`phase9_design.md` (5/3 framing 修正版)
+- Codex 兩輪 review：commits `d7b586e`, `d45c90e`
+- V1 結果定稿：commit `13ac52e`
+- Provenance manifest：MIR_ssh commit `a198367`
+- 相關 memory：
+  - `feedback_p9_5_framing_2026_05_03.md`（framing 紅線）
+  - `feedback_diversity_hypothesis.md`（multi-cap 必須 task-framing + comprehensive，注意 LP 是 seed-sampled）
+  - `project_p9_5_v1_result_2026_05_04.md`（V1 結果 + V2 SKIP）
+  - `project_p9_text_conditioning_dead.md`（4 模型 2x2 steering 分析的 P9 部分）

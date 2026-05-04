@@ -22,6 +22,7 @@
 |---------|------|
 | Phase 狀態、實驗進度、NPZ/captioning 檔案狀態 | `docs/experiments/phase_status.md` |
 | Phase 9/9.5 實驗設計、multi_cap 機制、LP-MusicCaps 真相 | `docs/experiments/phase9_design.md` |
+| Phase 9.5 完整總結（意義/設置/測試目標/結果/解讀/artifacts） | `docs/experiments/phase9_5_summary.md` |
 | 完整實驗數字（Jamendo + MusicCaps） | `docs/experiments/best_results.md` |
 | 訓練 / Eval 時間估算（S1=12.3h, S2=6.7h, eval=3h）+ bug-fix 驗證排程 | `docs/experiments/training_time_estimates.md` |
 | 教授討論紀錄（Lane A/B/C、data leakage） | `docs/meetings/` |
