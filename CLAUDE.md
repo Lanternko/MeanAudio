@@ -6,13 +6,15 @@
 - **Stage 1**：FluxAudio（Flow Matching，單向 ODE）
 - **Stage 2**：MeanAudio（Mean Flow，更快推理）
 
-**目前重心**：Phase 9.5 — Qwen2.5-Omni-3B 5 task captions，跨 captioner 驗證 diversity hypothesis。
+**目前重心**：Qwen single-cap rerun 完成 + JMQ confound resolution（2026-05-08）— Qwen training collapse 已確認為 genuine training failure，非 train-test prompt mismatch artifact。
 
-**目前最佳**：Phase 7 V1 (`JamendoFull-Random-MeanSim-Q`) — Jamendo + MusicCaps benchmark 雙料最佳。
+**目前最佳**：`LP-Rnd-Q`（Phase 7 V1，`JamendoFull-Random-MeanSim-Q`）— Jamendo + MusicCaps benchmark 雙料最佳。
 
-**當前排程**（教授 2026-04-18 指示）：Lane A (MusicCaps benchmark ✅) → Lane B (P9 V1/V2 ✅) → Lane C (**Qwen captioning 完成 2026-05-02 ✅**，5 slots × 251,599 全跑完，merge → `phase9_omni_captions.jsonl` 182 MB；可開訓 P9.5 V1/V2)。
+**4-token paper-facing 命名**（2026-05-08 統一）：`{Caption}-{Sel}-{Q}` 預設 MC eval；非預設加括號 `(JMQ)` 等。Phase ID → 4-token 速查表見 `docs/experiments/phase_status.md` 頂端。
 
-> Phase 編號作內部追蹤，對外報告/論文用描述性名稱（`資料集-Caption策略-Q信號`）。
+**當前排程**：Lane A/B/C 全 ✅，Qwen rerun 4 個 model 中 3 個完成（Qwen-Multi-NoQ / Qwen-Rnd-NoQ / Qwen-Rnd-Q），Qwen-BC-NoQ (P4V2-Qwen) 訓中（ETA 5/8 06:00）。完整對照與 confound resolution 見 `qwen_rerun_summary.md`。
+
+> Phase 編號作內部追蹤；對外報告/論文一律用 4-token 命名（範例：`LP-Rnd-Q`、`Qwen-Rnd-NoQ (JMQ)`）。
 
 ---
 

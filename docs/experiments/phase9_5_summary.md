@@ -1,7 +1,13 @@
 # Phase 9.5 — 意義、訓練設置、測試目標、結果
 
-> 對外名稱：`JamendoFull-QwenOmni-TrueRandom-NoQ` (V1) / `...MeanSim-Q` (V2 已 SKIP)
+> **4-token 名稱**：`Qwen-Multi-NoQ` (V1) / `Qwen-Multi-Q` (V2 已 SKIP)
+> 對外舊名：`JamendoFull-QwenOmni-TrueRandom-NoQ` / `...MeanSim-Q`
 > 完成 2026-05-04。設計討論見 `phase9_design.md`，Codex 2 輪 review 見 commit history。
+>
+> ⚠️ **2026-05-08 update**：本檔 §5 narrative 在 5/4 寫成「multi-cap collapse cross-captioner」，
+> 但後續 Qwen single-cap rerun (Qwen-Rnd-NoQ / Qwen-Rnd-Q / Qwen-BC-NoQ) + JMQ confound
+> resolution 顯示 Qwen-Multi-NoQ 的 collapse **主因是 Qwen captioner regime**（非 multi-cap 形式）。
+> 修正版 narrative 見 `qwen_rerun_summary.md` §3-4。本檔保留作 5/4 當下推論的歷史記錄。
 
 ---
 
