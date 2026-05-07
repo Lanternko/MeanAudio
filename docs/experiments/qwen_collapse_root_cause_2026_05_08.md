@@ -20,14 +20,19 @@ P8-Qwen collapses despite being single-cap → multi-cap is not a necessary cond
 
 ## Cross-prompt eval matrix (Jamendo seed=42 2048 same audio)
 
-| Train | LP-MC prompt | Qwen prompt | Δ Qwen−LP |
-|---|---|---|---|
-| P8 (LP-MC NoQ single) | 0.1409 | **0.2246** | **+0.084** |
-| P8-Qwen | 0.0582 | 0.0776 | +0.019 |
-| P7V1-Qwen | 0.0598 | 0.0791 | +0.019 |
-| P9.5 V1 | 0.0597 | 0.0799 | +0.020 |
+| Train | Caption type | LP-MC prompt | Qwen prompt | Δ Qwen−LP | Status |
+|---|---|---|---|---|---|
+| P8 (LP-MC NoQ single) | LP-MC writing 4-task random | 0.1409 | **0.2246** | **+0.084** | text-conditioning healthy |
+| **P9V1 (LP-MC NoQ multi-5)** | LP-MC 5-cap | 0.0650 | **0.0837** | **+0.019** | collapsed (~Qwen-level) |
+| P8-Qwen (Qwen NoQ single) | Qwen single | 0.0582 | 0.0776 | +0.019 | collapsed |
+| P7V1-Qwen (Qwen +Q single) | Qwen single | 0.0598 | 0.0791 | +0.019 | collapsed |
+| P9.5 V1 (Qwen NoQ multi-5) | Qwen 5-cap | 0.0597 | 0.0799 | +0.020 | collapsed |
 
-**Kill shot for H1 (Codex 5/7 prompt mismatch):** LP-MC trained model + Qwen prompts → 0.2246 (higher than LP-MC + LP-MC eval). Qwen prompts carry usable conditioning information at inference. Qwen-trained models stay collapsed regardless of prompt source. The +0.02 Qwen-prompt residual on Qwen-trained models is real but not the dominant cause.
+**G1 (5/8 06:50) addition — P9V1 + Qwen prompts = 0.0837.** Multi-cap LP-MC and ALL Qwen-trained variants converge to the same +0.019–0.020 Qwen-prompt boost. The +0.02 boost is now interpreted as a metric-level artifact (Qwen prompts may be slightly easier to score high CLAP under HTSAT-base) rather than a model-quality differentiator.
+
+**Kill shot for H1 (Codex 5/7 prompt mismatch):** LP-MC trained healthy model + Qwen prompts → 0.2246 (higher than LP-MC + LP-MC eval). Qwen prompts carry usable conditioning information at inference. Multi-cap LP-MC and Qwen-trained models BOTH stay collapsed regardless of prompt source, getting only the universal +0.02 metric boost. The +0.02 residual is NOT the dominant cause for either class of collapse.
+
+**Important new finding (G1):** Multi-cap LP-MC collapse (P9V1, +0.019 Qwen boost) and single-cap Qwen collapse (P8-Qwen, +0.019 Qwen boost) yield the SAME cross-prompt signature. This argues for a shared failure mechanism between "multi-cap supervision" and "Qwen-style supervision" — distinct caption-source mismatch and multi-cap-only hypotheses cannot be the full story. Whatever causes one likely causes the other.
 
 ## Caption-vs-audio raw CLAP similarity (Jamendo seed=42 n=2048)
 
