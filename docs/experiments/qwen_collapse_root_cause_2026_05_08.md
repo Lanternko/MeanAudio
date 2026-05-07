@@ -53,12 +53,21 @@ Qwen single-caption (slot 0) is more aligned (+0.062), more discriminating (R@1 
 
 ## Caption anatomy (E1/E2/E3 on full 251K)
 
-E1 vocabulary:
+**Important pre-analysis correction (5/8 06:45):** P8 (LP-MC NoQ baseline) was trained on
+**phase7_v1_train.tsv** (LP-MC writing 4-task random, "the low quality recording features..." prefix style),
+not phase4_train.tsv (mu-llama-style "begins with a / final segment"). Confirmed via
+phase8_stage2_200000.log line 1. P7V1 also used phase7_v1_train.tsv, just with `use_q_conditioning=True`.
+
+So the canonical "LP-MC trains well" baseline = LP-MC writing task with the `"the low quality recording"`
+boilerplate prefix, NOT the mu-llama temporal-narrative template.
+
+E1 vocabulary (analysis on phase7_v1_train.tsv = the actual baseline TSV):
 - Qwen unigram vocab: **4,955** (vs LP-MC 3,993, +24%)
 - Qwen bigram vocab: **50,291** (vs LP-MC 35,162, +43%)
 - LP-MC top-50 trigram coverage: **99.5%** of captions (heavy boilerplate)
 - Qwen top-50 trigram coverage: 76.9%
 - LP-MC top trigram: "the low quality" appears in 35% of captions
+- LP-MC bigrams: "low quality" (10,042 / 25k), "quality recording" (10,034), "recording features" (8,798)
 - Qwen top trigram: "music features a" appears in 12% of captions
 
 E2 multi-cap intra-audio Jaccard 4-gram (Qwen 5 captions per audio):
@@ -93,7 +102,7 @@ For 2048 random audio captions:
 
 ## Open hypothesis (not yet tested by intervention)
 
-**H10 — LP-MC's heavy boilerplate template is a feature, not a bug, for training.** The repeated prefix "the low quality recording features a [X]" creates a stable template the model can use as anchor; the variable part inside maps to acoustic features. Qwen's higher vocabulary diversity removes this anchor. (Note this is opposite to standard "diversity helps" intuition.)
+**H10 — LP-MC writing-task boilerplate is a feature, not a bug, for training.** The repeated prefix "the low quality recording features a [X]" (35% of P8 training captions) creates a stable template the model can use as anchor; the variable part inside the template maps to acoustic features. Qwen's higher vocabulary diversity removes this anchor. (Note this is opposite to standard "diversity helps" intuition.)
 
 **H11 — Qwen captions describe "mood / atmosphere / style" more than acoustic specifics.** Even with high embedding-space discrimination (R@1 = 3% vs 0.7% LP-MC), the *content* may lean abstract ("vibrant and upbeat", "soothing and folk-inspired") whereas LP-MC describes acoustic structure ("Eb major", "127 BPM", "shimmering hi hats"). Acoustic-level content might give the diffusion model a more direct learnable signal.
 
@@ -102,7 +111,9 @@ For 2048 random audio captions:
 ## Recommended next experiments (ranked)
 
 ### EXP-A (cheapest, GPU 1.5 day): P-LPMC-NoBoilerplate retraining
-Strip the LP-MC "low quality recording features a" prefix from all training captions in `phase4_train.tsv`. Retrain P8 with same config. If MC CLAP drops from 0.185 toward Qwen-level → H10 confirmed (template was the anchor).
+Strip the LP-MC "low quality recording features a" prefix (and similar templated openers from the
+4 LP-MC writing tasks) from all training captions in `phase7_v1_train.tsv`. Retrain P8 with same
+config. If MC CLAP drops from 0.185 toward Qwen-level → H10 confirmed (boilerplate was the anchor).
 
 ### EXP-B (1.5 day): P-Qwen-Boilerplate retraining
 Prepend a fixed boilerplate ("the low quality recording features a ") to every Qwen caption. Retrain. If MC CLAP recovers from 0.06 toward LP-MC-level → H10 confirmed from the other direction.
