@@ -24,6 +24,11 @@
 | **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
 | **Phase 9.5 V1** | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps，從零 S1+S2 | ✅ **完成 2026-05-04**。MC n=5521 CLAP **0.0609**（vs P9 V1 0.0650，**重現 multi-cap collapse**）；JM seed42 CLAP 0.0594；steering ratio max 0.044（vs P9 V1 0.025-0.147 同級 collapse）|
 | Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ❌ **SKIP 2026-05-04**（Codex sequential gate 兩條件全 fail：MC CLAP < 0.0650 + steering < 0.2；V2 跑只會確認失敗，省 19h GPU）|
+| **P8-Qwen** | `JamendoFull-QwenOmni-Random-NoQ` (single-cap) | Qwen 5 caps random pick (seed=42, static), single-cap, NoQ | ✅ **完成 2026-05-06**。MC CLAP **0.0611**, JM s42 0.0582, PE-AV peav **−0.038**, steering max 0.120。**單把 multi-cap 拿掉，Qwen 仍 collapse** — 推翻 P9.5 V1「multi-cap-random-pick 是主因」工作假說 |
+| **P7V1-Qwen** | `JamendoFull-QwenOmni-Random-MeanSim-Q` (single-cap) | Qwen single-cap random + Qwen-local mean_sim Q | ✅ **完成 2026-05-07**。MC CLAP q=6 0.0687 / q=9 0.0686, JM s42 q=9 0.0599, PE-AV −0.038, steering max 0.057。**加 Q 也救不回**；Qwen-local q sweep flat (q=6 ≈ q=9) |
+| P4V2-Qwen | `JamendoFull-QwenOmni-BestConsensus-NoQ` (single-cap) | Qwen single-cap BestConsensus (argmax of pairwise mean_sim row), NoQ | 🔄 跑中（S1 25%, ETA 全完成 ~5/8 06:00）|
+
+> 完整 Qwen rerun 三組對照與翻盤的 paper-narrative 修正見 `qwen_rerun_summary.md`。
 
 ## Phase 9 NPZ 前處理狀態（2026-04-18）
 

@@ -225,6 +225,61 @@ multi_cap=True 訓練機制（每 iter 隨機抽 5 cap 中 1）**可能**對 tex
 
 ---
 
+## 5.X UPDATE 2026-05-07 — Qwen single-cap rerun 推翻上面的 multi-cap 主因解讀
+
+> Codex 5/5 推薦的「Qwen static single-cap NoQ」isolated control 已執行。完整 P8/P7V1/P4V2-Qwen 三組對照見 `docs/experiments/qwen_rerun_summary.md`，這裡只記對 §5 的修正。
+
+### 新證據
+
+| Phase | Setup | MC CLAP | Steering max | PE-AV peav |
+|---|---|---|---|---|
+| P8 LP-MC NoQ (歷史) | LP single-cap | **0.1851** | **1.72** | — |
+| **P8-Qwen NoQ** | **Qwen single-cap** | **0.0611** | 0.120 | **−0.038** |
+| **P7V1-Qwen Q** | **Qwen single-cap + Q** | **0.0687** | 0.057 | **−0.038** |
+| P9.5 V1 multi NoQ | Qwen multi-cap | 0.0609 | 0.044 | — |
+
+### 對 §5.2 推論的修正
+
+舊推論「問題**更可能**來自 multi-cap supervision 形式」**不再成立**：
+
+- Qwen single-cap (P8-Qwen) MC CLAP 0.0611 ≈ Qwen multi-cap (P9.5 V1) 0.0609 → **單把 multi-cap 拿掉沒救回**
+- Qwen single-cap + Q (P7V1-Qwen) MC CLAP 0.0687 → **加 Q 條件也沒救回**
+- LP-MC single-cap (P8 歷史) MC CLAP 0.1851 → 同訓練配方換 caption 來源就健康
+
+**新的 high-confidence 推論**：
+- Qwen task-framed caption distribution 在這個訓練配方下會獨立觸發 collapse
+- multi-cap random-pick 形式在 Qwen regime 沒有顯著加成
+- multi-cap **在 LP-MC regime 仍然觸發 collapse**（P8 LP single 0.185 → P9 V1 LP multi 0.065）— 但這個觀察不能再用 P9.5 跨 captioner 證據支撐
+
+### 對 §5.5 paper 價值的修正
+
+舊：「P9.5 把『P9 是 LP-MC artifact』反駁路線變弱」 — 這個 framing **反過來了**：
+
+- Qwen single-cap collapse 反而表示 **Qwen 也是某種 artifact 來源**（雖然不一定是 hallucination；可能是 verbosity / temporal narrative / task-framing 殘留）
+- 真正能說的：「**multi-cap 失敗 + Qwen 失敗 是兩個獨立的 collapse trigger**，可以各自獨立發生」
+
+### 仍不能宣稱
+
+- ❌「multi-cap 完全無關」（LP single 0.185 → LP multi 0.065 仍是事實）
+- ❌「Qwen captions 本質不適合 audio generation」（沒做 lr / data ratio / hyperparameter ablation）
+- ❌「BC selection 在 Qwen 救得回」（P4V2-Qwen 跑中，5/8 才知）
+
+### Paper narrative 主軸修正
+
+舊主軸（P9.5 V1 alone）：multi-cap collapse cross-captioner
+
+**新主軸**：
+
+> Two factors can independently produce collapse:
+> (a) multi-cap random-pick supervision (LP single 0.185 → LP multi 0.065)
+> (b) caption distribution mismatch (LP single 0.185 → Qwen single 0.061)
+>
+> The Qwen captioner regime collapses regardless of single/multi format and
+> Q conditioning. This means P9.5 V1 multi-cap collapse is dominantly
+> attributable to (b), not (a) as previously hypothesized.
+
+---
+
 ## 6. Artifacts
 
 ### Checkpoints
