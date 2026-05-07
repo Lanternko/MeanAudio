@@ -2,6 +2,37 @@
 
 > Phase 編號作內部追蹤用；對外報告和論文使用描述性名稱（`資料集-Caption策略-Q信號`）。
 
+---
+
+## 4-token paper-facing 命名（2026-05-08 統一）
+
+```
+{Caption}-{Sel}-{Q}              ← 預設 eval = MC（MusicCaps human captions）
+{Caption}-{Sel}-{Q} (eval_token) ← 非預設 eval 加括號
+```
+
+| Token | 取值 |
+|---|---|
+| Caption | `LP` (LP-MusicCaps captioning model) / `Qwen` (Qwen2.5-Omni-3B 5-task) |
+| Sel | `Rnd` (seed=42 static random) / `BC` (BestConsensus) / `Multi` (multi_cap=True per-iter random) |
+| Q | `Q` (use_q_conditioning=true, mean_sim bin) / `NoQ` |
+| Eval (括號內) | `JM` (Jamendo seed42 + LP captions) / `JMQ` (JM + Qwen captions) / `MCQ` (MC + Qwen captions, 未生成) |
+
+### Phase 編號 → 4-token 對照速查
+
+| Phase 內部 | 4-token 名 | MC CLAP |
+|---|---|---|
+| Phase 4 V2 | LP-BC-NoQ | 0.191 |
+| Phase 7 V1 | LP-Rnd-Q | **0.198** (歷史最佳) |
+| Phase 8 | LP-Rnd-NoQ | 0.185 |
+| Phase 9 V1 bugfix | LP-Multi-NoQ | 0.065 |
+| Phase 9 V2 bugfix | LP-Multi-Q | 0.040 |
+| Phase 9.5 V1 | Qwen-Multi-NoQ | 0.061 |
+| Phase 9.5 V2 | Qwen-Multi-Q | (SKIPPED) |
+| P8-Qwen | Qwen-Rnd-NoQ | 0.061 |
+| P7V1-Qwen | Qwen-Rnd-Q | 0.069 |
+| P4V2-Qwen | Qwen-BC-NoQ | 訓中 (5/8) |
+
 | Phase（內部） | 對外名稱 | 核心改動 | 狀態 |
 |--------------|---------|---------|------|
 | Phase 4 V2 | `JamendoFull-BestConsensus-NoQ` | 基礎 MeanFlow 兩階段訓練 | ✅ Baseline（歷史參考） |

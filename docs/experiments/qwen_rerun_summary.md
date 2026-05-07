@@ -1,58 +1,76 @@
-# Qwen Single-Cap Rerun Series (P8 / P7V1 / P4V2 with Qwen captions)
+# Qwen Caption Rerun Series — 4-token 命名 + JMQ confound resolution
 
-> 三組對照 captioner-only control。P8-Qwen + P7V1-Qwen 完成 (5/6, 5/7)，P4V2-Qwen 跑中 (ETA 5/8)。
-> 結論翻轉 P9.5 V1 後的 multi-cap-collapse 主因解讀。
+> 4-token 命名（2026-05-08 統一）：`{Caption}-{Sel}-{Q}` 預設 MC eval；非預設加括號如 `(JMQ)`。
+>
+> 完整 token 對照見 `phase_status.md` 頂端速查表。
 
 ---
 
 ## 1. 動機（Codex 2026-05-05 review）
 
-P9.5 V1 後我們提出工作假說「multi-cap random-pick 是 collapse 主因」。Codex review 指出唯一值得補的 isolated control 是 **Qwen static single-cap** — 拆「multi-cap 形式」vs「Qwen caption style」。
+P9.5 V1 (Qwen-Multi-NoQ) 後我們提出工作假說「multi-cap random-pick 是 collapse 主因」。
+Codex review 指出唯一值得補的 isolated control 是 **Qwen static single-cap** — 拆「multi-cap 形式」vs「Qwen caption style」。
 
 延伸成 3 組（同訓練配方，唯一變因 = caption source/selection）：
 
-| Phase | Setup | 目的 |
+| 4-token 名 | 對 LP 對照 | 目的 |
 |---|---|---|
-| **P8-Qwen** | Qwen single-cap **random** (seed=42) NoQ | 對 P8 LP-MC random NoQ (0.185)；測 Qwen caption 本身是否健康 |
-| **P7V1-Qwen** | Qwen single-cap random + **Q (Qwen-local mean_sim bin)** | 對 P7V1 LP-MC random + Q (0.198)；測 Q 條件能否救回 |
-| **P4V2-Qwen** | Qwen single-cap **BestConsensus** NoQ | 對 P4 V2 LP-MC BC NoQ (0.191)；測 BC selection 是否救得回 |
+| **Qwen-Rnd-NoQ** | LP-Rnd-NoQ (0.185) | 測 Qwen single-cap 是否健康 |
+| **Qwen-Rnd-Q** | LP-Rnd-Q (0.198) | 測 Qwen + Q 條件能否救回 |
+| **Qwen-BC-NoQ** | LP-BC-NoQ (0.191) | 測 BestConsensus selection 能否救回 |
 
-每組 S1 fluxaudio_s + S2 meanaudio_s 從零（251K Jamendo segments，phase7_v1 ID 順序），eval = MC + JM seed42 + PE-AV q=9 + steering probe。
+每組 S1 fluxaudio_s + S2 meanaudio_s 從零（251K Jamendo segments，phase7_v1 ID 順序）。
 
 ---
 
 ## 2. 結果
 
-### 2.1 完整數字
+### 2.1 預設 MC eval（MusicCaps human captions）
 
-| Phase | MC CLAP | JM s42 CLAP | MC PE-AV peav | MC t2a R@10 | Steering max |
+| Model | MC CLAP ↑ | MC CE ↑ | MC CU ↑ | MC PC ↑ | MC PQ ↑ |
 |---|---|---|---|---|---|
-| P7V1 (歷史 LP-MC) | **0.1975** | 0.1981 | **+0.052** | **5.4%** | **1.70** |
-| P8 (歷史 LP-MC) | **0.1851** | 0.1986 | — | — | **1.72** |
-| P9 V1 (LP-MC multi) | 0.0650 | — | — | — | 0.147 |
-| P9.5 V1 (Qwen multi) | 0.0609 | 0.0594 | — | — | 0.044 |
-| **P8-Qwen** (Qwen single NoQ) | **0.0611** | 0.0582 | **−0.038** | 0.25% | 0.120 |
-| **P7V1-Qwen** (Qwen single +Q) | **0.0687** (q=9) | 0.0599 (q=9) | **−0.038** | 0.13% | 0.057 |
-| P4V2-Qwen (Qwen BC NoQ) | 跑中 | 跑中 | — | — | — |
+| **LP-Rnd-Q** (歷史最佳) | **0.1975** | 6.27 | 7.07 | 5.07 | 6.98 |
+| **LP-Rnd-NoQ** (歷史) | **0.1851** | 5.91 | 6.75 | 4.98 | 6.54 |
+| LP-BC-NoQ (歷史 P4 V2) | 0.1909 | — | — | — | — |
+| LP-Multi-NoQ (P9 V1) | 0.0650 | — | — | — | — |
+| LP-Multi-Q (P9 V2) q=9 | 0.0403 | — | — | — | — |
+| **Qwen-Multi-NoQ** (P9.5 V1) | **0.0609** | 6.07 | 6.63 | 5.42 | 6.52 |
+| **Qwen-Rnd-NoQ** (P8-Qwen) | **0.0611** | 5.98 | 6.59 | 5.42 | 6.48 |
+| **Qwen-Rnd-Q** (P7V1-Qwen) q=9 | **0.0686** | 5.78 | 6.63 | 5.47 | 6.42 |
+| Qwen-BC-NoQ (P4V2-Qwen) | 訓中 | — | — | — | — |
 
-### 2.2 P7V1-Qwen q sweep on MusicCaps
+### 2.2 非預設 eval（confound resolution）
 
-| q | CLAP |
+JM s42 audio (n=2,048) × 兩種 prompt（`JM` = LP captions, `JMQ` = Qwen captions）：
+
+| Model | (JM) CLAP | (JMQ) CLAP | (JMQ) PE-AV | (JMQ) R@10 |
+|---|---|---|---|---|
+| **LP-Rnd-NoQ (JMQ)** ← REVERSE | 0.199 | **0.225** | **+0.193** | **10.30%** |
+| Qwen-Rnd-NoQ (JM) | 0.058 | — | — | — |
+| Qwen-Rnd-NoQ (JMQ) | — | 0.078 | +0.085 | 0.20% |
+| Qwen-Rnd-Q (JMQ) q=9 | 0.060 | 0.079 | +0.083 | 0.49% |
+| Qwen-Multi-NoQ (JMQ) | 0.059 | 0.080 | +0.086 | 0.54% |
+
+### 2.3 Steering probe ratio (4 prompt pair × 3 seed × 2 prompt = 24 wav each)
+
+```
+LP-Rnd-Q (歷史 P7 V1):       1.07-1.70   ← prompt-dominant
+LP-Rnd-NoQ (歷史 P8):         0.91-1.72   ← prompt-dominant
+LP-Multi-NoQ (P9 V1):         0.025-0.147 ← noise-dominant (collapse)
+LP-Multi-Q (P9 V2 q=8):       0.012-0.056 ← collapse
+Qwen-Multi-NoQ (P9.5 V1):     0.022-0.044 ← collapse
+Qwen-Rnd-NoQ (P8-Qwen):       0.033-0.120 ← collapse
+Qwen-Rnd-Q (P7V1-Qwen) q=9:   0.017-0.057 ← collapse
+```
+
+### 2.4 Qwen-local q sweep（Qwen-Rnd-Q on MC）
+
+| q | MC CLAP |
 |---|---|
 | q=6 | 0.0687 |
 | q=9 | 0.0686 |
 
-→ **Qwen-local q sweep flat** — Qwen mean_sim 條件沒有 in-support gating 行為（與歷史 P7V1 LP-MC q sweep 對 q=6/9 plateau 不同）。
-
-### 2.3 P8-Qwen vs P7V1-Qwen vs P9.5 V1 比較
-
-```
-單純把 multi-cap 從 Qwen 拿掉:    0.0609 → 0.0611  (Δ +0.3%, 統計噪聲)
-單純加 Q 條件給 Qwen single-cap:  0.0611 → 0.0687  (Δ +12%, 但仍 collapse)
-單純把 captioner 換掉 (LP→Qwen): 0.1851 → 0.0611  (Δ −67%, 巨大)
-```
-
-→ **captioner regime 的影響 >> multi-cap 與 Q 的影響**
+→ **Qwen-local q sweep flat** — 與歷史 LP-Rnd-Q (P7 V1) 在 in-support q=6/9 plateau 行為一致。Q=N 在 Qwen-trained 上仍是 coarse regime marker。
 
 ---
 
@@ -60,133 +78,115 @@ P9.5 V1 後我們提出工作假說「multi-cap random-pick 是 collapse 主因�
 
 ### 3.1 已證明（observation）
 
-- P8-Qwen single-cap NoQ MC CLAP 0.0611, JM 0.0582
-- P7V1-Qwen single-cap +Q MC CLAP 0.0687 (q=9)
-- 三組 Qwen variant (multi-cap V1 / single random / single +Q) 都落在 0.06-0.07 CLAP 區
-- Qwen 三組 PE-AV peav_score 全部負值或接近 0
-- 所有 Qwen 模型 steering max < 0.15（與歷史 LP-MC P7V1/P8 的 1.7 對比 collapse）
-- Qwen-local q sweep flat (q=6 ≈ q=9 = 0.069)
+1. **MC eval（預設）**：所有 4 個 Qwen-trained 模型 MC CLAP 0.061-0.069，遠低於 LP-trained 0.185-0.198
+2. **JMQ eval（in-distribution Qwen prompts）**：3 個 Qwen 模型 0.078-0.080，仍 collapse；reverse control LP-Rnd-NoQ (JMQ) **0.225** healthy
+3. **Steering ratio**：所有 Qwen 模型 max < 0.15，與 LP-Multi 同 collapse 區
+4. **PE-AV peav_score**：Qwen 模型在 JMQ 都 ~+0.085；LP reverse on JMQ +0.193（**~2.3x**）
+5. **t2a R@10**：Qwen 模型 0.20-0.54%（≈ random baseline 0.49%）；LP reverse on JMQ **10.3%** (~50x)
+6. **Qwen vs LP single-cap drop**：0.1851 → 0.0611 = **−67%**
 
 ### 3.2 高可信推論（behavior-level，非 mechanism）
 
-1. **Qwen task-framed caption distribution 本身會獨立觸發 collapse**，不需要 multi-cap random-pick
-2. multi-cap supervision 形式在 Qwen regime 加成微小（multi 0.061 ~ single 0.061）
-3. Q conditioning 在 Qwen regime 不能救回（+12% 仍遠低於 healthy ~0.18）
-4. P9.5 V1 collapse 主因**更可能**是 Qwen captioner-style mismatch 而不是 multi-cap 形式
+1. **Qwen training regime 真的沒學會 prompt-conditioning**（不只是 train-test prompt mismatch artifact）
+   - 三層證據：CLAP, PE-AV peav, t2a R@10 都 collapse
+   - **同樣 Qwen prompts 在 LP-MC trained 模型上 work 良好** → 排除「Qwen prompts 不適合 eval」假設
+2. **Train-test prompt distribution mismatch 真實但 minor**：
+   - 補 Qwen-prompt eval 後 Qwen 模型 CLAP +30%（0.061 → 0.078-0.080），但仍 collapse
+   - 50× R@10 gap = 主因是 training 失敗，不是 distribution mismatch
+3. **multi-cap 與 Q signal 在 Qwen regime 影響邊際小**：
+   - Qwen-Multi-NoQ (0.061) ≈ Qwen-Rnd-NoQ (0.061) — multi-cap 形式無顯著加成
+   - Qwen-Rnd-Q (0.069) vs Qwen-Rnd-NoQ (0.061) — Q 加 +12% 仍遠 below healthy
+4. **P9.5 V1 collapse 主因應改寫**：從「multi-cap random-pick」改為「Qwen captioner regime」
 
-### 3.3 對 P9.5 V1 解讀的影響
+### 3.3 不能宣稱
 
-舊（P9.5 V1 alone, 5/4）：「multi-cap 跨 captioner 都 collapse → multi-cap random-pick 是主因」
+- ❌「multi-cap 在 LP regime 也無關」— LP-Rnd-NoQ (0.185) → LP-Multi-NoQ (0.065) drop 仍真實
+- ❌「Qwen captions 本質不適合 audio generation」— mechanism 沒證
+- ❌「Qwen 比 LP-MC 差」— 單方向比較，可能 Qwen 適合別的任務或別的 hyperparameter
+- ❌「BC selection 救不回」— 等 Qwen-BC-NoQ 結果
 
-**修正版（5/7）**：「P9.5 V1 collapse 主要是 Qwen captioner-style，multi-cap 形式在那裡加成不顯著」
+### 3.4 Mechanism 工作假說（未證、不寫 paper claim）
 
-### 3.4 LP-MC regime 仍成立的觀察（不被推翻）
-
-- P8 LP single-cap NoQ: CLAP 0.1851 ✓ healthy
-- P9 V1 LP multi-cap NoQ: CLAP 0.0650 ❌ collapse
-
-→ LP-MC 上 single→multi 仍有 0.185 → 0.065 drop。multi-cap 對 LP-MC 是真實 collapse 觸發。但這個證據**不能再用「跨 captioner」來支撐 multi-cap 主因說**，因為 Qwen single 已經 collapse。
-
-### 3.5 Paper narrative 主軸（5/7 修正版）
-
-> Two factors can independently produce collapse in this training regime:
->   (a) multi-cap random-pick supervision (P8 LP single 0.185 → P9 V1 LP multi 0.065)
->   (b) caption distribution mismatch (P8 LP single 0.185 → P8-Qwen 0.061)
->
-> The Qwen captioner regime collapses regardless of single/multi format
-> and with or without Q conditioning. This means P9.5 V1 collapse is
-> dominantly attributable to (b), not (a) as previously hypothesized.
-
-### 3.6 不能宣稱
-
-- ❌「multi-cap 完全無關」（LP+single → LP+multi drop 仍是事實）
-- ❌「Qwen captions 本質不適合 audio generation」（mechanism 沒證；可能是 lr / data ratio / 訓練 hyperparameter mismatch）
-- ❌「Qwen 比 LP-MC 差」（單方向比較，可能 Qwen 適合別的任務）
-- ❌「BC selection 救不回」（等 P4V2-Qwen 結果）
-- ❌「captioner-style mismatch is the only cause」（兩個因子都觸發 collapse）
-
-### 3.7 Mechanism 工作假說（未證、不寫 paper claim）
-
-Qwen task-framed captions 與訓練時的 caption distribution 可能有以下差異：
-- Verbosity：Qwen captions 平均 20-25 詞 vs LP-MC ~15 詞
+Qwen task-framed captions 與訓練看到的 caption distribution 可能差異：
+- Verbosity：Qwen 平均 20-25 詞 vs LP-MC ~15 詞
 - Narrative structure：Qwen 用「It begins with... transitions to... finally...」temporal narrative
 - Task framing residue：「This music features...」「This composition masterfully blends...」前綴
-- 這些 style features 在 MusicCaps test prompt 那種短格式上可能 distribution shift 嚴重
+
+但這些 style features **理論上 confound resolution 已部分處理**（Qwen-prompt eval 仍 collapse）。
+更可能的 mechanism 假說：
+- Qwen captioning model 的 audio→text 映射與 CLAP/PE-AV evaluator 內部 audio-text alignment 不一致
+- Qwen captions 描述「整體音樂」而 MusicCaps 風格描述「核心特徵」→ 訓練時 model 學到的 conditional distribution 結構不同
 
 要證 mechanism 需要：
-- 跑 LP-MC vs Qwen caption embedding 距離分析
-- 用 Qwen-style prompt 重 eval（看是否 CLAP 回升）
+- LP-MC vs Qwen caption embedding 距離分析
 - 訓練 short-Qwen variant（截斷至 LP-MC 長度）
-
-不在當前 paper scope。
+- 訓練 LP-MC ↔ Qwen 混合 caption variant
+- 不在當前 paper scope
 
 ---
 
-## 4. P4V2-Qwen 預測（待結果確認）
+## 4. Paper narrative 主軸（5/8 確定版）
 
-最可能：P4V2-Qwen MC CLAP ~0.06, steering < 0.15 → 跟 P8-Qwen 同 collapse 區，不顯著回升。
+> Two factors can independently produce collapse in this training regime:
+>   (a) multi-cap random-pick supervision (LP-Rnd-NoQ 0.185 → LP-Multi-NoQ 0.065)
+>   (b) caption distribution mismatch — specifically the Qwen2.5-Omni captioner regime
+>       (LP-Rnd-NoQ 0.185 → Qwen-Rnd-NoQ 0.061)
+>
+> Confound check: in-distribution Qwen-prompt eval (`(JMQ)`) shows that the
+> reverse control LP-Rnd-NoQ (JMQ) achieves CLAP 0.225, PE-AV +0.193, R@10 10.3%
+> — **the Qwen prompts themselves are not the issue**. All Qwen-trained variants
+> (Multi-NoQ, Rnd-NoQ, Rnd-Q) cluster at CLAP ~0.08, PE-AV ~+0.085, R@10 < 0.6%
+> on the same Qwen prompts, confirming the collapse is at the model side, not
+> the evaluation side.
+>
+> P9.5 V1 collapse is dominantly attributable to (b), not (a) as previously
+> hypothesized. The multi-cap formal structure has marginal additional effect
+> in the Qwen regime (Qwen-Multi-NoQ ≈ Qwen-Rnd-NoQ).
+
+---
+
+## 5. Qwen-BC-NoQ（P4V2-Qwen，訓中）預測
+
+最可能：CLAP ~0.06-0.08, PE-AV +0.085, R@10 < 1% → 跟 Qwen-Rnd-NoQ 同 collapse 區。
 - 確認「BC selection 在 Qwen 不能救回」
 - 強化「Qwen captioner-style 就是 collapse 根因」
 
-若 P4V2-Qwen 顯著高於 P8-Qwen（CLAP > 0.10）→ 更複雜 narrative，需要分析 BC vs random 在 Qwen 下選的 caption 有什麼系統性差異。
+若顯著高於 Qwen-Rnd-NoQ（CLAP > 0.10）→ 更複雜 narrative，需分析 BC vs random 在 Qwen 下選的 caption 系統性差異。
 
 ---
 
-## 5. Artifacts
+## 6. Artifacts
 
 ### Pipeline scripts
-- `~/MeanAudio/train_pipeline_p8_qwen.sh`
-- `~/MeanAudio/train_pipeline_p7v1_qwen.sh`
-- `~/MeanAudio/train_pipeline_p4v2_qwen.sh`
+- `~/MeanAudio/train_pipeline_p8_qwen.sh` (Qwen-Rnd-NoQ)
+- `~/MeanAudio/train_pipeline_p7v1_qwen.sh` (Qwen-Rnd-Q)
+- `~/MeanAudio/train_pipeline_p4v2_qwen.sh` (Qwen-BC-NoQ)
 - `~/MeanAudio/probe_v1_steering.sh`（Q-aware via PROBE_QUALITY env）
+- `~/qwen_prompt_eval_chain.sh`（JMQ confound resolution chain）
 
 ### Prep scripts
-- `~/research/meanaudio_training/gen_qwen_singlecap_selections.py`
+- `~/research/meanaudio_training/gen_qwen_singlecap_selections.py` (251K train)
 - `~/research/meanaudio_training/slice_qwen_singlecap_npz.py`
+- `~/research/meanaudio_training/gen_qwen_test_captions.py` (2,048 test set)
+- `~/research/meanaudio_training/gen_qwen_test_eval_tsvs.py`
 
-### Backfill / chain
-- `~/qwen_rerun_chain.sh` / `~/qwen_rerun_chain_phase2.sh`（auto-trigger sequential）
-- `~/qwen_phase_backfill.sh`（generic PE-AV + steering backfill）
-- `~/qwen_backfill_watcher.sh`（auto backfill on done sentinel）
-
-### Checkpoints
-- `~/MeanAudio/exps/p8_qwen_stage1_400000/` `p8_qwen_stage2_200000/`
-- `~/MeanAudio/exps/p7v1_qwen_stage1_400000/` `p7v1_qwen_stage2_200000/`
-- `~/MeanAudio/exps/p4v2_qwen_stage1_400000/` `p4v2_qwen_stage2_200000/`（跑中）
-
-### Eval audio + metrics
-- `~/MeanAudio/eval_output/{phase}_stage2_200000_{musiccaps,jamendo_s42}/audio/*.flac`
-- `~/MeanAudio/eval_output/metrics/{phase}_stage2_200000_*/metrics.txt`
-- `~/MeanAudio/eval_output/metrics/{phase}_stage2_200000_*_peav.json`
+### Eval audio + metrics（per-model 完整路徑）
+- `eval_output/{exp}_stage2_200000_{musiccaps,jamendo_s42,qwen_random_jamendo_s42}/audio/*.flac`
+- `eval_output/metrics/{exp}_stage2_200000_*/metrics.txt`
+- `eval_output/metrics/{exp}_stage2_200000_*_peav.json`
 
 ### Steering probes
-- `~/MeanAudio/eval_output/{phase}_stage2_200000_steering_probe/audio/`（24 wav each）
-- `~/logs/{phase}_stage2_200000_steering.log`
-
-### Selections + bin edges
-- `~/research/meanaudio_training/qwen_singlecap_selections.json`（id → random/BC idx + mean_sim + q_level）
-- `~/research/meanaudio_training/qwen_singlecap_bin_edges.json`（Qwen-local percentile bin edges）
-
----
-
-## 6. Pipeline 漏跑事件記錄（P8-Qwen）
-
-P8-Qwen pipeline 在 phase4_eval JM s42 完成後沒進 PE-AV/steering 段，tmux 退出。原因不明：
-- P7V1-Qwen 同 pipeline 結構正常完成
-- 可能 transient OOM、外部 SIGKILL、或某 race condition
-
-對策：寫了 `qwen_phase_backfill.sh` 通用 backfill；P8-Qwen 結果已手動補齊；P4V2-Qwen 設了 auto-watcher。
-
-未來的 pipeline 可考慮把 PE-AV / steering 包成獨立 backfill script，pipeline 主流程不要連到 eval cleanup。
+- `~/MeanAudio/eval_output/{exp}_stage2_200000_steering_probe/audio/`（24 wav each）
 
 ---
 
 ## 7. 引用
 
-- 設計討論：`phase9_design.md`
-- P9.5 V1 結果：`phase9_5_summary.md`（§5.X 為這次 update 的修正）
-- Codex review：commits `01443b3`, `d45c90e`, `f9f055e`, `13ac52e`
-- Memory：
+- Codex review commits: `01443b3`, `d45c90e`, `f9f055e`, `13ac52e`, `9481414`
+- Memory:
   - `feedback_p9_5_paper_wording_2026_05_05.md`（三層 wording 紅線）
-  - `project_p9_5_v1_result_2026_05_04.md`（P9.5 V1 結果，已被新證據更新）
+  - `feedback_qwen_eval_prompt_mismatch_2026_05_07.md`（confound 識別）
   - `project_qwen_rerun_finding_2026_05_07.md`（本次主要 finding）
+  - `feedback_qwen_rerun_naming_2026_05_08.md`（4-token 命名規則）
+- 設計討論：`phase9_design.md`
+- P9.5 V1 結果：`phase9_5_summary.md`（pre-Qwen-rerun，narrative 已被 5/7 update 修正）
