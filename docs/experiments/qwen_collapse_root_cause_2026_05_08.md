@@ -6,15 +6,16 @@ All MeanAudio models trained on **Qwen2.5-Omni-3B captions** collapse to MusicCa
 
 ## Observation table
 
-| Train | Caption | Q | MC CLAP | max steering ratio |
-|---|---|---|---|---|
-| P7 V1 | LP-MC single | +Q | **0.197** | **1.702** |
-| P8 | LP-MC single | NoQ | **0.185** | **1.723** |
-| P9 V1 | LP-MC multi-5 | NoQ | 0.0650 | 0.147 |
-| P9 V2 | LP-MC multi-5 | +Q | 0.0403 | 0.056 |
-| **P8-Qwen** | **Qwen single** | NoQ | **0.0611** | **0.120** |
-| **P7V1-Qwen** | **Qwen single** | +Q | **0.0687** | **0.057** |
-| **P9.5 V1** | **Qwen multi-5** | NoQ | **0.0609** | **0.044** |
+| Train | Caption | Q | MC CLAP | Jamendo s42 CLAP | max steering ratio |
+|---|---|---|---|---|---|
+| P7 V1 | LP-MC single | +Q | **0.197** | — | **1.702** |
+| P8 | LP-MC single | NoQ | **0.185** | 0.1409 (s42) | **1.723** |
+| P9 V1 | LP-MC multi-5 | NoQ | 0.0650 | 0.0650 (s42) | 0.147 |
+| P9 V2 | LP-MC multi-5 | +Q | 0.0403 | 0.0403 | 0.056 |
+| **P8-Qwen** | **Qwen single** | NoQ | **0.0611** | 0.0582 | **0.120** |
+| **P7V1-Qwen** | **Qwen single** | +Q | **0.0687** | 0.0598 | **0.057** |
+| **P9.5 V1** | **Qwen multi-5** | NoQ | **0.0609** | 0.0597 | **0.044** |
+| **P4V2-Qwen** | **Qwen single (BC-selected)** | NoQ | **0.0611** | **0.0596** | TBD |
 
 P8-Qwen collapses despite being single-cap → multi-cap is not a necessary condition for collapse; **Qwen captions alone trigger it**.
 
@@ -24,10 +25,11 @@ P8-Qwen collapses despite being single-cap → multi-cap is not a necessary cond
 |---|---|---|---|---|---|
 | P8 (LP-MC NoQ single) | LP-MC writing 4-task random | 0.1409 | **0.2246** | **+0.084** | text-conditioning healthy |
 | P9V1 (LP-MC NoQ multi-5) | LP-MC 5-cap | 0.0650 | 0.0837 | +0.019 | collapsed |
-| **P9V2 (LP-MC +Q multi-5)** | LP-MC 5-cap | 0.0403 | **0.0622** | **+0.022** | collapsed |
+| P9V2 (LP-MC +Q multi-5) | LP-MC 5-cap | 0.0403 | 0.0622 | +0.022 | collapsed |
 | P8-Qwen (Qwen NoQ single) | Qwen single | 0.0582 | 0.0776 | +0.019 | collapsed |
 | P7V1-Qwen (Qwen +Q single) | Qwen single | 0.0598 | 0.0791 | +0.019 | collapsed |
 | P9.5 V1 (Qwen NoQ multi-5) | Qwen 5-cap | 0.0597 | 0.0799 | +0.020 | collapsed |
+| **P4V2-Qwen (Qwen NoQ BC-single)** | **Qwen single (best caption-selected)** | **0.0596** | **0.0801** | **+0.020** | **collapsed** |
 
 **G1+G2 (5/8) — All 5 collapsed models converge to +0.019–0.022 Qwen-prompt boost (extremely tight). Healthy P8 has +0.084 (4x larger).** This is a clean signature: a +0.02 universal boost from Qwen prompts for collapsed models, distinguishable from a +0.08+ boost for text-conditioning-healthy models. Multi-cap LP-MC and ALL Qwen-trained variants converge to the same +0.019–0.020 Qwen-prompt boost. The +0.02 boost is now interpreted as a metric-level artifact (Qwen prompts may be slightly easier to score high CLAP under HTSAT-base) rather than a model-quality differentiator.
 
