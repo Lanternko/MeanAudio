@@ -143,3 +143,42 @@ EXP-A and EXP-B are the most surgical (single intervention, clear hypothesis). E
 - **High-confidence inference**: Pipeline integrity and prompt-side mismatch are NOT the cause. Caption "genericness" is not the cause (Qwen is more specific).
 - **Low-confidence inference (currently)**: CLAP cond clustering or boilerplate-anchor effects are plausible mechanisms but not yet causally verified.
 - **Forbidden until intervention**: claiming any specific mechanism is THE cause; claiming "Qwen captions are bad for training" without scope qualification; claiming LP-MC structure is necessary.
+
+
+## 🔥 EXP-A RESULT (5/9 morning) — H10 CONFIRMED
+
+Trained P-LPMC-destructured on phase7_v1_train_destructured.tsv (boilerplate stripped) with
+same Stage 1 + Stage 2 600K iter pipeline as P8 baseline:
+
+| Metric | P-destructured | P8 baseline | Δ |
+|---|---|---|---|
+| MusicCaps CLAP | **0.0608** | 0.1851 | **−67%** |
+| Jamendo s42 CLAP | **0.0561** | 0.1409 | −60% |
+| Stage 2 final loss | 0.9862 | 0.9867 | ≈ same |
+| AES quality (CE/CU/PC/PQ) | 5.92/6.54/5.33/6.49 | normal | normal |
+
+**Stripping the LP-MC boilerplate template ("the low quality recording features..." 45% prefix)
+collapses healthy P8 (0.185) directly into Qwen-cluster (0.061).** Loss does not differ — the
+model still converges on reconstruction objective, but loses text-conditioning capability.
+
+→ **H10 confirmed**: LP-MC writing-task boilerplate template is the inductive anchor that
+P8 baseline relies on to learn audio↔text mapping. Without it, the model collapses regardless
+of caption content quality.
+
+This mechanism is consistent with H11 (Qwen 5-task framing variance hypothesis): both LP-MC
+boilerplate-stripped and Qwen 5-task-mixed share the property of LACKING a stable cross-sample
+inductive template, and both collapse to ~0.06 cluster.
+
+| Training data | Inductive anchor stability | Result |
+|---|---|---|
+| LP-MC + "low quality recording" prefix (45%) | high (stable anchor) | healthy 0.185 |
+| **LP-MC stripped (EXP-A)** | **none** | **collapsed 0.061** |
+| Qwen 5-task BC-selected | mixed across 5 framings | collapsed 0.061 |
+| LP-MC multi-cap (P9V1) | per-step random of 5 caps | collapsed 0.065 |
+
+→ All structurally-unstable training collapses to ~0.06 plateau.
+
+**Next: EXP-B (Qwen-Slot0-Fixed)** — force ALL 251K audio to use Qwen slot 0 caption only,
+test whether H11 (5-task variance is the Qwen collapse cause) holds:
+  - MC CLAP recovers → H11 confirmed; Qwen captions can train healthy if framing fixed
+  - Still ~0.06 → Qwen caption content lacks anchor regardless of framing uniformity
