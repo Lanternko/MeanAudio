@@ -30,6 +30,7 @@ P8-Qwen collapses despite being single-cap → multi-cap is not a necessary cond
 | P7V1-Qwen (Qwen +Q single) | Qwen single | 0.0598 | 0.0791 | +0.019 | collapsed |
 | P9.5 V1 (Qwen NoQ multi-5) | Qwen 5-cap | 0.0597 | 0.0799 | +0.020 | collapsed |
 | **P4V2-Qwen (Qwen NoQ BC-single)** | **Qwen single (best caption-selected)** | **0.0596** | **0.0801** | **+0.020** | **collapsed** |
+| **P-LPMC-destructured (EXP-A)** | **LP-MC boilerplate stripped** | **0.0561** | **0.0781** | **+0.022** | **collapsed (induced)** |
 
 **G1+G2 (5/8) — All 5 collapsed models converge to +0.019–0.022 Qwen-prompt boost (extremely tight). Healthy P8 has +0.084 (4x larger).** This is a clean signature: a +0.02 universal boost from Qwen prompts for collapsed models, distinguishable from a +0.08+ boost for text-conditioning-healthy models. Multi-cap LP-MC and ALL Qwen-trained variants converge to the same +0.019–0.020 Qwen-prompt boost. The +0.02 boost is now interpreted as a metric-level artifact (Qwen prompts may be slightly easier to score high CLAP under HTSAT-base) rather than a model-quality differentiator.
 
