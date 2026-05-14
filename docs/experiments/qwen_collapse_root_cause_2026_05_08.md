@@ -17,7 +17,7 @@ All MeanAudio models trained on **Qwen2.5-Omni-3B captions** collapse to MusicCa
 | **P9.5 V1** | **Qwen multi-5** | NoQ | **0.0609** | 0.0597 | **0.044** |
 | **P4V2-Qwen** | **Qwen single (BC-selected)** | NoQ | **0.0611** | **0.0596** | TBD |
 
-P8-Qwen collapses despite being single-cap → multi-cap is not a necessary condition for collapse; **Qwen captions alone trigger it**.
+P8-Qwen collapses despite being single-cap → multi-cap is not a necessary condition for collapse; **Qwen single-cap training is sufficient to reproduce the collapse under this recipe**.
 
 ## Cross-prompt eval matrix (Jamendo seed=42 2048 same audio)
 
@@ -146,7 +146,7 @@ EXP-A and EXP-B are the most surgical (single intervention, clear hypothesis). E
 - **Forbidden until intervention**: claiming any specific mechanism is THE cause; claiming "Qwen captions are bad for training" without scope qualification; claiming LP-MC structure is necessary.
 
 
-## 🔥 EXP-A RESULT (5/9 morning) — H10 CONFIRMED
+## EXP-A RESULT (5/9 morning) — H10 confirmed
 
 Trained P-LPMC-destructured on phase7_v1_train_destructured.tsv (boilerplate stripped) with
 same Stage 1 + Stage 2 600K iter pipeline as P8 baseline:
@@ -162,13 +162,11 @@ same Stage 1 + Stage 2 600K iter pipeline as P8 baseline:
 collapses healthy P8 (0.185) directly into Qwen-cluster (0.061).** Loss does not differ — the
 model still converges on reconstruction objective, but loses text-conditioning capability.
 
-→ **H10 confirmed**: LP-MC writing-task boilerplate template is the inductive anchor that
-P8 baseline relies on to learn audio↔text mapping. Without it, the model collapses regardless
-of caption content quality.
+→ **H10 confirmed (EXP-A direction)**: The full LP-MC writing-task style — which is correlated with the boilerplate prefix — is necessary in tested settings for healthy text conditioning. Without it, the model collapses regardless of caption content quality. Note: EXP-C later showed the prefix string alone is insufficient; the necessary property is the full LP-MC writing-task style, not the prefix string in isolation.
 
-This mechanism is consistent with H11 (Qwen 5-task framing variance hypothesis): both LP-MC
-boilerplate-stripped and Qwen 5-task-mixed share the property of LACKING a stable cross-sample
-inductive template, and both collapse to ~0.06 cluster.
+This result is consistent with H11 (Qwen 5-task framing variance hypothesis): both LP-MC
+boilerplate-stripped and Qwen 5-task-mixed share the property of lacking the LP-MC writing-task
+style, and both collapse to the ~0.06 cluster.
 
 | Training data | Inductive anchor stability | Result |
 |---|---|---|
@@ -185,7 +183,7 @@ test whether H11 (5-task variance is the Qwen collapse cause) holds:
   - Still ~0.06 → Qwen caption content lacks anchor regardless of framing uniformity
 
 
-## 🔥 EXP-B RESULT (2026-05-11 evening) — H11 DEAD
+## EXP-B RESULT (2026-05-11 evening) — H11 falsified
 
 Trained Qwen-Slot0-Fixed (`p_qwen_slot0_stage2_200000`) on `qwen_slot0_train.tsv` (all 251K
 audio forced to Qwen slot 0 caption — same single framing throughout). Same Stage 1 + Stage 2
@@ -291,7 +289,7 @@ EXP-D / EXP-E are eval-only and cheap (hours, not days). EXP-C is the natural ne
 to isolate "anchor template" vs "caption content".
 
 
-## 🔥 EXP-D2 PATHWAY PROBE (2026-05-12 evening) — text projection activation magnitude collapse
+## EXP-D2 PATHWAY PROBE (2026-05-12 evening) — text projection activation magnitude collapse
 
 **Status**: preliminary mechanistic probe; **needs weight-norm + S1/S2-stage confirmation before
 treating as established mechanism**. Observations are stable across 8 prompts × 3 timesteps,
@@ -358,7 +356,7 @@ Input-space inter-prompt cos (sanity, before any projection): CLAP 0.338, T5 per
 - Raw results: `~/research/meanaudio_training/exp_d2_pathway_results.json`
 
 
-## 🔥 EXP-C RESULT (2026-05-12 evening) — anchor template alone NOT sufficient (H12 implicit FALSIFIED)
+## EXP-C RESULT (2026-05-12 evening) — prefix string alone not sufficient (H12 implicit falsified)
 
 Trained P-Qwen-Boilerplate (`p_qwen_slot0_boilerplate_stage2_200000`) on `qwen_slot0_boilerplate_train.tsv`
 (all 251K Qwen slot-0 captions prepended with "The low quality recording features a ", first letter
@@ -433,7 +431,7 @@ LP-MC style effective:
   path to mechanism discrimination without retraining.
 
 
-## 🔥 EXP-D3 WEIGHT + STAGE AUDIT (2026-05-13) — S1-origin; MLP is the collapse site
+## EXP-D3 WEIGHT + STAGE AUDIT (2026-05-13) — S1-origin; MLP dominant
 
 **Status**: ✅ confirmed mechanism localization; updates EXP-D2 from "preliminary" to "established observation."
 
@@ -491,7 +489,7 @@ This points toward the projection MLPs learning an active suppression of text si
 - Results: `~/research/meanaudio_training/exp_d3_audit_results.json`
 
 
-## 🔥 EXP-D4 NULL RESULT (2026-05-13) — projection transplant makes things WORSE
+## EXP-D4 NULL RESULT (2026-05-13) — projection transplant makes things worse
 
 **Status**: ✅ null result confirmed across all 3 models. Rules out projection-only fix as viable EXP-F.
 
@@ -513,7 +511,7 @@ All 3 transplants are **worse** than originals. Despite the projections now prod
 
 The transplant injects 50–600× louder text signals into a downstream network (joint_blocks + fused_blocks) that **was trained from scratch on muted text representations**. The entire downstream weight distribution co-adapted during S1+S2 training to expect near-zero text inputs. Suddenly replacing the projections with P8-scale output causes prediction errors because the joint_blocks cannot interpret the new signal distribution.
 
-**Projection collapse = symptom, not cause.** The joint_blocks themselves have learned a representation that ignores the text pathway — consistent with the EXP-D2 gate_msa finding (collapsed models have systematically lower gate_msa, |1.10–0.85| vs P8's |1.42|). The whole network adapted together to the muted-text regime during training. Fixing only the output end of the projection modules (while leaving all downstream layers intact) breaks the co-adaptation.
+**Projection collapse = symptom, not cause.** Downstream blocks are not able to use the restored P8-scale text projections without retraining, consistent with co-adaptation to muted text representations during S1+S2. The gate_msa finding (collapsed models |1.10–0.85| vs P8's |1.42|) is consistent with reduced text-pathway influence, though this does not directly prove the blocks "ignore" text. The whole network adapted together to the muted-text regime during training. Fixing only the output end of the projection modules (while leaving all downstream layers intact) breaks the co-adaptation.
 
 ### What this rules out for EXP-F
 
@@ -539,7 +537,7 @@ The transplant result is a strong positive finding for the research narrative: i
 - Eval outputs: `~/MeanAudio/eval_output/metrics/exp_{a,b,c}_p8proj_transplant_no_q_musiccaps/metrics.txt`
 
 
-## 🔥 EXP-F RESULT (2026-05-14) — 50% LP-MC anchor INSUFFICIENT (G4)
+## EXP-F RESULT (2026-05-14) — 50% LP-MC/Qwen mixing did not rescue (G4)
 
 **Status**: ✅ complete. MC CLAP **0.0610** — collapsed, no recovery.
 
@@ -573,7 +571,7 @@ EXP-F at 0.0610 is at the centroid of the collapsed cluster, indistinguishable f
 | P8 LP-MC (healthy) | 0.1851 | healthy |
 | All 9 others | 0.0580–0.0690 | collapsed |
 
-**10/10 non-P8 configurations collapsed.** Full LP-MC writing style (constrained vocab + acoustic-structure content + boilerplate template at ~45% density) is required; no partial substitute has succeeded.
+**In the EXP/Qwen-collapse audit, all tested non-healthy-control variants collapsed** (MC CLAP 0.058–0.069; P7 V1 LP-Rnd-Q is not in this universe and remains healthy). Among tested configurations, only full LP-MC writing-task style has produced healthy conditioning; tested partial substitutes (prefix string alone, 50-50 mixing, single-slot Qwen uniformity) did not.
 
 ### Paper wording
 
@@ -586,3 +584,72 @@ EXP-F at 0.0610 is at the centroid of the collapsed cluster, indistinguishable f
 - Data prep: `~/research/meanaudio_training/exp_f_mix_data_prep.py`
 - TSV: `~/eval_tsvs_p100/exp_f_50mix_train.tsv`
 - NPZ: `~/exps_nvme/npz_expf_50mix/`
+
+---
+
+## EXP-G DESIGN — LP-MC S1 → Qwen S2 (stage-localization test)
+
+**Status**: queued. Pending PM approval.
+
+### Motivation
+
+EXP-A~F established that anchor formation must occur during training, and that it is absent in all Qwen-trained variants. EXP-F showed 50% LP-MC mixing at S1 is insufficient. The one untested factor is **stage localization**: does the anchor need to persist across *all* of S1, or is it enough to have formed it in S1 and then switch to Qwen in S2?
+
+### Intervention
+
+Reuse P8 healthy LP-MC S1 checkpoint (`phase8_stage2_200000`'s S1 half) — no new S1 training needed. Run S2 (200K iter) with Qwen slot-0 captions (same NPZ as EXP-B: `npz_qwen_slot0`), NoQ. Eval MusicCaps + Jamendo s42 LP prompt + Qwen prompt.
+
+Cost: ~6.7h GPU (S2 only) + ~11 min eval. Cheapest remaining stage-isolation probe.
+
+### Design
+
+```
+S1:  P8 LP-MC NoQ FluxAudio (400K) ← reuse existing ckpt, NO retraining
+Migrate: standard S1→S2 migration
+S2:  Qwen slot-0 captions, NoQ, 200K iter (cumulative 600K)
+Eval: MusicCaps (n=5521) + Jamendo s42 (n=2048) LP + Qwen prompts
+Probe: steering ratio (same 24-wav battery as prior probes)
+```
+
+Use Qwen slot-0 (not BC): keeps the cleanest single-framing control, consistent with EXP-B.
+
+### Interpretation thresholds
+
+| MC CLAP | Interpretation |
+|---|---|
+| 0.15–0.18 | S1 anchor formation is the dominant factor; Qwen S2 can be absorbed once anchor is in place |
+| 0.09–0.15 | Partial: S1 anchor provides some protection but S2 Qwen regime partially erodes it |
+| ~0.06 | Qwen caption regime in S2 is sufficient to collapse conditioning regardless of S1 anchor |
+
+### Pre-cleared paper wording
+
+**If CLAP ≥ 0.12**: "Stage-1 anchor formation under LP-MC writing-task supervision appears sufficient to preserve text conditioning even when Stage-2 training uses Qwen captions."
+
+**If CLAP ~0.06**: "The LP-MC anchor formed in Stage 1 does not protect against caption-regime co-adaptation during Stage 2 training on Qwen captions."
+
+Do NOT write either result as proof of a specific mechanism; report as behavior-level observation.
+
+### Script template
+
+```bash
+EXP=p_expg_lpmcs1_qwens2
+S1_ITER=400000; S2_ITER=200000; S_TOTAL=600000
+S1_CKPT=exps/phase8_stage2_200000/...  # P8 S1 ckpt_last.pth path TBD
+
+python migrate_stage1_to_stage2_ckpt.py \
+    --s1_ckpt "${S1_CKPT}" \
+    --s2_out  "exps/${EXP}_stage2_${S2_ITER}/${EXP}_stage2_${S2_ITER}_ckpt_last.pth"
+
+python set_training_stage.py --stage 2
+torchrun --nproc_per_node=1 --master_port=23465 train.py \
+    data=meanaudio model=meanaudio_s exp_id=${EXP}_stage2_${S2_ITER} \
+    num_iterations=${S_TOTAL} lr_schedule_steps=[999999,999999] \
+    batch_size=8 +accumulation_steps=1 learning_rate=1e-4 num_workers=4 \
+    +use_rope=False +use_wandb=False +use_q_conditioning=false \
+    val_interval=999999 eval_interval=999999 save_eval_interval=999999 \
+    data.AudioCaps_npz.tsv=<qwen_slot0_train.tsv> \
+    ++data.AudioCaps_npz.npz_dir=/home/kojiek/exps_nvme/npz_qwen_slot0 \
+    ++data.AudioCaps_npz.gt_cache=/mnt/HDD/kojiek/phase4_jamendo_data/npz_cache_train.txt \
+    ++data.AudioCaps_val_npz.npz_dir=/home/kojiek/research/meanaudio_training/npz_phase8v4 \
+    ++data.AudioCaps_val_npz.gt_cache=null
+```

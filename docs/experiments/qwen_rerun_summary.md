@@ -103,7 +103,7 @@ Qwen-Rnd-Q (P7V1-Qwen) q=9:   0.017-0.057 ← collapse
 - ❌「multi-cap 在 LP regime 也無關」— LP-Rnd-NoQ (0.185) → LP-Multi-NoQ (0.065) drop 仍真實
 - ❌「Qwen captions 本質不適合 audio generation」— mechanism 沒證
 - ❌「Qwen 比 LP-MC 差」— 單方向比較，可能 Qwen 適合別的任務或別的 hyperparameter
-- ❌「BC selection 救不回」— 等 Qwen-BC-NoQ 結果
+- ✅「BC selection 救不回」— Qwen-BC-NoQ 完成，MC CLAP 0.0611，進入 +0.020 cluster（confirmed）
 
 ### 3.4 Mechanism 工作假說（未證、不寫 paper claim）
 
