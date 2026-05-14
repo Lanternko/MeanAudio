@@ -37,7 +37,7 @@ Codex review 指出唯一值得補的 isolated control 是 **Qwen static single-
 | **Qwen-Multi-NoQ** (P9.5 V1) | **0.0609** | 6.07 | 6.63 | 5.42 | 6.52 |
 | **Qwen-Rnd-NoQ** (P8-Qwen) | **0.0611** | 5.98 | 6.59 | 5.42 | 6.48 |
 | **Qwen-Rnd-Q** (P7V1-Qwen) q=9 | **0.0686** | 5.78 | 6.63 | 5.47 | 6.42 |
-| Qwen-BC-NoQ (P4V2-Qwen) | 訓中 | — | — | — | — |
+| **Qwen-BC-NoQ** (P4V2-Qwen) | **0.0611** | 6.02 | 6.59 | 5.36 | 6.54 |
 
 ### 2.2 非預設 eval（confound resolution）
 
@@ -145,13 +145,11 @@ Qwen task-framed captions 與訓練看到的 caption distribution 可能差異�
 
 ---
 
-## 5. Qwen-BC-NoQ（P4V2-Qwen，訓中）預測
+## 5. Qwen-BC-NoQ（P4V2-Qwen）✅ 完成 2026-05-08
 
-最可能：CLAP ~0.06-0.08, PE-AV +0.085, R@10 < 1% → 跟 Qwen-Rnd-NoQ 同 collapse 區。
-- 確認「BC selection 在 Qwen 不能救回」
-- 強化「Qwen captioner-style 就是 collapse 根因」
+MC CLAP **0.0611**，JM s42 0.0596 → Qwen-Rnd-NoQ (0.0611) 完全相同，進入 +0.020 Qwen-prompt boost cluster（第 7 個 collapsed 模型）。
 
-若顯著高於 Qwen-Rnd-NoQ（CLAP > 0.10）→ 更複雜 narrative，需分析 BC vs random 在 Qwen 下選的 caption 系統性差異。
+BC selection 在 Qwen captioner 下無法救回 collapse：確認 collapse 不是 selection strategy 的問題，而是 Qwen caption distribution 本身。
 
 ---
 

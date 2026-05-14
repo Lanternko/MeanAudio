@@ -31,7 +31,7 @@
 | Phase 9.5 V2 | Qwen-Multi-Q | (SKIPPED) |
 | P8-Qwen | Qwen-Rnd-NoQ | 0.061 |
 | P7V1-Qwen | Qwen-Rnd-Q | 0.069 |
-| P4V2-Qwen | Qwen-BC-NoQ | 訓中 (5/8) |
+| P4V2-Qwen | Qwen-BC-NoQ | 0.061 |
 
 | Phase（內部） | 對外名稱 | 核心改動 | 狀態 |
 |--------------|---------|---------|------|
@@ -57,7 +57,7 @@
 | Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ❌ **SKIP 2026-05-04**（Codex sequential gate 兩條件全 fail：MC CLAP < 0.0650 + steering < 0.2；V2 跑只會確認失敗，省 19h GPU）|
 | **P8-Qwen** | `JamendoFull-QwenOmni-Random-NoQ` (single-cap) | Qwen 5 caps random pick (seed=42, static), single-cap, NoQ | ✅ **完成 2026-05-06**。MC CLAP **0.0611**, JM s42 0.0582, PE-AV peav **−0.038**, steering max 0.120。**單把 multi-cap 拿掉，Qwen 仍 collapse** — 推翻 P9.5 V1「multi-cap-random-pick 是主因」工作假說 |
 | **P7V1-Qwen** | `JamendoFull-QwenOmni-Random-MeanSim-Q` (single-cap) | Qwen single-cap random + Qwen-local mean_sim Q | ✅ **完成 2026-05-07**。MC CLAP q=6 0.0687 / q=9 0.0686, JM s42 q=9 0.0599, PE-AV −0.038, steering max 0.057。**加 Q 也救不回**；Qwen-local q sweep flat (q=6 ≈ q=9) |
-| P4V2-Qwen | `JamendoFull-QwenOmni-BestConsensus-NoQ` (single-cap) | Qwen single-cap BestConsensus (argmax of pairwise mean_sim row), NoQ | 🔄 跑中（S1 25%, ETA 全完成 ~5/8 06:00）|
+| **P4V2-Qwen** | `JamendoFull-QwenOmni-BestConsensus-NoQ` (single-cap) | Qwen single-cap BestConsensus (argmax of pairwise mean_sim row), NoQ | ✅ **完成 2026-05-08**。MC CLAP **0.0611**, JM s42 0.0596。BestConsensus 選法對 collapse 無影響 — 加入 +0.020 Qwen-prompt boost cluster（第 7 個 collapsed 模型）|
 
 > 完整 Qwen rerun 三組對照與翻盤的 paper-narrative 修正見 `qwen_rerun_summary.md`。
 
@@ -502,3 +502,23 @@ S2_ITERATIONS=200000
 **Blockers**：
 1. /mnt/HDD 空間（需 ~5 GB checkpoint）→ 先確認有空間
 2. P9.5 captioning 是否持續（NoQ 重訓與 captioning 可能衝 GPU）
+
+---
+
+## Qwen collapse root-cause EXP 系列（2026-05-08 起）
+
+> 完整設計 / 結果 / 機制分析見 `docs/experiments/qwen_collapse_root_cause_2026_05_08.md`
+
+| 實驗 | 介入 | MC CLAP | 假說影響 |
+|---|---|---|---|
+| EXP-A (LP-MC-destructured) | LP-MC boilerplate prefix 全部移除 | **0.0608** | ✅ H10 confirmed：boilerplate template 是 inductive anchor |
+| EXP-B (Qwen-Slot0-Fixed) | Qwen 全部固定 slot 0（移除 5-task variance） | **0.0615** | ❌ H11 falsified：variance 不是 collapse 原因 |
+| EXP-C (Qwen+Boilerplate) | Qwen slot-0 + LP-MC prefix string prepend | **0.0580** | ❌ H12 falsified：prefix string alone 不夠 |
+| EXP-D2/D3 (activation probe) | eval-only：text projection MLP activation 解剖 | — | ✅ Collapse 在 S1 已發生；MLP ÷7–14 attenuation；weight shrinkage 只 −25% |
+| EXP-D4 (projection transplant) | 把 P8 healthy text projection weights 移植至 EXP-A/B/C | −5%~−27% vs original | ✅ Projection collapse = 症狀；joint_blocks 已 co-adapt，transplant 反而更差 |
+| EXP-F (50% LP-MC + 50% Qwen) | 50-50 per-audio 混合訓練 | **0.0610** | ❌ G4：50% LP-MC anchor 不足以阻止 collapse |
+
+**10/10 non-P8 configurations collapsed**（MC CLAP 0.058–0.069）。  
+**唯一健康的共同因素**：P8 LP-MC with ~45% boilerplate density（「the low quality recording features a…」）在 S1 提供穩定 inductive anchor。
+
+**尚未測試的關鍵路徑**：全 LP-MC S1（400K）+ Qwen S2（200K）— 在 anchor 已形成後才引入 Qwen captions。
