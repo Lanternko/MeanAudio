@@ -188,3 +188,108 @@ BC selection 在 Qwen captioner 下無法救回 collapse：確認 collapse 不�
   - `feedback_qwen_rerun_naming_2026_05_08.md`（4-token 命名規則）
 - 設計討論：`phase9_design.md`
 - P9.5 V1 結果：`phase9_5_summary.md`（pre-Qwen-rerun，narrative 已被 5/7 update 修正）
+
+---
+
+## 8. 2026-05-15 教授討論 follow-up
+
+### 8.1 教授討論摘要
+
+- **已定位 collapse 點**：Stage 1 訓練期就崩，非 Stage 2 才壞（與 Section 3.2 一致）
+- **caption 可讀性 OK**：Qwen captions 當 eval prompt 餵 LP-trained 模型 → CLAP 0.225（Section 2.2 LP-Rnd-NoQ (JMQ)），確認 prompts 本身可解析
+- **4 種訓練配置 (Rnd-NoQ / Rnd-Q / BC-NoQ / Multi-NoQ) 全 collapse** → 排除 selection / Q 信號的鍋
+- **教授提案（採用）**：把 LP-MusicCaps caption 檔 quarantine，確保下次 Qwen sanity test 時，任何 code path 偷讀 LP-MC 會直接 `FileNotFoundError` — 排除「LLM 在生成 dataloader code 時 hallucinate 偷讀 LP-MC 路徑」這條 silent path
+- **教授提案（拒絕）**：S1 LP-MC + S2 Qwen — 訊號模糊，好壞都不能 isolate 主因，不採用
+
+### 8.2 LP-MC quarantine 狀態（已執行）
+
+`/mnt/HDD` disk full (7.3T / 7.3T, 100%)，無法 mkdir 子資料夾。改用 rename-prefix：
+
+```
+/mnt/HDD/kojiek/phase4_jamendo_data/_QUARANTINED_<原檔名>
+```
+
+16 個 LP-MC 檔案完成 rename：
+- `meanaudio_captions.tsv` (216M)
+- `npz.tsv` (217M)
+- `phase4_train.tsv` (129M) + `phase4_val.tsv` (41M)
+- `phase5_train_080.tsv` + `phase5_train_random117k.tsv`
+- `phase6_train.tsv`
+- `phase7_v1/v2/v3_train.tsv`
+- `phase8_v2/v3/v4/v5_train.tsv`
+- `phase8_v4_captions.jsonl`
+- `_archive_aspect_slot0.jsonl`
+
+**保留可讀**（Qwen + eval set + audio paths）：
+- `phase9_5_train.tsv`
+- `phase9_omni_captions.jsonl` + `phase9_omni_captions_slot{0-4}.jsonl`
+- `musiccaps_test.tsv`、`clips.tsv`
+
+**還原方法**：拿掉 `_QUARANTINED_` prefix（同 fs metadata 操作，秒級可逆）。
+
+### 8.3 Qwen captions 中文 / prompt injection audit
+
+`phase9_5_train.tsv` (251,600 行) 用 `grep -P '[^\x00-\x7f]'` 全掃：
+
+| 類別 | 行數 | 比例 |
+|---|---|---|
+| Non-ASCII（總計） | 108 | 0.043% |
+| 含 CJK Unified Ideographs | 57 | 0.023% |
+| 含 Hiragana | 1 | <0.001% |
+| Accented chars / curly quotes（其餘） | ~50 | 0.020% |
+
+**內容形態**（57 行 CJK 中）：
+
+1. **單詞滑出（佔多數）**——`合成器` 9×、`节奏` 5×、`流行音乐` 3×、`流水` 3×、`伴奏` 3×。Caption 主體仍英文，模型偶蹦中文詞，例 `drum节奏`、`synth流行`。
+
+2. **🚨 Prompt injection / degenerate output（~12 行）**：caption 後面接完全無關的 LLM dialog 殘留：
+
+```
+49585: ...让人倍感欢乐。 Please write a short summary about the given news article.
+83508: ...动感的氛围。 Human: What are the main instruments...? Synthesizer Compute the total number of consonants in
+103034: ...激励人心。 Human: The city's streets are bustling with people and taxis...
+149457: ...节奏缓慢而轻柔。 Human: 请根据以下场景描述回答问题：房间里有一张桌子,桌上有一支蜡烛...
+151246: ...氛围,适合恐惧或惊悚类影视作品。 Human: Generate a single sentence that encapsulates...
+183451: "{"Instrument": "Drones", ...} 生成器会根据我之前的回答进行一些小幅度的随机变化...
+202301: ...宁静和谐的氛围。 In a small town, could a couple's heartbreak be the reason behind...
+208693: ...营造出梦幻般的氛围。 Human: Translate the following sentence into Spanish: "I am not going..."
+215280: ...Human: What genres are included in the music? ambient dubstep 请根据以上信息,对这段音乐进行
+231637: ...合成器和人声采样,营造出欢快的氛围。 Human: In a quaint village nestled between the peaks of the Andes...
+```
+
+這是 **Qwen2.5-Omni-3B 在 generation 時跑進 chat template / 訓練 data 殘留**，不是隨機字元 noise。
+
+3. **Degenerate loop**：
+```
+123760: ...played in拍手拍手拍手拍手拍手拍手拍手拍手拍手拍手拍手拍手拍手拍手拍手拍手
+```
+（`拍手` = clap，重複 16 次）
+
+4. **日文殘漏**：
+```
+174651: ...a voice saying 'you gotを持って'  (を持って = "holding")
+```
+
+### 8.4 判讀
+
+**單獨用中文字 / injection 量解釋 collapse 不足**：57/251,600 = 0.023% 污染率，FLAN-T5 處理這些行會產生 unknown token 但不會崩潰 250K 訓練集的整體 conditioning。
+
+**但是 prompt injection 形態是 captioner failure 的 visible tip-of-iceberg**：
+- 0.02% 「能看見」的失敗（中文、prompt 殘留、degenerate loop）通常對應顯著比例的「看不見」失敗（content hallucination、audio-caption mismatch、aspect 間互相矛盾的 silent 失敗）
+- 教授當下指的 Heavy Metal 樣本 caption 「Heavy Metal Female Vocal Drums」短列舉形態，可能就是這類 silent failure case
+- 這支持 Section 3.4 mechanism 工作假說中的「Qwen captioner audio→text 映射 quality 問題」
+
+**對 paper narrative 的影響**：
+- Section 4 主軸「(b) caption distribution mismatch — Qwen2.5-Omni captioner regime」**仍然成立**
+- 可進一步補充：Qwen captioner 不只是 style distribution 不同，**還有 visible failure modes**（中文滑出 + prompt injection 殘留）→ captioner quality 本身有 systematic issue
+- 但要謹守 wording 紅線（`feedback_p9_5_paper_wording_2026_05_05.md`）：observation 層報數字、推論層用 "supports captioner quality hypothesis"、不能寫「Qwen 不適合 audio captioning」
+
+### 8.5 下一步
+
+LP-MC quarantine 為下次 Qwen 訓練 sanity test 提供「無 silent path」環境。建議的 next-step 實驗（待你決定優先級）：
+
+1. **LP-MC isolated Qwen sanity rerun**：在 quarantine 狀態下複跑某個 Qwen 配置（最便宜的選擇 = Qwen-Rnd-NoQ），確認 collapse 仍發生 → 排除 hallucination path 假設
+2. **Caption quality audit**：抽 100 筆 Qwen captions（尤其 Metal / Heavy 類別），人耳聽 audio + 量化 audio-caption mismatch rate、inter-slot contradiction rate
+3. **Caption cleaning ablation**：把 108 行 non-ASCII filter 掉 + 短 caption (< 10 詞) filter 掉，重訓 Qwen-Rnd-NoQ，看是否從 0.061 提升
+
+排程要不要做哪一個由你決定，這個 doc 不預設方向。
