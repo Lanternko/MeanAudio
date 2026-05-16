@@ -340,6 +340,10 @@ EXP-G NULL + EXP-A~F NULL 全部排除已 design 的 intervention 後，今早�
 EXP-A 至 EXP-G 全完成（A/B/C/D/F/G）。**P8 healthy single-cap 是 tested universe 內唯一不 collapse 的 configuration**。剩下 untested 路徑 = granularity（9.3 段）+ captioner 替換 + audio context 重建——全屬 paper scope 外。
 
 可寫的 paper claim（observation 層）：
-- ✅「Across stage-localization (EXP-G), data-mixing (EXP-F), caption-cleaning (EXP-A/B/C), and projection-transplant (EXP-D4) interventions, only full LP-MC writing-task supervision throughout both stages yielded healthy text conditioning.」
-- ✅「Stage-2 Qwen caption training alone is sufficient to erode established S1 LP-MC anchor (EXP-G CLAP 0.0679, PE-AV −0.034).」
-- ❌ 不能寫「Qwen captions inherently incompatible」——只能寫 within this training setup + this captioner-style mismatch context。
+- ✅「Across the tested set of interventions — stage-localization (EXP-G), data-mixing (EXP-F), caption-cleaning (EXP-A/B/C), projection-transplant (EXP-D4) — only full LP-MC writing-task supervision throughout both stages produced healthy text conditioning.」
+- ✅「In this two-stage MeanAudio recipe, LP-MC S1 preconditioning did not prevent collapse when S2 was trained on Qwen captions (EXP-G CLAP 0.0679, PE-AV −0.034).」
+- ❌ 不能寫「Qwen captions inherently incompatible」、「S1 anchor 被 Qwen S2 摧毀的機制已證明」、「所有 Qwen S2 設定都會 collapse」——這些是 mechanism claim / categorical claim，超出 tested universe。
+
+**最保守但有力的總結**（5/15 PM verdict）：
+
+> Healthy prompt conditioning in this setup appears highly dependent on keeping the full LP-MC writing-task regime throughout training. Partial substitutes, Qwen replacements, Qwen mixing, or S1-only LP-MC anchoring did not recover prompt following in the tested configurations.

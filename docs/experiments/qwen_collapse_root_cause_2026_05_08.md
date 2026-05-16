@@ -162,7 +162,7 @@ same Stage 1 + Stage 2 600K iter pipeline as P8 baseline:
 collapses healthy P8 (0.185) directly into Qwen-cluster (0.061).** Loss does not differ — the
 model still converges on reconstruction objective, but loses text-conditioning capability.
 
-→ **H10 confirmed (EXP-A direction)**: The full LP-MC writing-task style — which is correlated with the boilerplate prefix — is necessary in tested settings for healthy text conditioning. Without it, the model collapses regardless of caption content quality. Note: EXP-C later showed the prefix string alone is insufficient; the necessary property is the full LP-MC writing-task style, not the prefix string in isolation.
+→ **H10 confirmed (EXP-A direction)**: Among tested configurations, healthy text conditioning appears dependent on the full LP-MC writing-task style — which is correlated with the boilerplate prefix. Stripping it caused collapse in this setting, regardless of caption content quality. Note: EXP-C later showed the prefix string alone is not sufficient; in tested settings the property that correlates with healthy conditioning is the full LP-MC writing-task style, not the prefix string in isolation.
 
 This result is consistent with H11 (Qwen 5-task framing variance hypothesis): both LP-MC
 boilerplate-stripped and Qwen 5-task-mixed share the property of lacking the LP-MC writing-task
@@ -376,10 +376,10 @@ captions, audio mean/std from `npz_phase8v4`.
 Qwen-prompt boost +0.019 falls squarely in the collapsed cluster (+0.019–0.022) — not near
 healthy P8 (+0.084). EXP-C is the 9th collapsed model in the audit (9/10 training configurations).
 
-→ **H12 (implicit) FALSIFIED**: The LP-MC anchor effect cannot be explained by the prefix
-string alone. The FULL LP-MC writing-task style is necessary — constrained vocabulary throughout
-the caption, consistent sentence structure, and the "fill-in" template framing that makes the
-variable semantic content learnable. Grafting only the prefix onto a Qwen-style body fails.
+→ **H12 (implicit) FALSIFIED**: In tested settings, the LP-MC anchor effect cannot be explained by the prefix
+string alone. Healthy conditioning appears dependent on the full LP-MC writing-task style — constrained vocabulary throughout
+the caption, consistent sentence structure, and the "fill-in" template framing that may make the
+variable semantic content learnable. Grafting only the prefix onto a Qwen-style body did not recover healthy conditioning.
 
 ## Updated cross-prompt eval matrix (full audit, n=9 collapsed + 1 healthy)
 
@@ -666,7 +666,7 @@ Use Qwen slot-0 (not BC): keeps the cleanest single-framing control, consistent 
 |---|---|
 | 0.15–0.18 | S1 anchor formation is the dominant factor; Qwen S2 can be absorbed once anchor is in place |
 | 0.09–0.15 | Partial: S1 anchor provides some protection but S2 Qwen regime partially erodes it |
-| ~0.06 | Qwen caption regime in S2 is sufficient to collapse conditioning regardless of S1 anchor |
+| ~0.06 | Stage-2 Qwen caption training did not preserve S1 LP-MC anchor in tested setting; conditioning falls into collapse cluster |
 
 ### Pre-cleared paper wording
 
