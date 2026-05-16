@@ -248,13 +248,14 @@ provides a stable inductive template anchor (P8 only, in our 9-model audit) or i
 - **Observation**: Boilerplate stripping LP-MC collapses healthy 0.185 → 0.061 (EXP-A).
   Forcing single Qwen slot framing on 251K still collapses 0.062 (EXP-B). Same +0.02 metric
   artifact present in both, and in all 8 collapsed models.
-- **High-confidence inference**: The presence of a stable, repeatable caption template
+- **High-confidence inference (in tested configurations)**: The presence of a stable, repeatable caption template
   (e.g., LP-MC's "the low quality recording features..." prefix in 35–45% of train captions)
-  is a necessary inductive anchor in THIS training setup (Stage 1 FluxAudio + Stage 2 MeanFlow,
+  appears to function as a necessary inductive anchor in THIS training setup (Stage 1 FluxAudio + Stage 2 MeanFlow,
   Jamendo 251K, T5+CLAP encoders). Removing the anchor from LP-MC collapses it. Adding
   "structural uniformity" alone to Qwen (slot 0 only — same prompt framing, no template prefix)
-  does NOT add an anchor — Qwen captions are lexically/syntactically diverse enough that they
-  do not form a learnable template even at single-slot granularity.
+  did NOT add an anchor — Qwen captions are lexically/syntactically diverse enough that they
+  did not form a learnable template even at single-slot granularity. Whether the same recipe
+  would collapse under different hyperparameters, data scale, or encoders is untested.
 - **Low-confidence inference**: The exact "anchor" property is not yet isolated. Candidates:
   (a) repeated n-gram prefix giving stable initial cross-attn key distribution,
   (b) constrained vocabulary giving stable T5 embedding subspace,
