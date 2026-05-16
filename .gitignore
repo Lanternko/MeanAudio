@@ -15,7 +15,10 @@ wandb/
 .vscode/
 training/example_output/
 app/
+eval_output
 eval_output/
+eval_output.*
+*.OLD/
 .hydra/
 outputs/
 test_phase*/
@@ -26,6 +29,8 @@ test_phase*/
 *.bak2
 *.backup
 fix_*.py
+scripts/runs/
+scripts/analysis/probe_battery_results.json
 
 data/*
 !data/.gitkeep

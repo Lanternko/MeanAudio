@@ -71,22 +71,24 @@ export CUDA_VISIBLE_DEVICES=0
 
 ## 目錄結構
 
+完整 repo 地圖見 `STRUCTURE.md`；scripts/ 子目錄索引見 `scripts/README.md`。
+
 ```
 MeanAudio/
-├── meanaudio/
-│   ├── model/{networks.py, mean_flow.py, flow_matching.py}   # 模型、loss、ODE solver
-│   ├── runner_meanflow.py                                     # 訓練迴圈
-│   ├── data/{extracted_audio.py, data_setup.py}               # Dataset / DataLoader
-│   └── eval_utils.py                                          # generate_mf / generate_fm
-├── train.py / eval.py / infer.py                              # 入口
-├── train_pipeline.sh                                          # S1 → migrate → S2 → eval
-├── set_training_stage.py                                      # 切 Stage 1/2（patch runner）
-├── migrate_stage1_to_stage2_ckpt.py                           # S1→S2 checkpoint 轉換
-├── config/ sets/ scripts/ archive/
-└── docs/                                                      # 詳細文檔（見上方導覽）
+├── meanaudio/                       # 套件：model/、data/、runner_*.py、eval_utils.py
+├── train.py / eval.py / infer.py    # 入口
+├── train_pipeline.sh                # CANONICAL S1 → migrate → S2 → eval
+├── set_training_stage.py            # 切 Stage 1/2（patch runner）
+├── migrate_stage1_to_stage2_ckpt.py # S1→S2 ckpt 轉換（吃 ckpt_last.pth，不是 ema_final.pth）
+├── scripts/                         # 所有 helper（training_pipelines/, eval/, preprocess/, analysis/, legacy/, runs/）
+├── config/ sets/ data/ training/    # configs、latent stats、symlinks、訓練工具
+├── archive/                         # 歷史：fix_scripts/, old_outputs/, old_scripts/
+└── docs/                            # 詳細文檔（見上方導覽）
 ```
 
-資料路徑：`/mnt/HDD/kojiek/phase4_jamendo_data/`
+資料路徑：`/mnt/HDD/kojiek/phase4_jamendo_data/`（NPZ + TSV）；舊 eval audio：`/mnt/HDD/kojiek/MeanAudio_eval_output_OLD/`（2026-05-16 reorg 搬出 repo root）
+
+**實驗變體 pipeline**（P4V2-Qwen、P7V1-Qwen、P9.5 V1 等）一律在 `scripts/training_pipelines/`，啟動方式仍是 `bash scripts/training_pipelines/<name>.sh`（每個都自帶 `cd "$WORK_DIR"`）。
 
 ---
 
