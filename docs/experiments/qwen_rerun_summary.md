@@ -293,3 +293,53 @@ LP-MC quarantine 為下次 Qwen 訓練 sanity test 提供「無 silent path」�
 3. **Caption cleaning ablation**：把 108 行 non-ASCII filter 掉 + 短 caption (< 10 詞) filter 掉，重訓 Qwen-Rnd-NoQ，看是否從 0.061 提升
 
 排程要不要做哪一個由你決定，這個 doc 不預設方向。
+
+---
+
+## 9. EXP-G 完成（2026-05-15 收尾）+ caption-audio granularity 新發現
+
+### 9.1 EXP-G 結果（LP-MC S1 → Qwen S2，stage-localization test）
+
+設計問題（design doc）：anchor 形成在 S1 是否就夠了？S2 換 Qwen 還能不能保住？
+
+**答：不夠。** 全部 collapse。
+
+| Metric | MC | JM (LP) | JMQ (Qwen) |
+|---|---|---|---|
+| CLAP | **0.0679** | 0.0584 | 0.0788 |
+| PE-AV peav | **−0.034** | +0.011 | +0.086 |
+| t2a R@10 | 0.181 | 0.488 | 0.439 |
+| AES PQ | 6.70 | 6.67 | 6.67 |
+
+**Steering ratios**: 0.068 / 0.098 / 0.076 / 0.083 → 全 collapse cluster（P9 V1 NoQ 0.025-0.147 範圍）
+
+Pre-cleared paper wording (per design doc): *"The LP-MC anchor formed in Stage 1 does not protect against caption-regime co-adaptation during Stage 2 training on Qwen captions."*
+
+完整結果見 `qwen_collapse_root_cause_2026_05_08.md` EXP-G 段。
+
+### 9.2 對 Section 3.4 / 4 narrative 的影響
+
+- **Section 3.4 mechanism hypothesis 更新**：collapse 不是 S1-only 也不是 S2-only，是 caption distribution × training dynamics 的 interaction。S2 alone 也能讓健康 S1 model 退化。
+- **Section 4 paper narrative 強化**：加上「stage-localization 排除」這條路徑——即使 S1 有 healthy LP-MC anchor，S2 200K iter Qwen 仍能讓所有三個 metric 退到 collapse 區。EXP-G 成為 EXP-D4（projection transplant 反而更差）的 stage-wise 對照。
+
+### 9.3 新發現：caption-audio granularity mismatch（今早 follow-up，未實驗驗證）
+
+EXP-G NULL + EXP-A~F NULL 全部排除已 design 的 intervention 後，今早教授討論 + audit 發現 **structural data pipeline bug**：
+
+- `partition_clips.py:81-85` deterministic 抽 30s segment 的**前 10s**（每筆 `clips.tsv` 全 `start_sample=0, end_sample=160000`）
+- NPZ 存 312 frames = 9.975s audio latent
+- **Caption 描述完整 30s（LP-MC + Qwen 都是）**
+- 結構性 granularity mismatch：audio 10s + caption 30s
+
+這個 bug 影響 LP-MC + Qwen 兩條 pipeline（同 NPZ）。LP-MC 為什麼仍 healthy 而 Qwen collapse 在這個 granularity 下未解釋——可能 deeper 的 captioner-style accuracy 差異 + multi-aspect divergence 讓 Qwen 在「only 10s 看得到」regime 下無法收斂。
+
+**未驗證 hypothesis**：30s audio context retrain 是 causal proof，但 architecture 變更（latent_seq_len 312→936）+ 24-48h NPZ regen + 20h train 不在現 paper scope。寫進 paper discussion 當 confound limitation。
+
+### 9.4 EXP series 全 universe 落幕
+
+EXP-A 至 EXP-G 全完成（A/B/C/D/F/G）。**P8 healthy single-cap 是 tested universe 內唯一不 collapse 的 configuration**。剩下 untested 路徑 = granularity（9.3 段）+ captioner 替換 + audio context 重建——全屬 paper scope 外。
+
+可寫的 paper claim（observation 層）：
+- ✅「Across stage-localization (EXP-G), data-mixing (EXP-F), caption-cleaning (EXP-A/B/C), and projection-transplant (EXP-D4) interventions, only full LP-MC writing-task supervision throughout both stages yielded healthy text conditioning.」
+- ✅「Stage-2 Qwen caption training alone is sufficient to erode established S1 LP-MC anchor (EXP-G CLAP 0.0679, PE-AV −0.034).」
+- ❌ 不能寫「Qwen captions inherently incompatible」——只能寫 within this training setup + this captioner-style mismatch context。

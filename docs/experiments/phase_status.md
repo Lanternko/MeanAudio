@@ -517,8 +517,9 @@ S2_ITERATIONS=200000
 | EXP-D2/D3 (activation probe) | eval-only：text projection MLP activation 解剖 | — | ✅ Collapse 在 S1 已發生；MLP ÷7–14 attenuation；weight shrinkage 只 −25% |
 | EXP-D4 (projection transplant) | 把 P8 healthy text projection weights 移植至 EXP-A/B/C | −5%~−27% vs original | ✅ Projection collapse = 症狀；joint_blocks 已 co-adapt，transplant 反而更差 |
 | EXP-F (50% LP-MC + 50% Qwen) | 50-50 per-audio 混合訓練 | **0.0610** | ❌ G4：50% LP-MC anchor 不足以阻止 collapse |
+| **EXP-G (LP-MC S1 → Qwen S2)** | reuse P8 LP-MC S1 ckpt + Qwen slot-0 S2 200K (NoQ) | **0.0679** | ❌ G5：S1 anchor 不能保護 S2 Qwen co-adaptation。PE-AV peav MC **−0.034**（負）、steering 0.068-0.098 全 collapse cluster。完成 2026-05-15 |
 
-**在 EXP / Qwen collapse audit 測試的所有 variants（EXP-A~F + 所有 Qwen-trained runs）中，P8 healthy control 以外全部 collapsed**（MC CLAP 0.058–0.069；P7 V1 / LP-Rnd-Q 不在此 universe 內，仍為 healthy）。  
-**已測的唯一健康共同因素**：完整 LP-MC writing-task style（含 ~45% boilerplate prefix density）。注：此為 tested configuration 範圍內的觀察，非必要條件的完整證明。
+**在 EXP / Qwen collapse audit 測試的所有 variants（EXP-A~G + 所有 Qwen-trained runs）中，P8 healthy control 以外全部 collapsed**（MC CLAP 0.058–0.069；P7 V1 / LP-Rnd-Q 不在此 universe 內，仍為 healthy）。  
+**已測的唯一健康共同因素**：完整 LP-MC writing-task style（含 ~45% boilerplate prefix density）+ S1+S2 全程 LP-MC supervision。注：此為 tested configuration 範圍內的觀察，非必要條件的完整證明。
 
-**尚未測試的關鍵路徑**：全 LP-MC S1（400K）+ Qwen S2（200K）— 在 anchor 已形成後才引入 Qwen captions。
+**~~尚未測試的關鍵路徑：全 LP-MC S1+Qwen S2~~** ✅ 已測 EXP-G，NULL 結果。所有 currently designed stage/data intervention 都 collapse；剩下 untested 高層級 hypothesis = caption-audio granularity mismatch（30s caption vs 10s audio NPZ，今早討論發現，未實驗驗證）。

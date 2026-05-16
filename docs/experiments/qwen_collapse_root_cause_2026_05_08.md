@@ -587,9 +587,56 @@ EXP-F at 0.0610 is at the centroid of the collapsed cluster, indistinguishable f
 
 ---
 
-## EXP-G DESIGN — LP-MC S1 → Qwen S2 (stage-localization test)
+## EXP-G — LP-MC S1 → Qwen S2 (stage-localization test)
 
-**Status**: queued. Pending PM approval.
+**Status**: ✅ **COMPLETE 2026-05-15** (training finished 5/14 23:39; PE-AV + steering probe completed 5/15 12:50). Doc was stale-marked "queued"; actually launched 5/14 16:14.
+
+### Result — NULL (caption-regime co-adaptation hypothesis supported)
+
+| Metric | MC | JM (LP prompts) | JMQ (Qwen prompts) |
+|---|---|---|---|
+| CLAP | **0.0679** | 0.0584 | 0.0788 |
+| PE-AV peav_score | **−0.034** | +0.011 | +0.086 |
+| t2a R@10 | 0.181 | 0.488 | 0.439 |
+| AES PQ | 6.70 | 6.67 | 6.67 |
+
+**Steering probe ratios** (4 pairs × 3 seeds × 2 prompts, NoQ → quality_level=10):
+
+```
+01_instrument:  ratio 0.068
+02_vocals:      ratio 0.098 ← max
+03_drums:       ratio 0.076
+04_density:     ratio 0.083
+```
+
+All ratios in 0.068-0.098 range → falls in P9 V1 NoQ collapse cluster (0.025-0.147), far below P8 healthy single-cap (0.91-1.72).
+
+### Interpretation
+
+MC CLAP **0.0679 falls in design doc "~0.06" bucket** (collapse threshold). All three independent measures agree:
+- CLAP MC ~0.067 (vs P8 healthy 0.185)
+- PE-AV peav MC **negative** (−0.034) — same magnitude as P8-Qwen (−0.038)
+- Steering ratios in collapse cluster
+
+**Pre-cleared paper wording** (now active per design doc): *"The LP-MC anchor formed in Stage 1 does not protect against caption-regime co-adaptation during Stage 2 training on Qwen captions."*
+
+### What this rules out / supports
+
+- **Rules out**: "Anchor formed in S1 is sufficient" — S2 Qwen training erodes the anchor
+- **Supports**: text projection + joint_blocks **co-adapt to muted-text regime during S2** (consistent with EXP-D2/D3/D4: collapse is S1-origin in EXP-A/B/C BUT S2 alone can ALSO cause it when given Qwen captions even with healthy S1 start)
+- **Implication**: collapse is a property of the **caption distribution × training dynamics interaction**, not the S1 anchor alone
+
+### Artifacts
+
+- Training: `~/MeanAudio/exps/p_expg_lpmcs1_qwens2_stage2_200000/`
+- EMA: `*_ema_final.pth` (460M)
+- Eval audio (3 sets): `~/eval_output_nvme/p_expg_lpmcs1_qwens2_stage2_200000_{no_q_musiccaps,jamendo_s42,qwen_random_jamendo_s42}/audio/`
+- Metrics: `~/eval_output_nvme/metrics/p_expg_*/metrics.txt` + `*_peav.json`
+- Steering probe: `~/eval_output_nvme/p_expg_lpmcs1_qwens2_stage2_200000_steering_probe/audio/` (24 wav)
+- Training log: `~/logs/p_expg_lpmcs1_qwens2_stage2_200000.log`
+- Follow-up log: `~/logs/exp_g_followup_evals.log`
+
+### Original design (kept for context)
 
 ### Motivation
 
