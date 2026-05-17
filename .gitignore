@@ -1,4 +1,6 @@
 run_*.sh
+.claude/scheduled_tasks.lock
+.claude/worktrees/
 log/
 logs/
 saves
