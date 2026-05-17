@@ -124,9 +124,9 @@ See `gen_expH_rewrites.py` for full prompt.
 
 - [x] 10K rewrite generation (10,000 rows, fallback=0, chat leakage=0%, hallucination suffix 0.16%)
 - [x] Text-side sanity (length/LP-MC opening/acoustic KW/entropy: all pass; trigram 30% = warning)
-- [ ] CLAP gate ← **NEXT** (pending: `python expH_sanity_stats.py --audio_root /mnt/HDD/hsiehyian/segments_no_vocals ...`)
-- [ ] Gate decision
-- [ ] Full 251K rewrite
+- [x] CLAP gate PASS — rewrite_diag=0.3058, qwen_diag=0.3084, ratio=99.2%, gate=0.2584
+- [x] Gate decision: **CLEARED** (2026-05-18)
+- [ ] Full 251K rewrite ← **RUNNING** (`tmux expH_full_rewrite`, ETA ~8-10h, 7,863 batches)
 - [ ] NPZ generation
 - [ ] Training
 - [ ] Eval
