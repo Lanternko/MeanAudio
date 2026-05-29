@@ -1,0 +1,24 @@
+{
+  "name": "discord-social-preview-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A lightweight Discord bot that previews Meta Threads, X/Twitter, and other supported links using FixEmbed.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "if [ -x /opt/homebrew/opt/node@22/bin/node ]; then /opt/homebrew/opt/node@22/bin/node src/index.js; else node src/index.js; fi",
+    "test": "npm run test:pure && npm run test:routing && npm run test:circuit",
+    "test:pure": "node scripts/smoke.js",
+    "test:routing": "node scripts/routing-smoke.js",
+    "test:circuit": "node scripts/smoke-ai-circuit.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "discord.js": "^14.19.3",
+    "dotenv": "^16.4.5",
+    "node-cron": "^4.2.1",
+    "playwright": "^1.59.1"
+  }
+}

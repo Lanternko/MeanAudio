@@ -1,0 +1,13 @@
+node_modules/
+.env
+.env.*
+!.env.example
+.DS_Store
+npm-debug.log*
+start-bot.command
+stop-bot.command
+bot.log
+bot.log.*
+*.log
+data/
+
