@@ -12,6 +12,7 @@ workspace
 workspace/
 exps/
 av-benchmark/
+av-benchmark
 wandb/
 .checkpoints/
 .vscode/
@@ -33,6 +34,13 @@ test_phase*/
 fix_*.py
 scripts/runs/
 scripts/analysis/probe_battery_results.json
+
+# Local hidden storage created during workspace cleanup.
+.archive/generated-output/
+.archive/source-backups/
+.archive/wandb-offline/
+.external/
+.DS_Store
 
 data/*
 !data/.gitkeep

@@ -49,13 +49,21 @@ MeanAudio/
 │   └── train_mini.sh, extract_audio_latents.sh
 │
 ├── training/                         # training-related utilities (kept from upstream)
-├── archive/                          # historical: fix_scripts/, old_outputs/, old_scripts/
-├── av-benchmark/                     # AV evaluation toolkit (gitignored)
+├── av-benchmark → .external/av-benchmark
+│                                      # compatibility symlink used by eval scripts
+│
+├── .archive/                         # hidden historical / local low-priority material
+│   ├── legacy/                       # former archive/: fix_scripts/, old_outputs/, old_scripts/
+│   ├── source-backups/2026-05-31/    # former scattered *.bak / *.bak2 source snapshots
+│   ├── generated-output/             # old local output/ WAV samples
+│   └── wandb-offline/                # old local W&B offline runs
+├── .external/                        # hidden external checkouts
+│   └── av-benchmark/                 # AV evaluation toolkit (gitignored)
+├── .side_projects/                   # hidden non-MeanAudio side projects
 │
 ├── exps/ → /home/kojiek/exps_nvme    # symlink — all checkpoints on NVMe
 ├── eval_output/ → /mnt/HDD/...       # symlink — generated audio outputs on HDD
-├── weights/                          # CLAP/T5 model weights (mostly gitignored)
-└── wandb/, output/, __pycache__/     # build artifacts (gitignored)
+└── weights/                          # CLAP/T5/model weights (mostly gitignored)
 ```
 
 ## External paths (not in repo)
@@ -77,3 +85,4 @@ MeanAudio/
 - **Tmux for >5 min jobs**. Chain stages with `&&` plus `set -eo pipefail` (see `feedback_pipefail_silent_crash_2026_04_22.md`).
 - **Never edit `meanaudio/model/networks.py:MeanAudio`** (Stage 2 architecture).
 - **Never touch main repo from `.claude/worktrees/`** — always operate in `~/MeanAudio/`.
+- **Generated clutter** belongs in gitignored or hidden paths (`output/`, `wandb/`, `.archive/generated-output/`, `.archive/wandb-offline/`). Source backups belong in `.archive/source-backups/`.

@@ -82,7 +82,11 @@ MeanAudio/
 ├── migrate_stage1_to_stage2_ckpt.py # S1→S2 ckpt 轉換（吃 ckpt_last.pth，不是 ema_final.pth）
 ├── scripts/                         # 所有 helper（training_pipelines/, eval/, preprocess/, analysis/, legacy/, runs/）
 ├── config/ sets/ data/ training/    # configs、latent stats、symlinks、訓練工具
-├── archive/                         # 歷史：fix_scripts/, old_outputs/, old_scripts/
+├── av-benchmark -> .external/av-benchmark
+│                                      # eval script 相容 symlink
+├── .archive/                         # 隱藏歷史/次要資料：legacy/, source-backups/, generated-output/, wandb-offline/
+├── .external/                        # 隱藏外部 checkout：av-benchmark/
+├── .side_projects/                   # 非 MeanAudio 主線的 side projects
 └── docs/                            # 詳細文檔（見上方導覽）
 ```
 
