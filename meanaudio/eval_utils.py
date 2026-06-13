@@ -85,13 +85,16 @@ def generate_fm(
     bs = len(text)
 
     if text is not None:
-        text_features, text_features_c = feature_utils.encode_text(text)
+        text_features, text_features_c, text_attention_mask = feature_utils.encode_text(
+            text, return_attention_mask=True)
     else:
         text_features, text_features_c = net.get_empty_string_sequence(bs)
+        text_attention_mask = None
 
     if negative_text is not None:
         assert len(negative_text) == bs
-        negative_text_features = feature_utils.encode_text(negative_text)
+        negative_text_features = feature_utils.encode_text(
+            negative_text, return_attention_mask=True)
     else:
         negative_text_features = net.get_empty_string_sequence(bs)
 
@@ -101,7 +104,8 @@ def generate_fm(
                      device=device,
                      dtype=dtype,
                      generator=rng)
-    preprocessed_conditions = net.preprocess_conditions(text_features, text_features_c)
+    preprocessed_conditions = net.preprocess_conditions(
+        text_features, text_features_c, text_attention_mask)
     empty_conditions = net.get_empty_conditions(
         bs, negative_text_features=negative_text_features if negative_text is not None else None)
 
@@ -133,13 +137,16 @@ def generate_mf(
     bs = len(text)
 
     if text is not None:
-        text_features, text_features_c = feature_utils.encode_text(text)
+        text_features, text_features_c, text_attention_mask = feature_utils.encode_text(
+            text, return_attention_mask=True)
     else:
         text_features, text_features_c = net.get_empty_string_sequence(bs)
+        text_attention_mask = None
 
     if negative_text is not None:
         assert len(negative_text) == bs
-        negative_text_features = feature_utils.encode_text(negative_text)
+        negative_text_features = feature_utils.encode_text(
+            negative_text, return_attention_mask=True)
     else:
         negative_text_features = net.get_empty_string_sequence(bs)
 
@@ -149,7 +156,8 @@ def generate_mf(
                      device=device,
                      dtype=dtype,
                      generator=rng)
-    preprocessed_conditions = net.preprocess_conditions(text_features, text_features_c)
+    preprocessed_conditions = net.preprocess_conditions(
+        text_features, text_features_c, text_attention_mask)
     empty_conditions = net.get_empty_conditions(
         bs, negative_text_features=negative_text_features if negative_text is not None else None)
 

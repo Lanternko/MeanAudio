@@ -221,6 +221,7 @@ class RunnerFlowMatching:
         text_f_c: torch.Tensor,
         a_mean: torch.Tensor,
         a_std: torch.Tensor,
+        text_attention_mask: torch.Tensor = None,
         q: torch.Tensor = None,  # FIX 2026-04-20: Stage 1 was ignoring q conditioning entirely
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         # sample
@@ -244,12 +245,17 @@ class RunnerFlowMatching:
         samples = torch.rand(bs, device=x1.device, generator=self.rng)
         null_text = (samples < self.null_condition_probability)
         text_f[null_text] = self.network.module.empty_string_feat
+        if text_attention_mask is not None:
+            text_attention_mask = text_attention_mask.clone()
+            text_attention_mask[null_text] = True
 
         # samples = torch.rand(bs, device=x1.device, generator=self.rng) 
         null_text_c = (samples < self.null_condition_probability)  # here we do null condition together
         text_f_c[null_text_c] = self.network.module.empty_string_feat_c
 
-        pred_v = self.network(xt, text_f, text_f_c, t, q=q)  # FIX 2026-04-20: pass q to FluxAudio (was dropped entirely before)
+        pred_v = self.network(
+            xt, text_f, text_f_c, t, q=q,
+            text_attention_mask=text_attention_mask)  # FIX 2026-04-20: pass q to FluxAudio (was dropped entirely before)
         loss = self.fm.loss(pred_v, x0, x1)
         mean_loss = loss.mean()
         return x1, loss, mean_loss, t
@@ -259,6 +265,7 @@ class RunnerFlowMatching:
         text_f: torch.Tensor,
         text_f_c: torch.Tensor,
         x1: torch.Tensor,
+        text_attention_mask: torch.Tensor = None,
         q: torch.Tensor = None,  # FIX 2026-04-20: Stage 1 was ignoring q conditioning entirely
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         bs = x1.shape[0]  # batch_size * seq_len * num_channels
@@ -277,12 +284,17 @@ class RunnerFlowMatching:
         samples = torch.rand(bs, device=x1.device, generator=self.rng)
         null_text = (samples < self.null_condition_probability)
         text_f[null_text] = self.network.module.empty_string_feat
+        if text_attention_mask is not None:
+            text_attention_mask = text_attention_mask.clone()
+            text_attention_mask[null_text] = True
 
         # samples = torch.rand(bs, device=x1.device, generator=self.rng)
         null_text_c = (samples < self.null_condition_probability)
         text_f_c[null_text_c] = self.network.module.empty_string_feat_c
 
-        pred_v = self.network(xt, text_f, text_f_c, t, q=q)  # FIX 2026-04-20: pass q to FluxAudio
+        pred_v = self.network(
+            xt, text_f, text_f_c, t, q=q,
+            text_attention_mask=text_attention_mask)  # FIX 2026-04-20: pass q to FluxAudio
 
         loss = self.fm.loss(pred_v, x0, x1)
         mean_loss = loss.mean()
@@ -297,6 +309,8 @@ class RunnerFlowMatching:
         with torch.amp.autocast('cuda', enabled=self.use_amp, dtype=torch.bfloat16):
             text_f = data['text_features'].cuda(non_blocking=True)
             text_f_c = data['text_features_c'].cuda(non_blocking=True)
+            text_attention_mask = data['text_attention_mask'].cuda(non_blocking=True) \
+                if 'text_attention_mask' in data else None
             a_mean = data['a_mean'].cuda(non_blocking=True)
             a_std = data['a_std'].cuda(non_blocking=True)
 
@@ -304,10 +318,13 @@ class RunnerFlowMatching:
             if it % self.log_extra_interval == 0:
                 unmasked_text_f = text_f.clone()
                 unmasked_text_f_c = text_f_c.clone()
+                unmasked_text_attention_mask = text_attention_mask.clone() \
+                    if text_attention_mask is not None else None
             # FIX 2026-04-20: read q_level like runner_meanflow does (Stage 1 was ignoring q entirely)
             use_q = self.cfg.get('use_q_conditioning', True)
             q = data['q_level'].cuda(non_blocking=True) if ('q_level' in data and use_q) else None
-            x1, loss, mean_loss, t = self.train_fn(text_f, text_f_c, a_mean, a_std, q=q)
+            x1, loss, mean_loss, t = self.train_fn(
+                text_f, text_f_c, a_mean, a_std, text_attention_mask=text_attention_mask, q=q)
 
             self.train_integrator.add_dict({'loss': mean_loss})
 
@@ -368,7 +385,10 @@ class RunnerFlowMatching:
                     x0 = torch.empty_like(x1[0:1]).normal_(generator=self.rng)
                     text_f = unmasked_text_f[0:1]
                     text_f_c = unmasked_text_f_c[0:1]  # the first element with same sequence
-                    conditions = self.network.module.preprocess_conditions(text_f, text_f_c)
+                    text_attention_mask = unmasked_text_attention_mask[0:1] \
+                        if unmasked_text_attention_mask is not None else None
+                    conditions = self.network.module.preprocess_conditions(
+                        text_f, text_f_c, text_attention_mask)
                     empty_conditions = self.network.module.get_empty_conditions(x0.shape[0])
                     cfg_ode_wrapper = lambda t, x: self.network.module.ode_wrapper(
                         t, x, conditions, empty_conditions, self.cfg_strength)
@@ -404,6 +424,8 @@ class RunnerFlowMatching:
         with torch.amp.autocast('cuda', enabled=self.use_amp, dtype=torch.bfloat16):
             text_f = data['text_features'].cuda(non_blocking=True)
             text_f_c = data['text_features_c'].cuda(non_blocking=True)
+            text_attention_mask = data['text_attention_mask'].cuda(non_blocking=True) \
+                if 'text_attention_mask' in data else None
             a_mean = data['a_mean'].cuda(non_blocking=True)
             a_std = data['a_std'].cuda(non_blocking=True)
 
@@ -414,7 +436,9 @@ class RunnerFlowMatching:
             # FIX 2026-04-20: read q_level like runner_meanflow does (Stage 1 was ignoring q entirely)
             use_q = self.cfg.get('use_q_conditioning', True)
             q = data['q_level'].cuda(non_blocking=True) if ('q_level' in data and use_q) else None
-            loss, mean_loss, t = self.val_fn(text_f.clone(), text_f_c.clone(), x1, q=q)
+            loss, mean_loss, t = self.val_fn(
+                text_f.clone(), text_f_c.clone(), x1,
+                text_attention_mask=text_attention_mask, q=q)
 
             self.val_integrator.add_binned_tensor('binned_loss', loss, t)
             self.val_integrator.add_dict({'loss': mean_loss})
@@ -433,11 +457,14 @@ class RunnerFlowMatching:
         with torch.amp.autocast('cuda', enabled=self.use_amp, dtype=torch.bfloat16):
             text_f = data['text_features'].cuda(non_blocking=True)
             text_f_c = data['text_features_c'].cuda(non_blocking=True)
+            text_attention_mask = data['text_attention_mask'].cuda(non_blocking=True) \
+                if 'text_attention_mask' in data else None
             a_mean = data['a_mean'].cuda(non_blocking=True)  # for the shape only
 
             # sample
             x0 = torch.empty_like(a_mean).normal_(generator=self.rng)
-            conditions = self.network.module.preprocess_conditions(text_f, text_f_c)
+            conditions = self.network.module.preprocess_conditions(
+                text_f, text_f_c, text_attention_mask)
             empty_conditions = self.network.module.get_empty_conditions(x0.shape[0])
             cfg_ode_wrapper = lambda t, x: self.network.module.ode_wrapper(
                 t, x, conditions, empty_conditions, self.cfg_strength)

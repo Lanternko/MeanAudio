@@ -22,6 +22,21 @@ log = logging.getLogger()
 class PreprocessedConditions:
     text_f: torch.Tensor
     text_f_c: torch.Tensor
+    text_attention_mask: Optional[torch.Tensor] = None
+
+
+def _prepare_text_attention_mask(
+        text_attention_mask: Optional[torch.Tensor],
+        batch_size: int,
+        seq_len: int,
+        device: torch.device) -> Optional[torch.Tensor]:
+    if text_attention_mask is None:
+        return None
+    if text_attention_mask.dim() == 1:
+        text_attention_mask = text_attention_mask.unsqueeze(0).expand(batch_size, -1)
+    assert text_attention_mask.shape == (batch_size, seq_len), \
+        f'{text_attention_mask.shape=} != {(batch_size, seq_len)=}'
+    return text_attention_mask.to(device=device, dtype=torch.bool)
 
 
 class FluxAudio(nn.Module):
@@ -182,7 +197,8 @@ class FluxAudio(nn.Module):
         # return x * self.latent_std + self.latent_mean
         return x.mul_(self.latent_std).add_(self.latent_mean)
 
-    def preprocess_conditions(self, text_f: torch.Tensor, text_f_c: torch.Tensor) -> PreprocessedConditions:
+    def preprocess_conditions(self, text_f: torch.Tensor, text_f_c: torch.Tensor,
+                              text_attention_mask: Optional[torch.Tensor] = None) -> PreprocessedConditions:
         """
         cache computations that do not depend on the latent/time step
         i.e., the features are reused over steps during inference
@@ -190,6 +206,8 @@ class FluxAudio(nn.Module):
         assert text_f.shape[1] == self._text_seq_len, f'{text_f.shape=} {self._text_seq_len=}'
 
         bs = text_f.shape[0]
+        text_attention_mask = _prepare_text_attention_mask(
+            text_attention_mask, bs, self._text_seq_len, text_f.device)
 
         # get global and local text features
         # NOTE here the order of projection has been changed so global and local features are projected seperately
@@ -197,7 +215,8 @@ class FluxAudio(nn.Module):
         text_f = self.text_input_proj(text_f)  # (B, VN, D)
 
         return PreprocessedConditions(text_f=text_f,
-                                        text_f_c=text_f_c)
+                                      text_f_c=text_f_c,
+                                      text_attention_mask=text_attention_mask)
 
     def predict_flow(self, latent: torch.Tensor, t: torch.Tensor,
                      conditions: PreprocessedConditions, q: torch.Tensor = None) -> torch.Tensor:
@@ -208,6 +227,7 @@ class FluxAudio(nn.Module):
 
         text_f = conditions.text_f
         text_f_c = conditions.text_f_c
+        text_attention_mask = conditions.text_attention_mask
 
         latent = self.audio_input_proj(latent)  # (B, N, D)
 
@@ -218,7 +238,9 @@ class FluxAudio(nn.Module):
         extended_c = global_c  # extended_c: Latent_c, global_c: Text_c
 
         for block in self.joint_blocks:
-            latent, text_f = block(latent, text_f, global_c, extended_c, self.latent_rot, self.text_rot)  # (B, N, D)
+            latent, text_f = block(
+                latent, text_f, global_c, extended_c, self.latent_rot, self.text_rot,
+                text_attention_mask=text_attention_mask)  # (B, N, D)
 
         for block in self.fused_blocks:
             latent = block(latent, extended_c, self.latent_rot)
@@ -226,13 +248,15 @@ class FluxAudio(nn.Module):
         flow = self.final_layer(latent, extended_c)  # (B, N, out_dim), remove t
         return flow
 
-    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, t: torch.Tensor, q: torch.Tensor = None, **kwargs) -> torch.Tensor:
+    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor,
+                t: torch.Tensor, q: torch.Tensor = None,
+                text_attention_mask: Optional[torch.Tensor] = None, **kwargs) -> torch.Tensor:
         """
         latent: (B, N, C)
         text_f: (B, T, D)
         t: (B,)
         """
-        conditions = self.preprocess_conditions(text_f, text_f_c)  # cachable operations
+        conditions = self.preprocess_conditions(text_f, text_f_c, text_attention_mask)  # cachable operations
         flow = self.predict_flow(latent, t, conditions, q)  # non-cachable operations
         return flow
 
@@ -244,19 +268,24 @@ class FluxAudio(nn.Module):
             self,
             bs: int,
             *,
-            negative_text_features: Optional[torch.Tensor] = None) -> PreprocessedConditions:
+            negative_text_features: Optional[tuple[torch.Tensor, ...]] = None) -> PreprocessedConditions:
         if negative_text_features is not None:
-            empty_string_feat, empty_string_feat_c = negative_text_features
+            empty_string_feat, empty_string_feat_c = negative_text_features[:2]
+            empty_string_mask = negative_text_features[2] if len(negative_text_features) > 2 else None
         else:
             empty_string_feat, empty_string_feat_c = self.get_empty_string_sequence(1)
+            empty_string_mask = None
 
         conditions = self.preprocess_conditions(empty_string_feat,
-                                                empty_string_feat_c)  # use encoder's empty features
+                                                empty_string_feat_c,
+                                                empty_string_mask)  # use encoder's empty features
 
         if negative_text_features is None:
             conditions.text_f = conditions.text_f.expand(bs, -1, -1)
 
             conditions.text_f_c = conditions.text_f_c.expand(bs, -1)
+            if conditions.text_attention_mask is not None:
+                conditions.text_attention_mask = conditions.text_attention_mask.expand(bs, -1)
 
         return conditions
 
@@ -466,7 +495,8 @@ class MeanAudio(nn.Module):
         # return x * self.latent_std + self.latent_mean
         return x.mul_(self.latent_std).add_(self.latent_mean)
 
-    def preprocess_conditions(self, text_f: torch.Tensor, text_f_c: torch.Tensor) -> PreprocessedConditions:  
+    def preprocess_conditions(self, text_f: torch.Tensor, text_f_c: torch.Tensor,
+                              text_attention_mask: Optional[torch.Tensor] = None) -> PreprocessedConditions:
         """
         cache computations that do not depend on the latent/time step
         i.e., the features are reused over steps during inference
@@ -474,6 +504,8 @@ class MeanAudio(nn.Module):
         assert text_f.shape[1] == self._text_seq_len, f'{text_f.shape=} {self._text_seq_len=}'
 
         bs = text_f.shape[0]
+        text_attention_mask = _prepare_text_attention_mask(
+            text_attention_mask, bs, self._text_seq_len, text_f.device)
 
         # get global and local text features
         # NOTE here the order of projection has been changed so global and local features are projected seperately 
@@ -481,7 +513,8 @@ class MeanAudio(nn.Module):
         text_f = self.text_input_proj(text_f)  # (B, VN, D)
 
         return PreprocessedConditions(text_f=text_f,
-                                        text_f_c=text_f_c)
+                                      text_f_c=text_f_c,
+                                      text_attention_mask=text_attention_mask)
 
     def predict_flow(self, latent: torch.Tensor, t: torch.Tensor, r: torch.Tensor,  # need r<t
                      conditions: PreprocessedConditions, q: torch.Tensor = None) -> torch.Tensor:
@@ -494,6 +527,7 @@ class MeanAudio(nn.Module):
 
         text_f = conditions.text_f
         text_f_c = conditions.text_f_c
+        text_attention_mask = conditions.text_attention_mask
 
         latent = self.audio_input_proj(latent)  # (B, N, D)
         #easy try:same embed
@@ -502,7 +536,9 @@ class MeanAudio(nn.Module):
         extended_c = global_c  # quality-aware conditioning via q_embed
 
         for block in self.joint_blocks:
-            latent, text_f = block(latent, text_f, global_c, extended_c, self.latent_rot, self.text_rot)  # (B, N, D)
+            latent, text_f = block(
+                latent, text_f, global_c, extended_c, self.latent_rot, self.text_rot,
+                text_attention_mask=text_attention_mask)  # (B, N, D)
 
         for block in self.fused_blocks:
             latent = block(latent, extended_c, self.latent_rot)
@@ -510,7 +546,9 @@ class MeanAudio(nn.Module):
         flow = self.final_layer(latent, extended_c)  # (B, N, out_dim), remove t
         return flow
 
-    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor, r: torch.Tensor, t: torch.Tensor, q: torch.Tensor = None) -> torch.Tensor:
+    def forward(self, latent: torch.Tensor, text_f: torch.Tensor, text_f_c: torch.Tensor,
+                r: torch.Tensor, t: torch.Tensor, q: torch.Tensor = None,
+                text_attention_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
         """
         latent: (B, N, C) 
         text_f: (B, T, D)
@@ -520,7 +558,7 @@ class MeanAudio(nn.Module):
         """
         #print("2")
         
-        conditions = self.preprocess_conditions(text_f, text_f_c)  # cachable operations 
+        conditions = self.preprocess_conditions(text_f, text_f_c, text_attention_mask)  # cachable operations
         #print(conditions)
         if q is None:
             q = torch.full((latent.shape[0],), 10, dtype=torch.long, device=latent.device)  # FIX 2026-04-19: null token is 10, not 9 (matches FluxAudio + eval.py --no_q)
@@ -535,18 +573,23 @@ class MeanAudio(nn.Module):
             self,
             bs: int,
             *,
-            negative_text_features: Optional[torch.Tensor] = None) -> PreprocessedConditions:
+            negative_text_features: Optional[tuple[torch.Tensor, ...]] = None) -> PreprocessedConditions:
         if negative_text_features is not None:  
-            empty_string_feat, empty_string_feat_c = negative_text_features  
+            empty_string_feat, empty_string_feat_c = negative_text_features[:2]
+            empty_string_mask = negative_text_features[2] if len(negative_text_features) > 2 else None
         else:
             empty_string_feat, empty_string_feat_c = self.get_empty_string_sequence(1)
+            empty_string_mask = None
 
         conditions = self.preprocess_conditions(empty_string_feat,
-                                                empty_string_feat_c)  # use encoder's empty features
+                                                empty_string_feat_c,
+                                                empty_string_mask)  # use encoder's empty features
         if negative_text_features is None:
             conditions.text_f = conditions.text_f.expand(bs, -1, -1)
             
             conditions.text_f_c = conditions.text_f_c.expand(bs, -1)
+            if conditions.text_attention_mask is not None:
+                conditions.text_attention_mask = conditions.text_attention_mask.expand(bs, -1)
 
         return conditions
 
@@ -671,4 +714,3 @@ if __name__ == '__main__':
     x = torch.randn(256, 312, 20)
     print(x.shape)
     print('Finish')
-

@@ -16,6 +16,11 @@ import laion_clap
 import logging
 
 
+def masked_mean(x: torch.Tensor, attention_mask: torch.Tensor) -> torch.Tensor:
+    mask = attention_mask.to(device=x.device, dtype=x.dtype).unsqueeze(-1)
+    return (x * mask).sum(dim=1) / mask.sum(dim=1).clamp_min(1.0)
+
+
 def patch_clip(clip_model):
     # a hack to make it output last hidden states
     # https://github.com/mlfoundations/open_clip/blob/fc5a37b72d705f760ebbc7915b84729816ed471f/src/open_clip/model.py#L269
@@ -95,13 +100,17 @@ class FeaturesUtils(nn.Module):
         return super().train(False)
 
     @torch.inference_mode()
-    def encode_text(self, text: list[str]) -> torch.Tensor:
+    def encode_text(self, text: list[str], *,
+                    return_attention_mask: bool = False) -> torch.Tensor:
         assert self.text_encoder is not None, 'Text encoder is not loaded'
         assert self.tokenizer is not None, 'Tokenizer is not loaded'
         # x: (B, L)
         if self.encoder_name == 'clip': 
             tokens = self.tokenizer(text).to(self.device)
             text_features = self.text_encoder.encode_text(tokens, normalize=True)
+            attention_mask = torch.ones(
+                text_features.shape[:2], dtype=torch.bool, device=text_features.device)
+            text_features_c = text_features.mean(dim=1)
         elif self.encoder_name == 't5': 
             tokens = self.tokenizer(
                 text, 
@@ -115,7 +124,7 @@ class FeaturesUtils(nn.Module):
                 input_ids=input_ids, 
                 attention_mask=attention_mask
             )[0]
-            text_features_c = text_features.mean(dim=1)
+            text_features_c = masked_mean(text_features, attention_mask)
         elif self.encoder_name == 't5_clap' or self.encoder_name == 't5_clap_cat': 
             tokens = self.tokenizer(
                 text, 
@@ -132,7 +141,9 @@ class FeaturesUtils(nn.Module):
             text_features_c = self.laion_clap_model.get_text_embedding(text, use_tensor=True)
             
             if self.encoder_name == 't5_clap_cat': 
-                text_features_c = torch.cat([text_features.mean(dim=-2), text_features_c], dim=-1)
+                text_features_c = torch.cat([masked_mean(text_features, attention_mask), text_features_c], dim=-1)
+        if return_attention_mask:
+            return text_features, text_features_c, attention_mask.to(dtype=torch.bool)
         return text_features, text_features_c
 
     @torch.inference_mode()

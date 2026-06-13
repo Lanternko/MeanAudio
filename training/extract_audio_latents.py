@@ -147,6 +147,8 @@ def main():
         if args.text_encoder == 'clip': 
             text_features = text_encoder.encode_text(tokens, normalize=True)
             text_features_c = text_features.mean(dim=1)
+            attention_mask = torch.ones(
+                text_features.shape[:2], dtype=torch.bool, device=text_features.device)
         elif args.text_encoder == 't5':       
             tokens = t5_tokenizer(
                 caption, 
@@ -162,7 +164,8 @@ def main():
                     input_ids=input_ids, 
                     attention_mask=attention_mask
                 )[0]
-                text_features_c = text_features.mean(dim=1)
+                mask = attention_mask.to(dtype=text_features.dtype).unsqueeze(-1)
+                text_features_c = (text_features * mask).sum(dim=1) / mask.sum(dim=1).clamp_min(1.0)
         elif args.text_encoder == 't5_clap': 
             tokens = t5_tokenizer(
                 caption, 
@@ -187,6 +190,7 @@ def main():
         a_std = dist.std.detach().cpu().transpose(1, 2)
         text_features = text_features.detach().cpu()
         text_features_c = text_features_c.detach().cpu()
+        attention_mask = attention_mask.detach().cpu()
         mel = mel.detach().cpu()
 
         ids = [id for id in ids]
@@ -199,6 +203,7 @@ def main():
             'std': a_std,
             'text_features': text_features,
             'text_features_c': text_features_c, 
+            'text_attention_mask': attention_mask,
             # 'mel': mel
         }
 
@@ -227,6 +232,7 @@ def main():
                 out = {
                     'text_features': data['text_features'][bi], 
                     'text_features_c': data['text_features_c'][bi],
+                    'text_attention_mask': data['text_attention_mask'][bi],
                     'mean': data['mean'][bi],
                     'std': data['std'][bi],
                     # 'mel': data['mel'][bi]

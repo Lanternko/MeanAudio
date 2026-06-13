@@ -35,15 +35,19 @@ def encode_t5(tokenizer, model, texts, device):
                     truncation=True, max_length=MAX_TEXT_LEN).to(device)
     with torch.no_grad():
         out = model(**enc).last_hidden_state   # [B, seq, 1024]
+    attention_mask = enc.attention_mask
     # 補零/截斷到固定長度 77（與現有 NPZ 一致）
     seq_len = 77
     B, L, D = out.shape
     if L < seq_len:
         pad = torch.zeros(B, seq_len - L, D, device=device)
         out = torch.cat([out, pad], dim=1)
+        mask_pad = torch.zeros(B, seq_len - L, dtype=attention_mask.dtype, device=device)
+        attention_mask = torch.cat([attention_mask, mask_pad], dim=1)
     else:
         out = out[:, :seq_len, :]
-    return out.cpu().float().numpy()   # [B, 77, 1024]
+        attention_mask = attention_mask[:, :seq_len]
+    return out.cpu().float().numpy(), attention_mask.cpu().bool().numpy()   # [B, 77, 1024], [B, 77]
 
 def encode_clap(model, texts):
     with torch.no_grad():
@@ -101,7 +105,7 @@ def main():
         batch_npz_files = npz_files[start:end]
 
         # text encoding
-        text_features   = encode_t5(t5_tokenizer, t5_model, batch_captions, device)
+        text_features, text_attention_mask = encode_t5(t5_tokenizer, t5_model, batch_captions, device)
         text_features_c = encode_clap(clap_model, batch_captions)
 
         # 讀舊 NPZ mean/std，存新 NPZ
@@ -120,6 +124,7 @@ def main():
                 std=old_data["std"],
                 text_features=text_features[i],
                 text_features_c=text_features_c[i],
+                text_attention_mask=text_attention_mask[i],
             )
 
     print(f"\nDone. Output: {NEW_NPZ_DIR}")

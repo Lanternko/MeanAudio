@@ -14,13 +14,17 @@ def modulate(x: torch.Tensor, shift: torch.Tensor, scale: torch.Tensor):
     return x * (1 + scale) + shift  # scale is actually the add term for x (res connect for modulation)
 
 
-def attention(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor):
+def attention(q: torch.Tensor, k: torch.Tensor, v: torch.Tensor,
+              key_mask: Optional[torch.Tensor] = None):
     q = q.contiguous()
     k = k.contiguous()
     v = v.contiguous()
+    attn_mask = None
+    if key_mask is not None:
+        attn_mask = key_mask.to(device=q.device, dtype=torch.bool)[:, None, None, :]
     # flash attention is not compatible with JVP calculation
     with torch.backends.cuda.sdp_kernel(enable_flash=False, enable_math=True, enable_mem_efficient=False):
-        out = F.scaled_dot_product_attention(q, k, v)
+        out = F.scaled_dot_product_attention(q, k, v, attn_mask=attn_mask)
     out = rearrange(out, 'b h n d -> b n (h d)').contiguous()
     return out
 
@@ -155,6 +159,7 @@ class JointBlock(nn.Module):
     def forward(self, latent: torch.Tensor, text_f: torch.Tensor,
                 global_c: torch.Tensor, extended_c: torch.Tensor, 
                 latent_rot: torch.Tensor, text_rot: torch.Tensor, 
+                text_attention_mask: Optional[torch.Tensor] = None,
                 ) -> tuple[torch.Tensor, torch.Tensor]:  
         # latent: BS * N1 * D
         # c: BS * (1/N) * D
@@ -165,8 +170,14 @@ class JointBlock(nn.Module):
         text_len = text_f.shape[1]
 
         joint_qkv = [torch.cat([x_qkv[i], t_qkv[i]], dim=2) for i in range(3)]
+        joint_key_mask = None
+        if text_attention_mask is not None:
+            latent_key_mask = torch.ones(
+                latent.shape[0], latent_len, dtype=torch.bool, device=latent.device)
+            text_key_mask = text_attention_mask.to(device=latent.device, dtype=torch.bool)
+            joint_key_mask = torch.cat([latent_key_mask, text_key_mask], dim=1)
 
-        attn_out = attention(*joint_qkv)  # core of joint block: joint attention
+        attn_out = attention(*joint_qkv, key_mask=joint_key_mask)  # core of joint block: joint attention
         x_attn_out = attn_out[:, :latent_len]  
         t_attn_out = attn_out[:, latent_len:]
 

@@ -16,7 +16,7 @@
 # Pre-flight assumes:
 #   - qwen_singlecap_random_train.tsv generated (gen_qwen_singlecap_selections.py)
 #   - phase9_5_random_singlecap_npz/ generated (slice_qwen_singlecap_npz.py --variant random)
-#   - All 3 bug fixes active
+#   - All 4 bug fixes active, including text_attention_mask-aware T5 caches
 #
 # Usage:
 #   tmux new -s p8_qwen
@@ -122,7 +122,7 @@ echo "======================================================"
 # ============================================================
 # Pre-flight A: bug fixes
 # ============================================================
-echo "[Pre-flight A] verify 3 bug fixes"
+echo "[Pre-flight A] verify 4 bug fixes"
 
 python -c "
 import re
@@ -150,6 +150,16 @@ with open('meanaudio/runner_flowmatching.py') as f:
 if 'q_level' not in code:
     raise SystemExit('[FAIL] runner_flowmatching.py missing q_level reads')
 print('[OK] runner_flowmatching.py q passing active')
+"
+
+python -c "
+with open('meanaudio/model/transformer_layers.py') as f:
+    attn_code = f.read()
+with open('meanaudio/model/networks.py') as f:
+    net_code = f.read()
+if 'key_mask' not in attn_code or 'text_attention_mask' not in net_code:
+    raise SystemExit('[FAIL] text_attention_mask joint-attention fix missing')
+print('[OK] text_attention_mask joint-attention fix active')
 "
 
 # ============================================================
@@ -185,13 +195,20 @@ for i in samples:
     tf  = d['text_features']    # expect (77, 1024) for single-cap
     tfc = d['text_features_c']  # expect (512,) for single-cap
     if tf.shape != (77, 1024) or tfc.shape != (512,):
-        bad.append((i, tf.shape, tfc.shape))
+        bad.append((i, f'tf={tf.shape} tfc={tfc.shape}'))
+        continue
+    if 'text_attention_mask' not in d.files:
+        bad.append((i, 'missing text_attention_mask'))
+        continue
+    tam = d['text_attention_mask']
+    if tam.shape != (77,) or tam.sum() <= 0 or tam.sum() > 77:
+        bad.append((i, f'text_attention_mask shape/sum invalid: {tam.shape}, sum={tam.sum()}'))
 if bad:
-    print(f'[FAIL] {len(bad)}/200 sampled NPZs have wrong shape (expect (77,1024)/(512,))')
-    for i, t1, t2 in bad[:5]:
-        print(f'  idx {i}: tf={t1} tfc={t2}')
+    print(f'[FAIL] {len(bad)}/200 sampled NPZs failed shape/mask checks')
+    for i, why in bad[:5]:
+        print(f'  idx {i}: {why}')
     sys.exit(1)
-print(f'[OK] 200/200 sampled NPZs are single-cap (77,1024)/(512,)')
+print(f'[OK] 200/200 sampled NPZs are single-cap with text_attention_mask')
 PYEOF
 
 # ============================================================

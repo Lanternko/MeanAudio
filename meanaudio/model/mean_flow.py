@@ -128,6 +128,8 @@ class MeanFlow():
             text_f_c_undrop: torch.Tensor,
             empty_string_feat: torch.Tensor,
             empty_string_feat_c: torch.Tensor,
+            text_attention_mask: torch.Tensor = None,
+            text_attention_mask_undrop: torch.Tensor = None,
             q: torch.Tensor = None):
 
         batch_size = x0.shape[0]
@@ -142,15 +144,21 @@ class MeanFlow():
         if self.w is not None:
             u_text_f = empty_string_feat.expand(batch_size, -1, -1)
             u_text_f_c = empty_string_feat_c.expand(batch_size, -1)
+            empty_text_attention_mask = torch.ones_like(text_attention_mask, dtype=torch.bool) \
+                if text_attention_mask is not None else None
+            if text_attention_mask_undrop is None:
+                text_attention_mask_undrop = text_attention_mask
             u_t = fn(latent=z, 
                      text_f=u_text_f,
                      text_f_c=u_text_f_c,
+                     text_attention_mask=empty_text_attention_mask,
                      r=t,
                      t=t,
                      q=torch.full_like(q, 10) if q is not None else None).detach().requires_grad_(False)
             u_t_c = fn(latent=z, 
                        text_f=text_f_undrop,
                        text_f_c=text_f_c_undrop,
+                       text_attention_mask=text_attention_mask_undrop,
                        r=t,
                        t=t,
                        q=q).detach().requires_grad_(False)
@@ -160,7 +168,9 @@ class MeanFlow():
             v_hat = v
 
         device = z.device
-        model_partial = partial(fn, text_f=text_f, text_f_c=text_f_c, q=q)
+        model_partial = partial(
+            fn, text_f=text_f, text_f_c=text_f_c,
+            text_attention_mask=text_attention_mask, q=q)
         jvp_args = (
             lambda z_f, r_f, t_f: model_partial(latent=z_f, r=r_f, t=t_f),
             (z, r, t),

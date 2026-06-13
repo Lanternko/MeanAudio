@@ -56,6 +56,11 @@ class ExtractedAudio(Dataset):
         if not npz_files:
             raise FileNotFoundError(f'No NPZ files found in {npz_dir}')
         sample = np.load(f'{npz_dir}/{npz_files[0]}')
+        self.text_attention_mask_key = None
+        for mask_key in ('text_attention_mask', 'attention_mask'):
+            if mask_key in sample.files:
+                self.text_attention_mask_key = mask_key
+                break
         mean_s = [len(self.df_list)] + list(sample['mean'].shape)
         std_s = [len(self.df_list)] + list(sample['std'].shape)
         # multi_cap: text_features shape is [N, seq_len, dim]; use last two dims for check
@@ -69,6 +74,11 @@ class ExtractedAudio(Dataset):
         log.info(f'Loaded std: {std_s}.')
         log.info(f'Loaded text features: {text_features_s}.')
         log.info(f'Loaded text features_c: {text_features_c_s}.') 
+        if self.text_attention_mask_key is not None:
+            text_attention_mask_s = [len(self.df_list)] + list(sample[self.text_attention_mask_key].shape[-1:])
+            log.info(f'Loaded text attention masks: {text_attention_mask_s}.')
+        else:
+            log.info('No text attention mask found in NPZ; treating all text positions as valid.')
 
         # assert len(npz_files) == len(self.df_list), 'Number mismatch between npz files and tsv items'
         assert mean_s[1] == self.data_dim['latent_seq_len'], \
@@ -119,12 +129,21 @@ class ExtractedAudio(Dataset):
             cap_idx = random.randint(0, n_caps - 1)
             text_features = torch.from_numpy(np_data['text_features'][cap_idx])
             text_features_c = torch.from_numpy(np_data['text_features_c'][cap_idx])
+            if self.text_attention_mask_key is not None and self.text_attention_mask_key in np_data.files:
+                text_attention_mask = torch.from_numpy(np_data[self.text_attention_mask_key][cap_idx]).bool()
+            else:
+                text_attention_mask = torch.ones(text_features.shape[0], dtype=torch.bool)
         else:
             text_features = torch.from_numpy(np_data['text_features'])
             text_features_c = torch.from_numpy(np_data['text_features_c'])
+            if self.text_attention_mask_key is not None and self.text_attention_mask_key in np_data.files:
+                text_attention_mask = torch.from_numpy(np_data[self.text_attention_mask_key]).bool()
+            else:
+                text_attention_mask = torch.ones(text_features.shape[0], dtype=torch.bool)
         if self.concat_text_fc:
-            text_features_c = torch.cat([text_features.mean(dim=-2),
-                                         text_features_c], dim=-1)   # [b, d+d_c]
+            mask = text_attention_mask.to(dtype=text_features.dtype).unsqueeze(-1)
+            text_features_mean = (text_features * mask).sum(dim=-2) / mask.sum(dim=-2).clamp_min(1.0)
+            text_features_c = torch.cat([text_features_mean, text_features_c], dim=-1)   # [b, d+d_c]
 
         q_level = int(self.df_list[idx]['q_level']) if 'q_level' in self.df_list[idx] else 9
         out_dict = {
@@ -133,6 +152,7 @@ class ExtractedAudio(Dataset):
             'a_std': torch.from_numpy(np_data['std']), 
             'text_features': text_features, 
             'text_features_c': text_features_c,
+            'text_attention_mask': text_attention_mask,
             'caption': self.df_list[idx]['caption'],
             'q_level': torch.tensor(q_level, dtype=torch.long),
         }
