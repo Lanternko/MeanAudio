@@ -222,3 +222,30 @@ P7 V1 q-sweep on MusicCaps indicates **support-set gating** rather than ordinal 
 2. **P7 V1 q-sweep**（完成 2026-04-21）：support-set gating behavior 確立。
 3. **P7 V1 full-Q control rerun**（完成 2026-04-22）：MusicCaps q=9 CLAP 0.1748（vs historical 0.1975，−11.5%），全 5 eval 一致降 ~8-12%。詳見 footnote ⁴。Falsifies 「P9 drop 全怪 multi-cap」強版本；但「full-Q 本身有代價」還不能說，因 active implementation differences 含 S1 q-passing fix 與 S2 clone fix，co-varied。
 4. **Clean S2 only ablation**（✅ 完成 2026-04-23/24）：historical P7 V1 S1 weights + 只重訓 S2 with clone fix。5/5 EMA eval 一致回到歷史區間；last.pth insurance 確認 EMA gap ~13-14% 與 fullq_control 一致 → pseudo-EMA bootstrap confound 排除。**Clone fix 非主因；primary remaining contributor: S1 effective q training。** 詳見 footnote ⁵ + `phase_status.md`。
+
+---
+
+## Qwen Collapse Audit — 10 collapsed models (2026-05-08 〜 2026-05-19)
+
+> 完整 audit 表（実験設計 / 仮説 / verdict）は `docs/experiments/qwen_collapse_audit_10model.md` を参照。
+
+LP-MC original baselines:
+- P8 / LP-Rnd-NoQ: **MC CLAP 0.1851** ✅
+- P7V1 / LP-Rnd-Q: **MC CLAP 0.1975** ✅
+
+| Experiment | Caption / intervention | MC CLAP | Status |
+|---|---|---|---|
+| P8-Qwen / Qwen-Rnd-NoQ | Qwen single-cap random, NoQ | 0.0611 | ❌ collapsed |
+| P4V2-Qwen / Qwen-BC-NoQ | Qwen best-consensus selection | 0.0611 | ❌ collapsed |
+| P7V1-Qwen / Qwen-Rnd-Q | Qwen single-cap random, +Q | 0.0687 | ❌ collapsed |
+| P9.5 V1 / Qwen-Multi-NoQ | Qwen task-framed multi-cap ×5 | 0.0609 | ❌ collapsed |
+| EXP-A / LP-MC-Stripped | LP-MC with boilerplate template removed | 0.0608 | ❌ collapsed |
+| EXP-B / Qwen-Slot0-Fixed | Qwen slot-0 fixed (no framing variance) | 0.0615 | ❌ collapsed |
+| EXP-C / Qwen+LP-MC-Prefix | Qwen slot-0 + LP-MC opening prepended | 0.0580 | ❌ collapsed |
+| EXP-F / 50-50-Mix | 50% LP-MC + 50% Qwen per audio | 0.0610 | ❌ collapsed |
+| EXP-G / LP-S1→Qwen-S2 | LP-MC S1 (400K) → Qwen S2 (200K) | 0.0679 | ❌ collapsed |
+| **EXP-H / Qwen→LP-MC-Rewrite** | Full LP-MC acoustic-style rewrite (CLAP diag 99.2%) | **0.0617** | ❌ collapsed |
+
+**VERDICT (2026-05-19)**: All 10 Qwen-content / LP-MC-perturbed variants collapse to MC CLAP 0.058–0.069.
+LP-MC acoustic-style rewrite (EXP-H) with 99.2% semantic preservation is the most direct falsification: surface style alone does not explain healthy LP-MC training.
+Remaining open question: which deeper property of LP-MC's corpus-level joint distribution makes conditioning trainable.

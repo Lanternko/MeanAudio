@@ -4,6 +4,146 @@
 
 All MeanAudio models trained on **Qwen2.5-Omni-3B captions** collapse to MusicCaps CLAP ≈ 0.06 with steering ratio < 0.12, regardless of single/multi-cap or Q/NoQ configuration. LP-MC counterparts reach CLAP 0.18–0.20 with steering 0.9–1.7. This document audits 5 hypotheses (H1–H4 + H7/H9) using cheap diagnostics (no new training).
 
+## 2026-05-20 Update — Discarded T5 Padding Mask
+
+The earlier "pipeline integrity" checks verified NPZ/TSV alignment, cached T5 value equality, CLAP cache equality, and truncation, but they did **not** test whether the T5 `attention_mask` survived into MeanAudio training.
+
+New probe: `~/research/meanaudio_training/qwen_flow_sensitivity_probe.py` held latent/t/r fixed and changed only text features.
+
+| Checkpoint | flow text delta | global cond norm | text proj norm/token |
+|---|---:|---:|---:|
+| healthy_phase8_s2 | 0.1430 | 5.097 | 21.216 |
+| p8_qwen_s2 | 0.0093 | 0.160 | 0.510 |
+| expb_qwen_slot0_s2 | 0.0079 | 0.077 | 0.286 |
+| expg_lpmc_s1_qwen_s2 | 0.0115 | 0.344 | 13.251 |
+
+Interpretation: Qwen prompts are usable at inference, but Qwen-trained checkpoints become nearly text-insensitive. The likely trigger is a cache/model interface bug: T5 was encoded with `attention_mask`, but NPZ caches stored only the 77 hidden states. Joint attention then treated padding hidden states as real text tokens. This creates caption-length/padding-distribution supervision that differs sharply across caption corpora.
+
+Code fix implemented 2026-05-20:
+- save `text_attention_mask` in new T5 NPZ writers
+- load optional masks in `ExtractedAudio`
+- pass masks through FM/MF training and eval
+- apply masks as key masks in joint latent+text attention
+- keep old NPZs backward-compatible by treating all positions as valid when no mask exists
+
+Existing collapsed checkpoints cannot be repaired by inference-time masking because their text-projection path has already co-adapted to muted text. The first causal test is therefore a full retrain with the same Qwen captions and a mask-aware NPZ/model path.
+
+## 2026-05-21 Update - Qwen Slot0 Masked Causal Rerun
+
+We chose the cheapest clean causal test rather than immediately regenerating P8-Qwen random single-cap:
+
+- Keep the historical EXP-B caption corpus fixed: `~/eval_tsvs_p100/qwen_slot0_train.tsv`
+- Keep the original row-to-NPZ mapping fixed: `/mnt/HDD/kojiek/phase4_jamendo_data/npz_cache_train.txt`
+- Change only the cache/model interface by adding `text_attention_mask`
+- Train under a new exp id so the historical collapsed EXP-B checkpoints remain untouched
+
+### Masked NPZ regeneration
+
+Output cache:
+
+```text
+/home/kojiek/exps_nvme/npz_qwen_slot0_masked
+```
+
+Generation command used the patched `~/research/meanaudio_training/exp_b_regen_npz.py` with `--dst`:
+
+```text
+Done n=251,599 err=0 elapsed=12.2 min (344.8/s)
+```
+
+Validation:
+
+| Check | Result |
+|---|---:|
+| NPZ files | 251,599 |
+| TSV rows (`qwen_slot0_train.tsv`) | 251,599 |
+| `gt_cache` rows | 251,599 |
+| Size on disk | 88G |
+| Random/schema audit | bad_count = 0 |
+| Pipeline preflight audit | 205 sampled rows passed |
+
+Required keys and shapes:
+
+| NPZ key | Shape |
+|---|---|
+| `mean` | `(312, 20)` |
+| `std` | `(312, 20)` |
+| `text_features` | `(77, 1024)` |
+| `text_features_c` | `(512,)` |
+| `text_attention_mask` | `(77,)` |
+
+Important mapping note: this cache is cache-mapped (`33.npz`, `34.npz`, ...), not sequential (`0.npz`, `1.npz`, ...). Training must pass:
+
+```bash
+++data.AudioCaps_npz.gt_cache=/mnt/HDD/kojiek/phase4_jamendo_data/npz_cache_train.txt
+```
+
+### Rerun launch
+
+Pipeline script:
+
+```text
+~/MeanAudio/scripts/training_pipelines/train_pipeline_qwen_slot0_masked.sh
+```
+
+Experiment ids:
+
+```text
+p_qwen_slot0_masked_stage1_400000
+p_qwen_slot0_masked_stage2_200000
+```
+
+Runtime handles:
+
+```text
+tmux: ~/MeanAudio via session qwen_slot0_masked
+log : ~/logs/p_qwen_slot0_masked_pipeline.log
+```
+
+Startup verification from the training log:
+
+```text
+Loaded NPZ list from gt_cache: 251599 files
+Loading 251599 npz files from /home/kojiek/exps_nvme/npz_qwen_slot0_masked
+Loaded text attention masks: [251599, 77].
+No checkpoint or weights found, starting from scratch
+```
+
+Progress snapshot on 2026-05-21:
+
+```text
+Stage 1: p_qwen_slot0_masked_stage1_400000
+latest observed: it 205000 / 400000
+loss: ~0.9871
+lr: 1e-4
+checkpoint: p_qwen_slot0_masked_stage1_400000_ckpt_last.pth present
+Stage 2: not started yet
+```
+
+GPU state at the snapshot:
+
+- RTX 5090 utilization: ~97%
+- MeanAudio training: ~13.3 GB VRAM
+- Another Demucs job from `osiris181`: ~1.5 GB VRAM
+
+Estimated remaining time at the observed rate:
+
+- Stage 1 remaining: roughly 5.5 to 6.5 hours
+- Stage 2 after migration: roughly 5.5 to 6.5 hours
+- Full remaining run: roughly 11 to 13 hours
+
+### Interpretation gate
+
+This rerun tests the specific missing-mask hypothesis, not Qwen caption cleanup.
+
+| Result after S2 eval | Interpretation |
+|---|---|
+| MC CLAP recovers to >= 0.12 | Missing `text_attention_mask` was a dominant causal factor for Qwen slot0 collapse |
+| MC CLAP recovers to 0.09-0.12 | Mask bug is material but not the only failure mode |
+| MC CLAP remains around 0.06 | Mask fix alone is insufficient; visible Qwen caption failures and latent distribution issues remain active hypotheses |
+
+Do not mix caption cleanup into this rerun. A later `qwen_clean_masked` version should replace only visibly bad Qwen captions (CJK, chat leakage, JSON leakage, degenerate loops), preferably with another clean Qwen slot from the same clip, so the causal attribution remains separable.
+
 ## Observation table
 
 | Train | Caption | Q | MC CLAP | Jamendo s42 CLAP | max steering ratio |
@@ -108,6 +248,37 @@ For 2048 random audio captions:
   - CLAP cond shows +0.10 clustering for Qwen → plausible CFG signal weakening
   - T5 cross-attn shows no difference → does NOT explain through T5 channel
   - Mixed evidence; needs intervention experiment to falsify
+
+## EXP-H embedding distribution analysis — H12 supporting evidence (2026-05-20)
+
+Script: `~/research/meanaudio_training/compare_caption_embedding_distributions.py`
+Results: `~/research/meanaudio_training/embedding_dist_results.json`
+
+### New data: T5 vs CLAP distribution comparison (n=2000 per corpus)
+
+| | T5 offdiag cos | T5 centroid vs LP-MC | CLAP offdiag cos | CLAP centroid vs LP-MC |
+|---|---|---|---|---|
+| LP-MC | 0.779 | — | **0.298** | — |
+| Qwen | 0.770 | 0.926 | 0.397 | 0.907 |
+| EXP-H | 0.845 | **0.967** | 0.376 | **0.918** (but Qwen↔EXP-H=0.929) |
+
+1-NN (CLAP): Qwen→41% land in EXP-H; EXP-H→27% land in Qwen. LP-MC isolated from both.
+1-NN (T5): EXP-H→99% self (distinct cluster, not mixing with LP-MC or Qwen).
+
+### Key asymmetry
+
+EXP-H shifted T5 distribution toward LP-MC (+0.041 centroid cos vs Qwen baseline) but CLAP distribution remained Qwen-like (EXP-H↔Qwen=0.929, EXP-H↔LP-MC=0.918). This is by design: EXP-H preserved CLAP semantic content (99.2%), which means CLAP embeddings stay near Qwen's.
+
+### H12 status update (◐ → ◑ stronger support)
+
+EXP-H provides a direct data point for H12:
+- EXP-H has LP-MC-like T5 BUT Qwen-like CLAP → **still collapses** (MC CLAP 0.0617)
+- LP-MC has LP-MC-like T5 AND LP-MC-like CLAP (low offdiag cos 0.298) → healthy (0.185)
+- Qwen has Qwen-like T5 AND Qwen-like CLAP → collapses
+
+**Implication**: T5-style similarity to LP-MC is NOT sufficient for healthy conditioning. The CLAP conditioning channel — which EXP-H could not fix (by design) — is more likely the critical dimension. LP-MC's lower CLAP intra-corpus similarity (0.298 vs 0.376–0.397) creates larger per-sample conditioning contrast, which may keep the CLAP projection MLP in the "amplifying" regime (as seen in EXP-D3 for P8 healthy: ×4–28) rather than "attenuating" regime (÷7–14 for collapsed models).
+
+**Still not causal proof.** A direct test would require training with LP-MC CLAP embeddings + Qwen T5 embeddings (mixed NPZ). If that also collapses, H12 is insufficient. If it's healthy, H12 is confirmed as the primary mechanism.
 
 ## Open hypothesis (not yet tested by intervention)
 

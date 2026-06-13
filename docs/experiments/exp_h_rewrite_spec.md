@@ -126,10 +126,23 @@ See `gen_expH_rewrites.py` for full prompt.
 - [x] Text-side sanity (length/LP-MC opening/acoustic KW/entropy: all pass; trigram 30% = warning)
 - [x] CLAP gate PASS — rewrite_diag=0.3058, qwen_diag=0.3084, ratio=99.2%, gate=0.2584
 - [x] Gate decision: **CLEARED** (2026-05-18)
-- [ ] Full 251K rewrite ← **RUNNING** (`tmux expH_full_rewrite`, ETA ~8-10h, 7,863 batches)
-- [ ] NPZ generation
-- [ ] Training
-- [ ] Eval
+- [x] Full 251K rewrite (251,599 rows, bad_chat=0, bad_suffix=60, fallback=1 — all PASS)
+- [x] NPZ generation (251,599 files, errors=0, shapes correct)
+- [x] Training: S1 400K (2026-05-18 20:45 → 05-19 09:16) + S2 200K (09:16 → 15:26 JST)
+- [x] Eval: MusicCaps n=5521 + Jamendo seed42 n=2048 + PE-AV
+
+## Final Results (2026-05-19)
+
+| Benchmark | CLAP | AES_PQ | PE-AV t2a R@10 |
+|---|---|---|---|
+| MusicCaps (n=5521) | **0.0617** | 6.5167 | 18.1% |
+| Jamendo seed42 (n=2048) | **0.0589** | 6.4751 | 29.3% |
+
+**VERDICT: COLLAPSED** — MC CLAP ~0.06 → "style alone insufficient; deeper failure."
+
+Hypothesis FALSIFIED: LP-MC acoustic-style rewrite with 99.2% semantic preservation does NOT fix Qwen collapse.
+All Qwen-content models (EXP-A through EXP-H, 10 total) collapse at MC CLAP 0.06±0.01.
+Only LP-MC original corpus achieves non-collapsed training (MC CLAP 0.1851).
 
 **Scripts (2026-05-18)**:
 - `gen_expH_rewrites.py` — Qwen2.5-Omni-3B text-only rewriter, 8 few-shot examples, batch=32
