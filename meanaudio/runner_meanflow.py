@@ -327,6 +327,11 @@ class RunnerMeanFlow:
                 text_attention_mask=text_attention_mask, q=q)
            
             self.train_integrator.add_dict({'loss': mean_loss})
+            effective_q = q if q is not None else torch.full(
+                (x1.shape[0],), 10, dtype=torch.long, device=x1.device)
+            for q_level in range(11):
+                self.train_integrator.add_scalar(
+                    f'q_fraction/{q_level}', (effective_q == q_level).float().mean())
 
         if it % self.log_text_interval == 0 and it != 0:
             lr = self.scheduler.get_last_lr()[0]

@@ -23,7 +23,26 @@ def parse_args():
     p = argparse.ArgumentParser(description='Stage 1 → Stage 2 Checkpoint 移植')
     p.add_argument('--s1_ckpt', required=True, help='Stage 1 最終 checkpoint 路徑')
     p.add_argument('--s2_out',  required=True, help='Stage 2 輸出 checkpoint 路徑')
+    p.add_argument(
+        '--q-init',
+        choices=('preserve', 'copy-null'),
+        default='preserve',
+        help=(
+            'preserve: keep existing q rows; copy-null: initialize q=0..9 '
+            'exactly from the trained no-Q row q=10'
+        ),
+    )
     return p.parse_args()
+
+
+def copy_null_q_rows(weight):
+    if tuple(weight.shape)[0] != 11:
+        raise ValueError(f"q_embed 必須有 11 rows，實際 shape={tuple(weight.shape)}")
+    before = (weight[:10].float() - weight[10].float()).norm(dim=1)
+    weight[:10].copy_(weight[10].unsqueeze(0).expand_as(weight[:10]))
+    if not torch.equal(weight[:10], weight[10].unsqueeze(0).expand_as(weight[:10])):
+        raise RuntimeError("q=0..9 未能精確複製 q=10")
+    return before
 
 
 def main():
@@ -89,6 +108,17 @@ def main():
             q_embed_weight = nn.Embedding(11, hidden_dim).weight.data
             ema[key] = q_embed_weight.clone()
             print(f"      {key} 隨機初始化  shape={q_embed_weight.shape}")
+
+    if args.q_init == "copy-null":
+        before = copy_null_q_rows(weights["q_embed.weight"])
+        print("[2e/4] Q-safe 初始化：q=0..9 精確複製已訓練的 q=10")
+        print(f"      online 原始 distance_to_q10={before.tolist()}")
+        for prefix in ["ema_models.0.ema_model.", "ema_models.1.ema_model."]:
+            key = prefix + "q_embed.weight"
+            ema_before = copy_null_q_rows(ema[key])
+            print(f"      {key} 原始 distance_to_q10={ema_before.tolist()}")
+    else:
+        print("[2e/4] q-init=preserve：保留所有既有 q rows")
     s1["ema"] = ema
 
     # ── 清除 optimizer / scheduler state ───────────────────
@@ -113,6 +143,12 @@ def main():
     print(f"it = {check['it']}")
     embed_keys = [k for k in check["weights"].keys() if "embed" in k]
     print(f"embed keys = {embed_keys}")
+    if args.q_init == "copy-null":
+        q_weight = check["weights"]["q_embed.weight"]
+        assert torch.equal(
+            q_weight[:10], q_weight[10].unsqueeze(0).expand_as(q_weight[:10])
+        )
+        print("q-init = copy-null（q=0..9 與 q=10 bit-exact）")
     print("移植完成，Stage 2 可從此 it 正確接續。")
 
 
