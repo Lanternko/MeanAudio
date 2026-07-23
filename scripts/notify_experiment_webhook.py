@@ -80,6 +80,8 @@ def report_lines(report: Path | None) -> list[str]:
                 "quarter_noq_baseline": "Stage 1 baseline",
                 "halfq_q9": "Stage 1 half-Q q9",
                 "halfq_q0": "Stage 1 half-Q q0",
+                "fullq_q9": "Stage 1 full-Q q9",
+                "fullq_q6": "Stage 1 full-Q q6",
             }
             for key, label in labels.items():
                 nested = stage1.get(key)
@@ -93,6 +95,8 @@ def report_lines(report: Path | None) -> list[str]:
             "quarter_noq_baseline": "Global baseline",
             "halfq_q9": "Global half-Q q9",
             "halfq_q0": "Global half-Q q0",
+            "fullq_q9": "Global full-Q q9",
+            "fullq_q6": "Global full-Q q6",
         }
         for key, label in labels.items():
             values = global_metrics.get(key)
@@ -104,6 +108,8 @@ def report_lines(report: Path | None) -> list[str]:
             "halfq_q9_minus_baseline_clap",
             "halfq_q0_minus_baseline_clap",
             "halfq_q9_minus_q0_clap",
+            "halfq_q9_minus_fullq_q9_clap",
+            "fullq_q9_minus_q6_clap",
         ):
             value = global_metrics.get(key)
             if isinstance(value, (int, float)):
