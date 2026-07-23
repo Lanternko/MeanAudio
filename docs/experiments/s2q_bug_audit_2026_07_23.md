@@ -54,6 +54,30 @@ q7=74,184, q8=76,562, q9=40,316
 There are no q0, q1, or q2 training samples, and only one q3 sample. A reported
 0-to-9 quality axis is therefore not fully supported by this dataset.
 
+### Independent full-data verification
+
+A second verifier that does not import the repair tool followed every row
+through the complete provenance chain:
+
+```text
+cache filename -> embedded NPZ catalog_index/clip_id
+-> catalog manifest -> catalog TSV id/caption
+-> unique original JSONL relative_path -> mean_similarity
+-> clamp(floor(mean_similarity * 10), 0, 9)
+```
+
+All 251,599 rows matched. All catalog ids resolved only after removing the
+partitioner's final `_0`: there were zero exact/stripped ambiguous matches,
+zero missing matches, zero duplicate source ids, and zero reused source rows.
+Every matched source record contained all five captions, so each stored
+MeanSimilarity is the mean of its ten caption-pair cosine similarities.
+
+The source-to-Q formula was checked separately against 218,977 historical
+Phase-7 labels and matched 218,977/218,977. File hashes in the generated
+manifest also match the current source JSONL, input TSV, and corrected output
+TSV. The repair tool now fails closed on duplicate input/source ids and on
+exact-versus-`_0` normalization ambiguity.
+
 ### Manual row checks
 
 | Row | Actual clip | Old Q | Correct Q | mean_similarity |

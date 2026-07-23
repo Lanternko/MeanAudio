@@ -45,11 +45,21 @@ def meansim_q(mean_similarity: float) -> int:
 
 
 def resolve_source_id(tsv_id: str, source: dict[str, dict[str, Any]]) -> str:
-    """Prefer an exact id; otherwise remove one extraction-only ``_0`` suffix."""
-    if tsv_id in source:
-        return tsv_id
-    if tsv_id.endswith("_0") and tsv_id[:-2] in source:
-        return tsv_id[:-2]
+    """Resolve one id and fail closed if ``_0`` normalization is ambiguous."""
+    exact = tsv_id if tsv_id in source else None
+    stripped = (
+        tsv_id[:-2]
+        if tsv_id.endswith("_0") and tsv_id[:-2] in source
+        else None
+    )
+    if exact is not None and stripped is not None:
+        raise ValueError(
+            f"ambiguous source id: both {exact!r} and {stripped!r} exist"
+        )
+    if exact is not None:
+        return exact
+    if stripped is not None:
+        return stripped
     raise KeyError(tsv_id)
 
 
@@ -101,6 +111,15 @@ def main() -> None:
         fieldnames = list(reader.fieldnames)
         rows = list(reader)
 
+    input_ids = [row["id"] for row in rows]
+    if len(input_ids) != len(set(input_ids)):
+        duplicates = [
+            clip_id for clip_id, count in Counter(input_ids).items() if count > 1
+        ]
+        raise SystemExit(
+            f"[FAIL] input TSV contains duplicate ids; first={duplicates[:10]}"
+        )
+
     needed = {row["id"] for row in rows}
     source: dict[str, dict[str, Any]] = {}
     with args.source_jsonl.open(encoding="utf-8") as handle:
@@ -109,6 +128,11 @@ def main() -> None:
             source_id = clip_id_from_relative_path(str(item["relative_path"]))
             if source_id not in needed and f"{source_id}_0" not in needed:
                 continue
+            if source_id in source:
+                raise SystemExit(
+                    f"[FAIL] source JSONL contains duplicate id at row "
+                    f"{line_number}: {source_id}"
+                )
             analysis = item.get("credibility_analysis") or {}
             if analysis.get("mean_similarity") is None:
                 raise SystemExit(
@@ -130,6 +154,7 @@ def main() -> None:
     transition_hist: Counter[tuple[int, int]] = Counter()
     abs_differences: list[int] = []
     corrected_rows: list[dict[str, str]] = []
+    resolved_source_ids: set[str] = set()
 
     for index, row in enumerate(rows):
         try:
@@ -137,6 +162,13 @@ def main() -> None:
         except KeyError:
             missing.append(row["id"])
             continue
+        except ValueError as exc:
+            raise SystemExit(f"[FAIL] row {index}: {exc}") from exc
+        if source_id in resolved_source_ids:
+            raise SystemExit(
+                f"[FAIL] multiple TSV rows resolve to source id {source_id!r}"
+            )
+        resolved_source_ids.add(source_id)
         mean_similarity = source[source_id]["mean_similarity"]
         corrected_q = meansim_q(mean_similarity)
         try:
