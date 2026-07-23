@@ -1,82 +1,89 @@
-# Phase-8 quarter baseline vs aligned half-Q
+# Phase-8 end-to-end quarter baseline vs aligned half-Q
 
-## Registered comparison
+## Correct scale
 
-Both global arms start from the same completed catalog-matched No-Q Stage-1
-checkpoint at iteration 400,000 and use the same data order, seed, LR, batch
-size, NoMask setting, single-caption cache, and 50,000 Stage-2 updates.
+The historical pipeline is Stage 1 `400k` plus Stage 2 `200k`. The reduced
+experiment scales each stage independently:
 
-| Arm | Stage-2 conditioning | Endpoint |
-|---|---|---:|
-| Quarter No-Q baseline | Q disabled, effective q10 | iteration 450,000 |
-| Half-Q | lower MeanSimilarity rank half q0; upper half q9 | iteration 450,000 |
+| Arm | Stage 1 | Stage 2 | Q routing |
+|---|---:|---:|---|
+| Quarter No-Q baseline | 100k | 50k | Q disabled in both stages; effective q10 |
+| Quarter Half-Q | 100k | 50k | aligned q0/q9 enabled in both stages |
 
-The exact No-Q baseline EMA already exists in the preserved 200k training
-trajectory at `ema_ckpts/0.450000.pt`; it is evaluated directly rather than
-retrained. Its Hydra contract is required to match seed `14159265`, LR `1e-4`,
-batch `8`, accumulation `1`, NoMask, and `use_q_conditioning=false`.
+Both arms train from scratch. They use the same initialization seed, TSV,
+row order, cache, batch size, LR, optimizer schedule, NoMask setting, and
+single-caption features. The baseline sees the same q0/q9 TSV but ignores its
+`q_level` column, so the conditioning route is the controlled difference.
+
+The previous proposal that reused a completed 400k Stage-1 checkpoint and
+trained only 50k Stage-2 updates was an S2-only pilot, not an end-to-end
+quarter-scale experiment, and was stopped before it created any checkpoint or
+evaluation artifact.
 
 ## Half-Q construction and alignment
 
-The binary split is computed from raw
+The binary split is computed from raw actual-clip
 `credibility_analysis.mean_similarity`, not from the coarse q3–q9 labels.
-Rows are sorted by `(mean_similarity, source_id)` and split by rank:
+Rows are ranked by `(mean_similarity, source_id)`:
 
 ```text
 q0: lower 125,799 rows
 q9: upper 125,800 rows
 ```
 
-Before writing or accepting the TSV, the builder verifies all 251,599 rows:
+The observed boundary is:
 
 ```text
-catalog id -> unique original JSONL id -> five-caption MeanSimilarity
--> historical floor(mean_similarity * 10) label -> balanced binary rank
+lower max = 0.7884269833564759
+upper min = 0.7884277522563934
 ```
 
-It also checks the aligned parent/source hashes and fails on missing,
-duplicate, reused, or exact-versus-`_0` ambiguous ids. The observed boundary is
-`0.7884269833564759 < 0.7884277522563934`.
+Before either arm starts, all 251,599 rows are rechecked through:
 
-At the Stage-1 to Stage-2 transition, q0–q9 are initialized bit-exact from the
-trained No-Q q10 row. This prevents random Q embeddings from confounding the
-binary comparison.
+```text
+catalog id -> cache/NPZ manifest -> unique source JSONL id
+-> five-caption MeanSimilarity -> historical floor(x*10) Q
+-> balanced binary rank
+```
+
+The gate fails on missing, duplicate, reused, or exact-versus-`_0` ambiguous
+ids, hash drift, or cache/manifest mismatch.
 
 ## Metrics
 
-Metrics cover the complete 5,521-prompt MusicCaps test set:
+All metrics use the full 5,521-prompt MusicCaps test set.
 
-| Scope | Protocol |
-|---|---|
-| Stage 1 | FluxAudio, native 25-step Flow Matching, CFG 4.5, No-Q |
-| Global baseline | MeanAudio, one-step MeanFlow, CFG 0.5, No-Q |
-| Global half-Q | MeanAudio, one-step MeanFlow, CFG 0.5, q9 primary and q0 diagnostic |
+| Scope | Models evaluated | Protocol |
+|---|---|---|
+| Stage 1 | No-Q, Half-Q q9, Half-Q q0 | FluxAudio, FM25, CFG 4.5 |
+| Global | No-Q, Half-Q q9, Half-Q q0 | MeanAudio, MeanFlow1, CFG 0.5 |
 
-Each scope records CLAP plus `aes_CE`, `aes_CU`, `aes_PC`, and `aes_PQ`.
-Stage-1 FM25 and global MeanFlow1 are reported side by side but are not treated
-as the same inference protocol.
+Each endpoint records CLAP plus `aes_CE`, `aes_CU`, `aes_PC`, and `aes_PQ`.
+The primary Half-Q endpoint is q9; q0 is the binary-axis diagnostic. Stage-1
+and global results are reported separately because their inference protocols
+differ.
 
-The completed Stage-1 metric is reused with a pinned file hash; current CLAP is
-`0.1909`.
+## Runtime
+
+Historical measured throughput suggests:
+
+- Stage 1 100k: roughly 3–3.5 hours per arm;
+- Stage 2 50k: roughly 1 hour 40 minutes per arm;
+- three full Stage-1 FM25 evaluations: roughly 8–9 hours total;
+- three global MeanFlow1 evaluations: roughly 35 minutes total.
+
+The full two-arm chain is therefore expected to take roughly 18–20 hours after
+the GPU becomes available. The durable queue waits for pre-existing MeanAudio
+GPU work and sends a Discord report on success, failure, or interruption.
 
 ## Launch
 
-The durable queue first runs a CPU-only preflight, waits until unrelated
-MeanAudio GPU work finishes, and then runs the global baseline evaluation,
-half-Q training, and q9/q0 global evaluations:
-
 ```bash
-tmux new-session -d -s p8_halfq_quarter \
+tmux new-session -d -s p8_halfq_quarter_e2e \
   "cd /home/kojiek/MeanAudio && \
    scripts/run_with_experiment_report.sh \
-     --experiment phase8_halfq_quarter \
-     --report /home/kojiek/logs/phase8_halfq_qpilot_s2_50000_FINAL_METRICS.json \
-     --log /home/kojiek/logs/phase8_halfq_quarter_sequence.log \
+     --experiment phase8_halfq_quarter_e2e \
+     --report /home/kojiek/logs/phase8_halfq_quarter_e2e_FINAL_METRICS.json \
+     --log /home/kojiek/logs/phase8_halfq_quarter_e2e_sequence.log \
      -- bash scripts/training_pipelines/sequence_phase8_halfq_quarter.sh"
-```
-
-Final metrics are written to:
-
-```text
-/home/kojiek/logs/phase8_halfq_qpilot_s2_50000_FINAL_METRICS.json
 ```

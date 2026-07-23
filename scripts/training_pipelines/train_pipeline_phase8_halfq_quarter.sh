@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# Matched quarter-scale comparison:
-#   baseline: existing No-Q S2 EMA at 400k + 50k = iteration 450k
-#   half-Q:   same Stage-1 source, 50k S2 updates, balanced actual-clip
-#             MeanSimilarity lower-half=q0 / upper-half=q9
+# One matched end-to-end quarter-scale arm.
 #
-# Metrics:
-#   Stage 1: full 5,521-prompt MusicCaps, native 25-step Flow Matching
-#   Global:  full 5,521-prompt MusicCaps, 1-step MeanFlow for baseline No-Q
-#            and half-Q q9/q0.
+#   S1: 100k / historical 400k
+#   S2:  50k / historical 200k
+#
+# Both arms use the same aligned half-Q TSV, seed, row order, cache, optimizer
+# settings, and schedule. The No-Q arm ignores q_level in both stages; the
+# half-Q arm consumes q0/q9 in both stages.
 
 set -euo pipefail
 
@@ -21,41 +20,31 @@ ALIGNED_TSV="$DATA/phase8_legacy_catalog_train_meansim_aligned.tsv"
 ALIGNED_MANIFEST="$DATA/phase8_legacy_catalog_train_meansim_aligned.manifest.json"
 HALFQ_TSV="$DATA/phase8_legacy_catalog_train_meansim_halfq.tsv"
 HALFQ_MANIFEST="$DATA/phase8_legacy_catalog_train_meansim_halfq.manifest.json"
-MUSICCAPS="$DATA/musiccaps_test.tsv"
-EVALUATOR=/home/kojiek/research/meanaudio_eval/phase4_eval.py
 
-SOURCE_ID=phase8_catalog_matched_noq_stage1_400000
-SOURCE="$ROOT/exps/$SOURCE_ID/${SOURCE_ID}_ckpt_last.pth"
-SOURCE_EMA="$ROOT/exps/$SOURCE_ID/${SOURCE_ID}_ema_final.pth"
-SOURCE_IT=400000
+S1_UPDATES=100000
 S2_UPDATES=50000
-FINAL_IT=450000
+FINAL_IT=$((S1_UPDATES + S2_UPDATES))
+EXPECTED_ROWS=251599
 SEED=14159265
 LR=1e-4
-EXPECTED_ROWS=251599
 
-BASELINE_PARENT=phase8_catalog_matched_noq_stage2_200000
-BASELINE_CONFIG="$ROOT/exps/$BASELINE_PARENT/train-2026-07-19_22-07-08-hydra/config.yaml"
-BASELINE_EMA="$ROOT/exps/$BASELINE_PARENT/ema_ckpts/0.450000.pt"
-BASELINE_LABEL=phase8_quarter_noq_baseline_it450000_musiccaps_noq
-BASELINE_OUT="$ROOT/eval_output/$BASELINE_LABEL"
-BASELINE_METRICS="$ROOT/eval_output/metrics/$BASELINE_LABEL/metrics.txt"
-BASELINE_EVAL_LOG="$LOG_ROOT/${BASELINE_LABEL}_eval.log"
-
-S1_LABEL=phase8_catalog_matched_noq_stage1_400000_musiccaps_fm25_noq_nomask
-S1_METRICS="$ROOT/eval_output/metrics/$S1_LABEL/metrics.txt"
-
-EXP_ID=phase8_halfq_qpilot_s2_50000
-EXP_DIR="$ROOT/exps/$EXP_ID"
-CKPT="$EXP_DIR/${EXP_ID}_ckpt_last.pth"
-HALFQ_EMA="$EXP_DIR/ema_ckpts/0.450000.pt"
-TRAIN_LOG="$LOG_ROOT/${EXP_ID}.log"
-INIT_LOG="$LOG_ROOT/${EXP_ID}_qinit.log"
-CONTRACT="$LOG_ROOT/${EXP_ID}_contract.json"
-FINAL_REPORT="$LOG_ROOT/${EXP_ID}_FINAL_METRICS.json"
-
+ARM="${ARM:?ARM must be noq or halfq}"
 PREFLIGHT_ONLY="${PREFLIGHT_ONLY:-true}"
 RUN_MODE="${EXPERIMENT_RUN_MODE:-fresh}"
+case "$ARM" in
+    noq)
+        PREFIX=phase8_quarter_e2e_noq
+        USE_Q=false
+        ;;
+    halfq)
+        PREFIX=phase8_quarter_e2e_halfq
+        USE_Q=true
+        ;;
+    *)
+        echo "[FAIL] ARM=$ARM; expected noq or halfq" >&2
+        exit 2
+        ;;
+esac
 case "$PREFLIGHT_ONLY" in true|false) ;; *)
     echo "[FAIL] PREFLIGHT_ONLY must be true or false" >&2
     exit 2
@@ -65,22 +54,36 @@ case "$RUN_MODE" in fresh|resume) ;; *)
     exit 2
 esac
 
+EXP_S1="${PREFIX}_stage1_${S1_UPDATES}"
+EXP_S2="${PREFIX}_stage2_${S2_UPDATES}"
+S1_DIR="$ROOT/exps/$EXP_S1"
+S2_DIR="$ROOT/exps/$EXP_S2"
+S1_CKPT="$S1_DIR/${EXP_S1}_ckpt_last.pth"
+S1_EMA="$S1_DIR/${EXP_S1}_ema_final.pth"
+S2_CKPT="$S2_DIR/${EXP_S2}_ckpt_last.pth"
+S2_EMA="$S2_DIR/${EXP_S2}_ema_final.pth"
+S1_LOG="$LOG_ROOT/${EXP_S1}.log"
+S2_LOG="$LOG_ROOT/${EXP_S2}.log"
+MIGRATE_LOG="$LOG_ROOT/${EXP_S2}_migrate.log"
+CONTRACT="$LOG_ROOT/${PREFIX}_contract.json"
+FINAL_AUDIT="$LOG_ROOT/${PREFIX}_FINAL_TRAIN_AUDIT.json"
+
 cd "$ROOT"
 # shellcheck source=/dev/null
 source /home/kojiek/venvs/dac/bin/activate
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
-for path in "$SOURCE" "$SOURCE_EMA" "$BASELINE_CONFIG" "$BASELINE_EMA" \
-    "$ALIGNED_TSV" "$ALIGNED_MANIFEST" "$SOURCE_JSONL" "$GT_CACHE" \
+for path in "$ALIGNED_TSV" "$ALIGNED_MANIFEST" "$SOURCE_JSONL" "$GT_CACHE" \
     "$NPZ_DIR/MANIFEST.tsv" "$NPZ_DIR/FULL_VALIDATION.json" \
-    "$NPZ_DIR/FULL_GATE_PASSED.json" "$MUSICCAPS" "$EVALUATOR" \
+    "$NPZ_DIR/FULL_GATE_PASSED.json" \
     "$ROOT/scripts/preprocess/make_phase8_halfq_tsv.py" \
-    "$ROOT/scripts/preprocess/align_meansim_q_to_catalog.py"; do
+    "$ROOT/scripts/preprocess/align_meansim_q_to_catalog.py" \
+    "$ROOT/migrate_stage1_to_stage2_ckpt.py" "$ROOT/set_training_stage.py"; do
     [ -e "$path" ] || { echo "[FAIL] missing $path" >&2; exit 2; }
 done
 
-# Idempotent full-data verification. If the half-Q files do not yet exist this
-# creates them; otherwise every row and immutable manifest field is recomputed.
+# Recompute the actual-clip MeanSimilarity assignment before accepting the
+# binary dataset. Existing artifacts are verified, never trusted by name.
 python scripts/preprocess/make_phase8_halfq_tsv.py \
     --input "$ALIGNED_TSV" \
     --aligned-manifest "$ALIGNED_MANIFEST" \
@@ -89,7 +92,7 @@ python scripts/preprocess/make_phase8_halfq_tsv.py \
     --manifest "$HALFQ_MANIFEST" \
     --expected-rows "$EXPECTED_ROWS"
 
-audit_dir=$(mktemp -d /tmp/phase8-halfq-preflight.XXXXXX)
+audit_dir=$(mktemp -d /tmp/phase8-halfq-e2e.XXXXXX)
 trap 'rm -rf "$audit_dir"' EXIT
 python scripts/preprocess/align_meansim_q_to_catalog.py \
     --input "$ALIGNED_TSV" \
@@ -97,155 +100,84 @@ python scripts/preprocess/align_meansim_q_to_catalog.py \
     --manifest "$audit_dir/aligned-audit.json" \
     --require-current-match
 
-python - "$SOURCE" "$BASELINE_EMA" "$BASELINE_CONFIG" "$HALFQ_TSV" \
-    "$HALFQ_MANIFEST" "$GT_CACHE" "$NPZ_DIR" "$S1_METRICS" \
-    "$EXPECTED_ROWS" <<'PY'
+python - "$HALFQ_TSV" "$HALFQ_MANIFEST" "$GT_CACHE" "$NPZ_DIR" \
+    "$EXPECTED_ROWS" "$ARM" <<'PY'
 import csv
 import hashlib
 import json
-import math
 import sys
 from collections import Counter
 from pathlib import Path
 
 import numpy as np
-import torch
-from omegaconf import OmegaConf
 
-(
-    source_path,
-    baseline_ema_path,
-    baseline_config_path,
-    halfq_tsv_path,
-    halfq_manifest_path,
-    cache_path,
-    npz_dir_path,
-    s1_metrics_path,
-    expected_raw,
-) = sys.argv[1:]
-source_path = Path(source_path)
-baseline_ema_path = Path(baseline_ema_path)
-baseline_config_path = Path(baseline_config_path)
-halfq_tsv_path = Path(halfq_tsv_path)
-halfq_manifest_path = Path(halfq_manifest_path)
-cache_path = Path(cache_path)
-npz_dir = Path(npz_dir_path)
-s1_metrics_path = Path(s1_metrics_path)
-expected = int(expected_raw)
-
-source = torch.load(source_path, map_location="cpu", weights_only=False)
-if source.get("it") != 400000:
-    raise SystemExit(f"[FAIL] Stage-1 source iteration={source.get('it')}")
-if not all(key in source for key in ("weights", "ema", "optimizer", "scheduler")):
-    raise SystemExit("[FAIL] Stage-1 source is not resumable")
-if "q_embed.weight" not in source["weights"]:
-    raise SystemExit("[FAIL] Stage-1 source lacks q_embed.weight")
-
-baseline_ema = torch.load(baseline_ema_path, map_location="cpu", weights_only=True)
-if baseline_ema.get("_extra_state", {}).get("step") != 450000:
-    raise SystemExit("[FAIL] quarter baseline EMA is not iteration 450000")
-if "ema_model.q_embed.weight" not in baseline_ema:
-    raise SystemExit("[FAIL] quarter baseline EMA lacks q_embed")
-
-cfg = OmegaConf.load(baseline_config_path)
-required_cfg = {
-    "seed": 14159265,
-    "batch_size": 8,
-    "accumulation_steps": 1,
-    "learning_rate": 1e-4,
-    "use_q_conditioning": False,
-    "use_text_attention_mask": False,
-}
-actual_cfg = {key: OmegaConf.select(cfg, key) for key in required_cfg}
-if actual_cfg != required_cfg:
-    raise SystemExit(
-        f"[FAIL] quarter baseline config drift: "
-        f"actual={actual_cfg} required={required_cfg}"
+tsv, manifest_path, cache, npz_dir = map(Path, sys.argv[1:5])
+expected = int(sys.argv[5])
+arm = sys.argv[6]
+rows = list(csv.DictReader(tsv.open(encoding="utf-8"), delimiter="\t"))
+names = [line.strip() for line in cache.open(encoding="utf-8") if line.strip()]
+catalog_manifest = list(
+    csv.DictReader(
+        (npz_dir / "MANIFEST.tsv").open(encoding="utf-8"), delimiter="\t"
     )
-
-with halfq_tsv_path.open(encoding="utf-8", newline="") as handle:
-    rows = list(csv.DictReader(handle, delimiter="\t"))
-with cache_path.open(encoding="utf-8") as handle:
-    names = [line.strip() for line in handle if line.strip()]
-with (npz_dir / "MANIFEST.tsv").open(encoding="utf-8", newline="") as handle:
-    manifest = list(csv.DictReader(handle, delimiter="\t"))
-if not (len(rows) == len(names) == len(manifest) == expected):
+)
+if not (len(rows) == len(names) == len(catalog_manifest) == expected):
     raise SystemExit(
-        f"[FAIL] cardinality mismatch rows={len(rows)} cache={len(names)} "
-        f"manifest={len(manifest)} expected={expected}"
+        f"[FAIL] cardinality rows={len(rows)} cache={len(names)} "
+        f"manifest={len(catalog_manifest)} expected={expected}"
     )
 if len({row["id"] for row in rows}) != expected or len(set(names)) != expected:
     raise SystemExit("[FAIL] duplicate TSV id or cache filename")
-q_hist = Counter(int(row["q_level"]) for row in rows)
-if q_hist != Counter({0: 125799, 9: 125800}):
-    raise SystemExit(f"[FAIL] half-Q histogram mismatch: {q_hist}")
+histogram = Counter(int(row["q_level"]) for row in rows)
+if histogram != Counter({0: 125799, 9: 125800}):
+    raise SystemExit(f"[FAIL] half-Q histogram changed: {histogram}")
 
-for index, (row, name, item) in enumerate(zip(rows, names, manifest)):
+for index, (row, name, item) in enumerate(zip(rows, names, catalog_manifest)):
     if item["row_index"] != str(index):
-        raise SystemExit(f"[FAIL] manifest row_index mismatch at {index}")
+        raise SystemExit(f"[FAIL] manifest position mismatch at {index}")
     if (item["clip_id"], item["npz_fname"]) != (row["id"], name):
-        raise SystemExit(f"[FAIL] TSV/cache/manifest mismatch at {index}")
+        raise SystemExit(f"[FAIL] row/cache/manifest mismatch at {index}")
 
 for index in (0, 1, 100, 1000, 10000, expected - 1):
     with np.load(npz_dir / names[index]) as data:
         if str(data["clip_id"].item()) != rows[index]["id"]:
-            raise SystemExit(f"[FAIL] embedded clip_id mismatch at {index}")
-        expected_caption_hash = hashlib.sha256(
+            raise SystemExit(f"[FAIL] embedded clip id mismatch at {index}")
+        caption_hash = hashlib.sha256(
             rows[index]["caption"].encode("utf-8")
         ).hexdigest()
-        if str(data["caption_sha256"].item()) != expected_caption_hash:
+        if str(data["caption_sha256"].item()) != caption_hash:
             raise SystemExit(f"[FAIL] embedded caption hash mismatch at {index}")
 
-halfq_manifest = json.loads(halfq_manifest_path.read_text())
-if halfq_manifest.get("historical_q_rows_verified") != expected:
-    raise SystemExit("[FAIL] half-Q manifest lacks full historical-Q verification")
-if halfq_manifest.get("unique_source_rows") != expected:
-    raise SystemExit("[FAIL] half-Q manifest source rows are not one-to-one")
-if halfq_manifest.get("resolution_histogram") != {
-    "stripped_final_partition_suffix": expected
-}:
-    raise SystemExit("[FAIL] half-Q id normalization provenance changed")
-if halfq_manifest.get("q_histogram") != {"0": 125799, "9": 125800}:
-    raise SystemExit("[FAIL] half-Q manifest histogram changed")
-
+contract = json.loads(manifest_path.read_text())
+required = {
+    "rows": expected,
+    "historical_q_rows_verified": expected,
+    "unique_source_rows": expected,
+    "q_histogram": {"0": 125799, "9": 125800},
+    "resolution_histogram": {"stripped_final_partition_suffix": expected},
+}
+for key, value in required.items():
+    if contract.get(key) != value:
+        raise SystemExit(f"[FAIL] half-Q manifest drift at {key}")
 for gate_name in ("FULL_VALIDATION.json", "FULL_GATE_PASSED.json"):
     gate = json.loads((npz_dir / gate_name).read_text())
     if gate.get("status") != "passed":
-        raise SystemExit(f"[FAIL] NPZ gate not passed: {gate_name}")
-
-metric_values = {}
-for line in s1_metrics_path.read_text().splitlines():
-    if ":" not in line:
-        continue
-    key, value = line.split(":", 1)
-    key = key.strip()
-    if key in {"clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"}:
-        metric_values[key] = float(value)
-if set(metric_values) != {"clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"}:
-    raise SystemExit(f"[FAIL] incomplete Stage-1 metrics: {metric_values}")
-if not all(math.isfinite(value) for value in metric_values.values()):
-    raise SystemExit("[FAIL] non-finite Stage-1 metric")
-
+        raise SystemExit(f"[FAIL] cache gate not passed: {gate_name}")
 print(
-    "[OK] quarter preflight: "
-    f"source_it=400000 baseline_it=450000 rows={expected:,} "
-    f"halfq={dict(sorted(q_hist.items()))} s1_clap={metric_values['clap_score']}"
+    f"[OK] arm={arm} full alignment preflight rows={expected:,} "
+    f"halfq={dict(sorted(histogram.items()))}"
 )
 PY
 
 if [ "$PREFLIGHT_ONLY" = true ]; then
-    echo "[PREFLIGHT ONLY] No training, generation, or GPU metric process started."
+    echo "[PREFLIGHT ONLY] ARM=$ARM; no checkpoint or GPU process started."
     exit 0
 fi
 
 if [ "$RUN_MODE" = fresh ]; then
     conflicts=()
-    for path in "$EXP_DIR" "$TRAIN_LOG" "$INIT_LOG" "$CONTRACT" "$FINAL_REPORT" \
-        "$BASELINE_OUT" "$ROOT/eval_output/metrics/$BASELINE_LABEL" \
-        "$ROOT/eval_output/${EXP_ID}_musiccaps_q9" \
-        "$ROOT/eval_output/metrics/${EXP_ID}_musiccaps_q9" \
-        "$ROOT/eval_output/${EXP_ID}_musiccaps_q0" \
-        "$ROOT/eval_output/metrics/${EXP_ID}_musiccaps_q0"; do
+    for path in "$S1_DIR" "$S2_DIR" "$S1_LOG" "$S2_LOG" "$MIGRATE_LOG" \
+        "$CONTRACT" "$FINAL_AUDIT"; do
         [ -e "$path" ] && conflicts+=("$path")
     done
     if [ "${#conflicts[@]}" -gt 0 ]; then
@@ -254,11 +186,10 @@ if [ "$RUN_MODE" = fresh ]; then
     fi
 fi
 
-mkdir -p "$EXP_DIR" "$LOG_ROOT"
+mkdir -p "$S1_DIR" "$S2_DIR" "$LOG_ROOT"
 
-python - "$CONTRACT" "$SOURCE" "$SOURCE_EMA" "$BASELINE_EMA" \
-    "$BASELINE_CONFIG" "$ALIGNED_TSV" "$ALIGNED_MANIFEST" "$HALFQ_TSV" \
-    "$HALFQ_MANIFEST" "$S1_METRICS" <<'PY'
+python - "$CONTRACT" "$ARM" "$USE_Q" "$HALFQ_TSV" "$HALFQ_MANIFEST" \
+    "$SEED" "$LR" "$S1_UPDATES" "$S2_UPDATES" <<'PY'
 import hashlib
 import json
 import os
@@ -268,83 +199,69 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 (
-    out,
-    source,
-    source_ema,
-    baseline_ema,
-    baseline_config,
-    aligned_tsv,
-    aligned_manifest,
-    halfq_tsv,
-    halfq_manifest,
-    s1_metrics,
+    out, arm, use_q_raw, tsv, manifest, seed, lr, s1_updates, s2_updates
 ) = sys.argv[1:]
+root = Path("/home/kojiek/MeanAudio")
 
-def sha(path: str) -> str:
+def sha(path: str | Path) -> str:
     digest = hashlib.sha256()
     with Path(path).open("rb") as handle:
         for chunk in iter(lambda: handle.read(8 * 1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
 
+critical = [
+    "scripts/training_pipelines/train_pipeline_phase8_halfq_quarter.sh",
+    "scripts/training_pipelines/sequence_phase8_halfq_quarter.sh",
+    "scripts/preprocess/make_phase8_halfq_tsv.py",
+    "migrate_stage1_to_stage2_ckpt.py",
+    "meanaudio/runner_flowmatching.py",
+    "meanaudio/runner_meanflow.py",
+    "meanaudio/model/networks.py",
+]
+use_q = use_q_raw == "true"
 payload = {
-    "schema_version": 1,
+    "schema_version": 2,
     "created_at": datetime.now(timezone.utc).isoformat(),
-    "experiment": "phase8_halfq_quarter",
-    "stage1_source": source,
-    "stage1_source_sha256": sha(source),
-    "stage1_ema": source_ema,
-    "stage1_ema_sha256": sha(source_ema),
-    "stage1_iteration": 400000,
-    "stage1_use_q_conditioning": False,
-    "stage1_effective_q": 10,
-    "stage1_metrics": s1_metrics,
-    "stage1_metrics_sha256": sha(s1_metrics),
-    "baseline_reuses_saved_trajectory": True,
-    "baseline_ema": baseline_ema,
-    "baseline_ema_sha256": sha(baseline_ema),
-    "baseline_iteration": 450000,
-    "baseline_config": baseline_config,
-    "baseline_config_sha256": sha(baseline_config),
-    "baseline_use_q_conditioning": False,
-    "baseline_effective_q": 10,
-    "aligned_tsv": aligned_tsv,
-    "aligned_tsv_sha256": sha(aligned_tsv),
-    "aligned_manifest": aligned_manifest,
-    "aligned_manifest_sha256": sha(aligned_manifest),
-    "halfq_tsv": halfq_tsv,
-    "halfq_tsv_sha256": sha(halfq_tsv),
-    "halfq_manifest": halfq_manifest,
-    "halfq_manifest_sha256": sha(halfq_manifest),
-    "halfq_mapping": {
-        "lower_rank_half": 0,
-        "upper_rank_half": 9,
-        "rank_key": ["mean_similarity", "source_id"],
-        "counts": {"0": 125799, "9": 125800},
-    },
-    "halfq_initialization": "copy_q10_exactly_to_q0_through_q9",
-    "halfq_use_q_conditioning": True,
-    "s2_updates": 50000,
-    "final_iteration": 450000,
-    "learning_rate": 1e-4,
+    "experiment": "phase8_halfq_quarter_e2e",
+    "arm": arm,
+    "from_scratch": True,
+    "train_tsv": tsv,
+    "train_tsv_sha256": sha(tsv),
+    "halfq_manifest": manifest,
+    "halfq_manifest_sha256": sha(manifest),
+    "stage1_updates": int(s1_updates),
+    "stage2_updates": int(s2_updates),
+    "stage2_final_iteration": int(s1_updates) + int(s2_updates),
+    "stage1_use_q_conditioning": use_q,
+    "stage2_use_q_conditioning": use_q,
+    "q_semantics": (
+        "lower actual-clip MeanSimilarity rank half q0; upper half q9"
+        if use_q
+        else "q_level present but ignored; effective q10"
+    ),
+    "stage1_to_stage2_q_initialization": "preserve",
+    "seed": int(seed),
+    "learning_rate": float(lr),
     "batch_size": 8,
     "accumulation_steps": 1,
-    "seed": 14159265,
     "use_text_attention_mask": False,
     "multi_cap": False,
-    "metrics": {
-        "stage1": "MusicCaps 5521; 25-step native Flow Matching; no-Q",
-        "global": "MusicCaps 5521; 1-step MeanFlow; baseline no-Q and half-Q q9/q0",
-        "note": "Stage-1 FM25 and global MeanFlow1 are reported separately",
+    "matched_controls": {
+        "same_random_seed": True,
+        "same_tsv_and_row_order": True,
+        "same_cache": True,
+        "same_optimizer_and_schedule": True,
+        "only_conditioning_route_differs": True,
     },
+    "critical_file_sha256": {rel: sha(root / rel) for rel in critical},
 }
 try:
     payload["git_head"] = subprocess.check_output(
-        ["git", "rev-parse", "HEAD"], cwd="/home/kojiek/MeanAudio", text=True
+        ["git", "rev-parse", "HEAD"], cwd=root, text=True
     ).strip()
 except Exception:
     payload["git_head"] = None
-
 path = Path(out)
 if path.exists():
     previous = json.loads(path.read_text())
@@ -361,136 +278,171 @@ else:
 print(f"[OK] contract: {path}")
 PY
 
-run_eval() {
-    local label="$1"
-    local model="$2"
-    shift 2
-    local out="$ROOT/eval_output/$label"
-    local metrics="$ROOT/eval_output/metrics/$label/metrics.txt"
-    local log="$LOG_ROOT/${label}_eval.log"
-
-    if [ -f "$metrics" ]; then
-        echo "[SKIP] complete metrics: $metrics"
-        return 0
-    fi
-    mkdir -p "$out/audio"
-    python eval.py --variant meanaudio_s --model_path "$model" \
-        --output "$out/audio" --tsv "$MUSICCAPS" --use_meanflow --num_steps 1 \
-        --encoder_name t5_clap --text_c_dim 512 --cfg_strength 0.5 \
-        --no_text_attention_mask --full_precision "$@" 2>&1 | tee "$log"
-    audio_n=$(find "$out/audio" -maxdepth 1 -type f -name '*.flac' | wc -l)
-    if [ "$audio_n" -ne 5521 ]; then
-        echo "[FAIL] $label generated $audio_n/5521 files" | tee -a "$log" >&2
-        return 2
-    fi
-    python "$EVALUATOR" --gen_dir "$out/audio" --tsv "$MUSICCAPS" \
-        --exp_name "$label" --num_samples 5521 2>&1 | tee -a "$log"
-    [ -f "$metrics" ] || {
-        echo "[FAIL] evaluator did not create $metrics" >&2
-        return 2
-    }
+checkpoint_it() {
+    local path="$1"
+    python - "$path" <<'PY'
+import sys
+from pathlib import Path
+import torch
+path = Path(sys.argv[1])
+if not path.is_file():
+    print(-1)
+else:
+    print(int(torch.load(path, map_location="cpu", weights_only=False)["it"]))
+PY
 }
 
-# Evaluate the exact saved 50k No-Q trajectory before training the matched arm.
-run_eval "$BASELINE_LABEL" "$BASELINE_EMA" --no_q
-
-if [ ! -f "$CKPT" ]; then
-    python set_training_stage.py --stage 2
-    python migrate_stage1_to_stage2_ckpt.py \
-        --s1_ckpt "$SOURCE" --s2_out "$CKPT" --q-init copy-null \
-        2>&1 | tee "$INIT_LOG"
+s1_it=$(checkpoint_it "$S1_CKPT")
+if [ "$s1_it" -lt "$S1_UPDATES" ]; then
+    python set_training_stage.py --stage 1
+    torchrun --standalone --nproc_per_node=1 train.py \
+        data=meanaudio model=fluxaudio_s exp_id="$EXP_S1" \
+        num_iterations="$S1_UPDATES" "lr_schedule_steps=[999999,999999]" \
+        "+use_q_conditioning=$USE_Q" batch_size=8 +accumulation_steps=1 \
+        learning_rate="$LR" seed="$SEED" linear_warmup_steps=1000 num_workers=4 \
+        save_weights_interval=25000 save_checkpoint_interval=25000 \
+        ++ema.checkpoint_every=25000 +use_rope=False +use_wandb=False \
+        +use_text_attention_mask=false val_interval=999999 eval_interval=999999 \
+        save_eval_interval=999999 "data.AudioCaps_npz.tsv=$HALFQ_TSV" \
+        "+data.AudioCaps_npz.gt_cache=$GT_CACHE" \
+        "data.AudioCaps_val_npz.tsv=$HALFQ_TSV" \
+        "data.AudioCaps_val_npz.gt_cache=$GT_CACHE" \
+        "++data.AudioCaps_npz.npz_dir=$NPZ_DIR" \
+        "++data.AudioCaps_val_npz.npz_dir=$NPZ_DIR" ++multi_cap=False \
+        2>&1 | tee "$S1_LOG"
+elif [ "$s1_it" -ne "$S1_UPDATES" ]; then
+    echo "[FAIL] unexpected S1 checkpoint iteration=$s1_it" >&2
+    exit 2
+else
+    echo "[SKIP] complete S1 checkpoint: $S1_CKPT"
 fi
 
-torchrun --standalone --nproc_per_node=1 train.py \
-    data=meanaudio model=meanaudio_s exp_id="$EXP_ID" \
-    num_iterations="$FINAL_IT" "lr_schedule_steps=[999999,999999]" \
-    +use_q_conditioning=true batch_size=8 +accumulation_steps=1 \
-    learning_rate="$LR" seed="$SEED" linear_warmup_steps=1000 num_workers=4 \
-    save_weights_interval=10000 save_checkpoint_interval=10000 \
-    ++ema.checkpoint_every=10000 +use_rope=False +use_wandb=False \
-    +use_text_attention_mask=false val_interval=999999 eval_interval=999999 \
-    save_eval_interval=999999 "data.AudioCaps_npz.tsv=$HALFQ_TSV" \
-    "+data.AudioCaps_npz.gt_cache=$GT_CACHE" \
-    "data.AudioCaps_val_npz.tsv=$HALFQ_TSV" \
-    "data.AudioCaps_val_npz.gt_cache=$GT_CACHE" \
-    "++data.AudioCaps_npz.npz_dir=$NPZ_DIR" \
-    "++data.AudioCaps_val_npz.npz_dir=$NPZ_DIR" ++multi_cap=False \
-    2>&1 | tee "$TRAIN_LOG"
+[ -f "$S1_EMA" ] || { echo "[FAIL] missing S1 EMA: $S1_EMA" >&2; exit 2; }
 
-[ -f "$HALFQ_EMA" ] || {
-    echo "[FAIL] missing matched half-Q EMA at iteration 450000: $HALFQ_EMA" >&2
+if [ ! -f "$S2_CKPT" ]; then
+    python set_training_stage.py --stage 2
+    python migrate_stage1_to_stage2_ckpt.py \
+        --s1_ckpt "$S1_CKPT" --s2_out "$S2_CKPT" --q-init preserve \
+        2>&1 | tee "$MIGRATE_LOG"
+fi
+
+s2_it=$(checkpoint_it "$S2_CKPT")
+if [ "$s2_it" -lt "$FINAL_IT" ]; then
+    python set_training_stage.py --stage 2
+    torchrun --standalone --nproc_per_node=1 train.py \
+        data=meanaudio model=meanaudio_s exp_id="$EXP_S2" \
+        num_iterations="$FINAL_IT" "lr_schedule_steps=[999999,999999]" \
+        "+use_q_conditioning=$USE_Q" batch_size=8 +accumulation_steps=1 \
+        learning_rate="$LR" seed="$SEED" linear_warmup_steps=1000 num_workers=4 \
+        save_weights_interval=25000 save_checkpoint_interval=25000 \
+        ++ema.checkpoint_every=25000 +use_rope=False +use_wandb=False \
+        +use_text_attention_mask=false val_interval=999999 eval_interval=999999 \
+        save_eval_interval=999999 "data.AudioCaps_npz.tsv=$HALFQ_TSV" \
+        "+data.AudioCaps_npz.gt_cache=$GT_CACHE" \
+        "data.AudioCaps_val_npz.tsv=$HALFQ_TSV" \
+        "data.AudioCaps_val_npz.gt_cache=$GT_CACHE" \
+        "++data.AudioCaps_npz.npz_dir=$NPZ_DIR" \
+        "++data.AudioCaps_val_npz.npz_dir=$NPZ_DIR" ++multi_cap=False \
+        2>&1 | tee "$S2_LOG"
+elif [ "$s2_it" -ne "$FINAL_IT" ]; then
+    echo "[FAIL] unexpected S2 checkpoint iteration=$s2_it" >&2
     exit 2
-}
+else
+    echo "[SKIP] complete S2 checkpoint: $S2_CKPT"
+fi
 
-run_eval "${EXP_ID}_musiccaps_q9" "$HALFQ_EMA" --quality_level 9
-run_eval "${EXP_ID}_musiccaps_q0" "$HALFQ_EMA" --quality_level 0
+[ -f "$S2_EMA" ] || { echo "[FAIL] missing S2 EMA: $S2_EMA" >&2; exit 2; }
 
-python - "$S1_METRICS" "$BASELINE_METRICS" \
-    "$ROOT/eval_output/metrics/${EXP_ID}_musiccaps_q9/metrics.txt" \
-    "$ROOT/eval_output/metrics/${EXP_ID}_musiccaps_q0/metrics.txt" \
-    "$CONTRACT" "$FINAL_REPORT" <<'PY'
+python - "$ARM" "$USE_Q" "$S1_CKPT" "$S2_CKPT" "$CONTRACT" \
+    "$FINAL_AUDIT" "$S1_DIR" "$S2_DIR" "$HALFQ_TSV" <<'PY'
 import json
-import math
 import os
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
-s1_path, baseline_path, q9_path, q0_path, contract_path, out_path = map(
-    Path, sys.argv[1:]
-)
+import torch
+from omegaconf import OmegaConf
 
-def metrics(path: Path) -> dict[str, float]:
-    values = {}
-    for line in path.read_text().splitlines():
-        if ":" not in line:
-            continue
-        key, value = line.split(":", 1)
-        key = key.strip()
-        if key in {"clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"}:
-            values[key] = float(value)
-    required = {"clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"}
-    if set(values) != required or not all(math.isfinite(v) for v in values.values()):
-        raise SystemExit(f"[FAIL] incomplete/non-finite metrics at {path}: {values}")
-    return values
+(
+    arm,
+    use_q_raw,
+    s1_path,
+    s2_path,
+    contract_path,
+    out_path,
+    s1_dir_raw,
+    s2_dir_raw,
+    train_tsv,
+) = sys.argv[1:]
+use_q = use_q_raw == "true"
+s1 = torch.load(s1_path, map_location="cpu", weights_only=False)
+s2 = torch.load(s2_path, map_location="cpu", weights_only=False)
+issues = []
+if s1.get("it") != 100000:
+    issues.append(f"S1 iteration={s1.get('it')}")
+if s2.get("it") != 150000:
+    issues.append(f"S2 iteration={s2.get('it')}")
+for label, state in (("S1", s1), ("S2", s2)):
+    if "q_embed.weight" not in state.get("weights", {}):
+        issues.append(f"{label} lacks q_embed.weight")
 
-s1 = metrics(s1_path)
-baseline = metrics(baseline_path)
-q9 = metrics(q9_path)
-q0 = metrics(q0_path)
+configs = {}
+for label, directory, expected_model, expected_iterations in (
+    ("S1", Path(s1_dir_raw), "fluxaudio_s", 100000),
+    ("S2", Path(s2_dir_raw), "meanaudio_s", 150000),
+):
+    candidates = sorted(
+        directory.glob("train-*-hydra/config.yaml"),
+        key=lambda path: path.stat().st_mtime,
+    )
+    if not candidates:
+        issues.append(f"{label} Hydra config missing")
+        continue
+    config_path = candidates[-1]
+    config = OmegaConf.load(config_path)
+    configs[label] = str(config_path)
+    checks = {
+        "model": expected_model,
+        "num_iterations": expected_iterations,
+        "seed": 14159265,
+        "learning_rate": 1e-4,
+        "batch_size": 8,
+        "accumulation_steps": 1,
+        "use_q_conditioning": use_q,
+        "use_text_attention_mask": False,
+        "multi_cap": False,
+        "data.AudioCaps_npz.tsv": train_tsv,
+        "data.AudioCaps_npz.npz_dir": (
+            "/mnt/HDD/kojiek/phase8_legacy_matched_npz"
+        ),
+    }
+    for key, expected in checks.items():
+        actual = OmegaConf.select(config, key)
+        if actual != expected:
+            issues.append(
+                f"{label} config {key}={actual!r}, expected={expected!r}"
+            )
 payload = {
     "schema_version": 1,
     "completed_at": datetime.now(timezone.utc).isoformat(),
-    "experiment": "phase8_halfq_quarter",
-    "contract": str(contract_path),
-    "stage1": {
-        "protocol": "MusicCaps 5521; FluxAudio; FM25; CFG 4.5; no-Q",
-        "metrics": s1,
-    },
-    "global": {
-        "protocol": "MusicCaps 5521; MeanAudio; MeanFlow1; CFG 0.5",
-        "quarter_noq_baseline": baseline,
-        "halfq_q9": q9,
-        "halfq_q0": q0,
-        "halfq_q9_minus_baseline_clap": (
-            q9["clap_score"] - baseline["clap_score"]
-        ),
-        "halfq_q0_minus_baseline_clap": (
-            q0["clap_score"] - baseline["clap_score"]
-        ),
-        "halfq_q9_minus_q0_clap": q9["clap_score"] - q0["clap_score"],
-    },
-    "interpretation": {
-        "stage1_and_global_protocols_are_not_directly_comparable": True,
-        "primary_halfq_endpoint": "q9",
-        "diagnostic_halfq_endpoint": "q0",
-        "no_checkpoint_cherrypick": True,
-    },
+    "status": "failed" if issues else "passed",
+    "issues": issues,
+    "arm": arm,
+    "stage1_iteration": s1.get("it"),
+    "stage2_iteration": s2.get("it"),
+    "stage1_use_q_conditioning": use_q,
+    "stage2_use_q_conditioning": use_q,
+    "contract": contract_path,
+    "hydra_configs": configs,
 }
-tmp = out_path.with_suffix(out_path.suffix + ".tmp")
+path = Path(out_path)
+tmp = path.with_suffix(path.suffix + ".tmp")
 tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
-os.replace(tmp, out_path)
+os.replace(tmp, path)
 print(json.dumps(payload, indent=2, sort_keys=True))
+if issues:
+    raise SystemExit(2)
 PY
 
-echo "[COMPLETE] quarter baseline + half-Q; report=$FINAL_REPORT"
+echo "[COMPLETE] ARM=$ARM S1=100k S2=50k"

@@ -70,11 +70,23 @@ def report_lines(report: Path | None) -> list[str]:
     lines: list[str] = []
     stage1 = payload.get("stage1")
     if isinstance(stage1, dict):
-        values = stage1.get("metrics", stage1)
+        values = stage1.get("metrics")
         if isinstance(values, dict):
             line = metric_line("Stage 1", values)
             if line:
                 lines.append(line)
+        else:
+            labels = {
+                "quarter_noq_baseline": "Stage 1 baseline",
+                "halfq_q9": "Stage 1 half-Q q9",
+                "halfq_q0": "Stage 1 half-Q q0",
+            }
+            for key, label in labels.items():
+                nested = stage1.get(key)
+                if isinstance(nested, dict):
+                    line = metric_line(label, nested)
+                    if line:
+                        lines.append(line)
     global_metrics = payload.get("global")
     if isinstance(global_metrics, dict):
         labels = {

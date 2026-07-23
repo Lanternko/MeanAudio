@@ -31,8 +31,8 @@ Example:
 
 ```bash
 scripts/run_with_experiment_report.sh \
-  --experiment phase8_halfq_quarter \
-  --report /home/kojiek/logs/phase8_halfq_qpilot_s2_50000_FINAL_METRICS.json \
-  --log /home/kojiek/logs/phase8_halfq_quarter_sequence.log \
+  --experiment phase8_halfq_quarter_e2e \
+  --report /home/kojiek/logs/phase8_halfq_quarter_e2e_FINAL_METRICS.json \
+  --log /home/kojiek/logs/phase8_halfq_quarter_e2e_sequence.log \
   -- bash scripts/training_pipelines/sequence_phase8_halfq_quarter.sh
 ```
