@@ -68,7 +68,11 @@ half-Q training, and q9/q0 global evaluations:
 ```bash
 tmux new-session -d -s p8_halfq_quarter \
   "cd /home/kojiek/MeanAudio && \
-   bash scripts/training_pipelines/sequence_phase8_halfq_quarter.sh"
+   scripts/run_with_experiment_report.sh \
+     --experiment phase8_halfq_quarter \
+     --report /home/kojiek/logs/phase8_halfq_qpilot_s2_50000_FINAL_METRICS.json \
+     --log /home/kojiek/logs/phase8_halfq_quarter_sequence.log \
+     -- bash scripts/training_pipelines/sequence_phase8_halfq_quarter.sh"
 ```
 
 Final metrics are written to:
