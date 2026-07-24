@@ -82,6 +82,9 @@ def report_lines(report: Path | None) -> list[str]:
                 "halfq_q0": "Stage 1 half-Q q0",
                 "fullq_q9": "Stage 1 full-Q q9",
                 "fullq_q6": "Stage 1 full-Q q6",
+                "high_q9": "Stage 1 q9",
+                "supported_low": "Stage 1 supported-low",
+                "holdout5009_high_q9": "Stage 1 holdout-5009 q9",
             }
             for key, label in labels.items():
                 nested = stage1.get(key)
@@ -89,6 +92,9 @@ def report_lines(report: Path | None) -> list[str]:
                     line = metric_line(label, nested)
                     if line:
                         lines.append(line)
+        value = stage1.get("q9_minus_low_clap")
+        if isinstance(value, (int, float)):
+            lines.append(f"- Stage 1 q9-minus-supported-low CLAP: {value:+.6f}")
     global_metrics = payload.get("global")
     if isinstance(global_metrics, dict):
         labels = {
@@ -97,6 +103,9 @@ def report_lines(report: Path | None) -> list[str]:
             "halfq_q0": "Global half-Q q0",
             "fullq_q9": "Global full-Q q9",
             "fullq_q6": "Global full-Q q6",
+            "high_q9": "Global q9",
+            "supported_low": "Global supported-low",
+            "holdout5009_high_q9": "Global holdout-5009 q9",
         }
         for key, label in labels.items():
             values = global_metrics.get(key)
@@ -110,6 +119,7 @@ def report_lines(report: Path | None) -> list[str]:
             "halfq_q9_minus_q0_clap",
             "halfq_q9_minus_fullq_q9_clap",
             "fullq_q9_minus_q6_clap",
+            "q9_minus_low_clap",
         ):
             value = global_metrics.get(key)
             if isinstance(value, (int, float)):
