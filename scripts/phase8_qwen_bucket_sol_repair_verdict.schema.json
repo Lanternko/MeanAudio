@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "decision",
+    "execution_authorized",
+    "incident_fingerprint",
+    "reviewed_commit",
+    "reviewed_diff_sha256",
+    "summary",
+    "findings",
+    "approved_command",
+    "rollback_command",
+    "issued_at"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "decision": {"type": "string", "enum": ["approve", "revise", "reject"]},
+    "execution_authorized": {"type": "boolean"},
+    "incident_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "reviewed_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "reviewed_diff_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "summary": {"type": "string", "maxLength": 4000},
+    "findings": {"type": "array", "items": {"type": "string", "maxLength": 2000}, "maxItems": 64},
+    "approved_command": {"type": ["string", "null"], "maxLength": 2000},
+    "rollback_command": {"type": ["string", "null"], "maxLength": 2000},
+    "issued_at": {"type": "string", "maxLength": 80}
+  }
+}

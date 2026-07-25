@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "incident_fingerprint",
+    "decision",
+    "summary",
+    "worktree",
+    "branch",
+    "repair_commit",
+    "tests",
+    "contract_preserved",
+    "proposed_command",
+    "rollback_command",
+    "execution_authorized"
+  ],
+  "properties": {
+    "schema_version": {"type": "integer", "const": 1},
+    "incident_fingerprint": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "decision": {"type": "string", "enum": ["repair", "no_repair", "escalate"]},
+    "summary": {"type": "string", "maxLength": 4000},
+    "worktree": {"type": "string", "minLength": 1},
+    "branch": {"type": "string", "pattern": "^codex/phase8-qwen-bucket-repair/[0-9a-f]{12}$"},
+    "repair_commit": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+    "base_commit": {"type": ["string", "null"], "pattern": "^[0-9a-f]{40}$"},
+    "diff_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "changed_files": {"type": "array", "items": {"type": "string"}, "maxItems": 64},
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["command", "status"],
+        "properties": {
+          "command": {"type": "string", "maxLength": 1000},
+          "status": {"type": "string", "enum": ["passed", "failed", "not_run"]}
+        }
+      },
+      "maxItems": 32
+    },
+    "contract_preserved": {"type": "boolean", "const": true},
+    "proposed_command": {"type": ["string", "null"], "maxLength": 2000},
+    "rollback_command": {"type": ["string", "null"], "maxLength": 2000},
+    "execution_authorized": {"type": "boolean", "const": false}
+  }
+}
