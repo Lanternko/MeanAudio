@@ -48,6 +48,7 @@ source "$COMPAT_ENV"
 
 PREFLIGHT_ONLY="${PREFLIGHT_ONLY:-false}"
 DRY_RUN="${DRY_RUN:-false}"
+ENABLE_REPAIR_CONTROLLER="${ENABLE_REPAIR_CONTROLLER:-false}"
 POLL_SECONDS="${SUPERVISOR_POLL_SECONDS:-30}"
 INITIAL_BACKOFF_SECONDS="${SUPERVISOR_INITIAL_BACKOFF_SECONDS:-30}"
 MAX_BACKOFF_SECONDS="${SUPERVISOR_MAX_BACKOFF_SECONDS:-600}"
@@ -70,6 +71,10 @@ if ! PREFLIGHT_ONLY=$(normalize_bool "$PREFLIGHT_ONLY"); then
 fi
 if ! DRY_RUN=$(normalize_bool "$DRY_RUN"); then
     echo "[FAIL] DRY_RUN must be true/false (or 1/0)" >&2
+    exit 2
+fi
+if ! ENABLE_REPAIR_CONTROLLER=$(normalize_bool "$ENABLE_REPAIR_CONTROLLER"); then
+    echo "[FAIL] ENABLE_REPAIR_CONTROLLER must be true/false (or 1/0)" >&2
     exit 2
 fi
 for value_name in POLL_SECONDS INITIAL_BACKOFF_SECONDS MAX_BACKOFF_SECONDS \
@@ -551,8 +556,9 @@ preflight() {
         log "preflight missing sequence: $SEQUENCE"
         failed=true
     fi
-    if [[ ! -f "$WATCHER" || ! -f "$REPAIR_CONTROLLER" ||
-          ! -f "$RESUME_MARKER_VALIDATOR" ]]; then
+    if [[ ! -f "$WATCHER" || ! -f "$RESUME_MARKER_VALIDATOR" ||
+          ( "$ENABLE_REPAIR_CONTROLLER" == true &&
+            ! -f "$REPAIR_CONTROLLER" ) ]]; then
         log "preflight missing watcher: $WATCHER"
         failed=true
     fi
@@ -591,7 +597,9 @@ if [[ "$PREFLIGHT_ONLY" == true ]]; then
 fi
 
 if [[ ! -f "$SEQUENCE" || ! -f "$WATCHER" ||
-      ! -f "$REPAIR_CONTROLLER" || ! -f "$RESUME_MARKER_VALIDATOR" ]]; then
+      ! -f "$RESUME_MARKER_VALIDATOR" ||
+      ( "$ENABLE_REPAIR_CONTROLLER" == true &&
+        ! -f "$REPAIR_CONTROLLER" ) ]]; then
     probe_gpu
     write_status HARD_STOP "sequence, watcher, or repair controller contract file missing"
     log "required durable component missing; refusing to launch"
@@ -613,8 +621,11 @@ fi
 SEQUENCE_PID=$(find_component_pid "$SEQUENCE_PID_FILE" "$SEQUENCE" || true)
 WATCHER_PID=$(find_component_pid "$WATCHER_PID_FILE" "$WATCHER" || true)
 CONTROLLER_PID=$(find_component_pid "$CONTROLLER_PID_FILE" "$CONTROLLER_PROCESS_NEEDLE" || true)
+if [[ "$ENABLE_REPAIR_CONTROLLER" != true ]]; then
+    CONTROLLER_PID=""
+fi
 if [[ "$DRY_RUN" == true ]]; then
-    detail="would supervise sequence(mode=resume), read-only watcher, and durable repair controller"
+    detail="would supervise sequence(mode=resume) and read-only watcher; repair_controller_enabled=$ENABLE_REPAIR_CONTROLLER"
     [[ -n "$SEQUENCE_PID" ]] && detail+="; sequence already alive pid=$SEQUENCE_PID"
     [[ -n "$WATCHER_PID" ]] && detail+="; watcher already alive pid=$WATCHER_PID"
     [[ -n "$CONTROLLER_PID" ]] && detail+="; controller already alive pid=$CONTROLLER_PID"
@@ -648,6 +659,9 @@ while true; do
     SEQUENCE_PID=$(find_component_pid "$SEQUENCE_PID_FILE" "$SEQUENCE" || true)
     WATCHER_PID=$(find_component_pid "$WATCHER_PID_FILE" "$WATCHER" || true)
     CONTROLLER_PID=$(find_component_pid "$CONTROLLER_PID_FILE" "$CONTROLLER_PROCESS_NEEDLE" || true)
+    if [[ "$ENABLE_REPAIR_CONTROLLER" != true ]]; then
+        CONTROLLER_PID=""
+    fi
 
     if hard_alert_present && [[ "$RESUME_ALLOWED" != true ]]; then
         # A watcher hard alert is an incident input for the durable controller,
@@ -700,22 +714,24 @@ while true; do
         launch_watcher
     fi
 
-    if [[ -n "$CONTROLLER_PID" ]]; then
-        if (( CONTROLLER_STARTED_EPOCH > 0 &&
-              now - CONTROLLER_STARTED_EPOCH >= STABLE_SECONDS )); then
-            CONTROLLER_RESTARTS=0
-            CONTROLLER_NEXT_EPOCH=0
-            CONTROLLER_STARTED_EPOCH=0
+    if [[ "$ENABLE_REPAIR_CONTROLLER" == true ]]; then
+        if [[ -n "$CONTROLLER_PID" ]]; then
+            if (( CONTROLLER_STARTED_EPOCH > 0 &&
+                  now - CONTROLLER_STARTED_EPOCH >= STABLE_SECONDS )); then
+                CONTROLLER_RESTARTS=0
+                CONTROLLER_NEXT_EPOCH=0
+                CONTROLLER_STARTED_EPOCH=0
+            fi
+        elif (( now >= CONTROLLER_NEXT_EPOCH )); then
+            if (( CONTROLLER_RESTARTS >= MAX_CONTROLLER_RESTARTS )); then
+                detail="repair controller restart cap exceeded ($CONTROLLER_RESTARTS/$MAX_CONTROLLER_RESTARTS)"
+                write_supervisor_alert repair_controller "$detail"
+                write_status SUPERVISOR_ALERT "$detail; training was not killed"
+                log "$detail; wrote $SUPERVISOR_ALERT and stopped restarting"
+                exit 5
+            fi
+            launch_controller
         fi
-    elif (( now >= CONTROLLER_NEXT_EPOCH )); then
-        if (( CONTROLLER_RESTARTS >= MAX_CONTROLLER_RESTARTS )); then
-            detail="repair controller restart cap exceeded ($CONTROLLER_RESTARTS/$MAX_CONTROLLER_RESTARTS)"
-            write_supervisor_alert repair_controller "$detail"
-            write_status SUPERVISOR_ALERT "$detail; training was not killed"
-            log "$detail; wrote $SUPERVISOR_ALERT and stopped restarting"
-            exit 5
-        fi
-        launch_controller
     fi
 
     if hard_alert_present && [[ -n "$SEQUENCE_PID" ]]; then
