@@ -334,12 +334,15 @@ def active_phase(spec: ArmSpec, processes: list[str]) -> str | None:
     joined = "\n".join(arm_processes(spec, processes))
     if not joined:
         return None
+    # Evaluation command lines include checkpoint/experiment labels such as
+    # ``..._stage1_100000...``. Detect the executable first so those labels do
+    # not get mistaken for an active trainer with a stale training log.
+    if "eval.py" in joined or "phase4_eval.py" in joined:
+        return "evaluation"
     if f"{spec.prefix}_stage2_50000" in joined:
         return "stage2_training"
     if f"{spec.prefix}_stage1_100000" in joined:
         return "stage1_training"
-    if "eval.py" in joined or "phase4_eval.py" in joined:
-        return "evaluation"
     return "wrapper_or_preflight"
 
 
@@ -898,6 +901,14 @@ def self_test() -> None:
         "noq", "k2_balanced", "k5_balanced", "k10_balanced",
         "k3_balanced", "k5_fixed", "k10_fixed",
     ]
+    k5 = queue_specs()[2]
+    assert active_phase(
+        k5,
+        [
+            "123 python phase4_eval.py --exp_name "
+            "phase8_qwen_bucket_quarter_k5_balanced_stage1_100000_musiccaps"
+        ],
+    ) == "evaluation"
 
 
 def main() -> int:
