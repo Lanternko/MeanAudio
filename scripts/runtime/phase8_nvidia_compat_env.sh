@@ -14,22 +14,47 @@ PHASE8_NVIDIA_EXPECTED_LIBCUDA_SHA256="76e0d9678d41cf6b6ae71d18549d88a963d3d434f
 PHASE8_NVIDIA_EXPECTED_LIBNVML_SHA256="9eb4358b7fea76556657670a6ae6b0017eaa4256b56c421a36626bf8c2b5f3f5"
 PHASE8_NVIDIA_COMPAT_ACTIVE="${PHASE8_NVIDIA_COMPAT_ACTIVE:-false}"
 PHASE8_NVIDIA_COMPAT_DIR_REAL="${PHASE8_NVIDIA_COMPAT_DIR_REAL:-}"
+PHASE8_NVIDIA_SYSTEM_ACTIVE="${PHASE8_NVIDIA_SYSTEM_ACTIVE:-false}"
 PHASE8_NVIDIA_COMPAT_ERROR=""
 
 phase8_nvidia_kernel_version() {
-    local version_file=/proc/driver/nvidia/version
+    local version_file="${1:-/proc/driver/nvidia/version}"
     [[ -r "$version_file" ]] || {
         echo "kernel version file is unreadable: $version_file" >&2
         return 1
     }
-    awk '{
-        for (i = 1; i <= NF; i++) {
-            if ($i ~ /^[0-9]+\.[0-9]+\.[0-9]+$/) {
-                print $i
-                exit
+    awk '
+        /^NVRM version:/ {
+            for (i = 1; i <= NF; i++) {
+                if ($i ~ /^[0-9]+\.[0-9]+(\.[0-9]+)?$/) {
+                    print $i
+                    found = 1
+                    exit
+                }
             }
         }
-    }' "$version_file"
+        END { if (!found) exit 1 }
+    ' "$version_file"
+}
+
+phase8_nvidia_system_preflight() {
+    local kernel_version="$1" smi_bin driver_versions version
+    smi_bin="${NVIDIA_SMI_BIN:-nvidia-smi}"
+    command -v "$smi_bin" >/dev/null 2>&1 || return 1
+    driver_versions=$(
+        env -u LD_LIBRARY_PATH "$smi_bin" \
+            --query-gpu=driver_version --format=csv,noheader,nounits \
+            2>/dev/null
+    ) || return 1
+    [[ -n "$driver_versions" ]] || return 1
+    while IFS= read -r version; do
+        version="${version//[[:space:]]/}"
+        [[ "$version" == "$kernel_version" ]] || return 1
+    done <<<"$driver_versions"
+    PHASE8_NVIDIA_SYSTEM_ACTIVE=true
+    PHASE8_NVIDIA_COMPAT_DIR_REAL=""
+    printf 'kernel=%s userspace=system driver=%s\n' \
+        "$kernel_version" "$driver_versions"
 }
 
 phase8_nvidia_real_library() {
@@ -79,13 +104,17 @@ phase8_nvidia_validate_library() {
 phase8_nvidia_compat_preflight() {
     local kernel_version dir_real cuda_real nvml_real
     PHASE8_NVIDIA_COMPAT_ERROR=""
+    PHASE8_NVIDIA_SYSTEM_ACTIVE=false
 
     kernel_version=$(phase8_nvidia_kernel_version 2>&1) || {
         PHASE8_NVIDIA_COMPAT_ERROR="$kernel_version"
         return 1
     }
     if [[ "$kernel_version" != "$PHASE8_NVIDIA_EXPECTED_VERSION" ]]; then
-        PHASE8_NVIDIA_COMPAT_ERROR="loaded kernel=$kernel_version expected=$PHASE8_NVIDIA_EXPECTED_VERSION"
+        if phase8_nvidia_system_preflight "$kernel_version"; then
+            return 0
+        fi
+        PHASE8_NVIDIA_COMPAT_ERROR="loaded kernel=$kernel_version differs from compat=$PHASE8_NVIDIA_EXPECTED_VERSION and system userspace is not aligned"
         return 1
     fi
 
@@ -122,10 +151,25 @@ phase8_nvidia_compat_preflight() {
 }
 
 phase8_nvidia_compat_apply() {
+    local entry filtered=""
     if ! phase8_nvidia_compat_preflight; then
         PHASE8_NVIDIA_COMPAT_ACTIVE=false
         printf '%s\n' "$PHASE8_NVIDIA_COMPAT_ERROR" >&2
         return 1
+    fi
+    if [[ "$PHASE8_NVIDIA_SYSTEM_ACTIVE" == true ]]; then
+        IFS=: read -ra phase8_nvidia_ld_entries <<<"${LD_LIBRARY_PATH:-}"
+        for entry in "${phase8_nvidia_ld_entries[@]}"; do
+            [[ -n "$entry" && "$entry" != "$PHASE8_NVIDIA_COMPAT_DIR" ]] || continue
+            filtered="${filtered:+$filtered:}$entry"
+        done
+        if [[ -n "$filtered" ]]; then
+            export LD_LIBRARY_PATH="$filtered"
+        else
+            unset LD_LIBRARY_PATH
+        fi
+        export PHASE8_NVIDIA_COMPAT_ACTIVE=true
+        return 0
     fi
     case ":${LD_LIBRARY_PATH:-}:" in
         *":$PHASE8_NVIDIA_COMPAT_DIR_REAL:"*) ;;
