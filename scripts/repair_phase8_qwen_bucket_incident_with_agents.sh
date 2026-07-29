@@ -108,6 +108,40 @@ def audit(state_dir: Path, state: dict[str, Any], event: str, **fields: Any) -> 
         handle.write(json.dumps({"seq": state["audit_seq"], **record}, sort_keys=True)[:12000] + "\n")
 
 
+def close_in_progress_transactions(
+    state_dir: Path,
+    state: dict[str, Any],
+    *,
+    reason: str,
+    detail: str,
+) -> int:
+    """Fail closed after a model/controller interruption without retrying."""
+    closed = 0
+    for fingerprint, entry in state.get("incidents", {}).items():
+        if not isinstance(entry, dict):
+            continue
+        prior_state = entry.get("state")
+        if prior_state not in {"repair_in_progress", "sol_in_progress"}:
+            continue
+        entry.update({
+            "state": "failed_manual",
+            "failure_kind": reason,
+            "failure": {"detail": detail[:2000], "prior_state": prior_state},
+            "closed_at": utc_now(),
+        })
+        audit(
+            state_dir,
+            state,
+            "transaction_closed_manual",
+            fingerprint=fingerprint,
+            reason=reason,
+            prior_state=prior_state,
+            llm_calls=0,
+        )
+        closed += 1
+    return closed
+
+
 def observation_signature(path: Path) -> str | None:
     return file_sha256(path)
 
@@ -235,6 +269,21 @@ def git_revision(worktree: Path, args: list[str]) -> str:
 
 
 def validate_luna_report(report: dict[str, Any], fp: str, worktree: Path, branch: str, base: str) -> dict[str, Any]:
+    if report.get("decision") != "repair":
+        raise RuntimeError("Luna did not return a complete repair proposal")
+    if report.get("contract_preserved") is not True:
+        raise RuntimeError("Luna repair does not prove contract preservation")
+    tests = report.get("tests")
+    if not isinstance(tests, list) or not tests or any(
+        not isinstance(test, dict) or test.get("status") != "passed"
+        for test in tests
+    ):
+        raise RuntimeError("Luna repair requires all declared tests to pass")
+    for field in ("proposed_command", "rollback_command"):
+        if not isinstance(report.get(field), str) or not report[field].strip():
+            raise RuntimeError(f"Luna repair is missing {field}")
+    if report.get("execution_authorized") is not False:
+        raise RuntimeError("Luna may propose but never authorize execution")
     if report.get("incident_fingerprint") != fp:
         raise RuntimeError("Luna report fingerprint mismatch")
     if Path(str(report.get("worktree", ""))).resolve() != worktree.resolve():
@@ -327,6 +376,11 @@ def run_bounded_command(command: str, *, timeout_seconds: int, output_bytes: int
 def checkpoint_baseline(status: dict[str, Any]) -> dict[str, Any]:
     arm = relevant_arm(status) or {}
     checkpoint = arm.get("checkpoint") if isinstance(arm.get("checkpoint"), dict) else {}
+    final_metrics = (
+        arm.get("final_metrics")
+        if isinstance(arm.get("final_metrics"), dict)
+        else {}
+    )
     paths = [checkpoint.get("stage1_path"), checkpoint.get("stage2_path")]
     mtimes = []
     for raw in paths:
@@ -343,11 +397,24 @@ def checkpoint_baseline(status: dict[str, Any]) -> dict[str, Any]:
         "checkpoint_iteration": checkpoint.get("iteration"),
         "checkpoint_paths": paths,
         "checkpoint_mtime": max(mtimes, default=0.0),
+        "final_metrics_valid": final_metrics.get("valid") is True,
+        "hard_incident": status.get("status") == "hard_incident",
     }
 
 
 def forward_progress(status: dict[str, Any], baseline: dict[str, Any]) -> dict[str, Any]:
     arm = relevant_arm(status) or {}
+    final_metrics = (
+        arm.get("final_metrics")
+        if isinstance(arm.get("final_metrics"), dict)
+        else {}
+    )
+    incident_cleared = status.get("status") != "hard_incident"
+    final_metrics_valid = final_metrics.get("valid") is True
+    final_metrics_became_valid = (
+        final_metrics_valid
+        and baseline.get("final_metrics_valid") is not True
+    )
     active = (
         status.get("active_arm") == baseline.get("arm")
         and arm.get("key") == baseline.get("arm")
@@ -379,15 +446,24 @@ def forward_progress(status: dict[str, Any], baseline: dict[str, Any]) -> dict[s
             except OSError:
                 pass
     checkpoint_updated = max(mtimes, default=0.0) > float(baseline.get("checkpoint_mtime", 0.0))
+    work_advanced = bool(active and (iteration_increased or checkpoint_updated))
     progressed = bool(
-        arm.get("state") == "complete"
-        or (active and (iteration_increased or checkpoint_updated))
+        incident_cleared
+        and (
+            final_metrics_became_valid
+            or (arm.get("state") == "complete" and final_metrics_valid)
+            or work_advanced
+        )
     )
     return {
         "active": active,
         "iteration": iteration,
         "iteration_increased": iteration_increased,
         "checkpoint_updated": checkpoint_updated,
+        "incident_cleared": incident_cleared,
+        "final_metrics_valid": final_metrics_valid,
+        "final_metrics_became_valid": final_metrics_became_valid,
+        "work_advanced": work_advanced,
         "progressed": progressed,
     }
 
@@ -814,8 +890,8 @@ def process_once(args: argparse.Namespace, state: dict[str, Any]) -> dict[str, A
     write_evidence(evidence_path, evidence)
     entry = state["incidents"].setdefault(fp, {"luna_calls": 0, "sol_calls": 0, "state": "new"})
     now = time.time()
-    if entry.get("luna_calls", 0) >= 1:
-        audit(args.state_dir, state, "incident_suppressed", fingerprint=fp, reason="fingerprint_already_called", llm_calls=0)
+    if entry.get("luna_calls", 0) >= 1 or entry.get("sol_calls", 0) >= 1:
+        audit(args.state_dir, state, "incident_suppressed", fingerprint=fp, reason="transaction_already_started", llm_calls=0)
         atomic_json(args.state_dir / "state.json", state)
         return {"status": "suppressed", "fingerprint": fp, "llm_calls": 0}
     if now < float(state.get("cooldown_until", 0.0)):
@@ -832,15 +908,40 @@ def process_once(args: argparse.Namespace, state: dict[str, Any]) -> dict[str, A
     slug = fp[:12]
     worktree = (args.worktree_root / f"phase8-qwen-bucket-repair-{slug}").resolve()
     branch = f"codex/phase8-qwen-bucket-repair/{slug}"
+    base = "1" * 40 if args.stub else git_revision(args.root, ["rev-parse", "HEAD"])
+
+    # Reserve both model-call slots before starting the first model.  If the
+    # controller dies during either invocation, a later poll suppresses the
+    # fingerprint instead of opening a duplicate agent or replaying context.
+    entry.update({
+        "state": "repair_in_progress",
+        "luna_calls": 1,
+        "sol_calls": 0,
+        "evidence": str(evidence_path),
+        "worktree": str(worktree),
+        "branch": branch,
+        "base_commit": base,
+        "repair_started_at": utc_now(),
+    })
+    state["cooldown_until"] = now + args.cooldown_seconds
+    audit(
+        args.state_dir,
+        state,
+        "repair_started",
+        fingerprint=fp,
+        worktree=str(worktree),
+        branch=branch,
+        base_commit=base,
+        llm_calls=1,
+    )
+    atomic_json(args.state_dir / "state.json", state)
+
     if args.stub:
         luna = fake_luna(fp, worktree, branch)
-        entry["luna_calls"] = 1
-        entry["state"] = "luna_stubbed"
         atomic_json(incident_dir / "luna_report.json", luna)
         commit = luna["repair_commit"]
         diff_hash = luna["diff_sha256"]
     else:
-        base = git_revision(args.root, ["rev-parse", "HEAD"])
         ensure_isolated_worktree(args.root, worktree, branch, base)
         prompt = incident_dir / "luna_prompt.md"
         prompt.write_text(args.luna_prompt.read_text(encoding="utf-8") + f"\n\nIncident fingerprint: {fp}\nEvidence: {evidence_path}\nWorktree: {worktree}\nBranch: {branch}\n", encoding="utf-8")
@@ -850,14 +951,47 @@ def process_once(args: argparse.Namespace, state: dict[str, Any]) -> dict[str, A
             raise RuntimeError("Luna report is not valid JSON")
         luna = validate_luna_report(luna, fp, worktree, branch, base)
         atomic_json(incident_dir / "luna_report.json", luna)
-        entry["luna_calls"] = 1
-        entry["state"] = "luna_completed"
         commit = luna["validated_head"]
         diff_hash = luna["diff_sha256"]
-    state["cooldown_until"] = now + args.cooldown_seconds
-    audit(args.state_dir, state, "luna_called", fingerprint=fp, worktree=str(worktree), branch=branch, commit=commit, llm_calls=1)
-    # Persist the one-call budget before SOL starts.  A SOL timeout or malformed
-    # verdict must never cause a second Luna implementation call on retry.
+
+    # Stub reports use the same command checks as live reports.  Live reports
+    # have additionally passed exact-commit, clean-worktree, diff, and test
+    # validation above.  SOL is not called until this complete proposal exists.
+    safe_command(luna.get("proposed_command"), stub=args.stub)
+    safe_command(luna.get("rollback_command"), stub=args.stub)
+    entry.update({
+        "state": "repair_complete",
+        "commit": commit,
+        "diff_sha256": diff_hash,
+        "repair_completed_at": utc_now(),
+    })
+    audit(
+        args.state_dir,
+        state,
+        "repair_completed",
+        fingerprint=fp,
+        worktree=str(worktree),
+        branch=branch,
+        commit=commit,
+        diff_sha256=diff_hash,
+        llm_calls=1,
+    )
+    atomic_json(args.state_dir / "state.json", state)
+
+    # Reserve the single SOL call only after the repair agent has completed and
+    # the local proposal checks have passed.  A SOL failure is manual review;
+    # the persisted count prevents a duplicate review on the next poll.
+    entry["sol_calls"] = 1
+    entry["state"] = "sol_in_progress"
+    audit(
+        args.state_dir,
+        state,
+        "sol_started",
+        fingerprint=fp,
+        commit=commit,
+        diff_sha256=diff_hash,
+        llm_calls=1,
+    )
     atomic_json(args.state_dir / "state.json", state)
 
     sol_path = incident_dir / "sol_verdict.json"
@@ -873,7 +1007,6 @@ def process_once(args: argparse.Namespace, state: dict[str, Any]) -> dict[str, A
         sol = read_json(sol_path)
         if sol is None:
             raise RuntimeError("SOL verdict is not valid JSON")
-    entry["sol_calls"] = 1
     fresh = sol_path.is_file() and 0 <= time.time() - sol_path.stat().st_mtime <= args.fresh_seconds
     authorized = bool(
         sol.get("decision") == "approve"
@@ -929,7 +1062,7 @@ def main() -> int:
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--once", action="store_true")
     mode.add_argument("--loop", action="store_true")
-    parser.add_argument("--interval-seconds", type=int, default=30)
+    parser.add_argument("--interval-seconds", type=int, default=120)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--stub", action="store_true")
     parser.add_argument("--stub-fail-command", action="store_true")
@@ -1003,11 +1136,24 @@ def main() -> int:
         except BlockingIOError:
             raise SystemExit("another repair controller is already running")
         state = load_state(args.state_dir / "state.json")
+        if close_in_progress_transactions(
+            args.state_dir,
+            state,
+            reason="controller_restart_during_model_call",
+            detail="Persisted in-progress model state found at controller startup; automatic retry is forbidden.",
+        ):
+            atomic_json(args.state_dir / "state.json", state)
         while True:
             try:
                 result = process_once(args, state)
                 print(json.dumps(result, sort_keys=True), flush=True)
             except Exception as exc:  # fail closed and preserve audit context
+                close_in_progress_transactions(
+                    args.state_dir,
+                    state,
+                    reason="controller_error",
+                    detail=str(exc),
+                )
                 audit(args.state_dir, state, "controller_error", error=str(exc)[:2000], llm_calls=0)
                 atomic_json(args.state_dir / "state.json", state)
                 print(json.dumps({"status": "error", "error": str(exc)[:2000], "llm_calls": 0}, sort_keys=True), flush=True)

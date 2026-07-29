@@ -9,6 +9,8 @@ DATA=/mnt/HDD/kojiek/phase4_jamendo_data
 LOG_ROOT=/home/kojiek/logs
 EVALUATOR=/home/kojiek/research/meanaudio_eval/phase4_eval.py
 GRID_MANIFEST="$DATA/phase8_qwen_meansim_bucket_grid.manifest.json"
+EVAL_OUTPUT_ROOT="${EVAL_OUTPUT_ROOT:-$ROOT/eval_output}"
+export EVAL_OUTPUT_ROOT
 PILOT_TSV="$ROOT/smoke_data/phase8_qwen_bucket_grid_musiccaps_seed14159265_n512.tsv"
 FULL_TSV="$DATA/musiccaps_test.tsv"
 HOLDOUT_TSV="$ROOT/smoke_data/phase8_qwen_bucket_grid_musiccaps_holdout_n5009.tsv"
@@ -146,8 +148,8 @@ fi
 
 run_eval() {
     local label="$1" variant="$2" model="$3" q="$4"
-    local out="$ROOT/eval_output/$label"
-    local metrics="$ROOT/eval_output/metrics/$label/metrics.txt"
+    local out="$EVAL_OUTPUT_ROOT/$label"
+    local metrics="$EVAL_OUTPUT_ROOT/metrics/$label/metrics.txt"
     local eval_log="$LOG_ROOT/${label}_eval.log"
     local provenance="$out/provenance.json"
     local protocol=()
@@ -218,6 +220,7 @@ PY
     fi
     bind_eval_provenance
     python "$EVALUATOR" --gen_dir "$out/audio" --tsv "$PROMPTS" \
+        --out_dir "$EVAL_OUTPUT_ROOT/metrics" \
         --exp_name "$label" --num_samples "$N" 2>&1 | tee -a "$eval_log"
     [ -f "$metrics" ] || { echo "[FAIL] no metrics for $label" >&2; exit 2; }
 }
@@ -249,11 +252,12 @@ S2_HOLDOUT=
 score_holdout() {
     local source_label="$1"
     local label="${source_label}_holdout5009"
-    local metrics="$ROOT/eval_output/metrics/$label/metrics.txt"
+    local metrics="$EVAL_OUTPUT_ROOT/metrics/$label/metrics.txt"
     local eval_log="$LOG_ROOT/${label}_eval.log"
     if [ ! -f "$metrics" ]; then
         python "$EVALUATOR" \
-            --gen_dir "$ROOT/eval_output/$source_label/audio" \
+            --gen_dir "$EVAL_OUTPUT_ROOT/$source_label/audio" \
+            --out_dir "$EVAL_OUTPUT_ROOT/metrics" \
             --tsv "$HOLDOUT_TSV" --exp_name "$label" --num_samples 5009 \
             2>&1 | tee "$eval_log"
     fi
@@ -287,7 +291,7 @@ from pathlib import Path
 (out, grid_path, k, strategy, scale, n, prompts, audit, reused,
  s1_high_label, s2_high_label, s1_low_label, s2_low_label,
  s1_holdout_label, s2_holdout_label, s1_model, s2_model) = sys.argv[1:]
-metrics_root = Path("/home/kojiek/MeanAudio/eval_output/metrics")
+metrics_root = Path(os.environ["EVAL_OUTPUT_ROOT"]) / "metrics"
 required = {"clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"}
 def read(label):
     if not label:

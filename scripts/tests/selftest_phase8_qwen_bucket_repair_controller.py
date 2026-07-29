@@ -19,6 +19,8 @@ def write_status(
     incident: bool,
     detail: str = "stale_active_log",
     processes: list[str] | None = None,
+    arm_state: str = "active",
+    final_metrics_valid: bool = False,
 ) -> None:
     payload = {
         "schema_version": 1,
@@ -27,7 +29,16 @@ def write_status(
         "active_arm": "k2_balanced" if incident else None,
         "queue": {"first_incomplete": "k2_balanced"},
         "hard_incidents": ([{"severity": "hard", "code": detail, "detail": "synthetic"}] if incident else []),
-        "arms": ([{"key": "k2_balanced", "state": "active", "phase": "stage1_training", "latest_iteration": 1000, "latest_metrics": {"loss": 1.0}, "grad_health": {"unhealthy": False}, "active_log": None}] if incident else []),
+        "arms": ([{
+            "key": "k2_balanced",
+            "state": arm_state,
+            "phase": "stage1_training",
+            "latest_iteration": 1000,
+            "latest_metrics": {"loss": 1.0},
+            "grad_health": {"unhealthy": False},
+            "active_log": None,
+            "final_metrics": {"valid": final_metrics_valid},
+        }] if incident else []),
         "processes": processes or [],
         "tmux": [],
         "gpu": {"status": "ok"},
@@ -69,10 +80,42 @@ def main() -> None:
         assert suppressed["status"] in {"unchanged", "suppressed", "approved"}
         assert suppressed.get("llm_calls", 0) == 0
 
+        # A controller restart never retries a model call that was already
+        # reserved. It closes the interrupted transaction for manual review.
+        interrupted_state = base / "interrupted-state"
+        interrupted_state.mkdir()
+        interrupted_fp = "a" * 64
+        (interrupted_state / "state.json").write_text(json.dumps({
+            "schema_version": 1,
+            "last_observation_signature": None,
+            "cooldown_until": 0.0,
+            "incidents": {
+                interrupted_fp: {
+                    "state": "repair_in_progress",
+                    "luna_calls": 1,
+                    "sol_calls": 0,
+                }
+            },
+        }) + "\n")
+        write_status(status, incident=False)
+        restarted, _ = run(
+            "--once", "--status", str(status),
+            "--state-dir", str(interrupted_state), "--dry-run",
+        )
+        assert restarted["llm_calls"] == 0
+        interrupted_payload = json.loads(
+            (interrupted_state / "state.json").read_text()
+        )
+        interrupted_entry = interrupted_payload["incidents"][interrupted_fp]
+        assert interrupted_entry["state"] == "failed_manual"
+        assert interrupted_entry["luna_calls"] == 1
+        assert interrupted_entry["sol_calls"] == 0
+
         # The only executable stub command is harmless and requires the same
         # exact fresh revision authorization path as a real run.  Use a new
         # state directory so this is a real approval/execution path, not an
         # unchanged-observation shortcut.
+        write_status(status, incident=True)
         exec_state = base / "exec-state"
         executed, _ = run("--once", "--status", str(status), "--state-dir", str(exec_state), "--stub", "--execute-approved")
         assert executed["status"] == "awaiting_forward_progress"
@@ -156,6 +199,45 @@ def main() -> None:
         )
         assert progressed["status"] == "repair_complete"
         assert progressed["forward_progress"]["progressed"] is True
+
+        # A stale training iteration must never close a metrics incident while
+        # the hard incident remains. Completion requires a healthy observation
+        # and valid final metrics (or genuine post-repair active work).
+        metrics_state = base / "metrics-state"
+        write_status(
+            status,
+            incident=True,
+            detail="missing_metrics",
+            arm_state="stalled_or_transition",
+        )
+        metrics_awaiting, _ = run(
+            "--once", "--status", str(status), "--state-dir",
+            str(metrics_state), "--stub", "--execute-approved",
+        )
+        assert metrics_awaiting["status"] == "awaiting_forward_progress"
+        payload = json.loads(status.read_text())
+        payload["arms"][0]["latest_iteration"] = 1001
+        status.write_text(json.dumps(payload) + "\n")
+        still_blocked, _ = run(
+            "--once", "--status", str(status), "--state-dir",
+            str(metrics_state), "--stub", "--execute-approved",
+        )
+        assert still_blocked["status"] == "awaiting_forward_progress"
+        assert still_blocked["forward_progress"]["progressed"] is False
+        payload["status"] = "healthy"
+        payload["hard_incidents"] = []
+        payload["arms"][0]["state"] = "complete"
+        payload["arms"][0]["final_metrics"] = {"valid": True}
+        status.write_text(json.dumps(payload) + "\n")
+        metrics_complete, _ = run(
+            "--once", "--status", str(status), "--state-dir",
+            str(metrics_state), "--stub", "--execute-approved",
+        )
+        assert metrics_complete["status"] == "repair_complete"
+        assert (
+            metrics_complete["forward_progress"]["final_metrics_became_valid"]
+            is True
+        )
 
     print("phase8 qwen bucket repair controller self-test: passed")
 

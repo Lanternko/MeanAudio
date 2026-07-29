@@ -38,9 +38,32 @@ scientific contract and shared-host safety.
    until SOL returns an explicit approval tied to that exact revision.
 6. After approval, apply only the approved repair and command. Resume the same
    experiment contract; never start a competing copy.
-7. Re-run the deterministic monitor and require evidence of forward progress.
-   Roll back the process-local repair if validation fails, then escalate the new
-   fingerprint instead of looping blindly.
+7. Re-run the deterministic monitor and require evidence specific to the failed
+   phase: a new iteration/checkpoint for training, or newly valid metrics/final
+   report with matching provenance for evaluation/reporting. The original hard
+   incident must also disappear. Never accept a stale training iteration as
+   recovery from an evaluation incident. Roll back the process-local repair if
+   validation fails, then escalate the new fingerprint instead of looping
+   blindly.
+
+## One-shot repair transaction
+
+- The incident fingerprint is the transaction key. Persist its state and acquire
+  the controller lock before launching any model.
+- For one fingerprint, launch at most one low-cost repair agent and at most one
+  SOL review. Never open a second agent, resume an agent, or resend the same
+  context for that fingerprint.
+- The repair agent must finish diagnosis, minimal patch, tests, contract check,
+  clean commit, diff hash, rollback command, and exact proposed command in one
+  invocation. SOL is forbidden until every item is present and locally
+  validated.
+- A timeout, malformed report, failed test, or SOL `revise`/`reject` is a closed
+  transaction requiring human review. Do not automatically retry or create a
+  replacement agent. Only a materially new local fingerprint may start a new
+  transaction.
+- SOL receives only the bounded evidence, repair report, exact revision, diff
+  hash, and commands. It must not be used to finish an incomplete repair or as
+  an iterative debugging partner.
 
 Automatic repair is limited to reversible changes within the assigned
 experiment. Destructive actions, scientific-contract changes, system-wide
@@ -50,8 +73,12 @@ human approval.
 ## Model and token policy
 
 - Routine polling is local Python/shell only.
-- Invoke a low-cost model only for a new or materially changed incident.
-- Invoke SOL only to review a concrete repair/stop proposal with bounded
-  evidence; never use SOL as a recurring poller.
-- Suppress repeated identical incident calls and persist fingerprints/verdicts.
-
+- Healthy/unchanged checks use zero model calls. A new fingerprint gets at most
+  one low-cost repair call plus one SOL call; a stop-only candidate gets one SOL
+  call and no repair call.
+- Never use `subagent_resume`, periodic LLM schedulers, or repeated context
+  replay for monitoring. Persist fingerprints, call counts, stage, verdict, and
+  report hashes locally so a controller restart continues locally.
+- Suppress repeated identical incidents indefinitely until a materially new
+  fingerprint or explicit operator action; do not spend tokens proving the same
+  incident again.

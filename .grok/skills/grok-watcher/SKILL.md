@@ -1,6 +1,6 @@
 ---
 name: grok-watcher
-description: Safely supervise long-running MeanAudio experiments with local event-driven monitoring. Grok is reserved for new incidents and terminal reports, never routine polling or session-resume loops.
+description: Safely supervise long-running MeanAudio experiments with local event-driven monitoring and one-shot repair transactions. Use one repair agent and one SOL review per new incident; never routine polling, repeated context replay, or session-resume loops.
 ---
 
 # Grok Watcher
@@ -11,19 +11,23 @@ each resumed watcher reloads context and consumes model quota.
 
 ## Token budget is a hard constraint
 
-- Default to **zero recurring LLM calls**. Use a local Python/shell observer plus
-  the Discord completion/failure wrapper.
-- Never create a five-minute Grok, Codex, Luna, or Sol scheduler.
-- Never use `subagent_resume` for monitoring. Each incident review must be a new,
-  compact request containing only bounded current evidence.
-- Do not reread project history, long handoff documents, or prior session context
-  on every observation.
-- A healthy or unchanged observation must cause no model call.
-- One experiment may have at most one local observer and zero LLM schedulers.
-- Stop the observer when the experiment reaches a terminal state.
-- If the user explicitly requests recurring LLM review, require an interval of at
-  least 60 minutes, a maximum of 12 reviews per day, and automatic deletion at
-  completion. State the expected quota cost before enabling it.
+- Default to **zero recurring LLM calls**. A local Python/shell observer owns
+  polling, fingerprinting, and notifications.
+- Never create a five-minute Grok, Codex, Luna, or SOL scheduler. Never use
+  `subagent_resume` for monitoring.
+- For one incident fingerprint, the hard maximum is **one** low-cost repair
+  agent and **one** SOL review. A stop-only candidate gets one SOL review and no
+  repair agent. No automatic retry, replacement agent, or feedback loop.
+- The single repair request must finish diagnosis, patch, tests, contract check,
+  clean commit, diff hash, rollback command, and proposed command. Do not call
+  SOL while any of these is incomplete.
+- Do not reread project history, long handoffs, or conversation context on every
+  observation. Prompts contain only bounded current evidence and file paths.
+- Healthy or unchanged observations cause zero model calls. Persist the
+  fingerprint, stage, call counts, report/verdict hashes, and failure state
+  locally so a controller restart continues from local state.
+- One experiment may have at most one local observer and one repair controller;
+  both require a lock. Stop them at terminal completion.
 
 ## Preserve the role boundary
 
@@ -31,9 +35,11 @@ each resumed watcher reloads context and consumes model quota.
   restart shared services, use system-wide package changes, or signal another
   user's processes. These actions always require explicit operator coordination.
 - Let deterministic local code monitor and fingerprint incidents.
-- Let a low-cost model diagnose a new incident and prepare the smallest
-  reversible repair in an isolated worktree.
-- Let Codex SOL review stop candidates and exact committed repair proposals.
+- Let one low-cost model invocation diagnose a new incident and prepare the
+  smallest reversible repair in an isolated worktree.
+- Let Codex SOL review only a complete, locally validated, exact committed repair
+  proposal or stop proposal. SOL does not finish repairs or run an iterative
+  debugging loop.
 - Never edit, switch branches, merge, or apply patches in the live `/home/kojiek/MeanAudio` worktree while a pipeline may read it.
 - Never start a second copy of an experiment.
 - Never treat a monitor exit code as permission to stop training.
@@ -77,7 +83,8 @@ For the active Phase8 clean-NoQ experiment, use:
    - execute nothing proposed until Codex SOL explicitly approves the exact
      revision and command;
    - after approval, apply only reversible experiment-scoped changes, resume the
-     same run, and confirm a new checkpoint/iteration before closing the incident.
+     same run, and confirm evidence specific to the failed phase before closing
+     the incident.
 4. Verify there are no LLM watcher processes or scheduler jobs after setup.
 5. Observe the first local check. Confirm a healthy run stays untouched and no
    model session is created.
@@ -97,14 +104,45 @@ For AMP training, classify one `grad_norm:nan/inf` followed by finite loss and f
 Require a second local observation for stale log, missing process, or GPU-idle
 incidents unless the process has already terminated. Never use an old ALERT as
 current evidence. Repeated identical incidents do not authorize repeated LLM
-calls; suppress them for at least six hours.
+calls; suppress them indefinitely until an operator or materially new
+fingerprint changes the transaction.
+
+## One-shot repair state machine
+
+Use one persisted transaction per incident fingerprint:
+
+`NEW → EVIDENCE_CAPTURED → REPAIR_IN_PROGRESS → REPAIR_COMPLETE → SOL_REVIEWED → APPROVED → RESUMING → FORWARD_PROGRESS`
+
+- Before `REPAIR_IN_PROGRESS`, acquire the controller lock and persist the
+  fingerprint, evidence hash, and `repair_calls=0, sol_calls=0`.
+- `REPAIR_IN_PROGRESS` permits exactly one low-cost agent. The agent must return
+  the complete report and exact commit; a timeout or malformed/incomplete report
+  becomes `FAILED_MANUAL` and cannot reopen the agent automatically.
+- Enter `SOL_REVIEWED` only after local validation proves: clean worktree, exact
+  commit, diff hash, tests passed, contract preserved, safe proposed/rollback
+  commands, and bounded evidence. Then make exactly one SOL call.
+- A SOL `approve` must bind fingerprint, commit, diff hash, and exact command.
+  `revise`, `reject`, timeout, or invalid output becomes `FAILED_MANUAL`; do not
+  launch another agent or send the same context again.
+- After approval, apply only the exact approved command, then use local checks to
+  confirm forward progress. A failed repair is a new local failure record, not
+  permission to loop; escalate it unless deterministic evidence produces a
+  genuinely new fingerprint.
+- Bind forward progress to the incident phase. Training incidents require a new
+  iteration/checkpoint after the repair. Evaluation/reporting incidents require
+  a newly valid metrics/final-report artifact with matching provenance. In all
+  cases the original hard incident must disappear. Never close an evaluation
+  incident from a stale training iteration or pre-repair checkpoint.
+- Only a materially new fingerprint may start another transaction. “The same
+  incident is still present” is not materially new.
 
 ## Adjudicate a stop candidate
 
 1. Preserve `status.json`, `ALERT.json`, contract audit, process/tmux/GPU/disk
    state, and at most the most recent 100 relevant log lines. Keep the complete
    adjudication input below 20 KiB.
-2. Run an adjudicator only once for a new incident fingerprint. For Phase8:
+2. Run an adjudicator only once for a new incident fingerprint, after the
+   evidence is complete. For Phase8:
 
    ```bash
    cd /home/kojiek/MeanAudio
@@ -122,8 +160,9 @@ calls; suppress them for at least six hours.
 
 ## Draft fixes and new experiments
 
-1. Keep the live worktree untouched. Create a separate worktree under `/home/kojiek/grok-worktrees/<slug>` on a `grok/<slug>` branch.
-2. Modify, test, and commit only inside that worktree.
+1. Keep the live worktree untouched. Create a separate worktree under `/home/kojiek/grok-worktrees/<slug>` on a `grok/<slug>` branch. Do this once per fingerprint.
+2. Modify, test, and commit only inside that worktree. Finish the entire repair in
+   this one agent invocation; do not ask another agent to continue it.
 3. Add a committed proposal containing:
    - evidence and diagnosis;
    - falsifiable hypothesis and one controlled variable;
@@ -132,7 +171,7 @@ calls; suppress them for at least six hours.
    - GPU/time/disk budget;
    - stop and rollback policy;
    - test results.
-4. Require a clean worktree, then run:
+4. Require a clean worktree and all proposal fields, then run SOL exactly once:
 
    ```bash
    bash /home/kojiek/MeanAudio/scripts/review_grok_proposal_with_codex.sh \
@@ -140,7 +179,9 @@ calls; suppress them for at least six hours.
      /home/kojiek/grok-worktrees/<slug>/<proposal-file>
    ```
 
-5. Reject execution when review fails, the commit changes after review, the verdict is stale, or the verdict says `revise` or `reject`.
+5. Reject execution when review fails, the commit changes after review, the
+   verdict is stale, or the verdict says `revise` or `reject`. Do not retry the
+   agent or SOL automatically.
 6. Execute only the exact `approved_command` when the verdict matches the current commit and contains `decision=approve` plus `execution_authorized=true`. Do not add parameters or compete with the active experiment for GPU or artifacts.
 7. For an approved repair, record the incident fingerprint, reviewed commit,
    applied diff/hash, command, rollback command, and post-resume observation.
