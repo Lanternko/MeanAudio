@@ -34,8 +34,10 @@ scientific contract and shared-host safety.
 4. Run syntax, unit, preflight, and non-invasive runtime checks. The repair must
    not alter data, seed, hyperparameters, queue order, or metric definitions.
 5. Submit the exact diff/commit, evidence, tests, rollback, and proposed resume
-   command to Codex SOL. No repair may touch the live run or resume execution
-   until SOL returns an explicit approval tied to that exact revision.
+   command to a Codex review model at Tera tier or above. No repair may touch
+   the live run or resume execution until an eligible reviewer returns an
+   explicit approval tied to that exact revision. Explicit authorization from
+   the responsible human experiment operator is equivalent approval.
 6. After approval, apply only the approved repair and command. Resume the same
    experiment contract; never start a competing copy.
 7. Re-run the deterministic monitor and require evidence specific to the failed
@@ -51,17 +53,17 @@ scientific contract and shared-host safety.
 - The incident fingerprint is the transaction key. Persist its state and acquire
   the controller lock before launching any model.
 - For one fingerprint, launch at most one low-cost repair agent and at most one
-  SOL review. Never open a second agent, resume an agent, or resend the same
+  Tera-or-higher review. Never open a second agent, resume an agent, or resend the same
   context for that fingerprint.
 - The repair agent must finish diagnosis, minimal patch, tests, contract check,
   clean commit, diff hash, rollback command, and exact proposed command in one
-  invocation. SOL is forbidden until every item is present and locally
+  invocation. Tera-or-higher review is forbidden until every item is present and locally
   validated.
-- A timeout, malformed report, failed test, or SOL `revise`/`reject` is a closed
+- A timeout, malformed report, failed test, or Tera-or-higher `revise`/`reject` is a closed
   transaction requiring human review. Do not automatically retry or create a
   replacement agent. Only a materially new local fingerprint may start a new
   transaction.
-- SOL receives only the bounded evidence, repair report, exact revision, diff
+- The eligible reviewer receives only the bounded evidence, repair report, exact revision, diff
   hash, and commands. It must not be used to finish an incomplete repair or as
   an iterative debugging partner.
 
@@ -74,7 +76,7 @@ human approval.
 
 - Routine polling is local Python/shell only.
 - Healthy/unchanged checks use zero model calls. A new fingerprint gets at most
-  one low-cost repair call plus one SOL call; a stop-only candidate gets one SOL
+  one low-cost repair call plus one Tera-or-higher review; a stop-only candidate gets one Tera-or-higher
   call and no repair call.
 - Never use `subagent_resume`, periodic LLM schedulers, or repeated context
   replay for monitoring. Persist fingerprints, call counts, stage, verdict, and
