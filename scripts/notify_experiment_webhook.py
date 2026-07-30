@@ -22,6 +22,9 @@ from typing import Any
 DEFAULT_WEBHOOK_FILE = Path("/home/kojiek/.config/meanaudio/discord_webhook_url")
 MAX_CONTENT = 1_950
 METRIC_KEYS = ("clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ")
+NOQ_REFERENCE_REPORT = Path(
+    "/home/kojiek/logs/phase8_qwen_bucket_quarter_noq_FINAL_METRICS.json"
+)
 
 
 def compact_duration(seconds: int | None) -> str:
@@ -59,12 +62,96 @@ def metric_line(label: str, values: dict[str, Any]) -> str | None:
     return f"- {label}: " + ", ".join(found) if found else None
 
 
+def read_report(path: Path | None) -> dict[str, Any] | None:
+    if path is None or not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    return payload if isinstance(payload, dict) else None
+
+
+def metric_values(section: Any) -> dict[str, float] | None:
+    if not isinstance(section, dict):
+        return None
+    values = {key: section.get(key) for key in METRIC_KEYS}
+    return values if all(isinstance(value, (int, float)) for value in values.values()) else None
+
+
+def primary_global_metrics(payload: dict[str, Any]) -> tuple[str, dict[str, float]] | None:
+    global_metrics = payload.get("global")
+    if not isinstance(global_metrics, dict):
+        return None
+    for key, label in (
+        ("high_q9", "q9"),
+        ("no_q", "NoQ"),
+        ("quarter_noq_baseline", "NoQ"),
+    ):
+        values = metric_values(global_metrics.get(key))
+        if values:
+            return label, values
+    return None
+
+
+def experiment_label(payload: dict[str, Any], fallback: str) -> str:
+    k = payload.get("k")
+    strategy = payload.get("strategy")
+    design = payload.get("design")
+    if design == "NoQ_S1_to_Q_S2_only" and isinstance(k, int):
+        return f"NoQ S1 → K{k} {strategy or 'Q'} S2"
+    if isinstance(k, int):
+        return f"K{k} {strategy or 'Q'}"
+    if payload.get("arm") == "noq" or "noq" in fallback.lower():
+        return "NoQ"
+    return fallback
+
+
+def first_screen_report(report: Path | None, fallback_name: str) -> list[str]:
+    """Return the concise result block placed before operational metadata."""
+    payload = read_report(report)
+    if payload is None:
+        return []
+    primary = primary_global_metrics(payload)
+    if primary is None:
+        return [f"**Result:** final report exists but has no recognized Global metric: `{report}`"]
+
+    endpoint, values = primary
+    global_metrics = payload["global"]
+    lines = [
+        f"**Design:** {experiment_label(payload, fallback_name)}",
+        f"**Global {endpoint} CLAP:** `{values['clap_score']:.4f}`",
+    ]
+    if payload.get("design") == "NoQ_S1_to_Q_S2_only":
+        reference = read_report(NOQ_REFERENCE_REPORT)
+        reference_primary = primary_global_metrics(reference) if reference else None
+        if reference_primary:
+            _, reference_values = reference_primary
+            delta = values["clap_score"] - reference_values["clap_score"]
+            lines[-1] += f"  ·  **Δ NoQ:** `{delta:+.4f}` (NoQ `{reference_values['clap_score']:.4f}`)"
+    holdout = metric_values(global_metrics.get("holdout5009_high_q9"))
+    if holdout:
+        lines.append(f"**Holdout q9 CLAP:** `{holdout['clap_score']:.4f}`")
+    low = metric_values(global_metrics.get("supported_low"))
+    steering = global_metrics.get("q9_minus_low_clap")
+    if low and isinstance(steering, (int, float)):
+        lines.append(
+            f"**Q response:** q9 `{values['clap_score']:.4f}` → low "
+            f"`{low['clap_score']:.4f}`  ·  **Δ:** `{steering:+.4f}`"
+        )
+    lines.append(
+        "**Aesthetics (Global):** "
+        f"CE `{values['aes_CE']:.4f}` · CU `{values['aes_CU']:.4f}` · "
+        f"PC `{values['aes_PC']:.4f}` · PQ `{values['aes_PQ']:.4f}`"
+    )
+    return lines
+
+
 def report_lines(report: Path | None) -> list[str]:
     if report is None or not report.is_file():
         return []
-    try:
-        payload = json.loads(report.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError):
+    payload = read_report(report)
+    if payload is None:
         return [f"- report artifact: `{report}` (not parseable as JSON)"]
 
     lines: list[str] = []
@@ -160,14 +247,16 @@ def build_content(args: argparse.Namespace) -> str:
     duration = None
     if args.started_epoch is not None:
         duration = max(0, int(datetime.now().timestamp()) - args.started_epoch)
-    lines = [
-        f"{emoji} **MeanAudio experiment {title}**",
-        f"**Experiment:** `{args.experiment}`",
-        f"**Time:** `{now}`",
-        f"**Host:** `{platform.node()}`",
-        f"**Git:** `{git_identity(args.repo)}`",
-        f"**Duration:** `{compact_duration(duration)}`",
-    ]
+    lines = [f"{emoji} **{title} · {args.experiment}**"]
+    if args.status == "success":
+        first_screen = first_screen_report(args.report, args.experiment)
+        if first_screen:
+            lines.extend(["", "**RESULT — read this first**", *first_screen])
+    lines.extend([
+        "",
+        f"**Duration:** `{compact_duration(duration)}`  ·  **Host:** `{platform.node()}`",
+        f"**Git:** `{git_identity(args.repo)}`  ·  **Time:** `{now}`",
+    ])
     if args.exit_code is not None:
         lines.append(f"**Exit code:** `{args.exit_code}`")
     if args.summary:
@@ -175,7 +264,7 @@ def build_content(args: argparse.Namespace) -> str:
 
     metrics = report_lines(args.report)
     if metrics:
-        lines.extend(["", "**Report:**", *metrics])
+        lines.extend(["", "**Detailed endpoints:**", *metrics])
     if args.status in {"failure", "interrupted"}:
         tail = failure_tail(args.log)
         if tail:
