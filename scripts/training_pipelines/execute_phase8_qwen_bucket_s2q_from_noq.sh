@@ -28,7 +28,7 @@ EVAL_OUTPUT_ROOT="${EVAL_OUTPUT_ROOT:-$ROOT/eval_output_local}"
 export EVAL_OUTPUT_ROOT
 
 case "$K" in 2|3|5|10) ;; *) echo "[FAIL] K must be 2, 3, 5, or 10" >&2; exit 2;; esac
-case "$STRATEGY" in balanced) ;; *) echo "[FAIL] only balanced is permitted for this K-resolution sequence" >&2; exit 2;; esac
+case "$STRATEGY" in balanced|fixed) ;; *) echo "[FAIL] STRATEGY must be balanced or fixed" >&2; exit 2;; esac
 case "$RUN_MODE" in fresh|resume) ;; *) echo "[FAIL] invalid EXPERIMENT_RUN_MODE" >&2; exit 2;; esac
 case "$PREFLIGHT_ONLY" in true|false) ;; *) echo "[FAIL] invalid PREFLIGHT_ONLY" >&2; exit 2;; esac
 
@@ -59,17 +59,22 @@ for path in "$TRAIN_TSV" "$GRID" "$GT_CACHE" "$NPZ_DIR" "$MUSICCAPS" "$HOLDOUT" 
     [ -e "$path" ] || { echo "[FAIL] missing input: $path" >&2; exit 2; }
 done
 
-python - "$GRID" "$TRAIN_TSV" "$K" "$SOURCE_CKPT" "$SOURCE_AUDIT" "$SOURCE_CONTRACT" <<'PY'
+python - "$GRID" "$TRAIN_TSV" "$K" "$STRATEGY" "$SOURCE_CKPT" "$SOURCE_AUDIT" "$SOURCE_CONTRACT" <<'PY'
 import csv, hashlib, json, sys
 from collections import Counter
 from pathlib import Path
 import torch
 from omegaconf import OmegaConf
 
-grid, tsv, k, source, audit_path, contract_path = map(Path, sys.argv[1:7])
-k = int(k.name) if False else int(sys.argv[3])
+grid = Path(sys.argv[1])
+tsv = Path(sys.argv[2])
+k = int(sys.argv[3])
+strategy = sys.argv[4]
+source = Path(sys.argv[5])
+audit_path = Path(sys.argv[6])
+contract_path = Path(sys.argv[7])
 payload = json.loads(grid.read_text())
-arm = payload['outputs'][f'k{k}_balanced']
+arm = payload['outputs'][f'k{k}_{strategy}']
 digest = hashlib.sha256(tsv.read_bytes()).hexdigest()
 if payload.get('status') != 'passed' or arm.get('sha256') != digest:
     raise SystemExit('[FAIL] K TSV is not bound to passed grid')
@@ -110,11 +115,11 @@ if [ "$PREFLIGHT_ONLY" = true ]; then
     exit 0
 fi
 
-python - "$CONTRACT" "$PREFIX" "$K" "$TRAIN_TSV" "$SOURCE_CKPT" "$GRID" <<'PY'
+python - "$CONTRACT" "$PREFIX" "$K" "$STRATEGY" "$TRAIN_TSV" "$SOURCE_CKPT" "$GRID" <<'PY'
 import hashlib, json, os, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
-out, prefix, k, tsv, source, grid = sys.argv[1:]
+out, prefix, k, strategy, tsv, source, grid = sys.argv[1:]
 def sha(path):
     h = hashlib.sha256()
     with open(path, 'rb') as f:
@@ -124,7 +129,7 @@ def sha(path):
 payload = {
     'schema_version': 1, 'created_at': datetime.now(timezone.utc).isoformat(),
     'experiment': prefix, 'design': 'NoQ_S1_to_Q_S2_only', 'k': int(k),
-    'strategy': 'balanced', 'source_stage1_checkpoint': source,
+    'strategy': strategy, 'source_stage1_checkpoint': source,
     'source_stage1_sha256': sha(source), 'source_stage1_iteration': 100000,
     'stage1_use_q_conditioning': False, 'stage2_use_q_conditioning': True,
     'q_initialization': 'copy-null-q10-to-q0..q9-online-and-ema',
@@ -209,12 +214,27 @@ else:
  for key, expected in {'use_q_conditioning':True,'num_iterations':150000,'seed':14159265,'data.AudioCaps_npz.tsv':str(tsv)}.items():
   if OmegaConf.select(cfg,key) != expected: issues.append(f'{key}={OmegaConf.select(cfg,key)!r}')
 if not init.is_file() or json.loads(init.read_text()).get('status') != 'passed': issues.append('copy_null_init_audit')
-payload={'schema_version':1,'completed_at':datetime.now(timezone.utc).isoformat(),'status':'passed' if not issues else 'failed','issues':issues,'design':'NoQ_S1_to_Q_S2_only','k':int(Path(contract).stem.split('_k')[-1].split('_')[0]),'strategy':'balanced','source_stage1_iteration':100000,'stage2_iteration':state.get('it'),'stage1_use_q_conditioning':False,'stage2_use_q_conditioning':True,'q_initialization':'copy-null','contract':str(contract),'q_init_audit':str(init),'hydra_config':str(cfgs[-1]) if cfgs else None}
+contract_payload=json.loads(contract.read_text())
+payload={
+ 'schema_version':1, 'completed_at':datetime.now(timezone.utc).isoformat(),
+ 'status':'passed' if not issues else 'failed', 'issues':issues,
+ 'design':'NoQ_S1_to_Q_S2_only',
+ 'k':int(Path(contract).stem.split('_k')[-1].split('_')[0]),
+ 'strategy':contract_payload['strategy'],
+ 'source_stage1_iteration':100000, 'stage2_iteration':state.get('it'),
+ 'stage1_use_q_conditioning':False, 'stage2_use_q_conditioning':True,
+ 'q_initialization':'copy-null', 'contract':str(contract),
+ 'q_init_audit':str(init), 'hydra_config':str(cfgs[-1]) if cfgs else None,
+}
 tmp=out.with_suffix('.tmp'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n'); os.replace(tmp,out); print(json.dumps(payload,indent=2)); raise SystemExit(bool(issues))
 PY
 
 run_eval() {
-    local label="$1" q="$2" out="$EVAL_OUTPUT_ROOT/$label" metrics="$EVAL_OUTPUT_ROOT/metrics/$label/metrics.txt" log="$LOG_ROOT/${label}_eval.log"
+    local label="$1"
+    local q="$2"
+    local out="$EVAL_OUTPUT_ROOT/$label"
+    local metrics="$EVAL_OUTPUT_ROOT/metrics/$label/metrics.txt"
+    local log="$LOG_ROOT/${label}_eval.log"
     if [ ! -f "$metrics" ]; then
         mkdir -p "$out/audio"
         python eval.py --variant meanaudio_s --model_path "$S2_EMA" --output "$out/audio" --tsv "$MUSICCAPS" \
