@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "title": "Phase-8 Fixed-Q prior vs matched-NoQ residual fine-tune (ATTM prep chain)",
+  "branch": "grok/phase8-fixedq-attm-chain",
+  "worktree": "/home/kojiek/grok-worktrees/phase8-fixedq-attm-chain",
+  "live_checkout_readonly": "/home/kojiek/MeanAudio",
+  "created_date": "2026-07-22",
+  "scientific_objective": "Test whether historical Phase-8 MusicCaps benefit is explained by a single learned default/high-Q prior rather than ordinal per-row Q information.",
+  "falsifiable_hypothesis": "If a constant-q9 prior residual FT recovers CLAP relative to a matched NoQ residual FT from the same NoQ S2 source, then a high-Q prior (not ordinal Q) can explain Phase-8 gains.",
+  "controlled_variable": "Q pathway only: fixed q_level=9 + use_q_conditioning=true + q10→q0..q9 init + eval quality_level 9  vs  use_q_conditioning=false + preserved q_embed + eval --no_q",
+  "source_checkpoint": "/home/kojiek/MeanAudio/exps/phase8_catalog_matched_noq_stage2_200000/phase8_catalog_matched_noq_stage2_200000_ckpt_last.pth",
+  "source_iteration": 600000,
+  "fine_tune_iterations": 100000,
+  "final_iteration": 700000,
+  "learning_rate": 3e-5,
+  "batch_size": 8,
+  "accumulation_steps": 1,
+  "seed": 14159265,
+  "use_text_attention_mask": false,
+  "multi_cap": false,
+  "expected_train_rows": 251599,
+  "musiccaps_rows": 5521,
+  "arms": [
+    {
+      "order": 1,
+      "arm": "fixedq9",
+      "prefix": "phase8_fixedq9_prior_ft100k",
+      "use_q_conditioning": true,
+      "train_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_legacy_catalog_train_fixedq9.tsv",
+      "unique_q_support": [9],
+      "initialization": "copy_q10_exactly_to_q0_through_q9",
+      "conditional_q": 9,
+      "meanflow_unconditional_q": 10,
+      "eval_flag": "--quality_level 9",
+      "eval_label": "q9"
+    },
+    {
+      "order": 2,
+      "arm": "noq",
+      "prefix": "phase8_matched_noq_ft100k",
+      "use_q_conditioning": false,
+      "train_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_legacy_catalog_train.tsv",
+      "initialization": "preserve_q_embed_matched_optimizer_reset",
+      "runtime_q": null,
+      "runtime_q_maps_to": 10,
+      "eval_flag": "--no_q",
+      "eval_label": "noq"
+    }
+  ],
+  "queue": {
+    "script": "scripts/training_pipelines/sequence_phase8_fixedq_attm.sh",
+    "order": ["fixedq9", "noq", "paired_bootstrap_final_comparison"],
+    "single_gpu": true,
+    "cuda_visible_devices": "0",
+    "duplicate_launch_prevention": ["flock", "pgrep"],
+    "fixed_sleeps_at_phase_boundaries": false,
+    "invent_third_training_arm": false,
+    "fresh_default": true,
+    "resume_requires": "EXPERIMENT_RUN_MODE=resume"
+  },
+  "contracts": {
+    "q_none_maps_to": 10,
+    "meanflow_unconditional_q": 10,
+    "q_trained_eval": "quality_level 9, never --no_q",
+    "noq_eval": "--no_q",
+    "clap_metric_checkpoint": "music_speech_audioset_epoch_15_esc_89.98.pt",
+    "attm_official_clap_90_14": "blocked_until_exact_official_100_prompt_csv",
+    "primary_checkpoint_iteration": 700000,
+    "no_checkpoint_cherrypick": true,
+    "do_not_stop_on_loss_plateau_near_0p98": true
+  },
+  "preregistered_interpretation": {
+    "restoration_target_clap": 0.1900,
+    "fixedq_benefit_requires_paired_ci95_lb_gt_0": true,
+    "baseline_source_noq_clap": 0.1888
+  },
+  "hard_stop_candidates": [
+    "contract_or_hash_drift",
+    "nan_inf_loss_or_lr",
+    "persistent_nonfinite_grad_trailing_ge_2_or_recent20_ge_3_or_recent100_ge_10",
+    "repeated_loss_gt_5",
+    "repeated_grad_norm_gt_100",
+    "oom_nccl_segfault_traceback",
+    "missing_process_with_stale_log",
+    "disk_lt_50gb"
+  ],
+  "hard_stop_policy": {
+    "stale_gpu_process_requires_two_observations": true,
+    "single_amp_grad_nan_recovering": "review_only"
+  },
+  "deliverables": [
+    "scripts/preprocess/make_phase8_fixedq9_tsv.py",
+    "scripts/init_phase8_fixedq_attm_checkpoint.py",
+    "scripts/training_pipelines/train_pipeline_phase8_fixedq_attm_ft.sh",
+    "scripts/training_pipelines/sequence_phase8_fixedq_attm.sh",
+    "scripts/audit_phase8_fixedq_attm_ft.py",
+    "scripts/monitor_phase8_fixedq_attm_ft.py",
+    "scripts/eval/paired_clap_bootstrap_phase8_fixedq_attm.py",
+    "scripts/preprocess/build_official_caption_inventory.py",
+    "scripts/tests/selftest_phase8_fixedq_attm_chain.py",
+    "docs/experiments/phase8_fixedq_attm_chain_proposal.md",
+    "docs/experiments/phase8_fixedq_attm_chain_proposal.json"
+  ],
+  "artifact_prefixes": [
+    "phase8_fixedq9_prior_ft100k",
+    "phase8_matched_noq_ft100k"
+  ],
+  "monitor": {
+    "script": "scripts/monitor_phase8_fixedq_attm_ft.py",
+    "state_dir": "/home/kojiek/logs/phase8_fixedq_attm_monitor",
+    "tmux_training": "p8_fixedq_attm"
+  },
+  "eta_hours_wall_single_gpu": {
+    "fixedq9_ft": 3.3,
+    "fixedq9_eval": 0.25,
+    "noq_ft": 3.3,
+    "noq_eval": 0.25,
+    "paired_bootstrap": 1.5,
+    "total_approx": 9.0
+  },
+  "proposed_live_launch_command": "tmux new-session -d -s p8_fixedq_attm \"cd /home/kojiek/MeanAudio && source /home/kojiek/venvs/dac/bin/activate && EXPERIMENT_RUN_MODE=fresh bash scripts/training_pipelines/sequence_phase8_fixedq_attm.sh 2>&1 | tee -a /home/kojiek/logs/phase8_fixedq_attm_sequence.log\"",
+  "execution_authorized_by_this_proposal": false,
+  "modifies_historical_or_core_files": false,
+  "selftest_command": "python scripts/tests/selftest_phase8_fixedq_attm_chain.py",
+  "known_risks": [
+    "Live launch requires scripts present under /home/kojiek/MeanAudio after Codex-approved merge/copy",
+    "First sequence start writes fixedq9 TSV to HDD data dir",
+    "Paired bootstrap needs laion_clap and 89.98 weights",
+    "Must not confuse prefixes with prior qsafe/s2-q ablation arms"
+  ]
+}

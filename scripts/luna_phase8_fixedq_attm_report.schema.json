@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "phase",
+    "iteration",
+    "summary",
+    "evidence",
+    "review_required",
+    "repair_worktree",
+    "repair_branch",
+    "repair_commit",
+    "recommended_action"
+  ],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["healthy", "review", "incident", "repair_proposed"]
+    },
+    "phase": {"type": ["string", "null"]},
+    "iteration": {"type": ["integer", "null"]},
+    "summary": {"type": "string"},
+    "evidence": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1
+    },
+    "review_required": {"type": "boolean"},
+    "repair_worktree": {"type": ["string", "null"]},
+    "repair_branch": {"type": ["string", "null"]},
+    "repair_commit": {"type": ["string", "null"]},
+    "recommended_action": {
+      "type": "string",
+      "enum": ["continue", "observe", "resume_exact", "review_repair", "stop"]
+    }
+  }
+}

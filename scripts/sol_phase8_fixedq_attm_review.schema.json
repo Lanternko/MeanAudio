@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "execution_authorized",
+    "summary",
+    "findings",
+    "verified_commit",
+    "approved_action"
+  ],
+  "properties": {
+    "decision": {"type": "string", "enum": ["approve", "revise", "reject"]},
+    "execution_authorized": {"type": "boolean"},
+    "summary": {"type": "string"},
+    "findings": {"type": "array", "items": {"type": "string"}},
+    "verified_commit": {"type": ["string", "null"]},
+    "approved_action": {
+      "type": "string",
+      "enum": ["none", "continue", "resume_exact", "repair_ready_for_promotion"]
+    }
+  }
+}
