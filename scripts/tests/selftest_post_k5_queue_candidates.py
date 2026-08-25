@@ -23,10 +23,20 @@ NAMES = [
     "023_slot2_full.sh",
     "024_fair013_k3_full.sh",
 ]
+QROOT = Path("/home/kojiek/gpu_queue")
+QUEUE_STATES = ("pending", "running", "done", "failed", "held")
 PROTECTED = {
-    Path("/home/kojiek/gpu_queue/p2/running/010_s2q_k3.sh"): "2abd26e5c696ba43d959109b5ec7f245f7ccda1f4f1a988ce3f15e15a49f1d59",
-    Path("/home/kojiek/gpu_queue/p2/pending/020_s2q_k5.sh"): "e9191395d97763149e2f0810c9e527a297d4adb44f08abab3db6d871d94ba691",
+    "010_s2q_k3.sh": "2abd26e5c696ba43d959109b5ec7f245f7ccda1f4f1a988ce3f15e15a49f1d59",
+    "020_s2q_k5.sh": "e9191395d97763149e2f0810c9e527a297d4adb44f08abab3db6d871d94ba691",
 }
+
+
+def locate_queue_script(name: str) -> Path:
+    """Jobs migrate pending -> running -> done/failed; find the script wherever it is now."""
+    found = [QROOT / f"p2/{state}" / name for state in QUEUE_STATES
+             if (QROOT / f"p2/{state}" / name).is_file()]
+    assert len(found) == 1, f"expected {name} in exactly one p2 queue state, found {len(found)}"
+    return found[0]
 # All four were authorized and installed into p2/pending on 2026-08-25.
 PENDING = Path("/home/kojiek/gpu_queue/p2/pending")
 INSTALLED = {name: PENDING / name for name in (
@@ -44,8 +54,8 @@ def digest(path: Path) -> str:
 def main() -> None:
     assert NAMES == sorted(NAMES)
     assert all(re.fullmatch(r"[0-9]{3}_[a-z0-9_]+\.sh", name) for name in NAMES)
-    for path, expected in PROTECTED.items():
-        assert digest(path) == expected
+    for name, expected in PROTECTED.items():
+        assert digest(locate_queue_script(name)) == expected
     for name, contract_path in zip(NAMES, CONTRACTS):
         launcher = STAGED / name
         assert launcher.is_file() and not launcher.is_symlink()

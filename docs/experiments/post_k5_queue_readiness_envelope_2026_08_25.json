@@ -3,7 +3,7 @@
   "document_kind": "queue_candidate_readiness_envelope",
   "readiness_unit_id": "PF-MEAUDIO-20260825-POST-K5-QUEUE-READY-01",
   "status": "all_four_installed_pending",
-  "plan_fingerprint": "logical-v5-021-024-installed-20260825",
+  "plan_fingerprint": "logical-v6-action-scripts-tracked-20260825",
   "operator_request": "/home/kojiek/MeanAudio/docs/experiments/post_k5_operator_queue_request_2026_08_25.json",
   "queue_policy": {
     "role": "p2",
@@ -63,24 +63,24 @@
   },
   "draft_byte_manifest": {
     "docs/experiments/caption2p0_true_random_quarter_cfg0_contract.json": {
-      "sha256": "fece0c3b0ebf6da0cecabfbfdf573abfc0f74a34e324719c21a14b6071f58fbb",
-      "bytes": 5545
+      "sha256": "f62066eaf42e05de7df69614ba7fb3d851b140504b4af985b1dd3db48b4efb9c",
+      "bytes": 5808
     },
     "docs/experiments/caption2p0_fair013_best_full_cfg0_contract.json": {
-      "sha256": "6d2a18036ee5d4f6d403860c6f766bed2ba1df27b9c30f16cc80dc29a9881408",
-      "bytes": 6085
+      "sha256": "207e4c4eb676114914123e6b4cf61b5f12347f90cfba27c537f419fc03f3440b",
+      "bytes": 6346
     },
     "docs/experiments/caption2p0_slot2_full_cfg0_contract.json": {
-      "sha256": "447ed06bb37693510903dd663d16366cd8fb20e53eaf31c48dc7a1d398697443",
-      "bytes": 4704
+      "sha256": "3ea895efd8f24f5871c7b209e6498c99f9eb83326deed52402fd9387e48fe6dd",
+      "bytes": 4958
     },
     "docs/experiments/caption2p0_fair013_k3_full_cfg0_contract.json": {
-      "sha256": "808f3c73dd188f7805ee28ab5f4bd61a88eab81a8d75ff1cc7e730503e902695",
-      "bytes": 5520
+      "sha256": "b890eb7d557c4d694df00c7fb162efd58f8a0e6c0192383a824ae7174c181f79",
+      "bytes": 5779
     },
     "scripts/experiment_harness/preflight_post_k5_candidate.py": {
-      "sha256": "308ff2d110835734835e3cb6aaf85062f82dd6e1a442372012d4a81f237ac4df",
-      "bytes": 5496
+      "sha256": "5ad24cc66ff2c07627471217c1fa2a56501083007ed19d9fa31ca9369a15f38b",
+      "bytes": 6150
     },
     "scripts/preprocess/build_stacked_text_overlay_cache.py": {
       "sha256": "9545b1fe95cb03ac15829993090fb23c4a9c0e8b67e887f9da14672ec9affd32",
@@ -89,22 +89,6 @@
     "scripts/training_pipelines/lib_post_k5_candidate.sh": {
       "sha256": "abbf749354693a35fd7ee482b2fe923b4a1c80b9f8cd28886732e11f3a3d156c",
       "bytes": 4251
-    },
-    "scripts/training_pipelines/run_caption2p0_true_random_quarter.sh": {
-      "sha256": "4e51abb04f315cbf64d9885568ea8c7315aa06b4f4f427333d7b352e67a5a40f",
-      "bytes": 1318
-    },
-    "scripts/training_pipelines/run_caption2p0_fair013_best_full.sh": {
-      "sha256": "cf102c0960211f66206ea24d3d16af7c42bd25650a050c452fb86cfab51c77f3",
-      "bytes": 1177
-    },
-    "scripts/training_pipelines/run_caption2p0_slot2_full.sh": {
-      "sha256": "7df5d15c520496c3482c0b050aab8fe308b7ed2aef89e7b25787ff09f036a7cd",
-      "bytes": 1083
-    },
-    "scripts/training_pipelines/run_caption2p0_fair013_k3_full.sh": {
-      "sha256": "ac3e1e6482e05ed98ae25a51f3acdaa1adf964a689aa507c093cca8141858a4f",
-      "bytes": 1139
     },
     "scripts/queue_candidates/021_true_random_quarter.sh": {
       "sha256": "50f6c583fa6f3dacdd664df8da05a5cbcdfa09c74479a82a8d2f6cf8abfee4b9",
@@ -127,8 +111,8 @@
       "bytes": 3305
     },
     "scripts/tests/selftest_post_k5_queue_candidates.py": {
-      "sha256": "61e376633ac909dfac98d59b7375eee821f1fd00262d8e590f5ec26e92900db4",
-      "bytes": 3810
+      "sha256": "dab8d972743d77696f41da11ae2e8075ff46c19c3347c96f7300dcbf17cec8b1",
+      "bytes": 4237
     },
     "docs/experiments/post_k5_operator_queue_request_2026_08_25.json": {
       "sha256": "8ef70673a3561c096538a2443eb06a20d0f0cb94172aa6282b85837a677a3623",
@@ -145,6 +129,22 @@
     "meanaudio/data/data_setup.py": {
       "sha256": "06956f68e29b67a5e92926ba830db6c2a02da65cdfac7a881f9fb3d6a47d7820",
       "bytes": 6463
+    },
+    "scripts/training_pipelines/caption2p0_true_random_quarter_action.sh": {
+      "sha256": "4e51abb04f315cbf64d9885568ea8c7315aa06b4f4f427333d7b352e67a5a40f",
+      "bytes": 1318
+    },
+    "scripts/training_pipelines/caption2p0_fair013_best_full_action.sh": {
+      "sha256": "cf102c0960211f66206ea24d3d16af7c42bd25650a050c452fb86cfab51c77f3",
+      "bytes": 1177
+    },
+    "scripts/training_pipelines/caption2p0_slot2_full_action.sh": {
+      "sha256": "7df5d15c520496c3482c0b050aab8fe308b7ed2aef89e7b25787ff09f036a7cd",
+      "bytes": 1083
+    },
+    "scripts/training_pipelines/caption2p0_fair013_k3_full_action.sh": {
+      "sha256": "ac3e1e6482e05ed98ae25a51f3acdaa1adf964a689aa507c093cca8141858a4f",
+      "bytes": 1139
     }
   },
   "mandatory_stops": [
@@ -187,5 +187,14 @@
     "symptom": "verify pass raised TypeError on every existing overlay file (0-d comma-joined caption_sha256 vs list())",
     "impact": "021 would have failed before training; fixed by stored_caption_hashes() accepting both layouts",
     "validated": "300 random real overlay files now verify as valid"
+  },
+  "action_scripts_tracked": {
+    "why": "The four action scripts were caught by the .gitignore rule \"run_*.sh\", which exists to keep throwaway scripts out of the repo. These are contract-bound: their sha256 is frozen in bindings.action_sha256 and the scheduler refuses to seat a job whose action bytes drift, so leaving them untracked meant git did not record what the queued chain actually runs.",
+    "fix": "dropped the run_ prefix, keeping the existing _action.sh suffix convention; content and sha256 unchanged",
+    "still_untracked": [
+      "scripts/training_pipelines/run_caption2p0_k3_s2q_action.sh",
+      "scripts/training_pipelines/run_caption2p0_k5_s2q_action.sh"
+    ],
+    "still_untracked_note": "Left alone on purpose: they are referenced only by superseded pre-CFG0 contracts and by frozen hash records in cfg0_mf25_policy_and_quarter_rerun_v1.md. The live 010/020 contracts bind gpu_queue/jobs/actions/p2_s2q_k{3,5}.sh instead."
   }
 }

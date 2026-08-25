@@ -91,7 +91,7 @@
   "commands": {
     "run": [
       "/bin/bash",
-      "/home/kojiek/MeanAudio/scripts/training_pipelines/run_caption2p0_slot2_full.sh"
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot2_full_action.sh"
     ]
   },
   "bindings": {
@@ -99,8 +99,9 @@
     "launcher_sha256": "7fd6b993529337a29b29b2893101b5fb75f699761477a8e113a3792f05971231",
     "harn": "/home/kojiek/gpu_queue/harn_guest.py",
     "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
-    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/run_caption2p0_slot2_full.sh",
-    "action_sha256": "7df5d15c520496c3482c0b050aab8fe308b7ed2aef89e7b25787ff09f036a7cd"
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot2_full_action.sh",
+    "action_sha256": "7df5d15c520496c3482c0b050aab8fe308b7ed2aef89e7b25787ff09f036a7cd",
+    "action_rename": "renamed from run_caption2p0_slot2_full.sh: the .gitignore rule \"run_*.sh\" targets throwaway scripts, but this is a contract-bound action script and must stay in version control. Content and sha256 unchanged by the rename."
   },
   "completion_evidence": {
     "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot2_noq_full_stage2_200000/phase8_qwen_caption2p0_slot2_noq_full_stage2_200000_ema_final.pth",

@@ -21,8 +21,8 @@ CONTRACTS = {
     "fair013_k3_full": ROOT / "docs/experiments/caption2p0_fair013_k3_full_cfg0_contract.json",
 }
 PROTECTED = {
-    QROOT / "p2/running/010_s2q_k3.sh": "2abd26e5c696ba43d959109b5ec7f245f7ccda1f4f1a988ce3f15e15a49f1d59",
-    QROOT / "p2/pending/020_s2q_k5.sh": "e9191395d97763149e2f0810c9e527a297d4adb44f08abab3db6d871d94ba691",
+    "010_s2q_k3.sh": "2abd26e5c696ba43d959109b5ec7f245f7ccda1f4f1a988ce3f15e15a49f1d59",
+    "020_s2q_k5.sh": "e9191395d97763149e2f0810c9e527a297d4adb44f08abab3db6d871d94ba691",
 }
 LEGACY_TRUE_RANDOM = QROOT / "p1/held/020_true_random.sh"
 LEGACY_TRUE_RANDOM_SHA = "da383e6a39db0ebf8dcea3d76fd79254b304dcc31c8a2957c363c69344212989"
@@ -32,6 +32,23 @@ ALLOWED_INPUT_ROOTS = (
     Path("/home/kojiek/exps_nvme"),
     Path("/mnt/HDD/kojiek/phase4_jamendo_data"),
 )
+
+
+QUEUE_STATES = ("pending", "running", "done", "failed", "held")
+
+
+def locate_queue_script(name: str) -> Path:
+    """Find a queue script wherever the host has moved it to.
+
+    Jobs migrate pending -> running -> done/failed as the queue advances, so
+    pinning a protected script to one directory makes the guard fail on normal
+    progression instead of on real byte drift.
+    """
+    found = [QROOT / f"p2/{state}" / name for state in QUEUE_STATES
+             if (QROOT / f"p2/{state}" / name).is_file()]
+    if len(found) != 1:
+        raise ValueError(f"expected {name} in exactly one p2 queue state, found {len(found)}")
+    return found[0]
 
 
 def sha256(path: Path) -> str:
@@ -93,7 +110,8 @@ def validate(candidate: str, require_launchable: bool) -> dict:
         for key in ("launcher_sha256", "action_sha256"):
             if str((contract.get("bindings") or {}).get(key, "")).startswith("pending"):
                 raise ValueError(f"binding not frozen: {key}")
-    for path, expected in PROTECTED.items():
+    for name, expected in PROTECTED.items():
+        path = locate_queue_script(name)
         require_regular(path, roots=(QROOT,))
         if sha256(path) != expected:
             raise ValueError(f"protected queue drift: {path}")
