@@ -3,7 +3,7 @@
   "document_kind": "preregistered_experiment_contract",
   "experiment_id": "phase8-caption2p0-full-k3-s2q-cfg0",
   "run_id": "run-20260824-caption2p0-full-k3-s2q-cfg0",
-  "status": "preregistered_cfg0_resume_from_cooperative_pause",
+  "status": "training_complete_pending_cfg0_eval",
   "launch_allowed": true,
   "scientific_priority": 2,
   "supersedes": {
@@ -34,22 +34,12 @@
     }
   },
   "resume": {
-    "kind": "cooperative_pause_checkpoint",
-    "iteration": 508792,
+    "kind": "completed_training_eval_only_rerun",
+    "iteration": 600000,
     "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000_ckpt_last.pth",
-    "checkpoint_sha256": "b58dc71700cf6e3f073101720725ef9eec2bba7381b78ade9fb6580548b6132b",
+    "checkpoint_sha256": "9b82a16dbc9ce77cbf9e78702d6bb7b9971ded12a278703faf64c09aeb76fab8",
     "checkpoint_bytes": 2410129803,
-    "command": [
-      "torchrun",
-      "--standalone",
-      "--nproc_per_node=1",
-      "train.py",
-      "data=meanaudio",
-      "model=meanaudio_s",
-      "exp_id=phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000",
-      "num_iterations=600000",
-      "checkpoint=/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000_ckpt_last.pth"
-    ]
+    "note": "Training reached the contracted 600000 iterations and saved cleanly at 2026-08-25 21:09. Re-seating this job runs the CFG0 eval only (the action SKIP_TRAINs once the EMA exists)."
   },
   "evaluation": {
     "dataset": "MusicCaps",
@@ -83,5 +73,18 @@
       "/bin/bash",
       "/home/kojiek/gpu_queue/jobs/actions/p2_s2q_k3.sh"
     ]
-  }
+  },
+  "incidents": [
+    {
+      "at": "2026-08-25T13:09:19Z",
+      "stage": "post-training synthesize_ema",
+      "error": "PytorchStreamReader failed reading zip archive: failed finding central directory",
+      "cause": "ema_ckpts/0.530000.pt was truncated to 473,956,480 bytes (canonical 482,115,386) and ema_ckpts/1.530000.pt was absent -- the step-530000 snapshot pair was written during the 2026-08-25 02:26 ENOSPC window. rc=1, job classified to p2/failed.",
+      "training_impact": "none -- ckpt_last.pth and last.pth at iteration 600000 were saved before the crash",
+      "recovery": "0.530000.pt quarantined to ema_ckpts_quarantine/ so step 530000 is symmetrically absent; EMA re-synthesized standalone from the remaining 38 snapshots (all exactly 482,115,386 bytes) at sigma=0.05. Result: 203 keys, q_embed.weight (11,448), all tensors finite.",
+      "protocol_deviation": "The published EMA is a PostHocEMA least-squares fit over 19 of the 20 expected checkpoint steps (530000 missing). Report this alongside the K=3 CLAP number.",
+      "ema_sha256": "c72e26d1c46581f9bca4a179806849a29f799f6730c158782931dcb86ac9be14",
+      "ema_bytes": 482135102
+    }
+  ]
 }
