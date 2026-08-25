@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "document_kind": "operator_queue_order_request",
+  "recorded_at": "2026-08-25T17:45:51+08:00",
+  "operator_instruction": "Append, in this order: true random, fake random, worst full, best full, slot2 full, fair013 K=3 full.",
+  "mutation_semantics": {
+    "action": "append_to_existing_tail",
+    "priority_insertion_authorized": false,
+    "interrupt_authorized": false,
+    "existing_entry_cancellation_authorized": false,
+    "preserved_predecessor": "020_s2q_k5.sh",
+    "rule": "Do not launch a duplicate or an unprepared entry. Preserve requested order durably; terminal entries satisfy ordering, and held entries remain visible while the controller may scan forward to a later eligible entry."
+  },
+  "requested_order": [
+    {
+      "position": 1,
+      "experiment_id": "caption2p0-k3-true-random-quarter-noq",
+      "requested_label": "true random",
+      "scale": "quarter",
+      "state": "draft_candidate_materialized_not_installed",
+      "live_artifact": "/home/kojiek/gpu_queue/p1/held/020_true_random.sh",
+      "hold_reason": "Deterministic epoch-and-ID sampling code and a draft executable are materialized; launch remains forbidden until exact-byte security review, full isolated stacked-overlay/corpus gates, binding freeze, and atomic held installation pass."
+    },
+    {
+      "position": 2,
+      "experiment_id": "caption2p0-k3-fake-random-quarter-noq",
+      "requested_label": "fake random",
+      "scale": "quarter",
+      "state": "terminal_complete_no_duplicate_launch",
+      "evidence": "/home/kojiek/logs/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+    },
+    {
+      "position": 3,
+      "experiment_id": "caption2p0-fair013-worstof3-full-noq",
+      "requested_label": "worst full",
+      "scale": "full",
+      "state": "terminal_complete_no_duplicate_launch",
+      "evidence": "/home/kojiek/logs/phase8_qwen_caption2p0_fair013_worstof3_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
+    },
+    {
+      "position": 4,
+      "experiment_id": "caption2p0-bestof3-full",
+      "requested_label": "best full",
+      "scale": "full",
+      "state": "draft_candidate_materialized_not_installed",
+      "required_before_live_queue": [
+        "exact scientific contract",
+        "generated-corpus and cache binding validation",
+        "resume-safe executable HARN",
+        "canonical MusicCaps 5521 MeanFlow 25 CFG 0 evaluation binding"
+      ]
+    },
+    {
+      "position": 5,
+      "experiment_id": "caption2p0-slot2-full",
+      "requested_label": "slot2 full",
+      "scale": "full",
+      "state": "draft_candidate_materialized_not_installed",
+      "required_before_live_queue": [
+        "exact scientific contract",
+        "generated-corpus and cache binding validation",
+        "resume-safe executable HARN",
+        "canonical MusicCaps 5521 MeanFlow 25 CFG 0 evaluation binding"
+      ]
+    },
+    {
+      "position": 6,
+      "experiment_id": "caption2p0-fair013-k3-balanced-full",
+      "requested_label": "fair013 K=3 full",
+      "scale": "full",
+      "state": "draft_candidate_materialized_not_installed",
+      "required_before_live_queue": [
+        "exact scientific contract",
+        "generated-corpus and q-assignment binding validation",
+        "resume-safe executable HARN",
+        "canonical MusicCaps 5521 MeanFlow 25 CFG 0 evaluation binding"
+      ]
+    }
+  ],
+  "live_queue_mutated": false,
+  "gpu_launch_authorized_by_this_record": false,
+  "next_safe_action": "Freeze and security-review the staged candidate bytes, complete blocked corpus/cache gates, then atomically install only reviewed 021/022/023/024 launchers into p2/held without changing running 010 or pending 020."
+}

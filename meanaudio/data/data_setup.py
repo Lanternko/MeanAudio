@@ -28,11 +28,16 @@ def load_audio_data(cfg: DictConfig, data_cfg: DictConfig) -> Dataset:
                             concat_text_fc=cfg.concat_text_fc,   # FIX here we determine usage of concat based on global config
                             data_dim=cfg.data_dim,
                             npz_dir=data_cfg.npz_dir,
+                            text_npz_dir=data_cfg.get('text_npz_dir', None),
                             repa_npz_dir=data_cfg.repa_npz_dir,
                             exclude_cls=cfg.get('exclude_cls', False),
                             repa_version=cfg.get('repa_version', 1),
                             gt_cache=data_cfg.get('gt_cache', None),
-                            multi_cap=cfg.get('multi_cap', False))
+                            require_text_overlay=cfg.get('require_text_overlay', False),
+                            multi_cap=cfg.get('multi_cap', False),
+                            cap_index_fixed=cfg.get('cap_index_fixed', None),
+                            cap_index_column=cfg.get('cap_index_column', None),
+                            use_text_attention_mask=cfg.get('use_text_attention_mask', True))
     return dataset
 
 

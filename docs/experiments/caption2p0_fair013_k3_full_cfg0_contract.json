@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "caption2p0-fair013-k3-balanced-full-cfg0",
+  "run_id": "run-20260825-caption2p0-fair013-k3-balanced-full-cfg0",
+  "status": "authorized_p2_pending_install",
+  "launch_allowed": true,
+  "queue_name": "024_fair013_k3_full.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [
+    "023_slot2_full"
+  ],
+  "dependencies": [],
+  "selection": {
+    "slots": [
+      "slot0",
+      "slot1",
+      "slot3"
+    ],
+    "score": "mean of three pairwise all-MiniLM-L6-v2 cosine similarities",
+    "bucket_rule": "stable sort by (score,audio_id), equal-frequency K=3",
+    "q_codes": [
+      0,
+      5,
+      9
+    ],
+    "q_histogram": {
+      "0": 83866,
+      "5": 83866,
+      "9": 83867
+    },
+    "summary": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/FAIR013_K3_SUMMARY.json",
+      "sha256": "77fa89582013d220535525a697d9b5db1ab4a92b25cc7dbba68c4898b889688a"
+    }
+  },
+  "sources": {
+    "train_tsv": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_fair013_k3_balanced_train.tsv",
+      "sha256": "5d939c69db610ad5f77a6be49e880ef9e401a86e1783d73a371fa776a994b182",
+      "rows": 251599
+    },
+    "cache_list": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "rows": 251599
+    },
+    "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+    "text_overlay_dir": "/home/kojiek/text_overlays/true_random"
+  },
+  "corpus_gate": {
+    "status": "passed",
+    "require_generated_branch": true,
+    "passed_at": "2026-08-25T11:21:17.530345+00:00",
+    "authorized_by": "operator (Lanternko) 2026-08-25: queue every named arm so the chain runs unattended",
+    "evidence": "preflight_post_k5_candidate.py --require-launchable passes: source hashes, row counts and resume checkpoint all verified"
+  },
+  "resume": {
+    "kind": "same_arm_100k_restart_boundary",
+    "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage1_100000/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage1_100000_ckpt_last.pth",
+    "checkpoint_sha256": "299d52264e20e93bb1f0bba3b6cc103d7dd40a0549849def991503eadbb5dbad",
+    "checkpoint_bytes": 2403766821,
+    "iteration": 100000,
+    "rng_restart_boundary": true
+  },
+  "training": {
+    "stage1_final_iteration": 400000,
+    "stage2_additional_iterations": 200000,
+    "final_iteration": 600000,
+    "seed": 14159265,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "q_conditioning": true,
+    "multi_cap": false,
+    "require_text_overlay": true
+  },
+  "fixed_protocol": {
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "seed": 42,
+    "mask": "NoMask",
+    "precision": "full"
+  },
+  "cells": [
+    {
+      "cell_id": "canonical_q9",
+      "label": "phase8_qwen_caption2p0_fair013_k3_balanced_full_musiccaps_mf25_cfg0_q9",
+      "conditioning": "q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_k3_balanced_full_stage2_200000/phase8_qwen_caption2p0_fair013_k3_balanced_full_stage2_200000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_fair013_k3_balanced_full_musiccaps_mf25_cfg0_q9_REPORT.json"
+    }
+  ],
+  "runtime_storage": {
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics",
+    "estimated_overlay_bytes": 0,
+    "hard_stop_free_bytes": 112500000000
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/run_caption2p0_fair013_k3_full.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/jobs/p2_fair013_k3_full.sh",
+    "launcher_sha256": "cd1570e119c44b6a9dad1166d17018a6c611bb8fed27a7f813fd0d86785afadd",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/run_caption2p0_fair013_k3_full.sh",
+    "action_sha256": "ac3e1e6482e05ed98ae25a51f3acdaa1adf964a689aa507c093cca8141858a4f"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_k3_balanced_full_stage2_200000/phase8_qwen_caption2p0_fair013_k3_balanced_full_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_fair013_k3_balanced_full_musiccaps_mf25_cfg0_q9_REPORT.json"
+  },
+  "overlay_reuse": {
+    "mode": "cap_index_fixed",
+    "cap_index_fixed": 0,
+    "stacked_overlay": "/home/kojiek/text_overlays/true_random",
+    "slot_order": [
+      "slot0",
+      "slot1",
+      "slot3"
+    ],
+    "evidence": "all sampled rows of the fair013 K=3 train TSV carry the slot0 caption (3000/3000 spot check)",
+    "note": "Reuses the already-built true_random stacked overlay (251,599 files, slot order slot0,slot1,slot3) instead of re-encoding an identical single-caption copy. Verified by comparing every row's caption sha256 against the stacked slot at load time.",
+    "bytes_saved": 81604378624
+  }
+}

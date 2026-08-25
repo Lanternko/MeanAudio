@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "phase8-caption2p0-full-k3-s2q-cfg0",
+  "run_id": "run-20260824-caption2p0-full-k3-s2q-cfg0",
+  "status": "preregistered_cfg0_resume_from_cooperative_pause",
+  "launch_allowed": true,
+  "scientific_priority": 2,
+  "supersedes": {
+    "experiment_id": "phase8-caption2p0-full-k3-s2q",
+    "contract": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_full_k3_s2q_contract.json",
+    "reason": "Canonical evaluation is MusicCaps MeanFlow-25 CFG0, not CFG4.5. Resume from the verified cooperative-pause checkpoint rather than relaunching from Stage-1."
+  },
+  "preserve_queue_order": true,
+  "queue_name": "010_s2q_k3.sh",
+  "scientific_design": {
+    "scale": "full",
+    "caption_profile": "Caption 2.0: Qwen2.5-Omni-3B first-10s multisent_max160_stop_clean_v1",
+    "k": 3,
+    "q_codes": [
+      0,
+      5,
+      9
+    ],
+    "stage2": {
+      "model": "meanaudio_s",
+      "use_q_conditioning": true,
+      "q_initialization": "copy-null",
+      "final_iteration": 600000,
+      "seed": 14159265,
+      "batch_size": 8,
+      "learning_rate": 0.0001,
+      "multi_cap": false
+    }
+  },
+  "resume": {
+    "kind": "cooperative_pause_checkpoint",
+    "iteration": 508792,
+    "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000_ckpt_last.pth",
+    "checkpoint_sha256": "b58dc71700cf6e3f073101720725ef9eec2bba7381b78ade9fb6580548b6132b",
+    "checkpoint_bytes": 2410129803,
+    "command": [
+      "torchrun",
+      "--standalone",
+      "--nproc_per_node=1",
+      "train.py",
+      "data=meanaudio",
+      "model=meanaudio_s",
+      "exp_id=phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000",
+      "num_iterations=600000",
+      "checkpoint=/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000_ckpt_last.pth"
+    ]
+  },
+  "evaluation": {
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "quality_level": 9
+  },
+  "pause_protocol": {
+    "request": "gpu_queue/p2/control/<run_id>/pause.request.json",
+    "ack": "gpu_queue/p2/control/<run_id>/pause.ack.json",
+    "exit_code": 75
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_musiccaps_mf25_cfg0_q9_REPORT.json"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/jobs/p2_s2q_k3.sh",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "action": "/home/kojiek/gpu_queue/jobs/actions/p2_s2q_k3.sh",
+    "launcher_sha256": "2abd26e5c696ba43d959109b5ec7f245f7ccda1f4f1a988ce3f15e15a49f1d59",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action_sha256": "4ba0436eddea190f76e33e3bab0081d022073a4a68e2cf5d63ada813df847b1c"
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/gpu_queue/jobs/actions/p2_s2q_k3.sh"
+    ]
+  }
+}

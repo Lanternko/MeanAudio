@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "caption2p0-k3-true-random-quarter-noq-cfg0",
+  "run_id": "run-20260825-caption2p0-k3-true-random-quarter-noq-cfg0",
+  "status": "authorized_p2_pending_install",
+  "launch_allowed": true,
+  "queue_name": "021_true_random_quarter.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [
+    "020_s2q_k5"
+  ],
+  "dependencies": [],
+  "selection": {
+    "slots": [
+      "slot0",
+      "slot1",
+      "slot3"
+    ],
+    "algorithm": "int.from_bytes(sha256(b'k3-true-random-v1\\0'+str(14159265).encode()+b'\\0'+str(epoch).encode()+b'\\0'+audio_id.encode()).digest()[:8], 'big') % 3",
+    "ordering": "registered slot order 0,1,3",
+    "draw_scope": "one deterministic draw per epoch and audio ID"
+  },
+  "sources": {
+    "manifest": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_fake_random_source_manifest.json",
+      "sha256": "4bb942b0e39b492aa57f7846d8649118e04a06999e408ad389c22326603e9a1a"
+    },
+    "extraction_tsv": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_extraction.tsv",
+      "sha256": "76980460c4da6276a04f183920bcb9614485b7ce7d2d6b78ec19c55a04a35e00",
+      "rows": 754797
+    },
+    "train_tsv": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_train.tsv",
+      "sha256": "5ec90b0f8d963df50546730384446bdca1b185ee4b2e21a4094cf60398b39999",
+      "rows": 251599
+    },
+    "cache_list": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "rows": 251599
+    },
+    "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+    "text_overlay_dir": "/home/kojiek/text_overlays/true_random"
+  },
+  "corpus_gate": {
+    "status": "passed",
+    "require_generated_branch": true,
+    "passed_at": "2026-08-25T11:11:59.835334+00:00",
+    "authorized_by": "operator (Lanternko) 2026-08-25: queue true_random after 020_s2q_k5",
+    "evidence": {
+      "preflight": "scripts/experiment_harness/preflight_post_k5_candidate.py --candidate true_random_quarter -> status passed",
+      "source_hashes": "manifest / extraction_tsv 754797 rows / train_tsv 251599 rows / cache_list 251599 rows all verified",
+      "resume_checkpoint": "it=0 rng-aware anchor, sha256 + 1442647215 bytes verified",
+      "text_overlay": "/home/kojiek/text_overlays/true_random = 251599/251599 npz present (DONE.json to be written by the idempotent verify pass)"
+    }
+  },
+  "resume": {
+    "kind": "rng_aware_iter0_initial_checkpoint",
+    "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage1_100000/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage1_100000_ckpt_last.pth",
+    "checkpoint_sha256": "94c012b14aad61505ded9fcf7d9a02265a46f5060ffa1b86029e10d0bbd058cf",
+    "checkpoint_bytes": 1442647215,
+    "iteration": 0
+  },
+  "training": {
+    "stage1_final_iteration": 100000,
+    "stage2_additional_iterations": 50000,
+    "final_iteration": 150000,
+    "seed": 14159265,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "q_conditioning": false,
+    "multi_cap": true,
+    "require_text_overlay": true
+  },
+  "fixed_protocol": {
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "seed": 42,
+    "mask": "NoMask",
+    "precision": "full"
+  },
+  "cells": [
+    {
+      "cell_id": "canonical_q0",
+      "label": "phase8_qwen_caption2p0_k3_true_random_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+    }
+  ],
+  "runtime_storage": {
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics",
+    "estimated_overlay_bytes": 270000000000,
+    "hard_stop_free_bytes": 337500000000
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/run_caption2p0_true_random_quarter.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/jobs/p2_true_random_quarter.sh",
+    "launcher_sha256": "50f6c583fa6f3dacdd664df8da05a5cbcdfa09c74479a82a8d2f6cf8abfee4b9",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/run_caption2p0_true_random_quarter.sh",
+    "action_sha256": "4e51abb04f315cbf64d9885568ea8c7315aa06b4f4f427333d7b352e67a5a40f"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+  }
+}

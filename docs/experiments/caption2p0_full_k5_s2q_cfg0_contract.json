@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "phase8-caption2p0-full-k5-s2q-cfg0",
+  "run_id": "run-20260824-caption2p0-full-k5-s2q-cfg0",
+  "status": "preregistered_cfg0_fresh_from_stage1_noq",
+  "launch_allowed": true,
+  "scientific_priority": 2,
+  "supersedes": {
+    "experiment_id": "phase8-caption2p0-full-k5-s2q",
+    "contract": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_full_k5_s2q_contract.json",
+    "reason": "Canonical evaluation is MusicCaps MeanFlow-25 CFG0, not CFG4.5. K=5 must remain queued after K=3 and must not be truncated or dropped if K=3 fails."
+  },
+  "preserve_queue_order": true,
+  "queue_name": "020_s2q_k5.sh",
+  "independent_of_k3_failure": true,
+  "scientific_design": {
+    "scale": "full",
+    "caption_profile": "Caption 2.0: Qwen2.5-Omni-3B first-10s multisent_max160_stop_clean_v1",
+    "k": 5,
+    "stage2": {
+      "model": "meanaudio_s",
+      "use_q_conditioning": true,
+      "q_initialization": "copy-null",
+      "final_iteration": 600000,
+      "seed": 14159265,
+      "batch_size": 8,
+      "learning_rate": 0.0001,
+      "multi_cap": false
+    }
+  },
+  "resume": {
+    "kind": "fresh_from_stage1_noq",
+    "iteration": 400000,
+    "stage1_checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage1_400000/phase8_qwen_caption10s_multisent_noq_full_stage1_400000_ckpt_last.pth",
+    "stage1_checkpoint_sha256": "302305f1880e85f384161064f7af3fd5ed723f596d912b772d43cb0125ec40fc",
+    "q_init": "copy-null"
+  },
+  "evaluation": {
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "quality_level": 9
+  },
+  "pause_protocol": {
+    "request": "gpu_queue/p2/control/<run_id>/pause.request.json",
+    "ack": "gpu_queue/p2/control/<run_id>/pause.ack.json",
+    "exit_code": 75
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_musiccaps_mf25_cfg0_q9_REPORT.json"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/jobs/p2_s2q_k5.sh",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "action": "/home/kojiek/gpu_queue/jobs/actions/p2_s2q_k5.sh",
+    "launcher_sha256": "e9191395d97763149e2f0810c9e527a297d4adb44f08abab3db6d871d94ba691",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action_sha256": "a13b9337e857ec6d3c1eced9412963828a49c32507a9266dc4c7f58dcb130374"
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/gpu_queue/jobs/actions/p2_s2q_k5.sh"
+    ]
+  }
+}

@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "document_kind": "queue_candidate_readiness_envelope",
+  "readiness_unit_id": "PF-MEAUDIO-20260825-POST-K5-QUEUE-READY-01",
+  "status": "all_four_installed_pending",
+  "plan_fingerprint": "logical-v5-021-024-installed-20260825",
+  "operator_request": "/home/kojiek/MeanAudio/docs/experiments/post_k5_operator_queue_request_2026_08_25.json",
+  "queue_policy": {
+    "role": "p2",
+    "installation_state": {
+      "021_true_random_quarter.sh": "installed /home/kojiek/gpu_queue/p2/pending/ 2026-08-25, launch_allowed=true",
+      "022_fair013_best_full.sh": "installed /home/kojiek/gpu_queue/p2/pending/ 2026-08-25, launch_allowed=true",
+      "023_slot2_full.sh": "installed /home/kojiek/gpu_queue/p2/pending/ 2026-08-25, launch_allowed=true",
+      "024_fair013_k3_full.sh": "installed /home/kojiek/gpu_queue/p2/pending/ 2026-08-25, launch_allowed=true"
+    },
+    "ordered_names": [
+      "021_true_random_quarter.sh",
+      "022_fair013_best_full.sh",
+      "023_slot2_full.sh",
+      "024_fair013_k3_full.sh"
+    ],
+    "ordering_predecessor": "020_s2q_k5.sh",
+    "protected_existing": {
+      "/home/kojiek/gpu_queue/p2/running/010_s2q_k3.sh": "2abd26e5c696ba43d959109b5ec7f245f7ccda1f4f1a988ce3f15e15a49f1d59",
+      "/home/kojiek/gpu_queue/p2/pending/020_s2q_k5.sh": "e9191395d97763149e2f0810c9e527a297d4adb44f08abab3db6d871d94ba691"
+    },
+    "legacy_true_random": {
+      "path": "/home/kojiek/gpu_queue/p1/held/020_true_random.sh",
+      "sha256": "da383e6a39db0ebf8dcea3d76fd79254b304dcc31c8a2957c363c69344212989",
+      "disposition": "superseded_on_future_atomic_install_only",
+      "duplicate_rule": "A candidate preflight fails if the legacy entry changes, leaves held, or becomes launch-authorized."
+    }
+  },
+  "state_machine": [
+    "draft_held",
+    "artifact_hold",
+    "security_reviewed",
+    "ready_for_atomic_install",
+    "held",
+    "pending",
+    "running",
+    "completed_or_failed_or_interrupted"
+  ],
+  "activation": {
+    "live_queue_mutated": true,
+    "gpu_launch_allowed": false,
+    "promotion_requires": [
+      "exact-byte security review with no open P0-P2",
+      "all contract provenance and cache gates passed",
+      "bindings frozen to installed launcher/HARN/action bytes",
+      "no equivalent pending/running/launch-authorized entry",
+      "atomic same-filesystem held installation",
+      "010 and 020 protected hashes unchanged"
+    ]
+  },
+  "resource_budget": {
+    "staging_final_paths": 21,
+    "staging_max_bytes": 2097152,
+    "network": false,
+    "gpu": false,
+    "cache_or_npz_writes": false,
+    "scratch": "Use a mktemp directory only during post-review tests; remove it before acceptance."
+  },
+  "draft_byte_manifest": {
+    "docs/experiments/caption2p0_true_random_quarter_cfg0_contract.json": {
+      "sha256": "fece0c3b0ebf6da0cecabfbfdf573abfc0f74a34e324719c21a14b6071f58fbb",
+      "bytes": 5545
+    },
+    "docs/experiments/caption2p0_fair013_best_full_cfg0_contract.json": {
+      "sha256": "6d2a18036ee5d4f6d403860c6f766bed2ba1df27b9c30f16cc80dc29a9881408",
+      "bytes": 6085
+    },
+    "docs/experiments/caption2p0_slot2_full_cfg0_contract.json": {
+      "sha256": "447ed06bb37693510903dd663d16366cd8fb20e53eaf31c48dc7a1d398697443",
+      "bytes": 4704
+    },
+    "docs/experiments/caption2p0_fair013_k3_full_cfg0_contract.json": {
+      "sha256": "808f3c73dd188f7805ee28ab5f4bd61a88eab81a8d75ff1cc7e730503e902695",
+      "bytes": 5520
+    },
+    "scripts/experiment_harness/preflight_post_k5_candidate.py": {
+      "sha256": "308ff2d110835734835e3cb6aaf85062f82dd6e1a442372012d4a81f237ac4df",
+      "bytes": 5496
+    },
+    "scripts/preprocess/build_stacked_text_overlay_cache.py": {
+      "sha256": "9545b1fe95cb03ac15829993090fb23c4a9c0e8b67e887f9da14672ec9affd32",
+      "bytes": 7264
+    },
+    "scripts/training_pipelines/lib_post_k5_candidate.sh": {
+      "sha256": "abbf749354693a35fd7ee482b2fe923b4a1c80b9f8cd28886732e11f3a3d156c",
+      "bytes": 4251
+    },
+    "scripts/training_pipelines/run_caption2p0_true_random_quarter.sh": {
+      "sha256": "4e51abb04f315cbf64d9885568ea8c7315aa06b4f4f427333d7b352e67a5a40f",
+      "bytes": 1318
+    },
+    "scripts/training_pipelines/run_caption2p0_fair013_best_full.sh": {
+      "sha256": "cf102c0960211f66206ea24d3d16af7c42bd25650a050c452fb86cfab51c77f3",
+      "bytes": 1177
+    },
+    "scripts/training_pipelines/run_caption2p0_slot2_full.sh": {
+      "sha256": "7df5d15c520496c3482c0b050aab8fe308b7ed2aef89e7b25787ff09f036a7cd",
+      "bytes": 1083
+    },
+    "scripts/training_pipelines/run_caption2p0_fair013_k3_full.sh": {
+      "sha256": "ac3e1e6482e05ed98ae25a51f3acdaa1adf964a689aa507c093cca8141858a4f",
+      "bytes": 1139
+    },
+    "scripts/queue_candidates/021_true_random_quarter.sh": {
+      "sha256": "50f6c583fa6f3dacdd664df8da05a5cbcdfa09c74479a82a8d2f6cf8abfee4b9",
+      "bytes": 352
+    },
+    "scripts/queue_candidates/022_fair013_best_full.sh": {
+      "sha256": "3d5722910e56d6e01e7b243e0e0f5bd26ef7d332e0d924e2a2d1e380e7ab2297",
+      "bytes": 348
+    },
+    "scripts/queue_candidates/023_slot2_full.sh": {
+      "sha256": "7fd6b993529337a29b29b2893101b5fb75f699761477a8e113a3792f05971231",
+      "bytes": 334
+    },
+    "scripts/queue_candidates/024_fair013_k3_full.sh": {
+      "sha256": "cd1570e119c44b6a9dad1166d17018a6c611bb8fed27a7f813fd0d86785afadd",
+      "bytes": 344
+    },
+    "scripts/tests/selftest_caption2p0_true_random_resume.py": {
+      "sha256": "6dcfb3d920be502c14887d9374e4e29ff633c4417b1ec308d1a897456ac3ce03",
+      "bytes": 3305
+    },
+    "scripts/tests/selftest_post_k5_queue_candidates.py": {
+      "sha256": "61e376633ac909dfac98d59b7375eee821f1fd00262d8e590f5ec26e92900db4",
+      "bytes": 3810
+    },
+    "docs/experiments/post_k5_operator_queue_request_2026_08_25.json": {
+      "sha256": "8ef70673a3561c096538a2443eb06a20d0f0cb94172aa6282b85837a677a3623",
+      "bytes": 3718
+    },
+    "scripts/preprocess/add_cap_index_column.py": {
+      "sha256": "8aa54873c0f0aa528deb7bd71f7345c37a3ea469362cf7a9a2e64fd52f15c3e4",
+      "bytes": 2806
+    },
+    "meanaudio/data/extracted_audio.py": {
+      "sha256": "0eaa753e12caf8363b04cfdcf55da4c374129b2ec451e5bb8381a9effc2784a6",
+      "bytes": 17114
+    },
+    "meanaudio/data/data_setup.py": {
+      "sha256": "06956f68e29b67a5e92926ba830db6c2a02da65cdfac7a881f9fb3d6a47d7820",
+      "bytes": 6463
+    }
+  },
+  "mandatory_stops": [
+    "protected 010/020 hash drift",
+    "source or checkpoint hash drift",
+    "symlink or non-regular bound input",
+    "legacy true-random duplicate becomes promotable",
+    "GPU or network required during staging",
+    "shared audio NPZ mutation",
+    "insufficient storage for a future phase",
+    "scope or scientific parameter expansion"
+  ],
+  "notification_matrix": {
+    "staging": [],
+    "future_runtime": [
+      "hold",
+      "start",
+      "gate_result",
+      "promotion_or_stop",
+      "completion",
+      "failure",
+      "interruption",
+      "queue_handoff",
+      "unexpected_gpu_idle",
+      "disk_warning",
+      "disk_hard_stop"
+    ],
+    "idempotency": "experiment_id/run_id/event/phase"
+  },
+  "overlay_reuse": {
+    "decision": "operator 2026-08-25: reuse the true_random stacked overlay for 022 and 024",
+    "022_fair013_best_full": "cap_index column into text_overlays/true_random (slot0/slot1/slot3)",
+    "024_fair013_k3_full": "fixed slot 0 of text_overlays/true_random",
+    "023_slot2_full": "still needs a fresh ~76 GiB encode; slot2 is not in the stack",
+    "bytes_saved": 163208757248,
+    "mechanism": "meanaudio/data/extracted_audio.py cap_index_fixed / cap_index_column, with per-item caption sha256 binding check"
+  },
+  "bug_fixed": {
+    "file": "scripts/preprocess/build_stacked_text_overlay_cache.py",
+    "symptom": "verify pass raised TypeError on every existing overlay file (0-d comma-joined caption_sha256 vs list())",
+    "impact": "021 would have failed before training; fixed by stored_caption_hashes() accepting both layouts",
+    "validated": "300 random real overlay files now verify as valid"
+  }
+}

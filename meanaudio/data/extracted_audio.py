@@ -1,3 +1,4 @@
+import hashlib
 import logging
 import random
 from pathlib import Path
@@ -24,11 +25,16 @@ class ExtractedAudio(Dataset):
         concat_text_fc: bool,
         npz_dir: Union[str, Path],
         data_dim: dict[str, int],
+        text_npz_dir: Optional[Union[str, Path]] = None,
         repa_npz_dir: Optional[Union[str, Path]],   # if passed, repa features (zs) would be returned
         exclude_cls: Optional[bool],
         repa_version: Optional[int],
         gt_cache: Optional[Union[str, Path]] = None,
+        require_text_overlay: bool = False,
         multi_cap: bool = False,   # if True, NPZ stores N captions [N, seq_len, dim]; random one picked per __getitem__
+        cap_index_fixed: Optional[int] = None,    # reuse a stacked overlay by always taking this caption slot
+        cap_index_column: Optional[str] = None,   # reuse a stacked overlay by taking a per-row slot from the TSV
+        use_text_attention_mask: bool = True,
     ):
         super().__init__()
         self.data_dim = data_dim
@@ -46,6 +52,41 @@ class ExtractedAudio(Dataset):
         self.exclude_cls = exclude_cls
         self.repa_version = repa_version
         self.multi_cap = multi_cap
+        self.use_text_attention_mask = use_text_attention_mask
+        self.epoch = 0
+        self.caption_seed = 14159265
+        self.text_npz_dir = Path(text_npz_dir) if text_npz_dir is not None else None
+        self.require_text_overlay = require_text_overlay
+        if self.require_text_overlay and self.text_npz_dir is None:
+            raise ValueError('require_text_overlay=True but text_npz_dir is not configured')
+        if self.require_text_overlay and len(self.npz_files) != len(self.df_list):
+            raise ValueError(
+                f'overlay binding count mismatch: cache={len(self.npz_files)} tsv={len(self.df_list)}'
+            )
+
+        # Single-caption arms can reuse a stacked multi-caption overlay instead of
+        # re-encoding an identical copy: pick one slot out of [N, seq_len, dim].
+        self.cap_indices: Optional[list[int]] = None
+        if cap_index_fixed is not None and cap_index_column is not None:
+            raise ValueError('cap_index_fixed and cap_index_column are mutually exclusive')
+        if (cap_index_fixed is not None or cap_index_column is not None) and self.multi_cap:
+            raise ValueError('cap_index_fixed / cap_index_column cannot be combined with multi_cap=True')
+        if cap_index_fixed is not None:
+            if int(cap_index_fixed) < 0:
+                raise ValueError(f'cap_index_fixed must be non-negative, got {cap_index_fixed}')
+            self.cap_indices = [int(cap_index_fixed)] * len(self.df_list)
+            log.info(f'cap_index_fixed={int(cap_index_fixed)}: reusing one slot of a stacked text overlay')
+        elif cap_index_column is not None:
+            if cap_index_column not in self.df_list[0]:
+                raise ValueError(f'cap_index_column {cap_index_column!r} is not a column of {tsv_path}')
+            indices = [int(row[cap_index_column]) for row in self.df_list]
+            if min(indices) < 0:
+                raise ValueError(f'cap_index_column {cap_index_column!r} holds a negative index')
+            self.cap_indices = indices
+            log.info(
+                f'cap_index_column={cap_index_column!r}: reusing per-row slots of a stacked text overlay '
+                f'(range {min(indices)}..{max(indices)})'
+            )
 
         if self.concat_text_fc:
             log.info(f'We will concat the pooled text_features and text_features_c for text condition')
@@ -56,16 +97,21 @@ class ExtractedAudio(Dataset):
         if not npz_files:
             raise FileNotFoundError(f'No NPZ files found in {npz_dir}')
         sample = np.load(f'{npz_dir}/{npz_files[0]}')
+        text_sample = (
+            np.load(self.text_npz_dir / npz_files[0])
+            if self.text_npz_dir is not None else sample
+        )
         self.text_attention_mask_key = None
-        for mask_key in ('text_attention_mask', 'attention_mask'):
-            if mask_key in sample.files:
-                self.text_attention_mask_key = mask_key
-                break
+        if self.use_text_attention_mask:
+            for mask_key in ('text_attention_mask', 'attention_mask'):
+                if mask_key in text_sample.files:
+                    self.text_attention_mask_key = mask_key
+                    break
         mean_s = [len(self.df_list)] + list(sample['mean'].shape)
         std_s = [len(self.df_list)] + list(sample['std'].shape)
         # multi_cap: text_features shape is [N, seq_len, dim]; use last two dims for check
-        text_features_s = [len(self.df_list)] + list(sample['text_features'].shape[-2:])
-        text_features_c_s = [len(self.df_list)] + list(sample['text_features_c'].shape[-1:])
+        text_features_s = [len(self.df_list)] + list(text_sample['text_features'].shape[-2:])
+        text_features_c_s = [len(self.df_list)] + list(text_sample['text_features_c'].shape[-1:])
         if self.concat_text_fc:
             text_features_c_s[-1] = text_features_c_s[-1] + text_features_s[-1]
 
@@ -74,8 +120,10 @@ class ExtractedAudio(Dataset):
         log.info(f'Loaded std: {std_s}.')
         log.info(f'Loaded text features: {text_features_s}.')
         log.info(f'Loaded text features_c: {text_features_c_s}.') 
-        if self.text_attention_mask_key is not None:
-            text_attention_mask_s = [len(self.df_list)] + list(sample[self.text_attention_mask_key].shape[-1:])
+        if not self.use_text_attention_mask:
+            log.info('Text attention masks disabled; reproducing the legacy all-77-token path.')
+        elif self.text_attention_mask_key is not None:
+            text_attention_mask_s = [len(self.df_list)] + list(text_sample[self.text_attention_mask_key].shape[-1:])
             log.info(f'Loaded text attention masks: {text_attention_mask_s}.')
         else:
             log.info('No text attention mask found in NPZ; treating all text positions as valid.')
@@ -116,6 +164,38 @@ class ExtractedAudio(Dataset):
         else: 
             self.repa_npz_dir = None
 
+    def set_epoch(self, epoch: int) -> None:
+        self.epoch = int(epoch)
+
+    def _true_random_cap_index(self, clip_id: str, n_caps: int) -> int:
+        payload = f"k3-true-random-v1\0{self.caption_seed}\0{self.epoch}\0{clip_id}".encode()
+        return int.from_bytes(hashlib.sha256(payload).digest()[:8], "big") % n_caps
+
+    @staticmethod
+    def _stored_caption_hashes(value: np.ndarray) -> list[str]:
+        """Overlay files store caption_sha256 as a 0-d comma-joined string; accept 1-D too."""
+        if value.ndim == 0:
+            return str(value.item()).split(',')
+        return [str(item) for item in value.tolist()]
+
+    def _check_caption_binding(self, text_np_data, idx: int, cap_idx: Optional[int]) -> None:
+        """Guard the caption<->overlay pairing that silently broke the Phase 9 multi-cap runs."""
+        if not self.require_text_overlay or 'caption_sha256' not in text_np_data.files:
+            return
+        stored = self._stored_caption_hashes(text_np_data['caption_sha256'])
+        row_sha = hashlib.sha256(str(self.df_list[idx]['caption']).encode('utf-8')).hexdigest()
+        if cap_idx is None:
+            # multi_cap picks a slot per epoch, so only require membership.
+            if row_sha not in stored:
+                raise ValueError(
+                    f'text overlay caption mismatch at index {idx}: TSV caption is not among the {len(stored)} stacked captions'
+                )
+            return
+        if cap_idx >= len(stored) or stored[cap_idx] != row_sha:
+            raise ValueError(
+                f'text overlay caption mismatch at index {idx}: slot {cap_idx} of {len(stored)} does not match the TSV caption'
+            )
+
     def compute_latent_stats(self) -> tuple[torch.Tensor, torch.Tensor]:
         # !TODO here we may consider load pre-computed latent mean & std
         raise NotImplementedError('Please manually compute latent stats outside. ')
@@ -123,21 +203,52 @@ class ExtractedAudio(Dataset):
     def __getitem__(self, idx):
         npz_path = f'{self.npz_dir}/{self.npz_files[idx]}'
         np_data = np.load(npz_path)
+        text_np_data = (
+            np.load(self.text_npz_dir / self.npz_files[idx])
+            if self.text_npz_dir is not None else np_data
+        )
+        if self.require_text_overlay:
+            expected_id = str(self.df_list[idx]['id'])
+            if 'clip_id' not in np_data.files or str(np_data['clip_id'].item()) != expected_id:
+                raise ValueError(f'audio clip_id mismatch at index {idx}: expected {expected_id}')
+            if 'clip_id' not in text_np_data.files or str(text_np_data['clip_id'].item()) != expected_id:
+                raise ValueError(f'text overlay clip_id mismatch at index {idx}: expected {expected_id}')
         if self.multi_cap:
             # text_features: [N, seq_len, dim], text_features_c: [N, dim]
-            n_caps = np_data['text_features'].shape[0]
-            cap_idx = random.randint(0, n_caps - 1)
-            text_features = torch.from_numpy(np_data['text_features'][cap_idx])
-            text_features_c = torch.from_numpy(np_data['text_features_c'][cap_idx])
-            if self.text_attention_mask_key is not None and self.text_attention_mask_key in np_data.files:
-                text_attention_mask = torch.from_numpy(np_data[self.text_attention_mask_key][cap_idx]).bool()
+            n_caps = text_np_data['text_features'].shape[0]
+            cap_idx = self._true_random_cap_index(str(self.df_list[idx]['id']), n_caps)
+            self._check_caption_binding(text_np_data, idx, None)
+            text_features = torch.from_numpy(text_np_data['text_features'][cap_idx])
+            text_features_c = torch.from_numpy(text_np_data['text_features_c'][cap_idx])
+            if self.text_attention_mask_key is not None and self.text_attention_mask_key in text_np_data.files:
+                text_attention_mask = torch.from_numpy(text_np_data[self.text_attention_mask_key][cap_idx]).bool()
+            else:
+                text_attention_mask = torch.ones(text_features.shape[0], dtype=torch.bool)
+        elif self.cap_indices is not None:
+            # Stacked overlay reused by a single-caption arm: take exactly one slot.
+            stacked = text_np_data['text_features']
+            if stacked.ndim != 3:
+                raise ValueError(
+                    f'cap index selection needs a stacked overlay [N, seq_len, dim], got {stacked.shape} at index {idx}'
+                )
+            cap_idx = self.cap_indices[idx]
+            if cap_idx >= stacked.shape[0]:
+                raise ValueError(
+                    f'cap index {cap_idx} out of range for {stacked.shape[0]} stacked captions at index {idx}'
+                )
+            self._check_caption_binding(text_np_data, idx, cap_idx)
+            text_features = torch.from_numpy(stacked[cap_idx])
+            text_features_c = torch.from_numpy(text_np_data['text_features_c'][cap_idx])
+            if self.text_attention_mask_key is not None and self.text_attention_mask_key in text_np_data.files:
+                text_attention_mask = torch.from_numpy(text_np_data[self.text_attention_mask_key][cap_idx]).bool()
             else:
                 text_attention_mask = torch.ones(text_features.shape[0], dtype=torch.bool)
         else:
-            text_features = torch.from_numpy(np_data['text_features'])
-            text_features_c = torch.from_numpy(np_data['text_features_c'])
-            if self.text_attention_mask_key is not None and self.text_attention_mask_key in np_data.files:
-                text_attention_mask = torch.from_numpy(np_data[self.text_attention_mask_key]).bool()
+            self._check_caption_binding(text_np_data, idx, None if text_np_data['text_features'].ndim == 3 else 0)
+            text_features = torch.from_numpy(text_np_data['text_features'])
+            text_features_c = torch.from_numpy(text_np_data['text_features_c'])
+            if self.text_attention_mask_key is not None and self.text_attention_mask_key in text_np_data.files:
+                text_attention_mask = torch.from_numpy(text_np_data[self.text_attention_mask_key]).bool()
             else:
                 text_attention_mask = torch.ones(text_features.shape[0], dtype=torch.bool)
         if self.concat_text_fc:
@@ -152,10 +263,11 @@ class ExtractedAudio(Dataset):
             'a_std': torch.from_numpy(np_data['std']), 
             'text_features': text_features, 
             'text_features_c': text_features_c,
-            'text_attention_mask': text_attention_mask,
             'caption': self.df_list[idx]['caption'],
             'q_level': torch.tensor(q_level, dtype=torch.long),
         }
+        if self.use_text_attention_mask:
+            out_dict['text_attention_mask'] = text_attention_mask
         if self.repa_npz_dir != None: 
             repa_npz_path = f'{self.repa_npz_dir}/{idx}.npz'
             repa_np_data = np.load(repa_npz_path)
