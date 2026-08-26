@@ -1,6 +1,8 @@
 # Phase 狀態總表
 
 > Phase 編號作內部追蹤用；對外報告和論文使用描述性名稱（`資料集-Caption策略-Q信號`）。
+>
+> Caption 2.0 (phase8_c2p0) 系列不走 4-token，見下方「Caption 2.0 (phase8_c2p0) arm 命名」。
 
 ---
 
@@ -25,9 +27,9 @@
 | Phase 4 V2 | LP-BC-NoQ | 0.191 |
 | Phase 7 V1 | LP-Rnd-Q | **0.198** (歷史最佳) |
 | Phase 8 | LP-Rnd-NoQ | 0.185 |
-| Phase 9 V1 bugfix | LP-Multi-NoQ | 0.065 |
-| Phase 9 V2 bugfix | LP-Multi-Q | 0.040 |
-| Phase 9.5 V1 | Qwen-Multi-NoQ | 0.061 |
+| Phase 9 V1 bugfix | LP-Multi-NoQ | ~~0.065~~ **INVALID: cache misaligned** |
+| Phase 9 V2 bugfix | LP-Multi-Q | ~~0.040~~ **INVALID: cache misaligned** |
+| Phase 9.5 V1 | Qwen-Multi-NoQ | ~~0.061~~ **INVALID: same cache-writer bug** |
 | Phase 9.5 V2 | Qwen-Multi-Q | (SKIPPED) |
 | P8-Qwen | Qwen-Rnd-NoQ | 0.061 |
 | P7V1-Qwen | Qwen-Rnd-Q | 0.069 |
@@ -50,22 +52,145 @@
 | **Phase 8 V4** | `JamendoFull-Random-PromptConsistency-NoQ` | mean_similarity raw float 寫進 caption prefix `[consistency=X.XX]`，訊號全走 text encoder（QA-MDT 風格），不依賴 q_embed。eval inference prefix 固定 `0.90`（in-support，median–p90 區間） | ✅ **完成 2026-04-27**。**Natural-ref CLAP**：MusicCaps 0.0571 / Jamendo seed42 0.0591（vs P8 NoQ baseline 0.1851 / 0.1986），AES 僅小跌（PC 甚至略升）。⚠️ 這是 **natural-ref**（metric tsv 用原始未 prefix caption）— 只能說 cross-format alignment 弱，不等於 prompt-following 失敗。Prompt-following（prefixed-ref CLAP）+ dual-ref backfill 排在 priority queue（Codex Round 2 P1 驅動）。Working hypotheses（行為類似 P9 multi-cap 但 mechanism 未證）見下方分析段 |
 | **Phase 8 V4 Q** | `JamendoFull-Random-PromptConsistency-S2OnlyQ` | 同 P8 V4（保留 `[consistency=X.XX]` prefix），但 S2 開 `use_q_conditioning=true`（複用 P8 V4 S1 NoQ ckpt）。測試問題：text prefix + q_embed 雙 pathway 並存能否救回 semantic CLAP？ | ✅ **完成 2026-04-27**（dual-ref）。**MusicCaps**：q=6 prefixed_ref **0.0626** / natural_ref 0.0562；q=9 prefixed_ref 0.0598 / natural_ref 0.0539。**Jamendo seed42**：q=6 prefixed_ref 0.0450 / natural_ref 0.0447；q=9 prefixed_ref 0.0417 / natural_ref 0.0411。**讀數**：(1) prefixed_ref 一致高於 natural_ref（MC ~+11%、JM ~+1%）→ 模型有在 follow prompt format；(2) 加 Q pathway 沒救回 CLAP（vs P7 V1 ~0.20 仍差 3-4×）；(3) MC q=6 > q=9（P7 V1 是 flat，這裡不同）。⚠️ caveat：S1 沒看過 Q → S2-only Q regime（half-Q 等級劣化已知）|
 | Phase 9 V1 (buggy) | `JamendoFull-TrueRandom-NoQ` | LP-MusicCaps 5 caps 動態採樣，無 Q | ❌ 廢棄（帶 q=9→10 bug、undrop 別名 bug，Jamendo CLAP 0.0260 崩盤）|
-| **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ✅ 完成 2026-04-20。MusicCaps CLAP 0.0650（2.5x 修前），AES 四項超 Phase 8，但 CLAP 遠不及 static random。跨 test set 一致（非 overfit），殘差尚未被單一機制定位 |
+| **Phase 9 V1 bugfix** | 同上（修 bug 後）| 修 networks.py q=10 + runner_meanflow.py undrop clone | ❌ **結果失效 2026-07-16**：0.0650 checkpoint 使用全量 audio–caption 錯配 cache；只保留為 corrupted-data artifact，不得比較 multi-cap 效果 |
 | Phase 9 V2 (half Q) | `JamendoFull-TrueRandom-MeanSim-Q` | 同 V1 + Q=pairwise MeanSim of 5 caps | ❌ 廢棄於 iter 31k（發現 runner_flowmatching.py 沒讀 q；artifact 保留為 `phase9_v2_s1noq_s2q_partial_*`）|
-| **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ✅ 完成 2026-04-21。MusicCaps **q=9** CLAP 0.0403 < V1。**需注意 confound**：(a) multi_cap 本身、(b) full Q vs half Q、(c) q=9 不是訓練分布眾數 — 三變量未拆開。假說：aggregate-q 與 random-1/5 mismatch（未證）|
-| **Phase 9.5 V1** | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps，從零 S1+S2 | ✅ **完成 2026-05-04**。MC n=5521 CLAP **0.0609**；JM seed42 CLAP 0.0594；steering ratio max 0.044。Qwen multi-cap 也 collapse（initial interpretation 是「重現 multi-cap collapse」，但後續 P8-Qwen / P7V1-Qwen / P4V2-Qwen single-cap controls 顯示主因是 Qwen caption regime / missing LP-MC writing-task anchor，不是 multi-cap alone — 見 EXP 系列）|
-| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ❌ **SKIP 2026-05-04**（Codex sequential gate 兩條件全 fail：MC CLAP < 0.0650 + steering < 0.2；V2 跑只會確認失敗，省 19h GPU）|
-| **P8-Qwen** | `JamendoFull-QwenOmni-Random-NoQ` (single-cap) | Qwen 5 caps random pick (seed=42, static), single-cap, NoQ | ✅ **完成 2026-05-06**。MC CLAP **0.0611**, JM s42 0.0582, PE-AV peav **−0.038**, steering max 0.120。**單把 multi-cap 拿掉，Qwen 仍 collapse** — 推翻 P9.5 V1「multi-cap-random-pick 是主因」工作假說 |
+| **Phase 9 V2 bugfix** | 同上（真 Q end-to-end） | 額外修 runner_flowmatching.py 6 處傳 q | ❌ **結果失效 2026-07-16**：0.0403 同樣使用全量 audio–caption 錯配 cache；q sweep 只描述 corrupted-data checkpoint，不支撐 aggregate-q 或 multi-cap claim |
+| **Phase 9.5 V1** | `JamendoFull-QwenOmni-TrueRandom-NoQ` | Qwen2.5-Omni-3B 5 task caps，從零 S1+S2 | ❌ **結果失效 2026-07-16**：由同一舊 writer 生成 sequential multi-cap cache，Qwen captions 也與 mapped audio 全量錯配；0.0609/steering 只保留為 artifact |
+| Phase 9.5 V2 | `JamendoFull-QwenOmni-TrueRandom-MeanSim-Q` | 同上 + Q=pairwise MeanSim of 5 task caps | ❌ **SKIP 2026-05-04**；原 launch gate 引用了失效的 P9 V1/P9.5 V1 數字，不能再解讀成 Q variant 必然失敗 |
+| **P8-Qwen** | `JamendoFull-QwenOmni-Random-NoQ` (single-cap) | Qwen 5 caps random pick (seed=42, static), single-cap, NoQ | ✅ **完成 2026-05-06**。MC CLAP **0.0611**, JM s42 0.0582, PE-AV peav **−0.038**, steering max 0.120。有效 observation：Qwen single-cap 本身也呈低 prompt conditioning；因 P9.5 multi-cap 對照失效，不再解讀為「拿掉 multi-cap 沒救回」 |
 | **P7V1-Qwen** | `JamendoFull-QwenOmni-Random-MeanSim-Q` (single-cap) | Qwen single-cap random + Qwen-local mean_sim Q | ✅ **完成 2026-05-07**。MC CLAP q=6 0.0687 / q=9 0.0686, JM s42 q=9 0.0599, PE-AV −0.038, steering max 0.057。**加 Q 也救不回**；Qwen-local q sweep flat (q=6 ≈ q=9) |
 | **P4V2-Qwen** | `JamendoFull-QwenOmni-BestConsensus-NoQ` (single-cap) | Qwen single-cap BestConsensus (argmax of pairwise mean_sim row), NoQ | ✅ **完成 2026-05-08**。MC CLAP **0.0611**, JM s42 0.0596。BestConsensus 選法對 collapse 無影響 — 加入 +0.020 Qwen-prompt boost cluster（第 7 個 collapsed 模型）|
 
-> 完整 Qwen rerun 三組對照與翻盤的 paper-narrative 修正見 `qwen_rerun_summary.md`。
+> 完整 Qwen rerun 三組對照與翻盤的 paper-narrative 修正見 `docs/experiments/history/phase8/qwen_rerun_summary.md`。
 
-## Phase 9 NPZ 前處理狀態（2026-04-18）
+## Caption 2.0 (phase8_c2p0) arm 命名（2026-08-26 統一）
+
+> 這組 arm 不走上面的 4-token 規則（那套是 LP/Qwen collapse 時代的）。
+> Caption 2.0 = Qwen2.5-Omni-3B first-10s `multisent_max160_stop_clean_v1`，
+> **per-segment** caption（不是整軌一條）。
+
+```
+{Slot 來源} {選法} {scale}          ← NoQ 是預設，不寫；有 Q 才標
+```
+
+| Token | 意義 |
+|---|---|
+| `slot0` / `slot1` / `slot2` / `slot3` | 第幾條 captioner 取樣。`slot0` = base `phase8_qwen_caption10s_multisent_train.tsv`（磁碟上沒有 `slot0_train.tsv` 這個檔） |
+| `013` | slot **0/1/3** 三條組成的 stacked overlay pool（`/home/kojiek/text_overlays/`，每個 npz `(3, 77, 1024)`） |
+| `fulltrack` | **不是 Caption 2.0**。整軌一條 Qwen caption 複製給該軌所有 segment 的舊語料 |
+| `true random` / `fake random` | 同一個 013 pool 的取槽方式：true = `multi_cap=True`（每 epoch 依 clip_id hash 重抽）、fake = `multi_cap=False`（每列固定槽） |
+| `bestof3` / `worstof3` | 013 pool 內依 CLAP 選最高 / 最低 |
+| `q3` / `q5` | q bucket 數（`q3` → q∈{0,5,9}，`q5` → q∈{0,2,5,7,9}）。**出現即代表 `use_q_conditioning=true`** |
+| `quarter` / `full` | quarter = S1 100k + S2 50k；full = S1 400k + S2 200k |
+
+### ⚠️ 舊寫法 `k3` / `k5` 已停用（歧義）
+
+`K` 在不同 arm 是兩件事，混用會推出錯誤結論：
+
+- `k3_balanced` / `k5_balanced` → K = **q bucket 數**，`use_q_conditioning=true` → 改寫 `q3` / `q5`
+- `k3_true_random` / `k3_fake_random` → K = **caption 槽數**，`use_q_conditioning=False` → 改寫 `013 true random` / `013 fake random`
+
+### 正名對照（本週 CFG0 / MF25 / MusicCaps n=5521）
+
+| 正名 | 實際 exp id | MC CLAP |
+|---|---|---|
+| `slot0 q5 full` | `phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced` | **0.2174** |
+| `slot0 full` | `phase8_qwen_caption10s_multisent_noq_full_stage2_200000` | 0.2149 |
+| `slot0 q3 full` | `phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced` | 0.2145 |
+| `013 bestof3 quarter` | `phase8_qwen_caption2p0_bestof3_noq_quarter` | 0.2129 |
+| `fair013 bestof3 quarter` | `phase8_qwen_caption2p0_fair013_bestof3_noq_quarter` | 0.2114 |
+| `fair013 worstof3 full` | `phase8_qwen_caption2p0_fair013_worstof3_noq_full` | 0.2109 |
+| `slot1 quarter` | `phase8_qwen_caption2p0_slot1_noq_quarter` | 0.2047 |
+| `slot0 quarter` | `phase8_qwen_caption10s_multisent_noq_quarter` | 0.2029 |
+| `slot2 quarter` | `phase8_qwen_caption2p0_slot2_noq_quarter` | 0.2017 |
+| `013 true random quarter` | `phase8_qwen_caption2p0_k3_true_random_noq_quarter` | 0.2013 |
+| `013 fake random quarter` | `phase8_qwen_caption2p0_k3_fake_random_noq_quarter` | 0.2005 |
+| `fair013 worstof3 quarter` | `phase8_qwen_caption2p0_fair013_worstof3_noq_quarter` | 0.1985 |
+| `fair013 q3 quarter` | `phase8_qwen_caption2p0_fair013_k3_quarter` | 0.1966 |
+| `013 worstof3 quarter` | `phase8_qwen_caption2p0_worstof3_noq_quarter` | 0.1957 |
+| `qwen3cap q3 quarter` | `phase8_qwen_caption2p0_qwen3cap_k3_quarter` | 0.1894 |
+| **`fulltrack q3 full`** | `phase8_qwen_s2q_from_noq_full_k3_balanced` | 0.1821 |
+
+**anchor**：`rmatched s2 mf25 cfg0.5` = 0.2157（n=5521）。各 REPORT.json 的
+`fair_compare_anchor` 欄把它寫成 `caption2p0_s2_mf25_cfg0`，**那是錯的** —
+磁碟上產出 0.2157 的是 `rmatched_s1_s2_steps_cfg_matrix_seed14159265_s2_mf25_cfg0p5`，
+不同 corpus。真正的 caption2p0 S2 是 `caption_granularity_..._caption2p0_s2_mf25_cfg4p5`
+= 0.2419 @ cfg4.5（換協定不可比）。
+
+### `fulltrack q3 full` 不是 slot（2026-08-26 更正）
+
+`phase8_qwen_s2q_from_noq_full_k3_balanced`（0.1821）與
+`phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced`（0.2145）只差 exp id 裡的
+`caption2p0` 一個 token，但語料完全不同：
+
+| | `fulltrack q3 full` | `slot0 q3 full` |
+|---|---|---|
+| 訓練 TSV | `phase8_qwen_meansim_k3_balanced.tsv` | `phase8_caption2p0_k3_balanced_train.tsv` |
+| caption 粒度 | 整軌一條，複製給該軌所有 segment | per-segment |
+| 訓練日 | 2026-08-02 | 2026-08-24 |
+| S1 來源 | official_matched NoQ 400k | caption10s_multisent NoQ 400k |
+
+500 列 sha256 比對：`k3_balanced` / `k5_balanced` 的 caption **500/500 等同 slot0**，
+只有 `q_level` 欄不同；`fulltrack` 0/500。
+
+- ⚠️ 它掛 slot 編號會誤導 —— slot0/1/2/3 都是 Caption 2.0 的不同 captioner 取樣，
+  fulltrack 不在那個維度上。
+- ⚠️ 綁它的 `docs/experiments/caption2p0_k3_full_cfg0_eval_contract.json`
+  `experiment_id` 寫成 `phase8-caption2p0-k3-slot012-full-cfg0-eval`，
+  與該 checkpoint 訓練 log 的 TSV 矛盾 —— **contract 的 provenance 標錯，尚未修**。
+
+### 語料保存狀態（2026-08-26 查核）
+
+- `/mnt/HDD/kojiek/phase8_qwen_official_matched_npz` 於 **2026-08-22 被整批原地覆寫**
+  成 Caption 2.0 text features（抽驗 `33.npz` 的 `caption_sha256` = c2p0 TSV row0，
+  ≠ fulltrack TSV row0）。`fulltrack q3 full` 訓於 08-02，在覆寫**之前**，
+  數字有效 —— 但**該語料已不在磁碟上，那個 run 無法從現有檔案重現**。
+- 該目錄 owner 是 `admin123:admin123`、權限 `drwxrwxrwx`（共用機器上他人可寫）。
+- 這批 run 的 `require_text_overlay` 皆為 `False`，等於
+  `extracted_audio.py::_check_caption_binding()` 那道 TSV↔NPZ caption 對齊守門是關的
+  —— 就是當初為防 Phase 9 錯配寫的。時序上這次躲過，但 08-22 之後任何拿舊 TSV 的重跑
+  都會靜默訓在錯配 caption 上且無警告。**建議後續 full-scale run 一律開 `True`**（未執行）。
+- `/home/kojiek/text_overlays/` 現只剩 `true_random/` 與 `_index/`。`fake_random/` 與
+  `worst013/` 是 **2026-08-26 刻意刪除的**（查出兩者是 true_random slot 的重新編碼複本，
+  251,599/251,599 全可重建，152 GB 純重複），保留 `_index/*.slot_index.tsv` 索引即可還原。
+  ⚠️ 重建是**數值等價非逐位元一致**（相對誤差 median 2e-6 / max 8e-5，float32 re-encode 噪音），
+  不能宣稱與舊 run bit-identical。詳見 `docs/experiments/text_overlay_dedup_2026_08_26.json`。
+
+## Phase 9 NPZ 前處理狀態（歷史；2026-07-16 判定失效）
 
 - `gen_multicap_npz.py` 已跑完，iter 6243 崩潰原因為 `~/phase9_multicap_npz/990.npz` 和 `1218.npz` 缺 `text_features_c`
 - 已透過 `gen_multicap_npz.py --resume` 重新生成，251,599/251,599 齊全
-- `train_pipeline_phase9_v1.sh` 已加上 pre-flight 驗證
+- `train_pipeline_phase9_v1.sh` 當時加入的 pre-flight 只驗 schema，**無法驗證 pairing**。
+
+### ⚠️ 2026-07-16 audit：Phase 9 true-random 結果因 audio--caption mapping 錯配而失效
+
+- 歷史 `gen_multicap_npz.py` 以 TSV row `i` 直接讀取
+  `src_npz/i.npz`；正確 audio latent 必須經 `npz_cache_train.txt` 映射
+  （例如 row 0 → `33.npz`，不是 `0.npz`）。
+- 全量 audit：sequential filename 與 canonical mapping 相同者為
+  **0 / 251,599**。因此 Phase 9 cache 的五個 captions 與 audio
+  `mean/std` 系統性錯配。
+- 舊 validator 只檢查 count / index / file size / keys / shapes，沒有檢查
+  TSV ID ↔ captions ↔ audio latent alignment，所以 preflight 通過不代表
+  pairing 正確。
+- Phase 9 V1 bugfix 的 0.0650 仍重用受影響的 S1 checkpoint 和同一份錯配
+  cache；**不得再用此數字主張 true random / all-five-caption training 有害**。
+- Phase 9.5 V1 的 Qwen multi-cap cache 由同一 writer 生成，且 pipeline 未傳
+  `gt_cache`、依 row index 載入；0.0609 也失效。有效的 Qwen single-cap
+  controls 不受這項特定 multi-cap cache bug 影響。
+- P0 TODO：按 `npz_cache_train.txt` 重建含 attention mask 的 multi-caption
+  cache，加入 mapped `mean/std` exact-equality audit，使用修正後 NoQ/q-null
+  與 CFG code，S1+S2 從零重訓，並以同 code/steps 的 clean static-random
+  baseline 比較。詳細 checklist 見
+  `docs/reviews/ismir2026-487-promptcc/CORRECTNESS_VALIDATION_PLAN.md`。
+
+**2026-07-16 tooling fix**：`gen_multicap_npz.py` 現在強制要求
+`--gt-cache`，source 與 output 均使用 canonical filename，並寫入綁定
+TSV id / filename / ordered-caption SHA-256 的 `MANIFEST.tsv`；
+每個 NPZ 也內嵌 `clip_id / row_index / caption_sha256`；
+`validate_multicap_npz.py` 預設全量驗證 provenance、manifest、caption membership，以及
+output 對 mapped source 的 `mean/std` exact equality。舊 cache 沒有 v2 manifest，
+不能通過新 pre-flight。
 
 ## Phase 9 V1/V2 bugfix 核心發現（2026-04-20/21）
 
@@ -74,9 +199,9 @@
 2. `runner_meanflow.py:238-239/268-269` `text_f_undrop = text_f` 是別名不是 clone → in-place null mask 污染 CFG target。Claude 2026-04-19 獨立發現。
 3. `runner_flowmatching.py` 完全沒讀 q_level、沒傳 q 到 FluxAudio → 所有 Phase 6+「+Q」實驗 S1 都沒訓 q_embed[0-9]。Codex 2026-04-20 發現。已修 6 處（L224/252/262/285/307-309/414-416）。
 
-**實測觀察（需 control 佐證）**：
-- multi_cap + NoQ (V1)：CLAP 0.0650 < static random NoQ (Phase 8) 0.1851。AES 超 Phase 8，跨 test set 一致（非 overfit）
-- multi_cap + Q E2E (V2, q=9)：CLAP 0.0403 < V1。**但只測了 q=9，未 q sweep**
+**歷史 artifact（不得用於方法比較）**：
+- P9 V1 0.0650 與 P9 V2 0.0403 是在系統性錯配 audio–caption pairing 上量到的行為。
+- 這些數字可用來診斷 corrupted-data checkpoint，不能用來估計 multi-cap、true-random 或 Q 的效果。
 
 **Codex 2026-04-21 警告的 confound**：
 - V2 比歷史 Phase 7 V1 (0.1975) 差，但那是 half-Q；V2 是真 full Q → 混了 (a) multi_cap 效應、(b) full Q vs half Q、(c) q=9 vs 最適 q 三個變量
@@ -104,11 +229,11 @@
 
 Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evidence that Stage 1 successfully trained q embeddings. At that time, the runner_flowmatching q-passing bug was still present, so P6 V2 tested the presence of a q_embed layer in the Stage 1 architecture, not effective Stage 1 q learning. The current P7 full-Q rerun shares the former but differs in two active respects: Stage 1 q embeddings are now actually trained, and the Stage 2 text_f_undrop alias bug is fixed. Therefore, the current drop should not be summarized as "full-Q is harmful"; it remains compatible with at least two unresolved contributors: effective Stage 1 q training, the Stage 2 clone fix, or their interaction.
 
-### 已被 falsify 的 strong version
+### 2026-07-16 更正：P9 gap decomposition 撤回
 
-「P9 V2 的差可以完全歸因於 multi-cap」不成立。P9 V2 gap 至少包含：
-1. **Clean-implementation penalty** ~0.02 CLAP（相對 historical half-Q baseline 的觀察，attribution 未分離在 S1 q training vs S2 clone fix）
-2. 一個 P9-specific residual（~0.13 CLAP，行為上與 multi-cap 強相關但未證因果）
+先前把 P9 V2 gap 拆成 clean-implementation penalty 與 ~0.13 P9-specific
+residual；由於 P9 training pairing 全量錯配，後者不是合法的 multi-cap
+effect estimate。只有獨立的 clean P7 full-Q / S2-only ablation 結論仍有效。
 
 ### ✅ 已解決（2026-04-24 ablation chain 完整後）
 
@@ -120,11 +245,11 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 
 - 「full-Q 本身有代價」/ `S1 q training 本質上有害` — 有代價是觀察，mechanism 未證
 - 「S1 q-training 造成 drop」（mechanism claim）— 只能說 primary remaining contributor，不能說 causation
-- 「multi-cap 本質不適合 MeanAudio」— P9-specific residual 仍未有 mechanism proof
+- 「multi-cap 本質不適合 MeanAudio」— clean all-five-caption rerun 尚未完成，現階段沒有有效 LP-MC 對照可支持
 
 ### Confound 記錄
 
-- **A. gt_cache / TSV alignment**：✅ 已驗證 — 歷史與 rerun 都用 `npz_cache_train.txt` (MD5 `1e1641f0...`) + `~/research/meanaudio_training/npz`，相同。
+- **A. gt_cache / TSV alignment**：❌ 2026-07-16 推翻。training loader 的 mapping 設定不等於 cache writer pairing 正確；舊 writer 直接讀 `i.npz`，造成 0/251,599 canonical matches。
 - **B. Pseudo EMA bootstrap**：僅適用 Clean S2 only ablation，不適用 finished full-Q control rerun（後者是從零訓 S1）。
 - **C. Eval pipeline 版本**：歷史 (Mar 2026) 與 rerun (Apr 2026) 都用當前 eval 流程 + num_samples=2048 metric。顯式驗證 TODO（若有疑問可跑歷史 ckpt eval 驗證是否還得 0.1984）。
 
@@ -152,15 +277,40 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
      | fullq_control | 0.1799 | 0.1575 | +14.2% |
      兩者 EMA-vs-online gap 一致（~13-14%）→ **pseudo-EMA bootstrap confound 排除**，gap 為 S2 訓練結構性現象。
 
-5. **最終 drop 拆解（2026-04-24 定稿）**：
+5. **P7 clean control attribution（P9 residual 部分已於 2026-07-16 撤回）**：
    - **General penalty ~0.02 CLAP**：主要來自 S1 effective q training（runner_flowmatching q-passing fix 啟用後）
-   - **P9-specific residual ~0.13 CLAP**：行為上與 multi-cap 強相關，機制未證
+   - ~~**P9-specific residual ~0.13 CLAP**~~：**無效**；混入全量 audio–caption mapping corruption
    - **S2 clone fix**：不是 fullq_control drop 的主因（已 falsify）
    - **Pseudo-EMA bootstrap**：不影響 ema_final 比較結論（已 falsify）
 
-## Phase 9 caption responsiveness — behavior-level 診斷（2026-04-21）
+### Stage 1 PromptCC：結論層級與後續 TODO（2026-07-16 記錄）
 
-**Behavior-level association**（非 causal / 非 mechanistic claim）：在目前實作下，**single-cap 訓練組**保有明顯 prompt steering；**multi-cap 訓練組**的 same-seed prompt steering 大幅衰弱。
+**已確認的 observation / attribution**：
+- 在目前實作與單次訓練設定下，S1+S2 full-Q 相較於 historical half-Q / clean S2-only，CLAP 一致下降約 8–12%。代表性比較為 MusicCaps q=9：0.1748 vs 0.1951；Jamendo q=9：0.1799 vs 0.1993。
+- clean S2-only ablation 回到 historical baseline 附近；S2 `text_f_undrop.clone()` fix 與 pseudo-EMA bootstrap 已排除為主要解釋。因此目前可寫：**Stage 1 effective q training is the primary remaining contributor to the observed drop.**
+- q sweep 顯示 q=6–9 幾乎 flat，而低支援 q 值大幅退化；現有證據較支持 q 是 coarse support/data-regime marker，而不是細粒度 ordinal consistency controller。
+
+**目前的 mechanism hypothesis（尚未證明）**：
+- S1 從零建立 text–audio alignment；離散、低維且經 global AdaLN 注入所有 blocks 的 q，可能成為比完整 caption 更容易使用的資料分區捷徑，使模型較少依賴文字內容。S2-only 加 q 時，既有 text grounding 已形成，因此 q 較可能只扮演 residual uncertainty cue。
+- q 是由同一 audio 的五個 captions 聚合而得，未必描述當次餵入單一 caption 的正確性；這個 aggregate-q / selected-caption mismatch 可能增加 shortcut 或 label-noise 效應。
+- 現行 `runner_flowmatching.py` 的 CFG dropout 會將文字換成 empty features，但不會同步將 q 換成 null token 10；因此 text-null 樣本仍保留 target-derived q。這可能鼓勵 q-only prediction，屬最優先驗證的 implementation-level hypothesis。
+
+**TODO（未完成）**：
+1. **P0 — tied CFG dropout ablation**：S1 文字被 drop 時同步設 `q=10`，與目前保留真實 q 的版本做 matched comparison。
+2. **P1 — clean single-variable rerun**：在相同 code/data/eval 下，從零比較 `S1 NoQ` vs `S1 +Q`；資源允許時使用多個 training seeds，避免把單次 run 差異當作一般性結論。
+3. **P2 — shortcut diagnostics**：測試 shuffled-q、delayed/zero-init gated q，並比較 S1 checkpoints 的 prompt steering、conditional–unconditional gap、text-conditioning activation magnitude，以及 q 與 genre/音色/captioner bias 的關聯。
+4. **P2 — conditioning granularity**：比較 aggregate-q 與 per-caption confidence/consistency signal，確認問題是否來自 clip-level q 與 selected caption 不匹配。
+
+**論文措辭邊界**：
+- ✅ 可寫：「In our current setup, enabling effective prompt-consistency conditioning in Stage 1 is the primary remaining contributor associated with the observed 8–12% CLAP drop, while applying it only in Stage 2 restores the historical performance range.」
+- ✅ 可將 shortcut learning / CFG q leakage 寫為與結果一致、待驗證的解釋。
+- ❌ 不可寫：「Stage 1 PromptCC 本質上有害」或「shortcut learning 已被證明」。目前缺少 tied-dropout、完全 matched multi-seed 與直接 probe 證據。
+
+## Phase 9 caption responsiveness — corrupted-cache artifact（2026-07-16 更正）
+
+> 下列 probe 數字本身可重現，但 P9 V1/V2 checkpoint 是由全量錯配的
+> audio–caption cache 訓練。它們只能顯示「錯配訓練會削弱 steering」，不能再
+> 描述成 single-cap vs multi-cap association，也不能當成 multi-cap failure 證據。
 
 **方法**：
 - 固定 cfg=0.5, num_steps=1（benchmark-matching）
@@ -180,18 +330,18 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 | **P9 V2** (Q=9, multi-cap) | 0.015 | 0.012 | 0.021 | 0.056 |
 
 - ratio > 1 ⇒ prompt 效應 > noise 效應（single-cap 組）
-- ratio < 0.2 ⇒ noise 主導、prompt 微弱（multi-cap 組）
-- **Q 與架構都不是區分因素**；single-cap vs multi-cap 是行為分界線
+- ratio < 0.2 ⇒ P9 corrupted-data checkpoints 中 noise 主導、prompt 微弱
+- ~~single-cap vs multi-cap 是行為分界線~~ → **撤回**；資料 pairing corruption 是未控制的主導變量
 
 **可說**：
-- Same-seed prompt steering weakens strongly in multi-cap runs（behavior-level association）
-- P9 不是完全不看 caption；prompt effect 已經弱到遠小於 noise effect
+- Same-seed prompt steering 在歷史 P9 corrupted-cache runs 中很弱
+- 這些 P9 checkpoints 不是完全不看 caption；prompt effect 小於 noise effect
 - P9 V1 殘留最弱反應維度：density（0.147）與 instrument/drums（~0.07），vocals 最弱（0.025）
 - P9 V2 在所有維度比 V1 更弱（0.01-0.06）
 - Probe battery 一致：P9 a/c ratio 0.001-0.015 vs P7 0.10-0.21（差 20-200x）；P9 S1→S2 ratio 再跌 4-6x，P7 沒跌
 
 **不能說**：
-- ❌ multi-cap "導致" conditioning 失敗（correlation, not causation；data 混合比例、lr 等 confound 未控制）
+- ❌ multi-cap 與 conditioning failure 有效相關或有因果關係（training pairs 已知全量錯配）
 - ❌ text_cond_proj 梯度被毒、weight 崩壞等 mechanism
 - ❌ P9 "unconditional generation"（殘留 ratio 非 0）
 - ❌ P9 "完全不看 caption"
@@ -200,9 +350,11 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 - `p7v1/`、`p8/`、`p9v1/`、`p9v2/`（q=8）、`p9v2_q9/`（sanity）各 24 wav
 - `probe_battery_results.json` 3450 條 records
 
-## Phase 9.5 Qwen captioning 狀態（✅ 2026-05-02 完成）
+## Phase 9.5 Qwen captioning corpus 狀態（caption 完成；multi-cap training 失效）
 
-**最終狀態**：5 slots × 251,599 全部完成，自動 merge → `phase9_omni_captions.jsonl`（251,599 行 / 182 MB）。
+**Caption corpus 狀態**：5 slots × 251,599 全部完成，自動 merge →
+`phase9_omni_captions.jsonl`（251,599 行 / 182 MB）。JSONL 本身仍可用；
+失效的是舊 multi-cap NPZ 中 captions 與 audio statistics 的 pairing。
 
 | Slot | Task framing | 行數 | 狀態 |
 |------|-------------|------|------|
@@ -247,7 +399,7 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 - 18% hallucination 給訓練信號加噪聲，但**不是垃圾資料**（語意仍在，只是樂器/情緒 misjudge）
 - **觀察點**：mean_sim 信號可能被「captioner stability」而非「audio difficulty」污染 → 與 `project_mean_sim_interpretation_hypothesis.md` 反向假設可能對應，P9.5 訓完後值得分析 q 分布 vs audio 特徵
 
-詳細設計見 `phase9_design.md`，Lane A/B/C 排程見 `../meetings/2026-04-18_lane_abc_and_lpmc.md`。
+詳細設計見 `docs/experiments/history/phase9/phase9_design.md`，Lane A/B/C 排程見 `../meetings/2026-04-18_lane_abc_and_lpmc.md`。
 
 ## Phase 8 V4 結果與分析（2026-04-27 完成）
 
@@ -268,16 +420,16 @@ Historical P6 V2 outperformed P6 V1, but this should not be interpreted as evide
 | MusicCaps PQ | 6.416 | 6.544 | −2.0% |
 | MusicCaps PC | **5.272** | 4.983 | **+5.8%** ↑ |
 
-### 診斷：P9 multi-cap 模式重現
+### 診斷：低 CLAP / 高 AES 外觀（不再連結 P9 multi-cap）
 
-**Pattern (behavior-level observation)**：CLAP（natural-ref）大跌（~70%）但 AES 僅小跌（CE/PQ −2-3%），PC 反而上升。這與 P9 V1 NoQ 的「好聽但不貼 prompt」模式相似（P9 V1 MusicCaps natural-ref CLAP 0.0650、AES 超 P8）。
+**Pattern (behavior-level observation)**：CLAP（natural-ref）大跌（~70%）但 AES 僅小跌（CE/PQ −2-3%），PC 反而上升。先前與 P9 V1 連結的解讀已撤回，因 P9 V1 0.0650 來自錯配資料；數值外觀相似不再提供 training-mechanism 證據。
 
 **⚠️ Codex P1 2026-04-27 caveat**：上述 CLAP 0.0571 / 0.0591 是 **natural-ref**（metric tsv = 原始未 prefix caption；generation tsv = 帶 `[consistency=0.90]` prefix）。**這只是 cross-format alignment，不是 prompt-following metric**。要真正測「模型有沒有跟著 prompt 走」必須補 prefixed-ref pass（generation 與 metric 同 TSV）。dual-ref backfill 排在 2026-04-27 priority queue #1.5。
 
 **Working hypotheses（需 embedding/probe evidence 才能升級為 mechanism claim）**：
 - H1: `[consistency=X.XX]` 前綴占據 T5 token sequence 前幾個位置，可能影響 text embedding 主方向（**未測 embedding norm/方向變化**）
 - H2: 模型可能學到「consistency 數值 → 音質/風格」捷徑而 underweight 語義 caption（**未做 attention/probe 驗證**）
-- H3: 行為層觀察（CLAP↓ + AES≈持平 + PC↑）與 multi-cap collapse 模式相似（**僅相似，未證共享機制**）
+- ~~H3: 與 multi-cap collapse 模式相似~~：**撤回**；參照 checkpoint 的 audio–caption pairing 已知失效
 
 **對 QA-MDT 類方法的觀察**（design suggestion，非 finding）：
 - QA-MDT 原始設計用離散 quality token（`[high]`/`[medium]`/`[low]`），semantic caption 完整保留
@@ -476,38 +628,71 @@ q=9 比其他 q 高 2-5×，與 P8 bug 確認（null 訓在 q[9]）完全吻合�
 - q=5..9 all negative (random init hurts)
 - q=10 = baseline (trained null verified)
 
-## TODO：Retrain P8 NoQ bug-free（排隊中，未跑）
+## TODO：Retrain P8 NoQ bug-free — **DONE 2026-07-16（結果偏離）**
 
-**目的**：用修好 `networks.py`（q=None→10）的 codebase 從頭 retrain P8 NoQ，得到乾淨 baseline，正確估計 Q conditioning 貢獻度。
+**EXPERIMENT_COMPLETE** · exp：`phase8_bugfix_rerun_stage2_200000` · tmux `p8_clean_baseline`（已結束）
 
-**動機**：
-- P8 歷史 baseline 0.1851 = `--no_q` 走 q[10]（untrained）= train/eval mismatch artifact
-- 真正 bug-free baseline 應 ≈ 0.190（q=9 proxy）— Q 貢獻只有 ~3-4%，非歷史所說的 +6.7%
-- 這個數字對論文 Table 1 有實質影響（Q conditioning 的貢獻從 6.7% 縮為 3-4%）
+### Timeline
+- 01:20 launch · clean NPZ 251,599 驗證通過 · S1 01:32–13:14 · S2 ~13:14–19:03 · MusicCaps gen+metrics ~19:03–19:15
+- S1/S2 訓練健康：~0.10–0.105 s/it、loss≈0.986、grad≈1.9–2.1、GPU≈93%、VRAM≈14.8 GB
+- ckpt：`exps/phase8_bugfix_rerun_stage1_400000/*_ema_final.pth`、`exps/phase8_bugfix_rerun_stage2_200000/*_ema_final.pth`
+- log：`/home/kojiek/logs/phase8_bugfix_rerun_pipeline.log`
+- metrics：`eval_output/metrics/phase8_bugfix_rerun_stage2_200000_musiccaps/metrics.txt`
+- audio：`eval_output/phase8_bugfix_rerun_stage2_200000_musiccaps/audio/`（5521 flac，RMS 正常、非靜音）
 
-**設定（草稿）**：
-```bash
-EXP_PREFIX="phase8_nobug"          # 或 phase8_v2_clean
-USE_Q_CONDITIONING=false
-S1_ITERATIONS=400000
-S2_ITERATIONS=200000
-# networks.py q=None→10（已修）
-# runner_flowmatching.py q-passing（已修，但 NoQ 訓練不傳 q，不影響）
-```
+### MusicCaps `--no_q` 結果 vs 預想
 
-**ETA**：~19h GPU（S1 12.3h + S2 6.7h），eval ~11 min（MusicCaps）
+| metric | 本 run | 預想 | 歷史髒 baseline | 判定 |
+|---|---:|---:|---:|---|
+| **CLAP** | **0.0615** | 0.185–0.195（proxy ~0.190） | 0.1851 | 🔴 **嚴重偏離**（<0.17） |
+| aes_CE | 5.977 | ~5.91 | 5.91 | ✅ |
+| aes_CU | 6.575 | ~6.75 | 6.75 | ✅ 略低 |
+| aes_PC | 5.328 | ~4.98 | 4.98 | ✅ 略高 |
+| aes_PQ | 6.542 | ~6.54 | 6.54 | ✅ |
 
-**Priority**：P1（論文 Table 1 必要）；插隊時間：P9.5 captioning 結束後 / Fig.2 data 收齊後
+### Eval 核對（非路徑/指令錯）
+- `eval.py`：`meanaudio_s` + S2 `ema_final` + MusicCaps TSV + `--use_meanflow --num_steps 1 --encoder_name t5_clap --text_c_dim 512 --cfg_strength 0.5 --no_q --full_precision`
+- `phase4_eval.py`：5521 clips，CLAP 0 skip；AES 173 batches 完成
+- 音訊抽樣：10s @16kHz、mean RMS≈0.12、frac near-zero = 0 → **非 silent / 非空檔**
+- AES 正常 + CLAP 崩 → 美學/生成能量 OK，**語意對齊失敗**（類似 P8 V4 natural-ref ~0.057 / EXP-A ~0.061 量級）
 
-**Blockers**：
-1. /mnt/HDD 空間（需 ~5 GB checkpoint）→ 先確認有空間
-2. P9.5 captioning 是否持續（NoQ 重訓與 captioning 可能衝 GPU）
+### 解讀（暫定，勿當最終論文數字）
+- 訓練迴圈表面健康，但 bug-free NoQ clean retrain **未** 重現歷史 0.185 或 q=9 proxy 0.190。
+- **不要輕率重訓**；先查：(1) clean NPZ text 與 TSV caption 對齊、(2) `--no_q` / q-embed null 路徑是否仍與 train 一致、(3) 歷史髒 P8 EMA 用**同** eval 指令能否仍得 ~0.185（sanity）、(4) 抽聽 gen audio 是否 prompt-follow。
+- 論文 Table 1：此 run **不可** 當 clean NoQ baseline 數字；標記為 failed/outlier 直至根因釐清。
+
+### 設定（實際）
+- `USE_Q_CONDITIONING=false` · S1 400k + S2 200k · single-cap · clean NPZ `npz_phase7_clean`
+- `networks.py` q=None→10（bug-fix）· batch 8 · lr 1e-4
+
+### 根因與後續（2026-07-17 forensics → 2026-07-18 排程）
+
+見 `docs/experiments/history/phase8/phase8_baseline_forensics_2026_07_17.md`：七月 clean retrain 用了與 Phase-7 TSV ID 幾乎全量錯配的 audio latent；歷史 0.1851 實際吃的是 **extraction catalog 配對 + 訓練時 Q（runner 忽略 `use_q_conditioning=false`）**。
+
+| 實驗 | 狀態 | 單變量 |
+|---|---|---|
+| `phase8_legacy_repro` | **✅ 完成（2026-07-19）** MusicCaps CLAP **0.1684**（CE 5.36 / PQ 6.49；q=9 + NoMask eval）。vs 歷史 q=9 條件 0.1907 delta −0.022（audit ±0.03 內；量級=S1-effective-q penalty ~0.02）。⚠️ 首次 eval 誤用 `--no_q` 得 0.0134（Q-trained 模型的 q=10=uncond 記號）— pipeline/audit 已修，見 forensics addendum | catalog-matched + **Q=true** + NoMask |
+| `phase8_catalog_matched_noq` medium gate | **✅ PASSED（2026-07-19）** `p8_catalog_noq_gate`：100+100+64；S1=`fluxaudio_s` / S2=`meanaudio_s`；`use_q=false` + NoMask；eval `'no_q': True`；short-run CLAP −0.0352（**wiring only**，非收斂指標） | 同 n4096 smoke + **Q=false**；只驗 wiring |
+| `phase8_catalog_matched_noq` full | **✅ 完成（2026-07-20）** S1 400k + S2 累計 600k；MusicCaps 5,521/5,521，CLAP **0.1888** / CE 5.7252 / CU 6.4241 / PC 4.8893 / PQ 6.4174；final audit PASSED。單次 AMP grad NaN 為已恢復 overflow，未造成 checkpoint corruption | 同 full cache + **Q=false** + NoMask |
+| `phase8_catalog_matched_s2_realq` | **🟢 RUNNING（2026-07-20 12:19 起）** 共用 clean-NoQ S1 400k，只訓 S2 200k with real per-row Q；MusicCaps q9 primary + q6 secondary；tmux `p8_s2_q_ablation` | 相較 0.1888，只新增 S2 real-Q |
+| `phase8_catalog_matched_s2_shuffledq` | **⏳ QUEUED** Real-Q final contract 通過後自動接續；seed 424242 只打亂 Q，Q histogram 與所有 audio/text pairing 不變 | Real-Q 的 information control；區分真 Q signal 與額外 embedding/regime token |
+
+**Gate 假陽性修復（2026-07-19）**：首跑 audit 誤查 hydra `training_stage`（此 key 不存在；stage 由 `set_training_stage.py` 切 runner，config 上的 durable signal 是 `model`）。已改為驗 `model ∈ {fluxaudio_s, meanaudio_s}` + `no_q=True` eval log；既有 gate 產物 re-audit → PASSED → scheduler 開 full。
+
+- Gate：`scripts/training_pipelines/train_pipeline_phase8_catalog_matched_noq_medium_gate.sh`
+- Full：`scripts/training_pipelines/train_pipeline_phase8_catalog_matched_noq.sh`
+- Scheduler：`scripts/training_pipelines/schedule_catalog_matched_noq_after_legacy.sh`（audit → gate → full）
+- 監控 loop：`meanaudio_chain_watch`（60s）+ `meanaudio_repair`（120s 安全自癒）
+- 啟動紀錄：`~/logs/phase8_legacy_repro_guard/next_experiment_catalog_matched_noq.json`
+- Gate sentinel：`~/logs/phase8_legacy_repro_guard/noq_medium_gate_PASSED.json`
+- Audit / gate 失敗時 **不會** 開 full train
+- multi-cap clean rebuild 仍 P0 但 HDD 空間不足（~413G need / ~314G free）
 
 ---
 
 ## Qwen collapse root-cause EXP 系列（2026-05-08 起）
 
-> 完整設計 / 結果 / 機制分析見 `docs/experiments/qwen_collapse_root_cause_2026_05_08.md`
+> 完整設計 / 結果 / 機制分析見 `docs/experiments/history/phase8/qwen_collapse_root_cause_2026_05_08.md`
 
 | 實驗 | 介入 | MC CLAP | 假說影響 |
 |---|---|---|---|
@@ -522,4 +707,46 @@ S2_ITERATIONS=200000
 **在 EXP / Qwen collapse audit 測試的所有 variants（EXP-A~G + 所有 Qwen-trained runs）中，P8 healthy control 以外全部 collapsed**（MC CLAP 0.058–0.069；P7 V1 / LP-Rnd-Q 不在此 universe 內，仍為 healthy）。  
 **已測的唯一健康共同因素**：完整 LP-MC writing-task style（含 ~45% boilerplate prefix density）+ S1+S2 全程 LP-MC supervision。注：此為 tested configuration 範圍內的觀察，非必要條件的完整證明。
 
-**~~尚未測試的關鍵路徑：全 LP-MC S1+Qwen S2~~** ✅ 已測 EXP-G，NULL 結果。所有 currently designed stage/data intervention 都 collapse；剩下 untested 高層級 hypothesis = caption-audio granularity mismatch（30s caption vs 10s audio NPZ，今早討論發現，未實驗驗證）。
+**~~尚未測試的關鍵路徑：全 LP-MC S1+Qwen S2~~** ✅ 已測 EXP-G，NULL 結果。所有 currently designed stage/data intervention 都 collapse；剩下 untested 高層級 hypothesis = caption-audio granularity mismatch。更精確地說，LP-MC 是約 30s local-segment caption → first-10s NPZ；歷史 upstream track-level Qwen 則是一筆 track caption 廣播到該 track 的多個 local segments → first-10s NPZ。來源、共享規則與乾淨控制組見 [`caption_provenance_granularity_and_aes_controls.md`](caption_provenance_granularity_and_aes_controls.md)。
+
+---
+
+## Caption 2.0 queue：025/026 full-scale true-vs-fake random（2026-08-26 排入 p2/pending）
+
+**問題**：K=3 stack 的 per-epoch caption rotation 有沒有用？
+
+**quarter 的 null 不算數**。`true_random` 0.2013 vs `fake_random` 0.2005（delta 0.0008）是在 S1 100k 測的，而
+251,599 rows ÷ batch 8 = 31,450 it/epoch，100k iter 只有 **3.18 epoch**：
+
+- quarter：每個 clip 期望看到 3·(1−(2/3)^3.18) = **2.19 / 3** 條 caption — 廣度只實現 73%
+- full（S1 400k = 12.72 epoch）：3·(1−(2/3)^12.72) = **2.98 / 3** — 實質完整覆蓋
+
+而且 augmentation 是 regularizer，3.18 epoch 仍在 undertrained 區（matched pair 顯示多跑 4 倍步數還能再拿
++0.012 CLAP），在這種 regime 測 regularizer 預期就是 null。**原結論必須降級為「quarter / 3.18-epoch 條件下沒有可測訊號」**。
+
+**設計**：兩 arm 都 **cold-start 0→400k S1 + 200k S2**，NoQ，MusicCaps MF25 cfg0 `--no_q`。
+
+| Queue | Arm | Caption 供給 | multi_cap | cap spec |
+|---|---|---|---|---|
+| `025_true_random_full` | `phase8_qwen_caption2p0_k3_true_random_noq_full` | 每 epoch 重抽（`extracted_audio.py:_true_random_cap_index`，epoch 進 hash） | true | — |
+| `026_fake_random_full` | `phase8_qwen_caption2p0_k3_fake_random_noq_full` | 固定一條/clip，uniform SHA-256 分派（slot0/1/3 = 83,716/83,494/84,389） | false | `column:cap_index` |
+
+**為什麼不沿用 022/023/024 的 `same_arm_100k_restart_boundary`**：`fake_random` 的 quarter S1 `ckpt_last.pth`
+已不存在（只剩 480MB weights-only `_last.pth` / `_ema_final.pth`），無法重現該 boundary。若讓 `true_random`
+從 100k resume 而 `fake_random` 連續跑，兩 arm 就同時差在 (a) rotation 與 (b) restart boundary — 而 restart
+會重跑 `linear_warmup_steps=1000` 並重置 optimizer/RNG，其擾動量級與我們要測的效果（~0.01）同級。
+兩邊都 cold-start 才讓差異只剩 rotation。preflight 新增 `from_scratch_with_autoresume` resume kind
+（不綁前置 ckpt，靠 arm 自己的 `ckpt_last` 在 crash/pause 後自動接續，符合 GPU idle backlog guardrail #2）。
+
+**Overlay 零成本**：兩 arm 共用既有 `~/text_overlays/true_random`（3-cap stack，225 GB，`DONE.json` status=passed）；
+`fake_random` 專屬 overlay 已於 2026-08-26 刪除回收 152 GB，改用 per-row `cap_index` 欄位取同一條 caption。
+
+**判讀規則（先寫死）**：`true_random` 必須贏 `fake_random` 超過 quarter 的 0.0008 才支持 caption breadth；
+**若 full coverage 下再度 null，K-stack rotation 這條線就收掉**。
+
+**同 budget 下已知**：`best-of-3` 0.2122 > `true_random` 0.2013（差 0.011，兩者同為 quarter）— 挑最好的那條
+贏過輪替全部。廣度輸給選擇。
+
+**⚠️ 資料狀態**：`021_true_random_quarter` 目前在 `p2/held/`（terminal reason `cfg0 report not passed`），
+它的 0.2013 只有 `eval_output/metrics/.../metrics.txt`，**沒有 contract 要求的 `cfg0_eval_runtime/reports/*_REPORT.json`**。
+數字本身（n=5521、正確 TSV、cfg0 noq）可用，但不是 contract-verified。
