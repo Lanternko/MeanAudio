@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "document_kind": "text_overlay_deduplication_record",
+  "date": "2026-08-26",
+  "summary": "worst013 and fake_random text overlays were re-encoded copies of captions already stored in the true_random 3-stack (slot0/slot1/slot3). Replaced by cap_index_column reuse and deleted; 152 GB reclaimed.",
+  "stacked_overlay": {
+    "path": "/home/kojiek/text_overlays/true_random",
+    "slot_order": [
+      "slot0",
+      "slot1",
+      "slot3"
+    ],
+    "text_encoder_fingerprint": "27e88fac68d94a8a10e44d2db930a8f79db8ca0454ce996b82e448c48c40ab4c"
+  },
+  "deleted_overlays": [
+    {
+      "path": "/home/kojiek/text_overlays/worst013",
+      "bytes_freed": 76000000000,
+      "replacement_tsv": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_fair013_worstof3_capidx_train.tsv",
+      "cap_index_column": "cap_index",
+      "sha256": "8b8888be146cdfa6ef7da138c1bea3f1336a1f3090638dea8abeb5c72ed0c05e",
+      "slot_histogram": {
+        "idx0_slot0": 79847,
+        "idx1_slot1": 87641,
+        "idx2_slot3": 84111
+      }
+    },
+    {
+      "path": "/home/kojiek/text_overlays/fake_random",
+      "bytes_freed": 76000000000,
+      "replacement_tsv": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_fake_random_fixed_capidx_train.tsv",
+      "cap_index_column": "cap_index",
+      "sha256": "d8c237624a5c2fbaf2f939d25d912c8c3d8fef4ba60ff14a2b6ce54abd78bc5c",
+      "slot_histogram": {
+        "idx0_slot0": 83716,
+        "idx1_slot1": 83494,
+        "idx2_slot3": 84389
+      }
+    }
+  ],
+  "regeneration": {
+    "generator": "scripts/preprocess/add_cap_index_column.py",
+    "extraction_tsv": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_extraction.tsv",
+    "extraction_tsv_sha256": "76980460c4da6276a04f183920bcb9614485b7ce7d2d6b78ec19c55a04a35e00",
+    "slot_order": "slot0,slot1,slot3"
+  },
+  "verification": {
+    "index_coverage": "251599/251599 rows for both arms; 0 captions outside the 3-caption pool; 0 fingerprint mismatches",
+    "cross_check": "sha256 scan of all 754K npz files reproduced the add_cap_index_column histograms exactly",
+    "loader_test": "ExtractedAudio(true_random + cap_index_column) vs original dir, n=400 per arm: text_attention_mask and audio latents bit-identical; text_features relative error median 2e-6, max 8e-5 (float32 re-encode noise, |feature| ~0.44, eps 1.2e-7)",
+    "caveat": "Reruns are numerically equivalent, not bit-identical, to the original re-encoded overlays."
+  },
+  "note_slot2": "023 slot2 (slot2_syntax.jsonl, variant c2p0_syntax_leadmix_v1) is NOT in the true_random pool and genuinely requires its own encode."
+}
