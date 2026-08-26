@@ -19,6 +19,8 @@ CONTRACTS = {
     "fair013_best_full": ROOT / "docs/experiments/caption2p0_fair013_best_full_cfg0_contract.json",
     "slot2_full": ROOT / "docs/experiments/caption2p0_slot2_full_cfg0_contract.json",
     "fair013_k3_full": ROOT / "docs/experiments/caption2p0_fair013_k3_full_cfg0_contract.json",
+    "true_random_full": ROOT / "docs/experiments/caption2p0_true_random_full_cfg0_contract.json",
+    "fake_random_full": ROOT / "docs/experiments/caption2p0_fake_random_full_cfg0_contract.json",
 }
 PROTECTED = {
     "010_s2q_k3.sh": "2abd26e5c696ba43d959109b5ec7f245f7ccda1f4f1a988ce3f15e15a49f1d59",
@@ -100,7 +102,7 @@ def validate(candidate: str, require_launchable: bool) -> dict:
     contract_path = CONTRACTS[candidate]
     require_regular(contract_path)
     contract = json.loads(contract_path.read_text())
-    if contract.get("queue_name", "")[:3] not in {"021", "022", "023", "024"}:
+    if contract.get("queue_name", "")[:3] not in {"021", "022", "023", "024", "025", "026"}:
         raise ValueError("queue name is not registered three-digit order")
     if require_launchable:
         if contract.get("launch_allowed") is not True:
@@ -115,7 +117,7 @@ def validate(candidate: str, require_launchable: bool) -> dict:
         require_regular(path, roots=(QROOT,))
         if sha256(path) != expected:
             raise ValueError(f"protected queue drift: {path}")
-    if candidate == "true_random_quarter":
+    if candidate in ("true_random_quarter", "true_random_full"):
         check_duplicate_true_random()
     sources = contract.get("sources") or {}
     for key, record in sources.items():
@@ -126,12 +128,22 @@ def validate(candidate: str, require_launchable: bool) -> dict:
                 if rows != int(record["rows"]):
                     raise ValueError(f"{key} row mismatch: {rows}")
     resume = contract["resume"]
-    checkpoint = Path(resume["checkpoint"])
-    require_regular(checkpoint)
-    if checkpoint.stat().st_size != int(resume["checkpoint_bytes"]):
-        raise ValueError("resume checkpoint size drift")
-    if sha256(checkpoint) != resume["checkpoint_sha256"]:
-        raise ValueError("resume checkpoint hash drift")
+    if resume.get("kind") == "from_scratch_with_autoresume":
+        # Cold-start arms bind no prior checkpoint. Recoverability instead comes from
+        # the arm's own ckpt_last, which lib_post_k5_candidate.sh picks up on restart;
+        # it must not already exist at authorization time or the run is not a cold start.
+        if resume.get("checkpoint") is not None:
+            raise ValueError("cold-start contract must not bind a resume checkpoint")
+        autoresume = Path(resume["autoresume"])
+        if autoresume.exists() and autoresume.stat().st_size == 0:
+            raise ValueError(f"empty autoresume checkpoint blocks restart: {autoresume}")
+    else:
+        checkpoint = Path(resume["checkpoint"])
+        require_regular(checkpoint)
+        if checkpoint.stat().st_size != int(resume["checkpoint_bytes"]):
+            raise ValueError("resume checkpoint size drift")
+        if sha256(checkpoint) != resume["checkpoint_sha256"]:
+            raise ValueError("resume checkpoint hash drift")
     return {"candidate": candidate, "status": "passed", "launchable": contract.get("launch_allowed") is True}
 
 

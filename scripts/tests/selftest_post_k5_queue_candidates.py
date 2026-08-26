@@ -16,12 +16,16 @@ CONTRACTS = [
     ROOT / "docs/experiments/caption2p0_fair013_best_full_cfg0_contract.json",
     ROOT / "docs/experiments/caption2p0_slot2_full_cfg0_contract.json",
     ROOT / "docs/experiments/caption2p0_fair013_k3_full_cfg0_contract.json",
+    ROOT / "docs/experiments/caption2p0_true_random_full_cfg0_contract.json",
+    ROOT / "docs/experiments/caption2p0_fake_random_full_cfg0_contract.json",
 ]
 NAMES = [
     "021_true_random_quarter.sh",
     "022_fair013_best_full.sh",
     "023_slot2_full.sh",
     "024_fair013_k3_full.sh",
+    "025_true_random_full.sh",
+    "026_fake_random_full.sh",
 ]
 QROOT = Path("/home/kojiek/gpu_queue")
 QUEUE_STATES = ("pending", "running", "done", "failed", "held")
@@ -37,14 +41,18 @@ def locate_queue_script(name: str) -> Path:
              if (QROOT / f"p2/{state}" / name).is_file()]
     assert len(found) == 1, f"expected {name} in exactly one p2 queue state, found {len(found)}"
     return found[0]
-# All four were authorized and installed into p2/pending on 2026-08-25.
-PENDING = Path("/home/kojiek/gpu_queue/p2/pending")
-INSTALLED = {name: PENDING / name for name in (
+# Authorized and installed into the p2 queue: 021-024 on 2026-08-25, 025/026 on
+# 2026-08-26. Resolve each by queue state rather than pinning it to pending/ --
+# the host migrates scripts to running/done/failed/held as the queue advances, so
+# a pinned path fails on normal progression instead of on real byte drift.
+INSTALLED_NAMES = (
     "021_true_random_quarter.sh",
     "022_fair013_best_full.sh",
     "023_slot2_full.sh",
     "024_fair013_k3_full.sh",
-)}
+    "025_true_random_full.sh",
+    "026_fake_random_full.sh",
+)
 
 
 def digest(path: Path) -> str:
@@ -65,11 +73,11 @@ def main() -> None:
         contract = json.loads(contract_path.read_text())
         assert contract["queue_name"] == name
         assert contract["queue_role"] == "p2"
-        if name in INSTALLED:
+        if name in INSTALLED_NAMES:
             # Authorized: contract must be launchable and the installed copy byte-identical.
             assert contract["launch_allowed"] is True
             assert contract["corpus_gate"]["status"] == "passed"
-            installed = INSTALLED[name]
+            installed = locate_queue_script(name)
             assert installed.is_file() and not installed.is_symlink()
             assert digest(installed) == contract["bindings"]["launcher_sha256"]
             assert digest(launcher) == contract["bindings"]["launcher_sha256"]
@@ -89,7 +97,7 @@ def main() -> None:
         assert contract["commands"]["run"][1].startswith(str(ROOT / "scripts/training_pipelines/"))
         serialized = json.dumps(contract)
         assert "webhook" not in serialized.lower() and "http://" not in serialized and "https://" not in serialized
-    print("[SELFTEST OK] 021/022/023/024 installed and byte-bound to their contracts")
+    print("[SELFTEST OK] 021-026 installed and byte-bound to their contracts")
 
 
 if __name__ == "__main__":
