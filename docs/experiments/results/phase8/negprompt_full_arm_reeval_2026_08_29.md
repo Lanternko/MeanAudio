@@ -22,13 +22,21 @@ matching the 2026-08-28 full-scale confirmation exactly.
 | `c2p0_fair013_worst_full` | 6.7195 | **7.1824** | +0.4629 | 0.2195 | 0.2438 | +0.0242 | 6.4162 | 6.8446 | +0.4284 | 2.81 |
 | `c2p0_slot0_q3_full_q9` | 6.5437 | **7.1692** | +0.6255 | 0.2190 | 0.2493 | +0.0303 | 6.2474 | 6.8232 | +0.5758 | 2.43 |
 | `c2p0_slot0_q3_full_q0` | 6.5197 | **7.1597** | +0.6400 | 0.2172 | 0.2487 | +0.0315 | 6.1960 | 6.7975 | +0.6015 | 2.34 |
-| `c2p0_fair013_k3_full_q9` | — | **7.1343** | — | — | 0.2410 | — | — | 6.7718 | — | 2.69 |
+| `c2p0_fair013_k3_full_q9` | 6.4356* | **7.1343** | +0.6987* | 0.2126* | 0.2410 | +0.0284* | 6.0322* | 6.7718 | +0.7396* | 2.69 |
 | `c2p0_slot0_full_seed27182818` | 6.5270 | **7.1222** | +0.5951 | 0.2234 | 0.2517 | +0.0283 | 6.1527 | 6.7220 | +0.5694 | 2.01 |
 | `c2p0_fair013_best_full` | 6.4670 | **7.0745** | +0.6074 | 0.2299 | 0.2620 | +0.0321 | 6.1644 | 6.7789 | +0.6145 | 2.65 |
 | `fulltrack_q3_full_q9` | 6.9337 | **7.0020** | +0.0683 | 0.1870 | 0.1926 | +0.0056 | 6.8458 | 6.7970 | -0.0488 | 2.32 |
 | `c2p0_slot2_full_noq` | 6.5124 | **6.9943** | +0.4819 | 0.2143 | 0.2382 | +0.0239 | 6.0703 | 6.4847 | +0.4144 | 2.61 |
 | `fulltrack_noq_full` | 6.8586 | **6.9553** | +0.0967 | 0.1845 | 0.1928 | +0.0083 | 6.7252 | 6.7180 | -0.0072 | 2.57 |
 | `p7v1_fullq_control_q9` | 6.5580 | **6.8611** | +0.3031 | 0.1860 | 0.2057 | +0.0197 | 5.8506 | 6.1536 | +0.3031 | 2.04 |
+
+\* Arm 024's CFG 0 cell is **provisional**. The canonical eval ran on 2026-08-29 and produced
+metrics (`~/cfg0_eval_runtime/metrics/phase8_qwen_caption2p0_fair013_k3_balanced_full_musiccaps_mf25_cfg0_q9/`)
+on the same EMA -- checkpoint sha256 `983788767aa6...` matches the one this sweep used, so the pair is
+exact -- but the job was classified failed: `validate_caption2p0_cfg0_report.py` raised "registered input
+hash drift", and the retry then hit "unsafe output component" on the leftover report. The numbers are
+not contract-validated. The delta is a full-set aggregate, not a per-clip paired delta, because no
+per-clip scores were kept for that run.
 
 ## Ranking inversion
 
