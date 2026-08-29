@@ -31,11 +31,23 @@ def main():
     
     parser.add_argument('--audio_path', type=str, help='Input audio', default='')
     parser.add_argument('--duration', type=float, default=9.975)  # for 312 latents, seq_config should has a duration of 9.975s 
-    parser.add_argument('--cfg_strength', type=float, default=4.5,
-                        help='If you use meanflow, CFG is integrated in model training. So simply set this <1 to avoid an additional unconditional infer.')
+    parser.add_argument('--cfg_strength', type=float, default=0.0,
+                        help='Canonical evaluation default: pure-conditional CFG 0. Use guided CFG only in a separately named, preregistered secondary protocol.')
     parser.add_argument('--num_steps', type=int, default=25)
     parser.add_argument('--quality_level', type=int, default=9, help='Quality level for inference (0-9)')
     parser.add_argument('--no_q', action='store_true', help='Disable q conditioning (use null token=10); for models trained without q conditioning')
+    parser.add_argument(
+        '--no_text_attention_mask', action='store_true',
+        help='Reproduce the legacy path where all 77 T5 positions participate in joint attention')
+    parser.add_argument(
+        '--negative_prompt', type=str, default='',
+        help='Text pushed away from by classifier-free guidance. Only has an effect at '
+             '--cfg_strength >= 1.0, where ode_wrapper mixes cfg*cond + (1-cfg)*negative; '
+             'below 1.0 the pure conditional branch is returned and this is ignored. '
+             'Empty (the default) falls back to the network\'s stored empty_string_feat, '
+             'i.e. the null condition training used for CFG dropout, which is textbook '
+             'classifier-free guidance. Do not pass an explicit empty string expecting '
+             'that: T5-encoding \'\' at inference gives a different tensor.')
     parser.add_argument('--output', type=Path, help='Output directory', default='./output')
     parser.add_argument('--seed', type=int, help='Random seed', default=42)
     parser.add_argument('--full_precision', action='store_true')
@@ -64,7 +76,15 @@ def main():
     # model.download_if_needed()
     seq_cfg = model.seq_cfg  
 
-    negative_prompt: str = ''
+    negative_prompt: str = args.negative_prompt
+    # An empty --negative_prompt must fall back to the network's stored
+    # empty_string_feat (weights/empty_string_t5.pth), which is the null condition
+    # training used for CFG dropout. Passing [''] instead T5-encodes the empty
+    # string at inference, and that tensor is NOT the same one: whole-tensor
+    # cosine -0.158 against the stored feature (the stored one is constant across
+    # all 77 positions, live T5 is not). Only matters at cfg >= 1.0, where the
+    # negative branch is actually evaluated.
+    negative_text_arg = [negative_prompt] if negative_prompt else None
     output_dir: str = args.output.expanduser()
     seed: int = args.seed
     num_steps: int = args.num_steps
@@ -130,13 +150,14 @@ def main():
             log.info(f'Prompt: {prompt}')
             log.info(f'Negative prompt: {negative_prompt}')
             audios = generate_mf([prompt],
-                                negative_text=[negative_prompt],
+                                negative_text=negative_text_arg,
                                 feature_utils=feature_utils,
                                 net=net,
                                 mf=mf,
                                 rng=rng,
                                 cfg_strength=cfg_strength,
-                                q_level=q_levels[k])
+                                q_level=q_levels[k],
+                                use_text_attention_mask=not args.no_text_attention_mask)
             audio = audios.float().cpu()[0]
             if torch.isnan(audio).any() or torch.isinf(audio).any():
                 log.warning(f'NaN/Inf in audio for {audio_ids[k]}, skipping')
@@ -154,13 +175,14 @@ def main():
             log.info(f'Prompt: {prompt}')
             log.info(f'Negative prompt: {negative_prompt}')
             audios = generate_fm([prompt],
-                                negative_text=[negative_prompt],
+                                negative_text=negative_text_arg,
                                 feature_utils=feature_utils,
                                 net=net,
                                 fm=fm,
                                 rng=rng,
                                 cfg_strength=cfg_strength,
-                                q_level=q_levels[k])
+                                q_level=q_levels[k],
+                                use_text_attention_mask=not args.no_text_attention_mask)
             audio = audios.float().cpu()[0]
             if torch.isnan(audio).any() or torch.isinf(audio).any():
                 log.warning(f'NaN/Inf in audio for {audio_ids[k]}, skipping')
