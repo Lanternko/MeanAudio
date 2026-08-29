@@ -146,24 +146,37 @@ def generate(exp_id, qflags, cfg, neg_key, audio_dir):
         raise SystemExit(f'[FAIL] only {got}/{SUBSET_N} clips')
 
 
-def check_saturation(audio_dir, sample=64):
-    """cfg 3.0 / 4.5 are exactly where waveform saturation was seen before, so
-    every cell records crest factor rather than assuming cfg 1.5's check holds."""
+def signal_stats(audio_dir, sample=256):
+    """Guard against the failure mode where PQ rises because the audio merely got
+    louder or brighter. Audiobox PQ is not level-invariant in practice, so a cell
+    that gains PQ while also gaining several dB of RMS and a large spectral
+    centroid shift has not been shown to gain *quality*. Also keeps the crest /
+    clipping check, since cfg 3.0 and 4.5 are where saturation was seen before."""
     paths = sorted(audio_dir.glob('*.flac'))[:sample]
-    crests, clipped = [], 0
+    crests, rmss, centroids = [], [], []
+    clipped = 0
     for path in paths:
-        wav, _ = sf.read(path, dtype='float32', always_2d=True)
+        wav, sr = sf.read(path, dtype='float32', always_2d=True)
         wav = wav.mean(axis=1)
         rms = float(np.sqrt(np.mean(wav ** 2)))
         peak = float(np.max(np.abs(wav)))
         if rms > 0:
             crests.append(peak / rms)
+            rmss.append(20.0 * np.log10(rms))
         if peak >= 0.999:
             clipped += 1
+        spec = np.abs(np.fft.rfft(wav * np.hanning(len(wav))))
+        freqs = np.fft.rfftfreq(len(wav), 1.0 / sr)
+        total = spec.sum()
+        if total > 0:
+            centroids.append(float((spec * freqs).sum() / total))
     return {'n_sampled': len(paths),
             'crest_mean': float(np.mean(crests)) if crests else None,
             'crest_min': float(np.min(crests)) if crests else None,
-            'clipped_fraction': clipped / len(paths) if paths else None}
+            'clipped_fraction': clipped / len(paths) if paths else None,
+            'rms_db_mean': float(np.mean(rmss)) if rmss else None,
+            'rms_db_sd': float(np.std(rmss)) if rmss else None,
+            'spectral_centroid_hz_mean': float(np.mean(centroids)) if centroids else None}
 
 
 def score(rows, audio_dir):
@@ -223,7 +236,7 @@ def aggregate(per, rows):
     clean = [r['id'] for r in rows if r['id'] not in set(lofi)]
     return {'full': agg([r['id'] for r in rows]),
             'lofi_prompt': agg(lofi),
-            'clean_prompt': agg(clean)}
+            'clean_prompt': agg(clean)}, lofi
 
 
 def paired_delta(arm, per):
@@ -257,14 +270,16 @@ def main():
         print(f'[cell] {label}')
         audio_dir = AUDIO_ROOT / label
         generate(exp_id, qflags, cfg, neg_key, audio_dir)
-        sat = check_saturation(audio_dir)
+        sat = signal_stats(audio_dir)
         per = score(rows, audio_dir)
+        aggs, lofi = aggregate(per, rows)
         payload = {'label': label, 'arm': arm, 'exp_id': exp_id,
                    'cfg_strength': float(cfg), 'negative_key': neg_key,
                    'negative_prompt': NEGATIVES[neg_key],
                    'subset': {'tsv': str(SUBSET_TSV), 'n': SUBSET_N, 'seed': SUBSET_SEED},
-                   'saturation_check': sat,
-                   'aggregates': aggregate(per, rows),
+                   'signal_stats': sat,
+                   'aggregates': aggs,
+                   'lofi_ids': lofi,
                    'paired_delta_vs_cfg0': paired_delta(arm, per),
                    'per_clip': per}
         result_path.write_text(json.dumps(payload, indent=1))
