@@ -47,7 +47,7 @@ FULL_TSV = Path('/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv')
 OUT = Path('/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_ablation')
 SUBSET_TSV = OUT / 'musiccaps_subset1024.tsv'
 AUDIO_ROOT = OUT / '_audio'
-CLAP_CKPT = Path('/home/kojiek/.cache/clap/music_audioset_epoch_15_esc_90.14.pt')
+CLAP_CKPT = ROOT / 'weights/music_speech_audioset_epoch_15_esc_89.98.pt'
 
 SUBSET_N = 1024
 SUBSET_SEED = 20260830
@@ -257,9 +257,32 @@ def paired_delta(arm, per):
 
 
 def main():
+    # --smoke runs two real cells end to end (generate AND score) on a handful of
+    # rows, in a throwaway output dir. The first launch of this matrix died after
+    # generation on a wrong CLAP checkpoint path because the pre-flight check only
+    # exercised eval.py; anything that only tests generation will miss that again.
+    smoke = '--smoke' in sys.argv
+    global SUBSET_N, SUBSET_TSV, OUT, AUDIO_ROOT
+    if smoke:
+        OUT = OUT.with_name('negprompt_ablation_smoke')
+        AUDIO_ROOT = OUT / '_audio'
+        SUBSET_TSV = OUT / 'smoke_subset.tsv'
+        SUBSET_N = 8
+
+    if not CLAP_CKPT.is_file():
+        raise SystemExit(f'[FAIL] missing CLAP checkpoint {CLAP_CKPT}')
+    for arm, (exp_id, _) in ARMS.items():
+        ckpt = EXPS / exp_id / f'{exp_id}_ema_final.pth'
+        if not ckpt.is_file():
+            raise SystemExit(f'[FAIL] missing checkpoint for {arm}: {ckpt}')
+    print('[preflight] CLAP checkpoint and all arm checkpoints present')
+
     make_subset()
     rows = load_rows()
     cells = build_cells()
+    if smoke:
+        cells = [c for c in cells if c[0].startswith('c2p0_slot0__cfg0')
+                 or c[0] == 'c2p0_slot0__cfg1.5__fidelity']
     print(f'{len(cells)} cells, {len(rows)} rows each')
     for label, arm, cfg, neg_key in cells:
         result_path = OUT / f'{label}.json'
