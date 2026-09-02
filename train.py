@@ -1,6 +1,7 @@
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
+import json
 import logging
 import math
 import random
@@ -24,7 +25,9 @@ from meanaudio.sample import sample
 from meanaudio.utils.dist_utils import info_if_rank_zero, local_rank, world_size
 from meanaudio.utils.logger import TensorboardLogger
 from meanaudio.utils.synthesize_ema import synthesize_ema
+from meanaudio.utils.training_resume import resume_coordinates
 import os
+import time
 import wandb
 
 torch.backends.cuda.matmul.allow_tf32 = True
@@ -37,6 +40,44 @@ def distributed_setup():
     distributed.init_process_group(backend="nccl", timeout=timedelta(hours=2))
     log.info(f'Initialized: local_rank={local_rank}, world_size={world_size}')
     return local_rank, world_size
+
+
+def _pid_start_time(pid: int):
+    try:
+        with open(f'/proc/{pid}/stat', encoding='utf-8') as fh:
+            return fh.read().split()[21]
+    except Exception:
+        return None
+
+
+def _write_pause_ack(request_path: str, run_dir: str, exp_id: str, curr_iter: int) -> None:
+    request = Path(request_path)
+    checkpoint = Path(run_dir) / f'{exp_id}_ckpt_last.pth'
+    if not checkpoint.is_file() or checkpoint.stat().st_size == 0:
+        raise RuntimeError(f'pause checkpoint missing or empty: {checkpoint}')
+    payload = {
+        'status': 'paused',
+        'iteration': curr_iter,
+        'checkpoint': str(checkpoint),
+        'checkpoint_bytes': checkpoint.stat().st_size,
+        'pid': os.getpid(),
+        'start_time': _pid_start_time(os.getpid()),
+        'created_at': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
+    }
+    try:
+        req = json.loads(request.read_text(encoding='utf-8'))
+        for key in ('run_id', 'job_id', 'request_id'):
+            if key in req:
+                payload[key] = req[key]
+    except Exception:
+        pass
+    if request.name == 'pause.request.json':
+        ack_path = request.with_name('pause.ack.json')
+    else:
+        ack_path = Path(f'{request_path}.ack.json')
+    tmp = ack_path.with_name(f'.{ack_path.name}.tmp.{os.getpid()}')
+    tmp.write_text(json.dumps(payload, sort_keys=True) + '\n', encoding='utf-8')
+    os.replace(tmp, ack_path)
 
 
 @record
@@ -155,7 +196,9 @@ def train(cfg: DictConfig):
 
     # determine max epoch
     total_epoch = math.ceil(total_iterations / len(loader))
-    current_epoch = curr_iter // len(loader)
+    current_epoch, resume_batch_offset = resume_coordinates(curr_iter, len(loader))
+    pause_request_file = cfg.get('pause_request_file')
+    paused = False
     info_if_rank_zero(log, f'We will approximately use {total_epoch - current_epoch} epochs.')
 
     # training loop
@@ -165,12 +208,16 @@ def train(cfg: DictConfig):
         while curr_iter < total_iterations:
             # Crucial for randomness!
             sampler.set_epoch(current_epoch)  # guarantee each epoch has different shuffling
+            if hasattr(dataset, "set_epoch"):
+                dataset.set_epoch(current_epoch)
             current_epoch += 1
             log.debug(f'Current epoch: {current_epoch}')
 
             trainer.enter_train()
             trainer.log.data_timer.start()
-            for data in loader:
+            for batch_index, data in enumerate(loader):
+                if batch_index < resume_batch_offset:
+                    continue
                 trainer.train_pass(data, curr_iter)
 
                 if (curr_iter + 1) % cfg.val_interval == 0:  
@@ -224,8 +271,20 @@ def train(cfg: DictConfig):
 
                 curr_iter += 1
 
+                if pause_request_file and Path(str(pause_request_file)).exists():
+                    paused = True
+                    info_if_rank_zero(
+                        log,
+                        f'Cooperative pause requested after iteration {curr_iter}',
+                    )
+                    break
+
                 if curr_iter >= total_iterations:
                     break
+
+            resume_batch_offset = 0
+            if paused:
+                break
 
     except Exception as e:
         log.error(f'Error occurred at iteration {curr_iter}!')
@@ -235,6 +294,15 @@ def train(cfg: DictConfig):
         if not cfg.debug:
             trainer.save_checkpoint(curr_iter)  # finally will always be called
             trainer.save_weights(curr_iter)
+
+    if paused:
+        distributed.barrier()
+        if local_rank == 0:
+            _write_pause_ack(str(pause_request_file), run_dir, cfg.exp_id, curr_iter)
+        distributed.barrier()
+        info_if_rank_zero(log, f'Training paused safely at iteration {curr_iter}')
+        distributed.destroy_process_group()
+        return
 
     # Inference pass
     del trainer
