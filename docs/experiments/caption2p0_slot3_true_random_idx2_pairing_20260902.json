@@ -1,0 +1,15 @@
+{
+  "document_kind": "slot3_true_random_idx2_pairing_audit",
+  "tsv": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_slot3_train.tsv",
+  "overlay": "/home/kojiek/text_overlays/true_random",
+  "index": 2,
+  "overlay_rows": 251599,
+  "tsv_rows": 251599,
+  "idx2_caption_sha_matches": 251599,
+  "missing_from_tsv": 0,
+  "mismatches": 0,
+  "mismatch_sample": [],
+  "npz_sample_ok": "20/20",
+  "text_encoder_fingerprint": "27e88fac68d94a8a10e44d2db930a8f79db8ca0454ce996b82e448c48c40ab4c",
+  "status": "passed"
+}

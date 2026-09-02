@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "caption2p0-slot3-full-noq-cfg0",
+  "run_id": "run-20260902-caption2p0-slot3-full-noq-cfg0",
+  "status": "authorized_p2_pending_install",
+  "launch_allowed": true,
+  "queue_name": "035_slot3_full.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [
+    "033_single_negprompt_cfg3_ablation"
+  ],
+  "dependencies": [],
+  "operator_instruction": {
+    "text": "GO: reuse true_random idx2, queue slot3 full on P2",
+    "recorded_at": "2026-09-02",
+    "scale_choice": "full (S1 400k + S2 200k from scratch; no slot3 quarter exists)"
+  },
+  "hypothesis": {
+    "question": "What is the standalone slot3 full number, so 013 rotation can be compared against every constituent it rotates over?",
+    "why_full_not_quarter": "slot3 has no quarter checkpoint to resume; a quarter-only arm would not be budget-matched to slot2 full (the other dedicated-slot full).",
+    "reuse": "true_random stacked overlay index 2 is slot3 (251599/251599 caption sha match). cap_index_fixed=2, multi_cap=false, new overlay bytes=0."
+  },
+  "selection": {
+    "slot": "slot3",
+    "stacked_overlay_index": 2,
+    "caption_jsonl": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/slot3_temp100.jsonl",
+      "sha256": "1d25c12db36467994e3d36b8052b1246d3dd7676f0705b3dbfabecde9fc447e1"
+    }
+  },
+  "caption_pool": {
+    "assembled_not_encoded": true,
+    "mode": "cap_index_fixed",
+    "dir": "/home/kojiek/text_overlays/true_random",
+    "index": 2,
+    "holds": "slot3",
+    "shared_text_encoder_fingerprint": "27e88fac68d94a8a10e44d2db930a8f79db8ca0454ce996b82e448c48c40ab4c",
+    "new_overlay_bytes": 0
+  },
+  "sources": {
+    "train_tsv": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_slot3_train.tsv",
+      "sha256": "f5be85f51367be3bc50aff6d46bc68fff151475690c24363b11afef1e5521547",
+      "rows": 251599
+    },
+    "manifest": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_slot3_train.manifest.json",
+      "sha256": "b2abd072507de50eccb304d3e851932052fe85f59fe314fac7abe461f0fca752"
+    },
+    "cache_list": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "rows": 251599
+    },
+    "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+    "text_overlay_dir": "/home/kojiek/text_overlays/true_random",
+    "shared_npz_mutation_prohibited": true
+  },
+  "pairing_audit": {
+    "pre_registration_run": {
+      "tsv_rows": 251599,
+      "overlay_rows": 251599,
+      "idx2_caption_sha_matches": 251599,
+      "npz_sample_ok": "20/20",
+      "failures": 0,
+      "status": "passed",
+      "report": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_slot3_true_random_idx2_pairing_20260902.json",
+      "report_sha256": "719e1258cefeecb25c4600e44943ee00ecf61695074d70b79aa9c7b57f74732f"
+    },
+    "runtime_guard": "require_text_overlay=true plus cap_index_fixed=2, so extracted_audio.py slices text_features[2] and re-checks TSV caption sha against overlay slot 2 on every row"
+  },
+  "corpus_gate": {
+    "status": "passed",
+    "require_generated_branch": true,
+    "passed_at": "2026-09-02T13:05:00+00:00",
+    "authorized_by": "operator GO 2026-09-02: reuse true_random idx2, queue slot3 full",
+    "evidence": "build_train_tsv_from_caption10s.py passed (251599 rows); idx2 pairing 251599/251599; overlay DONE.json n_caps=3 fingerprint 27e88fac..."
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "rng_restart_boundary": false,
+    "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot3_noq_full_stage1_400000/phase8_qwen_caption2p0_slot3_noq_full_stage1_400000_ckpt_last.pth"
+  },
+  "training": {
+    "scale": "full",
+    "stage1_final_iteration": 400000,
+    "stage2_additional_iterations": 200000,
+    "final_iteration": 600000,
+    "seed": 14159265,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "q_conditioning": false,
+    "multi_cap": false,
+    "require_text_overlay": true,
+    "cap_index_spec": "fixed:2"
+  },
+  "fixed_protocol": {
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "seed": 42,
+    "mask": "NoMask",
+    "precision": "full"
+  },
+  "cells": [
+    {
+      "cell_id": "canonical_noq",
+      "label": "phase8_qwen_caption2p0_slot3_noq_full_musiccaps_mf25_cfg0_noq",
+      "conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot3_noq_full_stage2_200000/phase8_qwen_caption2p0_slot3_noq_full_stage2_200000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot3_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
+    }
+  ],
+  "runtime_storage": {
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics",
+    "estimated_overlay_bytes": 0,
+    "hard_stop_free_bytes": 63687091200
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot3_full_action.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/jobs/p2_slot3_full.sh",
+    "launcher_sha256": "aed15f6e121234b5e3682471b9fb03b8db6ac52584a9ccac34ebe3b5a5af912a",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot3_full_action.sh",
+    "action_sha256": "180ad2fcb799725307e27fc16ecc4f0ef59f41c5875bef96d267b351a81d89fb"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot3_noq_full_stage2_200000/phase8_qwen_caption2p0_slot3_noq_full_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot3_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
+  },
+  "launch_authorization": {
+    "valid": true,
+    "gpu_launch_allowed": true,
+    "scope": "full-scale training plus one canonical CFG0 evaluation",
+    "queue_position": "tail, after running 033; does not preempt"
+  }
+}
