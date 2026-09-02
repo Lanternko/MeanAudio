@@ -71,6 +71,25 @@ NEGATIVES = {
     'reversed': 'high quality recording, clean, professional, pristine, hi-fi',
     # non-fidelity audio failure mode
     'silence': 'silence, empty track, no sound',
+    # ---- loudness-confound probes, added 2026-09-03 ----------------------
+    # The cell-level regression could not price the loudness confound: within
+    # the `none` cells -- the only ones where loudness moves with nothing in the
+    # negative slot -- dPQ is flat against dRMS, which is evidence AGAINST a
+    # loudness->PQ path, but those cells only span +0.55 dB and cannot speak for
+    # silence at +4.77 dB. These two cells put loudness under direct control.
+    #
+    # `loud` is the manipulation check and the clean test at once: loudness
+    # vocabulary with no fidelity vocabulary. If output loudness does not move,
+    # the arm is void and the saturation seen at high cfg is a numerical
+    # artefact of guidance rather than anything the text can reach. If loudness
+    # moves DOWN and PQ does not follow, the confound is priced at ~0 by design
+    # instead of by regression.
+    'loud': 'loud, clipping, over-compressed, saturated, blown out',
+    # the engineering question, kept separate from the causal one: can the
+    # `fidelity` gain be had without the crest collapse that comes with it?
+    'fidelity_loud': ('low quality recording, noisy, amateur, distorted, muffled, '
+                      'poor fidelity, hiss, lo-fi, loud, clipping, over-compressed, '
+                      'saturated, blown out'),
 }
 
 ARMS = {
@@ -107,6 +126,11 @@ def build_cells():
     # lets the guidance / any-text / defect-semantics decomposition be recomputed
     # at the PQ-optimal point instead of only at cfg 1.5.
     for neg in ('fidelity_short', 'silence', 'reversed', 'irrelevant', 'neutral'):
+        cells.append((f'c2p0_slot0__cfg3.0__{neg}', 'c2p0_slot0', '3.0', neg))
+    # Q4: loudness under direct control. `loud` first -- it is the manipulation
+    # check, and if it fails to move loudness then `fidelity_loud` is
+    # uninterpretable and should not be spent.
+    for neg in ('loud', 'fidelity_loud'):
         cells.append((f'c2p0_slot0__cfg3.0__{neg}', 'c2p0_slot0', '3.0', neg))
     return cells
 
@@ -158,34 +182,53 @@ def generate(exp_id, qflags, cfg, neg_key, audio_dir):
         raise SystemExit(f'[FAIL] only {got}/{SUBSET_N} clips')
 
 
-def signal_stats(audio_dir, sample=256):
+def per_clip_signal(audio_dir):
+    """Per-clip RMS / crest / centroid, keyed by clip id so it joins to per_clip.
+
+    Added 2026-09-03. Until now only the 256-clip aggregate was kept and the
+    audio was deleted, which left the loudness confound answerable only by a
+    cell-level regression over ~36 nested points -- too few, and with dRMS and
+    dcrest correlated at -0.94 the coefficients there are not separable. Storing
+    this makes the same question a paired within-cell one at n=1024.
+
+    Returned in sorted-filename order; signal_stats() aggregates the first 256
+    of exactly this list, so the aggregate stays numerically identical to every
+    cell scored before this was added.
+    """
+    out = {}
+    for path in sorted(audio_dir.glob('*.flac')):
+        wav, sr = sf.read(path, dtype='float32', always_2d=True)
+        wav = wav.mean(axis=1)
+        rms = float(np.sqrt(np.mean(wav ** 2)))
+        peak = float(np.max(np.abs(wav)))
+        spec = np.abs(np.fft.rfft(wav * np.hanning(len(wav))))
+        freqs = np.fft.rfftfreq(len(wav), 1.0 / sr)
+        total = float(spec.sum())
+        out[path.stem] = {
+            'rms_db': 20.0 * np.log10(rms) if rms > 0 else None,
+            'crest': peak / rms if rms > 0 else None,
+            'peak': peak,
+            'clipped': bool(peak >= 0.999),
+            'centroid_hz': float((spec * freqs).sum() / total) if total > 0 else None,
+        }
+    return out
+
+
+def signal_stats(per_signal, sample=256):
     """Guard against the failure mode where PQ rises because the audio merely got
     louder or brighter. Audiobox PQ is not level-invariant in practice, so a cell
     that gains PQ while also gaining several dB of RMS and a large spectral
     centroid shift has not been shown to gain *quality*. Also keeps the crest /
     clipping check, since cfg 3.0 and 4.5 are where saturation was seen before."""
-    paths = sorted(audio_dir.glob('*.flac'))[:sample]
-    crests, rmss, centroids = [], [], []
-    clipped = 0
-    for path in paths:
-        wav, sr = sf.read(path, dtype='float32', always_2d=True)
-        wav = wav.mean(axis=1)
-        rms = float(np.sqrt(np.mean(wav ** 2)))
-        peak = float(np.max(np.abs(wav)))
-        if rms > 0:
-            crests.append(peak / rms)
-            rmss.append(20.0 * np.log10(rms))
-        if peak >= 0.999:
-            clipped += 1
-        spec = np.abs(np.fft.rfft(wav * np.hanning(len(wav))))
-        freqs = np.fft.rfftfreq(len(wav), 1.0 / sr)
-        total = spec.sum()
-        if total > 0:
-            centroids.append(float((spec * freqs).sum() / total))
-    return {'n_sampled': len(paths),
+    items = list(per_signal.items())[:sample]
+    crests = [v['crest'] for _, v in items if v['crest'] is not None]
+    rmss = [v['rms_db'] for _, v in items if v['rms_db'] is not None]
+    centroids = [v['centroid_hz'] for _, v in items if v['centroid_hz'] is not None]
+    clipped = sum(1 for _, v in items if v['clipped'])
+    return {'n_sampled': len(items),
             'crest_mean': float(np.mean(crests)) if crests else None,
             'crest_min': float(np.min(crests)) if crests else None,
-            'clipped_fraction': clipped / len(paths) if paths else None,
+            'clipped_fraction': clipped / len(items) if items else None,
             'rms_db_mean': float(np.mean(rmss)) if rmss else None,
             'rms_db_sd': float(np.std(rmss)) if rmss else None,
             'spectral_centroid_hz_mean': float(np.mean(centroids)) if centroids else None}
@@ -305,7 +348,8 @@ def main():
         print(f'[cell] {label}')
         audio_dir = AUDIO_ROOT / label
         generate(exp_id, qflags, cfg, neg_key, audio_dir)
-        sat = signal_stats(audio_dir)
+        per_sig = per_clip_signal(audio_dir)
+        sat = signal_stats(per_sig)
         per = score(rows, audio_dir)
         aggs, lofi = aggregate(per, rows)
         payload = {'label': label, 'arm': arm, 'exp_id': exp_id,
@@ -313,6 +357,7 @@ def main():
                    'negative_prompt': NEGATIVES[neg_key],
                    'subset': {'tsv': str(SUBSET_TSV), 'n': SUBSET_N, 'seed': SUBSET_SEED},
                    'signal_stats': sat,
+                   'per_clip_signal': per_sig,
                    'aggregates': aggs,
                    'lofi_ids': lofi,
                    'paired_delta_vs_cfg0': paired_delta(arm, per),
