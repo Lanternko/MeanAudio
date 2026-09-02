@@ -1,0 +1,79 @@
+{
+ "schema_version": 1,
+ "document_kind": "active_experiment_contract_amendment",
+ "amendment_id": "single-negprompt-cfg3-scoring-reference-repin-20260902",
+ "experiment_ids": [
+  "single-negprompt-cfg3-ablation-20260831"
+ ],
+ "approved": true,
+ "approved_at": "2026-09-02T12:30:00+08:00",
+ "operator_instruction": {
+  "text": "\u91cd\u65b0 pin \u5230\u73fe\u6cc1\uff0c\u628a 033 \u653e\u56de pending",
+  "meaning": "re-pin the drifted registered inputs to their current content and return 033 to the pending queue"
+ },
+ "trigger": {
+  "held_reason": "[HOLD] input identity mismatch: /home/kojiek/MeanAudio/scripts/eval/negprompt_ablation_matrix.py",
+  "held_at": "2026-09-02T04:18:39Z",
+  "root_cause": "Two registered inputs drifted from their pinned sha256 while 033 sat in the queue. inputs[5] scoring_reference was edited after preregistration to add five cfg 3.0 content cells. inputs[10] notification_helper was changed by amendment receipt-notifier-binding-live-hash-fix-20260902, whose contract_repin updated notification_receipts.helper_sha256 but not the inputs[] entry naming the same file, so that amendment's re-pin was incomplete and would have produced a second hold immediately after the first was cleared."
+ },
+ "scope": {
+  "allowed": [
+   "Re-pin inputs[5].sha256/bytes (scripts/eval/negprompt_ablation_matrix.py) to its current committed content.",
+   "Re-pin inputs[10].sha256/bytes (scripts/experiment_harness/notification_receipts.py) to the helper this contract already declares under notification_receipts.helper_sha256, completing the re-pin declared by receipt-notifier-binding-live-hash-fix-20260902.",
+   "Archive this contract's superseded seat_attempt and held receipts so the immutable-binding check does not reject the next seat attempt."
+  ],
+  "forbidden": [
+   "Change data, checkpoint, subset, seed, hyperparameters, CFG, solver steps, precision, mask mode, conditioning, metrics, negative cell registry, thresholds, or queue order.",
+   "Relax any preflight, storage, or ordering gate.",
+   "Modify any already-running job."
+  ]
+ },
+ "changes": [
+  {
+   "field": "inputs[5]",
+   "path": "/home/kojiek/MeanAudio/scripts/eval/negprompt_ablation_matrix.py",
+   "kind": "scoring_reference",
+   "pre_sha256": "7ab6d35f702e7b15fda132caec1f8262583187b2a2110872baa3ad855420276f",
+   "post_sha256": "6f75c0b9a0eb6ac28b32112543192617420d5341a6af1ee1c4e27540146d20e1",
+   "pre_bytes": 13419,
+   "post_bytes": 14355,
+   "commit": "c958c97",
+   "content_delta": "Adds five c2p0_slot0 cells at cfg 3.0 for fidelity_short, silence, reversed, irrelevant and neutral. Additive to build_cells() only.",
+   "affects_033_protocol": false,
+   "rationale": "033 does not execute this file. It is registered as a provenance reference because 033's comparator numbers were produced by it. The five added cells extend the matrix at cfg 3.0 and change none of 033's registered protocol fields, so re-pinning preserves the provenance link without altering the preregistered experiment."
+  },
+  {
+   "field": "inputs[10]",
+   "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+   "kind": "notification_helper",
+   "pre_sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc",
+   "post_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+   "pre_bytes": 10351,
+   "post_bytes": 11113,
+   "rationale": "This is the same file and the same post_sha256 that receipt-notifier-binding-live-hash-fix-20260902 already approved and wrote into this contract's notification_receipts.helper_sha256. Only the duplicate inputs[] entry was missed. No new authorization is exercised."
+  }
+ ],
+ "contract": {
+  "path": "/home/kojiek/MeanAudio/docs/experiments/single_negprompt_cfg3_ablation_20260831_contract.json",
+  "pre_sha256": "2bf996ea007e8da108b3db2f0926267bf4d442292068e2a80188f9379f1d83c5",
+  "post_sha256": "bf44699158be1aa993dd4439fd8ce560ef3ff9e380a60f52e0ca4ca4a004b94f",
+  "fields_changed": [
+   "inputs[5].bytes",
+   "inputs[5].sha256",
+   "inputs[10].bytes",
+   "inputs[10].sha256"
+  ]
+ },
+ "receipt_migration": {
+  "reason": "notification_receipts.deliver_required rejects a re-delivered event whose binding differs from the stored receipt, and contract_sha256 is part of that binding. The superseded receipts are archived rather than deleted, following superseded_by_amendment_20260902 and superseded_by_notifier_restore_20260902.",
+  "archive_dir": "/home/kojiek/gpu_queue/notification_receipts/single-negprompt-cfg3-ablation-20260831/superseded_by_scoring_reference_repin_20260902",
+  "archived": [
+   "seat_attempt.json",
+   "held.json"
+  ],
+  "retained_in_place": [
+   "queue_registration.json"
+  ]
+ },
+ "queue_effect": "033_single_negprompt_cfg3_ablation returns from p2/held to p2/pending in its preregistered position. No reordering, no new work, no change to the experiment itself."
+}

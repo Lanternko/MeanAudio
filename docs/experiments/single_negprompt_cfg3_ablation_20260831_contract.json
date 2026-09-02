@@ -1,0 +1,255 @@
+{
+ "schema_version": 1,
+ "document_kind": "preregistered_secondary_evaluation_contract",
+ "experiment_id": "single-negprompt-cfg3-ablation-20260831",
+ "run_id": "run-20260831-033-single-negprompt-cfg3-ablation",
+ "status": "operator_authorized_pending_queue_tail",
+ "operator_instruction": "queue the single-prompt ablation at CFG 3",
+ "launch_allowed": true,
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "trusted_channel": "operator_console",
+  "operator": "responsible_operator",
+  "authorized_at": "2026-08-31T18:28:00+08:00",
+  "scope": "Append this preregistered evaluation to the live P2 queue tail without changing running or previously pending contracts."
+ },
+ "queue_name": "033_single_negprompt_cfg3_ablation.sh",
+ "queue_role": "p2",
+ "ordering_dependencies": [
+  "032_recover_modular_template_quarter_cfg0.sh"
+ ],
+ "dependencies": [],
+ "scientific_question": "Which individual short negative-prompt concept is most effective at CFG 3 after controlling for loudness, spectral shift, clipping, and crest factor?",
+ "protocol": {
+  "classification": "secondary_content_ablation_under_cfg3_policy",
+  "dataset": "MusicCaps seeded subset",
+  "rows": 1024,
+  "subset_seed": 20260830,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "cfg_strength": 3.0,
+  "generation_seed": 42,
+  "mask": "NoMask",
+  "precision": "full",
+  "conditioning": "NoQ",
+  "negative_cells": {
+   "none": null,
+   "low_quality": "low quality",
+   "noisy": "noisy",
+   "distorted": "distorted",
+   "muffled": "muffled",
+   "poor_fidelity": "poor fidelity",
+   "hiss": "hiss",
+   "lo_fi": "lo-fi",
+   "amateur": "amateur",
+   "genre": "genre",
+   "fidelity_short": "low quality, noisy"
+  },
+  "metrics": [
+   "CLAP",
+   "AES_CE",
+   "AES_CU",
+   "AES_PC",
+   "AES_PQ"
+  ],
+  "confound_metrics": [
+   "rms_db_mean",
+   "spectral_centroid_hz_mean",
+   "crest_min",
+   "clipped_fraction"
+  ]
+ },
+ "comparison": {
+  "single_variable": "negative_prompt_text",
+  "paired_baseline": "cfg3_none",
+  "existing_long_prompt_comparator": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_ablation/c2p0_slot0__cfg3.0__fidelity.json",
+  "winner_rule": "Report raw metric leaders separately from scientifically clean leaders; do not call a cell clean if its gain is plausibly explained by loudness, spectral, clipping, or crest changes."
+ },
+ "inputs": [
+  {
+   "kind": "checkpoint",
+   "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+   "bytes": 482119875,
+   "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+  },
+  {
+   "kind": "evaluation_subset",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_ablation/musiccaps_subset1024.tsv",
+   "bytes": 315525,
+   "sha256": "2e852db02fcc4d1f4d176f757b7c483a8f988ec9010b77d5e461d64166fee2e9"
+  },
+  {
+   "kind": "clap_checkpoint",
+   "path": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+   "bytes": 2352471003,
+   "sha256": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006"
+  },
+  {
+   "kind": "evaluation_entrypoint",
+   "path": "/home/kojiek/MeanAudio/eval.py",
+   "bytes": 9700,
+   "sha256": "071d2cfe7e557970aa6f996bdf50e57576f01316976d3ca3018fcd291bd87096"
+  },
+  {
+   "kind": "evaluation_utils",
+   "path": "/home/kojiek/MeanAudio/meanaudio/eval_utils.py",
+   "bytes": 7200,
+   "sha256": "68315af94d35401c778c8a6bad3d449b82afe50c378dbe0ed8d7cd192bb6a84c"
+  },
+  {
+   "kind": "scoring_reference",
+   "path": "/home/kojiek/MeanAudio/scripts/eval/negprompt_ablation_matrix.py",
+   "bytes": 14355,
+   "sha256": "6f75c0b9a0eb6ac28b32112543192617420d5341a6af1ee1c4e27540146d20e1"
+  },
+  {
+   "kind": "action",
+   "path": "/home/kojiek/MeanAudio/scripts/eval/single_negprompt_cfg3_ablation.py",
+   "bytes": 7178,
+   "sha256": "50c76f5e6314ef88911d4f41b6bda71c21e92de5b86497ddd1ccf933ef56e683"
+  },
+  {
+   "kind": "preflight",
+   "path": "/home/kojiek/MeanAudio/scripts/eval/validate_single_negprompt_cfg3_ablation.py",
+   "bytes": 2115,
+   "sha256": "2892514c1fb85b8690218c56a8dd5f6fbee5abb2238da96e404fb2fb5ac778a2"
+  },
+  {
+   "kind": "harn",
+   "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/single_negprompt_cfg3_queue_guest.py",
+   "bytes": 6347,
+   "sha256": "17ffb02ebc6d7eeb07dcb20d6c4c0b38fade0773dee62e0f80a80cb2baea2e5b"
+  },
+  {
+   "kind": "notification_notifier",
+   "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+   "bytes": 19483,
+   "sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f"
+  },
+  {
+   "kind": "notification_helper",
+   "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+   "bytes": 11113,
+   "sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+  },
+  {
+   "kind": "resource_controller",
+   "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py",
+   "bytes": 3966,
+   "sha256": "ba5ba6dee0344bc1915b98b18dd8cd363f32bba2b9464e58728caedb0a77c834"
+  }
+ ],
+ "reports": [
+  {
+   "negative_key": "none",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_none.json"
+  },
+  {
+   "negative_key": "low_quality",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_low_quality.json"
+  },
+  {
+   "negative_key": "noisy",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_noisy.json"
+  },
+  {
+   "negative_key": "distorted",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_distorted.json"
+  },
+  {
+   "negative_key": "muffled",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_muffled.json"
+  },
+  {
+   "negative_key": "poor_fidelity",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_poor_fidelity.json"
+  },
+  {
+   "negative_key": "hiss",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_hiss.json"
+  },
+  {
+   "negative_key": "lo_fi",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_lo_fi.json"
+  },
+  {
+   "negative_key": "amateur",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_amateur.json"
+  },
+  {
+   "negative_key": "genre",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_genre.json"
+  },
+  {
+   "negative_key": "fidelity_short",
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/c2p0_slot0__cfg3.0__single_fidelity_short.json"
+  }
+ ],
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "iteration": 0,
+  "checkpoint": null,
+  "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/resume_progress.json",
+  "behavior": "Retain only atomically validated per-cell reports. Delete only the incomplete cell's registered transient FLACs and regenerate it from seed 42."
+ },
+ "storage": {
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio",
+  "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/single_negprompt_cfg3_ablation/_audio",
+  "estimated_peak_additional_bytes": 2000000000,
+  "warning_free_bytes": 80000000000,
+  "hard_stop_free_bytes": 63687091200,
+  "authorized_cleanup": "After an atomic valid report, delete only that cell's generated FLAC directory."
+ },
+ "watcher": {
+  "poll_seconds": 2,
+  "stall_seconds": 1800,
+  "healthy_poll_model_calls": 0
+ },
+ "notifications": [
+  "queue_registration",
+  "preflight_pass_or_hold",
+  "experiment_start",
+  "terminal_success_failure_or_interruption",
+  "queue_handoff",
+  "unexpected_gpu_idle",
+  "disk_warning_or_hard_stop"
+ ],
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/validate_single_negprompt_cfg3_ablation.py"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/single_negprompt_cfg3_ablation.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/single_negprompt_cfg3_ablation.py",
+   "--validate-only"
+  ]
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/033_single_negprompt_cfg3_ablation.sh",
+  "launcher_sha256": "9d335940788dd560765cca257fe650ed2f606fc5cc6737c0b1e455167102ae93",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/single_negprompt_cfg3_queue_guest.py",
+  "harn_sha256": "17ffb02ebc6d7eeb07dcb20d6c4c0b38fade0773dee62e0f80a80cb2baea2e5b",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/single_negprompt_cfg3_ablation.py",
+  "action_sha256": "50c76f5e6314ef88911d4f41b6bda71c21e92de5b86497ddd1ccf933ef56e683"
+ },
+ "notification_receipts": {
+  "required": true,
+  "root": "/home/kojiek/gpu_queue/notification_receipts",
+  "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+  "notifier_sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f",
+  "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+  "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+  "attempting_restart_behavior": "ambiguous_fail_closed_no_retry"
+ },
+ "completion_evidence": {
+  "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+  "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json",
+  "authoritative_results": "reports"
+ }
+}
