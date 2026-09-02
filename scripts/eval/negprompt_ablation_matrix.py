@@ -96,6 +96,18 @@ def build_cells():
     for neg in ('fidelity_short', 'neutral', 'irrelevant', 'reversed', 'silence'):
         for arm in ARMS:
             cells.append((f'{arm}__cfg1.5__{neg}', arm, '1.5', neg))
+    # Q3: content x cfg interaction, the axis the cfg-1.5-only content scan left
+    # untested. At cfg 1.5 the two biggest apparent winners after `fidelity` are
+    # confounded by loudness (fidelity_short +1.70 dB, silence +2.85 dB) and
+    # `reversed` has opposite sign on the two arms. Re-running those
+    # at the PQ-optimal cfg 3.0 on c2p0_slot0 says whether the confound grows with
+    # guidance and whether the polarity signal survives. `none` and `fidelity` at
+    # cfg 3.0 already exist from Q1 and are the two controls this block pairs to.
+    # `neutral` and `irrelevant` complete the ladder at cfg 3.0, which is what
+    # lets the guidance / any-text / defect-semantics decomposition be recomputed
+    # at the PQ-optimal point instead of only at cfg 1.5.
+    for neg in ('fidelity_short', 'silence', 'reversed', 'irrelevant', 'neutral'):
+        cells.append((f'c2p0_slot0__cfg3.0__{neg}', 'c2p0_slot0', '3.0', neg))
     return cells
 
 
