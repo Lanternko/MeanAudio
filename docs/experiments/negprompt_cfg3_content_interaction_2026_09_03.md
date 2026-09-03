@@ -247,8 +247,11 @@ c2p0_slot0 與 fulltrack 的 PQ 差距在 cfg 1.5 為 0.235，在 cfg 3.0 擴大
 這與 memory `reference_training_seed_pq_noise_floor.md` 的 0.052 是**同一個量**
 （訓練 seed），差別在**協定**：0.052 量在 CFG 0，0.142 量在 CFG 3.0 ＋ negative。
 把在甲協定量到的效果拿去比乙協定的雜訊底線是不成立的，而 CFG 3.0 ＋ neg 正是
-CLAP delta 塌掉、PC 變號的那個 regime，所以底線必須在此重測 —— 這正是
-`scripts/eval/negprompt_seedpair_full_cfg3.py` 的目的。
+CLAP delta 塌掉、PC 變號的那個 regime，所以底線必須在此重測。
+資料來源：`negprompt_reeval_cfg3.0/c2p0_slot0_full_noq.json` 與
+`…_seed27182818.json`（`negprompt_reeval_full_arms.py --cfg=3.0` 的 13-arm sweep）。
+曾另寫過一支 `negprompt_seedpair_full_cfg3.py` 專跑這兩 arm，實測與上述 sweep cell
+**逐位元相同**（sha256 一致），純屬重複，已刪除。
 **本 regime 內的跨 arm 比較門檻用 0.142，不是 0.052。**
 
 **（2）Q 的影響測不出來。** `c2p0_slot0` 的 NoQ / q5 / q3 三個變體 PQ 為 7.5992 / 7.5986 / 7.5187，

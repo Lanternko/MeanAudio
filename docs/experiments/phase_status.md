@@ -750,3 +750,163 @@ q=9 比其他 q 高 2-5×，與 P8 bug 確認（null 訓在 q[9]）完全吻合�
 **⚠️ 資料狀態**：`021_true_random_quarter` 目前在 `p2/held/`（terminal reason `cfg0 report not passed`），
 它的 0.2013 只有 `eval_output/metrics/.../metrics.txt`，**沒有 contract 要求的 `cfg0_eval_runtime/reports/*_REPORT.json`**。
 數字本身（n=5521、正確 TSV、cfg0 noq）可用，但不是 contract-verified。
+
+### ✅ 結果（2026-09-02，兩 arm 皆 contract-verified）
+
+| arm | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| `true_random` full | **0.2221** | **6.3893** | **6.8719** | **5.1883** | **6.6513** |
+| `fake_random` full | 0.2186 | 6.2217 | 6.7331 | 5.1341 | 6.5543 |
+| **Δ (true − fake)** | **+0.0035** | +0.1676 | +0.1388 | +0.0542 | +0.0970 |
+
+`true_random` 五項數字都比 `fake_random` 高（quarter 時 PC 還輸）。
+
+> ⚠️ **2026-09-03 更正：這張表曾被判為「支持 caption breadth」，該判定已被推翻。**
+> 當時的依據是「CLAP +0.0035 > 預先寫死的 0.0008 門檻」，但 **0.0008 是從 quarter 觀測差
+> 推出來的，不是量測過的 noise floor**。實測 seed 位移出來後（031，見下），CFG 0 的
+> CLAP 雜訊是 **0.0042 > +0.0035**、PC 雜訊 **0.0554 > +0.0542** —— 兩項當場出局；
+> 其餘三項在同協定檢驗下也沒過關。**完整結論見下方「seed noise floor」節。**
+
+兩 arm 走同一個 wrapper、同 batch，所以 CLAP 的 batch-size 敏感度（~0.0045）**不適用**於這個
+within-protocol 對比。這點仍然成立。
+
+**scale 效應**：true 0.2013 → 0.2221（+0.0208）、fake 0.2005 → 0.2186（+0.0181）。
+**兩 arm 一起漲，漲幅差只有 0.0027**（< CLAP seed 雜訊 0.0042）—— 從 quarter 到 full 的
+增益是**訓練量帶來的，不是 rotation 帶來的**。原本寫的「full coverage 下訊號才出現」
+已隨 2026-09-03 更正作廢。
+
+### ⚠️ CFG 3 + negative prompt 下 CLAP 優勢消失（2026-09-02，secondary protocol）
+
+協定：MusicCaps 5521 / MF25 / **CFG 3.0** / NoMask / seed 42 / full /
+`negative_prompt="low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi"`。
+**同時變了 cfg 與 negative 兩個變數，不可與 CFG 0 表逐格對比**；非 contract-verified（canonical
+wrapper 只收 `_mf25_cfg0_`）。產出：`nvme_experiment_artifacts/meanaudio/negprompt_random_full_cfg3/`。
+
+| metric | true | fake | Δ | paired t | true 勝率 |
+|---|---|---|---|---|---|
+| CLAP | 0.2651 | 0.2647 | **+0.0004** | **+0.60** | **50.1%** |
+| CE | 7.1205 | 7.0657 | +0.0548 | +6.15 | 60.0% |
+| CU | 7.6737 | 7.5459 | +0.1279 | +17.92 | 65.4% |
+| PC | 4.8476 | 5.1398 | **−0.2923** | **−38.37** | 20.5% |
+| PQ | 7.6111 | 7.4610 | +0.1502 | +20.81 | 65.2% |
+
+**飽和檢查通過**（true crest_min 2.204 / fake 3.340、clipping 皆 0.0）→ 數字不是 cfg≥2 波形飽和假象。
+
+**跨協定一致性**：
+
+| metric | Δ @ CFG 0 | Δ @ CFG 3+neg | 讀法 |
+|---|---|---|---|
+| CU | +0.1388 | +0.1279 | 同向、同量級 |
+| PQ | +0.0970 | +0.1502 | 同向、同量級 |
+| CE | +0.1676 | +0.0548 | 縮小但同向 |
+| **CLAP** | **+0.0035** | **+0.0004** | **崩到 0，勝率 50.1% 等同擲硬幣** |
+| **PC** | **+0.0542** | **−0.2923** | **翻轉** |
+
+> ⚠️ **2026-09-03 更正**：這裡原本寫「CU/PQ 跨協定穩定 → 是真效果」。**該推論無效** ——
+> 它拿 CFG 3 量到的效果去對照 CFG 0 量到的 seed 雜訊。同協定 seed 對照跑出來後
+> （見下節），CFG 3+neg 的 seed 雜訊比 CFG 0 大 2–3 倍，CU/PQ 兩項都掉進雜訊裡。
+
+**paired t 的界線（重要，別再誤讀）**：paired t 移除的是 prompt/eval 噪音（同 5,521 個 clip
+配對），**不含 training-seed 變異**。下節的 seed 對照示範了這件事的嚴重性：**同配置只換訓練
+seed，一樣能產生 t=26.7 的「穩定」差異**。所以 t 大只能說「這兩個 checkpoint 之間差得很
+穩定」，**不能**說「這個差來自 rotation」。
+
+### 🔴 Seed noise floor：同協定對照推翻上面兩節的結論（2026-09-03）
+
+arm = `phase8_qwen_caption10s_multisent_noq_full`（= `c2p0_slot0` full），兩顆訓練 seed，
+**其餘完全相同**，所以每一格 Δ 依定義都是雜訊。true/fake 兩 arm 的訓練 seed 都是 **14159265**
+（contract `training.seed`），跟這裡的 baseline 同一顆，是直接可比的 proxy。
+
+**CFG 0**（031，contract-verified，`cfg0_eval_runtime/reports/…_seed27182818_…_REPORT.json`）：
+
+| 訓練 seed | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| 14159265 | 0.2149 | 6.2870 | 6.7220 | 5.1393 | 6.5793 |
+| 27182818 | 0.2191 | 6.1527 | 6.6700 | 5.0839 | 6.5270 |
+| **\|Δ\|** | **0.0042** | 0.1343 | 0.0520 | 0.0554 | 0.0523 |
+
+**CFG 3.0 + neg**（`negprompt_reeval_cfg3.0/`，13-arm sweep，非 contract-verified）：
+
+| 訓練 seed | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| 14159265 | 0.2605 | 7.2114 | 7.6251 | 5.1059 | 7.5992 |
+| 27182818 | 0.2608 | 6.9153 | 7.5198 | 4.9175 | 7.4576 |
+| **\|Δ\|** | **0.0003** | **0.2960** | **0.1053** | **0.1884** | **0.1416** |
+
+**CFG 3+neg 的 seed 雜訊比 CFG 0 大 2–3 倍**（CE 0.134→0.296、PC 0.055→0.188、
+PQ 0.052→0.142、CU 0.052→0.105），而效果沒有跟著放大。
+
+**同協定對照（效果 vs 雜訊，皆 CFG 3+neg、n=5521 paired）**：
+
+| metric | 效果 Δ (true−fake) | 效果 t | seed \|Δ\| | seed t | 效果/雜訊 | 判定 |
+|---|---|---|---|---|---|---|
+| CLAP | +0.0004 | 0.60 | 0.0003 | −0.35 | 1.62 | ❌ 兩者都不顯著 |
+| CE | +0.0548 | 6.15 | 0.2960 | 26.72 | **0.19** | ❌ 雜訊是效果的 5 倍 |
+| CU | +0.1279 | 17.91 | 0.1053 | 13.42 | 1.21 | ❌ |
+| PC | −0.2923 | −38.36 | 0.1884 | 22.77 | 1.55 | ❌ |
+| PQ | +0.1502 | 20.81 | 0.1416 | 18.29 | 1.06 | ❌ |
+
+**🔴 定論：五個指標沒有一個達到 2× 雜訊門檻**（最高 PC 1.55，且方向與 CFG 0 相反；
+PQ 只有 1.06）。加上 CFG 0 那邊 CLAP 與 PC 本來就已被雜訊吃掉，**沒有任何一個指標、
+在任何一個協定下，撐得住「per-epoch caption rotation 有幫助」**。
+
+依 contract `caption2p0_true_random_full_cfg0_contract.json` 事前寫死的判讀規則 ——
+*"a second null at full coverage retires the K-stack rotation line"* —— **K-stack rotation
+這條線收掉**。
+
+**caveat**：(1) seed replicate 做在 `slot0` arm，不是 true/fake 本身；(2) 兩顆 seed 只給
+一個差值，不是分布；(3) `seed27182818` 在 CFG 3 下 **crest_min 1.768 < 2.0**（另一顆 3.43），
+落在波形飽和警戒線內（clipped_fraction 仍為 0.0），這顆 checkpoint 的 CFG 3 數字帶飽和疑慮。
+要完全關掉 caveat (1)(2) 需要對 true 或 fake 其中一 arm 再訓 seed replicate。
+
+**子集**：novocal / vocal / lofi-prompt / clean-prompt 四切下 true−fake 的 Δ 幾乎不變
+（CLAP −0.0013~+0.0025、PQ +0.14~+0.17）→ 兩 arm 的差異**不是** lofi-specific，
+negative prompt 的缺陷語意沒有和 rotation 產生交互作用。
+
+---
+
+## Caption 2.0 queue：034 true012 rotation quarter（2026-09-02 排入 p2/pending 尾端）
+
+**問題**：等 budget 下，per-epoch caption rotation 能不能贏過它輪替的**每一條** caption？
+
+013 那組（021/025/026）答不了這題 —— **slot3 從來沒單獨訓練過**，所以 `true random` 只能跟
+`fake random`、`best/worst-of-3` 比，沒有「rotation vs 它自己的組成槽」的對照。**012 是唯一
+三個組成槽都有 budget-matched quarter 數字的 pool**：
+
+| 對照組（皆 quarter） | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| slot0 | 0.2029 | 6.1185 | 6.7031 | 5.0350 | 6.5364 |
+| slot1 | **0.2047** | 6.3008 | 6.7593 | 5.1632 | 6.5668 |
+| slot2 | 0.2017 | 6.2071 | 6.7487 | 5.0814 | 6.5623 |
+| 012 best-of-3 | 0.2129 | | | | |
+| 012 worst-of-3 | 0.1957 | | | | |
+
+**判讀規則（先寫死）**：`true012` 要**超過最好的單槽 slot1 0.2047** 才支持 rotation。落在
+0.2017–0.2047 的單槽帶內就是 null —— 那代表 rotation 只是重現了組成槽的平均值。贏過
+best-of-3 0.2129 不是門檻，也不預期。
+
+**零磁碟做法（重點）**：012 stack **沒有**被編碼過，而重編一份要 225 GB、NVMe 只剩 142 GB。
+但 slot0/slot1 就是既有 013 stack 的 index 0/1，slot2 有自己的單槽 overlay，**兩者
+text encoder fingerprint 相同**（`27e88fac…`）→ 改成 loader 於載入時組裝 caption pool
+（`text_npz_sources`），新增磁碟 0 bytes、不動 GPU 編碼。之後任何 slot 組合都免費。
+
+**pairing audit**（Phase 9 錯配事故後的必要守門，全部 passed）：
+- 1,500 列 × 3 source：clip_id 全數對上 TSV id
+- pool position 1/2 分別對照 `phase8_caption2p0_slot1_train.tsv` / `slot2_train.tsv` 驗 caption sha
+- rotation 分布 0.3397 / 0.3327 / 0.3277（4 epoch）
+- loader smoke test：15 組 (idx, epoch) 回傳的 embedding 與宣稱來源**逐位元相同**；跨 epoch
+  換槽 1364/2000（期望 2/3）；負控制（餵錯 pool）被正確拒絕
+- 訓練期 `require_text_overlay=true` 逐列再驗一次
+
+**繼承的 caveat**：S1 100k = 3.18 epoch，rotation 覆蓋率只有 2.19/3，仍在 undertrained 區測
+regularizer。但所有對照組同樣是 quarter，**內部比較成立**。
+
+Queue：030(running) → 031 → 032 → 033 → **034**。contract
+`caption2p0_true012_random_quarter_cfg0_contract.json`、pool spec
+`caption2p0_true012_caption_pool.json`。
+
+> 🔴 **2026-09-03：034 啟動前必須先重新決定判讀規則。** 上面寫死的門檻是「贏過最好的單槽
+> slot1 0.2047」，而三個單槽落在 0.2017–0.2047，**帶寬只有 0.0030**。實測的 CFG 0 CLAP
+> training-seed 雜訊是 **0.0042**（見上方 seed noise floor 節）—— **比整條判讀帶還寬**，
+> 這條規則按原樣不可能得出可信結論。加上 013 那組（021/025/026）已依 contract 收線，
+> 034 要嘛改成多 seed 設計、要嘛跟著收掉。**現況：不應照原 contract 直接啟動。**
