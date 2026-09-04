@@ -905,8 +905,35 @@ Queue：030(running) → 031 → 032 → 033 → **034**。contract
 `caption2p0_true012_random_quarter_cfg0_contract.json`、pool spec
 `caption2p0_true012_caption_pool.json`。
 
-> 🔴 **2026-09-03：034 啟動前必須先重新決定判讀規則。** 上面寫死的門檻是「贏過最好的單槽
-> slot1 0.2047」，而三個單槽落在 0.2017–0.2047，**帶寬只有 0.0030**。實測的 CFG 0 CLAP
-> training-seed 雜訊是 **0.0042**（見上方 seed noise floor 節）—— **比整條判讀帶還寬**，
-> 這條規則按原樣不可能得出可信結論。加上 013 那組（021/025/026）已依 contract 收線，
-> 034 要嘛改成多 seed 設計、要嘛跟著收掉。**現況：不應照原 contract 直接啟動。**
+### ✅ 034 結果（2026-09-02 完成，contract-verified）
+
+`p2/done/034_true012_random_quarter.terminal.json` status=completed。當初 rc=1 是
+`validate_caption2p0_cfg0_report.py` 的 checkpoint-binding sidecar 檔名以
+`reports/` + `cell_id` 命名，導致所有用 `cell_id=canonical_noq` 的 CFG 0 contract
+撞同一個檔；binding_path 改成 per-cell 命名後於 2026-09-02 12:22 revalidate
+為 `STRICT_REPORT_OK`。**不是實驗失敗。**
+
+| arm | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| slot0 | 0.2029 | 6.1185 | 6.7031 | 5.0350 | 6.5364 |
+| slot1（最好單槽） | 0.2047 | 6.3008 | 6.7593 | **5.1632** | 6.5668 |
+| slot2 | 0.2017 | 6.2071 | 6.7487 | 5.0814 | 6.5623 |
+| **034 true012 rotation** | **0.2053** | **6.3422** | **6.8654** | 5.0760 | **6.6997** |
+| Δ vs 最好單槽 | +0.0006 | +0.0414 | +0.1061 | −0.0872 | +0.1329 |
+| CFG 0 seed 底線 | 0.0042 | 0.1343 | 0.0520 | 0.0554 | 0.0523 |
+| 效果/底線 | **0.14×** | 0.31× | **2.04×** | 輸 | **2.54×** |
+
+**依事前寫死的規則 → null。** 034 的 0.2053 技術上超過 slot1 0.2047，但只贏 +0.0006 =
+CLAP seed 雜訊的 **0.14 倍**。判讀帶（0.2017–0.2047，寬 0.0030）**比雜訊底線 0.0042 還窄**，
+所以「過線」不帶資訊 —— rotation 只是重現了組成槽的平均值，與原文寫的 null 判準一致。
+**這條 CLAP 規則本身是不可用的**（設計時沒有實測底線可參照）。
+
+**AES 側未定**：PQ +0.1329（2.54× 底線）、CU +0.1061（2.04×）跨過 2× 門檻，且是贏過
+**最好的**單槽、同 budget —— 這是 013 那組給不出的對照（slot3 從未單獨訓練）。
+**但還不能當結論**：(1) PQ/CU 不在事前規則裡，事後換指標宣告勝利是 moving the goalposts；
+(2) 013 的 CU/PQ 在 CFG 0 也曾看似過關（2.67×/1.85×），換到 CFG 3+neg 量同協定底線後
+掉到 1.21×/1.06× —— **CFG 0 底線會低估**，而 034 目前只有 CFG 0 數字；
+(3) 底線量在 full-scale arm，034 是 quarter。
+
+**要定案需補**：034 + 三個單槽跑 `negprompt_reeval_full_arms.py --cfg=3.0`
+（目前該 sweep 只收 full arms），在同協定下驗證 PQ/CU。4 arm × ~42 min ≈ 3 hr GPU。
