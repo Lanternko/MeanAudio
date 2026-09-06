@@ -181,3 +181,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Node projects vendored under the repo (source is tiny, node_modules is not)
+node_modules/
+ab-listening-test/
+open-slide/
+deliverables/
+smoke_data/
