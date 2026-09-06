@@ -182,9 +182,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Node projects vendored under the repo (source is tiny, node_modules is not)
+# Node projects vendored under the repo: track the source, never the deps
 node_modules/
-ab-listening-test/
-open-slide/
+.next/
+.vinext/
+.wrangler/
+.openai/
 deliverables/
 smoke_data/
