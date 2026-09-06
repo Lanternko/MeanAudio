@@ -1,4 +1,6 @@
 #!/bin/bash
+# HISTORICAL INVALID PIPELINE (2026-07-16): P9.5 used the same positional
+# multi-caption cache-writer bug. Its 0.0609 result is excluded.
 # ============================================================
 # MeanAudio Phase 9.5 V1 — task-framed Qwen multi-cap, NoQ
 # train_pipeline_phase9_5_v1.sh
@@ -26,6 +28,12 @@
 # ============================================================
 
 set -eo pipefail
+
+if [ "${ALLOW_INVALID_HISTORICAL_P9:-0}" != "1" ]; then
+    echo "[ABORT] Historical P9.5 multi-cap cache is audio-caption misaligned."
+    echo "Its 0.0609 result is excluded; rebuild a canonical v2 cache first."
+    exit 64
+fi
 
 # ============================================================
 # 實驗參數

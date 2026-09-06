@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "document_kind": "active_experiment_contract_amendment",
+  "amendment_id": "caption2p0-fake-random-full-noq-label-hotfix-20260831",
+  "experiment_id": "caption2p0-k3-fake-random-full-noq-cfg0",
+  "run_id": "026_fake_random_full-20260830T191436Z-hotfix-20260831",
+  "original_run_id": "run-20260826-caption2p0-k3-fake-random-full-noq-cfg0",
+  "live_queue_run_id": "026_fake_random_full-20260830T191436Z",
+  "approved": true,
+  "approved_at": "2026-08-31T10:22:30Z",
+  "operator_instruction": {
+    "text": "為 `026` 登錄並套用 NoQ label hotfix，並把三個 eval-only recovery 工作追加到 queue 尾端」",
+    "sha256": "03648a1bcd5acce92dc3df71abcfec9c8dcc9d3ed4465cbfc3ee58c1e33bac81"
+  },
+  "scope": {
+    "allowed": [
+      "Map the canonical NoQ label token noq to the existing report metadata token no_q before comparing label and argv conditioning.",
+      "Recheck the already-contracted runtime_storage.hard_stop_free_bytes immediately before canonical evaluation."
+    ],
+    "forbidden": [
+      "Change data, checkpoint, seed, hyperparameters, queue order, CFG, solver steps, precision, mask mode, metrics, or thresholds.",
+      "Launch evaluation while the registered storage hard stop is not satisfied."
+    ]
+  },
+  "bindings": {
+    "original_contract": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_fake_random_full_cfg0_contract.json",
+    "original_contract_sha256": "3bb9383da363f58807c7d672bfdf797e5bfddb8d314f78cecd54660e3b232969",
+    "active_launcher": "/home/kojiek/gpu_queue/p2/running/026_fake_random_full.sh",
+    "active_launcher_sha256": "869e97a9653599b3a8150cab16ecd1227ffeb7c638fa5e147dbf799f0853c179",
+    "active_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_fake_random_full_action.sh",
+    "active_action_sha256": "1f5f60d11b84e59a757e368629e74d2ea0db1b26183ba70b837199839cbb64e1",
+    "wrapper": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/eval_musiccaps_mf25.sh",
+    "wrapper_pre_hotfix_sha256": "8e02f242872705796031628ace745c64752d6375dbcb8fb983ce07928b096305",
+    "wrapper_post_hotfix_sha256": "d0dc18d040161afb24e1d98f0288f9db991dafaa83f3d35f73275fb357bdef35"
+  },
+  "live_identity_at_registration": {
+    "pid": 3820608,
+    "start_time": "281228694",
+    "phase": "stage1_training",
+    "last_observed_iteration": 399950,
+    "active_process_unchanged": true
+  },
+  "expected_storage_branch": {
+    "registered_hard_stop_free_bytes": 112500000000,
+    "behavior_below_floor": "wrapper exits before generation; outer HARN records held because the canonical report is absent",
+    "training_and_synthesized_EMA_are_preserved": true
+  },
+  "notification": {
+    "required": true,
+    "event": "contract_amendment",
+    "status": "held",
+    "idempotency_key": "caption2p0-k3-fake-random-full-noq-cfg0:026_fake_random_full-20260830T191436Z:contract_amendment:noq-label-hotfix"
+  }
+}

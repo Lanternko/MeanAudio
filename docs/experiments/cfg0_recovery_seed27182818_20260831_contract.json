@@ -1,0 +1,103 @@
+{
+ "schema_version": 1,
+ "document_kind": "preregistered_experiment_contract",
+ "experiment_id": "cfg0-recovery-seed27182818-20260831",
+ "run_id": "run-20260831-031-recover-seed27182818-cfg0",
+ "status": "authorized_eval_only_recovery",
+ "recovery_kind": "eval_only",
+ "launch_allowed": true,
+ "approval_required": true,
+ "queue_name": "031_recover_seed27182818_baseline_cfg0.sh",
+ "queue_role": "p2",
+ "ordering_dependencies": [
+  "029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh"
+ ],
+ "dependencies": [],
+ "source_failure": {
+  "queue_name": "001_seed27182818_baseline_cfg0.sh",
+  "terminal": "/home/kojiek/gpu_queue/p2/failed/001_seed27182818_baseline_cfg0.terminal.json",
+  "reason": "legacy action omitted mandatory CFG0_CONTRACT and CFG0_ARM"
+ },
+ "operator_instruction": {
+  "text": "為 `026` 登錄並套用 NoQ label hotfix，並把三個 eval-only recovery 工作追加到 queue 尾端」",
+  "sha256": "03648a1bcd5acce92dc3df71abcfec9c8dcc9d3ed4465cbfc3ee58c1e33bac81",
+  "received_at": "2026-08-31T09:58:00Z",
+  "queue_effect": "append after existing 029; no training and no reordering of 028/029"
+ },
+ "launch_authorization": {
+  "valid": true,
+  "gpu_launch_allowed": true,
+  "scope": "eval_only_recovery"
+ },
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+  "rows": 5521,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "cfg_strength": 0,
+  "seed": 42,
+  "mask": "NoMask",
+  "precision": "full"
+ },
+ "cells": [
+  {
+   "cell_id": "canonical_noq",
+   "label": "phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_musiccaps_mf25_cfg0_noq",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_ema_final.pth",
+   "checkpoint_sha256": "d29311d2cd560eed8f3513269dc8b34e17907f18368709dd0f708cd89b7a3b50",
+   "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json"
+  }
+ ],
+ "runtime_storage": {
+  "output_root": "/home/kojiek/cfg0_eval_runtime/output",
+  "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics",
+  "estimated_peak_additional_bytes": 8000000000,
+  "warning_free_bytes": 80000000000,
+  "hard_stop_free_bytes": 63687091200,
+  "authorized_cleanup": "When no atomic report or metrics exists, delete only verified regular partial FLACs for this exact label before deterministic seed-42 regeneration."
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/run_cfg0_eval_recovery.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/run_cfg0_eval_recovery.py"
+  ]
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/031_recover_seed27182818_baseline_cfg0.sh",
+  "launcher_sha256": "ed4f6d288de46ad3bae45d3784167663944da59482422d108c6de37caca4f55c",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/cfg0_recovery_queue_guest.py",
+  "harn_sha256": "cfab6d4d670352dadd18b196101ab796bf2196e498ef7614d5534b4da12f72cb",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/run_cfg0_eval_recovery.py",
+  "action_sha256": "fec4473d73d334c5b10858f7c36720082d5bd267ec9bc8fb9e822e3048584a80",
+  "wrapper": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/eval_musiccaps_mf25.sh",
+  "wrapper_sha256": "d0dc18d040161afb24e1d98f0288f9db991dafaa83f3d35f73275fb357bdef35"
+ },
+ "resume": {
+  "kind": "eval_ema_checkpoint",
+  "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_ema_final.pth",
+  "checkpoint_sha256": "d29311d2cd560eed8f3513269dc8b34e17907f18368709dd0f708cd89b7a3b50",
+  "checkpoint_bytes": 482135520,
+  "progress_checkpoint": "/home/kojiek/logs/cfg0_eval_recovery_harn/031_recover_seed27182818_baseline_cfg0/resume.json",
+  "behavior": "On pause terminate the evaluator, persist counts, and regenerate only this label after verified partial cleanup."
+ },
+ "notification_receipts": {
+  "required": true,
+  "root": "/home/kojiek/gpu_queue/notification_receipts",
+  "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+  "notifier_sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f",
+  "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+  "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+  "attempting_restart_behavior": "ambiguous_fail_closed_no_retry"
+ },
+ "completion_evidence": {
+  "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_ema_final.pth",
+  "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json"
+ }
+}

@@ -22,6 +22,12 @@
 set -e
 set -o pipefail
 
+if [ "${ALLOW_INVALID_HISTORICAL_P9:-0}" != "1" ]; then
+    echo "[ABORT] Historical S1 checkpoint was trained on misaligned multi-cap pairs."
+    echo "This salvage experiment cannot isolate a Stage-2 multi-cap effect."
+    exit 64
+fi
+
 EXP_PREFIX="phase9_v1_salvage"
 S1_SRC_EXP="phase9_v1_stage1_400000"  # 重用既有 S1 ckpt，不重訓
 

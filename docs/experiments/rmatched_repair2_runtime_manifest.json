@@ -1,0 +1,18 @@
+{
+  "document_kind": "meanaudio_transitive_runtime_manifest",
+  "schema_version": 1,
+  "tree_binding_rules": {
+    "schema_version": 1,
+    "excluded_directory_names": [".hypothesis", ".mypy_cache", ".pytest_cache", ".pytype", ".ruff_cache", "__pycache__"],
+    "excluded_file_suffixes": [".pyc", ".pyo"],
+    "rationale": "Interpreter/test caches are derived mutable state, are never approval authority, and must not cause runtime self-drift."
+  },
+  "scope": "Repair2 stdlib-only privileged transaction runtime",
+  "entries": [
+    {"kind": "file", "role": "system_python", "path": "/usr/bin/python3.12", "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"},
+    {"kind": "file", "role": "recovery_validator", "path": "/home/kojiek/MeanAudio/scripts/dual_authority_recovery_v3.py", "sha256": "ffff8ff4bb8b260db378800296d5202c80784094f620a4deaaf0c2b44f466c19"},
+    {"kind": "file", "role": "stage_bundle_validator", "path": "/home/kojiek/MeanAudio/scripts/validate_rmatched_matrix_nvme_stage_bundle.py", "sha256": "345408fe1a8e0ccc3d1bd45487c261451d63d9ed40208e0bbf73bc44102d4a48"},
+    {"kind": "tree", "role": "system_stdlib", "path": "/usr/lib/python3.12", "sha256": "58cbab5c2a57bf7a71fe13b74602b4796f8a6872e541920cd6bc38b613f40029", "file_count": 643, "pth_files": []},
+    {"kind": "tree", "role": "system_native_runtime", "path": "/usr/lib/x86_64-linux-gnu", "sha256": "565be88b7865b966c1f253114cde7ddd59d5e321cc7b57dc6b44c0a3c07b7abe", "file_count": 5766, "pth_files": []}
+  ]
+}

@@ -1,6 +1,9 @@
 # 文獻參考筆記 — 對 MeanAudio 研究的直接啟示
 
-**更新日期**：2026-04-02
+**更新日期**：2026-04-02（基礎條目）  
+**PromptCC / ISMIR 2026 Paper 487 完整文獻審核與缺口補調查（2026-07-20，R1–5 定稿）**：見同目錄  
+[`PromptCC_Literature_Quality_and_Gaps_2026_07_20.md`](./PromptCC_Literature_Quality_and_Gaps_2026_07_20.md)  
+（R5：lit×內部 phase 對齊；**建議凍結廣域 survey**，轉向 paper.tex 寫作 + P0 實驗。本檔僅早期 AES / Resonate / PE-AV 速記。）
 
 ---
 

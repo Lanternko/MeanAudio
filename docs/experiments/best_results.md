@@ -2,9 +2,15 @@
 
 > 主要指標：CLAP ↑、CE ↑、PQ ↑。完整實驗記錄見 `../../EXPERIMENT_LOG.md`。
 
+> **2026-07-16 correctness correction**：Phase 9 V1/V2 與 Phase 9.5 V1
+> multi-cap caches 由舊 writer 以 row index 讀 `i.npz`，沒有依
+> `npz_cache_train.txt` 取得 audio statistics；canonical filename matches 為
+> 0/251,599。其數字保留為 corrupted-data artifacts，但已從所有
+> multi-cap / true-random / Q-effect 結論中排除，等待 clean rerun。
+
 ## 完整 benchmark 總表（2026-04-25 定稿 v2，10 exps × 兩 benchmark × 全指標）
 
-> Jamendo n=2048 (seed=42 random subset of 90K，1816 unique tracks = 15.7% 覆蓋率，與歷史 FAD 抽樣方法一致)；MusicCaps n=5521（FAD n=2048，用 4,525 筆 MusicCaps 官方參考音訊）。8 metrics: CLAP / CE / CU / PC / PQ / FAD / PE-AV / R@10 (t2a)。eval q 旗標依訓練 Q conditioning 選（`--no_q` for NoQ 訓練；`--quality_level 9` for Q 訓練 + pre-P6 相容）。詳見 `docs/experiments/ten_exp_full_benchmark.md`。
+> Jamendo n=2048 (seed=42 random subset of 90K，1816 unique tracks = 15.7% 覆蓋率，與歷史 FAD 抽樣方法一致)；MusicCaps n=5521（FAD n=2048，用 4,525 筆 MusicCaps 官方參考音訊）。8 metrics: CLAP / CE / CU / PC / PQ / FAD / PE-AV / R@10 (t2a)。eval q 旗標依訓練 Q conditioning 選（`--no_q` for NoQ 訓練；`--quality_level 9` for Q 訓練 + pre-P6 相容）。詳見 `docs/experiments/results/benchmarks/ten_exp_full_benchmark.md`。
 
 ### Exp 代號 ↔ 對外名稱（修正版 2026-04-25）
 
@@ -144,7 +150,7 @@ P8 V4 NoQ s=1.0 vs P7 V1 baseline：CLAP 2.9× 劣化、peav_score sign flip、t
 | **phase7_v1** | **random (static)** | **q=6** | 0.1980 | **6.276** | 6.936 |
 | **phase7_v1** | **random (static)** | **q=9** | 0.1984 | 6.254 | **6.939** |
 | phase7_v2 | CLAP-best | q=6 | 0.1943 | 6.230 | 6.938 |
-| phase9_v1_bugfix | multi-cap true-random, NoQ | `--no_q` | 0.0589 | 6.2612 | 6.6770 |
+| phase9_v1_bugfix | **INVALID: misaligned cache** | `--no_q` | ~~0.0589~~ | 6.2612 | 6.6770 |
 
 > 注意：Phase 4-8 系列的 CLAP 不在單一 num_samples 下可完美對齊 MusicCaps 的 n=2048；Phase 9 V1 bugfix 為完整 90,063 生成 + num_samples=2048 metric 計算。
 
@@ -157,8 +163,8 @@ P8 V4 NoQ s=1.0 vs P7 V1 baseline：CLAP 2.9× 劣化、peav_score sign flip、t
 | **phase7_v1** | **random (static)** | ✓ (half)¹ | **q=9** | **0.1975** | **6.017** | **6.822** | 4.758 | **6.679** |
 | phase7_v2 | CLAP-best (static) | ✓ (half)¹ | q=9 | 0.1950 | 5.871 | 6.633 | 4.940 | 6.528 |
 | phase8 | random (static) | ✗ | `--no_q` | 0.1851 | 5.913 | 6.747 | 4.983 | 6.544 |
-| phase9_v1_bugfix² | multi-cap true-random | ✗ | `--no_q` | 0.0650 | 6.2626 | 6.8051 | 5.4256 | 6.6834 |
-| phase9_v2_bugfix³ | multi-cap true-random | ✓ (E2E) | q=9 | 0.0403 | 5.2981 | 6.2673 | 5.3742 | 5.9666 |
+| phase9_v1_bugfix² | **INVALID: misaligned cache** | ✗ | `--no_q` | ~~0.0650~~ | 6.2626 | 6.8051 | 5.4256 | 6.6834 |
+| phase9_v2_bugfix³ | **INVALID: misaligned cache** | ✓ (E2E) | q=9 | ~~0.0403~~ | 5.2981 | 6.2673 | 5.3742 | 5.9666 |
 | phase7_v1_fullq_control⁴ | random (static) | ✓ (E2E, clean impl) | q=9 | 0.1748 | 5.5436 | 6.5875 | 5.0712 | 6.5153 |
 | phase7_v1_fullq_control⁴ | random (static) | ✓ (E2E, clean impl) | q=6 | 0.1759 | 5.5429 | 6.6054 | 5.0262 | 6.4856 |
 | phase7_v1_s2only_ablation⁵ | random (static) | ✓ (S2-only, pseudo-S1) | q=9 | 0.1951 | 6.0130 | 6.8891 | 4.8035 | 6.7467 |
@@ -166,9 +172,12 @@ P8 V4 NoQ s=1.0 vs P7 V1 baseline：CLAP 2.9× 劣化、peav_score sign flip、t
 
 ¹ Phase 6/7 系列的「+Q」實際是 S2-only Q（runner_flowmatching.py 沒讀 q_level，2026-04-20 Codex 發現）。S1 只訓了 `q_embed[10]`。數字反映 half-Q 訓練。
 
-² Phase 9 V1 bugfix：修兩個 bug（networks.py q=None 填 10、runner_meanflow.py undrop .clone）後重跑。CLAP 從崩前 Jamendo 0.0260 提升到 0.0650，跨 test set 一致（Jamendo 0.0589）→ bug 不是全部原因，但 bug fix 後 CLAP 仍遠低於 static-random baseline，該殘差尚未被單一機制定位。
+² Phase 9 V1 bugfix：0.0650 / Jamendo 0.0589 使用系統性錯配的
+audio–caption cache；不得解讀為 multi-cap、true-random、overfit 或 bug-fix 效果。
 
-³ Phase 9 V2 bugfix：除上述外再修 runner_flowmatching.py（6 處加 q 參數），S1+S2 真 Q end-to-end 訓練。CLAP 0.0403 < V1 的 0.0650；q sweep (6–9) 幾乎 flat (0.0402–0.0417)。Plausible 假說：aggregate-q（基於全 5 cap 的 MeanSim）與訓練時餵 random 1-of-5 caption 之間的 supervision 不一致。P7 V1 q-sweep 顯示 q 在 in-support regime 內近乎 flat（q=6 vs q=9 ΔCLAP=0.0015），所以 P9 V2 flatness 本身 does not by itself identify multi-cap as the cause。Static-random full-Q control 已完成（見 footnote ⁴）；P9 V2 drop 至少含 clean-implementation penalty (~0.02) + P9-specific residual (~0.13)，後者歸因待 Clean S2 only ablation 出結果。
+³ Phase 9 V2 bugfix：0.0403 與 q sweep 同樣來自錯配 cache；先前的
+aggregate-q mismatch 與 ~0.13 P9-specific residual 解讀均撤回。獨立的 P7
+clean full-Q / S2-only controls 不受此 cache bug 影響。
 
 ⁴ P7 V1 full-Q control (2026-04-22)：乾淨 implementation (S1 q-passing fix + S2 text_f_undrop clone fix) 下的 P7 V1 full-Q E2E。全 5 eval 一致低於歷史 P7 V1 best ~8-12% CLAP（Jamendo q=6: 0.1816 / q=9: 0.1799 / native_q: 0.1801；MusicCaps q=6: 0.1759 / q=9: 0.1748）。**Historical P6 V2 should not be interpreted as evidence that Stage 1 successfully trained q embeddings, because the later-discovered runner_flowmatching q-passing bug was still present at that time.** 活躍的 implementation 差異為 S1 q-passing fix + S2 clone fix，co-varied。見 footnote ⁵ 的 Clean S2 only ablation 結果。詳見 `memory/project_p7_fullq_control_finding_2026_04_22.md`。
 
@@ -181,11 +190,10 @@ P8 V4 NoQ s=1.0 vs P7 V1 baseline：CLAP 2.9× 劣化、peav_score sign flip、t
 - **Random caption 的獨立貢獻**（CE/PQ）：no-Q 情境下 +0.454/+0.311；+Q 情境下 +0.099/+0.061（Q 吸收部分 diversity 效益 → 替代關係，非純加成）
 - **Jamendo vs MusicCaps 排序倒轉**：Phase 6 V2 在 Jamendo 領先 Phase 7 V1（0.2139 vs 0.1984），但 MusicCaps 上 Phase 7 V1 領先（0.1975 vs 0.1943）→ best-consensus 有 Jamendo 特化 overfitting，random 更穩健
 
-### Phase 9 系列新觀察（2026-04-20/21，需更多 control 才能下定論）
-- **觀察**：multi-cap true random 下 CLAP 降低（V1 0.0650 / V2 0.0403，vs static 0.185-0.198）
-- **觀察**：V1 AES 四項超過 Phase 8，V2 反而 AES 下降 → V1 呈「好聽但不貼 prompt」，V2 特性未明
-- **觀察**：V2 (q=9) < V1（全指標）→ 假說是 aggregate-q 與 random-1/5 caption mismatch，但未對 q sweep 驗證
-- **方法論注意**：Phase 6+ 所有 "+Q" 實驗都是 half-Q（S1 runner 沒傳 q，Codex 2026-04-20 發現）。P9 V2 是**第一個真 full Q E2E**。V2 變差可能來自 (a) multi_cap 本身、(b) full Q 可能就不如 half Q、(c) q=9 不是最適 — **三個 confound 尚未拆開**
+### Phase 9 系列更正（2026-07-16）
+- V1/V2 的低 CLAP、高/低 AES 與 steering 數字只描述 corrupted-data checkpoints。
+- **不能**用這些數字比較 static vs multi-cap、NoQ vs Q、或推論 aggregate-q mismatch。
+- clean all-five-caption cache + S1/S2 from-scratch rerun 完成前，LP-MC multi-cap effect 為 unknown。
 
 ## 結論（截至 2026-04-24，ablation chain 完整後定稿）
 
@@ -193,19 +201,16 @@ P8 V4 NoQ s=1.0 vs P7 V1 baseline：CLAP 2.9× 劣化、peav_score sign flip、t
 
 ### 可以下的結論
 - **static random + half Q（historical Phase 7 V1 best）** 是目前已測路線中最穩健經驗基線
-- P9 V1 bugfix 跨 test set 一致（Jamendo 0.0589 / MusicCaps 0.0650），**不是 Jamendo overfit**
-- P9 V1/V2 在 **current setup** 下 underperform Phase 7 V1
-- **Clean full-Q control bundle underperforms historical half-Q baseline by ~8-12% CLAP** (P7 V1 full-Q control, 2026-04-22, 見 footnote ⁴)。This falsifies the strong version of "P9 V2 drop attributed entirely to multi-cap"。
+- **Clean full-Q control bundle underperforms historical half-Q baseline by ~8-12% CLAP** (P7 V1 full-Q control, 2026-04-22, 見 footnote ⁴)。這是獨立有效的 Stage-1-Q observation；不再拿來拆解失效的 P9 gap。
 - **Clean S2 only ablation restores the historical P7 V1 baseline across EMA evaluations, while exhibiting an EMA-vs-last gap comparable to the full-Q control rerun. This rules out pseudo-EMA bootstrap as the explanation and strongly indicates that the Stage 2 text_f_undrop clone fix is not the main driver of the ~8–12% CLAP drop. The primary remaining contributor is Stage 1 effective q training.** (footnote ⁵, 2026-04-23/24; last.pth gap: s2only +13.4%, fullq_control +14.2% — structurally consistent, not init artifact)
-- **P9 V2 gap 現在可拆解為兩部分**：(1) general penalty ~0.02 CLAP，主要來自 S1 effective q training；(2) P9-specific residual ~0.13 CLAP，行為上與 multi-cap 強相關（機制未證）。
 
 ### Q behavior in P7 V1 (2026-04-21)
 P7 V1 q-sweep on MusicCaps indicates **support-set gating** rather than ordinal quality control. OOD q values (q=0/3) yield CLAP ≤ 0.045, while in-support q values (q=6/9) yield CLAP ≈ 0.197 and are nearly equivalent (ΔCLAP = 0.0015). Historical Jamendo results for q=6/9/native_q are likewise all ≈ 0.198. Current evidence therefore supports q as a coarse in-support gating signal rather than a strong ordinal quality controller. P7 V1's high CLAP should not be attributed primarily to fine-grained q scaling.
 
 ### 尚不能下的結論（缺 control 實驗）
-- 「**multi_cap 本質不適合 MeanAudio**」— 需先做 **Phase 7 V1 static-random + full Q E2E** 作 control 才能分離「multi_cap 效應」vs「full Q vs half Q 效應」。目前 V2 vs 舊 Phase 7 V1 混了兩個變量。
-- 「**Q 在 multi_cap 有害**」— P9 V2 q sweep 顯示 q=6/7/8/9 flat (~0.04)，但 P7 V1 q-sweep 顯示 q 在 in-support 內本來就 flat，所以此現象本身不成鑑別證據。
-- 「**aggregate-q + random-1/5 caption 是 mismatch 主因**」— working hypothesis，未證。
+- 「**multi_cap 本質不適合 MeanAudio**」— clean multi-caption rerun 尚未完成。
+- 「**Q 在 multi_cap 有害**」— 舊 P9 V2 cache 失效，沒有有效證據。
+- 「**aggregate-q + random-1/5 caption 是 mismatch 主因**」— 舊 evidence 失效，只能作待測 hypothesis。
 
 ### 補充：MusicCaps-sampled subjective A/B 客觀分（n=30 paired, cfg=0.5）
 
@@ -227,7 +232,7 @@ P7 V1 q-sweep on MusicCaps indicates **support-set gating** rather than ordinal 
 
 ## Qwen Collapse Audit — 10 collapsed models (2026-05-08 〜 2026-05-19)
 
-> 完整 audit 表（実験設計 / 仮説 / verdict）は `docs/experiments/qwen_collapse_audit_10model.md` を参照。
+> 完整 audit 表（実験設計 / 仮説 / verdict）は `docs/experiments/history/phase8/qwen_collapse_audit_10model.md` を参照。
 
 LP-MC original baselines:
 - P8 / LP-Rnd-NoQ: **MC CLAP 0.1851** ✅
@@ -238,7 +243,7 @@ LP-MC original baselines:
 | P8-Qwen / Qwen-Rnd-NoQ | Qwen single-cap random, NoQ | 0.0611 | ❌ collapsed |
 | P4V2-Qwen / Qwen-BC-NoQ | Qwen best-consensus selection | 0.0611 | ❌ collapsed |
 | P7V1-Qwen / Qwen-Rnd-Q | Qwen single-cap random, +Q | 0.0687 | ❌ collapsed |
-| P9.5 V1 / Qwen-Multi-NoQ | Qwen task-framed multi-cap ×5 | 0.0609 | ❌ collapsed |
+| P9.5 V1 / Qwen-Multi-NoQ | **INVALID: misaligned multi-cap cache** | ~~0.0609~~ | ❌ excluded |
 | EXP-A / LP-MC-Stripped | LP-MC with boilerplate template removed | 0.0608 | ❌ collapsed |
 | EXP-B / Qwen-Slot0-Fixed | Qwen slot-0 fixed (no framing variance) | 0.0615 | ❌ collapsed |
 | EXP-C / Qwen+LP-MC-Prefix | Qwen slot-0 + LP-MC opening prepended | 0.0580 | ❌ collapsed |
@@ -246,6 +251,8 @@ LP-MC original baselines:
 | EXP-G / LP-S1→Qwen-S2 | LP-MC S1 (400K) → Qwen S2 (200K) | 0.0679 | ❌ collapsed |
 | **EXP-H / Qwen→LP-MC-Rewrite** | Full LP-MC acoustic-style rewrite (CLAP diag 99.2%) | **0.0617** | ❌ collapsed |
 
-**VERDICT (2026-05-19)**: All 10 Qwen-content / LP-MC-perturbed variants collapse to MC CLAP 0.058–0.069.
+**VERDICT corrected 2026-07-16**: P9.5 V1 is excluded; the remaining valid
+single-cap/mixed Qwen-content and LP-MC-perturbed runs still form a low-CLAP
+cluster, but no multi-cap conclusion follows from P9/P9.5.
 LP-MC acoustic-style rewrite (EXP-H) with 99.2% semantic preservation is the most direct falsification: surface style alone does not explain healthy LP-MC training.
 Remaining open question: which deeper property of LP-MC's corpus-level joint distribution makes conditioning trainable.

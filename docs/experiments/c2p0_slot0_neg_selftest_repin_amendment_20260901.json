@@ -1,0 +1,107 @@
+{
+  "schema_version": 1,
+  "document_kind": "active_experiment_contract_amendment",
+  "amendment_id": "c2p0-slot0-neg-selftest-repin-20260901",
+  "experiment_id": "c2p0-slot0-full-cfg2p5-cfg4p0-negative-prompt",
+  "run_id": "run-20260830-c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+  "approved": true,
+  "approved_at": "2026-08-31T23:39:35Z",
+  "operator_instruction": {
+    "text": "對，diff 那支 selftest 給我看\n\n然後如果內容沒問題 不要再阻擋 並且發送 held",
+    "sha256": "92127faa9d080c62e41cf9ff9d0e2078c41e4981ae6a181b47f9db600dfe50b8"
+  },
+  "trigger": {
+    "held_at": "2026-08-31T20:05:00Z",
+    "held_reason": "[HOLD] input identity mismatch: /home/kojiek/MeanAudio/scripts/tests/selftest_c2p0_slot0_neg_cfg_sweep_full.py",
+    "cascade": [
+      "030_recover_true_random_full_cfg0: ordering dependency is not terminal: 029",
+      "031_recover_seed27182818_baseline_cfg0: ordering dependency is not terminal: 029",
+      "032_recover_modular_template_quarter_cfg0: ordering dependency is not terminal: 029",
+      "033_single_negprompt_cfg3_ablation: 032 must have exactly one terminal state; found=0"
+    ]
+  },
+  "scope": {
+    "allowed": [
+      "Re-pin inputs[10] (kind=no_gpu_acceptance_test) bytes and sha256 to the 2026-08-31 17:55 edit of the no-GPU selftest.",
+      "Return 029 and its four ordering-dependent successors from p2/held to p2/pending.",
+      "Archive the two 029 notification receipts whose immutable binding carries the pre-amendment contract sha256."
+    ],
+    "forbidden": [
+      "Change data, checkpoint, seed, hyperparameters, CFG, solver steps, precision, mask mode, metrics, thresholds, or queue order.",
+      "Change the sweep driver, its storage_gate thresholds, or any other pinned input.",
+      "Relax the preflight input-identity gate itself."
+    ]
+  },
+  "change": {
+    "input_kind": "no_gpu_acceptance_test",
+    "path": "/home/kojiek/MeanAudio/scripts/tests/selftest_c2p0_slot0_neg_cfg_sweep_full.py",
+    "pre_bytes": 11233,
+    "pre_sha256": "f027d1ec5fcdfbdd123640174220a67cebf0303d8399d53b947d067881ff4cba",
+    "post_bytes": 11401,
+    "post_sha256": "855df14a7fbca7f80b39da2537702b02f2b5197cbc922ad7fcdc76a1cb616c85",
+    "source_edit_mtime": "2026-08-31T09:55:04Z",
+    "diff_scope": {
+      "method": "code-object comparison against __pycache__/selftest_c2p0_slot0_neg_cfg_sweep_full.cpython-312.pyc (compiled 2026-08-30T15:10:25Z from the 11233-byte source)",
+      "functions_added": [],
+      "functions_removed": [],
+      "functions_changed": [
+        "test_reportless_5521_audio_is_never_resumed",
+        "test_verified_report_residual_cleanup_is_restart_safe"
+      ],
+      "change": "Both tests now wrap their driver call in mock.patch.object(driver, 'storage_gate', return_value=10**12), making the no-GPU fixtures hermetic against the host filesystem's free space instead of reading the real statvfs of a tempdir.",
+      "production_surface_touched": false
+    }
+  },
+  "evidence": {
+    "selftest_run": {
+      "command": "/home/kojiek/venvs/dac/bin/python scripts/tests/selftest_c2p0_slot0_neg_cfg_sweep_full.py",
+      "result": "PASS 6 no-GPU CFG sweep tests"
+    },
+    "other_pinned_inputs_verified_unchanged": 14,
+    "sweep_driver_storage_gate_unchanged": {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/c2p0_slot0_neg_cfg_sweep_full.py",
+      "sha256": "3df3afcf7a8f0e556821bc19455ab6f013f1e221e36959e65ba1b023b2b57739",
+      "hard_stop_free_bytes": 63687091200
+    },
+    "preflight_after_amendment": {
+      "command": "/home/kojiek/venvs/dac/bin/python scripts/eval/validate_c2p0_slot0_neg_cfg_sweep_full.py",
+      "result": {
+        "status": "passed",
+        "free_bytes": 153898881024
+      }
+    }
+  },
+  "bindings": {
+    "contract": "/home/kojiek/MeanAudio/docs/experiments/c2p0_slot0_neg_cfg2p5_cfg4p0_full5521_contract.json",
+    "contract_pre_amendment_sha256": "92e2cc88c50264688bc47c7ffd1b643fb970d227870930f6b37068347458cdf7",
+    "contract_post_amendment_sha256": "ffda9a5c80f635712b8364c13db1c9378e5872821f7d57ca312305b1a27cd7ce",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh",
+    "launcher_sha256": "24bdf9d71b5229ced4210dfddc7eb75fda4e6654e3ccc9a75329776f0db008f5"
+  },
+  "superseded_receipts": {
+    "reason": "notification_receipts.deliver_required treats contract_sha256 as an immutable per-(experiment_id,event) binding; re-seating 029 under the amended contract would fail closed on the pre-amendment receipts and silently re-hold the job. The originals are retained unmodified for audit.",
+    "entries": {
+      "seat_attempt.json": {
+        "archived_to": "/home/kojiek/gpu_queue/notification_receipts/c2p0-slot0-full-cfg2p5-cfg4p0-negative-prompt/superseded_by_amendment_20260901/seat_attempt.20260831T233855Z.json",
+        "sha256": "e33d22b9d4d0ad90f70dcf1035087d72bc8b12a8951a81fb9ff82a9ba30d828e",
+        "contract_sha256_at_write": "92e2cc88c50264688bc47c7ffd1b643fb970d227870930f6b37068347458cdf7",
+        "event": "seat_attempt",
+        "summary": "P2 host seating 029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh"
+      },
+      "held.json": {
+        "archived_to": "/home/kojiek/gpu_queue/notification_receipts/c2p0-slot0-full-cfg2p5-cfg4p0-negative-prompt/superseded_by_amendment_20260901/held.20260831T233855Z.json",
+        "sha256": "e91f10e38848f0701431a34fbe95be74e5d006750a19f6c83e4849e35c1474fd",
+        "contract_sha256_at_write": "92e2cc88c50264688bc47c7ffd1b643fb970d227870930f6b37068347458cdf7",
+        "event": "held",
+        "summary": "029 mutable preflight failed."
+      }
+    }
+  },
+  "notification": {
+    "required": false,
+    "reason": "Operator explicitly asked for no further held-status Discord messages. This amendment emits no notification event; the next Discord message for this experiment will be the seat_attempt on re-seat and then its terminal event."
+  },
+  "known_issue_not_changed": {
+    "seat_notifications_are_labelled_held": "gpu_queue/p2_host.sh calls `notify held \"p2-seat-<job>\"` before seat_and_wait because notify_experiment_webhook.py only accepts (success|failure|interrupted|held|test). Every normal job seating therefore reaches Discord as a held-status message. Left unchanged: the notifier is a hash-pinned input of this and other live contracts."
+  }
+}

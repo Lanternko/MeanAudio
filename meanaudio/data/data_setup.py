@@ -3,7 +3,10 @@ import random
 
 import numpy as np
 import torch
-from omegaconf import DictConfig
+import json
+from pathlib import Path
+
+from omegaconf import DictConfig, OmegaConf
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.dataloader import default_collate
 from torch.utils.data.distributed import DistributedSampler
@@ -23,6 +26,23 @@ def worker_init_fn(worker_id: int):
     log.debug(f'Worker {worker_id} re-seeded with seed {worker_seed} in rank {local_rank}')
 
 
+def _text_npz_sources(data_cfg: DictConfig, cfg: DictConfig):
+    """Resolve the optional multi-overlay caption pool into plain dicts."""
+    sources = data_cfg.get('text_npz_sources', None)
+    if sources is None:
+        sources = cfg.get('text_npz_sources', None)
+    if sources is None:
+        return None
+    if isinstance(sources, str):
+        # A preregistered arm pins its caption pool in a hashable JSON file.
+        sources = json.loads(Path(sources).read_text(encoding='utf-8'))['sources']
+        return [dict(entry) for entry in sources]
+    return [
+        dict(entry) if not isinstance(entry, str) else {'dir': entry, 'index': None}
+        for entry in OmegaConf.to_container(sources, resolve=True)
+    ]
+
+
 def load_audio_data(cfg: DictConfig, data_cfg: DictConfig) -> Dataset:
     dataset = ExtractedAudio(tsv_path=data_cfg.tsv,
                             concat_text_fc=cfg.concat_text_fc,   # FIX here we determine usage of concat based on global config
@@ -33,10 +53,15 @@ def load_audio_data(cfg: DictConfig, data_cfg: DictConfig) -> Dataset:
                             exclude_cls=cfg.get('exclude_cls', False),
                             repa_version=cfg.get('repa_version', 1),
                             gt_cache=data_cfg.get('gt_cache', None),
-                            require_text_overlay=cfg.get('require_text_overlay', False),
+                            # Per-dataset first, global second. The val split has no text
+                            # overlay, so a global-only flag forces the guard off for the
+                            # training split too -- which is how it ended up off everywhere.
+                            require_text_overlay=data_cfg.get(
+                                'require_text_overlay', cfg.get('require_text_overlay', False)),
                             multi_cap=cfg.get('multi_cap', False),
                             cap_index_fixed=cfg.get('cap_index_fixed', None),
                             cap_index_column=cfg.get('cap_index_column', None),
+                            text_npz_sources=_text_npz_sources(data_cfg, cfg),
                             use_text_attention_mask=cfg.get('use_text_attention_mask', True))
     return dataset
 

@@ -1,0 +1,192 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_secondary_evaluation_contract",
+  "experiment_id": "caption2p0-013-random-quarter-cfg1p5-negative-prompt",
+  "run_id": "run-20260830-caption2p0-013-random-quarter-cfg1p5-neg",
+  "status": "operator_authorized_migrated_pending_queue_tail",
+  "operator_instruction": "這兩個在 cfg1.5+neg 表現如何、跑一下",
+  "launch_allowed": true,
+  "queue_name": "028_random_quarter_neg_cfg1p5.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [
+    "026_fake_random_full.sh"
+  ],
+  "dependencies": [],
+  "scientific_question": "Under the same CFG 1.5 plus fidelity-negative secondary protocol, does per-epoch slot0/1/3 rotation outperform a fixed uniform slot0/1/3 assignment at quarter scale?",
+  "comparison": {
+    "single_variable": "caption_selection_time during training",
+    "shared_slot_pool": ["slot0", "slot1", "slot3"],
+    "arms": [
+      {
+        "label": "c2p0_013_true_random_quarter_noq",
+        "selection": "per_epoch_rotation_over_k3_stack",
+        "exp_id": "phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000"
+      },
+      {
+        "label": "c2p0_013_fake_random_quarter_noq",
+        "selection": "fixed_uniform_assignment_one_caption_per_clip",
+        "exp_id": "phase8_qwen_caption2p0_k3_fake_random_noq_quarter_stage2_50000"
+      }
+    ]
+  },
+  "protocol": {
+    "classification": "secondary_noncanonical",
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 1.5,
+    "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+    "seed": 42,
+    "mask": "NoMask",
+    "precision": "full",
+    "conditioning": "NoQ"
+  },
+  "inputs": [
+    {
+      "kind": "checkpoint",
+      "arm": "true_random",
+      "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000_ema_final.pth",
+      "bytes": 482134266,
+      "sha256": "e3cabcde48d4fd989954dfecf60212270ea6aefea415591eec634347726773b8"
+    },
+    {
+      "kind": "checkpoint",
+      "arm": "fake_random",
+      "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_stage2_50000_ema_final.pth",
+      "bytes": 482134266,
+      "sha256": "61da41b4f844b7413573fcfa296b4c34c42ef275fdb0f99737589ce43873fc00"
+    },
+    {
+      "kind": "evaluation_tsv",
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+      "bytes": 1680526,
+      "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+    },
+    {
+      "kind": "clap_checkpoint",
+      "path": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+      "bytes": 2352471003,
+      "sha256": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006"
+    },
+    {
+      "kind": "host_compatibility_cfg0_report",
+      "path": "/home/kojiek/logs/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+      "bytes": 883,
+      "sha256": "e585d2d6865d9be17308c4886766b3fcbc597714b0a19389a157af51f3657eab"
+    },
+    {
+      "kind": "evaluation_driver",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/negprompt_reeval_full_arms.py",
+      "bytes": 13789,
+      "sha256": "066297cdb7c5c0384d7dd531a48cffdb1ac96b33db457d0242038634650262b1"
+    },
+    {
+      "kind": "pair_wrapper",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/negprompt_random_quarter_pair.py",
+      "bytes": 1402,
+      "sha256": "fd3869652a863d24dc563c37cf077ea1f9bc57528ae3bb847feea0d6a8ca07e7"
+    },
+    {
+      "kind": "notification_notifier",
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "bytes": 19483,
+      "sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f"
+    },
+    {
+      "kind": "notification_receipt_helper",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "bytes": 10351,
+      "sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc"
+    },
+    {
+      "kind": "resource_controller_helper",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py",
+      "bytes": 3966,
+      "sha256": "ba5ba6dee0344bc1915b98b18dd8cd363f32bba2b9464e58728caedb0a77c834"
+    },
+    {
+      "kind": "shared_scheduler",
+      "path": "/home/kojiek/gpu_queue/lib_scheduler.py",
+      "bytes": 29417,
+      "sha256": "aeb8f7be524902e2ea8a6d65b44b02a8f2dc730e56cfd245939e185ce0b39387"
+    }
+  ],
+  "secondary_reports": [
+    {
+      "label": "c2p0_013_true_random_quarter_noq",
+      "exp_id": "phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_random_quarter_cfg1p5/c2p0_013_true_random_quarter_noq.json"
+    },
+    {
+      "label": "c2p0_013_fake_random_quarter_noq",
+      "exp_id": "phase8_qwen_caption2p0_k3_fake_random_noq_quarter_stage2_50000",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_random_quarter_cfg1p5/c2p0_013_fake_random_quarter_noq.json"
+    }
+  ],
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "iteration": 0,
+    "checkpoint": null,
+    "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_random_quarter_cfg1p5/resume_progress.json",
+    "behavior": "Keep complete FLACs and atomic per-arm JSON results; remove only unreadable transient FLACs before resume."
+  },
+  "storage": {
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio",
+    "filesystem": "/dev/nvme0n1p2",
+    "estimated_peak_additional_bytes": 8000000000,
+    "warning_free_bytes": 80000000000,
+    "hard_stop_free_bytes": 64000000000,
+    "authorized_cleanup": "Delete generated per-arm evaluation FLACs only after that arm's JSON report is atomically written; remove unreadable partial FLACs on resume."
+  },
+  "controller": {
+    "kind": "resource_owning_preflight_controller",
+    "required_sequence": [
+      "resource_owner_recorded",
+      "mutable_preflight_passed",
+      "queue_handoff_delivered",
+      "start_delivered",
+      "evaluation_child_started"
+    ],
+    "terminal_notification_precedes_terminal_json": true,
+    "held_is_terminal": false
+  },
+  "harn_registration": {
+    "registration": "/home/kojiek/MeanAudio/docs/experiments/harn/caption2p0_random_quarter_neg_cfg1p5/registration.json",
+    "queue_snapshot": "/home/kojiek/MeanAudio/docs/experiments/harn/caption2p0_random_quarter_neg_cfg1p5/queue.json",
+    "runtime_hashes": "terminal controller ledger only"
+  },
+  "notification_receipts": {
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f",
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc",
+    "attempting_restart_behavior": "ambiguous_fail_closed_no_retry"
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_negprompt_random_quarter_pair.py"
+    ],
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/eval/run_negprompt_random_quarter_pair.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/028_random_quarter_neg_cfg1p5.sh",
+    "launcher_sha256": "6ddd91ac6b10447583902196cfe7bf6937756e691e563fc9f672cfc044290e1e",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_eval_queue_guest.py",
+    "harn_sha256": "45d88447a84c74f7a387f18e7ca6b8a24ee8997dffb6738f570d489ed281fce1",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/run_negprompt_random_quarter_pair.sh",
+    "action_sha256": "4ce0fcd1505702c6781c54ce8dd0485c85550e747e0f170f271247f0c890da28"
+  },
+  "completion_evidence": {
+    "host_compatibility_only": true,
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_stage2_50000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+    "authoritative_results": "secondary_reports"
+  }
+}

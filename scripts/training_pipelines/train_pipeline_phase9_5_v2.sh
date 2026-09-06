@@ -1,4 +1,6 @@
 #!/bin/bash
+# HISTORICAL ONLY (2026-07-16): the V1 launch gate and cache were invalidated
+# by the positional audio-caption mapping bug. Build a canonical v2 cache first.
 # ============================================================
 # MeanAudio Phase 9.5 V2 — task-framed Qwen multi-cap, Q=MeanSim
 # train_pipeline_phase9_5_v2.sh
@@ -32,6 +34,12 @@
 # ============================================================
 
 set -eo pipefail
+
+if [ "${ALLOW_INVALID_HISTORICAL_P9:-0}" != "1" ]; then
+    echo "[ABORT] Historical P9.5 cache and V1 launch gate were invalidated."
+    echo "Rebuild a canonical v2 cache and define a new clean experiment."
+    exit 64
+fi
 
 # ============================================================
 # 實驗參數

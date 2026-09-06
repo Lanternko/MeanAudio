@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "document_kind": "operator_queue_entry_proposal",
+  "experiment_id": "phase8-caption2p0-quarter-mf25-cfg0-rerun",
+  "run_id": "run-20260820-caption2p0-quarter-mf25-cfg0-v1",
+  "status": "retired_no_rerun_retrospective_evidence_accepted",
+  "approval_status": "retired_without_activation",
+  "retirement_record": "/home/kojiek/MeanAudio/docs/experiments/cfg0_pending_retirement_2026_08_22.json",
+  "contract": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_quarter_cfg0_rerun_contract.json",
+  "contract_sha256": "359788613b927d9cab9d29f3690b6e6215b795beb2b354eed532802d37079ded",
+  "dependencies": [],
+  "ordering_dependencies": [
+    "phase8-caption2p0-full-k5-s2q"
+  ],
+  "queue_intent": {
+    "mutation_authorized": false,
+    "default_action_after_exact_approval": "append_to_tail",
+    "priority_insertion_authorized": false,
+    "reason_not_enqueued": "The live top-level queue is held for controller binding drift and the GPU is occupied by an already authorized chain. Exact approval must bind this final proposal before queue mutation."
+  },
+  "runtime": {
+    "controller": "/home/kojiek/MeanAudio/scripts/experiment_harness/caption2p0_quarter_cfg0_harn.py",
+    "controller_sha256": "585a30bd1491afeede59270b8d56a7688478280e6cf72c23149d74a29642d551",
+    "status_source": "/home/kojiek/logs/caption2p0_quarter_cfg0_harn/current",
+    "pending_status_source": "/home/kojiek/logs/caption2p0_quarter_cfg0_harn/pending_queue.json",
+    "bundle_validator": {
+      "argv": [
+        "/usr/bin/python3.12",
+        "/home/kojiek/MeanAudio/scripts/validate_experiment_harness_documents.py"
+      ],
+      "bindings": [
+        {
+          "path": "/usr/bin/python3.12",
+          "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/validate_experiment_harness_documents.py",
+          "sha256": "930f412761ed23561ec9dbb93ac4103a84979bd715655b4822dcfd3a122bd7dc"
+        }
+      ]
+    },
+    "completion_validator": {
+      "argv": [
+        "/usr/bin/python3.12",
+        "/home/kojiek/MeanAudio/scripts/eval/validate_caption2p0_cfg0_bundle.py",
+        "--contract",
+        "/home/kojiek/MeanAudio/docs/experiments/caption2p0_quarter_cfg0_rerun_contract.json"
+      ],
+      "bindings": [
+        {
+          "path": "/usr/bin/python3.12",
+          "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/validate_caption2p0_cfg0_bundle.py",
+          "sha256": "f8db97ce1e69dd2138ee0a3453cbc6b737b0e213cf6bc26d9776eb4e89d85118"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/validate_caption2p0_cfg0_report.py",
+          "sha256": "57eb271745f7934c26c6e5b3d41c8b9c4cdcef46729fb788a8859a56317284ab"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_quarter_cfg0_rerun_contract.json",
+          "sha256": "359788613b927d9cab9d29f3690b6e6215b795beb2b354eed532802d37079ded"
+        }
+      ]
+    },
+    "import_bindings": [
+      {
+        "module": "qwen_s2q_k_mf25_harn",
+        "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/qwen_s2q_k_mf25_harn.py",
+        "sha256": "12ac642659f3f2671b46d3f2ee82b61b76fa8b841079ca40a595fc0aa301e918"
+      }
+    ],
+    "source_bindings_pending_transitive_manifest": [
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/qwen_s2q_k_mf25_harn.py",
+        "sha256": "12ac642659f3f2671b46d3f2ee82b61b76fa8b841079ca40a595fc0aa301e918"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+        "sha256": "7b4bbe8bf329ebb6ce56810f12beed10db5d06c283c6e8407f8a7c00d9e428a8"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/eval.py",
+        "sha256": "f9f1be0cff0ea938994ff9d5cb0fc1b239fbc7ad3aaee7af12980af361e37654"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/eval_musiccaps_mf25.sh",
+        "sha256": "67cae3c6bd7d00452906406b778d116a27c1f4c079681c0c942a3541d4f948c3"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/validate_cfg0_output_path.py",
+        "sha256": "1bdb71a02f0cc6fc4d31cb705b06d4a58ebfcd967c4fdef620612fdfe6685ac7"
+      }
+    ]
+  }
+}

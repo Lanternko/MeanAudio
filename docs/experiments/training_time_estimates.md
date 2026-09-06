@@ -1,6 +1,8 @@
 # MeanAudio 訓練 / Eval 時間參考
 
-> 所有數字皆自 Phase 9 V1 實測訓練 log 抽出（2026-04-18~19）。
+> 所有時間數字皆自 Phase 9 V1 實測訓練 log 抽出（2026-04-18~19）。
+> **2026-07-16 correction**：該 run 的 multi-caption cache pairing 失效；
+> throughput/ETA 可作工程參考，但 outcome 判讀與模型品質結論不可沿用。
 > 硬體：RTX 5090 (33.67 GB VRAM, sm_120)、BS=8、num_workers=4。
 
 ---
@@ -123,3 +125,26 @@ total = S1_hours + S2_hours + eval_hours + 0.03   # migrate
 | Caption diversity sanity check（50 NPZ 抽樣）| ~30 秒 |
 | multi_cap NPZ deep validation（200 抽樣）| ~2-3 分鐘 |
 | Migrate S1→S2 + verify | ~2 分鐘 |
+# Full-scale 100k reuse policy
+
+For future Full Scale training, the default is to reuse an existing Stage 1
+100k checkpoint from the exact same experiment arm and continue to 400k. This
+saves 100k updates and applies to caption variants, including fixed-caption,
+best/worst, and true/fake-random arms, only when the reuse gate below passes.
+
+Reuse requires exact agreement on the training ID set and caption-selection
+semantics, text-feature encoder and overlay binding, model/stage architecture,
+optimizer and parameter groups, batch and accumulation, seed, learning rate,
+warmup, conditioning/mask behavior, and every schedule decision through
+iteration 100k. The checkpoint must contain model, optimizer, scheduler, and
+EMA state at exactly iteration 100000.
+
+If the source checkpoint predates exact-resume state, migration must preserve
+the original bytes, bind their SHA-256, adjust only preregistered post-100k
+schedule fields, and record an explicit RNG restart boundary at 100k. Such a
+run is a valid registered continuation but must not be labeled
+uninterrupted-from-zero. A mismatch, corrupt/missing state, different caption
+arm, or unapproved schedule change fails closed and requires a fresh run.
+
+Full-scale contracts should therefore report both `saved_updates=100000` and
+`remaining_stage1_updates=300000` whenever this policy is used.

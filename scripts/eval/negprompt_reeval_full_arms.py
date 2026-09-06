@@ -36,7 +36,6 @@ ROOT = Path('/home/kojiek/MeanAudio')
 EXPS = ROOT / 'exps'
 TSV = Path('/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv')
 OUT = Path('/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_reeval')
-AUDIO_ROOT = OUT / '_audio'
 CFG0_REFERENCE = Path('/home/kojiek/nvme_experiment_artifacts/meanaudio/novocal_reeval')
 CLAP_CKPT = ROOT / 'weights/music_speech_audioset_epoch_15_esc_89.98.pt'
 PYTHON = '/home/kojiek/venvs/dac/bin/python'
@@ -217,7 +216,23 @@ def main():
     argv = [a for a in sys.argv[1:] if not a.startswith('--')]
     smoke = '--smoke' in sys.argv[1:]
 
+    # --cfg N reruns the whole sweep at a different guidance strength, into its
+    # own output dir so the CFG 1.5 table is never overwritten. The 1024-row
+    # ablation matrix put the PQ optimum at 3.0 rather than 1.5 on c2p0_slot0,
+    # and showed fulltrack degrading (crest_min 1.72) at the same point, so
+    # whether the arm ordering is cfg-dependent needs the full set at 3.0 too.
+    default_cfg = CFG_STRENGTH
+    cfg = default_cfg
+    for a in sys.argv[1:]:
+        if a.startswith('--cfg='):
+            cfg = a.split('=', 1)[1]
+    globals()['CFG_STRENGTH'] = cfg
+    globals()['PROTOCOL'] = PROTOCOL.replace(f'CFG {default_cfg}', f'CFG {cfg}')
+
     tsv, expected, out_dir = TSV, EXPECTED, OUT
+    if cfg != default_cfg:
+        out_dir = OUT.with_name(f'negprompt_reeval_cfg{cfg}')
+        print(f'[cfg {cfg}] out={out_dir}')
     if smoke:
         tsv = Path('/tmp/claude-1005/-home-kojiek-MeanAudio/negprompt_smoke.tsv')
         expected = len(load_rows(tsv, 0))
@@ -225,7 +240,7 @@ def main():
         globals()['PROTOCOL'] = PROTOCOL.replace('MusicCaps 5521', f'SMOKE {expected} rows')
         print(f'[smoke] tsv={tsv} rows={expected} out={out_dir}')
 
-    only = set(argv)
+    only = {a for a in argv if not a.startswith('--')}
     rows = load_rows(tsv, expected if not smoke else 0)
     vocal_ids = [r['id'] for r in rows if VOCAL_RE.search(r['caption'])]
     novocal_ids = [r['id'] for r in rows if not VOCAL_RE.search(r['caption'])]

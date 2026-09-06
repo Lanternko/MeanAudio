@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "document_kind": "repair_contract_requiring_operator_approval",
+  "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-repair2",
+  "run_id": "run-20260814-seed14159265-musiccaps-repair2",
+  "approval_requirement": {
+    "status": "required_unconsumed",
+    "must_bind_contract_and_commands": true,
+    "repair1_authorization_is_not_reusable": true,
+    "explicitly_rejected_sha256": "6d93c976c3319491d291d8b829ddd958116b5a01782ae4839ee2b6b737e96a77"
+  },
+  "transitive_runtime": {
+    "manifest": "/home/kojiek/MeanAudio/docs/experiments/rmatched_repair2_runtime_manifest.json",
+    "manifest_sha256": "8c666f5d2c2020f3884b5a77a9b912c073cad07ce08a08082754486a638bb871",
+    "verifier": "/home/kojiek/MeanAudio/scripts/experiment_harness/runtime_binding.py",
+    "verifier_sha256": "c95df0f1232e1c2855cfeadf2d848b6adab2c647d66e8d0fdd8fae9331a4e63d",
+    "execution_mode": "verified /usr/bin/python3.12 via held fd with -X pycache_prefix=/dev/null -B -I -S and PYTHONDONTWRITEBYTECODE=1; privileged repair script is stdlib-only"
+  },
+  "operator_request_context_sha256": "6d93c976c3319491d291d8b829ddd958116b5a01782ae4839ee2b6b737e96a77",
+  "scientific_dependencies": [
+    {
+      "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-nvme-stage",
+      "run_id": "run-20260815-rmatched-matrix-nvme-stage1",
+      "required_state": "completed",
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/rmatched_matrix_nvme_stage_contract.json",
+      "contract_sha256": "2a715bde5220f7474cdaf6033d39b436b9ee680085c7ff8b4bd6103267961dca",
+      "authenticated_bundle_validator": "/home/kojiek/MeanAudio/scripts/validate_rmatched_matrix_nvme_stage_bundle.py",
+      "authenticated_bundle_validator_sha256": "345408fe1a8e0ccc3d1bd45487c261451d63d9ed40208e0bbf73bc44102d4a48",
+      "validator": "/usr/bin/python3.12 -X pycache_prefix=/dev/null -B -I -S /home/kojiek/MeanAudio/scripts/validate_rmatched_matrix_nvme_stage_bundle.py",
+      "report": "/home/kojiek/logs/rmatched_matrix_nvme_stage_harn/stage_report.json",
+      "required_authenticated_evidence": "exact signed stage queue/approval, exact completed contract/preflight/ledger/queue bundle, approval-bound child ledger HMAC, delivered terminal notification, and consumed approval"
+    }
+  ],
+  "parent_failures": [
+    {
+      "experiment_id": "rmatched-s1-s2-steps-cfg-matrix",
+      "contract_sha256": "2232c4f6b44f0e7f6d12f0e19aa74938131001c1c430ca8bb5f506fc12d21264",
+      "failed_ledger_sha256": "d6b8da3954baf85130c4879e18a47d5c775e1af02a4219446550b17b0ff8fa6d"
+    },
+    {
+      "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-repair",
+      "contract_sha256": "9b02d1ec9ef6f142be20e25d24c052600c0194a6ad434748071c29bf7e0d7082",
+      "failed_ledger_sha256": "cd81e5651ec6563d9e5cb6811e6998c413970f050569bd11fb379d302f4121d6",
+      "failed_queue_sha256": "89a7d2316ebc886457e17af6530b80467ce28d9c01f2903bd48208a31672caec",
+      "failure": "EXDEV before any source artifact mutation"
+    }
+  ],
+  "verified_rng_replay": {
+    "evidence": "/home/kojiek/logs/rmatched_matrix_repair2_harn/verified_rng_replay_evidence.json",
+    "evidence_sha256": "2de64da6521ee514ebaac2095402b39ae0e79305a0a0bfd1c7ed2579e37f7d12",
+    "prefix_hash_matches": 707,
+    "replacement_sha256": "8f50c8e574bd9cf1e638a4e34218dd2276accf73ea0503942aedc22a39e672f6"
+  },
+  "implementation": {
+    "repair_script": "/home/kojiek/MeanAudio/scripts/repair_rmatched_matrix_corrupt_flac_v2.py",
+    "repair_script_sha256": "de703edea718d19404dd7d3daeb9c4f6d0bd97d6e105073e010d8dd55e0e4e76",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/rmatched_matrix_repair2_harn.py",
+    "harn_sha256": "c9381e7789f05f276d3e401a8b443065bae18f579fcc0db32366219d4102a8bd",
+    "queue_controller": "/home/kojiek/MeanAudio/scripts/experiment_harness/operator_queue_controller.py",
+    "queue_controller_sha256": "759dc5376efdc7d45c51011aa3d9c8e1e61b58d85ec8c680d10dd8ee4731b1d2",
+    "shared_harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/qwen_s2q_k_mf25_harn.py",
+    "shared_harn_sha256": "12ac642659f3f2671b46d3f2ee82b61b76fa8b841079ca40a595fc0aa301e918",
+    "validator": "/home/kojiek/MeanAudio/scripts/validate_experiment_harness_documents.py",
+    "validator_sha256": "930f412761ed23561ec9dbb93ac4103a84979bd715655b4822dcfd3a122bd7dc",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "7b4bbe8bf329ebb6ce56810f12beed10db5d06c283c6e8407f8a7c00d9e428a8",
+    "recovery_validator": "/home/kojiek/MeanAudio/scripts/dual_authority_recovery_v3.py",
+    "recovery_validator_sha256": "ffff8ff4bb8b260db378800296d5202c80784094f620a4deaaf0c2b44f466c19",
+    "method": "same-filesystem quarantine plus cross-filesystem copy, fsync, hash/decode verification, and atomic replacement",
+    "transaction_journal": "/home/kojiek/nvme_experiment_artifacts/meanaudio/eval_output/.repair2_state/5xIBQGMjiX4_30.repair2-transaction.json",
+    "fault_injection_environment": "disabled in production; isolated tests use an in-process fixture hook that is never inherited by the repair child",
+    "authorization": {
+      "approval_record": "HMAC-authenticated exact_operator_approval bound to this experiment/run, preregistration, HARN executable, and immutable queue-entry descriptor",
+      "queue": "HMAC-authenticated queue and approval transitions under the dedicated queue mutation lock",
+      "write_capability": "one-use HMAC capability for apply/rollback/reconcile bound to exact approval record/state, action, archived executable bytes, parent PID/start/boot identity, held HARN lock, and freshly rehashed immutable bindings",
+      "approval_lifecycle": "approved -> reserved -> consumed; same-run reservation is recoverable after controller crash while consumed or rejected approval fails closed",
+      "environment": "PATH is fixed to the preregistered system path and PYTHONDONTWRITEBYTECODE=1 is forced; LD_LIBRARY_PATH, PYTHONPATH, PYTHONHOME, MEANAUDIO_REPAIR2_FAIL_AFTER_PHASE, MEANAUDIO_REPAIR2_CAPABILITY, MEANAUDIO_REPAIR2_APPROVAL_SHA256, and MEANAUDIO_NOTIFY_DRY_RUN are not inherited",
+      "fd_execution": "Repair executable, child controller, and explicitly bound imported shared HARN module are opened with O_NOFOLLOW, hashed from the held descriptor, and executed/imported through inherited /proc/self/fd descriptors",
+      "terminal_authentication": "terminal child bundles require both exact raw-hash edges and a valid child-ledger HMAC chain under the exact approval-bound private-key descriptor",
+      "unresolved_AUTH_ROOT": "Local HMAC authenticates integrity only against processes that cannot read the private key. A malicious same-UID process or external signer with key access remains able to forge queue, approval, or child-ledger authentication; OS-level uid/service isolation or an external asymmetric signer is required to close AUTH-ROOT.",
+      "dual_authority_recovery": {
+        "plan_fingerprint": "a765708d51f72627b40308b1871737ea531f5ff01104bf8dbc68e065be06d9b6",
+        "mode": "all_of",
+        "scientific_execution_channel_record_sha256": "c6b74e4e13b7af2915cc2496ffda47e3c1c60eb9d05bba4bf401e705cc766f9a",
+        "binding_recovery_channel_record_sha256": "983aaa0998ff409fafc7f2f0b293a1b87f8008dd92187054f7f7e2a5140f3893",
+        "hmac_domains_must_be_distinct": true,
+        "old_canonical_binding_baseline_only": "8b7a11d0bd713c45688821b2260c523df0062743888b7c1fbe0a4d738fcac5d7",
+        "lock_lease": "top_controller -> queue_mutation -> stage_controller -> repair2_controller -> continuation_controller; every guarded action holds verified O_NOFOLLOW LOCK_EX|LOCK_NB FDs; nested actions reuse the lease and top-spawned children receive pass_fds duplicates of the same open-file descriptions, so there is no lock-order inversion or child self-deadlock"
+      }
+    },
+    "commands": {
+      "audit": "/usr/bin/python3.12 -X pycache_prefix=/dev/null -B -I -S /home/kojiek/MeanAudio/scripts/repair_rmatched_matrix_corrupt_flac_v2.py audit",
+      "apply": "/usr/bin/python3.12 -X pycache_prefix=/dev/null -B -I -S /home/kojiek/MeanAudio/scripts/repair_rmatched_matrix_corrupt_flac_v2.py apply",
+      "reconcile": "/usr/bin/python3.12 -X pycache_prefix=/dev/null -B -I -S /home/kojiek/MeanAudio/scripts/repair_rmatched_matrix_corrupt_flac_v2.py reconcile",
+      "validate": "/usr/bin/python3.12 -X pycache_prefix=/dev/null -B -I -S /home/kojiek/MeanAudio/scripts/repair_rmatched_matrix_corrupt_flac_v2.py validate-report --expected-approval-sha256 <new-repair2-approval-sha256>",
+      "rollback": "/usr/bin/python3.12 -X pycache_prefix=/dev/null -B -I -S /home/kojiek/MeanAudio/scripts/repair_rmatched_matrix_corrupt_flac_v2.py rollback"
+    },
+    "crash_recovery": "A recognized transaction state is reconciled and persisted as held; the same run and exact approval resume without repeating audit or terminalizing the recoverable child crash.",
+    "acceptance_tests": {
+      "filesystem_transaction": "/home/kojiek/MeanAudio/scripts/tests/selftest_rmatched_matrix_repair2.py",
+      "filesystem_transaction_sha256": "525d3ba123079e5fe8cee8c7cdb647bad1496c8f6cee87985be1b44299ef0eba",
+      "harn_and_queue_recovery": "/home/kojiek/MeanAudio/scripts/tests/selftest_rmatched_matrix_repair2_harn_recovery.py",
+      "harn_and_queue_recovery_sha256": "3fb21e9eee167c126efb3ede612346d8e70973f57e1ca3c3efdd59e9a9702de3",
+      "dual_authority_recovery": "/home/kojiek/MeanAudio/scripts/tests/selftest_dual_authority_recovery_v3.py",
+      "dual_authority_recovery_sha256": "c967d0261e1171b17b3121ed61429cc1eca7b2d7f16d8032f189f1a9353b9f55"
+    }
+  },
+  "mutation_envelope": {
+    "target": "/home/kojiek/nvme_experiment_artifacts/meanaudio/eval_output/rmatched_s1_s2_steps_cfg_matrix_seed14159265/s2_mf25_cfg0p5/audio/5xIBQGMjiX4_30.flac",
+    "target_original_sha256": "c3472953aa061d327979ab97cc736dcf772e6d98a4148c815b28495a865d947e",
+    "target_quarantine": "/home/kojiek/nvme_experiment_artifacts/meanaudio/eval_output/rmatched_s1_s2_steps_cfg_matrix_seed14159265/s2_mf25_cfg0p5/audio/.5xIBQGMjiX4_30.c3472953aa061d327979ab97cc736dcf772e6d98a4148c815b28495a865d947e.repair-quarantine.flac",
+    "invalid_metrics": "/home/kojiek/nvme_experiment_artifacts/meanaudio/eval_output/metrics/rmatched_s1_s2_steps_cfg_matrix_seed14159265_s2_mf25_cfg0p5/metrics.txt",
+    "invalid_metrics_sha256": "a1296812a3966c21bd1e5a60f4edeae4fc10c0ed45bb5ed72f6491a384398399",
+    "metrics_quarantine": "/home/kojiek/nvme_experiment_artifacts/meanaudio/eval_output/metrics/rmatched_s1_s2_steps_cfg_matrix_seed14159265_s2_mf25_cfg0p5/.invalid_metrics.repair-quarantine.txt",
+    "rollback_action": "restore the original target and metrics from their same-filesystem quarantines"
+  },
+  "storage": {
+    "path": "/home/kojiek/nvme_experiment_artifacts",
+    "hard_floor_bytes": 53687091200,
+    "peak_additional_bytes": 1048576,
+    "transient_bytes": 1048576,
+    "recovery_reserve_bytes": 0,
+    "exception": null
+  }
+}

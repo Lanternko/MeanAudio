@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_evaluation_continuation_contract",
+  "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-continuation",
+  "run_id": "run-20260814-seed14159265-musiccaps-continuation1",
+  "operator_request_context_sha256": "6d93c976c3319491d291d8b829ddd958116b5a01782ae4839ee2b6b737e96a77",
+  "approval_requirement": {
+    "status": "required_unconsumed_exact_record",
+    "must_be_hmac_authenticated_and_bound_to_queue_entry_contract_run_and_controller": true,
+    "hash_only_cli_initialization_is_rejected": true
+  },
+  "transitive_runtime": {
+    "manifest": "/home/kojiek/MeanAudio/docs/experiments/rmatched_continuation_runtime_manifest.json",
+    "manifest_sha256": "6294205e5513c1508a8daac2324f97a756b20759ba52494afe52a2364726cb05",
+    "verifier": "/home/kojiek/MeanAudio/scripts/experiment_harness/runtime_binding.py",
+    "verifier_sha256": "c95df0f1232e1c2855cfeadf2d848b6adab2c647d66e8d0fdd8fae9331a4e63d",
+    "coverage": "system interpreter/stdlib/native tree; both venv pyvenv.cfg files and complete site-package source/native trees; every .pth is bound but never executed; interpreter/test cache directories and .pyc/.pyo are explicitly excluded derived state; workspace eval and meanaudio tree with exact package init; external evaluators; isolated -B -I -S bootstrap with source-only meanaudio/evaluator execution; absolute shell tools. Venv launcher symlinks, workspace bytecode caches, and the repository root are excluded from meanaudio/evaluator import authority."
+  },
+  "dependencies": [
+    {
+      "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-repair2",
+      "required_state": "completed"
+    }
+  ],
+  "immutable_protocol_source": {
+    "contract": "/home/kojiek/MeanAudio/docs/experiments/rmatched_s1_s2_steps_cfg_matrix_contract.json",
+    "contract_sha256": "2232c4f6b44f0e7f6d12f0e19aa74938131001c1c430ca8bb5f506fc12d21264"
+  },
+  "runner": {
+    "path": "/home/kojiek/MeanAudio/scripts/eval/eval_rmatched_s1_s2_steps_cfg_matrix_continuation.sh",
+    "sha256": "9dc56dc8e2347e715009902dbb4f682f0c946575934f588817678b3818d4c01f",
+    "difference_from_original": "Preserves scientific commands, gates the NVMe filesystem before preflight and every cell, writes generation/metrics/PEAV only beneath the staged NVMe final tree, and executes all Python through verified system-interpreter/script descriptors with an exact import path."
+  },
+  "harn": {
+    "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/rmatched_matrix_continuation_harn.py",
+    "sha256": "e94410351e87935a9310f57d1673f7927ffebe434220d25bb83e22183498903e"
+  },
+  "security_assumptions": {
+    "isolated_import": "All Python actions use the approval-bound /usr/bin/python3.12 descriptor with -X pycache_prefix=/dev/null -B -I -S and PYTHONDONTWRITEBYTECODE=1. The alternate invalid cache prefix prevents existing __pycache__ reads; the bootstrap rejects source-less legacy site bytecode, compiles exact evaluator and meanaudio .py sources directly, supplies only manifest-verified stdlib/site-package directories, and preloads meanaudio from its exact held __init__.py descriptor and package-only submodule search location; cwd, repository root, venv launchers, .pth execution, and bytecode-cache authority are excluded.",
+    "unresolved_AUTH_ROOT": "A malicious same-UID process or external signer with authentication-key access can still forge authorization or race mutable package-tree bytes after verification. Closing this residual requires OS uid/service isolation, immutable mounted runtime bytes or a container image, and an external asymmetric signer.",
+    "dual_authority_recovery": {
+      "plan_fingerprint": "a765708d51f72627b40308b1871737ea531f5ff01104bf8dbc68e065be06d9b6",
+      "mode": "all_of",
+      "scientific_execution_channel_record_sha256": "c6b74e4e13b7af2915cc2496ffda47e3c1c60eb9d05bba4bf401e705cc766f9a",
+      "binding_recovery_channel_record_sha256": "983aaa0998ff409fafc7f2f0b293a1b87f8008dd92187054f7f7e2a5140f3893",
+      "hmac_domains_must_be_distinct": true,
+      "old_canonical_binding_baseline_only": "b3fa27f2e48de8e695580d1ed5a3c75b792fa3112e3777fa2e6551afc0b3c777",
+      "lock_lease": "fixed top_controller -> queue_mutation -> stage_controller -> repair2_controller -> continuation_controller order; guarded writes/processes/notifications retain same-FD exclusive locks, while controller-spawned children reuse inherited pass_fds descriptions"
+    }
+  },
+  "storage": {
+    "path": "/home/kojiek/nvme_experiment_artifacts",
+    "hard_floor_bytes": 161061273600,
+    "warning_floor_bytes": 193273528320,
+    "peak_additional_bytes": 42949672960,
+    "transient_bytes": 16106127360,
+    "recovery_reserve_bytes": 10737418240,
+    "exception": null
+  },
+  "output": "/home/kojiek/logs/rmatched_s1_s2_steps_cfg_matrix_seed14159265_REPORT.json"
+}

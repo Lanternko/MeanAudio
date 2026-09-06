@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "document_kind": "slot3_cfg0_priority_order_proposal",
+  "readiness_unit_id": "slot3-cfg0-priority-interception-registration-v1",
+  "status": "retired_completed_via_retrospective_evidence",
+  "approval_status": "retired_without_interceptor_activation",
+  "retirement_record": "/home/kojiek/MeanAudio/docs/experiments/cfg0_pending_retirement_2026_08_22.json",
+  "operator_instruction": "插在 slot3 之後。然後確保 slot3 相關的都用 cfg0",
+  "mutation_authorized": false,
+  "insertion_point": {
+    "slot": "active fair013 Caption 2.0 caption slot",
+    "temperature": 1.0,
+    "caption_seed": 31415926,
+    "earliest_non_interrupting_seam": "first evaluator call after fair013 K3 training"
+  },
+  "durable_evaluation_order": [
+    {
+      "ordinal": 1,
+      "kind": "existing_four_cell_bundle",
+      "experiment_id": "phase8-caption2p0-quarter-mf25-cfg0-rerun",
+      "proposal": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_quarter_cfg0_queue_entry.pending.json",
+      "proposal_sha256": "22d779768e992c7cb365581b695fb0158133a4cda7db370bfec5ddba69a49085",
+      "cells": ["caption2p0", "bestof3", "worstof3", "qwen3cap_k3_q9"]
+    },
+    {
+      "ordinal": 2,
+      "kind": "slot3_resolved_arm",
+      "arm_id": "fair013_k3_q9",
+      "protocol": "MusicCaps 5521 / MeanFlow 25 / CFG 0 / seed 42 / q9"
+    },
+    {
+      "ordinal": 3,
+      "kind": "slot3_resolved_arm",
+      "arm_id": "fair013_best_noq",
+      "protocol": "MusicCaps 5521 / MeanFlow 25 / CFG 0 / seed 42 / NoQ"
+    },
+    {
+      "ordinal": 4,
+      "kind": "slot3_resolved_arm",
+      "arm_id": "fair013_worst_noq",
+      "protocol": "MusicCaps 5521 / MeanFlow 25 / CFG 0 / seed 42 / NoQ"
+    }
+  ],
+  "preserved_parent_remainder": [
+    "after K3 registration: train fair013 best-of-3",
+    "after best registration: train fair013 worst-of-3",
+    "after worst registration: restore final slot0 cache",
+    "emit FAIR013_CHAIN_DONE"
+  ],
+  "later_unit_requirements": [
+    "authenticated top-queue controller binding reconciliation",
+    "exact transitive GPU runtime approval",
+    "common GPU exclusion",
+    "atomic priority insertion with preserved queue remainder"
+  ]
+}

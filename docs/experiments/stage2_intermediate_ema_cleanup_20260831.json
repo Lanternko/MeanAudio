@@ -1,0 +1,50 @@
+{
+  "document_kind": "experiment_artifact_cleanup_record",
+  "created_at_utc": "2026-08-31T10:51:01Z",
+  "status": "completed",
+  "completed_at_utc": "2026-08-31T10:52:48Z",
+  "result": {
+    "deleted_regular_file_count": 258,
+    "deleted_bytes": 124385769588,
+    "deleted_gib": 115.843,
+    "remaining_matching_files": 0,
+    "root_available_after": "166G",
+    "root_use_percent_after": "96%",
+    "post_cleanup_preservation_check": "passed"
+  },
+  "authorization": {
+    "source": "responsible operator instruction in Codex task",
+    "scope": "clean the three selected stage2 intermediate-EMA groups; retain all stage1 checkpoints for possible promptcc experiments"
+  },
+  "delete_contract": {
+    "root": "/home/kojiek/exps_nvme",
+    "relative_pattern": "ema_ckpts/*.pt",
+    "expected_regular_file_count": 258,
+    "expected_bytes": 124385769588,
+    "expected_gib": 115.843,
+    "requirements": [
+      "target ema_ckpts directory is not a symlink",
+      "each target is a current-user-owned regular file with link count 1",
+      "no target file is open by a running process",
+      "the experiment's ema_final and ckpt_last exist before and after cleanup"
+    ]
+  },
+  "targets": [
+    {"experiment": "phase8_qwen_caption2p0_slot2_noq_full_stage2_200000", "files": 40, "bytes": 19284615440},
+    {"experiment": "phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_stage2_200000", "files": 40, "bytes": 19284615440},
+    {"experiment": "phase8_qwen_caption2p0_k3_true_random_noq_full_stage2_200000", "files": 40, "bytes": 19284615440},
+    {"experiment": "phase8_qwen_caption2p0_fair013_k3_balanced_full_stage2_200000", "files": 40, "bytes": 19284615440},
+    {"experiment": "phase8_qwen_caption2p0_fair013_bestof3_noq_full_stage2_200000", "files": 40, "bytes": 19284615440},
+    {"experiment": "phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000", "files": 38, "bytes": 18320384668},
+    {"experiment": "phase8_qwen_caption2p0_modular_template_noq_quarter_stage2_50000", "files": 10, "bytes": 4821153860},
+    {"experiment": "phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000", "files": 10, "bytes": 4821153860}
+  ],
+  "explicitly_preserved": [
+    "all stage1 directories and artifacts",
+    "all *_ema_final.pth files",
+    "all *_ckpt_last.pth and *_ckpt_shadow.pth files",
+    "all root-level *_last.pth and *_shadow.pth files",
+    "all configs, logs, metrics, reports, and queue state",
+    "the active fake-random experiment chain"
+  ]
+}

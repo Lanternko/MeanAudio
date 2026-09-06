@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "document_kind": "active_experiment_monitoring_amendment",
+  "amendment_id": "caption2p0-fake-random-full-storage-monitor-semantics-20260831",
+  "experiment_id": "caption2p0-k3-fake-random-full-noq-cfg0",
+  "run_id": "026_fake_random_full-20260830T191436Z-storage-monitor-v1",
+  "live_queue_run_id": "026_fake_random_full-20260830T191436Z",
+  "approved": true,
+  "approved_at": "2026-08-31T11:14:00Z",
+  "operator_instruction": "調整監控語義",
+  "scientific_contract_change": false,
+  "semantics": {
+    "advisory": "A storage threshold is violated while the registered queue entry remains running; the next contract-gated expansion is blocked, but QUEUE HELD must not be claimed.",
+    "held": "The registered queue state or held launcher proves that the entry is actually held.",
+    "recovered": "A previously notified storage incident has cleared; this does not imply a restart or queue-state transition."
+  },
+  "monitoring": {
+    "filesystem_path": "/home/kojiek/cfg0_eval_runtime",
+    "hard_stop_free_bytes": 112500000000,
+    "queue_state_path": "/home/kojiek/gpu_queue/p2.state",
+    "job_id": "026_fake_random_full",
+    "running_metadata_path": "/home/kojiek/gpu_queue/p2.running.json",
+    "expected_pid": 3820608,
+    "expected_start_time": "281228694",
+    "held_launcher": "/home/kojiek/gpu_queue/p2/held/026_fake_random_full.sh",
+    "blocked_action": "Canonical CFG0 evaluation",
+    "running_action": "Stage 2 training",
+    "poll_interval_seconds": 30,
+    "initial_condition": "advisory",
+    "initial_generation": 1,
+    "initial_incident_receipt": "/home/kojiek/gpu_queue/notification_receipts/caption2p0-k3-fake-random-full-noq-cfg0/disk_hard_stop.json"
+  },
+  "bindings": {
+    "original_contract": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_fake_random_full_cfg0_contract.json",
+    "original_contract_sha256": "3bb9383da363f58807c7d672bfdf797e5bfddb8d314f78cecd54660e3b232969",
+    "noq_hotfix_amendment": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_fake_random_full_noq_label_hotfix_amendment_20260831.json",
+    "noq_hotfix_amendment_sha256": "2cda8fda088886d18dbbac0590aafe7f6d925799f5519b6dc350a057dfb9a04f",
+    "launcher": "/home/kojiek/gpu_queue/p2/running/026_fake_random_full.sh",
+    "launcher_sha256": "869e97a9653599b3a8150cab16ecd1227ffeb7c638fa5e147dbf799f0853c179",
+    "watcher": "/home/kojiek/MeanAudio/scripts/experiment_harness/storage_gate_monitor.py",
+    "watcher_sha256": "b913dc5ae4c1af3560bad74fa67e5d73ad9bee0a0e4708d1859cb5011df76d42"
+  },
+  "notification_receipts": {
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts",
+    "operational_notifier": "/home/kojiek/MeanAudio/scripts/notify_operational_event_webhook.py",
+    "operational_notifier_sha256": "d4a97c0f713bdf734e09ecfe93415714452ba0e5f932ccca71be0ac286bb2d7b",
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc",
+    "base_notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "base_notifier_sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f"
+  }
+}

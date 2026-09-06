@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "document_kind": "operator_authorized_repair_contract",
+  "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-repair",
+  "run_id": "run-20260814-seed14159265-musiccaps-repair1",
+  "operator_authorization": {
+    "authorized_at": "2026-08-14T23:00:00+08:00",
+    "text_sha256": "6d93c976c3319491d291d8b829ddd958116b5a01782ae4839ee2b6b737e96a77",
+    "scope": "Repair the Matrix bug first, continue the Matrix, then continue the approved queue."
+  },
+  "parent_failure": {
+    "experiment_id": "rmatched-s1-s2-steps-cfg-matrix",
+    "run_id": "run-20260814-seed14159265-musiccaps",
+    "contract_sha256": "2232c4f6b44f0e7f6d12f0e19aa74938131001c1c430ca8bb5f506fc12d21264",
+    "ledger_sha256": "d6b8da3954baf85130c4879e18a47d5c775e1af02a4219446550b17b0ff8fa6d",
+    "queue_sha256": "909b355f6d214274ab723caa6a5ba756d2d24e8306742078327cc654428a22f3"
+  },
+  "repair_envelope": {
+    "target": "/home/kojiek/MeanAudio/eval_output/rmatched_s1_s2_steps_cfg_matrix_seed14159265/s2_mf25_cfg0p5/audio/5xIBQGMjiX4_30.flac",
+    "target_index_zero_based": 707,
+    "original_sha256": "c3472953aa061d327979ab97cc736dcf772e6d98a4148c815b28495a865d947e",
+    "invalid_prior_metrics": "/home/kojiek/MeanAudio/eval_output/metrics/rmatched_s1_s2_steps_cfg_matrix_seed14159265_s2_mf25_cfg0p5/metrics.txt",
+    "invalid_prior_metrics_sha256": "a1296812a3966c21bd1e5a60f4edeae4fc10c0ed45bb5ed72f6491a384398399",
+    "method": "Replay TSV rows 0 through 707 from seed 42 with the exact original Stage 2 MF25 CFG0.5 command. Require byte-identical FLAC hashes for all preceding 707 rows before accepting row 707 as the replacement.",
+    "maximum_replayed_clips": 708,
+    "maximum_scratch_bytes": 1073741824,
+    "stop_conditions": [
+      "any registered input or evidence hash drifts",
+      "the integrity audit finds anything other than the one registered corrupt FLAC",
+      "any of the 707 preceding replay hashes differs",
+      "the replacement is not mono 16 kHz with 159744 finite samples",
+      "more than the target audio hash changes",
+      "notification, storage, resource, or HARN validation fails"
+    ]
+  },
+  "immutable_protocol": {
+    "benchmark_tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "stage2_checkpoint_sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2",
+    "generation_seed": 42,
+    "variant": "meanaudio_s",
+    "sampler": "meanflow",
+    "steps": 25,
+    "cfg": 0.5,
+    "conditioning": "NoQ",
+    "text_attention_mask": false,
+    "precision": "full"
+  },
+  "post_repair": {
+    "invalidate_and_recompute_target_cell_metrics": true,
+    "resume_original_matrix_runner": true,
+    "required_matrix_report": "/home/kojiek/logs/rmatched_s1_s2_steps_cfg_matrix_seed14159265_REPORT.json"
+  }
+}

@@ -124,8 +124,8 @@
   {
    "kind": "notification_notifier",
    "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
-   "bytes": 19483,
-   "sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f"
+   "bytes": 25227,
+   "sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
   },
   {
    "kind": "notification_helper",
@@ -242,7 +242,7 @@
   "required": true,
   "root": "/home/kojiek/gpu_queue/notification_receipts",
   "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
-  "notifier_sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f",
+  "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
   "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
   "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
   "attempting_restart_behavior": "ambiguous_fail_closed_no_retry"

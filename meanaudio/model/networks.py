@@ -6,10 +6,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-import sys
-from pathlib import Path
-sys.path.append(str(Path(__file__).parent.parent.parent))
-
 from meanaudio.ext.rotary_embeddings import compute_rope_rotations
 from meanaudio.model.embeddings import TimestepEmbedder
 from meanaudio.model.low_level import MLP, ChannelLastConv1d, ConvMLP

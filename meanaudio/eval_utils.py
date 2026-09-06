@@ -76,6 +76,7 @@ def generate_fm(
     rng: torch.Generator,
     cfg_strength: float,
     q_level: int = 10,
+    use_text_attention_mask: bool = True,
 ) -> torch.Tensor:
     # generate audio with vanilla flow matching
 
@@ -87,6 +88,8 @@ def generate_fm(
     if text is not None:
         text_features, text_features_c, text_attention_mask = feature_utils.encode_text(
             text, return_attention_mask=True)
+        if not use_text_attention_mask:
+            text_attention_mask = None
     else:
         text_features, text_features_c = net.get_empty_string_sequence(bs)
         text_attention_mask = None
@@ -95,6 +98,8 @@ def generate_fm(
         assert len(negative_text) == bs
         negative_text_features = feature_utils.encode_text(
             negative_text, return_attention_mask=True)
+        if not use_text_attention_mask:
+            negative_text_features = negative_text_features[:2]
     else:
         negative_text_features = net.get_empty_string_sequence(bs)
 
@@ -129,6 +134,7 @@ def generate_mf(
     rng: torch.Generator,
     cfg_strength: float,
     q_level: int = 0,
+    use_text_attention_mask: bool = True,
 ) -> torch.Tensor:
     # generate audio with mean flow
     device = feature_utils.device
@@ -139,6 +145,8 @@ def generate_mf(
     if text is not None:
         text_features, text_features_c, text_attention_mask = feature_utils.encode_text(
             text, return_attention_mask=True)
+        if not use_text_attention_mask:
+            text_attention_mask = None
     else:
         text_features, text_features_c = net.get_empty_string_sequence(bs)
         text_attention_mask = None
@@ -147,6 +155,8 @@ def generate_mf(
         assert len(negative_text) == bs
         negative_text_features = feature_utils.encode_text(
             negative_text, return_attention_mask=True)
+        if not use_text_attention_mask:
+            negative_text_features = negative_text_features[:2]
     else:
         negative_text_features = net.get_empty_string_sequence(bs)
 

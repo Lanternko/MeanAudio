@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_evaluation_contract",
+  "readiness_unit_id": "cfg0-mf25-policy-and-quarter-rerun-v1",
+  "experiment_id": "phase8-caption2p0-quarter-mf25-cfg0-rerun",
+  "run_id": "run-20260820-caption2p0-quarter-mf25-cfg0-v1",
+  "status": "retired_no_rerun_retrospective_evidence_accepted",
+  "retirement": {
+    "retired_at": "2026-08-22T13:22:24+08:00",
+    "reason": "The operator accepted the completed CFG0 computations for comparison through a retrospective evidence bundle and explicitly declined a GPU rerun.",
+    "record": "/home/kojiek/MeanAudio/docs/experiments/cfg0_pending_retirement_2026_08_22.json",
+    "comparison_evidence": "/home/kojiek/MeanAudio/docs/experiments/results/phase8/cfg0_retrospective_evidence_2026_08_22.json"
+  },
+  "operator_authorization": {
+    "trusted_channel": "operator_console",
+    "authorized_at": "2026-08-20T18:00:00+08:00",
+    "instruction": "Use literal CFG 0 and 25 steps for future evaluation, correct the documents that made CFG 4.5 canonical, and rerun the four Caption 2.0 ablations without the guided-CLAP inflation."
+  },
+  "fixed_protocol": {
+    "benchmark": "MusicCaps",
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "expected_rows": 5521,
+    "expected_unique_ids": 5521,
+    "variant": "meanaudio_s",
+    "solver": "MeanFlow",
+    "num_steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "encoder_name": "t5_clap",
+    "text_c_dim": 512,
+    "no_text_attention_mask": true,
+    "full_precision": true,
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"]
+  },
+  "runtime_storage": {
+    "root": "/home/kojiek/cfg0_eval_runtime",
+    "required_mode": "0700",
+    "output_root": "/home/kojiek/cfg0_eval_runtime/output",
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics",
+    "report_root": "/home/kojiek/cfg0_eval_runtime/reports",
+    "shared_hdd_eval_root_allowed": false
+  },
+  "cells": [
+    {
+      "cell_id": "caption2p0",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_quarter_stage2_50000/phase8_qwen_caption10s_multisent_noq_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "e9d22dd545e9b6214a02f72b63a6c1afa287996b463130a5f6816948fc0eadc9",
+      "conditioning_argv": ["--no_q"],
+      "conditioning": "no_q",
+      "label": "phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+      "historical_cfg4p5_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg4p5_noq_REPORT.json",
+      "historical_cfg4p5_report_sha256": "a7e55df0ed14c2dc6bb795edb9e30f3595126857ea4b0203df340bafccfe8750"
+    },
+    {
+      "cell_id": "bestof3",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_bestof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_bestof3_noq_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "b6bf7a5731192621ab7bac5b520d2bc13be0d07f978c192e19fd342003eefb90",
+      "conditioning_argv": ["--no_q"],
+      "conditioning": "no_q",
+      "label": "phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+      "historical_cfg4p5_report": "/home/kojiek/logs/phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg4p5_noq_REPORT.json",
+      "historical_cfg4p5_report_sha256": "d4e9ba610fa224eb4aafaaa8246f218db6638bfd0a2df4870d1522e09eb4c8ca"
+    },
+    {
+      "cell_id": "worstof3",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_worstof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_worstof3_noq_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "f349de2ab1b3819c3f5a28c6ed92e303e9037d524c9b15cb73d67577515f8d5b",
+      "conditioning_argv": ["--no_q"],
+      "conditioning": "no_q",
+      "label": "phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+      "historical_cfg4p5_report": "/home/kojiek/logs/phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg4p5_noq_REPORT.json",
+      "historical_cfg4p5_report_sha256": "59ef1eca5fec6fff75aef04ad771bd31f170cb07b2663a629fde2ce100eaa967"
+    },
+    {
+      "cell_id": "qwen3cap_k3_q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_qwen3cap_k3_balanced_quarter_stage2_50000/phase8_qwen_caption2p0_qwen3cap_k3_balanced_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "78f6876fcbdd115a7b9124862bcadd798836e9e935cfde31b91f7b5c368a5f15",
+      "conditioning_argv": ["--quality_level", "9"],
+      "conditioning": "q9",
+      "label": "phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg0_q9",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg0_q9_REPORT.json",
+      "historical_cfg4p5_report": "/home/kojiek/logs/phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg4p5_q9_REPORT.json",
+      "historical_cfg4p5_report_sha256": "06623335562a681ef15876ddcc029bc21ecc1b7e43e3c18ca9424242fa710b5f"
+    }
+  ],
+  "execution": {
+    "order": ["caption2p0", "bestof3", "worstof3", "qwen3cap_k3_q9"],
+    "mode": "sequential_stop_on_first_failure",
+    "duplicate_rule": "skip only after exact report/checkpoint/TSV/protocol/conditioning/metrics hash validation",
+    "resume_rule": "resume partial per-ID audio only under the same unique label; metrics without a bound final report hold",
+    "audio_cleanup": "after 5521-ID audio validation, finite five-metric report, and atomic report persistence, delete only exact FLAC files under that cell audio directory"
+  },
+  "budget": {
+    "gpu_minutes_per_cell": 90,
+    "gpu_minutes_total": 360,
+    "peak_additional_bytes": 8589934592,
+    "retained_bytes": 2147483648,
+    "recovery_reserve_bytes": 10737418240,
+    "root_warning_floor_bytes": 193273528320,
+    "root_hard_floor_bytes": 161061273600
+  },
+  "required_notifications": ["hold", "start", "cell_complete", "failure", "interruption", "completion", "disk_warning", "disk_hard_stop", "unexpected_gpu_idle"],
+  "automatic_repair": false,
+  "launch_status": "held_pending_authenticated_queue_reconciliation_exact_approval_and_gpu_release"
+}

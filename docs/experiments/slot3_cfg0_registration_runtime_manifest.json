@@ -1,0 +1,86 @@
+{
+  "allowed_writes": [
+    "/home/kojiek/slot3_cfg0_interceptor",
+    "/home/kojiek/research/meanaudio_training/caption10s_pipeline/eval_musiccaps_mf25.sh"
+  ],
+  "document_kind": "slot3_cfg0_registration_runtime_manifest",
+  "fixed_child_environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PATH": "/usr/bin:/bin",
+    "PYTHONHASHSEED": "0",
+    "PYTHONNOUSERSITE": "1"
+  },
+  "forbidden_execution_paths": [
+    "/home/kojiek/MeanAudio/eval.py",
+    "/home/kojiek/research/meanaudio_eval/phase4_eval.py",
+    "/home/kojiek/research/meanaudio_training/caption10s_pipeline/eval_musiccaps_mf25.sh"
+  ],
+  "hmac_domains_hex": {
+    "notification": "6d65616e617564696f2d736c6f74332d636667302d6e6f74696669636174696f6e2d763100",
+    "resolved_contract": "6d65616e617564696f2d736c6f74332d636667302d7265736f6c7665642d636f6e74726163742d763100",
+    "rollback": "6d65616e617564696f2d736c6f74332d636667302d726f6c6c6261636b2d763100",
+    "state": "6d65616e617564696f2d736c6f74332d636667302d726567697374726174696f6e2d73746174652d763100"
+  },
+  "live_path_write_constraint": "installer_only_exact_live_evaluator_basename_atomic_replacement",
+  "notifier": {
+    "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "secret_in_argv_or_artifacts": false,
+    "secret_source": "local_mode_0600_default_file"
+  },
+  "readiness_unit_id": "slot3-cfg0-priority-interception-registration-v1",
+  "runtime_maximum_bytes": 16777216,
+  "runtime_root": "/home/kojiek/slot3_cfg0_interceptor",
+  "schema_version": 1,
+  "scope": "registration_only_zero_gpu_zero_live_queue_mutation",
+  "sources": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/slot3_cfg0_interceptor_hook.sh",
+      "sha256": "f75c6e51bc5be10e25948e7075786c365c8c376e665cbb5d13777b51a88a6ff7"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/register_slot3_fair013_cfg0.py",
+      "sha256": "642d5b41b8d5630ccedd06f9a8506e77bf3cef8bf3af3703daadde1677cc4294"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/validate_slot3_fair013_cfg0_registration.py",
+      "sha256": "0f0d42adfcafbd0ff259ab256c76a959e6995b32a9de9b84c313877e417c7bf1"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/install_slot3_cfg0_interceptor.py",
+      "sha256": "5cdf137d001b65626b0746c80b7d569de4812b905a5a0832d05ec208c10831fa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "sha256": "7b4bbe8bf329ebb6ce56810f12beed10db5d06c283c6e8407f8a7c00d9e428a8"
+    },
+    {
+      "path": "/usr/bin/python3.12",
+      "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"
+    },
+    {
+      "path": "/usr/bin/bash",
+      "sha256": "bc5945feb8bd26203ebfafea5ce1878bb2e32cb8fb50ab7ae395cfb1e1aaaef1"
+    },
+    {
+      "path": "/usr/bin/env",
+      "sha256": "1490a663e7312c4347987b2e12d7d73950ed1e9a322449daf8e4836660396e31"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot3_fair013_cfg0_eval_template.json",
+      "sha256": "f9581f79e23a6045bc3ea801b0efd6d60bdaece8b56ad355f4b63016fbf93047"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot3_cfg0_priority_order.pending.json",
+      "sha256": "212ccfb78547109ada96067b632c876158a3ff1767d6c74ef703493858fdb4fc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot3_cfg0_priority_interception_registration_v1.md",
+      "sha256": "9625b76d2da5f63b9fbe7c5dc128548f7e75f27cb4f09925ffd39aff1baa075d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/reviews/slot3_cfg0_priority_interception_registration_v1_security_review.json",
+      "sha256": "8509c0ba82b87b0f123429b57fc91f9b88af02399eb8489f47444fc24090f7e4"
+    }
+  ]
+}

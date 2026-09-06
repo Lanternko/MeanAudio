@@ -1,0 +1,205 @@
+{
+ "schema_version": 1,
+ "document_kind": "preregistered_experiment_contract",
+ "experiment_id": "caption2p0-k3-true012-random-quarter-noq-cfg0",
+ "run_id": "run-20260902-caption2p0-k3-true012-random-quarter-noq-cfg0",
+ "status": "authorized_p2_pending_install",
+ "launch_allowed": true,
+ "queue_name": "034_true012_random_quarter.sh",
+ "queue_role": "p2",
+ "ordering_dependencies": [],
+ "dependencies": [],
+ "operator_instruction": {
+  "text": "另外做個 true012 的版本",
+  "recorded_at": "2026-09-02",
+  "scale_choice": "quarter (operator selected)"
+ },
+ "hypothesis": {
+  "question": "At equal budget, does per-epoch caption rotation beat every single caption it rotates over?",
+  "why_012_not_013": "012 is the only slot pool whose three constituents each have a budget-matched quarter number. slot3 was never trained alone, so the 013 rotation arms cannot be compared against their own constituents.",
+  "budget_matched_comparators": {
+   "slot0_quarter": {
+    "CLAP": 0.2029,
+    "CE": 6.1185,
+    "CU": 6.7031,
+    "PC": 5.035,
+    "PQ": 6.5364
+   },
+   "slot1_quarter": {
+    "CLAP": 0.2047,
+    "CE": 6.3008,
+    "CU": 6.7593,
+    "PC": 5.1632,
+    "PQ": 6.5668
+   },
+   "slot2_quarter": {
+    "CLAP": 0.2017,
+    "CE": 6.2071,
+    "CU": 6.7487,
+    "PC": 5.0814,
+    "PQ": 6.5623
+   },
+   "bestof3_012_quarter": {
+    "CLAP": 0.2129
+   },
+   "worstof3_012_quarter": {
+    "CLAP": 0.1957
+   }
+  },
+  "decision_rule": "Rotation is supported only if true012 CLAP exceeds the best single slot (slot1 0.2047). Landing inside the 0.2017-0.2047 single-slot band is a null: rotation would then be reproducing the average of its constituents rather than adding anything. Beating best-of-3 (0.2129) is not expected and is not the bar.",
+  "known_caveat": "S1 100k = 3.18 epochs, so rotation reaches 2.19/3 coverage and a regulariser is measured in an undertrained regime. Inherited from the 013 quarter pair; the comparison is nonetheless internally budget-matched because every comparator is also quarter."
+ },
+ "selection": {
+  "mode": "per_epoch_rotation_keyed_by_seed_epoch_and_audio_id",
+  "algorithm": "sha256(k3-true-random-v1\\0seed\\0epoch\\0audio_id)[:8] mod 3",
+  "caption_seed": 14159265,
+  "slot_pool": [
+   "slot0",
+   "slot1",
+   "slot2"
+  ]
+ },
+ "caption_pool": {
+  "assembled_not_encoded": true,
+  "pool_spec": {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_true012_caption_pool.json",
+   "sha256": "1fbe04b96af8fe2c627a734e87322aade485b3601b909cc82674e59b64a0c96c"
+  },
+  "sources": [
+   {
+    "position": 0,
+    "dir": "/home/kojiek/text_overlays/true_random",
+    "index": 0,
+    "holds": "slot0"
+   },
+   {
+    "position": 1,
+    "dir": "/home/kojiek/text_overlays/true_random",
+    "index": 1,
+    "holds": "slot1"
+   },
+   {
+    "position": 2,
+    "dir": "/home/kojiek/text_overlays/slot2",
+    "index": null,
+    "holds": "slot2"
+   }
+  ],
+  "shared_text_encoder_fingerprint": "27e88fac68d94a8a10e44d2db930a8f79db8ca0454ce996b82e448c48c40ab4c",
+  "new_overlay_bytes": 0,
+  "rationale": "A dedicated 012 stack would cost 225 GB against 142 GB free. slot0/slot1 already exist as indices 0/1 of the 013 stack and slot2 as its own overlay, both from the same encoder, so the pool is composed at load time."
+ },
+ "sources": {
+  "train_tsv": {
+   "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_train.tsv",
+   "sha256": "5ec90b0f8d963df50546730384446bdca1b185ee4b2e21a4094cf60398b39999",
+   "rows": 251599,
+   "caption_column_holds": "slot0; used only for the per-row membership check, the trained caption is the rotated one"
+  },
+  "cache_list": {
+   "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+   "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+   "rows": 251599
+  },
+  "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+  "shared_npz_mutation_prohibited": true
+ },
+ "pairing_audit": {
+  "validator": "/home/kojiek/MeanAudio/scripts/preprocess/validate_composed_text_overlay.py",
+  "pre_registration_run": {
+   "sampled_rows": 1500,
+   "epochs": 4,
+   "embeddings_checked": 1500,
+   "clip_id_binding": "every source matched the TSV id",
+   "slot_ground_truth": "pool position 1 verified against phase8_caption2p0_slot1_train.tsv, position 2 against phase8_caption2p0_slot2_train.tsv",
+   "rotation_share": {
+    "0": 0.3397,
+    "1": 0.3327,
+    "2": 0.3277
+   },
+   "failures": 0,
+   "status": "passed",
+   "report": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_true012_composed_overlay_validation_20260902.json"
+  },
+  "loader_smoke_test": {
+   "exact_source_match_samples": 15,
+   "detail": "15 (idx, epoch) pairs returned embeddings byte-identical to the source slot the rotation selected",
+   "rotation_changes_slot_between_epochs": "1364/2000 rows (expected 2/3)",
+   "negative_control": "a pool whose captions do not match the TSV is rejected with 'TSV caption is not among the composed captions'"
+  },
+  "runtime_guard": "require_text_overlay=true, so extracted_audio.py re-checks clip_id and caption membership on every row loaded during training"
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "rng_restart_boundary": false,
+  "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_stage1_100000/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_stage1_100000_ckpt_last.pth"
+ },
+ "training": {
+  "scale": "quarter",
+  "stage1_final_iteration": 100000,
+  "stage2_additional_iterations": 50000,
+  "final_iteration": 150000,
+  "seed": 14159265,
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "q_conditioning": false,
+  "multi_cap": true,
+  "require_text_overlay": true,
+  "cap_index_spec": "sources:/home/kojiek/MeanAudio/docs/experiments/caption2p0_true012_caption_pool.json",
+  "epochs_stage1": 3.18,
+  "epochs_stage2": 1.59,
+  "caption_coverage_per_clip": "3*(1-(2/3)**3.18) = 2.19 of 3"
+ },
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+  "rows": 5521,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "cfg_strength": 0,
+  "seed": 42,
+  "mask": "NoMask",
+  "precision": "full"
+ },
+ "cells": [
+  {
+   "cell_id": "canonical_noq",
+   "label": "phase8_qwen_caption2p0_k3_true012_random_noq_quarter_musiccaps_mf25_cfg0_noq",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_stage2_50000_ema_final.pth",
+   "checkpoint_sha256": "pending_runtime_output",
+   "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+  }
+ ],
+ "runtime_storage": {
+  "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics",
+  "estimated_overlay_bytes": 0,
+  "hard_stop_free_bytes": 63687091200
+ },
+ "commands": {
+  "run": [
+   "/bin/bash",
+   "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_true012_random_quarter_action.sh"
+  ]
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/jobs/p2_true012_random_quarter.sh",
+  "launcher_sha256": "3d3829ca1b01ada681c7e4e7b7b49a44bdcad4f6fe05ddeaca651c3945ea9d17",
+  "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+  "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+  "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_true012_random_quarter_action.sh",
+  "action_sha256": "109409c073072ec43f77481ce9e805e9a3ea400cb5d0074367a9f8d4d71bd555"
+ },
+ "completion_evidence": {
+  "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_stage2_50000_ema_final.pth",
+  "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+ },
+ "launch_authorization": {
+  "valid": true,
+  "gpu_launch_allowed": true,
+  "scope": "quarter-scale training plus one canonical CFG0 evaluation",
+  "queue_position": "tail, after 033; does not preempt the running 030-033 recovery chain"
+ }
+}

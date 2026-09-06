@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "document_kind": "operator_queue_entry_proposal",
+  "experiment_id": "caption2p0-k3-fake-random-quarter-noq",
+  "run_id": "run-20260822-caption2p0-k3-fake-random-quarter-noq",
+  "status": "preregistered_held_for_isolated_cache_and_checkpoint_preflight",
+  "approval_status": "pending_exact_executable_binding",
+  "requested_queue_action": "append_to_tail",
+  "scientific_priority": 1,
+  "filler_class": "preemptible_low_priority_candidate",
+  "filler_eligibility": "held_until_isolated_cache_binding_and_checkpoint_resume_test_pass",
+  "contract": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_k3_true_vs_fake_random_quarter_contract.json",
+  "arm_id": "fake_random_k3_fixed_per_audio",
+  "ordering_dependencies": [],
+  "scientific_dependencies": [],
+  "runtime": {
+    "controller": "pending",
+    "status_source": "pending",
+    "pause_protocol": "pending_cooperative_checkpoint_harn"
+  },
+  "launch_allowed": false,
+  "reason_not_live_enqueued": "The authenticated live queue has controller binding drift, stale superseded K3/K5 entries, and this arm still lacks an approval-bound executable HARN and isolated cache proof."
+}

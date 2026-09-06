@@ -1,0 +1,15 @@
+{
+  "document_kind": "shared_queue_registration_snapshot_v1",
+  "observed_running": {
+    "name": "026_fake_random_full.sh",
+    "pid": 3820608,
+    "start_time": "281228694",
+    "run_id": "026_fake_random_full-20260830T191436Z"
+  },
+  "ordered_entries": [
+    {"position": 1, "name": "026_fake_random_full.sh", "state": "running"},
+    {"position": 2, "name": "028_random_quarter_neg_cfg1p5.sh", "state": "ready", "ordering_dependency": "026_fake_random_full.sh"},
+    {"position": 3, "name": "029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh", "state": "ready", "ordering_dependency": "028_random_quarter_neg_cfg1p5.sh"}
+  ],
+  "captured_at": "2026-08-30T21:11:50Z"
+}

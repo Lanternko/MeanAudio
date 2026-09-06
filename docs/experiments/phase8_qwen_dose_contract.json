@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "experiment": "phase8_qwen_caption_dose_response",
+  "objective": "Measure whether the paired Qwen-caption effect changes with matched continuation dose, without changing any scientific variable other than caption source.",
+  "predecessor": {
+    "required_report": "/home/kojiek/exps_nvme/phase8_qwen_official_matched/paired_final_report.json",
+    "required_control_audit": "/home/kojiek/exps_nvme/phase8_qwen_official_matched/control/final_audit.json",
+    "required_qwen_audit": "/home/kojiek/exps_nvme/phase8_qwen_official_matched/qwen/final_audit.json",
+    "source_iteration": 620000
+  },
+  "milestones": [
+    {
+      "label": "50k",
+      "source_iteration": 620000,
+      "final_iteration": 650000,
+      "additional_updates_per_arm": 30000
+    },
+    {
+      "label": "100k",
+      "source_iteration": 650000,
+      "final_iteration": 700000,
+      "additional_updates_per_arm": 50000
+    }
+  ],
+  "arms": {
+    "control": {
+      "caption_source": "matched local captions",
+      "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_legacy_catalog_train.tsv",
+      "tsv_sha256": "e224e0a136f56fe7876339e5bd6110ce3a3194b2060578812945ae66ab956a6b",
+      "tsv_id_sha256": "484502751c062729a661a6e8f1d347487e9c9cc267cf006e97cbd1101b2f1824",
+      "npz_dir": "/mnt/HDD/kojiek/phase8_legacy_matched_npz",
+      "cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/npz_cache_train.txt",
+      "cache_list_sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "cache_manifest": "/mnt/HDD/kojiek/phase8_legacy_matched_npz/FULL_GATE_PASSED.json",
+      "cache_manifest_sha256": "5dfaa1845b86edb2120c46b15dfdc71ad18fa06d6f765b7aabd01446287093ac"
+    },
+    "qwen": {
+      "caption_source": "official ATTM Qwen captions",
+      "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched.tsv",
+      "tsv_sha256": "fe762ca9bd6ba68d80bb9c03b7ba5a04fcbe47f0bef6eab8eb6a6099b3efec2a",
+      "tsv_id_sha256": "484502751c062729a661a6e8f1d347487e9c9cc267cf006e97cbd1101b2f1824",
+      "npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+      "cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "cache_list_sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "cache_manifest": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_manifest.json",
+      "cache_manifest_sha256": "778033b0205865cabe1e952ae54b3d12a670c473e081dd39d5612f196ebe951b"
+    }
+  },
+  "training": {
+    "model": "meanaudio_s",
+    "batch_size": 8,
+    "accumulation_steps": 1,
+    "learning_rate": 1e-5,
+    "lr_schedule": "step",
+    "lr_schedule_steps": [999999, 999999],
+    "linear_warmup_steps": 1000,
+    "seed": 14159265,
+    "use_q_conditioning": false,
+    "use_text_attention_mask": false,
+    "use_rope": false,
+    "multi_cap": false,
+    "optimizer_policy": "resume the matched predecessor arm optimizer and scheduler; no reset at dose milestones",
+    "selection_rule": "evaluate only it650000 and it700000; never select a best checkpoint"
+  },
+  "evaluation": {
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "tsv_id_sha256": "c601508328b8d73961dfc78c74231093fa816f02e1a244a6538b70a5b987a52e",
+    "num_samples": 5521,
+    "num_steps": 1,
+    "cfg_strength": 0.5,
+    "q_mode": "NoQ",
+    "text_attention_mask": false,
+    "paired_bootstrap_seed": 14159265,
+    "paired_bootstrap_replicates": 10000,
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ", "paired per-prompt CLAP bootstrap"]
+  },
+  "gates": {
+    "predecessor_must_pass": true,
+    "each_arm_audit_must_pass_before_paired_report": true,
+    "50k_paired_report_must_pass_before_100k_training": true,
+    "metric_thresholds_are_not_launch_or_retrain_gates": true,
+    "root_and_hdd_free_floor_gib": 50,
+    "stop_change_relaunch_requires_sol_high_and_codex_review": true
+  },
+  "metrics": {
+    "primary": "paired MusicCaps CLAP delta Qwen minus Control at each fixed milestone",
+    "stretch_target_clap": 0.19,
+    "historical_stretch_target_clap": 0.1998
+  }
+}

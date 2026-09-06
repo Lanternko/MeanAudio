@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "document_kind": "scientific_evaluation_contract",
+  "experiment_id": "rmatched-s1-s2-steps-cfg-matrix",
+  "run_id": "run-20260813-seed14159265-musiccaps",
+  "status": "preregistered_waiting_for_dependencies",
+  "operator_authorization": {
+    "authorized_at": "2026-08-13",
+    "scope": "Evaluate steps 1 and 25 crossed with CFG 0.5 and 4.5 once for both Stage 1 and Stage 2."
+  },
+  "dependencies": [
+    {
+      "experiment_id": "rmatched-validation-replication",
+      "required_state": "completed"
+    },
+    {
+      "experiment_id": "historical-qwen-fulltrack-noq-s2-mf25-cfg4p5",
+      "required_state": "completed"
+    }
+  ],
+  "inputs": {
+    "training_seed": 14159265,
+    "generation_seed": 42,
+    "musiccaps_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "expected_rows": 5521,
+    "stage1_checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage1_400000/phase8_qwen_caption10s_multisent_noq_full_stage1_400000_ema_final.pth",
+    "stage2_checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth"
+  },
+  "fixed_protocol": {
+    "benchmark": "MusicCaps full",
+    "conditioning": "NoQ",
+    "text_attention_mask": false,
+    "precision": "full",
+    "encoder_name": "t5_clap",
+    "text_c_dim": 512,
+    "stage1_variant": "fluxaudio_s",
+    "stage1_sampler": "flow_matching",
+    "stage2_variant": "meanaudio_s",
+    "stage2_sampler": "meanflow"
+  },
+  "cells": [
+    {"cell_id": "s1_fm1_cfg0p5", "stage": 1, "steps": 1, "cfg": 0.5},
+    {"cell_id": "s1_fm1_cfg4p5", "stage": 1, "steps": 1, "cfg": 4.5},
+    {"cell_id": "s1_fm25_cfg0p5", "stage": 1, "steps": 25, "cfg": 0.5},
+    {"cell_id": "s1_fm25_cfg4p5", "stage": 1, "steps": 25, "cfg": 4.5},
+    {"cell_id": "s2_mf1_cfg0p5", "stage": 2, "steps": 1, "cfg": 0.5},
+    {"cell_id": "s2_mf1_cfg4p5", "stage": 2, "steps": 1, "cfg": 4.5},
+    {"cell_id": "s2_mf25_cfg0p5", "stage": 2, "steps": 25, "cfg": 0.5},
+    {"cell_id": "s2_mf25_cfg4p5", "stage": 2, "steps": 25, "cfg": 4.5}
+  ],
+  "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ", "peav_score_mean", "t2a_R@10", "a2t_R@10"],
+  "analysis": {
+    "type": "descriptive_complete_matrix",
+    "primary_question": "At matched inference steps and CFG, how do Stage 1 and Stage 2 differ?",
+    "secondary_question": "Within each stage, how much do steps, CFG, and their interaction change the metrics?",
+    "promotion_gate": null,
+    "headline_policy": "MF1 remains the one-step capability result. Claims about Stage 1 versus Stage 2 quality must report the matched 25-step cells."
+  },
+  "outputs": {
+    "root": "/home/kojiek/MeanAudio/eval_output/rmatched_s1_s2_steps_cfg_matrix_seed14159265",
+    "report": "/home/kojiek/logs/rmatched_s1_s2_steps_cfg_matrix_seed14159265_REPORT.json",
+    "retain_audio": true
+  },
+  "operations": {
+    "assigned_gpu": 0,
+    "estimated_peak_additional_bytes": 42949672960,
+    "minimum_free_bytes_before_launch": 161061273600,
+    "resume_behavior": "Skip a cell only when its full metrics and PE-AV artifacts validate; otherwise regenerate and reevaluate that cell.",
+    "automatic_repair": false,
+    "required_notifications": ["start", "completion", "failure", "interruption", "disk_warning", "disk_hard_stop", "unexpected_gpu_idle"]
+  },
+  "implementation_binding": {
+    "runner": {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_rmatched_s1_s2_steps_cfg_matrix.sh",
+      "sha256": "82069f5dd2d3d75950a582e0cd411d5302d3d79b1781ecb3a4817fc35bbc3657"
+    },
+    "harn": {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/rmatched_matrix_harn.py",
+      "sha256": "d3bc384dea3311b094e0e6f99cf713d0f09603e5bf15574ef0dd5f0ed79dd32d"
+    }
+  },
+  "execution_priority": [
+    "s2_mf25_cfg0p5",
+    "s2_mf25_cfg4p5",
+    "s2_mf1_cfg0p5",
+    "s2_mf1_cfg4p5",
+    "s1_fm25_cfg0p5",
+    "s1_fm25_cfg4p5",
+    "s1_fm1_cfg0p5",
+    "s1_fm1_cfg4p5"
+  ]
+}

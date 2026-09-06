@@ -1,0 +1,212 @@
+{
+  "metric": "quality_rate",
+  "protocol": "MusicCaps 5521; MeanFlow 25; CFG 3.0; negative=fidelity(8 terms); seed 42; per-clip paired vs each arm own cfg 0",
+  "density": {
+    "c2p0_slot0": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+      "n_rows": 251599,
+      "mean_words": 52.10341058589263,
+      "quality_rate": 82.81988402179658,
+      "lofi_rate": 14.276686314333523,
+      "negterm_rate": 5.3358717641962015,
+      "hifi_rate": 78.47765690642649
+    },
+    "c2p0_slot2": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_slot2_train.tsv",
+      "n_rows": 251599,
+      "mean_words": 51.92540510892333,
+      "quality_rate": 69.82062726799391,
+      "lofi_rate": 6.077528130080008,
+      "negterm_rate": 2.7388821100242846,
+      "hifi_rate": 56.39489823091507
+    },
+    "c2p0_f013_best": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_fair013_bestof3_capidx_train.tsv",
+      "n_rows": 251599,
+      "mean_words": 52.569096061590066,
+      "quality_rate": 70.7474989964189,
+      "lofi_rate": 14.868898525033883,
+      "negterm_rate": 5.875619537438543,
+      "hifi_rate": 64.20057313423344
+    },
+    "c2p0_f013_worst": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_fair013_worstof3_capidx_train.tsv",
+      "n_rows": 251599,
+      "mean_words": 53.79441492215788,
+      "quality_rate": 71.35362223220282,
+      "lofi_rate": 15.18805718623683,
+      "negterm_rate": 6.160994280581401,
+      "hifi_rate": 65.77649354727166
+    },
+    "lpmc_p7v1": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/_QUARANTINED_phase7_v1_train.tsv",
+      "n_rows": 251599,
+      "mean_words": 42.50729931359027,
+      "quality_rate": 47.74422791823497,
+      "lofi_rate": 47.72077790452267,
+      "negterm_rate": 46.31417453964443,
+      "hifi_rate": 0.7265529672216503
+    },
+    "fulltrack": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_k3_balanced.tsv",
+      "n_rows": 251599,
+      "mean_words": 47.88499556834486,
+      "quality_rate": 7.267516961514155,
+      "lofi_rate": 8.399874403316389,
+      "negterm_rate": 6.865289607669347,
+      "hifi_rate": 5.91735261268924
+    }
+  },
+  "reference_density": {
+    "fidstrip (untrained)": {
+      "path": "/home/kojiek/eval_tsvs_p100/phase8_caption2p0_fidstrip_train.tsv",
+      "n_rows": 251599,
+      "mean_words": 41.31739394830663,
+      "quality_rate": 10.233744967189853,
+      "lofi_rate": 7.14629231435737,
+      "negterm_rate": 3.964642148816172,
+      "hifi_rate": 15.717073597271849
+    },
+    "MusicCaps (eval)": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+      "n_rows": 5521,
+      "mean_words": 48.96830284368774,
+      "quality_rate": 33.67143633399746,
+      "lofi_rate": 35.663829016482524,
+      "negterm_rate": 31.497917044013764,
+      "hifi_rate": 1.159210287991306
+    }
+  },
+  "arms": {
+    "c2p0_fair013_best_full": {
+      "exp_id": "phase8_qwen_caption2p0_fair013_bestof3_noq_full_stage2_200000",
+      "corpus": "c2p0_f013_best",
+      "delta_pq": 0.9887913603472593,
+      "frac_improved": 0.9126969751856547,
+      "delta_clap": 0.046318681998562296,
+      "pq_cfg3": 7.45583978486955
+    },
+    "c2p0_fair013_worst_full": {
+      "exp_id": "phase8_qwen_caption2p0_fair013_worstof3_noq_full_stage2_200000",
+      "corpus": "c2p0_f013_worst",
+      "delta_pq": 0.7468790659932981,
+      "frac_improved": 0.8565477268610759,
+      "delta_clap": 0.03255617777438923,
+      "pq_cfg3": 7.466360520418302
+    },
+    "c2p0_slot0_full_noq": {
+      "exp_id": "phase8_qwen_caption10s_multisent_noq_full_stage2_200000",
+      "corpus": "c2p0_slot0",
+      "delta_pq": 1.0198590647934616,
+      "frac_improved": 0.9315341423655135,
+      "delta_clap": 0.04040415817205375,
+      "pq_cfg3": 7.599185908365413
+    },
+    "c2p0_slot0_full_seed27182818": {
+      "exp_id": "phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000",
+      "corpus": "c2p0_slot0",
+      "delta_pq": 0.9305851900843126,
+      "frac_improved": 0.8996558594457525,
+      "delta_clap": 0.037357478996671654,
+      "pq_cfg3": 7.457628521749106
+    },
+    "c2p0_slot0_q3_full_q0": {
+      "exp_id": "phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000",
+      "corpus": "c2p0_slot0",
+      "delta_pq": 0.997026674731489,
+      "frac_improved": 0.9155950009056331,
+      "delta_clap": 0.04451694816527721,
+      "pq_cfg3": 7.516769092511794
+    },
+    "c2p0_slot0_q3_full_q9": {
+      "exp_id": "phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000",
+      "corpus": "c2p0_slot0",
+      "delta_pq": 0.9749806931303412,
+      "frac_improved": 0.9150516210831371,
+      "delta_clap": 0.042877727318227865,
+      "pq_cfg3": 7.518680329772792
+    },
+    "c2p0_slot0_q5_full_q0": {
+      "exp_id": "phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_stage2_200000",
+      "corpus": "c2p0_slot0",
+      "delta_pq": 1.0514739354307552,
+      "frac_improved": 0.9351566745154863,
+      "delta_clap": 0.04086081365006491,
+      "pq_cfg3": 7.5910544010245955
+    },
+    "c2p0_slot0_q5_full_q9": {
+      "exp_id": "phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_stage2_200000",
+      "corpus": "c2p0_slot0",
+      "delta_pq": 1.0256394669319102,
+      "frac_improved": 0.9344321680854918,
+      "delta_clap": 0.03827786471528045,
+      "pq_cfg3": 7.598603754496147
+    },
+    "c2p0_slot2_full_noq": {
+      "exp_id": "phase8_qwen_caption2p0_slot2_noq_full_stage2_200000",
+      "corpus": "c2p0_slot2",
+      "delta_pq": 0.7831039717179713,
+      "frac_improved": 0.8480347763086398,
+      "delta_clap": 0.03155937147143067,
+      "pq_cfg3": 7.295510602891283
+    },
+    "fulltrack_noq_full": {
+      "exp_id": "phase8_qwen_official_noq_full_stage2_200000",
+      "corpus": "fulltrack",
+      "delta_pq": 0.12646012452175123,
+      "frac_improved": 0.5839521825756203,
+      "delta_clap": 0.004458749111154074,
+      "pq_cfg3": 6.985055356888511
+    },
+    "fulltrack_q3_full_q9": {
+      "exp_id": "phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000",
+      "corpus": "fulltrack",
+      "delta_pq": 0.05189106957114838,
+      "frac_improved": 0.5424741894584314,
+      "delta_clap": -0.006394583510234615,
+      "pq_cfg3": 6.985637493354647
+    },
+    "p7v1_fullq_control_q9": {
+      "exp_id": "phase7_v1_fullq_control_stage2_200000",
+      "corpus": "lpmc_p7v1",
+      "delta_pq": 0.4747022334874227,
+      "frac_improved": 0.7475095091468936,
+      "delta_clap": 0.02447073614531634,
+      "pq_cfg3": 7.032694432295399
+    }
+  },
+  "correlation": {
+    "arm_level": {
+      "n": 12,
+      "pearson_r": 0.9799083305645115,
+      "r2": 0.960220336309728,
+      "spearman_rho": 0.8451920789676454,
+      "slope_pq_per_pct": 0.012212434621572415
+    },
+    "corpus_level": {
+      "n": 6,
+      "pearson_r": 0.9647291336093778,
+      "r2": 0.9307023012347008,
+      "spearman_rho": 0.8285714285714286,
+      "slope_pq_per_pct": 0.012203212711948975
+    }
+  },
+  "within_corpus_spread_pq": {
+    "c2p0_slot0": 0.12088874534644256,
+    "fulltrack": 0.07456905495060286
+  },
+  "leave_one_corpus_out_r": {
+    "without_c2p0_f013_best": 0.9887151844438516,
+    "without_c2p0_f013_worst": 0.9738556259320823,
+    "without_c2p0_slot0": 0.956205557815987,
+    "without_c2p0_slot2": 0.9655468987708109,
+    "without_fulltrack": 0.9002131899428957,
+    "without_lpmc_p7v1": 0.9683363119479667
+  },
+  "prediction": {
+    "arm": "fidstrip (untrained, disk-blocked)",
+    "quality_rate": 10.233744967189853,
+    "predicted_delta_pq": 0.09396204528508556,
+    "basis": "corpus-level least squares fit, n=6"
+  }
+}

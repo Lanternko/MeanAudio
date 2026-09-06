@@ -114,7 +114,7 @@
       "label": "phase8_qwen_caption2p0_slot3_noq_full_musiccaps_mf25_cfg0_noq",
       "conditioning": "no_q",
       "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot3_noq_full_stage2_200000/phase8_qwen_caption2p0_slot3_noq_full_stage2_200000_ema_final.pth",
-      "checkpoint_sha256": "pending_runtime_output",
+      "checkpoint_sha256": "1f6be44b3a9fc6ac56d9de4dcd8fe9566e1a09420070d70ae2d08c46017c2754",
       "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot3_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
     }
   ],

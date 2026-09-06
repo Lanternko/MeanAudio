@@ -1,0 +1,40 @@
+{
+    "document_kind": "event_ledger",
+    "schema_version": "1.0.0",
+    "schema_bundle_id": "harn-schema-v1",
+    "experiment_id": "c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+    "run_id": "run-20260830-c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+    "bindings": {
+        "contract_raw_sha256": "a5e1978c0fbb8f09ff439cb39aef1319dca82112221c134fa09e441fe929b1b7",
+        "preflight_report_raw_sha256": "5a355b6a0343ecb3899cc72a6cd97c302f0823a0db25455b91baaa9701e0bf8c",
+        "schema_bundle_sha256": "9186d154860699bbe556c913d9bf5d8450de3718d47e518b8443783026be21fa"
+    },
+    "events": [
+        {
+            "sequence": 1,
+            "event_id": "contract-register",
+            "idempotency_key": "cfg-full5521:contract-register",
+            "event_kind": "contract_registered",
+            "occurred_at": "2026-08-30T21:03:32Z",
+            "phase": null,
+            "verdict": "none",
+            "relates_to_event_id": null,
+            "notification_status": "not_applicable",
+            "previous_event_sha256": null,
+            "event_sha256": "730b3c4412e60ab1068c2d7b5f1e691de99f9ec633eee1ed65da79a06a33c027"
+        },
+        {
+            "sequence": 2,
+            "event_id": "preflight-pass",
+            "idempotency_key": "cfg-full5521:preflight-pass",
+            "event_kind": "preflight_passed",
+            "occurred_at": "2026-08-30T21:03:33Z",
+            "phase": null,
+            "verdict": "pass",
+            "relates_to_event_id": null,
+            "notification_status": "pending",
+            "previous_event_sha256": "730b3c4412e60ab1068c2d7b5f1e691de99f9ec633eee1ed65da79a06a33c027",
+            "event_sha256": "d55ac4725cafcadc8b1704985d7d60d546265f7887927b3b46daf1b91200e592"
+        }
+    ]
+}

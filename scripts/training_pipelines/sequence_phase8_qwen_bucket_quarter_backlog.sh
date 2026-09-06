@@ -14,12 +14,23 @@ ROOT=/home/kojiek/MeanAudio
 DATA=/mnt/HDD/kojiek/phase4_jamendo_data
 LOG_ROOT=/home/kojiek/logs
 STATE="$LOG_ROOT/phase8_qwen_bucket_quarter_backlog"
+EVAL_OUTPUT_CONFIG="$STATE/eval_output_root"
 LOCK="$STATE/sequence.lock"
 LOG="$LOG_ROOT/phase8_qwen_bucket_quarter_backlog_sequence.log"
 FINAL_REPORT="$LOG_ROOT/phase8_qwen_bucket_quarter_backlog_FINAL_METRICS.json"
 GRID="$DATA/phase8_qwen_meansim_bucket_grid.manifest.json"
 MUSICCAPS="$DATA/musiccaps_test.tsv"
 NOQ_TSV="$DATA/phase8_qwen_meansim_k2_balanced.tsv"
+EVAL_OUTPUT_ROOT="${EVAL_OUTPUT_ROOT:-$ROOT/eval_output}"
+if [[ -r "$EVAL_OUTPUT_CONFIG" ]]; then
+    IFS= read -r configured_eval_output <"$EVAL_OUTPUT_CONFIG"
+    if [[ "$configured_eval_output" != "$ROOT/eval_output_local" ]]; then
+        echo "[FAIL] invalid eval output repair config: $configured_eval_output" >&2
+        exit 2
+    fi
+    EVAL_OUTPUT_ROOT="$configured_eval_output"
+fi
+export EVAL_OUTPUT_ROOT
 RUN_MODE="${EXPERIMENT_RUN_MODE:-fresh}"
 POLL_SECONDS="${POLL_SECONDS:-60}"
 PREFLIGHT_ONLY="${PREFLIGHT_ONLY:-false}"

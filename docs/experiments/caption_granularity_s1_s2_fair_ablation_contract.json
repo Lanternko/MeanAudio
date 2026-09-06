@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "document_kind": "scientific_evaluation_contract",
+  "experiment_id": "caption-granularity-s1-s2-fair-ablation",
+  "run_id": "run-20260813-musiccaps-fm-mf25-cfg4p5",
+  "status": "superseded_2026-08-20_by_cfg0_canonical_policy",
+  "supersession": {
+    "reason": "CFG4.5 was selected by the implementation workflow, not specified by the operator; canonical evaluation is now MeanFlow 25 with literal CFG0.",
+    "replacement_policy": "/home/kojiek/MeanAudio/docs/experiments/evaluation_policy.md",
+    "historical_artifacts": "immutable_provenance_only"
+  },
+  "question": "At the common 25-step and CFG4.5 evaluation budget, how do the Stage 1 baseline, caption 1.0 Stage 2, and caption 2.0 Stage 1/Stage 2 compare?",
+  "fixed_protocol": {
+    "benchmark": "MusicCaps full",
+    "expected_rows": 5521,
+    "generation_seed": 42,
+    "steps": 25,
+    "cfg": 4.5,
+    "conditioning": "NoQ",
+    "text_attention_mask": false,
+    "precision": "full",
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"]
+  },
+  "cells": [
+    {
+      "cell_id": "baseline_s1_fm25_cfg4p5",
+      "status": "existing_valid",
+      "legacy_source_checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_official_noq_full_stage1_400000/phase8_qwen_official_noq_full_stage1_400000_ema_final.pth",
+      "legacy_source_evidence": "/home/kojiek/logs/phase8_qwen_official_noq_full_STAGE1_METRICS.json",
+      "label_note": "The legacy source filenames contain 'official'; that word is not the scientific label of this cell."
+    },
+    {
+      "cell_id": "caption2p0_s2_mf25_cfg4p5",
+      "status": "pending",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth"
+    },
+    {
+      "cell_id": "caption1p0_s2_mf25_cfg4p5",
+      "status": "pending",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_noq_full_stage2_200000/phase8_qwen_caption10s_noq_full_stage2_200000_ema_final.pth"
+    },
+    {
+      "cell_id": "caption2p0_s1_fm25_cfg4p5",
+      "status": "pending",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage1_400000/phase8_qwen_caption10s_multisent_noq_full_stage1_400000_ema_final.pth"
+    }
+  ],
+  "execution_priority": [
+    "caption2p0_s2_mf25_cfg4p5",
+    "caption1p0_s2_mf25_cfg4p5",
+    "caption2p0_s1_fm25_cfg4p5"
+  ],
+  "outputs": {
+    "root": "/home/kojiek/MeanAudio/eval_output/caption_granularity_s1_s2_fair_ablation",
+    "report": "/home/kojiek/logs/caption_granularity_s1_s2_fair_ablation_REPORT.json"
+  }
+}

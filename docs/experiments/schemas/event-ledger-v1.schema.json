@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:meanaudio:experiment-harness:schema:event-ledger:v1",
+  "title": "MeanAudio event ledger v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["document_kind", "schema_version", "schema_bundle_id", "experiment_id", "run_id", "bindings", "events"],
+  "properties": {
+    "document_kind": {"const": "event_ledger"},
+    "schema_version": {"const": "1.0.0"},
+    "schema_bundle_id": {"const": "harn-schema-v1"},
+    "experiment_id": {"$ref": "#/$defs/id"},
+    "run_id": {"$ref": "#/$defs/id"},
+    "bindings": {
+      "type": "object", "additionalProperties": false,
+      "required": ["contract_raw_sha256", "preflight_report_raw_sha256", "schema_bundle_sha256"],
+      "properties": {
+        "contract_raw_sha256": {"$ref": "#/$defs/sha256"},
+        "preflight_report_raw_sha256": {"$ref": "#/$defs/sha256"},
+        "schema_bundle_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "events": {
+      "type": "array", "minItems": 1, "maxItems": 100000,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "sequence", "event_id", "idempotency_key", "event_kind", "occurred_at", "phase",
+          "verdict", "relates_to_event_id", "notification_status", "previous_event_sha256", "event_sha256"
+        ],
+        "properties": {
+          "sequence": {"type": "integer", "minimum": 1, "maximum": 100000},
+          "event_id": {"$ref": "#/$defs/id"},
+          "idempotency_key": {"$ref": "#/$defs/id"},
+          "event_kind": {
+            "enum": [
+              "contract_registered", "preflight_passed", "resources_acquired", "experiment_started",
+              "gate_result", "notification_delivery", "promotion_started", "queue_hold", "gpu_idle",
+              "disk_warning", "disk_hard_stop", "recovery_started", "recovery_succeeded",
+              "experiment_completed", "experiment_failed", "experiment_interrupted"
+            ]
+          },
+          "occurred_at": {"type": "string", "format": "date-time"},
+          "phase": {"type": ["string", "null"], "maxLength": 128},
+          "verdict": {"enum": ["pass", "fail", "invalid", "none"]},
+          "relates_to_event_id": {"oneOf": [{"$ref": "#/$defs/id"}, {"type": "null"}]},
+          "notification_status": {"enum": ["not_applicable", "pending", "delivered", "failed"]},
+          "previous_event_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+          "event_sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+  }
+}

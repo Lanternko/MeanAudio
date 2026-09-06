@@ -1,0 +1,149 @@
+{
+    "document_kind": "experiment_contract",
+    "schema_version": "1.0.0",
+    "schema_bundle_id": "harn-schema-v1",
+    "experiment_id": "c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+    "run_id": "run-20260830-c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+    "bindings": {
+        "policy_bundle_sha256": "970a275e24b683b7fe55b55e61d59e04f4e6b33375b91c3563c7289a2f744e3c",
+        "schema_bundle_sha256": "9186d154860699bbe556c913d9bf5d8450de3718d47e518b8443783026be21fa",
+        "runtime_sha256": "ab8e63684a580fde0138d15bbe824940260538b6891a6cfb5143315e28543ee4",
+        "command_set_sha256": "87ce67c16b5b937641b27f0886a3856364a5feb72b2622a9456bf9e908390c4d"
+    },
+    "approval_requirement": {
+        "required": true,
+        "responsible_role": "responsible-operator",
+        "trusted_channels": [
+            "operator_console"
+        ]
+    },
+    "corpus": {
+        "kind": "non_generated",
+        "source_artifacts": [
+            {
+                "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+                "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+            }
+        ]
+    },
+    "repair": {
+        "enabled": false
+    },
+    "phases": [
+        {
+            "phase_id": "cfg2p5-generate-score",
+            "action_id": "run",
+            "input_artifacts": [
+                {
+                    "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+                    "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+                },
+                {
+                    "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+                    "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+                }
+            ],
+            "output_paths": [
+                "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/c2p0_slot0_full_noq_cfg2p5_neg.json"
+            ],
+            "completion_evidence": [
+                {
+                    "path": "/home/kojiek/MeanAudio/docs/experiments/harn/c2p0_slot0_neg_cfg_full5521/cfg2p5.completion_rule.json",
+                    "sha256": "4f725d3e1c8bb7dcd587d0274e709ae0c1dd03161f7d20514a5d445eb7bd8f65"
+                }
+            ],
+            "resume_action_id": "resume"
+        },
+        {
+            "phase_id": "cfg4p0-generate-score",
+            "action_id": "run",
+            "input_artifacts": [
+                {
+                    "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+                    "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+                },
+                {
+                    "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+                    "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+                }
+            ],
+            "output_paths": [
+                "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/c2p0_slot0_full_noq_cfg4p0_neg.json"
+            ],
+            "completion_evidence": [
+                {
+                    "path": "/home/kojiek/MeanAudio/docs/experiments/harn/c2p0_slot0_neg_cfg_full5521/cfg4p0.completion_rule.json",
+                    "sha256": "865cf9ba3e0189891549a7691b09a737817f8aba4cdc90ed95fbaad24089598c"
+                }
+            ],
+            "resume_action_id": "resume"
+        }
+    ],
+    "filesystems": [
+        {
+            "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio",
+            "hard_floor_bytes": 63687091200,
+            "warning_floor_bytes": 80000000000,
+            "peak_additional_bytes": 8000000000,
+            "transient_bytes": 6000000000,
+            "recovery_reserve_bytes": 53687091200
+        }
+    ],
+    "commands": [
+        {
+            "action_id": "preflight",
+            "argv": [
+                "/home/kojiek/venvs/dac/bin/python",
+                "/home/kojiek/MeanAudio/scripts/eval/validate_c2p0_slot0_neg_cfg_sweep_full.py"
+            ],
+            "working_directory": "/home/kojiek/MeanAudio",
+            "environment": {
+                "CUDA_VISIBLE_DEVICES": "0",
+                "PYTHONUNBUFFERED": "1"
+            }
+        },
+        {
+            "action_id": "run",
+            "argv": [
+                "/bin/bash",
+                "/home/kojiek/MeanAudio/scripts/eval/run_c2p0_slot0_neg_cfg_sweep_full.sh"
+            ],
+            "working_directory": "/home/kojiek/MeanAudio",
+            "environment": {
+                "CUDA_VISIBLE_DEVICES": "0",
+                "PYTHONUNBUFFERED": "1"
+            }
+        },
+        {
+            "action_id": "resume",
+            "argv": [
+                "/bin/bash",
+                "/home/kojiek/MeanAudio/scripts/eval/run_c2p0_slot0_neg_cfg_sweep_full.sh"
+            ],
+            "working_directory": "/home/kojiek/MeanAudio",
+            "environment": {
+                "CUDA_VISIBLE_DEVICES": "0",
+                "PYTHONUNBUFFERED": "1"
+            }
+        }
+    ],
+    "required_preflight_checks": [
+        "policy",
+        "provenance",
+        "storage",
+        "notification",
+        "queue",
+        "watcher",
+        "acceptance"
+    ],
+    "notification_events": [
+        "preflight-pass",
+        "start",
+        "disk-warning",
+        "disk-hard-stop",
+        "stall",
+        "interruption",
+        "terminal",
+        "queue-handoff"
+    ]
+}

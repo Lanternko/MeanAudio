@@ -3,6 +3,7 @@ trainer.py - wrapper and utility functions for network training
 Compute loss, back-prop, update parameters, logging, etc.
 """
 import os
+import tempfile
 from pathlib import Path
 from typing import Optional, Union
 
@@ -26,6 +27,28 @@ from meanaudio.utils.log_integrator import Integrator
 from meanaudio.utils.logger import TensorboardLogger
 from meanaudio.utils.time_estimator import PartialTimeEstimator, TimeEstimator
 import wandb
+
+
+def _atomic_torch_save(payload, path: Path) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp_name = tempfile.mkstemp(prefix=f'.{path.name}.', suffix='.tmp', dir=path.parent)
+    os.close(fd)
+    try:
+        torch.save(payload, tmp_name)
+        with open(tmp_name, 'rb') as handle:
+            os.fsync(handle.fileno())
+        os.replace(tmp_name, path)
+        dir_fd = os.open(path.parent, os.O_RDONLY)
+        try:
+            os.fsync(dir_fd)
+        finally:
+            os.close(dir_fd)
+    except BaseException:
+        try:
+            os.unlink(tmp_name)
+        except FileNotFoundError:
+            pass
+        raise
 
 
 class RunnerFlowMatching:
@@ -553,12 +576,15 @@ class RunnerFlowMatching:
             'optimizer': self.optimizer.state_dict(),
             'scheduler': self.scheduler.state_dict(),
             'ema': self.ema.state_dict() if self.ema is not None else None,
+            'trainer_rng_state': self.rng.get_state(),
+            'torch_rng_state': torch.get_rng_state(),
+            'cuda_rng_state_all': torch.cuda.get_rng_state_all(),
         }
 
         os.makedirs(self.run_path, exist_ok=True)
         if save_copy:
             model_path = self.run_path / f'{self.exp_id}_ckpt_{it}.pth'
-            torch.save(checkpoint, model_path)
+            _atomic_torch_save(checkpoint, model_path)
             self.log.info(f'Checkpoint saved to {model_path}.')
 
         # if ckpt_last exists, move it to a shadow copy
@@ -568,7 +594,7 @@ class RunnerFlowMatching:
             model_path.replace(shadow_path)  # moves the file
             self.log.info(f'Checkpoint shadowed to {shadow_path}.')
 
-        torch.save(checkpoint, model_path)
+        _atomic_torch_save(checkpoint, model_path)
         self.log.info(f'Checkpoint saved to {model_path}.')
 
     def get_latest_checkpoint_path(self):
@@ -609,6 +635,12 @@ class RunnerFlowMatching:
         self.network.module.load_state_dict(weights)   # directly load weights to model
         self.optimizer.load_state_dict(optimizer)
         self.scheduler.load_state_dict(scheduler)
+        if checkpoint.get('trainer_rng_state') is not None:
+            self.rng.set_state(checkpoint['trainer_rng_state'])
+        if checkpoint.get('torch_rng_state') is not None:
+            torch.set_rng_state(checkpoint['torch_rng_state'].cpu())
+        if checkpoint.get('cuda_rng_state_all') is not None:
+            torch.cuda.set_rng_state_all(checkpoint['cuda_rng_state_all'])
 
         self.log.info(f'Global iteration {it} loaded.')
         self.log.info('Network weights, optimizer states, and scheduler states loaded.')

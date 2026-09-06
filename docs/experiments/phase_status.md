@@ -76,12 +76,42 @@
 | Token | 意義 |
 |---|---|
 | `slot0` / `slot1` / `slot2` / `slot3` | 第幾條 captioner 取樣。`slot0` = base `phase8_qwen_caption10s_multisent_train.tsv`（磁碟上沒有 `slot0_train.tsv` 這個檔） |
-| `013` | slot **0/1/3** 三條組成的 stacked overlay pool（`/home/kojiek/text_overlays/`，每個 npz `(3, 77, 1024)`） |
+| `012` | slot **0/1/2** 的 caption pool。`bestof3` / `worstof3`（無 fair 前綴）走這個 |
+| `013` | slot **0/1/3** 的 pool，也是 `text_overlays/true_random` 這份 stacked overlay 的內容（每個 npz `(3, 77, 1024)`）。`fair013 *` 與 true/fake random 都走這個 |
 | `fulltrack` | **不是 Caption 2.0**。整軌一條 Qwen caption 複製給該軌所有 segment 的舊語料 |
 | `true random` / `fake random` | 同一個 013 pool 的取槽方式：true = `multi_cap=True`（每 epoch 依 clip_id hash 重抽）、fake = `multi_cap=False`（每列固定槽） |
 | `bestof3` / `worstof3` | 013 pool 內依 CLAP 選最高 / 最低 |
 | `q3` / `q5` | q bucket 數（`q3` → q∈{0,5,9}，`q5` → q∈{0,2,5,7,9}）。**出現即代表 `use_q_conditioning=true`** |
 | `quarter` / `full` | quarter = S1 100k + S2 50k；full = S1 400k + S2 200k |
+
+### `012` vs `013` — `fair` 前綴的真正意思（2026-08-26 查證）
+
+`fair013 *` 的 `fair` **不是**「比較公平的選法」，而是**把 pool 的第三槽換掉**：
+
+| | pool | 第三槽 caption sha（clip `00_1014400_segment_2_0`） |
+|---|---|---|
+| `bestof3` / `worstof3`（無前綴）→ 正名 `012 *` | slot0 / slot1 / **slot2** | `98448d77…` |
+| `fair013 bestof3` / `fair013 worstof3` | slot0 / slot1 / **slot3** | `726ce98b…` |
+
+證據：`clap_scores_full.jsonl` 與 `clap_scores_fair013.jsonl` 同一 clip 的
+`sim0`/`sim1` 逐位元相同、只有 `sim2` 不同（0.0885 vs 0.1180）；
+`bestof3.jsonl` / `bestof3_fair013.jsonl` 首列 caption sha 分別對上 slot2 / slot3；
+`FAIR013_K3_SUMMARY.json` 直接寫 `"slots": ["slot0","slot1","slot3"]`。
+
+**為什麼要有 fair 版**：`013` 才是 `text_overlays/true_random` 的 pool。選法類 arm
+必須用同一個 pool，才能和隨機取槽 arm 對照 —— 換 pool 等於換變因。
+
+⚠️ 兩份 CLAP summary 的 histogram key 都寫 `slot0/slot1/slot2`，但 fair013 那份的
+`slot2` 實際是 **slot3**（key 是 3-stack 的位置索引，不是 captioner slot id）。
+
+best_slot 分布差異（也解釋了兩對 Δ 為何不同大小）：
+
+```
+012      slot0 85294 | slot1 85748 | slot2 80557   ← 第三槽明顯弱
+fair013  slot0 83623 | slot1 84072 | slot3 83904   ← 三槽幾乎均勻
+```
+
+pool 內品質越接近，best 與 worst 的差距越小：`012` Δ 0.0172、`fair013` Δ 0.0129。
 
 ### ⚠️ 舊寫法 `k3` / `k5` 已停用（歧義）
 
@@ -97,7 +127,8 @@
 | `slot0 q5 full` | `phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced` | **0.2174** |
 | `slot0 full` | `phase8_qwen_caption10s_multisent_noq_full_stage2_200000` | 0.2149 |
 | `slot0 q3 full` | `phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced` | 0.2145 |
-| `013 bestof3 quarter` | `phase8_qwen_caption2p0_bestof3_noq_quarter` | 0.2129 |
+| `012 bestof3 quarter` | `phase8_qwen_caption2p0_bestof3_noq_quarter` | 0.2129 |
+| `fair013 q3 full` | `phase8_qwen_caption2p0_fair013_k3_balanced_full` | 0.2126 |
 | `fair013 bestof3 quarter` | `phase8_qwen_caption2p0_fair013_bestof3_noq_quarter` | 0.2114 |
 | `fair013 worstof3 full` | `phase8_qwen_caption2p0_fair013_worstof3_noq_full` | 0.2109 |
 | `slot1 quarter` | `phase8_qwen_caption2p0_slot1_noq_quarter` | 0.2047 |
@@ -107,7 +138,7 @@
 | `013 fake random quarter` | `phase8_qwen_caption2p0_k3_fake_random_noq_quarter` | 0.2005 |
 | `fair013 worstof3 quarter` | `phase8_qwen_caption2p0_fair013_worstof3_noq_quarter` | 0.1985 |
 | `fair013 q3 quarter` | `phase8_qwen_caption2p0_fair013_k3_quarter` | 0.1966 |
-| `013 worstof3 quarter` | `phase8_qwen_caption2p0_worstof3_noq_quarter` | 0.1957 |
+| `012 worstof3 quarter` | `phase8_qwen_caption2p0_worstof3_noq_quarter` | 0.1957 |
 | `qwen3cap q3 quarter` | `phase8_qwen_caption2p0_qwen3cap_k3_quarter` | 0.1894 |
 | **`fulltrack q3 full`** | `phase8_qwen_s2q_from_noq_full_k3_balanced` | 0.1821 |
 
@@ -937,3 +968,105 @@ CLAP seed 雜訊的 **0.14 倍**。判讀帶（0.2017–0.2047，寬 0.0030）**
 
 **要定案需補**：034 + 三個單槽跑 `negprompt_reeval_full_arms.py --cfg=3.0`
 （目前該 sweep 只收 full arms），在同協定下驗證 PQ/CU。4 arm × ~42 min ≈ 3 hr GPU。
+
+---
+
+## paired59k captioner-only control（2026-09-05，✅ 兩臂完成）
+
+036/037 的 MF-vs-Qwen 對比同時動了 captioner、語料筆數（100,000 vs 251,599）與 clip 集合
+（重疊 59.6%）三個變因。本實驗只跑交集：**相同 audio latent、相同 59,614 筆、相同順序、
+相同 recipe 與 quarter 預算，只有 caption 文字不同**。
+
+| Arm | Caption | 狀態 |
+|---|---|---|
+| `paired59k_mf_noq_quarter` | Music Flamingo `short_direct_v2` 重新 caption | ✅ 完成 13:42 — **CLAP 0.2221 / CE 6.8845 / CU 7.3303 / PC 5.1565 / PQ 7.1394** |
+| `paired59k_qwen_noq_quarter` | c2p0 slot0（讀 `true_random` slot 0，位元相同）| ✅ 完成 18:37 — **CLAP 0.2294 / CE 6.6814 / CU 7.3440 / PC 4.8685 / PQ 7.2381** |
+
+**主結果（同協定 seed 底線判定，門檻 2×）**：兩 captioner 的差異**只出現在 CLAP**（Qwen +0.0073 = **24.3×** 底線 0.0003，顯著）；**四項 AES 全部落在雜訊內**（CE 0.69×、CU 0.13×、PC 1.53×、PQ 0.70×）。⚠️ 不可單一歸因 captioner —— Qwen 是在 **44.92% 截斷劣勢**下仍拿到較高 CLAP。
+
+**MF 臂 vs 同 recipe 同預算的舊 caption 版**（`mfshort100k_direct_noq_c2p0recipe_quarter`，100k rows、79% 截斷）：CLAP +0.0142、CE +0.812、CU +0.401、PC +0.546、PQ +0.384 —— **五指標全升，且是在少 40% 資料的情況下**。但 caption 品質與 rows 兩個變因同時動且方向相反，只能讀成效果下界；且同協定的**訓練 seed 底線尚未量過**，定案前需補 seed 對照臂。
+
+上游 MF recaption 驗收 2026-09-05 08:39 **PASS**：59,614 筆、**超窗 0**、唯一率 **92.22%**
+（原語料 73% 唯一 / 79% 截斷）、0 error / 0 restart。
+
+⚠️ `require_text_overlay` 因 audio NPZ 缺 `clip_id` 開不起來，改用離線 audit（`bindings.json`
+＋ 每次啟動前 300 筆），**只能寫成限制，不能當成 loader 已驗證的 pairing**。
+
+⚠️ **兩臂 caption 性質沒對齊**（08:50 實測）：MF recaption 唯一率 92.22% / 超窗 **0%**；
+Qwen c2p0 slot0 唯一率 **100%** / 超窗 **44.92%**。殘餘差異方向相反，**結果不可單一歸因給
+captioner**；要拆掉需再跑「Qwen 也 enforce 到 77 token」的一臂。
+
+詳見 `docs/experiments/results/paired59k/paired59k_captioner_control_2026_09_05.md`。
+
+### 公平性稽核（2026-09-05）：交集沒有 selection bias
+
+MF 的 100k 是 `music_flamingo_jamendo_slice_caption.py:101-103` 用 `rng.shuffle(rows)[:n]`
+從 `clips.tsv` 的 421,401 個 segment 均勻抽樣；c2p0 覆蓋其中 251,599 個。均勻抽樣下的
+期望交集 = 100,000 × 251,599 / 421,401 = **59,706**，實測 **59,614**，差 −92。
+超幾何 σ = 135.5 → 偏離 **−0.68σ**，與均勻隨機子樣本無法區分。
+
+**兩臂都沒被挑到對自己有利的子集。** 殘餘不對稱有三項，其中兩項對 Qwen 不利
+（44.92% 截斷；用既有通用 pass，MF 是 probe 調校過的 `short_direct_v2` + `--enforce`
+`--max-attempts 5`），一項對 MF 不利（唯一率 92.22% vs 100%）。Qwen 是在兩項劣勢下
+仍拿到較高 CLAP，所以 +0.0073 比表面更穩。
+
+⚠️ 真正的不公平在**覆蓋率**：控制實驗回答「同一批 clip 下哪種 caption 文字較好」，
+回答不了「哪個 captioner 該拿來訓練真模型」—— 現實中 Qwen 有 251,599 個 clip、MF 只有
+59,614。這一層要靠擴大 MF recaption 覆蓋率來解（backlog **191,985**，見下）。
+
+### full 預算對照（2026-09-05 23:29 啟動，⛔ 09-06 00:10 主動中止）
+
+`scripts/training_pipelines/paired59k_captioner_control_full_action.sh`，與 quarter 版
+**只差 4 行**（S1 400k / S2 200k / exp prefix / 磁碟閘 60G），recipe、seed 14159265、
+LR 1e-4、batch 8、overlay、eval 協定全部逐字元相同 —— 所以 quarter-vs-full 是乾淨的
+預算對照。tmux `paired59k_full`、log `~/logs/paired59k_full.log`。
+
+**從頭跑 400k 不是從 quarter 續訓**：多花 3 GPU-hr/臂，換完整 EMA 快照歷史、正確的
+exp_id 語義，以及不覆蓋已發表 quarter 產物的 S1 `ema_final.pth`（0.2221 / 0.2294 由它衍生）。
+每臂 S1 11h09m（實測 avg_time 0.100）+ S2 ~5.8h，兩臂 ~35h。
+每臂結束後用 `scripts/prune_ema_snapshots.py` 砍到四分位錨點，替後續 MF overlay 讓出空間。
+
+回答的問題：quarter 的主結論（差異只出現在 CLAP、四項 AES 全落在雜訊內）
+是不是 budget-limited。
+
+**⛔ 跑到 S1 it 21,900（5.5%）主動中止，partial exp dir 已刪除**（留著會被 action
+script 的 resume 邏輯靜默續訓）。理由：這個 full 仍然只跑 59,614 列 —— 它是預算對照，
+**必須**是這 59,614 列才算 control，但它因此無法回答覆蓋率那一層，而覆蓋率是三層裡
+唯一真的不公平的。而且預算根本不在結果文件自己列的三個「下一步」裡。改為先把 MF
+caption 補到完整覆蓋，再決定要在多大的語料上跑 full。沉沒成本 38 分鐘。
+Script 與 prune 工具保留（commit `9eaafd9`），語料擴充後可直接重用。
+
+### MF full-coverage recaption（2026-09-06 01:16 起，🟢 RUNNING）
+
+把 MF caption 從 59,614 補到 **c2p0 全量 251,599**，消掉覆蓋率不對稱 —— MF 59,614
+vs Qwen 251,599 是覆蓋率差距不是 caption 品質差距，加再多訓練預算都補不回來。
+
+| | |
+|---|---|
+| 目標 | 251,599（= c2p0 clip 全集） |
+| 已有 | 59,614（paired59k_v2，已驗收） |
+| **backlog** | **191,985** |
+| 預估 | 28–43h（v2 實測 6,750 clips/h，但唯一性集合放大 4× 會拖慢） |
+| tmux | `mf_recap_full` + `mf_recap_watchdog` |
+| log | `~/logs/mf_full_coverage_recaption.log` |
+
+Recipe 與已驗收的 v2 逐字元相同（`short_direct_v2` / `--enforce` / window 77 /
+max-attempts 5 / max-new-tokens 80 / batch 16 / seed 4242），所以新舊兩批合成
+**同質語料**。out_dir 用 v2 的 `caption.jsonl` 播種後 `--resume`：既跳過那 59,614 筆，
+也把它們的 caption 灌進 enforcement 的唯一性集合（啟動時 `seen=54976`），新 caption
+對**全語料**唯一而不只是對彼此唯一。
+
+輸入由 `scripts/preprocess/build_mf_full_coverage_recaption_tsv.py` 產生並記 sha
+（`~/exps_nvme/mf_full_coverage/bindings.json`）：251,599 targets、0 缺 wav、
+已完成的 59,614 全部落在 c2p0 內。
+
+⚠️ **id 正規化陷阱**：c2p0 TSV 的 id 帶 slot 後綴（`..._segment_2_0`），MF/paired 的不帶
+（`..._segment_0`）。直接 set 交集得 **0** 且不拋例外。只能剝一層 `_\d+$`。
+見 memory `reference_c2p0_id_slot_suffix.md`。
+
+**後續**（等 caption 完成）：
+1. `build_single_cap_text_overlay.py` 編 251,599 列 overlay（~76G，NVMe 現有 164G）
+2. audio latent 不必重抽 —— `/mnt/HDD/kojiek/phase8_qwen_official_matched_npz`
+   已有 251,600 檔；但它是 index 命名（`<n>.npz`），必須走 gt_cache mapping，
+   **禁止** row-index → `i.npz`
+3. 覆蓋率對等的 MF vs Qwen（此時才是非殘的比較），再決定 full 預算

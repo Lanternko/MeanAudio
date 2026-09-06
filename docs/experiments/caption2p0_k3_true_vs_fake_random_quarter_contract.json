@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "caption2p0-k3-true-vs-fake-random-quarter-v1",
+  "status": "operator_confirmed_quarter_noq_registered_hold_pending_resume_safe_loader_and_isolated_npz_preflight",
+  "operator_confirmation": {
+    "recorded_at_local_date": "2026-08-22",
+    "scale": "quarter",
+    "queue_action": "append both arms to the tail when their executable entries pass readiness gates",
+    "filler_action": "mark each arm preemptible only after its own pause/resume gates pass",
+    "scientific_priority": 1,
+    "priority_rule": "Priority 2 work must not launch while any Priority 1 work is unfinished."
+  },
+  "operator_intent": "Compare K=3 caption sampling where a caption is redrawn on every audio visit against one randomly selected caption fixed per audio; allow lower-priority training to run as a preemptible GPU filler only when resume is scientifically valid.",
+  "comparison": {
+    "single_variable": "caption_selection_time",
+    "shared_caption_slots": [
+      "slot0",
+      "slot1",
+      "slot3"
+    ],
+    "arms": [
+      {
+        "arm_id": "true_random_k3",
+        "selection": "one of three captions on every dataset visit",
+        "required_implementation": "stateless deterministic draw keyed by immutable seed, epoch, and audio id",
+        "filler_eligibility": "held_until_exact_mid_epoch_resume_equivalence_test_passes"
+      },
+      {
+        "arm_id": "fake_random_k3_fixed_per_audio",
+        "selection": "one of three captions selected once per audio and then fixed",
+        "selection_seed": 14159265,
+        "selection_algorithm": "sha256(k3-fixed-random-v1\\0seed\\0audio_id)[:8] mod 3",
+        "filler_eligibility": "held_until_checkpoint_and_isolated_cache_preflight_pass"
+      }
+    ]
+  },
+  "data": {
+    "audio_count": 251599,
+    "source_manifest": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_fake_random_source_manifest.json",
+    "source_manifest_sha256": "4bb942b0e39b492aa57f7846d8649118e04a06999e408ad389c22326603e9a1a",
+    "id_alignment": "official TSV order and exact ID-set equality",
+    "architecture": "immutable audio latent store plus switchable caption text overlays",
+    "require_text_overlay": true,
+    "shared_npz_mutation_prohibited": true,
+    "caption_switch_operation": "change the TSV and text_npz_dir manifest binding; never rewrite the audio NPZ store",
+    "true_random_cache_requirement": "separate cache with exactly three aligned text embeddings per canonical audio and shared audio latents",
+    "fake_random_cache_requirement": "separate cache with the fixed selected text embedding per canonical audio and shared audio latents"
+  },
+  "training": {
+    "scale": "quarter",
+    "stage1_updates": 100000,
+    "stage2_additional_updates": 50000,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "training_seed": 14159265,
+    "q_conditioning": false,
+    "rationale": "NoQ isolates caption sampling from quality-bucket conditioning; quarter scale matches the recent fair013 comparisons.",
+    "operator_confirmed_scale": true,
+    "q_conditioning_basis": "NoQ remains the preregistered single-variable control from the accepted design."
+  },
+  "future_full_scale_promotion": {
+    "default": "reuse this arm's accepted Stage 1 100k checkpoint and continue to 400k",
+    "saved_updates": 100000,
+    "remaining_stage1_updates": 300000,
+    "cross_arm_checkpoint_reuse_prohibited": true,
+    "gate": "exact same arm, data/overlay, model, optimizer, batch, seed, conditioning, warmup, and schedule through 100k; otherwise start fresh",
+    "legacy_rng_rule": "If the 100k checkpoint lacks RNG state, register an explicit 100k RNG restart boundary and do not claim uninterrupted-from-zero."
+  },
+  "evaluation": {
+    "dataset": "MusicCaps",
+    "expected_count": 5521,
+    "solver": "MeanFlow",
+    "solver_steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "precision": "full",
+    "comparison_metrics": [
+      "FD_PANN",
+      "KL_PANN",
+      "CLAP",
+      "ISC_mean",
+      "ISC_std"
+    ]
+  },
+  "preemptible_filler_contract": {
+    "scientific_priority": 1,
+    "filler_role": "use otherwise-idle GPU time without lowering scientific priority",
+    "preemption": "cooperative_only",
+    "pause_request_behavior": "finish the current optimizer step, atomically save and verify a checkpoint, release the GPU, persist PAUSED, and notify",
+    "resume_requirement": "restore model, optimizer, scheduler, EMA, model RNG, sampler epoch, and exact within-epoch offset",
+    "forbidden": [
+      "SIGKILL as a normal pause mechanism",
+      "declaring paused before checkpoint verification",
+      "mutating a shared caption NPZ cache",
+      "running true-random with worker-local random.randint",
+      "allowing filler work to delay a newly inserted high-priority entry after the next safe checkpoint boundary"
+    ],
+    "handoff": "On operator priority insertion, request pause immediately and launch the inserted entry after verified resource release; preserve this experiment's queue position and checkpoint."
+  },
+  "current_holds": [
+    "The current checkpoint omits RNG and within-epoch sampler progress.",
+    "The current true-random loader uses worker-local random.randint.",
+    "The historical multi-caption extractor writes separate per-caption NPZ files rather than one aligned stacked-caption NPZ per audio.",
+    "An isolated K=3 cache has not yet passed ID/content binding validation.",
+    "The live top-level queue controller remains held on runtime binding drift and must not be bypassed."
+  ],
+  "launch_authorization": {
+    "gpu_launch_allowed": false,
+    "queue_mutation_allowed": false,
+    "next_safe_actions": [
+      "bind and validate the source manifest",
+      "implement deterministic epoch-and-id caption selection and exact mid-epoch resume",
+      "build isolated caches and run byte/content binding probes",
+      "run interrupted-versus-uninterrupted equivalence tests",
+      "register executable HARN entries before queue insertion"
+    ]
+  },
+  "launch_allowed": false
+}

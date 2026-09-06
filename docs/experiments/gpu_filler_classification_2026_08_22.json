@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "document_kind": "gpu_filler_classification",
+  "recorded_at_local_date": "2026-08-22",
+  "operator_policy": "Use eligible lower-priority training as cooperative preemptible filler and return the GPU at a verified checkpoint when higher-priority work is inserted.",
+  "live_queue_review": [
+    {
+      "experiment_id": "phase8-caption2p0-full-k3-s2q",
+      "live_position": 7,
+      "scientific_priority": 2,
+      "classification": "preserved_priority_2_not_filler_until_recontracted",
+      "reason": "preserve rather than retire; launch is blocked while any Priority 1 item is unfinished, and the current contract is superseded_pending_cfg0_recontract"
+    },
+    {
+      "experiment_id": "phase8-caption2p0-full-k5-s2q",
+      "live_position": 8,
+      "scientific_priority": 2,
+      "classification": "preserved_priority_2_not_filler_until_recontracted",
+      "reason": "preserve rather than retire; launch is blocked while any Priority 1 item is unfinished, and the current contract is superseded_pending_cfg0_recontract"
+    }
+  ],
+  "new_candidates": [
+    {
+      "experiment_id": "caption2p0-k3-fake-random-quarter-noq",
+      "planned_order": 1,
+      "scientific_priority": 1,
+      "classification": "filler_candidate_held",
+      "promotion_gate": "isolated cache binding plus checkpoint resume test"
+    },
+    {
+      "experiment_id": "caption2p0-k3-true-random-quarter-noq",
+      "planned_order": 2,
+      "scientific_priority": 1,
+      "classification": "filler_candidate_held",
+      "promotion_gate": "stateless caption draw plus exact mid-epoch interrupted/uninterrupted equivalence"
+    }
+  ],
+  "priority_policy": "All work other than the preserved Full K3/K5 S2Q entries is Priority 1. Full K3/K5 S2Q are Priority 2 and cannot run until every Priority 1 item is terminal-complete.",
+  "live_queue_mutated": false,
+  "reason": "Fail-closed controller binding drift and no approval-bound executable entries yet."
+}

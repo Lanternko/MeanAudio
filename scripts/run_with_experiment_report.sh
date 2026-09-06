@@ -14,6 +14,7 @@ EXPERIMENT=
 REPORT=
 LOG=
 SUMMARY=
+GPU_RELEASED=false
 
 while [ "$#" -gt 0 ]; do
     case "$1" in
@@ -32,6 +33,10 @@ while [ "$#" -gt 0 ]; do
         --summary)
             SUMMARY="${2:?--summary requires a value}"
             shift 2
+            ;;
+        --gpu-released)
+            GPU_RELEASED=true
+            shift
             ;;
         --)
             shift
@@ -70,6 +75,7 @@ notify_once() {
     )
     [ -n "$REPORT" ] && args+=(--report "$REPORT")
     [ -n "$LOG" ] && args+=(--log "$LOG")
+    [ "$GPU_RELEASED" = true ] && args+=(--gpu-released)
     if [ "$notification_sent" = false ]; then
         notification_sent=true
         "$NOTIFIER" "${args[@]}" || {

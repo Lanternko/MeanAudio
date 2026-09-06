@@ -79,7 +79,15 @@ def tmux_running() -> bool:
 
 def queue_processes() -> list[str]:
     lines = command_lines(["ps", "-eo", "pid,etime,pcpu,pmem,args", "--no-headers"])
-    return [line[:1000] for line in lines if "phase8_qwen_s2q_from_noq" in line][:20]
+    # This watcher owns only the completed quarter-scale backlog.  Do not
+    # fingerprint unrelated full-scale continuations whose names share the
+    # generic S2Q prefix; doing so caused false stale incidents and repeated
+    # Discord alerts while a valid full run was training.
+    return [
+        line[:1000]
+        for line in lines
+        if "phase8_qwen_s2q_from_noq_quarter_" in line
+    ][:20]
 
 
 def report_state(arm: str) -> dict[str, Any]:

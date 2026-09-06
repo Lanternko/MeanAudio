@@ -24,6 +24,13 @@ weights: null
 # weights: null
 
 checkpoint: null
+# Cooperative filler pause. When this path exists, training finishes the
+# current optimizer step, atomically checkpoints, writes <path>.ack.json, and
+# exits without synthesizing a final EMA artifact.
+pause_request_file: null
+# New primary experiments must keep caption features outside immutable audio
+# NPZ files and set this true. False exists for labeled historical reproduction.
+require_text_overlay: False
 
 seed: 14159265
 num_workers: 10 # per-GPU

@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "document_kind": "operator_queue_entry_proposal",
+  "experiment_id": "caption2p0-fair013-worstof3-full-noq-filler-v1",
+  "run_id": "run-20260822-caption2p0-fair013-worstof3-full-noq-filler-v1",
+  "scientific_priority": 1,
+  "status": "preregistered_held_for_overlay_migration_and_harn_preflight",
+  "approval_status": "pending_exact_executable_binding",
+  "requested_queue_action": "append_to_priority_1_tail",
+  "filler_class": "cooperative_preemptible_candidate",
+  "contract": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_fair013_worst_full_filler_contract.json",
+  "ordering_dependencies": [],
+  "queue_semantics": "Append at the Priority 1 tail. If earlier Priority 1 entries are temporarily readiness-blocked and this filler is eligible, the controller may scan forward and run it; this does not reorder or remove the earlier entries.",
+  "launch_allowed": false
+}

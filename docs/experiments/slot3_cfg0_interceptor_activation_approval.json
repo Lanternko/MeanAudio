@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "document_kind": "slot3_cfg0_interceptor_activation_approval",
+  "readiness_unit_id": "slot3-cfg0-priority-interception-registration-v1",
+  "approval_status": "retired_without_activation",
+  "retirement_record": "/home/kojiek/MeanAudio/docs/experiments/cfg0_pending_retirement_2026_08_22.json",
+  "operator_approval_sha256": null,
+  "approved_plan_sha256": "9625b76d2da5f63b9fbe7c5dc128548f7e75f27cb4f09925ffd39aff1baa075d",
+  "security_review_sha256": "8509c0ba82b87b0f123429b57fc91f9b88af02399eb8489f47444fc24090f7e4",
+  "runtime_manifest_sha256": "ad8e6fc63961cd024c3445855edd5a721bd4470348e84c8ba2d1d0c031de8f6b",
+  "replacement_hook_sha256": "f75c6e51bc5be10e25948e7075786c365c8c376e665cbb5d13777b51a88a6ff7",
+  "rollback_failclosed_sha256": "08f919e830181d6aadef10cf9e21fa6f3b1959596a8c455f0a16177a2e5ff10a",
+  "historical_preimage_sha256": "9fa92b2a232ed33dea61f7d6f19c4b7d3c3d201dacabfc5f9e1d3ffbb81e8d14",
+  "template_file_sha256": "f9581f79e23a6045bc3ea801b0efd6d60bdaece8b56ad355f4b63016fbf93047",
+  "priority_order_file_sha256": "212ccfb78547109ada96067b632c876158a3ff1767d6c74ef703493858fdb4fc",
+  "operator_instruction_sha256": "856fa3e59a4e5054e3da47e7056e3ad7dd0a53c97e6bb3277efa4d8394fa0532",
+  "caller": {
+    "pid": 3413396,
+    "uid": 1005,
+    "start_ticks": 185217549,
+    "boot_id": "bdf33f4f-5fd4-45ea-8f7c-6281f73c367d",
+    "executable": "/usr/bin/bash",
+    "argv": [
+      "/bin/bash",
+      "/home/kojiek/research/meanaudio_training/caption10s_pipeline/run_c2p0_fair013_chain.sh"
+    ],
+    "script_fd": 255,
+    "script_device": 66306,
+    "script_inode": 9867918,
+    "script_sha256": "225a40eaee381482af8c803bfd3a9dc5bdd3d4270ea2c3a996432765ee52a02f"
+  },
+  "mappings": [
+    {
+      "sequence": 1,
+      "arm_id": "fair013_k3_q9",
+      "legacy_label": "phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg4p5_q9",
+      "canonical_label": "phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg0_q9",
+      "legacy_conditioning_argv": ["--quality_level", "9"],
+      "canonical_conditioning": "q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000_ema_final.pth",
+      "resolved_contract": "resolved_contracts/01_fair013_k3_q9.json"
+    },
+    {
+      "sequence": 2,
+      "arm_id": "fair013_best_noq",
+      "legacy_label": "phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg4p5_noq",
+      "canonical_label": "phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "legacy_conditioning_argv": ["--no_q"],
+      "canonical_conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000_ema_final.pth",
+      "resolved_contract": "resolved_contracts/02_fair013_best_noq.json"
+    },
+    {
+      "sequence": 3,
+      "arm_id": "fair013_worst_noq",
+      "legacy_label": "phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg4p5_noq",
+      "canonical_label": "phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "legacy_conditioning_argv": ["--no_q"],
+      "canonical_conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000_ema_final.pth",
+      "resolved_contract": "resolved_contracts/03_fair013_worst_noq.json"
+    }
+  ],
+  "allowed_writes": [
+    "/home/kojiek/slot3_cfg0_interceptor",
+    "/home/kojiek/research/meanaudio_training/caption10s_pipeline/eval_musiccaps_mf25.sh"
+  ],
+  "notification_behavior": {
+    "event": "held",
+    "one_delivered_idempotent_event_required_per_exact_registration": true,
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "webhook_secret_in_argv_or_artifacts": false,
+    "failure_returns_to_outer_hook_loop": true
+  },
+  "boundary": {
+    "gpu_minutes": 0,
+    "live_queue_mutation": false,
+    "historical_evaluator_execution": false
+  },
+  "activation_gates": [
+    "final root approval changes approval_status to approved and supplies the exact approval digest",
+    "all no-GPU fixtures pass against these exact bytes",
+    "live caller fingerprint still matches",
+    "live evaluator still matches the historical preimage",
+    "separate approval remains required before any GPU evaluation"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "document_kind": "preregistered_nvme_stage_contract",
+  "schema_version": 1,
+  "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-nvme-stage",
+  "run_id": "run-20260815-rmatched-matrix-nvme-stage1",
+  "scientific_role": "Lossless storage staging prerequisite; no corpus, metric, queue-order, or scientific parameter change.",
+  "approval_requirement": {
+    "status": "required_unconsumed_exact_record",
+    "queue_and_record_hmac_authenticated": true,
+    "must_bind_exact_contract_run_controller_entry_and_channel_record": true,
+    "direct_stage_or_reconcile_without_one_use_capability": "reject before mutation",
+    "auth_root_preprovisioning": "Before exact queue approval, the operator must provision the 0700 state root plus exact 0600 child-ledger key and lock descriptor; unapproved init never creates them."
+  },
+  "source_manifest": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/rmatched_matrix_nvme_stage_source_manifest.json",
+    "sha256": "bbfcaf3c6b327d6884b33e561d805db2fce9b19dc9dcfb0b130c31cb2099b4dc",
+    "file_count": 5522,
+    "total_bytes": 1188061040,
+    "read_only_resolved_root": "/mnt/HDD/kojiek/MeanAudio_eval_output",
+    "all_source_hashes_must_match_before_and_after": true
+  },
+  "destination": {
+    "final": "/home/kojiek/nvme_experiment_artifacts/meanaudio/eval_output",
+    "same_ext4_staging": "/home/kojiek/nvme_experiment_artifacts/meanaudio/.eval_output.stage-run-20260815-rmatched-matrix-nvme-stage1",
+    "durable_journal": "/home/kojiek/logs/rmatched_matrix_nvme_stage_harn/transaction.json",
+    "completion_report": "/home/kojiek/logs/rmatched_matrix_nvme_stage_harn/stage_report.json",
+    "final_precondition": "absent or exact manifest-verified destination",
+    "fsync": "every copied file, created/renamed directory, journal, report, and final parent"
+  },
+  "security": {
+    "recursive_symlinks_nonregular_and_nlink_not_one": "reject",
+    "legacy_hdd_eval_output_in_writable_capability": "reject even through symlink resolution",
+    "writable_roots": [
+      "/home/kojiek/nvme_experiment_artifacts",
+      "/home/kojiek/logs/rmatched_matrix_nvme_stage_harn"
+    ],
+    "environment": "fixed PATH; -X pycache_prefix=/dev/null -B -I -S; PYTHONDONTWRITEBYTECODE=1; no inherited PYTHONPATH/LD_LIBRARY_PATH/fault variables",
+    "unresolved_AUTH_ROOT": "A malicious same-UID process or signer with local HMAC key access can forge authorization or race mutable bytes. Close with isolated ownership, immutable source snapshots, and an external asymmetric signer.",
+    "dual_authority_recovery": {
+      "plan_fingerprint": "a765708d51f72627b40308b1871737ea531f5ff01104bf8dbc68e065be06d9b6",
+      "mode": "all_of",
+      "scientific_execution_channel_record_sha256": "c6b74e4e13b7af2915cc2496ffda47e3c1c60eb9d05bba4bf401e705cc766f9a",
+      "binding_recovery_channel_record_sha256": "983aaa0998ff409fafc7f2f0b293a1b87f8008dd92187054f7f7e2a5140f3893",
+      "hmac_domains_must_be_distinct": true,
+      "old_canonical_binding_baseline_only": "03b3cc4bc54150e4fb8c698e70f8fbb365e56181cbe33b80150f2e3becebd178",
+      "lock_lease": "top_controller -> queue_mutation -> stage_controller -> repair2_controller -> continuation_controller; O_NOFOLLOW same-FD LOCK_EX|LOCK_NB descriptors remain held through every guarded action; top-spawned children inherit duplicates of the same locked open-file descriptions"
+    }
+  },
+  "implementation": {
+    "stager": "/home/kojiek/MeanAudio/scripts/stage_rmatched_matrix_nvme.py",
+    "stager_sha256": "580b737ad5e1a7a8029a4cdea8a799382be1120800169bc1a124f557be35f633",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/rmatched_matrix_nvme_stage_harn.py",
+    "harn_sha256": "c84eb91866f167e9048987c91c4b2621f161240ffec7a68cf79b9a2436799704",
+    "selftest": "/home/kojiek/MeanAudio/scripts/tests/selftest_rmatched_matrix_nvme_stage.py",
+    "selftest_sha256": "876b8bfc722904f271d0a5fdc245f3f2da198990f9540bbc6c94b6cae0cfceb6",
+    "bundle_validator": "/home/kojiek/MeanAudio/scripts/validate_experiment_harness_documents.py",
+    "bundle_validator_sha256": "930f412761ed23561ec9dbb93ac4103a84979bd715655b4822dcfd3a122bd7dc",
+    "completion_validator": "/home/kojiek/MeanAudio/scripts/validate_rmatched_matrix_nvme_stage_bundle.py",
+    "completion_validator_sha256": "345408fe1a8e0ccc3d1bd45487c261451d63d9ed40208e0bbf73bc44102d4a48",
+    "shared_harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/qwen_s2q_k_mf25_harn.py",
+    "shared_harn_sha256": "12ac642659f3f2671b46d3f2ee82b61b76fa8b841079ca40a595fc0aa301e918",
+    "recovery_validator": "/home/kojiek/MeanAudio/scripts/dual_authority_recovery_v3.py",
+    "recovery_validator_sha256": "ffff8ff4bb8b260db378800296d5202c80784094f620a4deaaf0c2b44f466c19",
+    "lifecycle": "shared-HARN ready -> active -> completed/held/failed with HMAC ledger and terminal bundle; notification delivery is idempotently persisted"
+  },
+  "runtime": {
+    "manifest": "/home/kojiek/MeanAudio/docs/experiments/rmatched_repair2_runtime_manifest.json",
+    "manifest_sha256": "8c666f5d2c2020f3884b5a77a9b912c073cad07ce08a08082754486a638bb871",
+    "verifier": "/home/kojiek/MeanAudio/scripts/experiment_harness/runtime_binding.py",
+    "verifier_sha256": "c95df0f1232e1c2855cfeadf2d848b6adab2c647d66e8d0fdd8fae9331a4e63d",
+    "required_roles": ["system_python", "system_stdlib", "system_native_runtime", "recovery_validator", "stage_bundle_validator"]
+  },
+  "report_validator": {
+    "argv": [
+      "/usr/bin/python3.12",
+      "-X",
+      "pycache_prefix=/dev/null",
+      "-B",
+      "-I",
+      "-S",
+      "/home/kojiek/MeanAudio/scripts/stage_rmatched_matrix_nvme.py",
+      "validate-report"
+    ],
+    "contract_descriptor_argv": [
+      "/usr/bin/python3.12",
+      "/home/kojiek/MeanAudio/scripts/stage_rmatched_matrix_nvme.py",
+      "validate-report"
+    ],
+    "bindings": [
+      {"path": "/usr/bin/python3.12", "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"},
+      {"path": "/home/kojiek/MeanAudio/scripts/stage_rmatched_matrix_nvme.py", "sha256": "580b737ad5e1a7a8029a4cdea8a799382be1120800169bc1a124f557be35f633"}
+    ],
+    "missing_or_drifted": "fail closed"
+  },
+  "completion_validator": {
+    "argv": [
+      "/usr/bin/python3.12",
+      "-X",
+      "pycache_prefix=/dev/null",
+      "-B",
+      "-I",
+      "-S",
+      "/home/kojiek/MeanAudio/scripts/validate_rmatched_matrix_nvme_stage_bundle.py"
+    ],
+    "bindings": [
+      {"path": "/usr/bin/python3.12", "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"},
+      {"path": "/home/kojiek/MeanAudio/scripts/validate_rmatched_matrix_nvme_stage_bundle.py", "sha256": "345408fe1a8e0ccc3d1bd45487c261451d63d9ed40208e0bbf73bc44102d4a48"}
+    ],
+    "requires": "exact signed queue/approval entry, completed four-document bundle, child-ledger HMAC, delivered terminal notification, consumed exact approval, and exact report validation",
+    "missing_or_drifted": "fail closed"
+  },
+  "crash_reconciliation": [
+    "copy_started",
+    "during_copy",
+    "staged_verified",
+    "final_renamed",
+    "completed"
+  ]
+}

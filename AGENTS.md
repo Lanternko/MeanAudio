@@ -3,84 +3,116 @@
 These rules apply to every agent, watcher, supervisor, and experiment launched
 from this repository.
 
-## Shared-host safety is a hard constraint
+## Operating priorities
 
-- This is a multi-user experiment host. Never reboot, shut down, suspend, change
-  the system runlevel, reload/unload kernel modules, or restart shared GPU/system
-  services on an agent's own authority.
-- Never stop, signal, renice, reconfigure, or otherwise interfere with a process
-  owned by another user or outside the explicitly assigned experiment.
-- Do not use `sudo`, system-wide package changes, `systemctl`, `modprobe`,
-  `rmmod`, or global driver/library replacement as an experiment repair.
-- A reboot or shared-service interruption always requires explicit coordination
-  and approval from the host operators and affected users. Do not recommend it
-  as the default fix when a process-local workaround is possible.
-- Prefer reversible, process-local remedies: scoped environment variables,
-  workspace-local libraries, unique ports, resume-safe wrappers, and isolated
-  worktrees. Validate the remedy without launching a duplicate experiment.
+The goal is to keep a preregistered sequence of scientifically valid experiments
+running reliably with minimal avoidable GPU idle time. Priority is strict:
 
-## Watchers must close the repair loop
+1. shared-host and user safety;
+2. scientific validity, provenance, and explicit authorization;
+3. recoverability, storage safety, and required notification delivery;
+4. continuous execution and GPU utilization.
 
-A watcher is not merely an alarm. Its goal is to keep an authorized experiment
-running continuously without routine human intervention while preserving the
-scientific contract and shared-host safety.
+Never run an invalid, unapproved, duplicate, or resource-conflicting experiment
+merely to keep a GPU busy. A policy-required hold is correct behavior; record it,
+notify it, and preserve the next safe action.
 
-1. Deterministic local monitoring detects and fingerprints a new incident.
-   Healthy or unchanged checks use no LLM tokens.
-2. Preserve bounded evidence: current contract, process state, relevant status
-   JSON, and at most 100 relevant log lines.
-3. For a repairable incident, assign a low-cost model to diagnose and implement
-   a minimal fix in an isolated worktree or otherwise disjoint write scope.
-4. Run syntax, unit, preflight, and non-invasive runtime checks. The repair must
-   not alter data, seed, hyperparameters, queue order, or metric definitions.
-5. Submit the exact diff/commit, evidence, tests, rollback, and proposed resume
-   command to a Codex review model at Tera tier or above. No repair may touch
-   the live run or resume execution until an eligible reviewer returns an
-   explicit approval tied to that exact revision. Explicit authorization from
-   the responsible human experiment operator is equivalent approval.
-6. After approval, apply only the approved repair and command. Resume the same
-   experiment contract; never start a competing copy.
-7. Re-run the deterministic monitor and require evidence specific to the failed
-   phase: a new iteration/checkpoint for training, or newly valid metrics/final
-   report with matching provenance for evaluation/reporting. The original hard
-   incident must also disappear. Never accept a stale training iteration as
-   recovery from an evaluation incident. Roll back the process-local repair if
-   validation fails, then escalate the new fingerprint instead of looping
-   blindly.
+## Shared-host safety
 
-## One-shot repair transaction
+- Without explicit host-operator authorization, do not perform actions that
+  affect shared host services, drivers, kernels, system packages, or another
+  user's processes.
+- Never reboot, suspend, stop shared GPU services, or signal an unrelated
+  process as an experiment repair.
+- Prefer reversible, process-local changes, workspace-local dependencies,
+  isolated worktrees, unique ports, and resume-safe commands.
+- Do not start a competing copy of an experiment or interfere with resources
+  outside the assigned contract.
 
-- The incident fingerprint is the transaction key. Persist its state and acquire
-  the controller lock before launching any model.
-- For one fingerprint, launch at most one low-cost repair agent and at most one
-  Tera-or-higher review. Never open a second agent, resume an agent, or resend the same
-  context for that fingerprint.
-- The repair agent must finish diagnosis, minimal patch, tests, contract check,
-  clean commit, diff hash, rollback command, and exact proposed command in one
-  invocation. Tera-or-higher review is forbidden until every item is present and locally
-  validated.
-- A timeout, malformed report, failed test, or Tera-or-higher `revise`/`reject` is a closed
-  transaction requiring human review. Do not automatically retry or create a
-  replacement agent. Only a materially new local fingerprint may start a new
-  transaction.
-- The eligible reviewer receives only the bounded evidence, repair report, exact revision, diff
-  hash, and commands. It must not be used to finish an incomplete repair or as
-  an iterative debugging partner.
+## Scientific contract
 
-Automatic repair is limited to reversible changes within the assigned
-experiment. Destructive actions, scientific-contract changes, system-wide
-changes, shared-service changes, and actions affecting other users require
-human approval.
+- Data, corpus contents, seeds, hyperparameters, queue order, metrics,
+  thresholds, and comparison rules are immutable after launch unless the
+  responsible operator explicitly approves a new contract.
+- Every long-running corpus build, training run, evaluation, and experiment
+  chain requires a preregistered machine-readable contract and state machine.
+- Shell and Python drivers are implementations, not sources of truth. Logs and
+  `.done` files are diagnostic hints, not proof of a completed gate.
+- Generated-corpus work must fail closed and conform to
+  `docs/experiments/generated_corpus_policy.md`.
 
-## Model and token policy
+### Canonical evaluation protocol
 
-- Routine polling is local Python/shell only.
-- Healthy/unchanged checks use zero model calls. A new fingerprint gets at most
-  one low-cost repair call plus one Tera-or-higher review; a stop-only candidate gets one Tera-or-higher
-  call and no repair call.
-- Never use `subagent_resume`, periodic LLM schedulers, or repeated context
-  replay for monitoring. Persist fingerprints, call counts, stage, verdict, and
-  report hashes locally so a controller restart continues locally.
-- Suppress repeated identical incidents indefinitely until a materially new
-  fingerprint or explicit operator action; do not spend tokens proving the same
-  incident again.
+- Every new primary or fair-comparison evaluation uses MusicCaps 5,521,
+  MeanFlow, 25 solver steps, literal `cfg_strength=3`, the fidelity negative
+  prompt registered in `docs/experiments/evaluation_policy.md`, generation seed
+  42, NoMask, and full precision unless the responsible operator explicitly
+  approves a separately named secondary protocol.
+- CFG 0 and CFG 4.5 results are historical protocol artifacts. Preserve their
+  labels and provenance, but never use them as the new canonical comparator or
+  silently relabel/reuse them as CFG 3 + negative prompt.
+- Every result label, report, contract, and command manifest must encode the
+  resolved CFG value and negative-prompt identity. A new canonical entry whose
+  resolved protocol is not MusicCaps 5,521 / MeanFlow 25 / CFG 3 / registered
+  fidelity negative prompt must fail closed before GPU launch.
+- This protocol revision applies only to evaluations registered after
+  2026-08-31T18:13:35+08:00. Already launched or queue-registered contracts keep
+  their preregistered protocol and order unless the responsible operator
+  explicitly authorizes a replacement contract.
+- The detailed contract is `docs/experiments/evaluation_policy.md`.
+
+## Harness and continuous queue
+
+Every long run must conform to
+`docs/experiments/experiment_notification_policy.md`. Before launch and before
+each compute/storage expansion, verify the scientific design, commands and
+configs, data and artifact provenance, harness branches, resume behavior,
+notification delivery, and byte-level capacity on every writable filesystem.
+
+Keep one durable, executable queue of operator-approved experiments. A backlog
+file without a live controller, registered launcher, and terminal-to-next
+transition is not an experiment queue. The controller must prepare the next
+eligible run before the current run ends and launch it immediately after the
+current terminal notification and resource release, subject to that next run's
+own preflight, resource lock, storage, provenance, and notification gates.
+
+Queue mutation rules are mandatory:
+
+- A newly approved experiment is appended to the tail by default. New ideas do
+  not replace, cancel, or silently reorder already approved work.
+- An experiment moves ahead only when the responsible operator explicitly says
+  to prioritize, insert, or interrupt. Record the instruction and resulting
+  order durably before launch.
+- Priority insertion is temporary ordering, not queue truncation. After the
+  inserted work reaches a terminal state, the controller must immediately
+  resume the preserved remainder in its recorded order.
+- Completion, failure, or interruption of one entry must always cause an atomic
+  queue transition: persist terminal evidence, deliver the required event,
+  release owned resources, select the next eligible entry, and either launch it
+  or persist and notify the exact hold reason. A controller may not exit merely
+  because one entry completed while approved successors remain.
+- Queue ordering and scientific dependency are different contracts. An
+  `ordering_dependency` is satisfied by any verified terminal state, including
+  failure or interruption; a scientific `dependency` is satisfied only by a
+  verified successful completion. A failed entry must never deadlock the whole
+  queue: skip science-blocked entries, launch the first later eligible entry,
+  and keep every blocked entry durably visible with its exact reason.
+- A child failure may terminate that child HARN, but it must not terminate the
+  top-level queue controller. Resource waits and retryable launch holds remain
+  pollable states and must not be converted into permanently ineligible entries.
+- Every queued entry must have an approved scientific contract, an executable
+  HARN launcher/state source, dependency metadata, and a tested resume path
+  before it can be considered prepared. The controller must surface an
+  unprepared next entry while the current run is still active.
+
+Experiment start, completion, failure, interruption, queue handoff, unexpected
+GPU idle, stall, disk warning/hard stop, every gate result, and every
+promote/stop/hold decision require idempotent Discord events.
+
+## Watchers and recovery
+
+Every long run must conform to `docs/experiments/watcher_policy.md`. Healthy or
+unchanged polling uses deterministic local monitoring and zero model calls.
+Persist incident fingerprints, notification state, controller locks, and
+phase-specific recovery evidence so restarts neither repeat actions nor lose
+events.

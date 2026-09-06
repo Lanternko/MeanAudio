@@ -1,0 +1,4 @@
+interface:
+  display_name: "Grok Watcher"
+  short_description: "Monitor experiments with one-shot repair review"
+  default_prompt: "Use $grok-watcher with local polling, one repair agent, and one final SOL review per incident."

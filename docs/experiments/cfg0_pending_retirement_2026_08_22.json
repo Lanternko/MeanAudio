@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "document_kind": "pending_experiment_retirement_record",
+  "recorded_at": "2026-08-22T13:22:24+08:00",
+  "operator_instruction": "Retire the four-cell CFG0 rerun and the three slot3 CFG0 pending evaluations; do not rerun them.",
+  "disposition": "retired_completed_via_retrospective_evidence_no_gpu_rerun",
+  "comparison_evidence": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/results/phase8/cfg0_retrospective_evidence_2026_08_22.json",
+    "sha256": "9eccf627c64e89d66845e172dbbf65a13b5c264e425eeb42347c402dd25a2292",
+    "accepted_cells": 9,
+    "classification": "retrospective_operationally_complete_comparable"
+  },
+  "retired_work": [
+    {
+      "kind": "four_cell_cfg0_rerun_proposal",
+      "experiment_id": "phase8-caption2p0-quarter-mf25-cfg0-rerun",
+      "cells": ["caption2p0", "bestof3", "worstof3", "qwen3cap_k3_q9"],
+      "former_proposal_path": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_quarter_cfg0_queue_entry.pending.json",
+      "former_proposal_sha256": "22d779768e992c7cb365581b695fb0158133a4cda7db370bfec5ddba69a49085"
+    },
+    {
+      "kind": "slot3_cfg0_pending_evaluations",
+      "readiness_unit_id": "slot3-cfg0-priority-interception-registration-v1",
+      "cells": ["fair013_k3_q9", "fair013_best_noq", "fair013_worst_noq"],
+      "former_priority_order_path": "/home/kojiek/MeanAudio/docs/experiments/slot3_cfg0_priority_order.pending.json",
+      "former_priority_order_sha256": "212ccfb78547109ada96067b632c876158a3ff1767d6c74ef703493858fdb4fc"
+    }
+  ],
+  "queue_effect": {
+    "enqueue_prohibited": true,
+    "gpu_rerun_requested": false,
+    "live_authenticated_queue_mutated": false,
+    "historical_reports_and_metrics_preserved": true
+  }
+}

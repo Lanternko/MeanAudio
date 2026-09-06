@@ -1,0 +1,634 @@
+{
+  "cells": [
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-09T23:01:48.333326+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_quarter_stage2_50000/phase8_qwen_caption10s_multisent_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "e9d22dd545e9b6214a02f72b63a6c1afa287996b463130a5f6816948fc0eadc9",
+          "size_bytes": 482120421
+        },
+        "eval_log": {
+          "mtime": "2026-08-20T20:29:23.572735+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg0_noq_eval.log",
+          "sha256": "238d991a17e6a568c85a0033461ef97aadf2971dd4caaccf50302bcdf8f2367a",
+          "size_bytes": 3791880
+        },
+        "metrics": {
+          "mtime": "2026-08-20T20:29:23.570000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg0_noq/metrics.txt",
+          "sha256": "898fdbb75d088a9ee812106d78cb774a31b6ef99d47b021c970046837dc97c05",
+          "size_bytes": 490
+        },
+        "report": {
+          "mtime": "2026-08-20T20:29:25.105241+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+          "sha256": "deb825d767aa3bd8bccf35991e3a8a48c416c62339ac74c79ebfdf81395cd156",
+          "size_bytes": 862
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-20T20:29:25.105132+00:00",
+      "conditioning": "no_q",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': True, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg0_noq/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_quarter_stage2_50000/phase8_qwen_caption10s_multisent_noq_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption10s_multisent_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "metrics": {
+        "aes_CE": 6.1185,
+        "aes_CU": 6.7031,
+        "aes_PC": 5.035,
+        "aes_PQ": 6.5364,
+        "clap_score": 0.2029
+      },
+      "preregistration": {
+        "available": true,
+        "checkpoint_sha256_matches": true
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-18T03:27:51.729139+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_bestof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_bestof3_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "b6bf7a5731192621ab7bac5b520d2bc13be0d07f978c192e19fd342003eefb90",
+          "size_bytes": 482119875
+        },
+        "eval_log": {
+          "mtime": "2026-08-20T21:00:18.249085+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq_eval.log",
+          "sha256": "21a2c847b5b0510c7baebbec760e5f6e844a48adcb8c3b2970604bb7ff41d59e",
+          "size_bytes": 3772221
+        },
+        "metrics": {
+          "mtime": "2026-08-20T21:00:18.240000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq/metrics.txt",
+          "sha256": "e2da8e2eb1509af4ac137b24ac0f6cd94aafeceef4ac76c4fdaacd1f6580aab2",
+          "size_bytes": 486
+        },
+        "report": {
+          "mtime": "2026-08-20T21:00:20.089483+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+          "sha256": "680afd190b2a7716244e2029ee53866726e19f79bdf5e8c80c44c1cebff8ee12",
+          "size_bytes": 855
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-20T21:00:20.089373+00:00",
+      "conditioning": "no_q",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': True, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_bestof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_bestof3_noq_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "metrics": {
+        "aes_CE": 6.2368,
+        "aes_CU": 6.7327,
+        "aes_PC": 5.1212,
+        "aes_PQ": 6.5316,
+        "clap_score": 0.2129
+      },
+      "preregistration": {
+        "available": true,
+        "checkpoint_sha256_matches": true
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-21T04:55:02.095893+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "6498d7b82fc32b5ee11da83c0d3e72257f97929cd77754b6dd507d7c2ba6afbe",
+          "size_bytes": 482134475
+        },
+        "eval_log": {
+          "mtime": "2026-08-21T05:16:06.100705+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq_eval.log",
+          "sha256": "067d845cfc858f47b55c80a10de5cf949bb247504776df652c4ba883a261a268",
+          "size_bytes": 3766423
+        },
+        "metrics": {
+          "mtime": "2026-08-21T05:16:06.100000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq/metrics.txt",
+          "sha256": "9d87650c7d66c306f35cd22234f13b8613cfa8620dab2b56b30c67bb0753e4f1",
+          "size_bytes": 502
+        },
+        "report": {
+          "mtime": "2026-08-21T05:16:07.137316+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+          "sha256": "027330a818924709720f02584082fb7f8bdc69166a682d499b9965685f4bf9c2",
+          "size_bytes": 886
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-21T05:16:07.135446+00:00",
+      "conditioning": "no_q",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': True, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "metrics": {
+        "aes_CE": 6.2046,
+        "aes_CU": 6.6693,
+        "aes_PC": 5.149,
+        "aes_PQ": 6.4793,
+        "clap_score": 0.2114
+      },
+      "preregistration": {
+        "available": false,
+        "checkpoint_sha256_matches": null
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-20T19:03:06.971328+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000_ema_final.pth",
+          "sha256": "e78e833b0872d00b514f5168d4682506b61741f35e4f8550cbbb24011ec56219",
+          "size_bytes": 482134475
+        },
+        "eval_log": {
+          "mtime": "2026-08-20T19:24:02.009428+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg0_q9_eval.log",
+          "sha256": "3d22ca9ea4f8413dd6fb12a2a5a5da765ca0c7ad64631bb97c13c1855db1aa42",
+          "size_bytes": 3712046
+        },
+        "metrics": {
+          "mtime": "2026-08-20T19:24:02+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg0_q9/metrics.txt",
+          "sha256": "a90b1e61dc9cc7c40576ef9af659dad3f0a6fa7a737a2ec25a2bda4d9f020906",
+          "size_bytes": 482
+        },
+        "report": {
+          "mtime": "2026-08-20T19:24:03.101438+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg0_q9_REPORT.json",
+          "sha256": "3d9c657c3de4c3f06496e6686f2ed3c2f2b661d427b1b1fbcc04d2c5cb2fbed7",
+          "size_bytes": 866
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-20T19:24:03.100148+00:00",
+      "conditioning": "q9",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': False, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg0_q9/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg0_q9",
+      "metrics": {
+        "aes_CE": 5.931,
+        "aes_CU": 6.4984,
+        "aes_PC": 5.2635,
+        "aes_PQ": 6.3988,
+        "clap_score": 0.1966
+      },
+      "preregistration": {
+        "available": false,
+        "checkpoint_sha256_matches": null
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-21T16:16:51.721628+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "386ee8cb2105a79331ede2d64389cceedd085f6ab30250abd5e26f1a54b9189b",
+          "size_bytes": 482134684
+        },
+        "eval_log": {
+          "mtime": "2026-08-21T16:37:20.408579+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq_eval.log",
+          "sha256": "c60d0e49bde1ac46c7a84a5f88d7ba5f37c944345e375694119b35b480964117",
+          "size_bytes": 3771803
+        },
+        "metrics": {
+          "mtime": "2026-08-21T16:37:20.400000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq/metrics.txt",
+          "sha256": "18ee6c37a5b6538018f6ee7bfc73297042b1ea651d0c703cf2dfbeec09d5894b",
+          "size_bytes": 504
+        },
+        "report": {
+          "mtime": "2026-08-21T16:37:21.510391+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+          "sha256": "c4f43406783695e82d7283a07026b87a6861bfda9c1cf8248aca25a8c9c95b3d",
+          "size_bytes": 891
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-21T16:37:21.508487+00:00",
+      "conditioning": "no_q",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': True, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "metrics": {
+        "aes_CE": 6.4061,
+        "aes_CU": 6.8835,
+        "aes_PC": 5.2172,
+        "aes_PQ": 6.6789,
+        "clap_score": 0.1985
+      },
+      "preregistration": {
+        "available": false,
+        "checkpoint_sha256_matches": null
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-17T16:57:34.618129+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_qwen3cap_k3_balanced_quarter_stage2_50000/phase8_qwen_caption2p0_qwen3cap_k3_balanced_quarter_stage2_50000_ema_final.pth",
+          "sha256": "78f6876fcbdd115a7b9124862bcadd798836e9e935cfde31b91f7b5c368a5f15",
+          "size_bytes": 482134684
+        },
+        "eval_log": {
+          "mtime": "2026-08-20T22:03:01.649208+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg0_q9_eval.log",
+          "sha256": "6b6b9d34878ab7d11c2d6cbc20cb3294effcd96c894a5e20322ae54dbbb5a951",
+          "size_bytes": 3773621
+        },
+        "metrics": {
+          "mtime": "2026-08-20T22:03:01.640000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg0_q9/metrics.txt",
+          "sha256": "b8de7040a32dab12e0951644c9133233ddd0e556ba3ac7258c8e48250979e35c",
+          "size_bytes": 484
+        },
+        "report": {
+          "mtime": "2026-08-20T22:03:03.170915+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg0_q9_REPORT.json",
+          "sha256": "c1370e691bdff55225d17957eddba85ba1e6f206ba57e93a53581ec563d26b08",
+          "size_bytes": 871
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-20T22:03:03.170807+00:00",
+      "conditioning": "q9",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': False, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg0_q9/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_qwen3cap_k3_balanced_quarter_stage2_50000/phase8_qwen_caption2p0_qwen3cap_k3_balanced_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_qwen3cap_k3_quarter_musiccaps_mf25_cfg0_q9",
+      "metrics": {
+        "aes_CE": 5.7757,
+        "aes_CU": 6.4003,
+        "aes_PC": 5.0264,
+        "aes_PQ": 6.2127,
+        "clap_score": 0.1894
+      },
+      "preregistration": {
+        "available": true,
+        "checkpoint_sha256_matches": true
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-19T07:14:45.960204+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot1_noq_quarter_stage2_50000/phase8_qwen_caption2p0_slot1_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "d85ae3a766e06a5d600b037745c8652a3c932e7c20bb430e24b9e57221039fb7",
+          "size_bytes": 482119457
+        },
+        "eval_log": {
+          "mtime": "2026-08-21T20:12:50.349005+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_slot1_noq_quarter_musiccaps_mf25_cfg0_noq_eval.log",
+          "sha256": "0f4fcda71a691b234f9bc09b61324ff648febf25e39f675a5f92f7fb9ccb1d03",
+          "size_bytes": 3712116
+        },
+        "metrics": {
+          "mtime": "2026-08-21T20:12:50.340000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_slot1_noq_quarter_musiccaps_mf25_cfg0_noq/metrics.txt",
+          "sha256": "1f8dc27e531d06e6102005c2d5de4bdfd0581650218938cd17dd9e35b14ba58c",
+          "size_bytes": 482
+        },
+        "report": {
+          "mtime": "2026-08-21T20:12:51.585364+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_slot1_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+          "sha256": "c67b7764c7636d70b54cd39c9d1eb4b0dd126e97375d0bf0c7858abe5ad4eb1d",
+          "size_bytes": 847
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-21T20:12:51.583461+00:00",
+      "conditioning": "no_q",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': True, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_slot1_noq_quarter_musiccaps_mf25_cfg0_noq/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot1_noq_quarter_stage2_50000/phase8_qwen_caption2p0_slot1_noq_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_slot1_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "metrics": {
+        "aes_CE": 6.3008,
+        "aes_CU": 6.7593,
+        "aes_PC": 5.1632,
+        "aes_PQ": 6.5668,
+        "clap_score": 0.2047
+      },
+      "preregistration": {
+        "available": false,
+        "checkpoint_sha256_matches": null
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-22T02:57:38.760345+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot2_noq_quarter_stage2_50000/phase8_qwen_caption2p0_slot2_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "8ab667c668377b7d6977a74e7fe5ff6408bfef4df9f0b8891974df1cc5f22ab9",
+          "size_bytes": 482119457
+        },
+        "eval_log": {
+          "mtime": "2026-08-22T03:18:13.926325+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_slot2_noq_quarter_musiccaps_mf25_cfg0_noq_eval.log",
+          "sha256": "5c0e089bd991e290d77adfc55a92e63ed9e1c9193febeb256c7253b2378eaf84",
+          "size_bytes": 3712283
+        },
+        "metrics": {
+          "mtime": "2026-08-22T03:18:13.920000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_slot2_noq_quarter_musiccaps_mf25_cfg0_noq/metrics.txt",
+          "sha256": "048dfa92bab7e3a27b9e96e8839d8444a6762867a8b0b6cafd4c157976d2bab3",
+          "size_bytes": 482
+        },
+        "report": {
+          "mtime": "2026-08-22T03:18:15.026036+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_slot2_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+          "sha256": "d4003310a624e5c6d0bab0871bb0ee92f3da3c56fbb7087cae3f0a79d34936a0",
+          "size_bytes": 847
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-22T03:18:15.024170+00:00",
+      "conditioning": "no_q",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': True, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_slot2_noq_quarter_musiccaps_mf25_cfg0_noq/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot2_noq_quarter_stage2_50000/phase8_qwen_caption2p0_slot2_noq_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_slot2_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "metrics": {
+        "aes_CE": 6.2071,
+        "aes_CU": 6.7487,
+        "aes_PC": 5.0814,
+        "aes_PQ": 6.5623,
+        "clap_score": 0.2017
+      },
+      "preregistration": {
+        "available": false,
+        "checkpoint_sha256_matches": null
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    },
+    {
+      "artifacts": {
+        "checkpoint": {
+          "mtime": "2026-08-18T14:03:14.802172+00:00",
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_worstof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_worstof3_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "f349de2ab1b3819c3f5a28c6ed92e303e9037d524c9b15cb73d67577515f8d5b",
+          "size_bytes": 482120148
+        },
+        "eval_log": {
+          "mtime": "2026-08-20T21:31:25.858453+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq_eval.log",
+          "sha256": "0f80dd2f2ce9240effc723689d5c1f744118e5943b22e984e5b0758089fc117d",
+          "size_bytes": 3787043
+        },
+        "metrics": {
+          "mtime": "2026-08-20T21:31:25.850000+00:00",
+          "path": "/home/kojiek/MeanAudio/eval_output/metrics/phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq/metrics.txt",
+          "sha256": "01f61e836e2d98a7f8c3d0c4e62f58b4d6dd7a629194e18abbfcb22488e6f8cc",
+          "size_bytes": 488
+        },
+        "report": {
+          "mtime": "2026-08-20T21:31:27.408531+00:00",
+          "path": "/home/kojiek/logs/phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+          "sha256": "018b04115c8447f505f50a0bf531074a68ebe8c400f74f37d801fcc794c692a8",
+          "size_bytes": 859
+        }
+      },
+      "checks": {
+        "audio_saved_log_count": 5521,
+        "audio_saved_log_count_is_5521": true,
+        "audio_saved_log_ids_match_musiccaps_tsv": true,
+        "audio_saved_log_unique_id_count": 5521,
+        "audio_saved_log_unique_ids_are_5521": true,
+        "checkpoint_exists": true,
+        "eval_args_match_conditioning": true,
+        "eval_args_match_reported_protocol": true,
+        "five_finite_metrics_present": true,
+        "metric_evaluator_loaded_5521": true,
+        "metric_evaluator_loaded_5521_count": 1,
+        "musiccaps_tsv_current_sha256_matches_preregistered": true,
+        "report_passed": true,
+        "reported_protocol_exact": true
+      },
+      "classification": "retrospective_operationally_complete_comparable",
+      "completed_at": "2026-08-20T21:31:27.408421+00:00",
+      "conditioning": "no_q",
+      "eval_args_log_line": "{'variant': 'meanaudio_s', 'audio_path': '', 'duration': 9.975, 'cfg_strength': 0.0, 'num_steps': 25, 'quality_level': 9, 'no_q': True, 'no_text_attention_mask': True, 'output': PosixPath('/home/kojiek/MeanAudio/eval_output/phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq/audio'), 'seed': 42, 'full_precision': True, 'model_path': '/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_worstof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_worstof3_noq_quarter_stage2_50000_ema_final.pth', 'encoder_name': 't5_clap', 'use_rope': False, 'text_c_dim': 512, 'debug': False, 'tsv': '/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv', 'use_meanflow': True}",
+      "known_limitations": [
+        "generated FLAC files were deleted by the executed wrapper after metric evaluation",
+        "no launch-time executable hash was persisted",
+        "the surviving report was not emitted by the strict contract-bound HARN"
+      ],
+      "label": "phase8_qwen_caption2p0_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "metrics": {
+        "aes_CE": 6.4072,
+        "aes_CU": 6.8399,
+        "aes_PC": 5.3208,
+        "aes_PQ": 6.6398,
+        "clap_score": 0.1957
+      },
+      "preregistration": {
+        "available": true,
+        "checkpoint_sha256_matches": true
+      },
+      "reported_protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+    }
+  ],
+  "disposition": "operationally_complete_comparable_no_gpu_rerun_requested",
+  "document_kind": "cfg0_retrospective_evidence_bundle",
+  "generated_at": "2026-08-22T05:13:13.012391+00:00",
+  "schema_version": 1,
+  "scope": {
+    "canonical_harn_completion_claimed": false,
+    "cell_count": 9,
+    "comparison_allowed": true,
+    "protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision"
+  },
+  "shared_inputs": {
+    "executed_wrapper_observed_after_run": {
+      "mtime": "2026-08-20T11:42:47.392561+00:00",
+      "path": "/home/kojiek/research/meanaudio_training/caption10s_pipeline/eval_musiccaps_mf25.sh",
+      "sha256": "56658a77b60f0056021f5f6988b806fadcf41858702df34bd8356824caa8d8c3",
+      "size_bytes": 3460
+    },
+    "four_cell_preregistration_contract": {
+      "mtime": "2026-08-20T10:34:45.069386+00:00",
+      "path": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_quarter_cfg0_rerun_contract.json",
+      "sha256": "359788613b927d9cab9d29f3690b6e6215b795beb2b354eed532802d37079ded",
+      "size_bytes": 6182
+    },
+    "musiccaps_tsv": {
+      "mtime": "2026-04-14T13:20:25.660000+00:00",
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+      "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+      "size_bytes": 1680526
+    },
+    "strict_wrapper_not_executed_by_these_runs": {
+      "mtime": "2026-08-20T10:42:00.138519+00:00",
+      "path": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/eval_musiccaps_mf25.sh",
+      "sha256": "67cae3c6bd7d00452906406b778d116a27c1f4c079681c0c942a3541d4f948c3",
+      "size_bytes": 8935
+    }
+  }
+}

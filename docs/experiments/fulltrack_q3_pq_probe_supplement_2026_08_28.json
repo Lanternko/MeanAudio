@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "document_kind": "exploratory_evidence_supplement",
+  "supplement_id": "FTQ3-PROBE-E1-v1",
+  "status": "exploratory_only_not_canonical",
+  "observed_at": "2026-08-28T18:36:00+08:00",
+  "scope": "Read-only analysis of an independently launched, unregistered 511-item probe. This artifact does not approve, register, or validate that probe as a canonical experiment.",
+  "source_root": "/tmp/claude-1005/-home-kojiek-MeanAudio/b9e724fe-ecd4-4243-bf21-b7072fd1148e/scratchpad/probe1",
+  "frozen_source_hashes": {
+    "mc511_tsv": "492e07ce2fa5b4959521255a3fa350673e6b0382c25bba7da4e51be44155cade",
+    "neutral_tsv": "bc92a01eff914c392b7e6af14343628aa347c52d37bd964483ebbb6b7c94ba1e",
+    "probe1_launcher": "5ce52c491a074bf65aa6f89180de2ffb4c09918faa5f1245a642dde44a4d76cf",
+    "probe2_launcher": "af05ea89c4e34486df163aedf3730513e89841345f854176d64801ceaec47f1f",
+    "analysis_program": "bbf4a9f0c1cde111c5a494ee884ed56b51e7be9d33dd9005aac95e0de5bd524d",
+    "per_clip_json": "b7211e01a12678e2af7bb1ad11a58e8e35170d0f5e0d46eaef6f2fde6bd90d4e"
+  },
+  "protocol_as_observed": {
+    "rows_used_in_paired_analysis": 511,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength_spelling": "0.0",
+    "seed": 42,
+    "mask_mode": "NoMask",
+    "precision": "full",
+    "metrics_available": ["CE", "CU", "PC", "PQ"],
+    "clap_available": false,
+    "bootstrap": {"replicates": 10000, "seed": 20260828, "interval": "paired percentile 95%"}
+  },
+  "arms": {
+    "A1_fulltrack_noq": {"n": 511, "CE": 6.659885, "CU": 7.019694, "PC": 5.250247, "PQ": 6.806277},
+    "A2_c2p0_slot0_noq": {"n": 511, "CE": 6.357322, "CU": 6.766203, "PC": 5.193636, "PQ": 6.584902},
+    "A3_fulltrack_q3q9": {"n": 511, "CE": 6.772533, "CU": 7.077484, "PC": 5.286244, "PQ": 6.863751},
+    "B1_c2p0_slot0_neutral": {"n": 511, "CE": 6.408841, "CU": 6.806007, "PC": 5.230152, "PQ": 6.619611},
+    "B2_fulltrack_neutral": {"n": 511, "CE": 6.751114, "CU": 7.106970, "PC": 5.311009, "PQ": 6.869616}
+  },
+  "paired_pq_contrasts": [
+    {"contrast": "fulltrack_q3_q9_minus_fulltrack_noq", "mean": 0.057474, "ci95": [0.017206, 0.095714]},
+    {"contrast": "fulltrack_noq_minus_c2p0_slot0_noq", "mean": 0.221375, "ci95": [0.139169, 0.301193]},
+    {"contrast": "fulltrack_noq_minus_c2p0_slot0_noq_under_neutral_text", "mean": 0.250005, "ci95": [0.169971, 0.329147]}
+  ],
+  "bounded_interpretation": "The fulltrack checkpoint-family PQ gap persists when both models receive the same neutral caption, while q9 adds a smaller positive shift inside the fulltrack family. This makes a prompt-specific evaluation-alignment error less likely and motivates a full 5521 paired checkpoint-family/Q matrix. It does not identify a training-data cause, validate the unregistered probe, or establish a causal fulltrack advantage.",
+  "limitations": [
+    "The probe was not preregistered, had no HARN or queue ownership, used only 511 paired rows, and ran concurrently with an authorized training job.",
+    "The TSV was a prefix subset rather than a preregistered random sample.",
+    "The literal CFG spelling was 0.0 rather than the canonical metadata spelling 0.",
+    "CLAP was not computed, per-audio hashes were not frozen, and generated audio remains under an ephemeral /tmp path.",
+    "Checkpoint-family contrasts confound caption corpus, training trajectory, and Q-training history."
+  ],
+  "prohibited_claims": [
+    "canonical_result",
+    "fulltrack_causal_advantage",
+    "neutral_prompt_invariance_proven",
+    "non_fulltrack_pq_over_6_9_achieved"
+  ]
+}

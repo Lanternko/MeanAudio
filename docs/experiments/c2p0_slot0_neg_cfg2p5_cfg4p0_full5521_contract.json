@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_secondary_evaluation_contract",
+  "experiment_id": "c2p0-slot0-full-cfg2p5-cfg4p0-negative-prompt",
+  "run_id": "run-20260830-c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+  "status": "operator_authorized_migrated_pending_queue_tail",
+  "operator_instruction": "請製作cfg2.5 4.0 的full 5521 eval",
+  "launch_allowed": true,
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "trusted_channel": "operator_console",
+    "operator": "responsible_operator",
+    "authorized_at": "2026-08-30T22:31:00+08:00",
+    "scope": "Scientific evaluation and append-tail launch are authorized after the shared queue receipt migration; 029 remains ordered behind authentic terminal evidence for 028."
+  },
+  "queue_name": "029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [
+    "028_random_quarter_neg_cfg1p5.sh"
+  ],
+  "dependencies": [],
+  "scientific_question": "For the same c2p0 slot0 full-scale NoQ checkpoint and fidelity-negative prompt, what are the standalone MusicCaps-5521 metrics at CFG 2.5 and CFG 4.0? Cross-CFG synthesis is a separate post-evaluation report.",
+  "comparison": {
+    "single_variable": "inference cfg_strength",
+    "shared_checkpoint": "phase8_qwen_caption10s_multisent_noq_full_stage2_200000",
+    "arms": [
+      {"label": "c2p0_slot0_full_noq", "cfg_strength": 2.5},
+      {"label": "c2p0_slot0_full_noq", "cfg_strength": 4.0}
+    ]
+  },
+  "protocol": {
+    "classification": "secondary_noncanonical",
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strengths": [2.5, 4.0],
+    "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+    "seed": 42,
+    "mask": "NoMask",
+    "precision": "full",
+    "conditioning": "NoQ"
+  },
+  "phases": [
+    {
+      "phase_id": "cfg2p5_generate_score",
+      "output": "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/c2p0_slot0_full_noq_cfg2p5_neg.json",
+      "completion": "atomic JSON report with 5521 per-clip rows and five finite aggregate metrics",
+      "resume": "if report is absent, remove only this phase's partial FLACs and regenerate from seed 42"
+    },
+    {
+      "phase_id": "cfg4p0_generate_score",
+      "output": "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/c2p0_slot0_full_noq_cfg4p0_neg.json",
+      "completion": "atomic JSON report with 5521 per-clip rows and five finite aggregate metrics",
+      "resume": "if report is absent, remove only this phase's partial FLACs and regenerate from seed 42"
+    }
+  ],
+  "inputs": [
+    {
+      "kind": "checkpoint",
+      "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "bytes": 482119875,
+      "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+    },
+    {
+      "kind": "evaluation_tsv",
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+      "bytes": 1680526,
+      "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+    },
+    {
+      "kind": "clap_checkpoint",
+      "path": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+      "bytes": 2352471003,
+      "sha256": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006"
+    },
+    {
+      "kind": "evaluation_entrypoint",
+      "path": "/home/kojiek/MeanAudio/eval.py",
+      "bytes": 9700,
+      "sha256": "071d2cfe7e557970aa6f996bdf50e57576f01316976d3ca3018fcd291bd87096"
+    },
+    {
+      "kind": "evaluation_utils",
+      "path": "/home/kojiek/MeanAudio/meanaudio/eval_utils.py",
+      "bytes": 7200,
+      "sha256": "68315af94d35401c778c8a6bad3d449b82afe50c378dbe0ed8d7cd192bb6a84c"
+    },
+    {
+      "kind": "scorer_reference",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/negprompt_reeval_full_arms.py",
+      "bytes": 13789,
+      "sha256": "066297cdb7c5c0384d7dd531a48cffdb1ac96b33db457d0242038634650262b1"
+    },
+    {
+      "kind": "sweep_driver",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/c2p0_slot0_neg_cfg_sweep_full.py",
+      "bytes": 12066,
+      "sha256": "3df3afcf7a8f0e556821bc19455ab6f013f1e221e36959e65ba1b023b2b57739"
+    },
+    {
+      "kind": "preflight",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/validate_c2p0_slot0_neg_cfg_sweep_full.py",
+      "bytes": 3061,
+      "sha256": "f0db692aa1ee33e265d21efb8b42c9141398a63c7394cfb491e949eaedbef5ec"
+    },
+    {
+      "kind": "cfg0_compatibility_report",
+      "path": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json",
+      "bytes": 879,
+      "sha256": "9a50d3ac99b54ca9f7330ce5f84c514e3947deb22243919342bf157b46cc6694"
+    },
+    {
+      "kind": "paired_cfg0_per_clip_reference",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/novocal_reeval/c2p0_slot0_full_noq.json",
+      "bytes": 823814,
+      "sha256": "c8ac3ab65a83ca4ac629b2199bc693176fbfd4feedc87208ab177c67cca80d4d"
+    },
+    {
+      "kind": "no_gpu_acceptance_test",
+      "path": "/home/kojiek/MeanAudio/scripts/tests/selftest_c2p0_slot0_neg_cfg_sweep_full.py",
+      "bytes": 11401,
+      "sha256": "855df14a7fbca7f80b39da2537702b02f2b5197cbc922ad7fcdc76a1cb616c85"
+    },
+    {
+      "kind": "notification_notifier",
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "bytes": 19483,
+      "sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f"
+    },
+    {
+      "kind": "notification_receipt_helper",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "bytes": 10351,
+      "sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc"
+    },
+    {
+      "kind": "resource_controller_helper",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py",
+      "bytes": 3966,
+      "sha256": "ba5ba6dee0344bc1915b98b18dd8cd363f32bba2b9464e58728caedb0a77c834"
+    },
+    {
+      "kind": "shared_scheduler",
+      "path": "/home/kojiek/gpu_queue/lib_scheduler.py",
+      "bytes": 29417,
+      "sha256": "aeb8f7be524902e2ea8a6d65b44b02a8f2dc730e56cfd245939e185ce0b39387"
+    }
+  ],
+  "secondary_reports": [
+    {
+      "label": "c2p0_slot0_full_noq",
+      "exp_id": "phase8_qwen_caption10s_multisent_noq_full_stage2_200000",
+      "cfg_strength": 2.5,
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/c2p0_slot0_full_noq_cfg2p5_neg.json"
+    },
+    {
+      "label": "c2p0_slot0_full_noq",
+      "exp_id": "phase8_qwen_caption10s_multisent_noq_full_stage2_200000",
+      "cfg_strength": 4.0,
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/c2p0_slot0_full_noq_cfg4p0_neg.json"
+    }
+  ],
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "iteration": 0,
+    "checkpoint": null,
+    "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/resume_progress.json",
+    "behavior": "Completed atomic reports are retained. An incomplete CFG phase deletes only its own transient FLACs and restarts so skipped outputs cannot shift the seeded RNG sequence."
+  },
+  "storage": {
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio",
+    "filesystem": "/dev/nvme0n1p2",
+    "estimated_peak_additional_bytes": 8000000000,
+    "transient_bytes": 6000000000,
+    "recovery_reserve_bytes": 53687091200,
+    "warning_free_bytes": 80000000000,
+    "hard_stop_free_bytes": 63687091200,
+    "authorized_cleanup": "After an atomic valid report, delete exactly the 5521 generated FLACs for that CFG phase. On resume, delete only regular FLACs in that phase's registered transient directory before deterministic regeneration."
+  },
+  "notifications": [
+    "preflight_pass_or_hold",
+    "experiment_start",
+    "terminal_success_failure_or_interruption",
+    "queue_handoff",
+    "unexpected_gpu_idle",
+    "disk_warning_or_hard_stop"
+  ],
+  "controller": {
+    "kind": "resource_owning_preflight_controller",
+    "required_sequence": [
+      "resource_owner_recorded",
+      "mutable_preflight_passed",
+      "queue_handoff_delivered",
+      "start_delivered",
+      "evaluation_child_started"
+    ],
+    "terminal_notification_precedes_terminal_json": true,
+    "held_is_terminal": false,
+    "predecessor_gate": "028 exists in exactly one of done/failed/interrupted with an authentic delivered terminal receipt"
+  },
+  "notification_receipts": {
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f",
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc",
+    "attempting_restart_behavior": "ambiguous_fail_closed_no_retry"
+  },
+  "watcher": {
+    "poll_seconds": 2,
+    "stall_seconds": 1800,
+    "progress_signals": ["atomic report count", "generated FLAC count", "bounded run log mtime"],
+    "healthy_poll_model_calls": 0,
+    "notification_ledger": "/home/kojiek/logs/c2p0_slot0_neg_cfg2p5_cfg4p0_full5521_harn/event_ledger.json",
+    "notification_failure_behavior": "hold before terminal completion or further promotion"
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_c2p0_slot0_neg_cfg_sweep_full.py"
+    ],
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/eval/run_c2p0_slot0_neg_cfg_sweep_full.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh",
+    "launcher_sha256": "24bdf9d71b5229ced4210dfddc7eb75fda4e6654e3ccc9a75329776f0db008f5",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_cfg_sweep_queue_guest.py",
+    "harn_sha256": "07f339104acfefff216c25ebc38ec39444cc03a666c536b8ecff9451192204c1",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/run_c2p0_slot0_neg_cfg_sweep_full.sh",
+    "action_sha256": "ddd898b38f7468155fc45f2c91aab80af842b0b3257a0bd0c1eaa67d0e0d2f2d"
+  },
+  "completion_evidence": {
+    "host_compatibility_only": true,
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json",
+    "authoritative_results": "secondary_reports"
+  }
+}

@@ -1,0 +1,79 @@
+{
+ "schema_version": 1,
+ "document_kind": "active_experiment_contract_amendment",
+ "amendment_id": "cfg0-recovery-dependency-gate-env-leak-repin-20260902",
+ "experiment_ids": [
+  "cfg0-recovery-true-random-full-20260831",
+  "cfg0-recovery-seed27182818-20260831",
+  "cfg0-recovery-modular-template-quarter-20260831",
+  "single-negprompt-cfg3-ablation-20260831"
+ ],
+ "approved": true,
+ "approved_at": "2026-09-02T00:00:00Z",
+ "operator_instruction": {
+  "text": "要",
+  "meaning": "authorize returning 030-033 from held to pending"
+ },
+ "trigger": {
+  "held_at": "2026-09-01T00:43:25Z",
+  "held_reason": "ordering dependency notification is not delivered: 029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh",
+  "diagnosis": "Deterministic, not a race. run_cfg0_eval_recovery.dependency_gate() calls lib_scheduler.terminal_notification_evidence_ok() on the DEPENDENCY launcher, but lib_scheduler.discover_contract() prefers the ambient GPU_QUEUE_CONTRACT env var, which the launcher exports for THIS job. 029's delivered success receipt was therefore validated against 030's contract (wrong receipt root and contract sha) and always rejected. Reproduced 2026-09-02: the same predicate returns True in a clean env and False with GPU_QUEUE_CONTRACT set. 031/032 would have held identically; 033 is unaffected because its guest passes the predecessor contract path explicitly.",
+  "cascade": [
+   "030 held",
+   "031 held",
+   "032 held",
+   "033 held (032 not terminal)",
+   "p2 queue idle from 2026-09-01T00:43:28Z"
+  ]
+ },
+ "scope": {
+  "allowed": [
+   "Clear GPU_QUEUE_CONTRACT for the duration of the ordering-dependency receipt check in run_cfg0_eval_recovery.dependency_gate(), restoring it afterwards.",
+   "Re-pin bindings.action_sha256 in the three cfg0-recovery contracts to the amended action script.",
+   "Return 030/031/032/033 from p2/held to p2/pending.",
+   "Re-pin notification_receipts.notifier_sha256 in the four contracts to the notifier file as it stands on 2026-09-02."
+  ],
+  "forbidden": [
+   "Change data, checkpoint, seed, hyperparameters, CFG, solver steps, precision, mask mode, metrics, thresholds, or queue order.",
+   "Relax the ordering-dependency gate, the storage gate, or any other preflight check.",
+   "Modify lib_scheduler.py or any already-running job."
+  ]
+ },
+ "change": {
+  "path": "/home/kojiek/MeanAudio/scripts/eval/run_cfg0_eval_recovery.py",
+  "pre_sha256": "ddc81b31a93b685141c03effe7d1f4525cc5963b9bed6a74c777d09343c268f3",
+  "post_sha256": "fec4473d73d334c5b10858f7c36720082d5bd267ec9bc8fb9e822e3048584a80",
+  "post_bytes": 6108,
+  "production_surface_touched": true,
+  "surface": "dependency_gate() only; gate semantics unchanged (still requires exactly one terminal state AND a validated delivered terminal receipt for each ordering dependency)"
+ },
+ "evidence": {
+  "preflight_before": "rc=2 HOLD ordering dependency notification is not delivered",
+  "preflight_after": {
+   "status": "passed",
+   "free_bytes": 153039839232
+  },
+  "gate_still_enforced": "terminal_notification_evidence_ok is still called per dependency; only the contract-resolution env leak is removed"
+ },
+ "queue_effect": "030 -> 031 -> 032 -> 033 resume in their preregistered order; no reordering, no new work.",
+ "notifier_repin": {
+  "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+  "pre_sha256": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f",
+  "post_sha256": "9670d61e26ffebf4ec807cafa489f730f6e2a3ee5805222535a09b7e46023a02",
+  "authorized_by_operator": "沒人動過，re-pin 讓它跑 (2026-09-02)",
+  "provenance": {
+   "finding": "The file's content changed between 2026-09-01T00:43Z (when 029 was accepted and its receipts recorded notifier_sha256=fdf9e9...) and 2026-09-02 09:31:19 +0800 (mtime and ctime both that write). No actor could be attributed.",
+   "ruled_out": [
+    "this Claude session (only run_cfg0_eval_recovery.py and the contract/amendment files were written)",
+    "Codex (thread history ends 2026-08-31T19:20; no rollout writes on 2026-09-02)",
+    "other Claude sessions (no transcript writes after 09:12; last recorded edit to this file across all transcripts is 2026-08-27)",
+    "hooks (none configured), cron (gpu_tracker and discord bot watchdogs only), and any repo script (nothing writes this path)"
+   ],
+   "audit_limit": "No copy of the fdf9e9 version exists on disk, so the change itself could not be diffed. Provenance is unresolved; the operator confirmed no one modified it and authorized the re-pin.",
+   "functional_evidence": [
+    "scripts/tests/selftest_notify_seat_compat.py PASS",
+    "scripts/tests/selftest_secondary_queue_notifications.py PASS"
+   ]
+  }
+ }
+}

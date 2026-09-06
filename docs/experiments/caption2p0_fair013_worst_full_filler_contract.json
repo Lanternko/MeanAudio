@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "caption2p0-fair013-worstof3-full-noq-filler-v1",
+  "status": "overlay_passed_training_live_grandfathered_launch_still_gated",
+  "launch_allowed": false,
+  "scientific_priority": 1,
+  "caption_source": {
+    "selection": "CLAP worst-of-3 per audio",
+    "slots": ["slot0", "slot1", "slot3"],
+    "tsv": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/phase8_caption2p0_fair013_worstof3_train.tsv",
+    "tsv_sha256": "9ea6e741e134c089aa687b2e864d80a8354d5d5d6c6d64971e9475b30e3ba9ab",
+    "rows": 251599
+  },
+  "overlay_validation": {
+    "status": "passed",
+    "completed_at": "2026-08-24T02:50:18.957702+00:00",
+    "output_dir": "/home/kojiek/text_overlays/worst013",
+    "done_json": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_qwen3cap_full/worst_full_overlay.DONE.json",
+    "total": 251599,
+    "train_tsv_sha256": "9ea6e741e134c089aa687b2e864d80a8354d5d5d6c6d64971e9475b30e3ba9ab",
+    "text_encoder_fingerprint": "27e88fac68d94a8a10e44d2db930a8f79db8ca0454ce996b82e448c48c40ab4c"
+  },
+  "training_gate": {
+    "required_before_new_launch": [
+      "overlay_validation.status == passed",
+      "resume fixture for pause/resume",
+      "HARN binding and approval"
+    ],
+    "note": "A new seat must stop at this gate. The live gpu_queue p1/running/10_worst_full.sh process is grandfathered and must not be killed."
+  },
+  "live_grandfather": {
+    "queue_script": "/home/kojiek/gpu_queue/p1/running/10_worst_full.sh",
+    "exp_id": "phase8_qwen_caption2p0_fair013_worstof3_noq_full_stage1_400000",
+    "do_not_signal": true
+  },
+  "data_architecture": {
+    "audio_store": "immutable canonical audio latent NPZ",
+    "require_text_overlay": true,
+    "shared_npz_mutation_prohibited": true,
+    "worst_text_overlay": "/home/kojiek/text_overlays/worst013"
+  },
+  "training": {
+    "q_conditioning": false,
+    "use_text_attention_mask": false,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "seed": 14159265,
+    "stage1_target_iteration": 400000,
+    "stage2_additional_iterations": 200000,
+    "stage2_final_iteration": 600000,
+    "full_lr_milestones": [320000, 360000]
+  },
+  "evaluation": {
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "precision": "full"
+  },
+  "commands": {
+    "run": ["/bin/bash", "/home/kojiek/gpu_queue/jobs/actions/p1_worst_full.sh"]
+  }
+}

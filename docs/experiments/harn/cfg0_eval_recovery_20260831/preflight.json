@@ -1,0 +1,93 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "cb5c7ab916a26452feed1a375cf541e2f474a91aacdc9b2cbb9639ec83efa8ab",
+      "contract_raw_sha256": "aea56d82f456e0bce272a402d07baa0d8eafb390c1f1df5c2c5701d7955e0ebb",
+      "policy_bundle_sha256": "057f0ede3f132d152f57d69ecad6365d1d798f271775c19ecac050c9ac39ec38",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "cfab6d4d670352dadd18b196101ab796bf2196e498ef7614d5534b4da12f72cb",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-task-cfg0-recovery-20260831",
+    "channel_record_sha256": "03648a1bcd5acce92dc3df71abcfec9c8dcc9d3ed4465cbfc3ee58c1e33bac81",
+    "evidence_id": "approval-20260831-cfg0-recovery",
+    "experiment_id": "cfg0-eval-recovery-chain-20260831",
+    "expires_at": "2026-09-30T00:00:00Z",
+    "issued_at": "2026-08-31T10:34:57Z",
+    "run_id": "run-20260831-cfg0-eval-recovery-chain-030-032",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "a1dd04aaef96f901b67c4574ccb88f8f9f97a14fcad7aa0822596dde2177cf13",
+      "observed_at": "2026-08-31T10:34:57Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "c0667bce37b5470fde67de7d48f498500ec3cf04cb36efa88a9bbc5277871932",
+      "observed_at": "2026-08-31T10:34:57Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "9815027ed1047e9041efc6ec0b39daa861658c4c8585daeb7d858f38b0419712",
+      "observed_at": "2026-08-31T10:34:57Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "fail"
+    },
+    {
+      "check_id": "notification",
+      "evidence_sha256": "f3cc9f07d6c2443df4ae4804b685adb17015b26da7e9ef6efaf5abb97f25ba72",
+      "observed_at": "2026-08-31T10:34:57Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "ae0c2645bf742560d34c981c967b3ed2f5e48d225036eef88e0ee8c3b6c1ca25",
+      "observed_at": "2026-08-31T10:34:57Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "f8e40d09ec022e9bed3170a7fabf9f82b7a3faf480c3c7139dbb44a65420f34d",
+      "observed_at": "2026-08-31T10:34:57Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "5f0cebac1b6fe6eb67556350ee9cc29e725b277c6c7aeaf3427b8e36692d837a",
+      "observed_at": "2026-08-31T10:34:57Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "aea56d82f456e0bce272a402d07baa0d8eafb390c1f1df5c2c5701d7955e0ebb",
+  "created_at": "2026-08-31T10:34:57Z",
+  "derived_verdict": "fail",
+  "document_kind": "preflight_report",
+  "experiment_id": "cfg0-eval-recovery-chain-20260831",
+  "run_id": "run-20260831-cfg0-eval-recovery-chain-030-032",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 53688627200,
+      "hard_floor_bytes": 63687091200,
+      "measured_at": "2026-08-31T10:34:57Z",
+      "path": "/home/kojiek/cfg0_eval_runtime",
+      "peak_additional_bytes": 8000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 6000000000,
+      "verdict": "fail"
+    }
+  ]
+}

@@ -24,6 +24,12 @@
 set -e
 set -o pipefail
 
+if [ "${ALLOW_INVALID_HISTORICAL_P9:-0}" != "1" ]; then
+    echo "[ABORT] Historical S2 multi-cap cache is audio-caption misaligned."
+    echo "This ablation is invalid until rebuilt with a canonical v2 cache."
+    exit 64
+fi
+
 EXP_PREFIX="phase9_v1_ablation_s1fixed_s2multi"
 
 BATCH_SIZE=8

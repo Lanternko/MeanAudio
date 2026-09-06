@@ -1,0 +1,93 @@
+{
+    "document_kind": "preflight_report",
+    "schema_version": "1.0.0",
+    "schema_bundle_id": "harn-schema-v1",
+    "experiment_id": "c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+    "run_id": "run-20260830-c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+    "contract_raw_sha256": "a5e1978c0fbb8f09ff439cb39aef1319dca82112221c134fa09e441fe929b1b7",
+    "approval_evidence": {
+        "evidence_id": "approval-20260830-cfg-full5521",
+        "source_kind": "trusted_operator_record",
+        "trusted_channel": "operator_console",
+        "channel_record_id": "codex-task-cfg-full5521",
+        "channel_record_sha256": "411ba7e07411a8300c43b1fa95c82a7543e9af04a17f087bd4e72fdd4251061e",
+        "approver_id": "responsible-operator",
+        "issued_at": "2026-08-30T20:30:00Z",
+        "expires_at": "2026-09-30T00:00:00Z",
+        "experiment_id": "c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+        "run_id": "run-20260830-c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+        "bindings": {
+            "contract_raw_sha256": "a5e1978c0fbb8f09ff439cb39aef1319dca82112221c134fa09e441fe929b1b7",
+            "policy_bundle_sha256": "970a275e24b683b7fe55b55e61d59e04f4e6b33375b91c3563c7289a2f744e3c",
+            "schema_bundle_sha256": "9186d154860699bbe556c913d9bf5d8450de3718d47e518b8443783026be21fa",
+            "runtime_sha256": "ab8e63684a580fde0138d15bbe824940260538b6891a6cfb5143315e28543ee4",
+            "repair_envelope_sha256": null,
+            "command_set_sha256": "87ce67c16b5b937641b27f0886a3856364a5feb72b2622a9456bf9e908390c4d"
+        }
+    },
+    "checks": [
+        {
+            "check_id": "policy",
+            "verdict": "pass",
+            "observed_at": "2026-08-30T21:03:30Z",
+            "valid_until": "2026-09-30T00:00:00Z",
+            "evidence_sha256": "823412d1eacb67956220e532959f0104603057c88704863ca38e7cd188fda812"
+        },
+        {
+            "check_id": "provenance",
+            "verdict": "pass",
+            "observed_at": "2026-08-30T21:03:30Z",
+            "valid_until": "2026-09-30T00:00:00Z",
+            "evidence_sha256": "96d815328a42cb4ef89d5e0b7a1df6be43b484832c83a7b4596d8402c7c0b12b"
+        },
+        {
+            "check_id": "storage",
+            "verdict": "pass",
+            "observed_at": "2026-08-30T21:03:30Z",
+            "valid_until": "2026-09-30T00:00:00Z",
+            "evidence_sha256": "49a25f9feefaffecad0fcd30c50dc9331cff8b55ece53def6285c09e17e6f5d7"
+        },
+        {
+            "check_id": "notification",
+            "verdict": "pass",
+            "observed_at": "2026-08-30T21:03:30Z",
+            "valid_until": "2026-09-30T00:00:00Z",
+            "evidence_sha256": "1242ab99f6773a843ffe3860c98564b38ca0ef5ad3e36df681c3fb60ca243aa4"
+        },
+        {
+            "check_id": "queue",
+            "verdict": "pass",
+            "observed_at": "2026-08-30T21:03:30Z",
+            "valid_until": "2026-09-30T00:00:00Z",
+            "evidence_sha256": "00b109cf1123a591253cc534b17e5268eb8fc2fbb7d6772de7a55c135ef1282f"
+        },
+        {
+            "check_id": "watcher",
+            "verdict": "pass",
+            "observed_at": "2026-08-30T21:03:30Z",
+            "valid_until": "2026-09-30T00:00:00Z",
+            "evidence_sha256": "0e7f3c5c909ce8afb978a208d639e85af2171df2ec0003a07f13ad97878ef053"
+        },
+        {
+            "check_id": "acceptance",
+            "verdict": "pass",
+            "observed_at": "2026-08-30T21:03:30Z",
+            "valid_until": "2026-09-30T00:00:00Z",
+            "evidence_sha256": "eb74b26ad945f719af703526d318541691b47ad9f7444b5633496070a8dbaf69"
+        }
+    ],
+    "storage": [
+        {
+            "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio",
+            "measured_at": "2026-08-30T21:03:30Z",
+            "free_bytes": 90458206208,
+            "hard_floor_bytes": 63687091200,
+            "peak_additional_bytes": 8000000000,
+            "transient_bytes": 6000000000,
+            "recovery_reserve_bytes": 53687091200,
+            "verdict": "pass"
+        }
+    ],
+    "derived_verdict": "pass",
+    "created_at": "2026-08-30T21:03:31Z"
+}

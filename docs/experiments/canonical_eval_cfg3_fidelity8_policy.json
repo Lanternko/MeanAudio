@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "document_kind": "canonical_evaluation_policy",
+  "effective_at": "2026-08-31T18:13:35+08:00",
+  "authorized_by": "responsible operator: 以後 eval 用 CFG3 + neg",
+  "scope": "newly_registered_primary_and_fair_comparison_evaluations",
+  "protocol_id": "musiccaps5521_mf25_cfg3_fidelity8_seed42_nomask_fp32",
+  "protocol": {
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "unique_ids": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 3,
+    "negative_prompt_id": "fidelity8",
+    "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+    "generation_seed": 42,
+    "text_attention_mask": false,
+    "precision": "full",
+    "metrics": ["CLAP", "AES_CE", "AES_CU", "AES_PC", "AES_PQ"]
+  },
+  "prospective_only": true,
+  "preserved_registered_entries": [
+    "026_fake_random_full",
+    "028_random_quarter_neg_cfg1p5",
+    "029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521"
+  ],
+  "comparison_rule": "Do not merge or silently compare this protocol with historical CFG0, CFG4.5, or other negative-prompt protocols. Every result label and report must encode cfg3 and fidelity8."
+}

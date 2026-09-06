@@ -41,6 +41,11 @@ class MultiModalDataset(Dataset):
             sample_idx = idx - self.cumulative_sizes[dataset_idx - 1]
         return self.datasets[dataset_idx][sample_idx]
 
+    def set_epoch(self, epoch: int) -> None:
+        for dataset in self.datasets:
+            if hasattr(dataset, "set_epoch"):
+                dataset.set_epoch(epoch)
+
     def compute_latent_stats(self) -> tuple[torch.Tensor, torch.Tensor]:
         if self.video_datasets == []: 
             raise NotImplementedError(f'This function should not be called for audio-text dataset', 

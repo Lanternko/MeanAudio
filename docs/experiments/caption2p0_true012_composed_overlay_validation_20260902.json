@@ -1,0 +1,25 @@
+{
+ "tsv": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_train.tsv",
+ "sources": [
+  "/home/kojiek/text_overlays/true_random:0",
+  "/home/kojiek/text_overlays/true_random:1",
+  "/home/kojiek/text_overlays/slot2"
+ ],
+ "rows": 251599,
+ "sampled": 1500,
+ "epochs": 4,
+ "embeddings_checked": 1500,
+ "rotation_histogram": {
+  "0": 2038,
+  "1": 1996,
+  "2": 1966
+ },
+ "rotation_share": {
+  "0": 0.3397,
+  "1": 0.3327,
+  "2": 0.3277
+ },
+ "failures": [],
+ "failure_count": 0,
+ "status": "passed"
+}

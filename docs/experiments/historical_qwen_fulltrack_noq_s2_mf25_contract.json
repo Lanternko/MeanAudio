@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_evaluation_contract",
+  "experiment_id": "historical-qwen-fulltrack-noq-s2-mf25-cfg4p5",
+  "run_id": "run-20260814-historical-qwen-fulltrack-noq-s2-mf25",
+  "status": "preregistered_waiting_for_active_harn",
+  "operator_authorization": "User clarified that the historical Qwen full-track, one-caption, NoQ Stage-2 model has not been evaluated at 25 steps and requested that metric.",
+  "dependency": {
+    "experiment_id": "rmatched-validation-replication",
+    "required_state": "completed"
+  },
+  "checkpoint": {
+    "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_official_noq_full_stage2_200000/phase8_qwen_official_noq_full_stage2_200000_ema_final.pth",
+    "sha256": "2519e83638c431aff006bf7690023ab53f17ff86b8894200f83d23c0ddceeeca",
+    "stage": 2,
+    "stage2_additional_iterations": 200000,
+    "final_iteration": 600000,
+    "use_q_conditioning": false
+  },
+  "caption_semantics": "One historical Qwen caption generated from each full Jamendo track and mapped to that track's training segments.",
+  "protocol": {
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg": 4.5,
+    "no_q": true,
+    "no_text_attention_mask": true,
+    "seed": 42,
+    "full_precision": true,
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"]
+  },
+  "existing_non_comparable_result": {
+    "protocol": "MusicCaps 5521; MeanFlow1; CFG0.5; NoQ",
+    "clap_score": 0.1735,
+    "report": "/home/kojiek/logs/phase8_qwen_official_noq_full_FINAL_METRICS.json"
+  },
+  "command": "/bin/bash /home/kojiek/MeanAudio/scripts/eval/eval_historical_qwen_fulltrack_noq_s2_mf25_cfg4p5.sh",
+  "implementation_binding": {
+    "path": "/home/kojiek/MeanAudio/scripts/eval/eval_historical_qwen_fulltrack_noq_s2_mf25_cfg4p5.sh",
+    "sha256": "2d1110ea9f61a582cf3fb0bd2268521c922ff363226636549954e1e7c8ae10e8"
+  },
+  "output": "/home/kojiek/logs/phase8_qwen_official_noq_full_stage2_200000_musiccaps_mf25_cfg4p5_noq_REPORT.json",
+  "storage": {
+    "hdd_mode": "read_only_prompts",
+    "output_filesystem": "/",
+    "root_hard_floor_bytes": 161061273600,
+    "estimated_peak_additional_bytes": 8589934592
+  },
+  "required_notifications": ["start", "completion", "failure", "interruption", "unexpected_gpu_idle"],
+  "automatic_repair": false
+}

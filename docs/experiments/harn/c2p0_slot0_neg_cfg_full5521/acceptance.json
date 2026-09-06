@@ -1,0 +1,42 @@
+{
+  "document_kind": "no_gpu_acceptance_report",
+  "experiment_id": "c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+  "run_id": "run-20260830-c2p0-slot0-full-cfg2p5-cfg4p0-neg",
+  "executed_at": "2026-08-30T21:10:00Z",
+  "gpu_used": false,
+  "results": {
+    "cfg_sweep_fault_injection": {"passed": 6, "failed": 0},
+    "durable_receipt_security": "passed",
+    "two_level_controller_and_predecessor_gate": "passed",
+    "anchored_seat_attempt_dedup": "passed",
+    "legacy_026_seat_compatibility": "passed",
+    "scheduler_queue_acceptance": {"passed": 31, "failed": 0, "real_gpu_fixture": "skipped-no-gpu"},
+    "simulated_026_exit_order": ["028_random_quarter_neg_cfg1p5", "029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521"],
+    "harn_bundle_offline_validation": "passed",
+    "scientific_preflight_structural": "passed",
+    "python_compile": "passed"
+  },
+  "covered_faults": [
+    "immutable notification payload mutation",
+    "attempting-state restart ambiguity and no replay",
+    "same-user regular-file and O_NOFOLLOW receipt checks",
+    "receipt-less and duplicate-directory predecessor evidence",
+    "move-before-stdout classification recovery",
+    "seat_attempt delivered replay deduplication",
+    "mutable preflight, disk warning/hard stop, stall, pause, signal and child-137 paths",
+    "legacy non-opt-in queue behavior",
+    "028-before-029 ordering after simulated 026 exit"
+  ],
+  "files": {
+    "/home/kojiek/gpu_queue/lib_scheduler.py": "aeb8f7be524902e2ea8a6d65b44b02a8f2dc730e56cfd245939e185ce0b39387",
+    "/home/kojiek/gpu_queue/tests/test_scheduler.sh": "fc2f0feb7afeeb4a22c3d7823ec5891be34a61d47e87ef97e6d8be350d329f9a",
+    "/home/kojiek/gpu_queue/tests/test_notification_receipts.py": "1e74a71128efff7fbc6429598ff111822d1569f2e4619d9e360da71970879b85",
+    "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py": "fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py": "ba5ba6dee0344bc1915b98b18dd8cd363f32bba2b9464e58728caedb0a77c834",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_eval_queue_guest.py": "45d88447a84c74f7a387f18e7ca6b8a24ee8997dffb6738f570d489ed281fce1",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_cfg_sweep_queue_guest.py": "07f339104acfefff216c25ebc38ec39444cc03a666c536b8ecff9451192204c1",
+    "/home/kojiek/MeanAudio/scripts/tests/selftest_secondary_queue_notifications.py": "9f19811b507917ef1be9ec0b5c57e00e4d6a77e02fdbff6de882b212d28842eb",
+    "/home/kojiek/MeanAudio/scripts/tests/selftest_notify_seat_compat.py": "95158182b8c1dd932ca55d215e23d967ee802cbfd9b0be83fc323f9a015c6025"
+  }
+}

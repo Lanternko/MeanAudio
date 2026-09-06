@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verdict", "evidence", "authorized_next_action", "codex_review_required", "may_execute"],
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["false_alarm_or_transient", "resume_identical_contract", "stop_required"]
+    },
+    "evidence": {"type": "array", "items": {"type": "string"}, "minItems": 1},
+    "authorized_next_action": {"type": "string"},
+    "codex_review_required": {"type": "boolean", "const": true},
+    "may_execute": {"type": "boolean", "const": false}
+  }
+}

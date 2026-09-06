@@ -26,6 +26,7 @@ post_k5_train() {
     "") ;;
     fixed:*)  cap_args=( "++cap_index_fixed=${cap_spec#fixed:}" ) ;;
     column:*) cap_args=( "++cap_index_column=${cap_spec#column:}" ) ;;
+    sources:*) cap_args=( "++text_npz_sources=${cap_spec#sources:}" ) ;;
     *) echo "FAIL unrecognised cap index spec: $cap_spec" >&2; return 2 ;;
   esac
   local s1_exp="${prefix}_stage1_${s1_final}" s2_exp="${prefix}_stage2_${s2_add}"

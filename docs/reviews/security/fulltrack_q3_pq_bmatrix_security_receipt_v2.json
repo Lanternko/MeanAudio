@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "document_kind": "read_only_security_review_receipt",
+  "receipt_id": "SEC-FTQ3-BMATRIX-v1-20260828-02",
+  "status": "security_ready_for_implementation_only",
+  "reviewed_plan": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/designs/fulltrack_q3_pq_bmatrix_v1.json",
+    "sha256": "dee7de7eee79233d903f4fd4c64549887488d3582fe99130d83065a6140447fa"
+  },
+  "review_input_fingerprint": "dce63d36f22958fe7fba5ff935f3812ca53cd87f00cdfec5efd8f5c84ab5e832",
+  "supersedes_receipt_sha256": "ef640486ecb9bba64095e2ce4cf46cdd0d939c8ac2ef0b30d489ab809640f8f1",
+  "finding_dispositions": {
+    "FTQ3-BMATRIX-v1/INPUT-INTEGRITY": "FIX in implementation",
+    "FTQ3-BMATRIX-v1/AUTH-2STAGE": "FIX in implementation",
+    "FTQ3-BMATRIX-v1/P2-QUEUE-OWNERSHIP": "FIX in implementation",
+    "FTQ3-BMATRIX-v1/PATH-TOCTOU-CLEANUP": "FIX in implementation",
+    "FTQ3-BMATRIX-v1/STATE-OUTBOX-RESTART": "FIX in implementation",
+    "FTQ3-BMATRIX-v1/EXEC-ENV": "FIX in implementation",
+    "FTQ3-BMATRIX-v1/NOTIFY-DISCLOSURE": "FIX in implementation"
+  },
+  "bounded_residuals": [
+    "Malicious same-UID/root mutation remains AUTH_ROOT risk unless Gate 2 uses an externally verifiable signature; otherwise Gate 2 requires explicit operator acceptance.",
+    "The Linux-specific /proc/locks and pidfd lease proof remains unproven until registered fixtures and live preflight pass.",
+    "Legacy p2 admission compatibility and mandatory HARN Gate-2 capability remain unproven until exact implementation review.",
+    "Discord post-acceptance ambiguity holds for reconciliation and is not claimed as transport-level exactly-once delivery.",
+    "This receipt approves Plan readiness only and does not verify any implementation or runtime security claim."
+  ],
+  "authority": {
+    "implementation_only_may_be_requested": true,
+    "queue_mutation_allowed": false,
+    "gpu_launch_allowed": false,
+    "gate_2_required_after_exact_artifact_reviews": true
+  },
+  "review_actions": "Read-only. No files, queue state, processes, or external systems were modified by the security reviewer."
+}

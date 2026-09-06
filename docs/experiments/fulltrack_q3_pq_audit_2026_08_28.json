@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "audit_id": "FTQ3-AUDIT-A-v1",
+  "status": "passed",
+  "completed_at": "2026-08-28",
+  "envelope": {
+    "id": "FTQ3-PQ-AUDIT-v1",
+    "fingerprint": "3679e29b14e760aec4f74c283a73744fe3cc3bf74e1545134f928c836f2c9843"
+  },
+  "scope": "Evidence-only audit of the historical fulltrack Q3 canonical evaluation and its training provenance. Historical artifacts are immutable.",
+  "frozen_inputs": [
+    {"path": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_k3_full_cfg0_eval_contract.json", "sha256": "23a7654eed85cb2edd2c34280c641ce5dc178de34f2606e82a3da4e34add5cae"},
+    {"path": "/home/kojiek/MeanAudio/docs/experiments/results/phase8/c2p0_cfg0_contrast_groups_2026_08_26.tsv", "sha256": "781f35a5f846e7615a9b88240a24afb49b0f4b0cf9382328fda31a59e7a51c6a"},
+    {"path": "/home/kojiek/MeanAudio/docs/experiments/phase_status.md", "sha256": "94759b13d212eeb5fa7bc63894811fb6a6f86941281114717c98ef57c647f1db"},
+    {"path": "/home/kojiek/logs/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000_musiccaps_mf25_cfg0_q9_REPORT.json", "sha256": "f37757799910727b9cd7f7eb8b84fc1f3c115bbde16f4da6478ce69dd2856972"},
+    {"path": "/home/kojiek/logs/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000_musiccaps_mf25_cfg0_q9_eval.log", "sha256": "e13dc6379e8da4fed4d64e6ed4ce9e44fad2b0a2c5a28e010e527fa521ee4ec1"},
+    {"path": "/home/kojiek/logs/rich_shared_then_matched_full_FINAL_METRICS.json", "sha256": "4cd0080825f130befba0827c73be54f71ec41af0a6dd466a5a520e5338598b42"},
+    {"path": "/home/kojiek/logs/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000_migrate.log", "sha256": "ed47bcab69db78fc6542e47b74862887447ea27f10d818a250b59bccdd9013b1"},
+    {"path": "/home/kojiek/MeanAudio/exps/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000_ema_final.pth", "sha256": "b5fd22ee28d0d1c63f6ca66e446bf0142b2344ac74b0558949ad3b86ea4ab8ab"},
+    {"path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000_ema_final.pth", "sha256": "c72e26d1c46581f9bca4a179806849a29f799f6730c158782931dcb86ac9be14"},
+    {"path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv", "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"}
+  ],
+  "external_sources": [
+    {"url": "https://arxiv.org/pdf/2502.05139v1", "sha256": "c11aa42b80e5421e1c2f525ff036abf95edf841359af288c48ba77b47de6fcd7", "role": "Audiobox Aesthetics paper"},
+    {"url": "https://raw.githubusercontent.com/facebookresearch/audiobox-aesthetics/2618e9d451b456e9328b39495b5e6234678aa550/README.md", "revision": "2618e9d451b456e9328b39495b5e6234678aa550", "sha256": "37763f4452ac480a1818825adc658a50830a053d8d989fa1c90158490801acaa", "role": "Audiobox Aesthetics metric definitions"}
+  ],
+  "historical_metrics": {
+    "protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision",
+    "conditioning": "q9",
+    "clap_score": 0.1821,
+    "aes_CE": 6.8458,
+    "aes_CU": 7.1468,
+    "aes_PC": 5.3016,
+    "aes_PQ": 6.9337
+  },
+  "concurrent_state": {
+    "observed_at": "2026-08-28T18:17:51+08:00",
+    "path": "/home/kojiek/MeanAudio/docs/experiments/caption2p0_k3_full_cfg0_eval_contract.json",
+    "previous_observed_sha256": "333d455c4a4fa0505c924b3b1218d4ddfd21affb46fd034b9fadfd6c8ff54fa7",
+    "current_sha256": "23a7654eed85cb2edd2c34280c641ce5dc178de34f2606e82a3da4e34add5cae",
+    "disposition": "Concurrent external correction preserved; this audit makes no authorship claim."
+  },
+  "metric_pattern": {
+    "deduplication_key": "exp_label",
+    "unique_rows": 16,
+    "pearson_with_PQ": {"CLAP": -0.126996, "CE": 0.969184, "CU": 0.987095, "PC": 0.459229},
+    "interpretation": "Descriptive association only; it does not establish causality or human preference."
+  },
+  "findings": [
+    {"id": "F01", "verdict": "REFUTED", "claim": "Stale-audio contamination explains this historical evaluation run.", "evidence": ["The frozen eval log contains exactly one Eval args record, 5521 Audio saved records, and 5521 unique saved FLAC paths."], "limitations": ["This refutes the specific stale-file explanation for this run; it does not prove byte-level reproducibility."]},
+    {"id": "F02", "verdict": "INCONCLUSIVE", "claim": "The historical evaluation is reproduced at byte level.", "evidence": ["The historical report and aggregate metrics remain available."], "limitations": ["Generated audio was deleted and no per-audio hash manifest was preserved."]},
+    {"id": "F03", "verdict": "CONFIRMED", "claim": "The historical caption2p0/slot012 contract identity was a provenance mislabel and the current contract now records the correction.", "evidence": ["The bound checkpoint training log uses phase8_qwen_meansim_k3_balanced.tsv: a Q-conditioned upstream track-level caption corpus, distinct from the per-segment Caption 2.0 slot0 Q3 checkpoint.", "The current contract identifies phase8-fulltrack-q3-full-cfg0-eval, names the fulltrack q-bucket selection, and preserves the historical run identifiers only as identifiers."], "limitations": ["The historical metric vector itself is retained unchanged; this audit makes no authorship claim for the concurrent correction."]},
+    {"id": "F04", "verdict": "CONFIRMED", "claim": "The fulltrack corpus has a track-to-10-second caption granularity mismatch.", "evidence": ["One upstream track caption was broadcast to retained segments while each training row represents the segment's first approximately 10 seconds."], "limitations": ["Granularity mismatch is not cross-track mismatch."]},
+    {"id": "F05", "verdict": "REFUTED", "claim": "Available evidence proves that captions crossed between different tracks.", "evidence": ["The mapper keys the upstream caption by the same local track identity before broadcasting it to that track's segments."], "limitations": ["Historical row-level NPZ binding remains separately inconclusive."]},
+    {"id": "F06", "verdict": "INCONCLUSIVE", "claim": "The historical TSV-to-NPZ text binding was correct for every training row.", "evidence": ["The run used require_text_overlay=false; the original NPZ directory was later overwritten in place."], "limitations": ["The original cache is unavailable, so current files can neither prove nor disprove the historical binding."]},
+    {"id": "F07", "verdict": "REFUTED", "claim": "The Q pathway was unused or the Q3 result came from random, uninitialized quality embeddings.", "evidence": ["The MeanFlow runner passes q_level when use_q_conditioning=true; the migration record proves q0 through q9 were initialized as bit-exact copies of trained q10 before Stage 2."], "limitations": ["This does not prove Q caused the metric gain."]},
+    {"id": "F08", "verdict": "REFUTED", "claim": "Same-track caption sharing alone is sufficient to produce the PQ gain.", "evidence": ["The R-Shared quarter control reduced CLAP from 0.1916 to 0.1703 and PQ changed from 6.3911 to 6.3836 rather than increasing."], "limitations": ["That control used rich local captions, NoQ, quarter scale, and an older MF1 evaluation, so interactions remain unresolved."]},
+    {"id": "F09", "verdict": "INFERENCE", "claim": "The table is consistent with an aesthetic-versus-prompt-adherence tradeoff and possible optimization toward a no-reference aesthetic predictor.", "evidence": ["After deduplicating repeated exp_label rows, Pearson correlations with PQ are CE 0.969184, CU 0.987095, PC 0.459229, and CLAP -0.126996; Worst arms repeatedly have lower CLAP and higher PQ than Best arms.", "Audiobox Aesthetics defines CE, CU, PC, and PQ as independent no-reference per-item axes, not prompt-alignment metrics."], "limitations": ["Correlation and model scores do not establish causality, human preference, or metric gaming."]},
+    {"id": "F10", "verdict": "INCONCLUSIVE", "claim": "Fulltrack Q3 is a reproducible causal advantage that should be adopted.", "evidence": ["The historical canonical metric is unusually high and is useful for hypothesis generation."], "limitations": ["Training provenance is not reproducible, the mechanism is unresolved, and no matched fresh training replication exists."]}
+  ],
+  "bounded_conclusion": "An evaluation bug is not demonstrated. A contract-label provenance defect and track-to-10-second granularity mismatch are confirmed; historical row-level binding and the causal mechanism remain unresolved. PQ 6.9337 is hypothesis evidence, not a reproducible causal advantage.",
+  "prohibited_claims": [
+    "historical_training_alignment_valid",
+    "cross_track_mismatch_confirmed",
+    "byte_level_eval_reproduced",
+    "fulltrack_causal_advantage",
+    "non_fulltrack_pq_over_6_9_achieved"
+  ],
+  "next_experiment_requirements": [
+    "Fresh-directory, no-skip canonical repeats of fulltrack Q3 q9 and per-segment slot0 Q3 q9.",
+    "A canonical CFG0 evaluation of the historical fulltrack NoQ checkpoint.",
+    "A fulltrack Q3 q0 diagnostic explicitly labeled secondary and noncanonical.",
+    "Checkpoint, TSV, argv, code, environment, ID-to-audio SHA256, metric-count, report, and cleanup manifests must be immutable and fail closed.",
+    "Any causal claim requires a freshly bound and reproducible training control; evaluation-only evidence is insufficient."
+  ]
+}

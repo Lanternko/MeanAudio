@@ -14,14 +14,9 @@ GRID="$DATA/phase8_qwen_meansim_bucket_grid.manifest.json"
 MUSICCAPS="$DATA/musiccaps_test.tsv"
 HOLDOUT="$ROOT/smoke_data/phase8_qwen_bucket_grid_musiccaps_holdout_n5009.tsv"
 EVALUATOR=/home/kojiek/research/meanaudio_eval/phase4_eval.py
-SOURCE_PREFIX=phase8_qwen_bucket_quarter_noq
-SOURCE_EXP="${SOURCE_PREFIX}_stage1_100000"
-SOURCE_CKPT="$ROOT/exps/$SOURCE_EXP/${SOURCE_EXP}_ckpt_last.pth"
-SOURCE_EMA="$ROOT/exps/$SOURCE_EXP/${SOURCE_EXP}_ema_final.pth"
-SOURCE_AUDIT="$LOG_ROOT/${SOURCE_PREFIX}_FINAL_TRAIN_AUDIT.json"
-SOURCE_CONTRACT="$LOG_ROOT/${SOURCE_PREFIX}_contract.json"
 K="${K:?K is required}"
 STRATEGY="${STRATEGY:-balanced}"
+SCALE="${SCALE:-quarter}"
 RUN_MODE="${EXPERIMENT_RUN_MODE:-fresh}"
 PREFLIGHT_ONLY="${PREFLIGHT_ONLY:-false}"
 EVAL_OUTPUT_ROOT="${EVAL_OUTPUT_ROOT:-$ROOT/eval_output_local}"
@@ -29,12 +24,35 @@ export EVAL_OUTPUT_ROOT
 
 case "$K" in 2|3|5|10) ;; *) echo "[FAIL] K must be 2, 3, 5, or 10" >&2; exit 2;; esac
 case "$STRATEGY" in balanced|fixed) ;; *) echo "[FAIL] STRATEGY must be balanced or fixed" >&2; exit 2;; esac
+case "$SCALE" in
+    quarter)
+        SOURCE_PREFIX=phase8_qwen_bucket_quarter_noq
+        SOURCE_S1_UPDATES=100000
+        S2_UPDATES=50000
+        PREFIX="phase8_qwen_s2q_from_noq_quarter_k${K}_${STRATEGY}"
+        ;;
+    full)
+        SOURCE_PREFIX=phase8_qwen_official_noq_full
+        SOURCE_S1_UPDATES=400000
+        S2_UPDATES=200000
+        PREFIX="phase8_qwen_s2q_from_noq_full_k${K}_${STRATEGY}"
+        ;;
+    *) echo "[FAIL] SCALE must be quarter or full" >&2; exit 2;;
+esac
+SOURCE_PREFIX="${SOURCE_PREFIX_OVERRIDE:-$SOURCE_PREFIX}"
+PREFIX="${PREFIX_OVERRIDE:-$PREFIX}"
 case "$RUN_MODE" in fresh|resume) ;; *) echo "[FAIL] invalid EXPERIMENT_RUN_MODE" >&2; exit 2;; esac
 case "$PREFLIGHT_ONLY" in true|false) ;; *) echo "[FAIL] invalid PREFLIGHT_ONLY" >&2; exit 2;; esac
 
-TRAIN_TSV="$DATA/phase8_qwen_meansim_k${K}_${STRATEGY}.tsv"
-PREFIX="phase8_qwen_s2q_from_noq_quarter_k${K}_${STRATEGY}"
-S2_EXP="${PREFIX}_stage2_50000"
+SOURCE_EXP="${SOURCE_PREFIX}_stage1_${SOURCE_S1_UPDATES}"
+SOURCE_CKPT="$ROOT/exps/$SOURCE_EXP/${SOURCE_EXP}_ckpt_last.pth"
+SOURCE_EMA="$ROOT/exps/$SOURCE_EXP/${SOURCE_EXP}_ema_final.pth"
+SOURCE_AUDIT="${SOURCE_AUDIT_OVERRIDE:-$LOG_ROOT/${SOURCE_PREFIX}_FINAL_TRAIN_AUDIT.json}"
+SOURCE_CONTRACT="${SOURCE_CONTRACT_OVERRIDE:-$LOG_ROOT/${SOURCE_PREFIX}_contract.json}"
+TRAIN_TSV="${TRAIN_TSV_OVERRIDE:-$DATA/phase8_qwen_meansim_k${K}_${STRATEGY}.tsv}"
+Q_ASSIGNMENT_TSV="${Q_ASSIGNMENT_TSV_OVERRIDE:-$TRAIN_TSV}"
+S2_FINAL_IT=$((SOURCE_S1_UPDATES + S2_UPDATES))
+S2_EXP="${PREFIX}_stage2_${S2_UPDATES}"
 S2_DIR="$ROOT/exps/$S2_EXP"
 S2_CKPT="$S2_DIR/${S2_EXP}_ckpt_last.pth"
 S2_EMA="$S2_DIR/${S2_EXP}_ema_final.pth"
@@ -54,12 +72,12 @@ source "$ROOT/scripts/runtime/phase8_nvidia_compat_env.sh"
 phase8_nvidia_compat_apply || { echo "[FAIL] NVIDIA preflight: $PHASE8_NVIDIA_COMPAT_ERROR" >&2; exit 2; }
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
-for path in "$TRAIN_TSV" "$GRID" "$GT_CACHE" "$NPZ_DIR" "$MUSICCAPS" "$HOLDOUT" \
+for path in "$TRAIN_TSV" "$Q_ASSIGNMENT_TSV" "$GRID" "$GT_CACHE" "$NPZ_DIR" "$MUSICCAPS" "$HOLDOUT" \
     "$EVALUATOR" "$SOURCE_CKPT" "$SOURCE_EMA" "$SOURCE_AUDIT" "$SOURCE_CONTRACT"; do
     [ -e "$path" ] || { echo "[FAIL] missing input: $path" >&2; exit 2; }
 done
 
-python - "$GRID" "$TRAIN_TSV" "$K" "$STRATEGY" "$SOURCE_CKPT" "$SOURCE_AUDIT" "$SOURCE_CONTRACT" <<'PY'
+python - "$GRID" "$TRAIN_TSV" "$Q_ASSIGNMENT_TSV" "$K" "$STRATEGY" "$SOURCE_CKPT" "$SOURCE_AUDIT" "$SOURCE_CONTRACT" "$SOURCE_S1_UPDATES" <<'PY'
 import csv, hashlib, json, sys
 from collections import Counter
 from pathlib import Path
@@ -68,27 +86,36 @@ from omegaconf import OmegaConf
 
 grid = Path(sys.argv[1])
 tsv = Path(sys.argv[2])
-k = int(sys.argv[3])
-strategy = sys.argv[4]
-source = Path(sys.argv[5])
-audit_path = Path(sys.argv[6])
-contract_path = Path(sys.argv[7])
+assignment_tsv = Path(sys.argv[3])
+k = int(sys.argv[4])
+strategy = sys.argv[5]
+source = Path(sys.argv[6])
+audit_path = Path(sys.argv[7])
+contract_path = Path(sys.argv[8])
+source_iteration = int(sys.argv[9])
 payload = json.loads(grid.read_text())
 arm = payload['outputs'][f'k{k}_{strategy}']
-digest = hashlib.sha256(tsv.read_bytes()).hexdigest()
+digest = hashlib.sha256(assignment_tsv.read_bytes()).hexdigest()
 if payload.get('status') != 'passed' or arm.get('sha256') != digest:
-    raise SystemExit('[FAIL] K TSV is not bound to passed grid')
+    raise SystemExit('[FAIL] Q-assignment TSV is not bound to passed grid')
 with tsv.open(newline='') as f:
     rows = list(csv.DictReader(f, delimiter='\t'))
+with assignment_tsv.open(newline='') as f:
+    assignment_rows = list(csv.DictReader(f, delimiter='\t'))
+if len(rows) != len(assignment_rows):
+    raise SystemExit('[FAIL] training and assignment TSV cardinality drift')
+for index, (row, assignment) in enumerate(zip(rows, assignment_rows)):
+    if row['id'] != assignment['id'] or int(row['q_level']) != int(assignment['q_level']):
+        raise SystemExit(f'[FAIL] training/assignment TSV mismatch at row {index}')
 hist = Counter(int(row['q_level']) for row in rows)
 if len(rows) != 251599 or hist != Counter({int(q): n for q, n in arm['q_histogram'].items()}):
     raise SystemExit('[FAIL] K TSV cardinality/histogram drift')
 state = torch.load(source, map_location='cpu', weights_only=False)
-if state.get('it') != 100000 or 'q_embed.weight' not in state.get('weights', {}):
-    raise SystemExit('[FAIL] No-Q S1 checkpoint is not the expected 100k source')
+if state.get('it') != source_iteration or 'q_embed.weight' not in state.get('weights', {}):
+    raise SystemExit(f'[FAIL] No-Q S1 checkpoint is not the expected {source_iteration} source')
 audit = json.loads(audit_path.read_text())
 contract = json.loads(contract_path.read_text())
-if audit.get('status') != 'passed' or audit.get('stage1_use_q_conditioning') is not False:
+if audit.get('status') != 'passed' or audit.get('stage1_use_q_conditioning') not in (None, False):
     raise SystemExit('[FAIL] source audit is not a passed No-Q S1')
 if (contract.get('stage1_use_q_conditioning') is not False
         or contract.get('stage2_use_q_conditioning') is not False):
@@ -96,7 +123,7 @@ if (contract.get('stage1_use_q_conditioning') is not False
 configs = sorted(source.parent.glob('train-*-hydra/config.yaml'))
 if not configs or OmegaConf.select(OmegaConf.load(configs[-1]), 'use_q_conditioning') is not False:
     raise SystemExit('[FAIL] source Hydra config is not No-Q')
-print(f'[OK] source=NoQ@100k K={k} histogram={dict(sorted(hist.items()))}')
+print(f'[OK] source=NoQ@{source_iteration} K={k} histogram={dict(sorted(hist.items()))}')
 PY
 
 if [ "$RUN_MODE" = fresh ]; then
@@ -115,11 +142,11 @@ if [ "$PREFLIGHT_ONLY" = true ]; then
     exit 0
 fi
 
-python - "$CONTRACT" "$PREFIX" "$K" "$STRATEGY" "$TRAIN_TSV" "$SOURCE_CKPT" "$GRID" <<'PY'
+python - "$CONTRACT" "$PREFIX" "$K" "$STRATEGY" "$TRAIN_TSV" "$SOURCE_CKPT" "$GRID" "$SCALE" "$SOURCE_S1_UPDATES" "$S2_UPDATES" "$S2_FINAL_IT" <<'PY'
 import hashlib, json, os, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
-out, prefix, k, strategy, tsv, source, grid = sys.argv[1:]
+out, prefix, k, strategy, tsv, source, grid, scale, source_it, s2_updates, final_it = sys.argv[1:]
 def sha(path):
     h = hashlib.sha256()
     with open(path, 'rb') as f:
@@ -128,9 +155,9 @@ def sha(path):
     return h.hexdigest()
 payload = {
     'schema_version': 1, 'created_at': datetime.now(timezone.utc).isoformat(),
-    'experiment': prefix, 'design': 'NoQ_S1_to_Q_S2_only', 'k': int(k),
+    'experiment': prefix, 'design': 'NoQ_S1_to_Q_S2_only', 'scale': scale, 'k': int(k),
     'strategy': strategy, 'source_stage1_checkpoint': source,
-    'source_stage1_sha256': sha(source), 'source_stage1_iteration': 100000,
+    'source_stage1_sha256': sha(source), 'source_stage1_iteration': int(source_it),
     'stage1_use_q_conditioning': False, 'stage2_use_q_conditioning': True,
     'q_initialization': 'copy-null-q10-to-q0..q9-online-and-ema',
     'train_tsv': tsv, 'train_tsv_sha256': sha(tsv),
@@ -138,8 +165,8 @@ payload = {
     'npz_dir': '/mnt/HDD/kojiek/phase8_qwen_official_matched_npz',
     'gt_cache': '/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt',
     'expected_rows': 251599, 'seed': 14159265, 'batch_size': 8,
-    'learning_rate': 1e-4, 'stage2_updates': 50000,
-    'stage2_final_iteration': 150000, 'eval_high_q': 9, 'eval_low_q': 0,
+    'learning_rate': 1e-4, 'stage2_updates': int(s2_updates),
+    'stage2_final_iteration': int(final_it), 'eval_high_q': 9, 'eval_low_q': 0,
 }
 payload['git_head'] = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
 path = Path(out)
@@ -157,12 +184,13 @@ if [ ! -f "$S2_CKPT" ]; then
     python set_training_stage.py --stage 2
     python migrate_stage1_to_stage2_ckpt.py --s1_ckpt "$SOURCE_CKPT" --s2_out "$S2_CKPT" --q-init copy-null \
         2>&1 | tee "$MIGRATE_LOG"
-    python - "$S2_CKPT" "$INIT_AUDIT" <<'PY'
+    python - "$S2_CKPT" "$INIT_AUDIT" "$SOURCE_S1_UPDATES" <<'PY'
 import json, os, sys
 from datetime import datetime, timezone
 from pathlib import Path
 import torch
 state = torch.load(sys.argv[1], map_location='cpu', weights_only=False)
+source_iteration = int(sys.argv[3])
 issues=[]
 for key, weight in [('online', state['weights'].get('q_embed.weight')),
                     *[(key, value) for key, value in state['ema'].items() if key.endswith('q_embed.weight')]]:
@@ -170,7 +198,7 @@ for key, weight in [('online', state['weights'].get('q_embed.weight')),
         issues.append(str(key))
 payload={'schema_version':1,'created_at':datetime.now(timezone.utc).isoformat(),'status':'passed' if not issues else 'failed','checkpoint':sys.argv[1],'iteration':state.get('it'),'q_init':'copy-null','nonidentical_q_rows':issues}
 out=Path(sys.argv[2]); tmp=out.with_suffix('.tmp'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n'); os.replace(tmp,out)
-print(json.dumps(payload, indent=2)); raise SystemExit(bool(issues) or state.get('it') != 100000)
+print(json.dumps(payload, indent=2)); raise SystemExit(bool(issues) or state.get('it') != source_iteration)
 PY
 fi
 
@@ -181,37 +209,38 @@ p=Path(sys.argv[1]); print(-1 if not p.is_file() else torch.load(p,map_location=
 PY
 }
 s2_it=$(checkpoint_iteration "$S2_CKPT")
-if [ "$s2_it" -lt 150000 ]; then
+if [ "$s2_it" -lt "$S2_FINAL_IT" ]; then
     python set_training_stage.py --stage 2
     torchrun --standalone --nproc_per_node=1 train.py \
-        data=meanaudio model=meanaudio_s exp_id="$S2_EXP" num_iterations=150000 \
+        data=meanaudio model=meanaudio_s exp_id="$S2_EXP" num_iterations="$S2_FINAL_IT" \
         "lr_schedule_steps=[999999,999999]" +use_q_conditioning=true batch_size=8 +accumulation_steps=1 \
         learning_rate=1e-4 seed=14159265 linear_warmup_steps=1000 num_workers=4 \
-        save_weights_interval=150000 save_checkpoint_interval=150000 ++ema.checkpoint_every=150000 \
+        save_weights_interval="$S2_FINAL_IT" save_checkpoint_interval="$S2_FINAL_IT" "++ema.checkpoint_every=$S2_FINAL_IT" \
         +use_rope=False +use_wandb=False +use_text_attention_mask=false val_interval=999999 eval_interval=999999 save_eval_interval=999999 \
         "data.AudioCaps_npz.tsv=$TRAIN_TSV" "+data.AudioCaps_npz.gt_cache=$GT_CACHE" \
         "data.AudioCaps_val_npz.tsv=$TRAIN_TSV" "+data.AudioCaps_val_npz.gt_cache=$GT_CACHE" \
         "++data.AudioCaps_npz.npz_dir=$NPZ_DIR" "++data.AudioCaps_val_npz.npz_dir=$NPZ_DIR" ++multi_cap=False \
         2>&1 | tee "$TRAIN_LOG"
-elif [ "$s2_it" -ne 150000 ]; then
+elif [ "$s2_it" -ne "$S2_FINAL_IT" ]; then
     echo "[FAIL] unexpected S2 iteration=$s2_it" >&2; exit 2
 fi
 [ -f "$S2_EMA" ] || { echo "[FAIL] missing S2 EMA" >&2; exit 2; }
 
-python - "$TRAIN_AUDIT" "$S2_CKPT" "$S2_DIR" "$CONTRACT" "$INIT_AUDIT" "$TRAIN_TSV" <<'PY'
+python - "$TRAIN_AUDIT" "$S2_CKPT" "$S2_DIR" "$CONTRACT" "$INIT_AUDIT" "$TRAIN_TSV" "$SOURCE_S1_UPDATES" "$S2_FINAL_IT" "$SCALE" <<'PY'
 import json, math, os, sys
 from datetime import datetime, timezone
 from pathlib import Path
 import torch
 from omegaconf import OmegaConf
-out, ckpt, directory, contract, init, tsv = map(Path, sys.argv[1:])
+out, ckpt, directory, contract, init, tsv = map(Path, sys.argv[1:7])
+source_it, final_it, scale = int(sys.argv[7]), int(sys.argv[8]), sys.argv[9]
 state=torch.load(ckpt,map_location='cpu',weights_only=False); issues=[]
-if state.get('it') != 150000: issues.append(f'iteration={state.get("it")}')
+if state.get('it') != final_it: issues.append(f'iteration={state.get("it")}')
 cfgs=sorted(directory.glob('train-*-hydra/config.yaml'))
 if not cfgs: issues.append('missing_hydra_config')
 else:
  cfg=OmegaConf.load(cfgs[-1])
- for key, expected in {'use_q_conditioning':True,'num_iterations':150000,'seed':14159265,'data.AudioCaps_npz.tsv':str(tsv)}.items():
+ for key, expected in {'use_q_conditioning':True,'num_iterations':final_it,'seed':14159265,'data.AudioCaps_npz.tsv':str(tsv)}.items():
   if OmegaConf.select(cfg,key) != expected: issues.append(f'{key}={OmegaConf.select(cfg,key)!r}')
 if not init.is_file() or json.loads(init.read_text()).get('status') != 'passed': issues.append('copy_null_init_audit')
 contract_payload=json.loads(contract.read_text())
@@ -220,8 +249,8 @@ payload={
  'status':'passed' if not issues else 'failed', 'issues':issues,
  'design':'NoQ_S1_to_Q_S2_only',
  'k':int(Path(contract).stem.split('_k')[-1].split('_')[0]),
- 'strategy':contract_payload['strategy'],
- 'source_stage1_iteration':100000, 'stage2_iteration':state.get('it'),
+ 'strategy':contract_payload['strategy'], 'scale':scale,
+ 'source_stage1_iteration':source_it, 'stage2_iteration':state.get('it'),
  'stage1_use_q_conditioning':False, 'stage2_use_q_conditioning':True,
  'q_initialization':'copy-null', 'contract':str(contract),
  'q_init_audit':str(init), 'hydra_config':str(cfgs[-1]) if cfgs else None,
@@ -272,7 +301,7 @@ def metric(label):
  if set(values)!=required or not all(math.isfinite(v) for v in values.values()): raise SystemExit(f'[FAIL] invalid metrics {p}')
  return {'label':str(label),**values}
 c=json.loads(contract.read_text()); h,l,ho=metric(high),metric(low),metric(holdout)
-payload={'schema_version':1,'completed_at':datetime.now(timezone.utc).isoformat(),'status':'passed','experiment':c['experiment'],'design':c['design'],'k':c['k'],'strategy':c['strategy'],'source_stage1':{'checkpoint':c['source_stage1_checkpoint'],'sha256':c['source_stage1_sha256'],'iteration':100000,'q_conditioning':False},'training_audit':str(audit),'training_contract':{'path':str(contract),'sha256':sha(contract)},'model':{'path':str(model),'sha256':sha(model)},'global':{'protocol':'MusicCaps 5521; MeanFlow1 CFG0.5','high_q9':h,'supported_low':l,'q9_minus_low_clap':h['clap_score']-l['clap_score'],'holdout5009_high_q9':ho}}
+payload={'schema_version':1,'completed_at':datetime.now(timezone.utc).isoformat(),'status':'passed','experiment':c['experiment'],'design':c['design'],'scale':c['scale'],'k':c['k'],'strategy':c['strategy'],'source_stage1':{'checkpoint':c['source_stage1_checkpoint'],'sha256':c['source_stage1_sha256'],'iteration':c['source_stage1_iteration'],'q_conditioning':False},'training_audit':str(audit),'training_contract':{'path':str(contract),'sha256':sha(contract)},'model':{'path':str(model),'sha256':sha(model)},'global':{'protocol':'MusicCaps 5521; MeanFlow1 CFG0.5','high_q9':h,'supported_low':l,'q9_minus_low_clap':h['clap_score']-l['clap_score'],'holdout5009_high_q9':ho}}
 tmp=out.with_suffix('.tmp'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\n'); os.replace(tmp,out); print(json.dumps(payload,indent=2,sort_keys=True))
 PY
 echo "[COMPLETE] $PREFIX report=$REPORT"

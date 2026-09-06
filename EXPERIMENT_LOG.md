@@ -1,5 +1,14 @@
 # MeanAudio 實驗記錄
 
+> **狀態（2026-07-16）**：本檔是 2026-03 前後的早期累積表，**不再維護新數字**。
+> 完整 / 最新 benchmark 請改查：
+> - `docs/experiments/best_results.md`（主表）
+> - `docs/experiments/results/benchmarks/ten_exp_full_benchmark.md`（10-exp 定稿）
+> - `docs/experiments/phase_status.md`（實驗狀態與 caveats）
+> - `docs/experiments/results/phase8/music_flamingo_ablation_todo.md`（Music Flamingo 系列）
+>
+> 下方表格保留作歷史追溯，數字可能被後續 bug-fix / seed=42 修正版覆蓋。
+
 所有實驗在 Jamendo test set 評估（n=2048，random subset）。
 主要指標：**CLAP ↑、CE ↑、PQ ↑**（FAD 僅歷史參考，不再作為主要指標）。
 

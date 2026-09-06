@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "phase8-caption2p0-full-k5-s2q",
+  "run_id": "run-20260814-caption2p0-full-k5-s2q",
+  "status": "superseded_pending_cfg0_recontract",
+  "supersession": {
+    "authorized_at": "2026-08-20T18:00:00+08:00",
+    "reason": "The operator replaced future canonical CFG4.5 evaluation with MusicCaps MeanFlow-25 CFG0. This contract must not launch until atomically replaced and rebound in the authenticated queue.",
+    "preserve_queue_order": true
+  },
+  "operator_authorization": {
+    "text_sha256": "a5ca345d3bf86391471bc1e1582cd44bd40fe4ebaf69a1eddd635188fd9dfbdb",
+    "authorized_at": "2026-08-14T14:09:21+08:00",
+    "instruction": "Schedule full-scale K=5 S2Q Caption 2.0 after the already queued work.",
+    "queue_recovery_amendment": {
+      "authorized_at": "2026-08-14T23:00:00+08:00",
+      "instruction_sha256": "6d93c976c3319491d291d8b829ddd958116b5a01782ae4839ee2b6b737e96a77",
+      "instruction": "Repair the Matrix bug first, then continue execution without allowing a failed predecessor to deadlock the top-level queue."
+    }
+  },
+  "dependencies": [
+    {
+      "experiment_id": "rmatched-s1-s2-steps-cfg-matrix-continuation",
+      "required_state": "completed"
+    }
+  ],
+  "queue_constraints": {
+    "ordering_dependencies": [
+      "historical-qwen-fulltrack-noq-s2-mf25-cfg4p5",
+      "rmatched-s1-s2-steps-cfg-matrix",
+      "rmatched-s1-s2-steps-cfg-matrix-repair",
+      "rmatched-s1-s2-steps-cfg-matrix-repair2",
+      "rmatched-s1-s2-steps-cfg-matrix-continuation"
+    ],
+    "scientific_dependencies": [
+      "rmatched-s1-s2-steps-cfg-matrix-continuation"
+    ],
+    "failure_handoff": "A failed or interrupted ordering predecessor does not block queue scanning. The repair scientific dependency must complete successfully before this run is eligible."
+  },
+  "scientific_design": {
+    "scale": "full",
+    "caption_profile": "Caption 2.0: Qwen2.5-Omni-3B first-10s multisent_max160_stop_clean_v1",
+    "stage1": {
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage1_400000/phase8_qwen_caption10s_multisent_noq_full_stage1_400000_ckpt_last.pth",
+      "checkpoint_sha256": "302305f1880e85f384161064f7af3fd5ed723f596d912b772d43cb0125ec40fc",
+      "iteration": 400000,
+      "use_q_conditioning": false
+    },
+    "stage2": {
+      "additional_iterations": 200000,
+      "final_iteration": 600000,
+      "use_q_conditioning": true,
+      "q_initialization": "copy null q10 row to q0..q9 in online and EMA weights",
+      "cadence": {
+        "name": "K=5 balanced",
+        "q_codes": [0, 2, 5, 7, 9],
+        "q_histogram": {"0": 50319, "2": 50320, "5": 50320, "7": 50320, "9": 50320}
+      }
+    },
+    "fixed_training_protocol": {
+      "seed": 14159265,
+      "batch_size": 8,
+      "learning_rate": 0.0001,
+      "linear_warmup_steps": 1000,
+      "use_text_attention_mask": false,
+      "multi_cap": false
+    }
+  },
+  "corpus": {
+    "kind": "generated",
+    "strict_gate": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/caption10s_multisent_strict_gate.json",
+      "sha256": "0fd08042444689460fbc41c1f4f25453c5f0d88e6ba58fdb70261b042f6406e5",
+      "status": "passed",
+      "rows": 251599
+    },
+    "caption_tsv_manifest": {
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/caption10s_multisent_train_tsv.manifest.json",
+      "sha256": "670bb134c3f22237670dcc39bdfe84322d807af660988c9c39e134c0561b6b54"
+    },
+    "derived_training_tsv": {
+      "path": "/home/kojiek/MeanAudio/data/phase8_caption2p0_k5_balanced_train.tsv",
+      "sha256": "e603c3063cf9b85c0de61186b2fe31043fb5f67de91a4f70d254689097818d68",
+      "manifest": "/home/kojiek/MeanAudio/data/phase8_caption2p0_k5_balanced_train.manifest.json",
+      "manifest_sha256": "a9057a1f9680376e4791784285ca8054ec6c416a15d0adff0a67eb34e2317353",
+      "rows": 251599,
+      "invariant": "Caption 2.0 rows and metadata unchanged; only q_level replaced by K=5 assignment."
+    },
+    "q_assignment": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_k5_balanced.tsv",
+      "sha256": "2841140dc8fc2a629810c487ff03cc0460c2d7abd2f9aa9dd0fb0be327a43aac",
+      "grid_manifest": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_bucket_grid.manifest.json",
+      "grid_manifest_sha256": "b050d4336fbed48e6f9bc553a94e581072d9b094309ca98d1db5266b0f2a44ba"
+    },
+    "feature_cache": {
+      "npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+      "cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "cache_list_sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "text_encoder_fingerprint": "27e88fac68d94a8a10e44d2db930a8f79db8ca0454ce996b82e448c48c40ab4c"
+    }
+  },
+  "commands": {
+    "fresh_binding_audit": "/home/kojiek/venvs/dac/bin/python /home/kojiek/MeanAudio/scripts/preprocess/audit_caption_npz_binding.py --tsv /home/kojiek/MeanAudio/data/phase8_caption2p0_k5_balanced_train.tsv --cache-list /mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt --npz-dir /mnt/HDD/kojiek/phase8_qwen_official_matched_npz --report /home/kojiek/logs/phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_BINDING_AUDIT.json --expected-rows 251599 --workers 8",
+    "train_and_diagnostic_eval": "env K=5 STRATEGY=balanced SCALE=full EXPERIMENT_RUN_MODE=fresh SOURCE_PREFIX_OVERRIDE=phase8_qwen_caption10s_multisent_noq_full PREFIX_OVERRIDE=phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced TRAIN_TSV_OVERRIDE=/home/kojiek/MeanAudio/data/phase8_caption2p0_k5_balanced_train.tsv Q_ASSIGNMENT_TSV_OVERRIDE=/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_k5_balanced.tsv SOURCE_AUDIT_OVERRIDE=/home/kojiek/logs/phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_BINDING_AUDIT.json SOURCE_CONTRACT_OVERRIDE=/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_contract.json bash /home/kojiek/MeanAudio/scripts/training_pipelines/execute_phase8_qwen_bucket_s2q_from_noq.sh",
+    "primary_fair_eval": "env BASE_OVERRIDE=phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_stage2_200000 SOURCE_REPORT_OVERRIDE=/home/kojiek/logs/phase8_qwen_caption2p0_s2q_from_noq_full_k5_balanced_FINAL_METRICS.json bash /home/kojiek/MeanAudio/scripts/eval/eval_phase8_qwen_s2q_full_k_mf25_cfg4p5.sh 5"
+  },
+  "implementation_bindings": {
+    "git_head_at_registration": "1268311ecdf44ae376e3a1f7251e57f01e4cbdb5",
+    "scripts/preprocess/apply_q_assignment_to_caption_tsv.py": "bd81548f78290b8b93f17b5e06b89b85ed4660534facc85a3956a1e4af28b25e",
+    "scripts/training_pipelines/execute_phase8_qwen_bucket_s2q_from_noq.sh": "61bf21820b17210f902980d008fb6e0933ec688e9dfaf87cabfc3aa653c40c0e",
+    "scripts/eval/eval_phase8_qwen_s2q_full_k_mf25_cfg4p5.sh": "6590a814279ccadd371e5bcc97e5ff381fa29b16c4c7c796a5ee7246bba7116d",
+    "scripts/training_pipelines/run_caption2p0_k5_s2q_action.sh": "c0d190f479b53e4b112c5e329c39ee58d7614179296277e1cbd020cb57614546",
+    "scripts/experiment_harness/caption2p0_k5_s2q_harn.py": "80b34800f36cdc94250a0f82b5f9e275794fe85891e7df64cb580c48d6cda379"
+  },
+  "evaluation": {
+    "primary": {"dataset": "MusicCaps", "rows": 5521, "steps": 25, "cfg": 4.5, "quality_level": 9},
+    "diagnostic": {"dataset": "MusicCaps", "rows": 5521, "steps": 1, "cfg": 0.5, "quality_levels": [9, 0]},
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"],
+    "primary_comparator": {
+      "label": "Historical full-track, one-caption Qwen full-scale Stage 2 +200k NoQ baseline",
+      "caption_semantics": "One historical Qwen caption per full Jamendo track, mapped to track segments",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_official_noq_full_stage2_200000/phase8_qwen_official_noq_full_stage2_200000_ema_final.pth",
+      "checkpoint_sha256": "2519e83638c431aff006bf7690023ab53f17ff86b8894200f83d23c0ddceeeca",
+      "protocol": "MusicCaps 5521; generation seed 42; MeanFlow 25 steps; CFG4.5; NoQ; NoMask; full precision",
+      "evaluation_contract": "/home/kojiek/MeanAudio/docs/experiments/historical_qwen_fulltrack_noq_s2_mf25_contract.json",
+      "report": "/home/kojiek/logs/phase8_qwen_official_noq_full_stage2_200000_musiccaps_mf25_cfg4p5_noq_REPORT.json",
+      "metrics_status": "pending_preregistered_evaluation"
+    },
+    "secondary_first10s_caption1p0_control": {
+      "label": "First-10s Caption 1.0 full-scale Stage 2 +200k NoQ control",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_noq_full_stage2_200000/phase8_qwen_caption10s_noq_full_stage2_200000_ema_final.pth",
+      "checkpoint_sha256": "47a02dc3fe9a8e4d83876651f52b2b49be404cde215c9ba1ab2cb38b02a98497",
+      "protocol": "MusicCaps 5521; generation seed 42; MeanFlow 25 steps; CFG4.5; NoQ; NoMask; full precision",
+      "metrics": {
+        "clap_score": 0.2123,
+        "aes_CE": 5.3443,
+        "aes_CU": 6.4768,
+        "aes_PC": 4.0105,
+        "aes_PQ": 6.3913
+      }
+    },
+    "secondary_same_caption2p0_control": {
+      "label": "Caption 2.0 full-scale Stage 2 +200k NoQ control",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "checkpoint_sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2",
+      "protocol": "MusicCaps 5521; generation seed 42; MeanFlow 25 steps; CFG4.5; NoQ; NoMask; full precision",
+      "metrics": {
+        "clap_score": 0.2419,
+        "aes_CE": 6.2105,
+        "aes_CU": 6.6855,
+        "aes_PC": 4.6891,
+        "aes_PQ": 6.5823
+      }
+    },
+    "required_analysis": "Primary: report K=5 Caption 2.0 S2Q minus the historical full-track one-caption Qwen NoQ Stage 2 +200k MF25 baseline for every metric. Secondary: also report differences to first-10s Caption 1.0 and same-caption Caption 2.0 NoQ controls."
+  },
+  "storage": {
+    "hdd_mode": "read_only_inputs",
+    "output_filesystem": "/",
+    "root_hard_floor_bytes": 161061273600,
+    "estimated_peak_additional_bytes": 42949672960,
+    "transient_bytes": 16106127360,
+    "recovery_reserve_bytes": 10737418240
+  },
+  "launch_gates": [
+    "the Matrix continuation scientific dependency completed",
+    "fresh full 251599-row derived TSV to NPZ binding audit passes",
+    "strict generated-corpus gate and all registered hashes revalidate",
+    "GPU resource lock acquired without an unknown conflicting process",
+    "root storage gate passes",
+    "Discord start notification delivery succeeds"
+  ],
+  "automatic_repair": false,
+  "required_notifications": ["start", "completion", "failure", "interruption", "disk_warning", "disk_hard_stop", "unexpected_gpu_idle"]
+}

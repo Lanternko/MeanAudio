@@ -167,7 +167,10 @@ independent watcher must also send exactly one idempotent Discord event for:
 - terminal success, failure, or interruption, keyed durably by experiment/run
   ID and terminal state across supervisor restarts and fresh invocations;
 - each experiment start after process identity and resource ownership are
-  recorded;
+  recorded, plus host seating and `queue_handoff` (Discord `--status start` /
+  STARTED, never `--status held` / QUEUE HELD). The body names the experiment,
+  GPU occupancy, and whether this is a start or a stop; a hold/fail states
+  why (storage, hash pin, stall, GPU race, or child exit);
 - every gate result: `pass`, `fail`, or `invalid`;
 - every resulting `promote`, `stop`, or `hold` decision;
 - every unexpected assigned-GPU idle transition and queue launch hold (Discord `--status held` / QUEUE HELD, never `--status failure`);
@@ -197,8 +200,13 @@ not satisfy the transaction.
 
 The report contains experiment name, time, host, Git revision, duration, exit
 code, a bounded failure-log tail, and registered metrics when the final JSON
-report exists. Every new Stage-2 training arm is unfinished until it has MusicCaps 5521 MeanFlow-25 CFG4.5 metrics (CLAP, AES CE/CU/PC/PQ), via caption10s_pipeline/eval_musiccaps_mf25.sh. NoQ arms pass --no_q; Q-conditioned arms report at least q0 and q9. This is the Caption 2.0 fair-compare protocol; MF1-only numbers are not sufficient. Discord mentions are disabled unless explicitly configured by
-the operator.
+report exists. Every new Stage-2 training arm is unfinished until it has
+MusicCaps 5,521 MeanFlow-25 CFG0 metrics (CLAP, AES CE/CU/PC/PQ), via a
+contract-bound evaluator. NoQ arms pass `--no_q`; Q-conditioned arms report the
+preregistered quality level(s). This is the canonical fair-compare protocol;
+MF1-only or CFG4.5-only numbers are not sufficient. Historical CFG4.5 reports
+remain immutable provenance and must use distinct labels. Discord mentions are
+disabled unless explicitly configured by the operator.
 
 The webhook URL is local-only:
 

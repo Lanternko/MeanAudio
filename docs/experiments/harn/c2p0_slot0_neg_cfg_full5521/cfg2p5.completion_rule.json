@@ -1,0 +1,9 @@
+{
+  "document_kind": "preregistered_completion_rule",
+  "phase_id": "cfg2p5-generate-score",
+  "runtime_evidence": "terminal controller ledger plus atomic report identity",
+  "required_report": "/home/kojiek/nvme_experiment_artifacts/meanaudio/c2p0_slot0_neg_cfg_full5521/c2p0_slot0_full_noq_cfg2p5_neg.json",
+  "required_rows": 5521,
+  "required_metrics": ["clap", "CE", "CU", "PC", "PQ"],
+  "future_report_sha256": null
+}

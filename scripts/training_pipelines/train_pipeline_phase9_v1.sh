@@ -1,4 +1,6 @@
 #!/bin/bash
+# HISTORICAL INVALID PIPELINE (2026-07-16): multi-caption audio mapping was
+# positional rather than canonical. Do not rerun/cite without a new v2 cache.
 # ============================================================
 # MeanAudio Phase 9 V1 — TrueRandom, No Q
 # train_pipeline_phase9_v1.sh
@@ -18,6 +20,12 @@
 # ============================================================
 
 set -e
+
+if [ "${ALLOW_INVALID_HISTORICAL_P9:-0}" != "1" ]; then
+    echo "[ABORT] Historical Phase 9 cache is audio-caption misaligned (2026-07-16 audit)."
+    echo "Build a canonical v2 cache and use a new clean from-scratch pipeline."
+    exit 64
+fi
 
 # ============================================================
 # 實驗參數設定

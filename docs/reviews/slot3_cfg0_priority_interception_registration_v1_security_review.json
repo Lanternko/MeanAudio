@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "document_kind": "pilotfish_security_readiness_review",
+  "readiness_unit_id": "slot3-cfg0-priority-interception-registration-v1",
+  "reviewed_plan": "/home/kojiek/MeanAudio/docs/experiments/slot3_cfg0_priority_interception_registration_v1.md",
+  "reviewed_plan_sha256": "9c663b0994f7ceacaed7f15971a948ae3b7ef441bd81da2a43a487cd27cfe985",
+  "reviewer_role": "security-reviewer",
+  "verdict": "READY",
+  "scope": "registration/interception only; zero GPU; zero authenticated top-queue mutation",
+  "accepted_controls": [
+    "registration runtime and GPU evaluation runtime are separate approval domains",
+    "activation binds final registration runtime manifest and replacement bytes",
+    "caller, pathname, checkpoint, and contract TOCTOU controls are mandatory",
+    "HMAC key lifecycle, domain separation, sequence, and replay controls are mandatory",
+    "notifier and webhook secret isolation are mandatory",
+    "outer hook loop preserves the set-e parent remainder on registration errors",
+    "CFG4.5 execution, signaling, GPU work, and live queue mutation are prohibited"
+  ],
+  "remaining_gates": [
+    "final implementation hashes",
+    "all registered no-GPU acceptance tests",
+    "current caller fingerprint",
+    "exact operator-bound activation record",
+    "separate security and approval unit before any GPU execution"
+  ]
+}

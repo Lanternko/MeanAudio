@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "document_kind": "read_only_security_review_receipt",
+  "receipt_id": "SEC-FTQ3-BMATRIX-v1-20260828-01",
+  "status": "hold_registration_and_launch_pending_remediation",
+  "review_input_fingerprint": "41ba6980feff2eb6f580fd096c0ae4c0cd683dad296ccd740e132a5cc5581682",
+  "reviewed_plan": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/designs/fulltrack_q3_pq_bmatrix_v1.json",
+    "sha256": "cbf2ac2515523b88921c04994f452efaeff0ade6b40a2e8b7d622024b9abb709"
+  },
+  "overall_disposition": "Implementation-only approval may be requested after findings are carried into the Plan. Exact registration and launch remain held until remediations, tests, a superseding security review, final plan review, and a separate exact-artifact approval pass.",
+  "findings": [
+    {"id": "FTQ3-BMATRIX-v1/INPUT-INTEGRITY", "priority": "P1-critical", "disposition": "fix", "required_tests": ["AT-INPUT-01", "AT-INPUT-02", "AT-INPUT-03", "AT-INPUT-04"]},
+    {"id": "FTQ3-BMATRIX-v1/AUTH-2STAGE", "priority": "P1-critical", "disposition": "fix", "required_tests": ["AT-AUTH-01", "AT-AUTH-02", "AT-AUTH-03", "AT-AUTH-04", "AT-AUTH-05", "AT-AUTH-06"]},
+    {"id": "FTQ3-BMATRIX-v1/P2-QUEUE-OWNERSHIP", "priority": "P1-high", "disposition": "fix", "required_tests": ["AT-P2-01", "AT-P2-02", "AT-P2-03", "AT-P2-04", "AT-P2-05"]},
+    {"id": "FTQ3-BMATRIX-v1/PATH-TOCTOU-CLEANUP", "priority": "P1-high", "disposition": "fix", "required_tests": ["AT-PATH-01", "AT-PATH-02", "AT-PATH-03", "AT-CLEAN-01", "AT-CLEAN-02"]},
+    {"id": "FTQ3-BMATRIX-v1/STATE-OUTBOX-RESTART", "priority": "P1-high", "disposition": "fix", "required_tests": ["AT-STATE-01", "AT-STATE-02", "AT-STATE-03", "AT-NOTIFY-TRANSACTION-01", "AT-RESTART-01"]},
+    {"id": "FTQ3-BMATRIX-v1/EXEC-ENV", "priority": "P1-high", "disposition": "fix", "required_tests": ["AT-ENV-01", "AT-ENV-02", "AT-ARGV-01", "AT-NET-01"]},
+    {"id": "FTQ3-BMATRIX-v1/NOTIFY-DISCLOSURE", "priority": "P2-medium", "disposition": "fix", "required_tests": ["AT-SECRET-01", "AT-SECRET-02", "AT-MENTION-01"]}
+  ],
+  "auth_root_threat_note": "A local HMAC key cannot authenticate against malicious same-UID mutation. The revised Plan must require either an externally verifiable detached signature or explicit final-approval acceptance of a documented AUTH_ROOT residual limited to malicious same-UID/root compromise; accidental same-UID mutation remains in scope for locks and hash binding.",
+  "review_actions": "Read-only. No files, queue state, processes, or external systems were modified by the security reviewer.",
+  "supersession": "Any revised design requires an additive superseding security receipt before final Plan readiness review."
+}

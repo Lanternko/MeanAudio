@@ -1,0 +1,40 @@
+{
+  "bindings": {
+    "contract_raw_sha256": "aea56d82f456e0bce272a402d07baa0d8eafb390c1f1df5c2c5701d7955e0ebb",
+    "preflight_report_raw_sha256": "8caac0b50c042a863bfeb033f6e78c59c0ed3fa6e5cf7097b8c05b6134825289",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "document_kind": "event_ledger",
+  "events": [
+    {
+      "event_id": "contract-register",
+      "event_kind": "contract_registered",
+      "event_sha256": "0f17a14f52aa76763b8f497b8bfbf48d6d8cab8519fd62d2fc2e9ae19caa988a",
+      "idempotency_key": "cfg0-eval-recovery-chain-20260831:contract-register",
+      "notification_status": "not_applicable",
+      "occurred_at": "2026-08-31T10:34:57Z",
+      "phase": null,
+      "previous_event_sha256": null,
+      "relates_to_event_id": null,
+      "sequence": 1,
+      "verdict": "none"
+    },
+    {
+      "event_id": "storage-gate",
+      "event_kind": "gate_result",
+      "event_sha256": "6a1a8fb2866925159557d9e88d174631139337264636dd2d840b76dcbe69cbc9",
+      "idempotency_key": "cfg0-eval-recovery-chain-20260831:storage-gate",
+      "notification_status": "pending",
+      "occurred_at": "2026-08-31T10:34:57Z",
+      "phase": null,
+      "previous_event_sha256": "0f17a14f52aa76763b8f497b8bfbf48d6d8cab8519fd62d2fc2e9ae19caa988a",
+      "relates_to_event_id": null,
+      "sequence": 2,
+      "verdict": "fail"
+    }
+  ],
+  "experiment_id": "cfg0-eval-recovery-chain-20260831",
+  "run_id": "run-20260831-cfg0-eval-recovery-chain-030-032",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

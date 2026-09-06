@@ -152,14 +152,12 @@ class MeanFlow():
                      text_f=u_text_f,
                      text_f_c=u_text_f_c,
                      text_attention_mask=empty_text_attention_mask,
-                     r=t,
                      t=t,
                      q=torch.full_like(q, 10) if q is not None else None).detach().requires_grad_(False)
             u_t_c = fn(latent=z, 
                        text_f=text_f_undrop,
                        text_f_c=text_f_c_undrop,
                        text_attention_mask=text_attention_mask_undrop,
-                       r=t,
                        t=t,
                        q=q).detach().requires_grad_(False)
         
@@ -172,9 +170,9 @@ class MeanFlow():
             fn, text_f=text_f, text_f_c=text_f_c,
             text_attention_mask=text_attention_mask, q=q)
         jvp_args = (
-            lambda z_f, r_f, t_f: model_partial(latent=z_f, r=r_f, t=t_f),
-            (z, r, t),
-            (v_hat, torch.zeros_like(r), torch.ones_like(t)),
+            lambda z_f, t_f: model_partial(latent=z_f, t=t_f),
+            (z, t),
+            (v_hat, torch.ones_like(t)),
         )
         if self.create_graph:
             u, dudt = self.jvp_fn(*jvp_args, create_graph=True)

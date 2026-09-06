@@ -34,6 +34,7 @@ class ExtractedAudio(Dataset):
         multi_cap: bool = False,   # if True, NPZ stores N captions [N, seq_len, dim]; random one picked per __getitem__
         cap_index_fixed: Optional[int] = None,    # reuse a stacked overlay by always taking this caption slot
         cap_index_column: Optional[str] = None,   # reuse a stacked overlay by taking a per-row slot from the TSV
+        text_npz_sources: Optional[list] = None,  # multi_cap over slots assembled from several existing overlays
         use_text_attention_mask: bool = True,
     ):
         super().__init__()
@@ -86,6 +87,34 @@ class ExtractedAudio(Dataset):
             log.info(
                 f'cap_index_column={cap_index_column!r}: reusing per-row slots of a stacked text overlay '
                 f'(range {min(indices)}..{max(indices)})'
+            )
+
+        # A rotation arm over a slot set that was never encoded as one stack: assemble
+        # the caption pool from overlays that already exist instead of re-encoding a
+        # duplicate 225 GB copy. Each source is {dir: <path>, index: <slot|null>};
+        # index=null means that directory holds single-caption overlays.
+        self.text_sources: Optional[list[tuple[Path, Optional[int]]]] = None
+        if text_npz_sources is not None:
+            if not self.multi_cap:
+                raise ValueError('text_npz_sources requires multi_cap=True')
+            if self.cap_indices is not None:
+                raise ValueError('text_npz_sources cannot be combined with cap_index_fixed / cap_index_column')
+            sources = []
+            for spec in text_npz_sources:
+                if isinstance(spec, (str, Path)):
+                    spec = {'dir': str(spec), 'index': None}
+                source_dir = Path(str(spec['dir']))
+                if not source_dir.is_dir():
+                    raise ValueError(f'text_npz_sources directory does not exist: {source_dir}')
+                slot = spec.get('index', None)
+                sources.append((source_dir, None if slot is None else int(slot)))
+            if len(sources) < 2:
+                raise ValueError('text_npz_sources needs at least two caption sources')
+            self.text_sources = sources
+            log.info(
+                'text_npz_sources: rotating over %d captions assembled from %s',
+                len(sources),
+                ', '.join(f'{d.name}[{i}]' if i is not None else d.name for d, i in sources),
             )
 
         if self.concat_text_fc:
@@ -178,6 +207,51 @@ class ExtractedAudio(Dataset):
             return str(value.item()).split(',')
         return [str(item) for item in value.tolist()]
 
+    def _composed_caption(self, idx: int):
+        """Rotate over captions held in several overlays, one slot taken per source."""
+        name = self.npz_files[idx]
+        expected_id = str(self.df_list[idx]['id'])
+        loaded = []
+        shas = []
+        for source_dir, slot in self.text_sources:
+            data = np.load(source_dir / name)
+            if 'clip_id' not in data.files or str(data['clip_id'].item()) != expected_id:
+                raise ValueError(
+                    f'text overlay clip_id mismatch at index {idx} in {source_dir}: expected {expected_id}'
+                )
+            stored = self._stored_caption_hashes(data['caption_sha256'])
+            if slot is None:
+                if len(stored) != 1:
+                    raise ValueError(
+                        f'{source_dir} holds {len(stored)} stacked captions at index {idx}; a slot index is required'
+                    )
+                shas.append(stored[0])
+            else:
+                if slot >= len(stored):
+                    raise ValueError(
+                        f'slot {slot} out of range for {len(stored)} stacked captions in {source_dir} at index {idx}'
+                    )
+                shas.append(stored[slot])
+            loaded.append(data)
+        if self.require_text_overlay:
+            row_sha = hashlib.sha256(str(self.df_list[idx]['caption']).encode('utf-8')).hexdigest()
+            if row_sha not in shas:
+                raise ValueError(
+                    f'text overlay caption mismatch at index {idx}: TSV caption is not among the '
+                    f'{len(shas)} composed captions'
+                )
+        cap_idx = self._true_random_cap_index(expected_id, len(self.text_sources))
+        data = loaded[cap_idx]
+        slot = self.text_sources[cap_idx][1]
+        take = (lambda array: array) if slot is None else (lambda array: array[slot])
+        text_features = torch.from_numpy(take(data['text_features']))
+        text_features_c = torch.from_numpy(take(data['text_features_c']))
+        if self.text_attention_mask_key is not None and self.text_attention_mask_key in data.files:
+            text_attention_mask = torch.from_numpy(take(data[self.text_attention_mask_key])).bool()
+        else:
+            text_attention_mask = torch.ones(text_features.shape[0], dtype=torch.bool)
+        return text_features, text_features_c, text_attention_mask
+
     def _check_caption_binding(self, text_np_data, idx: int, cap_idx: Optional[int]) -> None:
         """Guard the caption<->overlay pairing that silently broke the Phase 9 multi-cap runs."""
         if not self.require_text_overlay or 'caption_sha256' not in text_np_data.files:
@@ -213,7 +287,9 @@ class ExtractedAudio(Dataset):
                 raise ValueError(f'audio clip_id mismatch at index {idx}: expected {expected_id}')
             if 'clip_id' not in text_np_data.files or str(text_np_data['clip_id'].item()) != expected_id:
                 raise ValueError(f'text overlay clip_id mismatch at index {idx}: expected {expected_id}')
-        if self.multi_cap:
+        if self.text_sources is not None:
+            text_features, text_features_c, text_attention_mask = self._composed_caption(idx)
+        elif self.multi_cap:
             # text_features: [N, seq_len, dim], text_features_c: [N, dim]
             n_caps = text_np_data['text_features'].shape[0]
             cap_idx = self._true_random_cap_index(str(self.df_list[idx]['id']), n_caps)

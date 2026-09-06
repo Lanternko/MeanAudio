@@ -1,4 +1,6 @@
 #!/bin/bash
+# HISTORICAL INVALID PIPELINE (2026-07-16): multi-caption audio mapping was
+# positional rather than canonical. Its 0.0403 result is excluded.
 # ============================================================
 # MeanAudio Phase 9 V2 — BUG-FIX (TrueRandom + Q)
 # train_pipeline_phase9_v2_bugfix.sh
@@ -40,6 +42,12 @@
 
 set -e
 set -o pipefail
+
+if [ "${ALLOW_INVALID_HISTORICAL_P9:-0}" != "1" ]; then
+    echo "[ABORT] This historical rerun uses a misaligned Phase 9 cache."
+    echo "Its 0.0403 result is excluded; use a canonical clean S1+S2 pipeline."
+    exit 64
+fi
 
 EXP_PREFIX="phase9_v2_bugfix"
 

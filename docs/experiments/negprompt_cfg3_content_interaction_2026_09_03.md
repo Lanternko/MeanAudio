@@ -6,6 +6,8 @@
 腳本：`scripts/eval/negprompt_ablation_matrix.py`（Q3/Q4 區塊）、
 `scripts/analysis/negprompt_loudness_covariate.py`
 前置：[negprompt_cfg_content_ablation_2026_08_31.md](negprompt_cfg_content_ablation_2026_08_31.md)
+後續：[N1 密度檢定 2026-09-04](results/phase8/negprompt_n1_density_2026_09_04.md) —— 用本文的 13-arm
+ΔPQ 對各 arm 訓練語料的保真度詞彙密度回歸；`reversed` +0.722 與 `loud` 反轉在那裡得到上位解釋
 
 前一份 36 格矩陣的內容掃描只在 cfg 1.5 做，留下未解問題 #2（內容 × cfg 交互作用未測）與
 #3（短版在高 cfg 是否仍有 loudness confound 未測）。本文在 PQ 最佳點 cfg 3.0 補完整個內容階梯，

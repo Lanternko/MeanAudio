@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "aea56d82f456e0bce272a402d07baa0d8eafb390c1f1df5c2c5701d7955e0ebb",
+        "ledger_raw_sha256": "65b2a1c12cf5bfae3d718ccd643ff3622ce9650eef0f779b343242049fc2cc38",
+        "preflight_report_raw_sha256": "8caac0b50c042a863bfeb033f6e78c59c0ed3fa6e5cf7097b8c05b6134825289",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "cfg0-recovery-chain-030-032",
+      "experiment_id": "cfg0-eval-recovery-chain-20260831",
+      "position": 1,
+      "run_id": "run-20260831-cfg0-eval-recovery-chain-030-032",
+      "status": "blocked",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-cfg0-eval-recovery-030-032",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-08-31T10:34:57Z"
+}

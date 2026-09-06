@@ -2,6 +2,10 @@
 # ============================================================
 # MeanAudio Phase 9 V1 — BUG-FIX RERUN
 # train_pipeline_phase9_v1_bugfix_rerun.sh
+# HISTORICAL INVALID PIPELINE (2026-07-16): phase9_multicap_npz paired every
+# caption row with positional i.npz instead of the canonical gt_cache mapping.
+# Do not rerun or cite this pipeline; use a new canonical cache and from-scratch
+# S1+S2 clean pipeline.
 #
 # 目的：驗證兩個 S2-only bug 修復是否讓 P9 V1 CLAP 從 0.0260 恢復
 #
@@ -37,6 +41,12 @@
 
 set -e
 set -o pipefail
+
+if [ "${ALLOW_INVALID_HISTORICAL_P9:-0}" != "1" ]; then
+    echo "[ABORT] This historical rerun reuses a misaligned Phase 9 cache/checkpoint."
+    echo "Its 0.0650 result is excluded; use a canonical clean S1+S2 pipeline."
+    exit 64
+fi
 
 # ============================================================
 # 實驗參數

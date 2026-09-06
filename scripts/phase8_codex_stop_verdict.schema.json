@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "decision",
+    "stop_authorized",
+    "confidence",
+    "observed_phase",
+    "observed_iteration",
+    "reason",
+    "evidence"
+  ],
+  "properties": {
+    "decision": {
+      "type": "string",
+      "enum": ["continue", "stop", "escalate"]
+    },
+    "stop_authorized": {
+      "type": "boolean"
+    },
+    "confidence": {
+      "type": "string",
+      "enum": ["high", "medium", "low"]
+    },
+    "observed_phase": {
+      "type": ["string", "null"]
+    },
+    "observed_iteration": {
+      "type": ["integer", "null"]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {"type": "string"},
+      "minItems": 1
+    }
+  }
+}

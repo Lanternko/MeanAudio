@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "document_kind": "active_experiment_contract_amendment",
+  "amendment_id": "notify-body-experiment-gpu-why-20260902",
+  "experiment_ids": [
+    "single-negprompt-cfg3-ablation-20260831"
+  ],
+  "approved": true,
+  "approved_at": "2026-09-02T21:14:12+08:00",
+  "operator_instruction": {
+    "text": "seating / queue_handoff / start \u90fd\u662f HELD \u9019\u500b bug \u6539\u6389",
+    "meaning": "Discord seating, queue_handoff, and start must use STARTED, not QUEUE HELD"
+  },
+  "trigger": {
+    "root_cause": "pre_child_notifications and p1/p2 host seating sent --status held because the notifier had no start status. Acceptance tests froze that mapping."
+  },
+  "scope": {
+    "allowed": [
+      "Add Discord --status start and render seating/queue_handoff/start as STARTED.",
+      "Switch pre_child_notifications and host seating to --status start.",
+      "Re-pin 033 notification_receipts.notifier_sha256 and inputs[9] to the amended notifier."
+    ],
+    "forbidden": [
+      "Change data, checkpoint, subset, seed, hyperparameters, CFG, or queue order.",
+      "Restart p2_host while 033 is running.",
+      "Re-pin completed contracts (030-032) whose delivered receipts bind the previous notifier sha."
+    ]
+  },
+  "changes": [
+    {
+      "field": "notification_receipts.notifier_sha256",
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "pre_sha256": "fe941ff0541aada6457296eb478788975e19a3c6c53ed7a9646acb9baf14d9b9",
+      "post_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+      "pre_bytes": 20058,
+      "post_bytes": 25227
+    },
+    {
+      "field": "inputs[9]",
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "kind": "notification_notifier",
+      "pre_sha256": "fe941ff0541aada6457296eb478788975e19a3c6c53ed7a9646acb9baf14d9b9",
+      "post_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+      "pre_bytes": 20058,
+      "post_bytes": 25227
+    }
+  ],
+  "contract": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/single_negprompt_cfg3_ablation_20260831_contract.json",
+    "pre_sha256": "9a361c2e4217feca5006400c7ce27dc82c99bc193a74b62c3d251827a5ce1e75",
+    "post_sha256": "b5fa89781d88c870371a228f8d16b2b1e7d3e648818e819548b8c031bcee1182",
+    "fields_changed": [
+      "notification_receipts.notifier_sha256",
+      "inputs[9].bytes",
+      "inputs[9].sha256"
+    ]
+  }
+}

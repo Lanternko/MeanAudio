@@ -1,0 +1,221 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "cb5c7ab916a26452feed1a375cf541e2f474a91aacdc9b2cbb9639ec83efa8ab",
+    "policy_bundle_sha256": "057f0ede3f132d152f57d69ecad6365d1d798f271775c19ecac050c9ac39ec38",
+    "runtime_sha256": "cfab6d4d670352dadd18b196101ab796bf2196e498ef7614d5534b4da12f72cb",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "eval_030",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/030_recover_true_random_full_cfg0.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume_030",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/030_recover_true_random_full_cfg0.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "eval_031",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/031_recover_seed27182818_baseline_cfg0.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume_031",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/031_recover_seed27182818_baseline_cfg0.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "eval_032",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/032_recover_modular_template_quarter_cfg0.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume_032",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/032_recover_modular_template_quarter_cfg0.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+        "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "cfg0-eval-recovery-chain-20260831",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 63687091200,
+      "path": "/home/kojiek/cfg0_eval_runtime",
+      "peak_additional_bytes": 8000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 6000000000,
+      "warning_floor_bytes": 80000000000
+    }
+  ],
+  "notification_events": [
+    "preflight-pass",
+    "start",
+    "disk-warning",
+    "disk-hard-stop",
+    "stall",
+    "interruption",
+    "terminal",
+    "queue-handoff"
+  ],
+  "phases": [
+    {
+      "action_id": "eval_030",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/validate_caption2p0_cfg0_report.py",
+          "sha256": "b1e4d28717c2024ef2e632329c0ba71747050b618fdd3e6160d985837ed4b9a8"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_noq_full_stage2_200000/phase8_qwen_caption2p0_k3_true_random_noq_full_stage2_200000_ema_final.pth",
+          "sha256": "ae166c89a876609ddd2640a3e34d26c8066bb1a7402f690a99063abd0098b0f8"
+        },
+        {
+          "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+          "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/cfg0_recovery_true_random_full_20260831_contract.json",
+          "sha256": "51fe6d60560fe5ada27ee498c941916bdca15c5560cde3397a6d09079ab80ed9"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true_random_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
+      ],
+      "phase_id": "recovery-030",
+      "resume_action_id": "resume_030"
+    },
+    {
+      "action_id": "eval_031",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/validate_caption2p0_cfg0_report.py",
+          "sha256": "b1e4d28717c2024ef2e632329c0ba71747050b618fdd3e6160d985837ed4b9a8"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_ema_final.pth",
+          "sha256": "d29311d2cd560eed8f3513269dc8b34e17907f18368709dd0f708cd89b7a3b50"
+        },
+        {
+          "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+          "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/cfg0_recovery_seed27182818_20260831_contract.json",
+          "sha256": "6eb57b011074fdae12367a6d43ca8505ba153edb9695be45fb0d0ceeda01906f"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json"
+      ],
+      "phase_id": "recovery-031",
+      "resume_action_id": "resume_031"
+    },
+    {
+      "action_id": "eval_032",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/validate_caption2p0_cfg0_report.py",
+          "sha256": "b1e4d28717c2024ef2e632329c0ba71747050b618fdd3e6160d985837ed4b9a8"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_modular_template_noq_quarter_stage2_50000/phase8_qwen_caption2p0_modular_template_noq_quarter_stage2_50000_ema_final.pth",
+          "sha256": "217cbf6f762c18c10d00efeec20144ad95ee2bacf789dbc590503da50f2bb287"
+        },
+        {
+          "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+          "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/cfg0_recovery_modular_template_quarter_20260831_contract.json",
+          "sha256": "19c996997459d4b012ce6229b6003f369486438a93327e416c016828cf0a11ff"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_modular_template_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+      ],
+      "phase_id": "recovery-032",
+      "resume_action_id": "resume_032"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "run_id": "run-20260831-cfg0-eval-recovery-chain-030-032",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

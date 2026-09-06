@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "phase8-caption2p0-slot0-full-cfg0-eval",
+  "run_id": "run-20260824-011_slot0_full_cfg0",
+  "status": "preregistered_eval_only_cfg0",
+  "launch_allowed": true,
+  "approval_required": false,
+  "scientific_priority": 1,
+  "queue_name": "011_slot0_full_cfg0.sh",
+  "queue_role": "p1",
+  "selection_type": "Passive / Slot 0",
+  "rationale": "Full-scale results for this selection exist only at CFG4.5. Canonical comparison with quarter CFG0 requires a MusicCaps MF25 CFG0 eval of the already-trained full-scale S2 EMA. Eval-only; no training.",
+  "checkpoint": {
+    "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+    "bytes": 482119875
+  },
+  "evaluation": {
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "precision": "full",
+    "no_q": true,
+    "quality_level": null,
+    "label": "phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq",
+    "wrapper": "/home/kojiek/research/meanaudio_training/caption10s_pipeline/eval_musiccaps_mf25.sh"
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/gpu_queue/jobs/actions/p1_slot0_full_cfg0.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/jobs/p1_slot0_full_cfg0.sh",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "action": "/home/kojiek/gpu_queue/jobs/actions/p1_slot0_full_cfg0.sh",
+    "launcher_sha256": "8bd327c626ef030eb7096700d3a4c30bd50d0ca1173b1cbbd82e89bd1cc49c39",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action_sha256": "8b7ca77e95e6ec91a9984564c7d2be1a3da8bbfd9dca4556567e4853e7917409"
+  },
+  "resume": {
+    "kind": "eval_ema_checkpoint",
+    "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+    "checkpoint_sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2",
+    "checkpoint_bytes": 482119875
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json"
+  }
+}

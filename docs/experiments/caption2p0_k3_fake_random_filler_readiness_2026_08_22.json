@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "document_kind": "gpu_filler_readiness_report",
+  "experiment_id": "caption2p0-k3-fake-random-quarter-noq",
+  "scientific_priority": 1,
+  "assessment": "not_yet_eligible_but_repairable",
+  "gates": [
+    {
+      "gate": "three_caption_source_id_alignment",
+      "status": "pass",
+      "evidence": "251599 unique official IDs; slot0/slot1/slot3 exact coverage"
+    },
+    {
+      "gate": "fixed_random_assignment",
+      "status": "pass",
+      "evidence": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_fake_random_source_manifest.json"
+    },
+    {
+      "gate": "isolated_caption_npz_cache",
+      "status": "smoke_pass_full_build_pending",
+      "reason": "text-overlay loader and two-record CPU build passed; full 251599-record overlay waits for the active canonical slot0 restore to release shared HDD I/O"
+    },
+    {
+      "gate": "exact_checkpoint_resume",
+      "status": "implementation_and_deterministic_fixture_pass_real_training_fixture_pending",
+      "reason": "checkpoint now stores trainer/global RNG and resume skips the exact within-epoch offset; a 23-step interrupted-at-13 fixture matched uninterrupted model, optimizer, scheduler, EMA, and RNG state"
+    },
+    {
+      "gate": "cooperative_pause_harn",
+      "status": "checkpoint_ack_verifier_fixture_pass_full_harn_pending",
+      "reason": "pause request, atomic checkpoint, acknowledgment, and fail-closed checkpoint verifier pass fixtures; approval-bound live controller/notification/resource release remains pending"
+    },
+    {
+      "gate": "authenticated_live_queue",
+      "status": "pending",
+      "reason": "top-level controller binding drift must be repaired without discarding preserved entries"
+    }
+  ],
+  "implementation_evidence": {
+    "selftest": "/home/kojiek/MeanAudio/scripts/tests/selftest_preemptible_training.py",
+    "selftest_sha256": "c1afc2a612d587a83ccfb8e39ec1ee1fbb016086511ac8bb976f924673d45948",
+    "overlay_builder": "/home/kojiek/MeanAudio/scripts/preprocess/build_text_overlay_cache.py",
+    "overlay_builder_sha256": "88f4d27f98aa6fffaaa7ee2d809fa3a9ab76bf80e10c71ed4a2fea2e4d0cddfe",
+    "checkpoint_verifier": "/home/kojiek/MeanAudio/scripts/experiment_harness/verify_preemptible_checkpoint.py",
+    "checkpoint_verifier_sha256": "3388970d760131ba9620756c64ea6ae2db8de191db8d2fb856b6c9ef0076673f"
+  },
+  "promotion_rule": "Eligible only after every gate is pass, the full overlay is bound, a real mini-training pause/resume fixture passes, and the authenticated HARN owns and releases the GPU correctly.",
+  "expected_outcome": "Achievable without changing the scientific comparison because fake-random caption assignment is already immutable per audio; remaining work is cache isolation and runtime resume/harness correctness."
+}

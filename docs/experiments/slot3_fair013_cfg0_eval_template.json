@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "document_kind": "slot3_fair013_cfg0_registration_template",
+  "readiness_unit_id": "slot3-cfg0-priority-interception-registration-v1",
+  "status": "retired_completed_via_retrospective_evidence",
+  "retirement_record": "/home/kojiek/MeanAudio/docs/experiments/cfg0_pending_retirement_2026_08_22.json",
+  "scientific_protocol": {
+    "benchmark": "MusicCaps",
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "expected_rows": 5521,
+    "expected_unique_ids": 5521,
+    "variant": "meanaudio_s",
+    "solver": "MeanFlow",
+    "num_steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "encoder_name": "t5_clap",
+    "text_c_dim": 512,
+    "no_text_attention_mask": true,
+    "full_precision": true,
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"]
+  },
+  "caller": {
+    "pid": 3413396,
+    "uid": 1005,
+    "start_ticks": 185217549,
+    "boot_id": "bdf33f4f-5fd4-45ea-8f7c-6281f73c367d",
+    "executable": "/usr/bin/bash",
+    "argv": [
+      "/bin/bash",
+      "/home/kojiek/research/meanaudio_training/caption10s_pipeline/run_c2p0_fair013_chain.sh"
+    ],
+    "script_fd": 255,
+    "script_device": 66306,
+    "script_inode": 9867918,
+    "script_sha256": "225a40eaee381482af8c803bfd3a9dc5bdd3d4270ea2c3a996432765ee52a02f"
+  },
+  "interceptor": {
+    "live_path": "/home/kojiek/research/meanaudio_training/caption10s_pipeline/eval_musiccaps_mf25.sh",
+    "historical_preimage_sha256": "9fa92b2a232ed33dea61f7d6f19c4b7d3c3d201dacabfc5f9e1d3ffbb81e8d14",
+    "required_owner_uid": 1005,
+    "required_mode": "0755",
+    "runtime_root": "/home/kojiek/slot3_cfg0_interceptor",
+    "runtime_root_mode": "0700",
+    "runtime_file_mode": "0600",
+    "maximum_runtime_bytes": 16777216
+  },
+  "fixed_child_environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "PATH": "/usr/bin:/bin",
+    "PYTHONHASHSEED": "0",
+    "PYTHONNOUSERSITE": "1"
+  },
+  "hmac": {
+    "algorithm": "HMAC-SHA256",
+    "key_bytes": 32,
+    "domains_hex": {
+      "state": "6d65616e617564696f2d736c6f74332d636667302d726567697374726174696f6e2d73746174652d763100",
+      "resolved_contract": "6d65616e617564696f2d736c6f74332d636667302d7265736f6c7665642d636f6e74726163742d763100",
+      "notification": "6d65616e617564696f2d736c6f74332d636667302d6e6f74696669636174696f6e2d763100",
+      "rollback": "6d65616e617564696f2d736c6f74332d636667302d726f6c6c6261636b2d763100"
+    },
+    "sequence_rule": "strictly_monotonic_with_prior_state_mac",
+    "replay_rule": "only_an_exact_previously_delivered_arm_is_idempotent"
+  },
+  "arms": [
+    {
+      "sequence": 1,
+      "arm_id": "fair013_k3_q9",
+      "legacy_label": "phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg4p5_q9",
+      "canonical_label": "phase8_qwen_caption2p0_fair013_k3_quarter_musiccaps_mf25_cfg0_q9",
+      "legacy_conditioning_argv": ["--quality_level", "9"],
+      "canonical_conditioning": "q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_k3_balanced_quarter_stage2_50000_ema_final.pth",
+      "resolved_contract": "resolved_contracts/01_fair013_k3_q9.json"
+    },
+    {
+      "sequence": 2,
+      "arm_id": "fair013_best_noq",
+      "legacy_label": "phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg4p5_noq",
+      "canonical_label": "phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "legacy_conditioning_argv": ["--no_q"],
+      "canonical_conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_stage2_50000_ema_final.pth",
+      "resolved_contract": "resolved_contracts/02_fair013_best_noq.json"
+    },
+    {
+      "sequence": 3,
+      "arm_id": "fair013_worst_noq",
+      "legacy_label": "phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg4p5_noq",
+      "canonical_label": "phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "legacy_conditioning_argv": ["--no_q"],
+      "canonical_conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_stage2_50000_ema_final.pth",
+      "resolved_contract": "resolved_contracts/03_fair013_worst_noq.json"
+    }
+  ],
+  "registration_only": {
+    "gpu_minutes": 0,
+    "may_invoke_eval_py": false,
+    "may_invoke_metric_evaluator": false,
+    "may_invoke_historical_wrapper": false,
+    "may_mutate_authenticated_top_queue": false,
+    "successful_return_requires": [
+      "exact_resolved_contract_durable",
+      "signed_state_advanced_once",
+      "idempotent_hold_event_delivered"
+    ]
+  }
+}

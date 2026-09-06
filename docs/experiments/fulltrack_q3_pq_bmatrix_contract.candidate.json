@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "document_kind": "experiment_contract_candidate",
+  "plan_id": "FTQ3-BMATRIX-v1",
+  "plan_sha256": "e5d160d1e708fbd06318029b5525fa923a7f0a2219e5818acf133266d0495379",
+  "run_id": "run-20260828-ftq3-bmatrix-v1",
+  "status": "implementation_complete_awaiting_exact_review",
+  "launch_allowed": false,
+  "queue_mutation_allowed": false,
+  "queue_registration_allowed": false,
+  "gpu_launch_allowed": false,
+  "approval_required": true,
+  "gate_2_required": true,
+  "objective": "Reproduce historical fulltrack Q3 and segment-slot0 Q3 under one frozen stack, isolate q9-versus-q0 associations, compare checkpoint families at q9/q0/NoQ, and test whether a non-fulltrack arm reaches aggregate PQ >= 6.9 without making causal claims from evaluation-only contrasts.",
+  "ordering": {
+    "queue": "p2",
+    "append_after": ["024_fair013_k3_full", "025_true_random_full", "026_fake_random_full"],
+    "ordering_dependency": "026_fake_random_full",
+    "eligible_terminal_states": ["completed", "failed", "interrupted"],
+    "terminal_notification_must_be": "delivered",
+    "nonterminal_blocking_states": ["held", "resource_wait", "notification_pending", "delivery_ambiguous"],
+    "may_interrupt_active_work": false
+  },
+  "protocol": {
+    "benchmark": "MusicCaps",
+    "unique_ids": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength_literal": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "precision": "full",
+    "encoder_name": "t5_clap",
+    "text_c_dim": 512,
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"]
+  },
+  "musiccaps_tsv": {
+    "path": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/inputs/musiccaps_test.tsv",
+    "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+  },
+  "arms": {
+    "B1": {
+      "id": "B1",
+      "family": "fulltrack",
+      "conditioning": "q9",
+      "classification": "canonical_repeat",
+      "checkpoint": {"path": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/checkpoints/fulltrack_q3_ema.pth", "sha256": "b5fd22ee28d0d1c63f6ca66e446bf0142b2344ac74b0558949ad3b86ea4ab8ab"},
+      "per_item_metrics": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B1/metrics/per_item.tsv",
+      "aggregate_report": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B1/report.json",
+      "audio_hash_manifest": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B1/manifests/audio_sha256.tsv"
+    },
+    "B2": {
+      "id": "B2",
+      "family": "segment_slot0",
+      "conditioning": "q9",
+      "classification": "canonical_repeat_non_fulltrack",
+      "checkpoint": {"path": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/checkpoints/segment_slot0_q3_ema.pth", "sha256": "c72e26d1c46581f9bca4a179806849a29f799f6730c158782931dcb86ac9be14"},
+      "per_item_metrics": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B2/metrics/per_item.tsv",
+      "aggregate_report": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B2/report.json",
+      "audio_hash_manifest": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B2/manifests/audio_sha256.tsv"
+    },
+    "B3": {
+      "id": "B3",
+      "family": "fulltrack",
+      "conditioning": "noq",
+      "classification": "canonical",
+      "checkpoint": {"path": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/checkpoints/fulltrack_noq_ema.pth", "sha256": "2519e83638c431aff006bf7690023ab53f17ff86b8894200f83d23c0ddceeeca"},
+      "per_item_metrics": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B3/metrics/per_item.tsv",
+      "aggregate_report": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B3/report.json",
+      "audio_hash_manifest": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B3/manifests/audio_sha256.tsv"
+    },
+    "B4": {
+      "id": "B4",
+      "family": "fulltrack",
+      "conditioning": "q0",
+      "classification": "secondary_q_diagnostic",
+      "checkpoint": {"path": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/checkpoints/fulltrack_q3_ema.pth", "sha256": "b5fd22ee28d0d1c63f6ca66e446bf0142b2344ac74b0558949ad3b86ea4ab8ab"},
+      "per_item_metrics": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B4/metrics/per_item.tsv",
+      "aggregate_report": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B4/report.json",
+      "audio_hash_manifest": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B4/manifests/audio_sha256.tsv"
+    },
+    "B5": {
+      "id": "B5",
+      "family": "segment_slot0",
+      "conditioning": "q0",
+      "classification": "secondary_q_diagnostic_non_fulltrack",
+      "checkpoint": {"path": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/checkpoints/segment_slot0_q3_ema.pth", "sha256": "c72e26d1c46581f9bca4a179806849a29f799f6730c158782931dcb86ac9be14"},
+      "per_item_metrics": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B5/metrics/per_item.tsv",
+      "aggregate_report": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B5/report.json",
+      "audio_hash_manifest": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B5/manifests/audio_sha256.tsv"
+    },
+    "B6": {
+      "id": "B6",
+      "family": "segment_slot0",
+      "conditioning": "noq",
+      "classification": "canonical_non_fulltrack",
+      "checkpoint": {"path": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/checkpoints/segment_slot0_noq_ema.pth", "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"},
+      "per_item_metrics": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B6/metrics/per_item.tsv",
+      "aggregate_report": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B6/report.json",
+      "audio_hash_manifest": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B6/manifests/audio_sha256.tsv"
+    }
+  },
+  "historical_vectors": {
+    "B1": {"clap_score": 0.1821, "aes_CE": 6.8458, "aes_CU": 7.1468, "aes_PC": 5.3016, "aes_PQ": 6.9337},
+    "B2": {"clap_score": 0.2145, "aes_CE": 6.2474, "aes_CU": 6.7019, "aes_PC": 5.1752, "aes_PQ": 6.5437}
+  },
+  "historical_reports": {
+    "B1": {"path": "/home/kojiek/logs/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000_musiccaps_mf25_cfg0_q9_REPORT.json", "sha256": "f37757799910727b9cd7f7eb8b84fc1f3c115bbde16f4da6478ce69dd2856972"},
+    "B2": {"path": "/home/kojiek/logs/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_musiccaps_mf25_cfg0_q9_REPORT.json", "sha256": "73d46075d56b49f124f3fff35532b6459c5d2919f6df7858bfd218f7ebb23168"}
+  },
+  "audit_source": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_audit_2026_08_28.json",
+    "sha256": "4dc0c9b2a07b788862fbe89d24f486a039d369879ad4a34fcf25fffb54e04e26"
+  },
+  "reproduction_gate": {
+    "phase_1": ["B1", "B2"],
+    "quantization": "Decimal(str(value)), quantum 0.0001, ROUND_HALF_UP",
+    "pass_rule": "Every B1/B2 fresh aggregate equals its historical vector after registered quantization.",
+    "failure_disposition": "Hold B3-B6; never diagnose stale historical audio from non-reproduction alone."
+  },
+  "paired_analysis": {
+    "unit": "MusicCaps ID",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260828,
+    "interval": "paired percentile 95%",
+    "contrasts": ["B1-B4", "B2-B5", "B1-B2", "B4-B5", "B3-B6", "(B1-B4)-(B2-B5)"],
+    "practical_thresholds": {"Q_inference_PQ": 0.05, "checkpoint_family_PQ": 0.15, "non_fulltrack_target_PQ": 6.9}
+  },
+  "environment": {
+    "inherit_parent": false,
+    "values": {
+      "CUDA_VISIBLE_DEVICES": "0",
+      "PYTHONUNBUFFERED": "1",
+      "PYTHONNOUSERSITE": "1",
+      "HF_HUB_OFFLINE": "1",
+      "TRANSFORMERS_OFFLINE": "1",
+      "HF_DATASETS_OFFLINE": "1",
+      "TOKENIZERS_PARALLELISM": "false",
+      "HF_HOME": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/hf_cache",
+      "PATH": "/home/kojiek/venvs/dac/bin:/usr/bin:/bin",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8"
+    },
+    "rejected_names": ["GPU_PREFLIGHT", "GPU_QUEUE_ROOT", "GPU_PYTHON", "GPU_NOTIFY", "GPU_SCHED_ACCEPT", "PYTHONPATH", "PYTHONHOME", "PYTHONINSPECT", "PYTHONSTARTUP", "LD_PRELOAD", "LD_LIBRARY_PATH", "HUGGINGFACE_HUB_CACHE", "TRANSFORMERS_CACHE", "XDG_CACHE_HOME"]
+  },
+  "security_bindings": {
+    "runner_sha256": "6ee39d22adce67223e81d32d1617373ef386aa86d13544e21cae867144d33cb4",
+    "harn_sha256": "c1895c79fe9317c9f895028a1078f7df098da7d7be90906bb0b8828b712f2c5f",
+    "security_test_sha256": "86a93de5180e7cf5b3b265392e68793f477b9c9274909acb0546563d992d22c1",
+    "launcher_sha256": "9d68015a655f91ca3ab536332eaf7c6b46797dc2f182e6ef0a1375fb943313c2",
+    "scorer_sha256": "7725979e90087f404ed34518221f9e5b8ef7a6ff6896f3a951cc21303237cf14",
+    "analyzer_sha256": "5affb0df2ca056f59077ec7e4c54bbcb71c76a1d4b502396264ca575398b8630",
+    "science_test_sha256": "503ea9110af9cbfb196f94015be23df61001d38329279c5126378c9852360e6a",
+    "notifier_sha256": "7b4bbe8bf329ebb6ce56810f12beed10db5d06c283c6e8407f8a7c00d9e428a8",
+    "gate1_approval_record_sha256": "73167c97725ab90ff2812da3c9724aa94a75a81027cb155843899e5adcaed078"
+  },
+  "sealed_inputs": {
+    "root": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs",
+    "copy_receipt": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/copy_receipt.json",
+    "source_tree_manifest": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/manifests/source_tree_manifest.json",
+    "receipt_hash_binding": "must be added only to the distinct immutable final contract after Gate-1 sealing and exact review",
+    "file_mode": "0400",
+    "directory_mode": "0700",
+    "required_uid": 1005,
+    "required_link_count": 1
+  },
+  "launch_blockers": [
+    {
+      "id": "MISSING-ROBERTA-BASE",
+      "reason": "The pinned CLAP stack transitively requires roberta-base assets, but roberta-base was not an approved registered Gate-1 copy source.",
+      "disposition": "Fail closed. Do not stage or download it; require a Plan amendment, security/Plan review, and operator approval."
+    },
+    {
+      "id": "FINAL-CONTRACT-SEAL-SEQUENCE",
+      "reason": "The Plan requires the sealed runtime tree to contain the immutable launch-enabled final contract, but Gate 1 forbids creating that final contract before tests/reviews and Gate 2 may not mutate sealed bytes.",
+      "disposition": "Resolve by an additive reviewed Plan revision; do not create the final contract or modify the sealed tree under current authority."
+    }
+  ],
+  "budgets": {
+    "implementation_wall_seconds": 7200,
+    "no_gpu_test_wall_seconds": 1800,
+    "per_arm_wall_seconds": 21600,
+    "per_arm_gpu_active_seconds": 18000,
+    "matrix_wall_seconds": 129600,
+    "automatic_scientific_retries": 0
+  },
+  "test_requirements": {
+    "security": "AT-INPUT-01..04, AT-AUTH-01..06, AT-P2-01..05, AT-PATH-01..03, AT-CLEAN-01..02, AT-STATE-01..03, AT-NOTIFY-TRANSACTION-01, AT-RESTART-01, AT-ENV-01..02, AT-ARGV-01, AT-NET-01, AT-SECRET-01..02, AT-MENTION-01",
+    "science": "exact IDs/audio/metrics, malformed and nonfinite sources, Decimal boundaries, every CI/sign class, reproduction-only B1/B2, B2/B5/B6 target precedence",
+    "status": "must be rerun against the exact final Gate-1 bytes after sealing"
+  },
+  "gate_2_bindings_required": ["plan_sha256", "contract_sha256", "sealed_copy_receipt_sha256", "source_manifest_sha256", "argv_manifest_sha256", "environment_manifest_sha256", "launcher_sha256", "test_report_sha256", "security_review_receipt_sha256", "queue_snapshot_sha256", "operator_identity", "issued_at", "nonce", "expires_at", "auth_root_decision"],
+  "prohibited_claims": ["historical_byte_level_reproduction", "fulltrack_causal_advantage", "caption_granularity_is_the_cause", "non_fulltrack_pq_over_6_9_achieved", "queue_registration_or_launch_authorized"]
+}

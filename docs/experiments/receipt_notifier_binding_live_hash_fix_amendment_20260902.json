@@ -1,0 +1,90 @@
+{
+ "schema_version": 1,
+ "document_kind": "active_experiment_contract_amendment",
+ "amendment_id": "receipt-notifier-binding-live-hash-fix-20260902",
+ "experiment_ids": [
+  "cfg0-recovery-true-random-full-20260831",
+  "cfg0-recovery-seed27182818-20260831",
+  "cfg0-recovery-modular-template-quarter-20260831",
+  "single-negprompt-cfg3-ablation-20260831"
+ ],
+ "approved": true,
+ "approved_at": "2026-09-02T02:00:00Z",
+ "operator_instruction": {
+  "text": "修正 bug 然後開始跑",
+  "meaning": "fix the blocking defect and launch the true-random full CFG0 recovery"
+ },
+ "supersedes_context": "cfg0-recovery-dependency-gate-env-leak-repin-20260902 removed the GPU_QUEUE_CONTRACT env leak but a second, independent defect kept 030-033 held.",
+ "trigger": {
+  "held_reason": "ordering dependency notification is not delivered: 029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521.sh",
+  "root_cause": "notification_receipts.validate_delivered_receipt() rebuilt the expected notifier_sha256 by hashing the LIVE notifier file (sha256_file(rec['notifier_path'])) and required a historical receipt to match it. Any later edit of notify_experiment_webhook.py therefore retroactively invalidated every previously delivered receipt.",
+  "unsatisfiable_proof": [
+   "028/029 contracts and their delivered receipts record notifier_sha256=fdf9e90a8233e06c1e2d3d8cf35a62ea6f3c0c729ff9b85c6ef439c10a89863f.",
+   "030-033 contracts declare notifier_sha256=9670d61e26ffebf4ec807cafa489f730f6e2a3ee5805222535a09b7e46023a02 after the 20260902 re-pin.",
+   "accept_guest requires the live notifier to equal 9670d61e; the 029 dependency receipt check required the same live file to equal fdf9e90a.",
+   "No single file content satisfies both gates, so the queue alternated between 'notification notifier hash mismatch' at accept and 'ordering dependency notification is not delivered' at preflight."
+  ],
+  "observed_alternation": [
+   "accept incident 2026-09-02T01:32:41Z",
+   "preflight held 2026-09-02T01:44:45Z"
+  ]
+ },
+ "scope": {
+  "allowed": [
+   "Bind a delivered receipt's notifier_sha256 to the notifier sha declared by that receipt's own contract instead of re-hashing the live notifier file.",
+   "Re-pin notification_receipts.helper_sha256 in the four affected contracts to the amended helper."
+  ],
+  "forbidden": [
+   "Change data, checkpoint, seed, hyperparameters, CFG, solver steps, precision, mask mode, metrics, thresholds, or queue order.",
+   "Relax any other preflight, storage, or ordering gate.",
+   "Modify lib_scheduler.py or any already-running job."
+  ]
+ },
+ "change": {
+  "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+  "pre_sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc",
+  "post_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+  "function": "validate_delivered_receipt",
+  "production_surface_touched": true,
+  "gate_still_enforced": "Receipt kind, delivered state, contract path/sha, experiment_id, run_id, launcher sha, event, status and the tamper-evident payload_sha256 (which covers notifier_sha256) are all still verified. Live-notifier drift is still caught at accept time by lib_scheduler.accept_guest, which hashes the notifier against the launching contract.",
+  "security_rationale": "A delivered receipt is historical evidence about a finished run. Its integrity comes from payload_sha256 over the recorded fields, not from mutable disk state; re-hashing the live file added no attack resistance and created a deadlock."
+ },
+ "contract_repin": {
+  "field": "notification_receipts.helper_sha256",
+  "pre_sha256": "1c22b1635ce838e56d7aa55b5f0a26d3dd29d46b62d24223a5b5bf4ea9e6f5cc",
+  "post_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+  "contracts": [
+   "docs/experiments/cfg0_recovery_true_random_full_20260831_contract.json",
+   "docs/experiments/cfg0_recovery_seed27182818_20260831_contract.json",
+   "docs/experiments/cfg0_recovery_modular_template_quarter_20260831_contract.json",
+   "docs/experiments/single_negprompt_cfg3_ablation_20260831_contract.json"
+  ]
+ },
+ "evidence": {
+  "dependency_receipts_before": {
+   "026_fake_random_full": false,
+   "028_random_quarter_neg_cfg1p5": false,
+   "029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521": false
+  },
+  "dependency_receipts_after": {
+   "026_fake_random_full": true,
+   "028_random_quarter_neg_cfg1p5": true,
+   "029_c2p0_slot0_neg_cfg2p5_cfg4p0_full5521": true
+  },
+  "accept_after": {
+   "030": "ok",
+   "031": "ok",
+   "032": "ok",
+   "033": "ok"
+  },
+  "preflight_after": {
+   "status": "passed",
+   "free_bytes": 152434491392
+  },
+  "selftests": [
+   "scripts/tests/selftest_notify_seat_compat.py PASS",
+   "scripts/tests/selftest_secondary_queue_notifications.py PASS"
+  ]
+ },
+ "queue_effect": "030 -> 031 -> 032 -> 033 resume in their preregistered order; no reordering, no new work."
+}

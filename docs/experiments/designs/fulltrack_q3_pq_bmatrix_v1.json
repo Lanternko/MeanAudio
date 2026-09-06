@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "document_kind": "proposal_only_experiment_plan",
+  "plan_id": "FTQ3-BMATRIX-v1",
+  "status": "revised_awaiting_superseding_security_and_plan_review",
+  "launch_allowed": false,
+  "queue_mutation_allowed": false,
+  "objective": "Reproduce the historical fulltrack Q3 and per-segment slot0 Q3 results under one frozen stack, isolate q9-versus-q0 inference-token associations within each Q-trained checkpoint family, compare fulltrack and per-segment checkpoint-family associations at q9, q0, and NoQ, and test whether a non-fulltrack arm reaches aggregate PQ >= 6.9. Evaluation-only contrasts do not identify the causal effect of Q training or caption corpus.",
+  "ordering": {
+    "queue": "p2",
+    "append_after": ["024_fair013_k3_full", "025_true_random_full", "026_fake_random_full"],
+    "ordering_dependencies": ["026_fake_random_full"],
+    "scientific_dependencies": [],
+    "ordering_dependency_satisfied_by": ["completed", "failed", "interrupted"],
+    "ordering_nonterminal_states": ["held", "resource_wait", "notification_pending", "delivery_ambiguous"],
+    "may_interrupt_active_work": false,
+    "phase_1": ["B1", "B2"],
+    "phase_2_if_reproduction_passes": ["B3", "B4", "B5", "B6"]
+  },
+  "frozen_existing_inputs": {
+    "musiccaps_tsv": {"path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv", "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"},
+    "fulltrack_q3_checkpoint": {"path": "/home/kojiek/MeanAudio/exps/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000_ema_final.pth", "sha256": "b5fd22ee28d0d1c63f6ca66e446bf0142b2344ac74b0558949ad3b86ea4ab8ab"},
+    "segment_slot0_q3_checkpoint": {"path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_stage2_200000_ema_final.pth", "sha256": "c72e26d1c46581f9bca4a179806849a29f799f6730c158782931dcb86ac9be14"},
+    "fulltrack_noq_checkpoint": {"path": "/home/kojiek/MeanAudio/exps/phase8_qwen_official_noq_full_stage2_200000/phase8_qwen_official_noq_full_stage2_200000_ema_final.pth", "sha256": "2519e83638c431aff006bf7690023ab53f17ff86b8894200f83d23c0ddceeeca"},
+    "segment_slot0_noq_checkpoint": {"path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth", "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"},
+    "clap_checkpoint": {"path": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt", "sha256": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006"},
+    "eval_py": {"path": "/home/kojiek/MeanAudio/eval.py", "sha256": "f9f1be0cff0ea938994ff9d5cb0fc1b239fbc7ad3aaee7af12980af361e37654"},
+    "eval_utils": {"path": "/home/kojiek/MeanAudio/meanaudio/eval_utils.py", "sha256": "68315af94d35401c778c8a6bad3d449b82afe50c378dbe0ed8d7cd192bb6a84c"},
+    "current_wrapper_reference": {"path": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/eval_musiccaps_mf25.sh", "sha256": "67cae3c6bd7d00452906406b778d116a27c1f4c079681c0c942a3541d4f948c3"},
+    "current_aggregate_evaluator_reference": {"path": "/home/kojiek/research/meanaudio_eval/phase4_eval.py", "sha256": "129a2b8b0e53f3fc96863886fac5893eb9cf4f95b8723ef232a3417b12dd2935"},
+    "audit_source": {"path": "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_audit_2026_08_28.json", "sha256": "4dc0c9b2a07b788862fbe89d24f486a039d369879ad4a34fcf25fffb54e04e26"},
+    "probe_supplement": {"path": "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_probe_supplement_2026_08_28.json", "sha256": "d532f90754680a684322dccb3203797293cd654ad29485118b990c6bdfb1f323"},
+    "B1_historical_report": {"path": "/home/kojiek/logs/phase8_qwen_s2q_from_noq_full_k3_balanced_stage2_200000_musiccaps_mf25_cfg0_q9_REPORT.json", "sha256": "f37757799910727b9cd7f7eb8b84fc1f3c115bbde16f4da6478ce69dd2856972"},
+    "B2_historical_report": {"path": "/home/kojiek/logs/phase8_qwen_caption2p0_s2q_from_noq_full_k3_balanced_musiccaps_mf25_cfg0_q9_REPORT.json", "sha256": "73d46075d56b49f124f3fff35532b6459c5d2919f6df7858bfd218f7ebb23168"},
+    "vae": {"path": "/home/kojiek/MeanAudio/weights/v1-16.pth", "bytes": 686652758, "sha256": "15ad082c714ccf3771898a771fc6eebdc1d9c8d5c6154726906a97f43603d62c"},
+    "vocoder": {"path": "/home/kojiek/MeanAudio/weights/best_netG.pt", "bytes": 449217313, "sha256": "970ca75ee4d5ce583e9396a4534acb14971ea2b4f1c22e038f476680c868a789"},
+    "empty_t5": {"path": "/home/kojiek/MeanAudio/weights/empty_string_t5.pth", "bytes": 316612, "sha256": "c7e9a3adce14701ceefb9d7bdd75fa5fcadad11002bab73fa793274d706b224f"},
+    "empty_clap": {"path": "/home/kojiek/MeanAudio/weights/empty_string_clap_c.pth", "bytes": 3288, "sha256": "1d17a4ac85c1c438b90c0b181a6bbfb6dd0da43fda828e1beca08e87323cd46c"},
+    "flan_t5_snapshot": {
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/snapshots/0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a",
+      "revision": "0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a",
+      "resolved_files": {
+        "config.json": "bfa5beeb5a4630a97f043f071b9b5d858c842604cff5db874680f33b56090c8c",
+        "model.safetensors": "a9dd06ce490f139af36e9eb77dd3758b4fd07a08a73d5a1abe5ff2591e2d388e",
+        "special_tokens_map.json": "5c87151ef0f72a99d1f766a4c418bd2a1f90aaa30a8e22fe5eca9641daebb64f",
+        "spiece.model": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86",
+        "tokenizer.json": "fe2ebbbbde2985be723e0ce18217853e4020c5e9d35bd07be2c27ab9d3ead57a",
+        "tokenizer_config.json": "5d19985330a9123285cc583fc60616d083aa9df7435812b5d8bb3e749f435d56"
+      }
+    },
+    "audiobox_snapshot": {
+      "path": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+      "revision": "9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+      "resolved_files": {
+        "config.json": "0b8eabc5ced92cefed116a3aca8f1e59d2a33dc4d376b9e86dfb9c072e1d280d",
+        "model.safetensors": "a5a3c2412649cc2384ec525ffd5180ce6c4778f43bed6108e0a1303de04d014e"
+      }
+    }
+  },
+  "environment_observed_for_plan": {
+    "python_executable": "/home/kojiek/venvs/dac/bin/python",
+    "python": "3.12.3",
+    "torch": "2.11.0.dev20260127+cu128",
+    "torchaudio": "2.11.0.dev20260127+cu128",
+    "numpy": "2.3.0",
+    "soundfile": "0.13.1",
+    "launch_requirement": "Implementation must persist and bind a full sorted pip-freeze manifest, GPU model/driver/CUDA facts, all resolved model/tokenizer/config files, and hashes of every executable source before final approval can be consumed. Preflight sets HF_HUB_OFFLINE=1, TRANSFORMERS_OFFLINE=1, HF_DATASETS_OFFLINE=1, verifies every symlink target remains inside its registered snapshot, and performs a network-disabled local-only model/scorer load before GPU generation."
+  },
+  "protocol": {
+    "benchmark": "MusicCaps",
+    "unique_ids": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength_literal": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "precision": "full",
+    "encoder_name": "t5_clap",
+    "text_c_dim": 512,
+    "metrics": ["clap_score", "aes_CE", "aes_CU", "aes_PC", "aes_PQ"]
+  },
+  "arms": [
+    {"id": "B1", "family": "fulltrack", "checkpoint_key": "fulltrack_q3_checkpoint", "conditioning": "q9", "classification": "canonical_repeat", "label": "ftq3_b1_fulltrack_q3_repeat_mf25_cfg0_q9"},
+    {"id": "B2", "family": "segment_slot0", "checkpoint_key": "segment_slot0_q3_checkpoint", "conditioning": "q9", "classification": "canonical_repeat_non_fulltrack", "label": "ftq3_b2_segment_slot0_q3_repeat_mf25_cfg0_q9"},
+    {"id": "B3", "family": "fulltrack", "checkpoint_key": "fulltrack_noq_checkpoint", "conditioning": "noq", "classification": "canonical", "label": "ftq3_b3_fulltrack_noq_mf25_cfg0_noq"},
+    {"id": "B4", "family": "fulltrack", "checkpoint_key": "fulltrack_q3_checkpoint", "conditioning": "q0", "classification": "secondary_q_diagnostic", "label": "ftq3_b4_fulltrack_q3_mf25_cfg0_q0"},
+    {"id": "B5", "family": "segment_slot0", "checkpoint_key": "segment_slot0_q3_checkpoint", "conditioning": "q0", "classification": "secondary_q_diagnostic_non_fulltrack", "label": "ftq3_b5_segment_slot0_q3_mf25_cfg0_q0"},
+    {"id": "B6", "family": "segment_slot0", "checkpoint_key": "segment_slot0_noq_checkpoint", "conditioning": "noq", "classification": "canonical_non_fulltrack", "label": "ftq3_b6_segment_slot0_noq_mf25_cfg0_noq"}
+  ],
+  "implementation_after_approval": {
+    "owned_new_files": [
+      "/home/kojiek/MeanAudio/scripts/eval/run_fulltrack_q3_pq_arm.py",
+      "/home/kojiek/MeanAudio/scripts/eval/score_musiccaps_per_item.py",
+      "/home/kojiek/MeanAudio/scripts/analysis/fulltrack_q3_paired_report.py",
+      "/home/kojiek/MeanAudio/scripts/experiment_harness/fulltrack_q3_pq_bmatrix_harn.py",
+      "/home/kojiek/MeanAudio/scripts/tests/selftest_fulltrack_q3_pq_bmatrix_security.py",
+      "/home/kojiek/MeanAudio/scripts/tests/selftest_fulltrack_q3_pq_bmatrix_science.py",
+      "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_bmatrix_contract.candidate.json",
+      "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_bmatrix_contract.json",
+      "/home/kojiek/MeanAudio/scripts/queue_candidates/027_fulltrack_q3_pq_bmatrix.sh"
+    ],
+    "state_root": "/home/kojiek/logs/fulltrack_q3_pq_bmatrix_v1_harn",
+    "result_root": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1",
+    "queue_entry": "027_fulltrack_q3_pq_bmatrix.sh",
+    "live_registration_target": "/home/kojiek/gpu_queue/p2/pending/027_fulltrack_q3_pq_bmatrix.sh",
+    "entry_command": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/experiment_harness/fulltrack_q3_pq_bmatrix_harn.py", "run"],
+    "arm_command_template": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/eval/run_fulltrack_q3_pq_arm.py", "--contract", "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_bmatrix_contract.json", "--arm", "<B1..B6>"],
+    "implementation_gate": "Gate 1 creates a non-launchable candidate contract with launch_allowed=false. After all no-GPU tests and independent implementation/security reviews pass, the security-executor may materialize a distinct immutable unregistered final contract with launch_allowed=true and approval_required=true. That boolean is necessary but never sufficient: the final launcher/HARN also requires the exact unexpired Gate-2 capability. Gate 2 binds the already-final bytes; neither contract is edited after its hash is reviewed or approved."
+  },
+  "approval_and_authority_gates": {
+    "gate_1_implementation_only": {
+      "purpose": "Authorize creation and no-GPU testing only of the owned_new_files plus the exact sealed_input_staging root/tree/copy receipt listed in this Plan. Reading and copying registered inputs is allowed; shared source mutation is forbidden.",
+      "queue_mutation_allowed": false,
+      "gpu_launch_allowed": false,
+      "approval_binding": ["plan_id", "plan_sha256", "approved_owned_new_files", "approved_sealed_staging_root", "approved_registered_copy_sources", "security_executor_role", "operator_identity", "issued_at", "nonce", "expires_at"],
+      "writable_scope": {
+        "exact_repository_files": "implementation_after_approval.owned_new_files only",
+        "sealed_staging_root": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs",
+        "test_fixture_root": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/gate1_test_fixtures",
+        "test_state_root": "/home/kojiek/logs/fulltrack_q3_pq_bmatrix_v1_gate1_test",
+        "forbidden_roots": ["/home/kojiek/gpu_queue", "/home/kojiek/logs/fulltrack_q3_pq_bmatrix_v1_harn", "/mnt/HDD"]
+      },
+      "scope_enforcement": "Every created/changed path must be an exact approved repository file or descriptor-contained beneath one approved new root. Any out-of-scope path fails before write; /mnt/HDD registered inputs are read-only copy sources only.",
+      "required_state_after_gate": "implementation_complete_awaiting_exact_review"
+    },
+    "gate_2_exact_registration_and_launch": {
+      "purpose": "After implementation and independent review, separately authorize the exact contract, source, argv, environment, launcher, tests, security receipt, and one append-tail registration transaction.",
+      "approval_binding": ["plan_sha256", "contract_sha256", "source_manifest_sha256", "argv_manifest_sha256", "environment_manifest_sha256", "launcher_sha256", "test_report_sha256", "security_review_receipt_sha256", "queue_snapshot_sha256", "operator_identity", "issued_at", "nonce", "expires_at"],
+      "one_time_use": true,
+      "reserve_before_registration": true,
+      "consume_after_atomic_registration": true,
+      "launch_before_registration_verification": false,
+      "invalid_cases": ["missing", "expired", "replayed_nonce", "already_consumed", "hash_mismatch", "queue_snapshot_drift", "untrusted_channel"],
+      "invalid_disposition": "atomic hold before queue mutation or GPU launch"
+    },
+    "authenticity": {
+      "trusted_origin": "The operator's explicit approval in the Codex operator-console task is captured with task ID and exact approved fingerprints; READY or review receipts alone confer no authority.",
+      "record_lifecycle": ["approved", "reserved", "consumed"],
+      "reservation_rule": "Reserve atomically under the controller lock before registration; crash reconciliation is allowed only for the same run_id, nonce, and exact hashes.",
+      "acceptance_bypass": "Reject GPU_SCHED_ACCEPT=off and every unregistered acceptance override.",
+      "auth_root_choice_required_at_gate_2": "Either verify an external detached signature against a separately pinned operator public key, or require the operator to explicitly accept that malicious same-UID/root mutation is residual AUTH_ROOT risk. Local HMAC protects integrity/restart evidence but is not claimed to authenticate against malicious same-UID code."
+    }
+  },
+  "security_review": {
+    "receipt_v1": {"path": "/home/kojiek/MeanAudio/docs/reviews/security/fulltrack_q3_pq_bmatrix_security_receipt_v1.json", "sha256": "ef640486ecb9bba64095e2ce4cf46cdd0d939c8ac2ef0b30d489ab809640f8f1", "review_input_fingerprint": "41ba6980feff2eb6f580fd096c0ae4c0cd683dad296ccd740e132a5cc5581682"},
+    "finding_dispositions": {
+      "FTQ3-BMATRIX-v1/INPUT-INTEGRITY": "stage and descriptor-bind every scientific input",
+      "FTQ3-BMATRIX-v1/AUTH-2STAGE": "two separate one-purpose approvals with gate-2 AUTH_ROOT decision",
+      "FTQ3-BMATRIX-v1/P2-QUEUE-OWNERSHIP": "locked append transaction plus strong lease and zero-threshold process scan",
+      "FTQ3-BMATRIX-v1/PATH-TOCTOU-CLEANUP": "no-follow descriptor operations and exact-ID cleanup journal",
+      "FTQ3-BMATRIX-v1/STATE-OUTBOX-RESTART": "mode-0700/0600 authenticated durable state and ambiguity hold",
+      "FTQ3-BMATRIX-v1/EXEC-ENV": "from-scratch environment allowlist, absolute descriptors, offline model loading",
+      "FTQ3-BMATRIX-v1/NOTIFY-DISCLOSURE": "structured redacted notifications only"
+    },
+    "superseding_receipt_required": true
+  },
+  "sealed_input_staging": {
+    "root": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs",
+    "root_requirements": "new non-symlink directory, UID 1005, mode 0700, local ext4 filesystem; all parents checked with openat/O_NOFOLLOW",
+    "files": ["musiccaps_tsv", "fulltrack_q3_checkpoint", "segment_slot0_q3_checkpoint", "fulltrack_noq_checkpoint", "segment_slot0_noq_checkpoint", "clap_checkpoint", "vae", "vocoder", "empty_t5", "empty_clap", "all flan_t5_snapshot resolved files", "all audiobox_snapshot resolved files"],
+    "hf_cache_layout": "The sealed root contains a private Hugging Face hub layout whose google/flan-t5-large ref is fixed to revision 0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a and whose snapshot files are non-symlink regular copies. No refs/main drift or network fallback is accepted. The scorer receives the sealed Audiobox snapshot directory directly with local_files_only.",
+    "sealed_runtime_layout": "A mode-0700 source/MeanAudio tree contains frozen eval.py, the transitive meanaudio Python/config sources, approved new B-matrix scripts, and a weights subdirectory with staged VAE, vocoder, CLAP, and empty-condition files under the exact relative basenames used by eval.py/FeaturesUtils. Scientific child cwd and script root are this sealed source tree, so imports and every ./weights access resolve only to staged bytes. A sorted path/size/SHA-256 source-tree manifest is bound by gate 2.",
+    "file_requirements": "new UID-1005-owned non-symlink regular files, mode 0400, one hard link, exact registered size and SHA-256",
+    "copy_receipt": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/copy_receipt.json",
+    "descriptor_rule": "Final approval binds staged path, size, hash, st_dev, st_ino, and copy receipt. HARN opens with O_RDONLY|O_NOFOLLOW under held directory descriptors, hashes those descriptors, passes the same descriptors to child processes, rechecks fstat/hash after use, and never reopens mutable source paths.",
+    "source_mutation_rule": "Original HDD/NVMe/cache sources are read only during copying and may drift after the copy without changing approved staged execution; no shared mount or source permission is modified.",
+    "implementation_authority": "Gate 1 may create these staged copies and receipt, but neither staged bytes nor Gate 1 authorize registration or launch."
+  },
+  "resolved_command_contract": {
+    "working_directory": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/source/MeanAudio",
+    "inherit_parent_environment": false,
+    "environment": {
+      "CUDA_VISIBLE_DEVICES": "0",
+      "PYTHONUNBUFFERED": "1",
+      "HF_HUB_OFFLINE": "1",
+      "TRANSFORMERS_OFFLINE": "1",
+      "HF_DATASETS_OFFLINE": "1",
+      "TOKENIZERS_PARALLELISM": "false",
+      "HF_HOME": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/hf_cache",
+      "PATH": "/home/kojiek/venvs/dac/bin:/usr/bin:/bin",
+      "LANG": "C.UTF-8",
+      "LC_ALL": "C.UTF-8"
+    },
+    "rejected_environment_names": ["GPU_PREFLIGHT", "GPU_QUEUE_ROOT", "GPU_PYTHON", "GPU_NOTIFY", "GPU_SCHED_ACCEPT", "PYTHONPATH", "PYTHONHOME", "PYTHONINSPECT", "PYTHONSTARTUP", "LD_PRELOAD", "LD_LIBRARY_PATH", "HUGGINGFACE_HUB_CACHE", "TRANSFORMERS_CACHE", "XDG_CACHE_HOME"],
+    "execution_rule": "No shell=True, shell parsing, eval, user-derived fragments, inherited Python path, cwd import, or .pth injection. Absolute interpreter and executable files are opened O_NOFOLLOW, hashed, fstat-bound, and executed from approved descriptors where supported.",
+    "generation_common": [
+      "/home/kojiek/venvs/dac/bin/python", "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/source/MeanAudio/eval.py",
+      "--variant", "meanaudio_s", "--model_path", "<sealed_arm_checkpoint_fd_path>",
+      "--output", "<arm_audio_dir>", "--tsv", "<sealed_musiccaps_tsv_fd_path>",
+      "--use_meanflow", "--num_steps", "25", "--cfg_strength", "0",
+      "--encoder_name", "t5_clap", "--text_c_dim", "512", "--seed", "42",
+      "--no_text_attention_mask", "--full_precision", "<conditioning_tokens>"
+    ],
+    "per_arm_resolution": {
+      "B1": {"checkpoint_key": "fulltrack_q3_checkpoint", "conditioning_tokens": ["--quality_level", "9"], "audio_dir": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B1/audio"},
+      "B2": {"checkpoint_key": "segment_slot0_q3_checkpoint", "conditioning_tokens": ["--quality_level", "9"], "audio_dir": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B2/audio"},
+      "B3": {"checkpoint_key": "fulltrack_noq_checkpoint", "conditioning_tokens": ["--no_q"], "audio_dir": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B3/audio"},
+      "B4": {"checkpoint_key": "fulltrack_q3_checkpoint", "conditioning_tokens": ["--quality_level", "0"], "audio_dir": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B4/audio"},
+      "B5": {"checkpoint_key": "segment_slot0_q3_checkpoint", "conditioning_tokens": ["--quality_level", "0"], "audio_dir": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B5/audio"},
+      "B6": {"checkpoint_key": "segment_slot0_noq_checkpoint", "conditioning_tokens": ["--no_q"], "audio_dir": "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/B6/audio"}
+    },
+    "scoring_template": [
+      "/home/kojiek/venvs/dac/bin/python", "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/source/MeanAudio/scripts/eval/score_musiccaps_per_item.py",
+      "--tsv", "<sealed_musiccaps_tsv_fd_path>",
+      "--audio-dir", "<arm_audio_dir>", "--out", "<arm_metrics_per_item_tsv>",
+      "--clap-checkpoint", "<sealed_clap_checkpoint_fd_path>",
+      "--audiobox-snapshot", "<sealed_audiobox_snapshot_dir>",
+      "--local-files-only", "--require-exact-count", "5521"
+    ],
+    "analysis_argv": [
+      "/home/kojiek/venvs/dac/bin/python", "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/source/MeanAudio/scripts/analysis/fulltrack_q3_paired_report.py",
+      "--contract", "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/sealed_inputs/source/MeanAudio/docs/experiments/fulltrack_q3_pq_bmatrix_contract.json",
+      "--bootstrap-replicates", "10000", "--bootstrap-seed", "20260828",
+      "--out", "/home/kojiek/cfg0_eval_runtime/fulltrack_q3_pq_bmatrix_v1/matrix_report.json"
+    ],
+    "resolution_rule": "The executable contract stores the fully expanded argv array for every arm and phase; placeholders are forbidden in the final contract. Dry-run snapshots must compare equal as arrays, not shell strings."
+  },
+  "artifact_layout_per_arm": {
+    "audio": "<result_root>/<arm>/audio/<musiccaps_id>.flac",
+    "audio_hash_manifest": "<result_root>/<arm>/manifests/audio_sha256.tsv",
+    "per_item_metrics": "<result_root>/<arm>/metrics/per_item.tsv",
+    "aggregate_report": "<result_root>/<arm>/report.json",
+    "cleanup_manifest": "<result_root>/<arm>/manifests/cleanup.json"
+  },
+  "freshness_and_completeness_gates": [
+    "Before an arm starts, its arm directory must not exist; any pre-existing path is a hard hold, never a skip.",
+    "Generation must produce exactly the 5521 TSV IDs, no symlinks, no extra files, mono 16 kHz finite non-empty audio, and one SHA-256 per ID.",
+    "Scoring must produce exactly one finite CLAP/CE/CU/PC/PQ row per ID. Missing or skipped items are fatal; aggregate-only partial means are forbidden.",
+    "The report must bind contract, checkpoint, TSV, complete argv, code, environment, audio-hash manifest, per-item metrics, and their SHA-256 values.",
+    "Audio cleanup is sequential and allowed only after the arm report and matrix controller both accept all bound manifests; cleanup is exact-ID only and emits a durable manifest.",
+    "Resume never regenerates a partial directory in place. A partial arm is quarantined for operator review and a newly approved run identity is required.",
+    "Every path component for contract, input, state, result, manifest, lock, executable, and cleanup is opened relative to a held trusted directory descriptor with no-follow semantics; symlink, FIFO, device, wrong owner/mode, or extra hard link is fatal.",
+    "Arm is a strict B1-B6 enum. Frozen MusicCaps IDs must match the safe basename grammar ^[A-Za-z0-9_-]+$ and reject slash, dot-dot, absolute, duplicate, or injected names.",
+    "Cleanup uses the held arm-directory descriptor, a persisted exact 5521-name intent/progress journal, and unlinkat-equivalent exact basenames only. Recursive deletion, globs, resolved untrusted paths, checkpoints, sealed inputs, and historical artifacts are forbidden."
+  ],
+  "reproduction_gate": {
+    "authoritative_sources": {
+      "B1": "frozen_existing_inputs.B1_historical_report.metrics, cross-checked field-for-field against frozen_existing_inputs.audit_source.historical_metrics",
+      "B2": "frozen_existing_inputs.B2_historical_report.metrics"
+    },
+    "historical_vectors": {
+      "B1": {"clap_score": 0.1821, "aes_CE": 6.8458, "aes_CU": 7.1468, "aes_PC": 5.3016, "aes_PQ": 6.9337},
+      "B2": {"clap_score": 0.2145, "aes_CE": 6.2474, "aes_CU": 6.7019, "aes_PC": 5.1752, "aes_PQ": 6.5437}
+    },
+    "quantization": "Parse finite values through Decimal(str(value)); quantize to Decimal('0.0001') with ROUND_HALF_UP. Binary float round() is forbidden.",
+    "source_validation": "All source hashes, status=passed, exact five metric keys, finite values, and B1 audit/report field equality must validate before comparison; malformed, drifted, missing, or nonfinite source values produce reproduction_invalid.",
+    "pass_rule": "For both B1 and B2, every fresh aggregate after registered Decimal quantization must equal the corresponding derived historical Decimal value.",
+    "fail_rule": "A valid but unequal comparison produces historical_repeat_failed. Any incomplete/invalid input produces reproduction_invalid. Either outcome holds B3-B6. Do not infer stale historical audio; code, dependency, hardware, or nondeterminism drift remains possible."
+  },
+  "paired_analysis": {
+    "unit": "MusicCaps ID",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260828,
+    "interval": "paired percentile 95%",
+    "contrasts": {
+      "Q_inference_fulltrack": "B1-B4",
+      "Q_inference_segment_slot0": "B2-B5",
+      "checkpoint_family_q9": "B1-B2",
+      "checkpoint_family_q0": "B4-B5",
+      "checkpoint_family_noq": "B3-B6",
+      "Q_by_family_interaction": "(B1-B4)-(B2-B5)"
+    },
+    "practical_thresholds": {
+      "Q_inference_PQ": 0.05,
+      "checkpoint_family_PQ": 0.15,
+      "non_fulltrack_target_PQ": 6.9
+    },
+    "contrast_classifier": {
+      "invalid": "Any input/report/ID/metric/CI is missing, nonfinite, or gate-invalid.",
+      "positive_supported": "mean_delta >= practical_threshold and ci95_low > 0.",
+      "negative_supported": "mean_delta <= -practical_threshold and ci95_high < 0.",
+      "small_or_uncertain": "Every other valid case, including equality at zero-CI boundaries, same-sign means below threshold, and CIs touching or crossing zero."
+    }
+  },
+  "decision_table": [
+    {"scope": "reproduction", "condition": "reproduction_invalid", "decision": "HOLD matrix as invalid; B3-B6 do not start."},
+    {"scope": "reproduction", "condition": "historical_repeat_failed", "decision": "HOLD matrix; report non-reproduction under the frozen current stack; do not diagnose historical stale-audio contamination."},
+    {"scope": "reproduction", "condition": "B1 and B2 both pass", "decision": "Proceed sequentially to B3-B6."},
+    {"scope": "Q inference association", "condition": "B1-B4 and B2-B5 share positive_supported or share negative_supported", "decision": "Record a directionally replicated q9-versus-q0 inference-token association across both Q-trained checkpoint families."},
+    {"scope": "Q inference association", "condition": "one contrast is positive_supported and the other negative_supported", "decision": "Record heterogeneous/opposite Q-token associations; no general Q direction."},
+    {"scope": "Q inference association", "condition": "exactly one contrast is positive_supported or negative_supported and the other is small_or_uncertain", "decision": "Record family-specific Q-token evidence only."},
+    {"scope": "Q inference association", "condition": "both contrasts are small_or_uncertain", "decision": "Record no practically supported q9-versus-q0 association."},
+    {"scope": "Q inference association", "condition": "either contrast is invalid", "decision": "Q inference conclusion invalid; other valid matrix conclusions remain separately reportable."},
+    {"scope": "checkpoint family", "condition": "B1-B2, B4-B5, and B3-B6 are all positive_supported", "decision": "Record a stable positive fulltrack checkpoint-family association across q9, q0, and NoQ."},
+    {"scope": "checkpoint family", "condition": "all three are negative_supported", "decision": "Record a stable negative fulltrack checkpoint-family association across q9, q0, and NoQ."},
+    {"scope": "checkpoint family", "condition": "at least one is positive_supported and at least one negative_supported", "decision": "Record heterogeneous checkpoint-family associations; reject a stable family-wide direction."},
+    {"scope": "checkpoint family", "condition": "no opposite supported signs, but at least one contrast is small_or_uncertain", "decision": "Record mixed/insufficient family-wide evidence; report each contrast separately."},
+    {"scope": "checkpoint family", "condition": "any of the three contrasts is invalid", "decision": "Family-wide conclusion invalid; no stable-family claim."},
+    {"scope": "non-fulltrack target", "condition": "B2 or B6 is valid and aggregate PQ >=6.9", "decision": "Record canonical non-fulltrack PQ>=6.9 achieved and name every qualifying canonical arm."},
+    {"scope": "non-fulltrack target", "condition": "neither B2 nor B6 qualifies, but valid B5 aggregate PQ >=6.9", "decision": "Record secondary q0 non-fulltrack PQ>=6.9 only; canonical target remains unachieved."},
+    {"scope": "non-fulltrack target", "condition": "B2, B5, and B6 are valid and all aggregate PQ <6.9", "decision": "Keep target open; await canonical 024/025/026 results and select the next training proposal without queue reordering."},
+    {"scope": "non-fulltrack target", "condition": "no valid arm qualifies and one or more of B2, B5, B6 is invalid", "decision": "Target verdict is invalid/incomplete; never convert invalid to not-achieved."},
+    {"scope": "causal follow-up", "condition": "stable positive or stable negative checkpoint-family association", "decision": "Prepare, but do not auto-launch, a separately approved matched fresh-training replication with immutable row binding; evaluation-only evidence cannot establish Q-training or corpus causality."}
+  ],
+  "decision_precedence": {
+    "reproduction": ["invalid", "failed", "passed"],
+    "contrast_scope": "Invalid required contrast takes precedence; otherwise exactly one classifier applies by construction.",
+    "non_fulltrack_target": ["any valid canonical B2/B6 qualifies", "otherwise valid secondary B5 qualifies", "otherwise all three valid and below threshold", "otherwise invalid/incomplete"],
+    "boundary_semantics": "PQ equal to 6.9 qualifies. Practical-effect mean equal to +/- threshold qualifies only if the directional CI bound is strictly beyond zero. CI touching zero is small_or_uncertain."
+  },
+  "resource_and_recovery": {
+    "gpu_exclusivity": "One arm at a time; fail closed on any unknown compute process or missing p2 resource ownership.",
+    "hdd_access": "read_only",
+    "output_filesystem": "/",
+    "root_hard_floor_bytes": 161061273600,
+    "root_warning_floor_bytes": 214748364800,
+    "estimated_peak_additional_bytes": 12884901888,
+    "storage_recheck": "Before registration, before every arm generation, before scoring, and before any retained-artifact expansion; warning emits an event, hard floor holds before the write.",
+    "budgets": {
+      "implementation_wall_seconds": 7200,
+      "no_gpu_test_wall_seconds": 1800,
+      "per_arm_wall_seconds": 21600,
+      "per_arm_gpu_active_seconds": 18000,
+      "matrix_wall_seconds": 129600,
+      "budget_exhaustion": "atomic hold; no automatic retry or next-arm launch"
+    },
+    "progress_and_stall": {
+      "controller_heartbeat_seconds": 120,
+      "generation_progress_signal": "strictly increasing accepted unique-ID count",
+      "generation_stall_seconds": 900,
+      "scoring_progress_signal": "strictly increasing persisted exact-ID metric-row count",
+      "scoring_stall_seconds": 1200,
+      "unexpected_gpu_idle_seconds": 300,
+      "polling": "deterministic local checks only; unchanged healthy polls make no model calls"
+    },
+    "retry_policy": "No automatic scientific retry. Infrastructure failure produces an idempotent failure/hold event; operator-reviewed fresh run identity required for regeneration.",
+    "notifications": ["start", "every_gate", "completion", "failure", "interruption", "queue_handoff", "unexpected_gpu_idle", "stall", "disk_warning", "disk_hard_stop", "notification_delivery_incident", "recovery", "promote", "stop", "hold"],
+    "recovery_notifications": "Every previously notified recoverable disk, stall, GPU-idle, notification-delivery, or other operational incident has a stable incident fingerprint and exactly one linked recovery event after deterministic evidence proves clearance. Persist and deliver recovery before promotion or compute/storage expansion; restart reuses the same event keys and cannot duplicate incident or recovery delivery."
+  },
+  "harn_document_bundle": {
+    "schema_bundle_id": "harn-schema-v1",
+    "candidate_contract": "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_bmatrix_contract.candidate.json with launch_allowed=false",
+    "contract": "/home/kojiek/MeanAudio/docs/experiments/fulltrack_q3_pq_bmatrix_contract.json with immutable launch_allowed=true and approval_required=true before Gate-2 signing",
+    "preflight": "/home/kojiek/logs/fulltrack_q3_pq_bmatrix_v1_harn/current/preflight.json",
+    "ledger": "/home/kojiek/logs/fulltrack_q3_pq_bmatrix_v1_harn/current/ledger.json",
+    "queue_state": "/home/kojiek/logs/fulltrack_q3_pq_bmatrix_v1_harn/current/queue.json",
+    "run_id": "run-20260828-ftq3-bmatrix-v1",
+    "phase_ids": ["B1_generate", "B1_score", "B2_generate", "B2_score", "reproduction_gate", "B3_generate", "B3_score", "B4_generate", "B4_score", "B5_generate", "B5_score", "B6_generate", "B6_score", "paired_analysis", "cleanup", "queue_handoff"],
+    "permissions": "State and outbox roots must be new/non-symlink UID-1005 mode 0700 directories; contract copies, approvals, keys, ledger, preflight, queue state, and outbox records must be UID-1005 mode 0600 regular files. Insecure pre-existing objects hold.",
+    "controller_lock": "One unpredictable-name mode-0600 lock file opened O_NOFOLLOW beneath a held state-root descriptor; flock remains held across validation, registration/launch transition, outbox changes, and terminal handoff. A second controller holds.",
+    "atomicity": "Every state transition writes a unique same-directory O_EXCL mode-0600 temporary file, fsyncs file and directory, then descriptor-relative no-replace/replace commit; ledger head hash, generation number, boot ID, and controller identity must match before mutation.",
+    "integrity_chain": "Ledger and outbox records use domain-separated HMAC-SHA256 plus previous-record hash. This is restart/tamper evidence under the declared AUTH_ROOT boundary, not same-UID authentication.",
+    "event_idempotency_key": "run_id + phase_id + event_kind + SHA256(canonical gate/verdict/report evidence). Transport retry count and timestamps are excluded, so all retries reuse one stable event key. A phase admits at most one terminal verdict; conflicting terminal evidence is a chain-fork hold.",
+    "notification_delivery": "Persist pending event before send; send structured bounded fields only with allowed_mentions empty and no raw log tails; webhook secret path/value never enters argv, environment manifests, reports, ledger, outbox, or message content. Persist accepted response before promotion. Retry only failures known to occur before request acceptance at 30,60,120,240,480 seconds, maximum five attempts. A crash or transport ambiguity after possible acceptance becomes notification_delivery_ambiguous and holds for operator reconciliation unless an idempotent relay proves deduplication.",
+    "terminal_transition": "Persist terminal evidence, deliver terminal notification, release only owned resources, atomically update queue state, then select/launch the next eligible entry or persist and notify its exact hold reason.",
+    "validation": "All four documents must pass scripts/validate_experiment_harness_documents.py before gate-2 approval can be issued."
+  },
+  "registration_transaction": {
+    "source": "/home/kojiek/MeanAudio/scripts/queue_candidates/027_fulltrack_q3_pq_bmatrix.sh",
+    "target": "/home/kojiek/gpu_queue/p2/pending/027_fulltrack_q3_pq_bmatrix.sh",
+    "preconditions": [
+      "gate-1 approval has not and cannot mutate the queue",
+      "gate-2 approval is valid and unconsumed",
+      "024 is the sole running entry and 025 then 026 are the exact pending tail, or all predecessors have since reached verified terminal states without a new approved tail",
+      "no 027 basename or plan_id exists in running, pending, held, failed, done, runtime ledger, or controller registry",
+      "source launcher, executable contract, manifests, tests, and review receipts match gate-2 hashes"
+    ],
+    "lock": "/home/kojiek/gpu_queue/p2/runtime/queue-mutation.lock opened O_NOFOLLOW and held exclusively across snapshot, collision checks, creation, ledger commit, and approval consumption",
+    "commit": "Persist prior order, new order, approval hash, entry hash, and exact position; create target as mode-0700 regular file through unique same-directory O_EXCL temporary file, fsync, atomic no-replace rename, re-read and hash through held descriptor, append one registration ledger event, then consume approval nonce.",
+    "post_registration_hold": "If any defect is found after registration but before launch, atomically move only this owned 027 entry to p2/held, persist exact hold evidence, deliver hold notification, and leave 024/025/026 and all unrelated entries unchanged.",
+    "eligibility": "027 is ordering-eligible only when 026 is verified completed, failed, or interrupted and its terminal notification is delivered. Held, resource-wait, notification-pending, and delivery-ambiguous are nonterminal and keep 027 ineligible unless a separately authenticated operator queue reorder or terminal transition occurs. Predecessor failure or interruption does not reorder or delete 027.",
+    "gpu_lease": "No current p2 lease FD is inherited. Equivalent proof is required without modifying the live host: locate the exact gpu0.lock device/inode in /proc/locks; require one exclusive-flock holder whose UID, PID/start ticks, boot ID, cgroup/session, executable and argv hashes identify the registered hold_lock.py process watching the exact p2 host PID; bind p2 owner/running records and the 027 guest ancestry/run_id/entry hash; open and retain pidfds for the lock holder and p2 host; verify all facts before and during every GPU phase. Any disappearance, mismatch, duplicate holder, released-lock nonblocking acquisition, or ambiguity holds immediately. An integration change to lib_host.sh/hold_lock.py is outside Gate 1 and forbidden by this Plan.",
+    "foreign_process_gate": "Immediately before every arm, enumerate all GPU compute processes with zero memory threshold. Only the exact owned lease process tree is accepted. A separately gate-2-approved passive allowlist may name the Irodori TTS executable identity, UID, cgroup/session, maximum 2048 MiB, and measured zero GPU utilization for 60 seconds; absent that exact approval, even 1 MiB unowned usage holds. No foreign process is signaled or modified."
+  },
+  "ownership_and_rollback": {
+    "security_implementation_owner": "Pilotfish security-executor after Gate-1 approval owns approval lifecycle, sealed staging, descriptor-safe paths/cleanup, HARN state/outbox integrity, p2 lease proof, queue transaction, environment isolation, and notification redaction.",
+    "scientific_implementation_owner": "Pilotfish executor after Gate-1 approval owns per-item scoring, paired analysis, reproduction/decision classification, and their non-security fixtures; it must not edit security-owned files.",
+    "file_ownership": {
+      "security-executor": ["scripts/eval/run_fulltrack_q3_pq_arm.py", "scripts/experiment_harness/fulltrack_q3_pq_bmatrix_harn.py", "scripts/tests/selftest_fulltrack_q3_pq_bmatrix_security.py", "docs/experiments/fulltrack_q3_pq_bmatrix_contract.candidate.json", "docs/experiments/fulltrack_q3_pq_bmatrix_contract.json", "scripts/queue_candidates/027_fulltrack_q3_pq_bmatrix.sh", "sealed_input_staging tree and copy receipt"],
+      "executor": ["scripts/eval/score_musiccaps_per_item.py", "scripts/analysis/fulltrack_q3_paired_report.py", "scripts/tests/selftest_fulltrack_q3_pq_bmatrix_science.py"]
+    },
+    "review_owner": "independent read-only reviewer",
+    "runtime_owner": "p2 queue controller after append-tail registration",
+    "rollback": "Before launch, remove only newly proposed unregistered files if rejected. After registration or launch, never rewrite accepted evidence; use an additive superseding contract and preserve terminal state."
+  },
+  "verification": {
+    "required_before_registration": [
+      "JSON/schema validation and full four-document HARN bundle validation",
+      "unit tests with corrupt/missing/extra/stale/nonfinite audio and metric fixtures",
+      "dry-run fully expanded argv/environment snapshot equality",
+      "storage warning/hard-stop and per-expansion recheck fixtures",
+      "budget exhaustion, progress, stall, GPU-idle, interruption, quarantine, and resume fixtures",
+      "notification pre-request retry, post-acceptance ambiguity, redaction, secret-file, and allowed-mentions fixtures",
+      "incident/restart/recovery fixtures for disk, stall, GPU-idle, notification delivery, and generic recoverable holds proving exactly one incident and one linked recovery delivery before promotion",
+      "security AT-INPUT-01..04, AT-AUTH-01..06, AT-P2-01..05, AT-PATH-01..03, AT-CLEAN-01..02, AT-STATE-01..03, AT-NOTIFY-TRANSACTION-01, AT-RESTART-01, AT-ENV-01..02, AT-ARGV-01, AT-NET-01, AT-SECRET-01..02, and AT-MENTION-01",
+      "table-driven reproduction and decision fixtures covering malformed/nonfinite sources, quantization boundaries, every sign/CI/threshold class, B2/B5/B6 target boundaries, invalid precedence, and no contradictory decisions",
+      "queue-state fixtures proving held/resource-wait/notification-pending/delivery-ambiguous 026 blocks 027 while completed/failed/interrupted plus delivered terminal notification unlocks 027 without reordering 024/025/026",
+      "independent security re-review and read-only implementation review"
+    ],
+    "required_after_completion": ["fresh-context recomputation of hashes and aggregates", "independent paired-bootstrap reproduction", "requirement-by-requirement verdict", "prohibited-claim audit"]
+  },
+  "prohibited_claims_before_completion": [
+    "historical_byte_level_reproduction",
+    "fulltrack_causal_advantage",
+    "caption_granularity_is_the_cause",
+    "non_fulltrack_pq_over_6_9_achieved",
+    "queue_registration_or_launch_authorized"
+  ]
+}

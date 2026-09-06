@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "experiment": "rich_shared_quarter_then_conditional_rich_matched_full",
+  "status": "preregistered_before_launch",
+  "interpretation": "R-Masked in the operator request is treated as R-Matched: segment-specific rich captions aligned to each first-10-second training window.",
+  "quarter_control": {
+    "treatment": "R-Shared: one deterministic rich caption source per track broadcast to every retained segment row",
+    "control": "existing R-Matched quarter",
+    "rows": 251599,
+    "tracks": 36985,
+    "caption_source_selection_seed": 42,
+    "training_seed": 14159265,
+    "stage1_updates": 100000,
+    "stage2_updates": 50000,
+    "no_q": true,
+    "batch_size": 8,
+    "learning_rate": 0.0001
+  },
+  "evaluation": {
+    "dataset": "MusicCaps 5521",
+    "generation_seed": 42,
+    "meanflow_steps": 1,
+    "cfg_strength": 0.5,
+    "primary_semantic_endpoint": "CLAP",
+    "primary_aes_endpoint": "CE",
+    "secondary_aes_endpoints": ["PQ", "CU", "PC"]
+  },
+  "promotion_gate": {
+    "contrast": "existing R-Matched quarter minus new R-Shared quarter",
+    "required_clap_delta_min": 0.005,
+    "required_ce_delta_min": -0.06,
+    "required_r_shared_valid_completion": true,
+    "required_metrics_finite": true,
+    "technical_failure_policy": "Missing/invalid corpus binding, checkpoint, audit, or metric blocks promotion. A low but finite R-Shared score remains a valid scientific result and does not independently veto promotion.",
+    "rationale": "Promote only if segment-specific rich captions materially improve CLAP while CE is non-inferior within the preregistered quarter null band. Full scale is intended to optimize combined CLAP and AES, not either metric alone."
+  },
+  "conditional_full_scale": {
+    "treatment": "R-Matched segment-specific rich 10s captions",
+    "stage1_updates": 400000,
+    "stage2_updates": 200000,
+    "training_seed": 14159265,
+    "launch_only_after_machine_readable_gate_pass": true,
+    "never_fallback_to_r_shared_full": true
+  }
+}

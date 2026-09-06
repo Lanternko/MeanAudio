@@ -1,0 +1,897 @@
+% -----------------------------------------------
+% ISMIR 2026 Submission
+% Paper: Caption Similarity as a Quality Signal for Text-to-Music Generation
+%
+% Based on the official ISMIR 2026 template:
+%   https://www.overleaf.com/latex/templates/ismir-2026-paper-template/rwjbttbmptfh
+%
+% Workflow:
+%   1. Open the official ISMIR 2026 template on Overleaf (link above).
+%   2. Replace the template's main .tex file content with this file.
+%   3. Keep ismir.sty, ISMIRtemplate.bib, example.png from the template project.
+%   4. Replace ISMIRtemplate.bib with your own references.bib later.
+%
+% Requirements:
+%   * 6 + N pages (6 pages scientific content + unlimited refs)
+%   * 10 MB max file size
+%   * Double-blind: no author names, no obvious self-references
+%   * Line numbers included for submission (handled automatically by
+%     the `submission` option in the ismir package)
+% -----------------------------------------------
+
+\documentclass{article}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[submission]{ismir} % Remove "submission" for camera-ready
+\usepackage{amsmath,cite,url}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{booktabs}          % For professional tables
+\usepackage{multirow}          % For multi-row table cells
+
+% Simple \todo macro for drafting placeholders. Remove or leave;
+% content inside \todo{} appears in red so gaps are easy to spot.
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO:} #1\textbf{]}}}
+
+% -----------------------------------------------
+% Title
+% -----------------------------------------------
+% \title{Caption Consistency as a Quality Signal for Text-to-Music Generation}
+\title{Improving Text-to-music Generation Model Training Through Prompt-consistency Conditioning}
+
+% -----------------------------------------------
+% Authors
+%
+% WARNING: Full paper submission on April 27 requires DOUBLE-BLIND PDF.
+% Before submitting the full paper PDF to CMT:
+%   1. Revert the \oneauthor block to
+%        {Anonymous Authors}
+%        {Anonymous Affiliations\\\texttt{anonymous@ismir.net}}
+%   2. Revert \def\authorname{A. Anonymous}
+%   3. Search the body for any self-references ("our previous work",
+%      institution names, etc.) and anonymize them
+% Violation of double-blind can trigger desk rejection.
+%
+% For TODAY's abstract deadline (April 20), no PDF is submitted;
+% author names are entered on CMT only. Current non-anonymous block
+% is fine for internal drafting but MUST be reverted before 4/27.
+% -----------------------------------------------
+\oneauthor
+  {}
+  {\\\texttt{anonymous@ismir.net}}
+
+\def\authorname{}
+
+\sloppy
+
+\begin{document}
+
+\maketitle
+
+% -----------------------------------------------
+% Abstract
+% -----------------------------------------------
+\begin{abstract}
+Automatic music captioning models are widely used to generate captions for the training of text-to-music (TTM) generation models when the annotated text-audio pairs are not readily available, yet these auto-generated captions could be inconsistent due to the fact that one audio may have multiple reasonable captions, posing challenges for training effectiveness. 
+To address this issue, we propose prompt-consistency conditioning, which provides the TTM model with an additional condition that shows the caption consistency of the auto-generated captions.
+By introducing this condition, during training time, the TTM model has access to information on the consistency of the input text prompt, which provides a better guidance on music generation.
+Experiment results confirm that the proposed prompt-consistency conditioning method improves the Meta Audiobox Aesthetics production quality scores and the CLAP text-audio semantic similarity score over the baseline without the proposed prompt-consistency conditioning. A paired preference study further supports the improvement, with listeners showing a clear preference for the proposed method in both audio quality (+0.467 CMOS) and prompt following ability (+0.289 CMOS). These results indicate that conditioning the TTM model on the prompt-consistency signal helps alleviate the limitations of inconsistent automatic music captions during unsupervised TTM model training.
+\end{abstract}
+
+% -----------------------------------------------
+% 1. Introduction (~1.0 page)
+% -----------------------------------------------
+% -----------------------------------------------
+% Introduction Draft v1 — 2026-04-24
+% Target: ~1.0 page in ISMIR 2026 template
+% Structure: 5 paragraphs following paper_planning_FINAL Section 4.2
+% -----------------------------------------------
+% -----------------------------------------------
+% Introduction Draft v2 — 2026-04-24
+% Target: ~1.0 page in ISMIR 2026 template
+% Changes from v1:
+%   [Prof] P2 restructured: hard filtering fails → need conditioning
+%   [Prof] P3 reframed: "retain all samples, condition instead of filter"
+%   [Prof] P5 contributions rewritten to recipe-paper framing
+%   [Prof] Language scoped: "under the adopted training recipe"
+%   [Rev]  P1 removed "latent diffusion models" (no citation)
+%   [Rev]  P3 scoped related work to TTM conditioning literature
+%   [Rev]  P3 removed quality implication from intuition
+%   [Rev]  Contribution #1 scope narrowed to TTM
+% -----------------------------------------------
+
+\section{Introduction}\label{sec:introduction}
+
+% === P1: Background & Task ===
+Text-to-music (TTM) generation has advanced rapidly in recent years, driven by powerful generative architectures such as autoregressive language models~\cite{copet2024musicgen, Dhariwal2020jukebox, agostinelli2023musiclm, Lin2024content, Yuan2025yue}, flow matching models~\cite{evans2025stableaudio,prajwal2024musicflow,li2025meanaudio}, and diffusion models~\cite{Wu2024music, Novack2024ditto, Novack2024ditto2, Schneider2024mousai, Evans2024long}.
+Training these models requires large amounts of audio-caption pairs~\cite{copet2024musicgen, Dhariwal2020jukebox}, where the captions are used as input text prompts to the TTM model for training. However, publicly available high-quality audio-caption pairs are scarce~\cite{Huang2023noise}, and manually annotating music at scale is prohibitively expensive. This poses a severe challenge to the training of TTM models, especially for academic researchers who do not have large-scale internal datasets.
+To address this issue, two methods have been adopted. First, one can automatically create music captions from music metadata using a Large Language Model (LLM)~\cite{Schneider2024mousai, Huang2023noise}. Second, one can directly employ an automatic music captioning model to automatically generate captions~\cite{Liu2024music, kong2024synthetic}, further eliminating the requirement of metadata, allowing a fully \emph{unsupervised} learning pipeline for TTM training.
+
+% To bridge this gap, researchers commonly employ automatic music captioning models such as LP-MusicCaps~\cite{doh2023lpmusiccaps} to generate pseudo-captions from metadata, enabling large-scale training on datasets like MTG-Jamendo~\cite{bogdanov2019jamendo}.
+% The quality and characteristics of these auto-generated captions directly influence the effectiveness of downstream TTM training.
+
+% === P2: Problem — Hard Filtering Fails on Two Axes, Need a Better Strategy ===
+Although the use of a music captioning model allows for unsupervised TTM training, it also introduces concerns about the quality and characteristics of the captions. 
+% However, automatic captioning models exhibit inherent stochasticity:
+An auto-generated music caption may not fully capture the details of the music. Moreover, a music audio may have multiple captions that are all reasonable. For example, ``A masterclass in explosive dynamics, shifting seamlessly from delicate whispers to thunderous symphonic roars'' and ``The rubato breathes life into every phrase, pulling and pushing the tempo with captivating, organic intensity'' both describe a professional performance of  
+Johannes Brahms' \emph{Hungarian Dance No.5} well. A music captioning model may be equally likely to choose between the two captions, which bring up the consistency issue of the captions. 
+% A TTM model trained on music with auto-generated captions  has to be robust to such issues.
+A TTM model trained on auto-generated captions thus has to be robust enough to mitigate the biases and inconsistencies propagated by the music captioning model.
+% generating multiple captions for the same audio clip yields
+% descriptions that vary in content, each capturing only a partial view
+% of the underlying musical semantics. A natural response is to filter
+% out clips whose captions are deemed unreliable. We find that this
+% strategy fails under two controlled comparisons. First, reducing the
+% training set from 251K to 117K clips by hard-filtering on caption
+% mean-similarity ($\geq 0.80$) decreases CLAP similarity from 0.1929
+% to 0.1834, indicating that data volume is a primary driver of TTM
+% training effectiveness. Second, at matched training size,
+% consistency-based filtering does not improve over random subsampling
+% (0.1834 vs. 0.1846), indicating that the consistency signal is not
+% actionable as a discard criterion. These observations motivate
+% retaining all training samples and injecting consistency as a
+% conditioning signal rather than using it to discard data.
+
+% === P3: Our Approach — Conditioning Instead of Filtering ===
+In this regard, we propose \emph{prompt-consistency conditioning} (hereinafter abbreviated as \emph{PromptCC}), an approach that provides the consistency score of different captions generated from the same target audio as an additional condition to the TTM model, thereby allowing the TTM model to understand how consistent an auto-generated prompt is.
+% we propose a different approach: rather than filtering samples based on caption quality, we retain all training data and instead provide the generation model with an explicit signal about the consistency of each sample's captions. 
+Specifically, for each audio clip, we apply the same music captioning model five times to create five different captions. Then, we compute their mean pairwise text similarity, which we term as \emph{prompt-consistency}, and quantize this score into one of 10 levels, which is injected as a learnable embedding into a TTM model via adaptive layer normalization (AdaLN). This signal informs the TTM model about the degree of agreement among generated captions of the same audio, thereby mitigating the consistency issue of the auto-generated prompt.
+% providing information that is orthogonal to the caption content itself. 
+% Unlike prior approaches that rely on supervised quality labels~\cite{li2025qamdt}, single-model confidence scores~\cite{zhu2025cosyaudio}, or external reward models~\cite{ziv2025mrflowdpo}, our conditioning signal derives entirely from the statistical consistency across multiple text outputs, requiring no additional annotation or auxiliary models.
+
+% === P4: Results (scoped to adopted recipe) ===
+In the experiments, we use the LP-MusicCaps model~\cite{doh2023lpmusiccaps} to generate captions for the MTG-Jamendo dataset~\cite{bogdanov2019jamendo}, which are then used to train MeanAudio~\cite{li2025meanaudio}, a lightweight text-to-audio generation model, for TTM. Objective evaluations indicate that the proposed PromptCC method improves TTM performance in the MusicCaps~\cite{agostinelli2023musiclm} dataset using Meta Audiobox Aesthetics~\cite{tjandra2025aes}, CLAP~\cite{wu2023clap}, and PE-AV~\cite{Vyas2025pushing} as objective evaluators. Subjective evaluations further show that the proposed PromptCC method improves the Comparison Mean Opinion Score (CMOS) in audio quality and prompt-following ability by $+0.467$ and $+0.289$ over a baseline without using PromptCC, respectively.
+These results confirm that adding the prompt-consistency condition to the TTM model effectively mitigates the consistency issue of auto-generated captions, improving the training of a TTM model in the unsupervised learning scenario.
+
+% , using Meta Audiobox
+% Aesthetics~\cite{tjandra2025aes} as the primary evaluation framework.
+% On the MusicCaps benchmark, prompt-consistency conditioning yields
+% improvements of $+0.56$ Content Enjoyment (CE) and $+0.45$ Production
+% Quality (PQ) over the baseline, with negligible inference-time
+% overhead and a lightweight embedding-plus-AdaLN modification. A paired
+% preference study further supports these gains, with participant-level
+% preferences favoring the proposed recipe for both audio quality and
+% prompt following.
+
+% === P5: Contributions (recipe-paper framing) ===
+% Our contributions are as follows:
+% \begin{enumerate}
+%   \item We empirically establish that hard-filtering on caption
+%     consistency fails on two counts: discarding samples sacrifices
+%     the data volume that TTM training depends on, and at matched data
+%     volume the consistency-based filter performs no better than
+%     random selection. This motivates using consistency as a
+%     conditioning signal rather than a discard criterion.
+%   \item We propose \textbf{prompt-consistency conditioning}, which
+%     converts the inter-caption semantic agreement into a learned
+%     embedding injected during generation fine-tuning, enabling the
+%     model to account for caption reliability without discarding any
+%     training data. To our knowledge, this is the first use of
+%     statistical consistency across multiple auto-generated
+%     descriptions as a conditioning signal in text-to-music
+%     generation.
+%   \item Under the adopted training recipe, prompt-consistency
+%     conditioning yields consistent improvements on both in-domain and
+%     out-of-distribution benchmarks, as measured by objective metrics
+%     and participant-level preference tests.
+% \end{enumerate}
+
+% -----------------------------------------------
+% 2. Related Work (~0.7 page)
+% -----------------------------------------------
+% -----------------------------------------------
+% Related Work Draft v2 — 2026-04-24
+% Target: ~0.7 page in ISMIR 2026 template
+% Structure: 4 subsections following paper_planning_FINAL Section 4.3
+% Changes from v1:
+%   [Mod 1] Shortened 2.1 backbone description (moved to Method)
+%   [Mod 2] Strengthened 2.2 gap statement with domain bridging
+%   [Mod 3] Restructured 2.3: expanded CosyAudio one-vs-many contrast,
+%           compressed preference alignment into citation list
+%   [Mod 4] Removed Resonate self-citation from 2.4 (double-blind safety)
+%   [Mod 5] Removed "broadly applicable" overclaim from 2.3 closing
+% -----------------------------------------------
+
+\section{Related Work}\label{sec:related}
+
+% === 2.1 Text-to-Music Generation ===
+\subsection{Text-to-Music Generation}
+Text-to-music (TTM) generation aims at generating a music signal from a texture prompt. Recent TTM systems can be broadly categorized into autoregressive~\cite{copet2024musicgen, Dhariwal2020jukebox, agostinelli2023musiclm, Lin2024content} and non-autoregressive methods~\cite{evans2025stableaudio,prajwal2024musicflow,li2025meanaudio, Wu2024music, Novack2024ditto, Novack2024ditto2, Schneider2024mousai, Evans2024long}. 
+Autoregressive methods such as MusicGen~\cite{copet2024musicgen} employ an autoregressive language model on discrete audio tokens, allowing controllable music generation from text.
+On the other hand, non-autoregressive methods typically perform music generation by denoising a randomly-sampled audio prior, either through flow matching~\cite{evans2025stableaudio,prajwal2024musicflow,li2025meanaudio} or diffusion mechanism~\cite{Wu2024music, Novack2024ditto, Novack2024ditto2, Schneider2024mousai, Evans2024long, Chen2025diffrhythm, Ning2025diffrhythm}. These methods achieve higher generation speed due to their non-autoregressive property, which enables parallel generation.
+% Non-autoregressive methods based on diffusion and flow matching have gained traction for their efficiency and audio fidelity. 
+For example, Stable Audio Open~\cite{evans2025stableaudio} applies latent diffusion in a compressed audio space, while
+MusicFlow~\cite{prajwal2024musicflow} introduces a cascaded flow matching framework that separately models semantic and acoustic features. 
+In this work, we adopt MeanAudio~\cite{li2025meanaudio}, a lightweight flow matching model, in the experiments.
+% architectural details are
+% described in Section~\ref{sec:method}. Our work is complementary to
+% these architectural advances: rather than proposing a new generation
+% architecture, we focus on improving data-level training strategies
+% that can be applied to existing TTM backbones.
+
+% === 2.2 Caption Strategies for Text-to-Music Generation ===
+\subsection{Auto-Generated Captions for Text-to-Audio Generation Training}
+Since manually-written captions are scarce, many previous TTM or text-to-audio generation systems rely heavily on automatically generated text captions for model training.
+% MusicLM~\cite{agostinelli2023musiclm} sidesteps explicit captions by training against MuLan joint music--text embeddings, while
+Noise2Music~\cite{Huang2023noise} pairs a music-language model with a LLM to synthesize pseudo-captions for diffusion training, while MeanAudio~\cite{li2025meanaudio} adopts datasets with text prompts that are automatically rewritten from audio tags~\cite{Mei2024wavcaps, doh2023lpmusiccaps}.
+During this automatic prompt generation process, if there are audio tags available, the generated text prompts would be more reliable. But when the audio tags are not available, i.e., a fully unsupervised learning scenario, the generated text prompts may exhibit bias or consistency issues~\cite{tjandra2025aes, li2025qamdt}. In this work, we address this issue through the proposed PromptCC method.
+
+% To enable open-vocabulary supervision at the clip level, LP-MusicCaps~\cite{doh2023lpmusiccaps} prompts an LLM with metadata tags and produces \emph{multiple} candidate captions per clip.
+% Music Understanding LLaMA~\cite{Liu2024music} provides a music captioner that has been
+% adopted by several TTM training pipelines including
+% MeanAudio~\cite{li2025meanaudio}. A common property of all of these
+% pipelines is that the resulting text is inherently stochastic: different
+% prompts, sampling temperatures, or random seeds yield captions that vary
+% substantially in vocabulary, level of detail, and faithfulness to the
+% underlying music.
+
+% The dominant strategy for handling this variability in TTM training is
+% either to \emph{average it out}, by drawing one caption per audio at
+% random in each training step, or to \emph{suppress it}, by selecting a
+% single ``best'' caption per clip with respect to some external scorer.
+% The work most closely related to ours is Manco et
+% al.~\cite{adobe2024augment}, who, in the context of music--text
+% contrastive representation learning, show that augmenting and
+% diversifying LLM-produced captions improves the learned embeddings more
+% than curating for accuracy. Their finding suggests that caption
+% variability carries information beyond noise, but they treat it as an
+% input-side augmentation for retrieval-style models and do not consider
+% how a generative TTM model should respond to this variability during
+% training.
+
+% Our work shifts the locus of intervention. Using the same pool of
+% LP-MusicCaps captions, instead of choosing a single caption or applying
+% caption-side augmentation, we explicitly quantify the inter-caption
+% agreement among the multiple LLM outputs for each clip and pass this
+% scalar consistency value to the TTM model as an additional training
+% condition. This converts what prior TTM pipelines treat as an
+% uncontrolled byproduct of pseudo-captioning into a systematic training
+% signal, allowing a single model to distinguish clips whose captions
+% converge from clips whose captions disagree.
+
+% === 2.3 Quality-Aware Conditioning for Text-to-Music Generation ===
+\subsection{Quality-Aware Conditioning for TTM Training}
+
+Several recent works have explored using quality or preference signals as additional conditions to text-to-music (TTM) generation models. QA-MDT~\cite{li2025qamdt} conditions a masked diffusion transformer on pseudo-MOS quality scores by injecting discretized quality scores as prefix tokens.
+MR-FlowDPO~\cite{mrflowdpo2025} introduces \textit{reward prompting}, in which three continuous reward values, namely text-audio alignment (CLAP score~\cite{wu2023clap}), audio production quality (Audiobox Aesthetics score~\cite{tjandra2025aes}), and audio semantic consistency (HuBERT likelihood~\cite{Hsu2021hubert}), are prepended to the text prompt. The model thus learns to generate music conditional on explicit target reward levels.
+Inspired by these works, we also propose injecting an additional condition (prompt-consistency condition) into the TTM training loop. However, the proposed method does not capture the \emph{quality} of an audio or text captions, but rather captures the \emph{consistency} of the text captions, which helps mitigate the consistency issue of a music captioning model.
+
+% Our signal differs from prior TTM conditioning in two key respects.
+% First, it captures the \textit{statistical agreement among multiple
+% captions} describing the same audio, rather than absolute audio
+% quality (QA-MDT) or external reward values (MR-FlowDPO); it is
+% therefore a measure of caption \emph{consistency} rather than of
+% quality. Second, computing the prompt-consistency score requires no
+% external quality estimator and no reward model---only the multiple
+% captions already produced during data preparation.
+
+% === 2.4 Evaluation Metrics for TTM ===
+% \subsection{Evaluation Metrics for TTM}
+
+% Evaluating TTM systems remains an open challenge. Fr\'{e}chet Audio
+% Distance (FAD), computed from VGGish embeddings, has been widely used
+% but recent work has raised concerns about its reliability as a
+% perceptual quality metric; for instance,
+% MR-FlowDPO~\cite{mrflowdpo2025} reports cases where FAD
+% improvements do not correspond to perceptual quality gains. To
+% address these limitations, Tjandra et al.~\cite{tjandra2025aes}
+% proposed Meta Audiobox Aesthetics, a learned metric framework that
+% evaluates audio along four dimensions: Content Enjoyment (CE),
+% Content Usefulness (CU), Production Complexity (PC), and Production
+% Quality (PQ). Among these, CE exhibits the highest correlation with
+% human overall quality judgments on music data, while PQ provides a
+% reliable measure of acoustic fidelity. CLAP
+% similarity~\cite{wu2023clap} serves as a complementary metric for
+% text-audio alignment. In this work, we adopt CE and PQ as primary
+% evaluation metrics and report CLAP similarity as an auxiliary
+% measure, consistent with the recommendations of Tjandra et al.
+
+% -----------------------------------------------
+% 3. Method (~1.2 pages)
+% -----------------------------------------------
+% -----------------------------------------------
+% Method Draft v1 — 2026-04-24
+% Target: ~1.2 pages in ISMIR 2026 template
+% Structure: 4 subsections following paper_planning_FINAL Section 4.4
+% Framing: Aligned with professor's "conditioning instead of filtering"
+%          narrative — recipe paper, not ablation paper
+% Terminology: prompt-consistency level (ℓ), pc_embed, not q/quality
+% -----------------------------------------------
+
+\begin{figure}[t]
+
+  \centering
+
+  \scalebox{0.9}{\input{pipeline-G-vertical}}
+
+  \caption{An overview of the proposed PromptCC method for unsupervised TTM training. For each audio clip, we generate five captions using a music captioning model with different random seeds. We compute the prompt-consistency score $q$ as the quantized mean pairwise semantic cosine similarity of these captions, and pair a randomly selected caption with $q$ as the input to the TTM model. At inference, $q$ is fixed to $9$ (highest consistency).}
+  \label{fig:pipeline}
+
+\end{figure}
+
+\section{Method}\label{sec:method}
+% Overview paragraph (setting + core contribution + section roadmap)
+An overview of the proposed method is shown in Figure~\ref{fig:pipeline}.
+% We adopt MeanAudio~\cite{li2025meanaudio} as our TTM backbone and propose prompt-consistency conditioning for its TTM training.
+This work considers an \emph{unsupervised learning} scenario in which a large-scale dataset with audio and text caption pairs is not available. In this case, one has to apply a music captioning model to generate text prompts to form a training dataset.
+To this end, we propose adding prompt-consistency conditioning to the TTM model to mitigate the consistency issue of the auto-generated text prompts. Since the proposed method does not require any text annotations, it has the potential to be scaled-up to the TTM training on much larger unlabeled datasets.
+
+% In this section, we first describe the backbone model architecture we adopt (Section~\ref{sec:background}), then discuss the proposed prompt-consistency condition (Section~\ref{sec:pc_signal}), detail how we inject such a condition into the TTM model (Section~\ref{subsec:pc_embed}), and describe the training and inference procedures (Section~\ref{sec:training_inference}).
+% Figure~\ref{fig:pipeline} provides a high-level overview of the training data preparation pipeline.
+
+% === 3.1 Background: Flow Matching Transformer ===
+\subsection{Backbone Model}
+% \subsection{Backbone Model: Two-Stage Flow Matching Transformer}
+\label{sec:background}
+We adopt MeanAudio as the backbone model~\cite{li2025meanaudio}, a lightweight flow matching-based~\cite{esser2024flux} transformer model designed for text-to-audio generation.
+% follows a two-stage architecture~\cite{li2025meanaudio}. \textbf{Stage~1}
+% trains a Flux-style flow transformer~\cite{esser2024flux} to learn
+% latent audio representations using the conditional flow matching
+% objective~\cite{lipman2023flow}. 
+During training, the audio waveforms are first converted to Mel spectrograms and encoded into a latent sequence $\mathbf{x} \in \mathbb{R}^{N \times d}$ via a pre-trained
+variational autoencoder, where $N$ is the sequence length and $d$ is the latent dimension. Then, given a text prompt $c$, the model first employs two pretrained text encoders, namely FLAN-T5~\cite{chung2024flant5} and CLAP~\cite{wu2023clap}, to extract text features $\textbf{y}_c$ from $c$. The model is trained to generate $\mathbf{x}$ from $\textbf{y}_c$ and a randomly sampled prior $\epsilon$ through the conditional flow matching mechanism. In particular, adaptive layer normalization (AdaLN) is applied to inject text features $\textbf{y}$ into the generation process. We choose MeanAudio as our TTM backbone model for its high training and inference efficiency (achieving a real-time factor of 0.013~\cite{li2025meanaudio}), along with its modest model size (120M), which allows for training and evaluation on a consumer GPU.
+
+% Then, given the corresponding text prompt $t$, .
+
+% \textbf{Stage~2} fine-tunes the model
+% using the mean flow objective~\cite{geng2025meanflows}, which
+% regresses the average velocity field over a time interval $[r, t]$
+% to enable high-quality single-step generation at inference.
+
+% The model employs dual text encoders: FLAN-T5~\cite{chung2024flant5}
+% provides fine-grained sequential text features $\mathbf{y} \in
+% \mathbb{R}^{L \times d_t}$ that attend to audio latents through
+% multi-modal DiT blocks~\cite{peebles2023dit}, while
+% CLAP~\cite{wu2023clap} provides a global text feature
+% $\mathbf{y}_c \in \mathbb{R}^{d_c}$ injected via adaptive layer
+% normalization (AdaLN). Both stages condition generation on a global
+% conditioning vector $\mathbf{g}$ that combines timestep, text, and
+% other embeddings through element-wise addition.
+
+% === 3.2 Prompt-Consistency Signal ===
+\subsection{Prompt-Consistency Condition}\label{sec:pc_signal}
+% To train a TTM model, a large-scale dataset with audio-caption pairs is required. This work considers a practical scenario where such a dataset does not exist. 
+When only a dataset with unlabeled audio is available, an alternative method for TTM training is to employ an automatic music captioning model such as LP-MusicCaps~\cite{doh2023lpmusiccaps} to generate captions, which are paired with the audio to form the training dataset.
+However, these auto-generated captions may not be consistent due to 1) the ambiguity of the music captioning task and 2) the potential errors made by the captioning model. Our preliminary experiment using LP-MusicCaps further reveals the effect of the second issue. For example, using different random seeds for captioning, an audio in the MTG-Jamendo dataset~\cite{bogdanov2019jamendo} is captioned as ``...synth pad chords, laser synth bass and punchy kick'' or ``...it could be used in the soundtrack of a horror movie or a video game''. Upon manual inspection, we found that both captions are correct, as the audio features synth, bass, and punchy kick components, as well as a pervasive horror-themed tone. Such an ambiguity may negatively affect the subsequent TTM training, which heavily relies on these auto-generated captions.
+
+To address this issue, we propose repeating the music captioning for $K=5$ times to generate five captions for each audio clip. Then, given these captions $\{c_1, \ldots, c_K\}$, we compute the \emph{prompt-consistency score} as the
+mean pairwise cosine similarity of their sentence embeddings:
+%
+\begin{equation}\label{eq:pc_score}
+  s = \frac{2}{K(K-1)} \sum_{i < j}
+      \cos\_\mathrm{sim}\, \!\big(\phi(c_i),\, \phi(c_j)\big),
+\end{equation}
+%
+where $\phi(\cdot)$ denotes a sentence encoder, which computes a fixed-dimension embedding for each text caption, while $\mathrm{cos\_sim}$ denotes the cosine similarity function. In practice, we use Sentence-BERT~\cite{reimers2019sentencebert} as the sentence encoder.\footnote{https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2}
+% This encoder is distinct from the TTM model's text encoders (FLAN-T5 and CLAP), ensuring that the prompt-consistency signal is computed in an independent embedding space.
+The resultant $s$ value thus quantifies the degree of prompt consistency across all prompts generated by the music captioning model.
+
+After obtaining the $s$ score,
+a natural approach is to remove clips with less consistent auto-generated captions, i.e., $s$ is lower than a specific threshold, in order to mitigate the issue of prompt consistency.
+However, this hard-removal approach could remove a large fraction of the training data, potentially damaging the diversity of audio and text prompts.
+% However, treating consistency as a hard discard criterion removes a large fraction of the training data, and our ablations show that a consistency-filtered subset has no consistent advantage over a random subset of the same size. We instead retain all training samples and extract a conditioning signal from the variability of the captions themselves.
+Our ablation study (as will be shown in Section~\ref{sec:experiments}) also shows that this hard-filtering approach actually results in a worse TTM performance.
+Therefore, we instead retain all training samples and treat the $s$ value as another conditional signal, which is then fed into the TTM model for generation. 
+The idea behind this \emph{prompt-consistency conditioning} approach is that, by providing the TTM model with the consistency information, it can implicitly handle the prompt consistency issue. Consequently, the TTM model can still learn from audio with less consistent text prompts well, achieving better performance compared to a baseline model without the use of this conditioning mechanism.
+
+% Given $K$ captions $\{c_1, \ldots, c_K\}$ generated for the same
+% audio clip, we compute the \emph{prompt-consistency score} as the
+% mean pairwise cosine similarity of their sentence embeddings:
+% %
+% \begin{equation}\label{eq:pc_score}
+%   s = \frac{2}{K(K-1)} \sum_{i < j}
+%       \cos\!\big(\phi(c_i),\, \phi(c_j)\big),
+% \end{equation}
+% %
+% where $\phi(\cdot)$ denotes a sentence encoder
+% (all-MiniLM-L6-v2~\cite{reimers2019sentencebert}). This encoder is
+% distinct from the TTM model's text encoders (FLAN-T5 and CLAP),
+% ensuring that the prompt-consistency signal is computed in an
+% independent embedding space.
+
+% === 3.3 Prompt-Consistency Embedding ===
+\subsection{Prompt-Consistency Embedding}\label{subsec:pc_embed}
+
+To feed the prompt-consistency condition into the TTM model, inspired by QA-MDT~\cite{li2025qamdt}, we further propose quantizing continuous $s$ values into $10$ equally-spaced consistency levels (uniform quantization).\footnote{In other words, even in the training set, the number of samples with $q=9$ does not necessarily equal to those with $q=0$.} For clarity, we refer to the quantized $s$ values as the $q$-values, where $q  \in \{0, 1, \ldots, 9\}$. An additional index $q = 10$ is reserved as a null token for the classifier-free guidance (CFG) mechanism~\cite{Ho2022classifier} during MeanAudio's training~\cite{li2025meanaudio}. 
+
+% In our training data ($K=5$ captions
+% per clip, 251{,}600 clips from
+% MTG-Jamendo~\cite{bogdanov2019jamendo}), the raw distribution of
+% $s$ is approximately normal and concentrated in the mid-to-high
+% similarity range.
+
+Then, to feed the $q$ information into the TTM model, we introduce a learnable embedding layer $\textbf{pc\_embed}\in \mathbb{R}^{D \times 11}$
+% $\textbf{pc\_embed}: \mathbb{Z}_{11} \to \mathbb{R}^{D}$
+% to inject the discretized prompt-consistency level into the generation model:
+%
+% \begin{equation}\label{eq:pc_embed}
+% \begin{aligned}
+%   \textbf{pc\_embed} &: \mathbb{Z}_{11} \to \mathbb{R}^{D}, \\
+%   &\text{implemented as } \texttt{nn.Embedding}(11, D),
+% \end{aligned}
+% \end{equation}
+%
+that maps each $q$ value to a $D$ dimensions vector, where $D$ is the TTM model's hidden dimension. 
+This prompt-consistency embedding is then added to the TTM condition vector,
+% as follows:
+% %
+% \begin{equation}\label{eq:global_c}
+%   \mathbf{g} = \mathbf{e}_t(t) + \mathbf{e}_r(r)
+%              + \text{proj}(\mathbf{y}_c)
+%              + \textbf{pc\_embed}(\ell),
+% \end{equation}
+% %
+% where $\mathbf{e}_t$ and $\mathbf{e}_r$ are sinusoidal timestep embeddings for the current and reference times $t$ and $r$ respectively, and $\text{proj}(\mathbf{y}_c)$ is the projected CLAP global feature. 
+% The vector $\mathbf{g} \in \mathbb{R}^{1 \times D}$
+which further modulates all transformer blocks in the TTM model through AdaLN, providing scale-and-shift parameters for layer normalization. During inference time, we simply use $q=9$ (highest consistency) as the prompt consistency condition, since we assume that the user's input text prompt has no consistency issue.
+
+% The prompt-consistency embedding is applied \emph{only} in Stage~2
+% (generation fine-tuning). Stage~1 (representation learning) does
+% not receive prompt-consistency conditioning; its embedding input is
+% fixed to the null token ($\ell = 10$).
+
+% === 3.4 Training and Inference ===
+% \subsection{Training and Inference}\label{sec:training_inference}
+
+% \subsubsection{Training}
+% For each training sample, we randomly select one of the $K$
+% available captions and pair it with the clip's precomputed
+% prompt-consistency level $\ell$. The model is trained with the
+% standard mean flow objective, with the prompt-consistency embedding
+% included in the global conditioning vector as described in
+% Eq.~\eqref{eq:global_c}. During CFG dropout, both the text
+% features and the prompt-consistency level are replaced with their
+% respective null tokens (empty string features and $\ell = 10$).
+
+% \subsubsection{Inference.}
+% At inference time, the user provides a text prompt but no
+% prompt-consistency level is naturally available. We set $\ell$ to a
+% fixed value that lies within the well-supported region of the
+% training distribution. In our experiments, we use $\ell = 9$ as a
+% representative high-consistency setting. Empirically, in-support
+% levels ($\ell = 6$--$9$) perform similarly, so this choice should
+% not be interpreted as evidence for fine-grained ordinal quality
+% control. The prompt-consistency level functions primarily as a
+% support-set gate, as analyzed in Section~\ref{sec:pc_analysis}.
+
+% -----------------------------------------------
+% 4. Experiments (~2.0 pages)
+% -----------------------------------------------
+
+\begin{table*}[t]
+  \centering
+  \label{tab:main_result}
+  % \small
+  \setlength{\tabcolsep}{3pt}
+  % \resizebox{\columnwidth}{!}{%
+  \begin{tabular}{l|cccccc|cccccc}
+    \toprule
+    Dataset & \multicolumn{6}{c|}{MusicCaps} & \multicolumn{6}{c}{MTG-Jamendo test set}\\
+    Caption strategy & CLAP & PE-AV & CE & CU & PC & PQ & CLAP & PE-AV & CE & CU & PC & PQ\\
+    \midrule
+    Baseline (w/o PromptCC) & 0.1851 & 0.0467 & 5.913 & 6.747 & 4.983 & 6.544 & \textbf{0.1986} & \textbf{0.1305} & 6.124 & 6.950 & 5.103 & 6.755\\
+    \hline
+    \textbf{PromptCC (Proposed)}  & \textbf{0.1975} & \textbf{0.0524} & \textbf{6.017} & \textbf{6.822} & 4.758 & \textbf{6.679} & 0.1981 & 0.1283 & \textbf{6.251} & \textbf{7.031} & 4.974 & \textbf{6.930}\\
+    PromptCC w/o quantize & 0.0571 & -0.0378 & 5.772 & 6.505 & \textbf{5.272} & 6.417 & 0.0591 & 0.0073 & 5.736 & 6.467 & \textbf{5.264} & 6.375\\
+    CLAP conditioning & 0.1950 & 0.0519 & 5.871 & 6.633 & 4.940 & 6.528 & 0.1920 & 0.1266 & 6.121 & 6.895 & 5.081 & 6.791\\
+    PQ conditioning & 0.1848 & 0.0494 & 5.778 & 6.581 & 4.712 & 6.535 & 0.1910 & 0.1251 & 6.125 & 6.916 & 4.996 & 6.856\\
+    % \hline
+    Consistency hard filtering & 0.1663 & 0.0378 & 5.060 & 5.991 & 4.627 & 5.916 & 0.1861 & 0.1170 & 5.635 & 6.424 & 4.991 & 6.287\\
+    \bottomrule
+  \end{tabular}%
+  \caption{Objective experiment results on MusicCaps ($n{=}5{,}521$) and MTG-Jamendo's test set ($n{=}2{,}048$). The best performance of each metric is highlighted in bold. For all the metrics, a higher number implies a better performance.}
+\end{table*}
+
+\section{Experiments}\label{sec:experiments}
+\subsection{Datasets}\label{subsec:datasets}
+We use the MTG-Jamendo dataset~\cite{bogdanov2019jamendo} and the MusicCaps dataset~\cite{agostinelli2023musiclm} in the experiments. 
+\textbf{MTG-Jamendo} is a large-scale music dataset collected from Jamendo music, which contains more than 55,000 audio tracks with genre, instrument, and mood/theme tags.
+\textbf{MusicCaps} contains 5,521 10-second music clips from the AudioSet dataset~\cite{Gemmeke2017audioset}, each with a free text caption written by musicians. 
+% In the experiments, we do not make use of MTG-Jamendo's music tags and treat MTG-Jamendo as an unlabeled dataset. For MusicCaps, we  use their provided text captions in the experiments.
+
+As a pre-processing step, we first cut all the audio in the MTG-Jamendo dataset into 10-second clips. Then, we adopt the official dataset split (\texttt{split-0}) by dividing it into a 251K training set and a 90K test set. For each clip, we apply LP-MusicCaps~\cite{doh2023lpmusiccaps} with five different random seeds to generate five captions. Note that during this process, we did \textbf{not} make use of MTG-Jamendo's music tags, since we focus on a fully unsupervised TTM scenario (as mentioned in Section~\ref{sec:method}).
+
+During training, we use MTG-Jamendo's training set for training, and use both MTG-Jamendo's test set and the entire MusicCaps dataset for evaluation. For MTG-Jamendo's test set, to speedup the evaluation, we use a subset of 2,048 samples randomly sampled from it for evaluation (the same subset is used across all experiments for consistency). For MusicCaps, we directly use its text captions for TTM.
+
+
+\subsection{Experiment Setup}\label{subsec:setup}
+The experiment setup and the hyperparameters mostly follow those of MeanAudio~\cite{li2025meanaudio}. We consider the generation of 10-second music clips. During training, we train the MeanAudio model from scratch using the AdamW optimizer with a learning rate of $10^{-4}$. Due to resource constraints, we set the batch size to $8$ instead of $32$. Model training is conducted with a two-stage training curriculum. In the first stage, the model is trained for 400K steps with the flow matching objective. Then, in the second stage, the model is fine-tuned for an additional 200K steps with the \emph{mean flow matching} objective, which enables the one-step audio synthesis. In both stages, we randomly drop the condition with a dropout rate of $0.1$ for the usage of CFG. For the proposed prompt-consistency conditioning, we only add it to the TTM model in the second stage, which we empirically found to achieve a better performance.
+
+% We train on 251K 10-second MTG-Jamendo clips with vocals removed.
+% Each clip is paired with five LP-MusicCaps pseudo-captions generated
+% under different random seeds. We evaluate on MusicCaps (5,521 clips)
+% as the out-of-distribution benchmark and on the MTG-Jamendo test split
+% (2,048 clips) as the in-domain benchmark. Unless otherwise stated,
+% objective metrics use one-step MeanFlow inference with
+% \texttt{cfg\_strength=0.5}; subjective samples use 25-step inference
+% with \texttt{cfg\_strength=0.5}. 
+
+\subsection{Evaluation Metrics}
+We evaluate the proposed methods with objective and subjective metrics. The objective metrics are listed as follows:
+
+\textbf{Prompt following.} To evaluate TTM models' prompt-following ability, we adopt \textbf{CLAP similarity (CLAP)} and \textbf{PE-AV similarity (PE-AV)}. Both CLAP~\cite{wu2023clap} and PE-AV~\cite{Vyas2025pushing} are multimodal encoders that can encode audio and text data. We employ these models to evaluate the semantic similarity between the text prompt and the generated audio.
+
+\textbf{Audio quality.} To evaluate TTM models' generated audio quality, we adopt \textbf{Meta Audiobox Aesthetics (AES)} as an objective evaluator~\cite{tjandra2025aes}. It is a Transformer model trained to predict four aspects of music: \textbf{Production Quality (PQ)}, \textbf{Production Complexity (PC)}, \textbf{Content Enjoyment (CE)}, and \textbf{Content Usefulness (CU)}. We use all four scores as objective metrics. Following MR-FlowDPO~\cite{mrflowdpo2025}, we consider \textbf{PQ} to be the main metric, as it is particularly focused on the quality of the music. 
+
+In addition to objective metrics, we also conduct subjective test by recruiting human evaluators and ask their preferences in terms of both prompt following and audio quality, as discussed in Section~\ref{sec:human_eval}.
+
+% CE, CU, PC, and PQ for perceptual
+% quality. We also report FAD as a secondary distribution-level
+% diagnostic, computed on a $2{,}048$-sample MusicCaps subset so that
+% reference statistics remain paired with the generation set. Because CLAP is also used as the backbone's global text
+% encoder, CLAP similarity has component overlap with the model and is
+% treated as an auxiliary alignment metric rather than primary evidence
+% of perceptual quality; PE-AV/R@10 complement it on prompt following,
+% while CE/PQ and listening tests provide the main quality evidence.
+
+% \begin{table*}[t]
+%   \centering
+%   \label{tab:hard_filter_ablation}
+%   % \small
+%   % \resizebox{\columnwidth}{!}{%
+%   \begin{tabular}{lccccccc}
+%     \toprule
+%     System & Clips & CLAP $\uparrow$ & CE $\uparrow$ & CU $\uparrow$ & PC $\uparrow$ & PQ $\uparrow$ & FAD $\downarrow$ \\
+%     \midrule
+%     Baseline      & 251K & 0.1825 & 5.458 & 6.299 & 4.534 & 6.233 & 3.651 \\
+%     Hard-filter   & 117K & 0.1663 & 5.060 & 5.991 & 4.627 & 5.916 & 3.703 \\
+%     Random-subset & 117K & 0.1616 & 5.022 & 5.994 & 4.526 & 5.935 & 3.855 \\
+%     \bottomrule
+%   \end{tabular}%
+%   \caption{Phase 5 hard-filtering ablation. \textit{Baseline} is the
+%   full-data best-consensus no-$Q$ system; \textit{Hard-filter} applies
+%   mean-similarity hard filtering; \textit{Random-subset} is a
+%   size-matched random control at the same 117K clips. All metrics are
+%   measured on MusicCaps: CLAP and AES use the full $n{=}5{,}521$ test
+%   set, while FAD uses a $2{,}048$-sample MusicCaps subset (paired
+%   generation set required by the FAD reference statistics).}
+% \end{table*}
+
+\subsection{Baselines for Comparison}
+We compare the proposed prompt-consistency conditioning method (\textbf{PromptCC}) with several baselines and alternative methods, which are listed as follows:
+
+1) \textbf{w/o PromptCC}: Train the MeanAudio model without the proposed PromptCC method. This is a direct ablation study that could reveal the effectiveness of the proposed method.
+
+2) \textbf{PromptCC w/o quantize}: Use the proposed PromptCC method, but without quantizing the consistency score $s$. In particular, we directly prepend $s$ to the text prompt. During inference, we set $s$ to $1.0$, i.e., assuming that the user prompt has no consistency issue.
+
+3) \textbf{CLAP conditioning}: Use the CLAP cosine similarity between audio and caption instead of PromptCC as the condition. This resembles the method of MR-FlowDPO~\cite{mrflowdpo2025}.
+
+4) \textbf{PQ conditioning}: Use Meta AES' PQ score instead of PromptCC as the condition. This also resembles the method of MR-FlowDPO~\cite{mrflowdpo2025}.
+
+5) \textbf{Consistency hard filtering}: A naive method that deals with the prompt consistency issue by removing audio with low prompt consistency (See Section~\ref{sec:pc_signal}). We set the consistency threshold to $0.8$. This reduces the number of training data from 251K to 117K (-53\%).
+
+\subsection{Objective Experiment Results}
+The main experiment results are shown in Table~\ref{tab:main_result}. From the first two rows, the proposed PromptCC method outperforms the baseline (w/o PromptCC) in all metrics except PC in MusicCaps, confirming the effectiveness of providing the prompt consistency condition to the TTM model. In MTG-Jamendo's test set, PromptCC outperforms the baseline in CE, CU, and PQ, but underperforms the baseline in CLAP, PE-AV, and PC. These results indicate that, for the in-domain text prompts, the effectiveness of the proposed PromptCC method is mixed. Considering that the text prompts of MusicCaps are manually created, while the text prompts of MTG-Jamendo are auto-generated, we believe that the performance in MusicCaps is more representative in practical scenarios.
+
+% We re-evaluate the Phase~5 checkpoints under the current
+% MusicCaps/Audiobox protocol so that the filtering comparison is
+% reported on the same axes as the later sections.
+
+Then, we evaluate the effectiveness of the quantization step by comparing PromptCC with ``PromptCC w/o quantize''. Experiment result (second and third rows) shows a clear performance degradation in the CLAP and PE-AV score, suggesting that directly prepending the unquantized prompt-consistency score $s$ to the text prompt harms the TTM model's prompt-following ability. We suspect that the text encoder is not powerful enough to understand the meaning of decimal numbers (the $s$ values), which undermines the TTM model's prompt-following ability.
+
+Finally, we evaluate several alternatives to the proposed PromptCC method: CLAP conditioning, PQ conditioning, and consistency hard filtering. However, all of these alternatives underperform the proposed PromptCC method. Interestingly, compared to the baseline, while CLAP conditioning achieves improved performance in most metrics in MusicCaps, PQ conditioning actually results in worse performance in all metrics except the PE-AV score. These results again suggest that addressing the prompt issue is important in the context of unsupervised TTM, which is why PromptCC and CLAP conditioning (both providing information regarding the text prompt: either inter-prompt consistency or semantic similarity with the audio) improve the performance, while PQ conditioning does not. Finally, the consistency hard filtering method, which directly removes audio with inconsistent prompts, significantly degrades the TTM performance in all metrics. Such results suggest that simply filtering out audio with inconsistent prompts is not the best strategy, possibly because it reduces the number of available training data pairs. This could result in a drop in TTM performance, as suggested in~\cite{li2025qamdt, tjandra2025aes}. The proposed PromptCC method, on the other hand, addresses the inconsistent prompts issue by providing the TTM model with the quantized consistency score, which implicitly allows the TTM model to handle such an issue without discarding any training sample, thereby achieving better performance.
+
+% Table~\ref{tab:hard_filter_ablation} separates the effect of data
+% volume from the effect of the filtering criterion. Relative to the
+% full-data baseline, halving the training set hurts every reported
+% metric: CLAP drops from 0.1825 to 0.1663/0.1616, all four AES axes
+% decline, and FAD worsens from 3.651 to 3.703/3.855. At the matched
+% 117K size, hard filtering and random subsampling exchange only small,
+% inconsistent advantages across axes rather than producing a stable
+% winner. The robust conclusion is therefore the volume effect: once
+% 53\% of the training clips are removed, performance drops regardless
+% of how the subset is chosen. Prompt consistency is more useful as a
+% conditioning signal than as a hard discard criterion.
+
+% \subsection{Caption Selection Comparison}\label{sec:caption_selection}
+
+% We next compare caption-selection strategies for the same 251K Jamendo
+% clips, holding prompt-consistency conditioning fixed at $\ell = 9$ at
+% inference. Each strategy selects one caption per clip from the same
+% pool of $K=5$ LP-MusicCaps pseudo-captions:
+% \emph{best-consensus} picks the caption with the highest mean
+% similarity to the other four; \emph{random} picks one uniformly at
+% random with a fixed seed; \emph{worst-consensus} picks the caption
+% with the lowest mean similarity to the other four; and
+% \emph{CLAP-best} picks the caption with the
+% highest audio-text CLAP similarity.\footnote{Because CLAP-best uses
+% CLAP at training time, treating CLAP similarity as evidence at test
+% time would constitute partial label leakage. We therefore foreground
+% Audiobox Aesthetics rather than CLAP for this row.}
+
+% \begin{table*}[t]
+%   \centering
+%   \label{tab:caption_selection}
+%   % \small
+%   % \resizebox{\columnwidth}{!}{%
+%   \begin{tabular}{lccccccc}
+%     \toprule
+%     Caption strategy & CLAP & CE & CU & PC & PQ & PE-AV & R@10 \\
+%     \midrule
+%     best-consensus    & 0.1943 & 5.917 & 6.743 & 4.833 & 6.619 & 0.0498 & 4.80\% \\
+%     \textbf{random}   & 0.1975 & 6.017 & 6.822 & 4.758 & 6.679 & \textbf{\underline{0.0524}} & \textbf{\underline{5.40\%}} \\
+%     worst-consensus   & \underline{0.1998} & \underline{6.121} & \underline{6.967} & \underline{4.973} & \underline{6.833} & 0.0505 & 5.11\% \\
+%     CLAP-best         & $0.1950^{\dagger}$ & 5.871 & 6.633 & 4.940 & 6.528 & 0.0519 & 5.34\% \\
+%     \bottomrule
+%   \end{tabular}%
+%   \caption{Caption-selection comparison on MusicCaps ($n{=}5{,}521$)
+%   with $\ell{=}9$. The adopted recipe (random, $+\,Q$) is
+%   \textbf{bolded}. Best per column underlined.
+%   $^\dagger$CLAP for the CLAP-best row is not directly comparable to
+%   the other rows because CLAP similarity was used at training time
+%   to select captions (partial label leakage); we therefore rank rows
+%   by the non-leaky columns and exclude this cell from the
+%   underline.}
+% \end{table*}
+
+% Table~\ref{tab:caption_selection} shows that relative to
+% best-consensus, both random and worst-consensus selection benefit from
+% moving away from the caption-distribution centroid.
+% Random-$+Q$ improves best-consensus-$+Q$ on CLAP, CE, CU, PQ, PE-AV,
+% and R@10, while worst-consensus-$+Q$ pushes the single-axis scores
+% further, attaining the best CLAP and the best CE/CU/PC/PQ. CLAP-best,
+% despite optimizing audio-text alignment at training time, does not win
+% on any column that can be compared fairly. The split between random
+% and worst-consensus is informative: worst-consensus leads on the
+% single-axis metrics, but random remains best on PE-AV and retrieval
+% R@10, the benchmark-level measures that most directly test prompt
+% following. We interpret this as evidence that the operative factor is
+% distance from the consensus centroid, not random sampling per se.
+% Moving away from the centroid regularizes perceptual quality, but
+% random selection preserves better alignment to held-out prompts. The
+% remainder of this paper adopts random selection as the default.
+
+\begin{table}[t]
+  \centering
+  \label{tab:human_eval}
+  % \small
+  % \setlength{\tabcolsep}{4pt}
+  \begin{tabular}{lccc}
+    \toprule
+    Metric & CMOS & $t$-value & $p$-value \\
+    \midrule
+    Audio Quality & $+0.467$ & $t(17){=}4.08$ & $.0008$ \\
+    Prompt Following & $+0.289$ & $t(17){=}2.75$ & $.014$ \\
+    \bottomrule
+  \end{tabular}
+  \caption{Human preference results at the participant level
+  ($N{=}18$). CMOS $>0$ indicates a preference toward the proposed method (PromptCC) over the baseline (w/o PromptCC). 
+  % The audio-quality preference remains significant under Bonferroni correction over the two axes ($\alpha{=}.025$); prompt following is significant only at the uncorrected $.05$ level.
+  The proposed method is significantly preferred over the baseline in both audio quality and prompt following metrics; both preferences survive Bonferroni correction over the two axes ($\alpha{=}.025$).
+  }
+\end{table}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{latex/p7v1_qsweep_v2_subplots.png}
+    \caption{Experiment results of the proposed PromptCC method with varying $q$-values. From top to bottom: CLAP score, AES CE score, and AES PQ score. For $q\geq5$, varying $q$-value does not significantly change the generated audio's quality and prompt adherence.}
+    \label{fig:inference_q}
+\end{figure} 
+
+\subsection{Subjective Evaluation}\label{sec:human_eval}
+
+To complement the objective tests, we conducted a paired preference test that compares the proposed method (PromptCC) against the baseline (w/o PromptCC). We first randomly selected 30 text prompts from the MusicCaps dataset~\cite{agostinelli2023musiclm}, and use the two systems to perform TTM on these prompts under identical inference settings. Then, we recruited 18 participants to take the preference test. 
+Participants were recruited via online posting, all with informed consent about the purpose of this test and that their responses are only used for research purpose. Participants listened via headphones in a quiet environment. 
+For each question, we provided the participants with a text prompt and the corresponding audio clips generated by PromptCC and the baseline, respectively, but with a random order. The participant was then asked to rate their relative preference on the two audio clips on \textbf{audio quality} and \textbf{prompt following ability} using a seven-point CMOS scale (integer ratings in $\{-3, \dots, +3\}$), following the protocol of MR-FlowDPO~\cite{mrflowdpo2025}. Each participant rated a randomly chosen subset of 10 questions in total. As a result, we collected $18\times10=180$ ratings per metric in total.
+
+% Left/right assignment of recipe
+% and baseline was randomized per question; signs are normalized so
+% that positive values indicate preference for the recipe.
+
+Experiment results are shown in Table~\ref{tab:human_eval}, where the proposed PromptCC is preferred over the baseline in both metrics, with CMOS scores of $+0.467$ (95\% confidence interval: $[+0.225,+0.708]$, $p=0.0008$) and $+0.289$ (95\% confidence interval: $[+0.067,+0.511]$, $p=0.014$), respectively.  These preferences remain statistically significant after Bonferroni correction over the two axes ($\alpha{=}.025$).
+% At the participant level, listeners significantly preferred P7V1 over P8 on Audio Quality (CMOS $=+0.424$, 95\% CI $[+0.19,+0.66]$, $t(16)=3.77$, $p=.002$, $d_z=0.92$); 
+% These preferences remain significant after Bonferroni correction over the two axes ($\alpha{=}.025$). Prompt Following showed a smaller positive trend (CMOS $=+0.235$, 95\% CI $[+0.03,+0.44]$, $t(16)=2.46$, $p=.026$, $d_z=0.60$) that is significant at the uncorrected $.05$ level but does not survive the same correction. 
+We therefore claim a clear preference on audio
+quality and prompt-following ability on the proposed PromptCC method over the baseline, which confirms the effectiveness of the proposed PromptCC method in improving the TTM performance.
+
+% Finally, we convert the CMOS result into a three-way preference choice at the question-level: prefer PromptCC, no preference, or prefer the baseline. The results show that for audio quality, 56.7\% of the responses (102/180) prefers PromptCC, while 30.0\% (54/180) prefers the baseline; for prompt following, 43.9\% (79/180) prefers PromptCC, while 26.7\% (48/180) prefers the baseline. These results show that the participants' preferences are much clearer in audio quality, but are only .
+
+% \subsection{\textcolor{red}{Prompt-Consistency} Conditioning and Level Ablations}\label{sec:pc_analysis}
+
+% To isolate the contribution of prompt-consistency conditioning from
+% that of caption diversity, we run a $2{\times}2$ ablation that crosses
+% two caption strategies with the conditioning signal
+% (no $\textcolor{red}{q}$ vs.\ $+\,\textcolor{red}{q}$ at $\textcolor{red}{q}{=}9$):
+% \textcolor{red}{\emph{random} selects one of the five LP-MusicCaps captions
+% uniformly at random (the strategy used in Table~\ref{tab:main_result}),
+% while \emph{best-consensus} selects the caption with the highest
+% mean pairwise similarity to the other four.}
+% All four cells share the
+% same backbone, training schedule, and 251K-clip training set.
+
+% \begin{table}[t]
+%   \centering
+%   \label{tab:q_2x2}
+%   \small
+%   \begin{tabular}{llccc}
+%     \toprule
+%     Caption & $\textcolor{red}{q}$ & CLAP & CE & PQ \\
+%     \midrule
+%     best-consensus & --        & 0.1825 & 5.458 & 6.233 \\
+%     best-consensus & $\textcolor{red}{q}{=}9$ & 0.1943 & 5.917 & 6.619 \\
+%     \multicolumn{2}{r}{$\Delta_{\textcolor{red}{q}}$} & $+0.012$ & $+0.459$ & $+0.386$ \\
+%     \midrule
+%     random         & --        & 0.1851 & 5.913 & 6.544 \\
+%     random         & $\textcolor{red}{q}{=}9$ & \textbf{0.1975} & \textbf{6.017} & \textbf{6.679} \\
+%     \multicolumn{2}{r}{$\Delta_{\textcolor{red}{q}}$} & $+0.012$ & $+0.104$ & $+0.135$ \\
+%     \midrule
+%     \multicolumn{2}{l}{$\Delta_{\text{rand}}$ (no $\textcolor{red}{q}$)}
+%                                 & $+0.003$ & $+0.455$ & $+0.311$ \\
+%     \multicolumn{2}{l}{$\Delta_{\text{rand}}$ ($+\,\textcolor{red}{q}$)}
+%                                 & $+0.003$ & $+0.099$ & $+0.061$ \\
+%     \bottomrule
+%   \end{tabular}
+%   \caption{$2{\times}2$ ablation on MusicCaps ($n{=}5{,}521$).
+%   $\Delta_{\textcolor{red}{q}}$ denotes the within-row gain from adding $+\,\textcolor{red}{q}$;
+%   $\Delta_{\text{rand}}$ denotes the within-column gain from switching
+%   best-consensus to random.}
+% \end{table}
+
+% Two patterns emerge from Table~\ref{tab:q_2x2}. First, the CLAP
+% contribution of $+\,\textcolor{red}{q}$ is essentially independent of caption strategy
+% ($+0.012$ in both rows), so prompt-consistency conditioning provides
+% an additive alignment gain that does not require random captions to
+% materialize. Second, on the perceptual axes (CE, PQ) the contributions
+% of caption diversity and $+\,\textcolor{red}{q}$ partially overlap: most of the CE/PQ
+% benefit of switching to random captions in the no-$\textcolor{red}{q}$ setting is
+% already absorbed once $+\,\textcolor{red}{q}$ is added. We therefore characterize the
+% two interventions as \emph{partially substitutive} rather than purely
+% additive on perceptual quality, while remaining additive on alignment.
+
+% \subsubsection{Inference-level behavior.}
+\subsection{The Effect of q-value at Inference-Time}\label{subsec:pc_analysis}
+
+To further examine the effect of the $q$-value in the proposed PromptCC method, we again evaluate the performance of the proposed PromptCC method on the MusicCaps dataset, but with different $q$-values instead of fixing the $q$-value to $9$. This allows us to examine the effect of the $q$-value conditioning during inference time, potentially getting insights on why the proposed PromptCC method improves TTM performance in terms of prompt-following. Experiment results are shown in Figure~\ref{fig:inference_q}. While setting $q<5$ results in very poor TTM performance, setting $q$ to either $5, 6, 7, 8$, or $9$ does not result in much difference. 
+
+To explain these results, we first re-examined the distribution of the training data and found that the distribution of consistency score $s$ is highly skewed toward the right ($s\to 1.0$), while only few samples show lower $s$. Since we perform a uniform quantization to obtain $q$-values (see Section~\ref{subsec:pc_embed}), there are significantly more data samples with $q\geq5$ than those with $q<5$ (only 313 samples). As a result, the TTM model does not have enough data to train the $q$ embedding for $q<5$, which explains why the TTM performance drops significantly when $q<5$.
+
+From another perspective, when we only focus on the cases of $q\geq5$, using different $q$-values does not cause a lot of performance change during inference time. In other words, the role of the $q$-value is not an indicator of the desired generated audio quality (unlike MR-FlowDPO~\cite{mrflowdpo2025}), but simply an additional information that helps the TTM model training. We suspect that the $q$-value actually \textbf{divides the training data into several categories (5, 6, 7, 8, 9) based on the potential extent of the prompt consistency issue}. During training, when the TTM model sees a prompt with $q=5$, it understands that \textbf{it has to generate audio that not only fits the prompt, but also has the room to be interpreted differently}. On the other hand, when a prompt is paired with $q=9$, the TTM model understands that it has to generate audio with less caption ambiguity. This does not mean that the audio generated with $q=5$ should be of poorer quality (worse PQ) or more irrelevant to the text prompt (worse CLAP score). Instead, the $q$ provides an additional information to the TTM model that complements the text prompt, which, as we mentioned in Section~\ref{sec:introduction}, is only one of the possible ways to caption a particular audio clip.
+
+% We probe how the model uses $\textcolor{red}{q}$ at inference by varying it on the
+% adopted recipe. On Jamendo, in-support levels behave nearly
+% identically (CLAP $0.1980 / 0.1984 / 0.1977$ for $\textcolor{red}{q} = 6 / 9 /
+% \text{native}$, where ``native'' uses each clip's own training
+% $\textcolor{red}{q}$). Out-of-support levels collapse: under the matched
+% best-consensus configuration $\textcolor{red}{q}{=}0$ drops CLAP to $0.0340$, more
+% than $5\times$ below the in-support range. We interpret $\textcolor{red}{q}$
+% primarily as a \emph{support-set gate}: any in-support choice yields
+% comparable behavior, and the headline $\textcolor{red}{q}{=}9$ should not be read
+% as evidence for fine-grained ordinal quality control. This motivates
+% fixing $\textcolor{red}{q}$ to a single in-support value at inference rather than
+% sweeping it.
+
+% \subsection{Cross-Benchmark Analysis}\label{sec:cross_benchmark}
+
+% Although the MusicCaps results above place the random-$+Q$ recipe
+% ahead of best-consensus-$+Q$ on the alignment-oriented metrics, the
+% ordering on the in-domain Jamendo test split is reversed:
+% best-consensus-$+Q$ reaches CLAP $0.2139$ at $\ell{=}9$, while the
+% adopted recipe reaches $0.1984$.\footnote{Jamendo CLAP figures use the
+% same 2{,}048-clip test split and inference settings as
+% Sec.~\ref{subsec:setup}; we report only CLAP on the in-domain split for
+% brevity, since the cross-benchmark argument turns on the
+% direction of the flip rather than on its magnitude across
+% multiple metrics.} Adding worst-consensus clarifies the
+% pattern. On MusicCaps (Table~\ref{tab:caption_selection}),
+% worst-consensus-$+Q$ attains the best
+% single-axis scores (CLAP $0.1998$, CE $6.121$, CU $6.967$, PC
+% $4.973$, PQ $6.833$), while random-$+Q$ remains best on PE-AV
+% ($0.0524$ vs.\ $0.0505$) and text-to-audio retrieval R@10
+% ($5.40\%$ vs.\ $5.11\%$). On Jamendo, worst-consensus likewise stays
+% close to the random recipe rather than to best-consensus. The
+% consistent split is therefore not random versus worst, but
+% centroid-near versus centroid-far supervision: best-consensus
+% selection concentrates training captions near the caption-distribution
+% centroid, which helps in-domain CLAP computed against captions from
+% the same source, whereas moving away from that centroid improves
+% robustness to out-of-distribution prompts. The flip also reinforces
+% our framing in Sec.~\ref{subsec:setup}: CLAP on the in-domain split is
+% sensitive to training-distribution overlap and should be treated as an
+% auxiliary alignment metric rather than the primary perceptual signal.
+
+% -----------------------------------------------
+% 5. Discussion (~0.5 page)
+% -----------------------------------------------
+% \section{Discussion}\label{sec:discussion}
+
+% Our results indicate that caption diversity should not be treated only
+% as annotation noise. \textcolor{red}{As shown in Table~\ref{tab:q_2x2}, switching from best-consensus to random caption selection on MusicCaps improves CE by $+0.455$ and PQ by $+0.311$ in the no-$q$ setting, with only a marginal change in CLAP ($+0.003$).} One plausible interpretation is that varied
+% captions act as implicit text augmentation, exposing the generator to
+% a wider range of linguistic descriptions for similar audio. A second
+% interpretation is distribution alignment: random LP-MusicCaps captions
+% may better match the lexical and semantic variability of MusicCaps
+% prompts than a single consensus caption. Our experiments do not fully
+% distinguish these mechanisms. The conservative conclusion is that
+% collapsing each clip to a single ``best'' caption is less robust than
+% preserving caption variation.
+
+% The $2{\times}2$ ablation suggests that prompt-consistency
+% conditioning and caption diversity contribute differently across
+% metrics. The observed CLAP gain from adding $\textcolor{red}{q}$ is $+0.012$ under both
+% best-consensus and random caption selection, which is consistent with
+% an additive alignment benefit. We do not claim this as a statistical
+% guarantee because we do not report run-to-run confidence intervals.
+% For CE and PQ, the gain from $+\,\textcolor{red}{q}$ is larger in the best-consensus
+% setting than in the random-caption setting. This pattern is consistent
+% with partial overlap between caption diversity and
+% prompt-consistency conditioning, although a ceiling effect on the
+% learned perceptual metrics remains a possible explanation.
+
+% Finally, the choice of conditioning signal matters. CLAP-derived
+% signals risk encoding shortcuts because CLAP is also part of the
+% model's text-conditioning path and is used as an evaluation metric.
+% Prompt consistency instead derives from agreement among multiple
+% captions, analogous to inter-annotator agreement in supervised
+% learning, and uses an embedding space separate from the TTM text
+% encoders. This gives the model a caption-derived reliability signal
+% without requiring external quality labels or reward models.
+
+% -----------------------------------------------
+% 6. Limitations and Future Work (~0.3 page)
+% -----------------------------------------------
+\section{Limitations and Future Work}\label{sec:limitations}
+
+We admit several limitations in this work. First, all experiments use a single flow-matching TTM backbone, so transfer to other TTM architectures remains unverified. 
+Second, we only use one music captioning model (LP-MusicCaps~\cite{doh2023lpmusiccaps}) in the experiments. In the future, our aim is to testing the proposed PromptCC method in different TTM backbones and more music captioning models to further evaluate the effectiveness of the proposed method more comprehensively. We also plan to scale-up the training data to examine the scalability of the proposed method.
+% Second, all pseudo-captions come from LP-MusicCaps. Random selection therefore preserves variation within a single captioner, not diversity across independent human annotations or multiple captioning systems; any bias in LP-MusicCaps remains part of the training signal.
+
+% Third, our diversity explanation is outcome-based rather than
+% mechanistic. A direct follow-up would measure the embedding
+% distribution of training captions under \textcolor{red}{best-consensus and random selection}, then test whether the random strategy
+% improves because it broadens caption coverage, better matches
+% MusicCaps prompt statistics, or both. Such an analysis would separate
+% the text-augmentation account from the distribution-alignment account
+% discussed above. Fourth, the prompt-consistency level behaves as a
+% coarse support-set signal rather than a fine-grained ordinal quality
+% controller. Future work should test whether richer agreement features,
+% multiple caption sources, or preference-optimization objectives can be
+% combined with prompt-consistency conditioning as data-side refinements
+% without changing the generator backbone.
+
+% -----------------------------------------------
+% 7. Conclusion (~0.3 page)
+% -----------------------------------------------
+\section{Conclusion}\label{sec:conclusion}
+In this work, we propose Prompt-Consistency Conditioning (PromptCC), a method that addresses the inconsistency issue of auto-generated text prompts for unsupervised TTM training, in which a music captioning model is used to generate captions automatically from unlabeled music clips. Recognizing the implicit problem that \emph{there are multiple ways to caption a music clip}, the proposed PromptCC method first applies the same music captioning model multiple times to generate multiple captions. Then, we compute the average semantic similarity score $s$ across all generated captions and quantize it into one of 10 $q$-levels. This $q$-value is then injected into the subsequent TTM model through a trainable embedding table, which allows the TTM model to understand the extent of the prompt consistency issue and to address it implicitly. Experiment results show that the proposed PromptCC achieves better TTM performance in terms of both audio quality (+0.467 CMOS) and prompt-following ability (+0.289 CMOS) than a baseline without PromptCC, along with several alternative methods: simply discarding audio clips with inconsistent prompts, providing the CLAP score between audio and the generated prompt, etc. These results confirm the effectiveness of the proposed PromptCC method.
+
+Furthermore, we also study the effect of the $q$-value during inference and show that changing the $q$-value between $5$ and $9$ does not significantly affect the generated audio quality and prompt adherence. These results provide insights into the actual role of the $q$-value: it is not a signal that controls the quality of the generated audio, but is an additional condition that supplements the text prompt. It provides information on caption consistency, which indicates how diversely a particular audio clip may be described. With such a condition, the TTM model can then be better trained, leading to improved TTM performance.
+
+% We studied how auto-generated caption variability should be used when
+% training text-to-music generation models. \textcolor{red}{Hard-filtering low-consistency clips removes 53\% of the training data and significantly degrades TTM performance across all evaluated metrics, indicating that prompt consistency is not an effective discard criterion.} Retaining all clips, selecting
+% captions at random, and injecting prompt consistency as a learned
+% conditioning signal yields stronger objective results: relative to a
+% best-consensus no-$\textcolor{red}{q}$ baseline, the recipe improves Content Enjoyment
+% by $+0.56$ and Production Quality by $+0.45$ on MusicCaps, of which
+% $+0.10$ CE and $+0.14$ PQ are attributable to prompt-consistency
+% conditioning when isolated against a matched random-caption no-$\textcolor{red}{q}$
+% baseline.
+
+% The resulting method is simple: it computes agreement among multiple
+% captions for the same audio clip, discretizes the score, and injects it
+% through a single embedding layer plus AdaLN modulation. It requires no
+% external quality labels or reward models and adds negligible
+% inference-time overhead. \textcolor{red}{A paired preference study with eighteen listeners further corroborates the objective results, showing a significant preference for the proposed PromptCC over the no-$q$ baseline on both audio quality and prompt following (Sec.~\ref{sec:human_eval}), with both preferences surviving Bonferroni correction.} 
+% The main takeaway is therefore practical: when training on stochastic music captions, consistency is more useful as a conditioning signal than as a filtering rule, while caption variation itself should be preserved rather than collapsed away.
+
+% -----------------------------------------------
+% AI Usage Statement (does not count toward page limit)
+% -----------------------------------------------
+\section{AI Usage Statement}
+We disclose the following uses of large language models (LLMs) during the preparation of this paper. First, we used Anthropic's Claude to assist with auxiliary scripts for data organization and document handling (e.g., collating evaluation outputs). Second, we also used Claude to generate a draft of this paper. However, \textbf{all the contents of this paper have been carefully reviewed and corrected by the authors}, ensuring that there are no false references, factual inaccuracies, hallucinations, or unverified claims in the final manuscript. The authors assume full responsibility for the final content. In addition, all research ideas, method design, training and inference pipelines, experimental results, and analyzes were developed independently by the authors. 
+% No LLMs are listed as authors, and the authors take full responsibility for the final content.
+
+% -----------------------------------------------
+% Bibliography
+% -----------------------------------------------
+% \nocite{*} includes every entry in references.bib in the printed
+% bibliography even before any \cite{...} commands exist in the body.
+% This is a temporary measure so the draft compiles cleanly. Remove
+% \nocite{*} once Related Work is written and \cite commands are added.
+% \nocite{*}
+\bibliography{references}
+
+\end{document}

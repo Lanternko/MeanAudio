@@ -1,0 +1,49 @@
+{
+  "document_kind": "meanaudio_transitive_runtime_manifest",
+  "schema_version": 1,
+  "tree_binding_rules": {
+    "schema_version": 1,
+    "excluded_directory_names": [".hypothesis", ".mypy_cache", ".pytest_cache", ".pytype", ".ruff_cache", "__pycache__"],
+    "excluded_file_suffixes": [".pyc", ".pyo"],
+    "rationale": "Interpreter/test caches are derived mutable state, are never approval authority, and must not cause runtime self-drift."
+  },
+  "scope": "R-Matched continuation Python, package, evaluator, workspace, shell, and native runtime",
+  "entries": [
+    {"kind": "file", "role": "system_python", "path": "/usr/bin/python3.12", "sha256": "1643dacd9feaedc58f3cc581e4d22577dfe25c09b10282936186ccf0f2e61118"},
+    {"kind": "file", "role": "recovery_validator", "path": "/home/kojiek/MeanAudio/scripts/dual_authority_recovery_v3.py", "sha256": "ffff8ff4bb8b260db378800296d5202c80784094f620a4deaaf0c2b44f466c19"},
+    {"kind": "tree", "role": "system_stdlib", "path": "/usr/lib/python3.12", "sha256": "58cbab5c2a57bf7a71fe13b74602b4796f8a6872e541920cd6bc38b613f40029", "file_count": 643, "pth_files": []},
+    {"kind": "file", "role": "dac_pyvenv_cfg", "path": "/home/kojiek/venvs/dac/pyvenv.cfg", "sha256": "ed06b7ac699fa62b81af1fa51ad3738045474ca2ed56511b3e29507c1d8daeda"},
+    {"kind": "tree", "role": "dac_site_packages", "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages", "sha256": "18c6ad88f7ddabe8c3eb650a44ae96b18dab3ff24bc0843c525153033508fafc", "file_count": 45452, "pth_files": [
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/_av_bench.pth", "sha256": "d3c952ed3f81663adbb264786421864df8da95f2507e0d3b9972532900490659"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/_cuda_bindings_redirector.pth", "sha256": "28d86507e791da835cf8b9dd21fe98b579b77b3ca27e3ad27bae6239bc94f769"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/_meanaudio.pth", "sha256": "6cb3a0886d733a9f148aa40a16cf61e978b0e1bc46fc4e2c8cca3ead8f35b813"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/a1_coverage.pth", "sha256": "ef2ed06d19867ec669c09a804060666a9cd5e383af0a9d11aa2de79b77d448e8"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/distutils-precedence.pth", "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/protobuf-3.19.6-nspkg.pth", "sha256": "c47e604f1738522a583f7aab6cffb80821cd18157dede051e10aa185e0af065e"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/torchmetrics/functional/image/lpips_models/alex.pth", "sha256": "df73285e35b22355a2df87cdb6b70b343713b667eddbda73e1977e0c860835c0"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/torchmetrics/functional/image/lpips_models/squeeze.pth", "sha256": "4a5350f23600cb79923ce65bb07cbf57dca461329894153e05a1346bd531cf76"},
+      {"path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/torchmetrics/functional/image/lpips_models/vgg.pth", "sha256": "a78928a0af1e5f0fcb1f3b9e8f8c3a2a5a3de244d830ad5c1feddc79b8432868"}
+    ]},
+    {"kind": "file", "role": "peav_pyvenv_cfg", "path": "/home/kojiek/venvs/peav/pyvenv.cfg", "sha256": "28ae74f5bcf73975ea943afc4b28ea18d93d26ff4b59c348beb364676c153468"},
+    {"kind": "tree", "role": "peav_site_packages", "path": "/home/kojiek/venvs/peav/lib/python3.12/site-packages", "sha256": "bc2962e079d8a3f1d9245935570bbc06141ee45143e9b6abb6bda74d7d6be4ae", "file_count": 26544, "pth_files": [
+      {"path": "/home/kojiek/venvs/peav/lib/python3.12/site-packages/_cuda_bindings_redirector.pth", "sha256": "28d86507e791da835cf8b9dd21fe98b579b77b3ca27e3ad27bae6239bc94f769"},
+      {"path": "/home/kojiek/venvs/peav/lib/python3.12/site-packages/distutils-precedence.pth", "sha256": "2638ce9e2500e572a5e0de7faed6661eb569d1b696fcba07b0dd223da5f5d224"}
+    ]},
+    {"kind": "tree", "role": "workspace_meanaudio", "path": "/home/kojiek/MeanAudio/meanaudio", "sha256": "2948899c383726b6d9c6b5563f35c213aefa534a4bace2e5828d06191695d973", "file_count": 95, "pth_files": []},
+    {"kind": "file", "role": "workspace_meanaudio_init", "path": "/home/kojiek/MeanAudio/meanaudio/__init__.py", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+    {"kind": "file", "role": "workspace_eval", "path": "/home/kojiek/MeanAudio/eval.py", "sha256": "063faaa422f9012a41abb0385c606c3ce2bde117b844880a92b3324871d8ae58"},
+    {"kind": "file", "role": "phase4_evaluator", "path": "/home/kojiek/research/meanaudio_eval/phase4_eval.py", "sha256": "129a2b8b0e53f3fc96863886fac5893eb9cf4f95b8723ef232a3417b12dd2935"},
+    {"kind": "file", "role": "peav_evaluator", "path": "/home/kojiek/research/meanaudio_eval/peav_eval.py", "sha256": "9cfe05dae274326d554e0f46ec2b10bb553ef6313bd88cad366789830d9a0d5e"},
+    {"kind": "file", "role": "isolated_bootstrap", "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/isolated_python_bootstrap.py", "sha256": "7ff8fca96d4a611d4d7b70d3d353469b7f0907382866bcdfa4d661f266991db7"},
+    {"kind": "tree", "role": "system_native_runtime", "path": "/usr/lib/x86_64-linux-gnu", "sha256": "565be88b7865b966c1f253114cde7ddd59d5e321cc7b57dc6b44c0a3c07b7abe", "file_count": 5766, "pth_files": []},
+    {"kind": "file", "role": "bash", "path": "/bin/bash", "sha256": "bc5945feb8bd26203ebfafea5ce1878bb2e32cb8fb50ab7ae395cfb1e1aaaef1"},
+    {"kind": "file", "role": "df", "path": "/usr/bin/df", "sha256": "c6328e689687f3469cda78a836d99e30f9fede268146f23398ee07cef7034e84"},
+    {"kind": "file", "role": "tail", "path": "/usr/bin/tail", "sha256": "80f08f3d456c221b584dfecd607025b7883047f586761bb2e1d04738b7513d39"},
+    {"kind": "file", "role": "tr", "path": "/usr/bin/tr", "sha256": "c9922d03a2125b71d4a0dc6045c4a26681006383227c060ef37e6072c45d7aef"},
+    {"kind": "file", "role": "find", "path": "/usr/bin/find", "sha256": "ac1ea1c5391de921aca1572f1bf25d03707beb3887b27c16a5b4948fd553941b"},
+    {"kind": "file", "role": "wc", "path": "/usr/bin/wc", "sha256": "4c90e928fc25f2a67074b79b591b5ad8390be143927c7acd004f1c691ae914ef"},
+    {"kind": "file", "role": "mkdir", "path": "/usr/bin/mkdir", "sha256": "27f01f0f33fe6cee575f8f4f570b0695ba6f3eb33359b282c5a1152174f31e76"},
+    {"kind": "file", "role": "tee", "path": "/usr/bin/tee", "sha256": "b881898ddde6c9be9ddb2ad315ce7ac78e08889da2326f46e341e06b22fc47e5"},
+    {"kind": "file", "role": "dirname", "path": "/usr/bin/dirname", "sha256": "a4971d130c32ab627ced7aae414fe32304159b31df2c86ace516eef795e91a14"}
+  ]
+}

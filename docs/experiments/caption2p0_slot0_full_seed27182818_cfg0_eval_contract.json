@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "phase8-caption2p0-slot0-full-seed27182818-cfg0-eval",
+  "run_id": "run-20260827-001_seed27182818_baseline_cfg0",
+  "status": "preregistered_eval_only_cfg0",
+  "launch_allowed": true,
+  "approval_required": false,
+  "scientific_priority": 0,
+  "queue_name": "001_seed27182818_baseline_cfg0.sh",
+  "queue_role": "p2",
+  "selection_type": "Passive / Slot 0 — baseline seed replicate",
+  "rationale": "The c2p0 baseline (slot0 full NoQ, seed 14159265) evaluates at MC CFG0 CLAP=0.2149. A completed second-seed replicate (seed 27182818, S1 400k + S2 200k, NoQ, reached it 599950, EMA synthesized 2026-08-14) exists on disk but has never been evaluated at CFG0. Evaluating it yields the baseline's own seed-to-seed variance, which is the correct yardstick for judging small deltas such as the Q ablation's 0.0025. The 0.0030 figure currently in use is captioner-resample spread (slot0/1/2), not seed variance. Eval-only; no training.",
+  "checkpoint": {
+    "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_ema_final.pth",
+    "bytes": 482135520
+  },
+  "evaluation": {
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 0,
+    "generation_seed": 42,
+    "mask_mode": "NoMask",
+    "precision": "full",
+    "no_q": true,
+    "quality_level": null,
+    "label": "phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_musiccaps_mf25_cfg0_noq",
+    "wrapper": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/eval_musiccaps_mf25.sh"
+  },
+  "comparison": {
+    "paired_with": "phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq",
+    "paired_clap": 0.2149,
+    "differs_only_in": "seed (14159265 -> 27182818)",
+    "reports": "|CLAP(seed27182818) - 0.2149| is the baseline seed-variance estimate"
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/gpu_queue/jobs/actions/p2_seed27182818_baseline_cfg0.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/jobs/p2_seed27182818_baseline_cfg0.sh",
+    "launcher_sha256": "14071eac3a3bba4cfa196d9cf2218d5074ea7b2ca268115613dacd09d12c8f8c",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action": "/home/kojiek/gpu_queue/jobs/actions/p2_seed27182818_baseline_cfg0.sh",
+    "action_sha256": "20752dc40e62b7fff685999c9becd06af4f0a0f214e7c934af3b7a6dd218865c"
+  },
+  "resume": {
+    "kind": "eval_ema_checkpoint",
+    "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_ema_final.pth",
+    "checkpoint_sha256": "d29311d2cd560eed8f3513269dc8b34e17907f18368709dd0f708cd89b7a3b50",
+    "checkpoint_bytes": 482135520
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_seed27182818_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json",
+    "path_note": "Reports land in /home/kojiek/logs/, matching caption2p0_slot0_full_cfg0_eval_contract.json (completed). Do NOT point this at /home/kojiek/cfg0_eval_runtime/reports/ - that is what held 022."
+  }
+}

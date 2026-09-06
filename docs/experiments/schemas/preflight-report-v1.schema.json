@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:meanaudio:experiment-harness:schema:preflight-report:v1",
+  "title": "MeanAudio preflight report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "document_kind", "schema_version", "schema_bundle_id", "experiment_id", "run_id",
+    "contract_raw_sha256", "approval_evidence", "checks", "storage", "derived_verdict", "created_at"
+  ],
+  "properties": {
+    "document_kind": {"const": "preflight_report"},
+    "schema_version": {"const": "1.0.0"},
+    "schema_bundle_id": {"const": "harn-schema-v1"},
+    "experiment_id": {"$ref": "#/$defs/id"},
+    "run_id": {"$ref": "#/$defs/id"},
+    "contract_raw_sha256": {"$ref": "#/$defs/sha256"},
+    "approval_evidence": {
+      "type": "object", "additionalProperties": false,
+      "required": [
+        "evidence_id", "source_kind", "trusted_channel", "channel_record_id", "channel_record_sha256", "approver_id",
+        "issued_at", "expires_at", "experiment_id", "run_id", "bindings"
+      ],
+      "properties": {
+        "evidence_id": {"$ref": "#/$defs/id"},
+        "source_kind": {"const": "trusted_operator_record"},
+        "trusted_channel": {"enum": ["operator_console", "signed_approval_store", "authenticated_change_control"]},
+        "channel_record_id": {"$ref": "#/$defs/id"},
+        "channel_record_sha256": {"$ref": "#/$defs/sha256"},
+        "approver_id": {"type": "string", "minLength": 1, "maxLength": 128},
+        "issued_at": {"type": "string", "format": "date-time"},
+        "expires_at": {"type": "string", "format": "date-time"},
+        "experiment_id": {"$ref": "#/$defs/id"},
+        "run_id": {"$ref": "#/$defs/id"},
+        "bindings": {
+          "type": "object", "additionalProperties": false,
+          "required": [
+            "contract_raw_sha256", "policy_bundle_sha256", "schema_bundle_sha256",
+            "runtime_sha256", "repair_envelope_sha256", "command_set_sha256"
+          ],
+          "properties": {
+            "contract_raw_sha256": {"$ref": "#/$defs/sha256"},
+            "policy_bundle_sha256": {"$ref": "#/$defs/sha256"},
+            "schema_bundle_sha256": {"$ref": "#/$defs/sha256"},
+            "runtime_sha256": {"$ref": "#/$defs/sha256"},
+            "repair_envelope_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+            "command_set_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "checks": {
+      "type": "array", "minItems": 1, "maxItems": 128,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": ["check_id", "verdict", "observed_at", "valid_until", "evidence_sha256"],
+        "properties": {
+          "check_id": {"$ref": "#/$defs/id"},
+          "verdict": {"enum": ["pass", "fail", "invalid"]},
+          "observed_at": {"type": "string", "format": "date-time"},
+          "valid_until": {"type": "string", "format": "date-time"},
+          "evidence_sha256": {"$ref": "#/$defs/sha256"}
+        }
+      }
+    },
+    "storage": {
+      "type": "array", "minItems": 1, "maxItems": 64,
+      "items": {
+        "type": "object", "additionalProperties": false,
+        "required": [
+          "path", "measured_at", "free_bytes", "hard_floor_bytes", "peak_additional_bytes",
+          "transient_bytes", "recovery_reserve_bytes", "verdict"
+        ],
+        "properties": {
+          "path": {"$ref": "#/$defs/absolute_path"},
+          "measured_at": {"type": "string", "format": "date-time"},
+          "free_bytes": {"type": "integer", "minimum": 0},
+          "hard_floor_bytes": {"type": "integer", "minimum": 53687091200},
+          "peak_additional_bytes": {"type": "integer", "minimum": 0},
+          "transient_bytes": {"type": "integer", "minimum": 0},
+          "recovery_reserve_bytes": {"type": "integer", "minimum": 0},
+          "verdict": {"enum": ["pass", "fail", "invalid"]}
+        }
+      }
+    },
+    "derived_verdict": {"enum": ["pass", "fail", "invalid"]},
+    "created_at": {"type": "string", "format": "date-time"}
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"},
+    "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "absolute_path": {"type": "string", "pattern": "^/[^\\u0000]*$", "minLength": 1, "maxLength": 4096}
+  }
+}

@@ -40,6 +40,14 @@ def main():
         '--no_text_attention_mask', action='store_true',
         help='Reproduce the legacy path where all 77 T5 positions participate in joint attention')
     parser.add_argument(
+        '--prompt_suffix', type=str, default='',
+        help='Text appended to every POSITIVE prompt read from --tsv, after a comma. '
+             'The TSV is not modified, so downstream CLAP scoring still uses the '
+             'original caption as the text side -- appending here changes only what '
+             'the generator is conditioned on, never the scoring target. Empty '
+             '(the default) leaves the caption verbatim. Note T5 features are '
+             'mean-pooled, so a long suffix dilutes the caption\'s own semantics.')
+    parser.add_argument(
         '--negative_prompt', type=str, default='',
         help='Text pushed away from by classifier-free guidance. Only has an effect at '
              '--cfg_strength >= 1.0, where ode_wrapper mixes cfg*cond + (1-cfg)*negative; '
@@ -135,7 +143,10 @@ def main():
             reader = csv.DictReader(f, delimiter='\t') 
             for row in reader:
                 audio_ids.append(row['id'])
-                text_prompts.append(row['caption'])
+                caption = row['caption']
+                if args.prompt_suffix:
+                    caption = f'{caption}, {args.prompt_suffix}'
+                text_prompts.append(caption)
                 if args.no_q:
                     q_levels.append(10)  # null token, consistent with training without q conditioning
                 else:
@@ -149,6 +160,8 @@ def main():
         if args.use_meanflow:
             log.info(f'Prompt: {prompt}')
             log.info(f'Negative prompt: {negative_prompt}')
+            if args.prompt_suffix:
+                log.info(f'Positive prompt suffix: {args.prompt_suffix}')
             audios = generate_mf([prompt],
                                 negative_text=negative_text_arg,
                                 feature_utils=feature_utils,
@@ -174,6 +187,8 @@ def main():
             prompt = text_prompts[k]
             log.info(f'Prompt: {prompt}')
             log.info(f'Negative prompt: {negative_prompt}')
+            if args.prompt_suffix:
+                log.info(f'Positive prompt suffix: {args.prompt_suffix}')
             audios = generate_fm([prompt],
                                 negative_text=negative_text_arg,
                                 feature_utils=feature_utils,

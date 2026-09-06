@@ -1,0 +1,76 @@
+/home/kojiek/venvs/dac/lib/python3.12/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/home/kojiek/venvs/dac/lib/python3.12/site-packages/torch/nn/functional.py:6409: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  key_padding_mask = _canonical_mask(
+/home/kojiek/venvs/dac/lib/python3.12/site-packages/torch/nn/functional.py:6409: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  key_padding_mask = _canonical_mask(
+rows=511  lowfi_prompts=197 (38.6%)  vocal_prompts=296 (57.9%)
+
+=== A1_fulltrack_noq: 511 files
+
+=== A2_c2p0_slot0_noq: 511 files
+
+=== A3_fulltrack_q3q9: 511 files
+
+=== B1_c2p0_slot0_neutral: 511 files
+
+=== B2_fulltrack_neutral: 511 files
+
+
+############ OVERALL (n=512) ############
+cell                           CE         CU         PC         PQ     rms_db      crest   centroid  rolloff95   hf_ratio   lf_ratio   flatness
+A1_fulltrack_noq           6.6599     7.0197     5.2502     6.8063   -18.2170     6.4758   427.4063  1420.9028     0.0052     0.5214     0.0110
+A2_c2p0_slot0_noq          6.3573     6.7662     5.1936     6.5849   -17.7476     6.3011   575.3106  1728.1057     0.0059     0.4498     0.0121
+A3_fulltrack_q3q9          6.7725     7.0775     5.2862     6.8638   -18.3794     6.5075   410.5953  1369.8009     0.0049     0.5256     0.0103
+B1_c2p0_slot0_neutral      6.4088     6.8060     5.2302     6.6196   -17.6096     6.2206   556.2999  1695.6841     0.0049     0.4521     0.0116
+B2_fulltrack_neutral       6.7511     7.1070     5.3110     6.8696   -18.1722     6.5067   424.3481  1417.8606     0.0051     0.5310     0.0111
+
+############ LOW-FI PROMPTS ############
+cell                           CE         CU         PC         PQ     rms_db      crest   centroid  rolloff95   hf_ratio   lf_ratio   flatness
+A1_fulltrack_noq    n=197     6.4917     6.8782     5.1521     6.6780   -18.0836     6.4776   385.2799  1257.1729     0.0048     0.5373     0.0093
+A2_c2p0_slot0_noq   n=197     6.0984     6.5735     4.9813     6.4120   -17.9983     6.4808   570.0776  1677.3335     0.0073     0.4612     0.0124
+A3_fulltrack_q3q9   n=197     6.6776     6.9966     5.2039     6.7993   -18.3820     6.5383   382.7077  1235.1758     0.0045     0.5300     0.0086
+B1_c2p0_slot0_neutran=197     6.2365     6.6741     5.0691     6.4964   -17.6565     6.2644   520.4138  1597.2531     0.0048     0.4661     0.0111
+B2_fulltrack_neutraln=197     6.7198     7.0885     5.3100     6.8347   -17.9788     6.5538   377.5266  1250.3839     0.0044     0.5606     0.0095
+
+############ CLEAN PROMPTS ############
+cell                           CE         CU         PC         PQ     rms_db      crest   centroid  rolloff95   hf_ratio   lf_ratio   flatness
+A1_fulltrack_noq    n=314     6.7654     7.1085     5.3118     6.8867   -18.3007     6.4747   453.8358  1523.6251     0.0055     0.5114     0.0120
+A2_c2p0_slot0_noq   n=314     6.5198     6.8871     5.3269     6.6934   -17.5903     6.1884   578.5937  1759.9596     0.0050     0.4426     0.0120
+A3_fulltrack_q3q9   n=314     6.8321     7.1282     5.3379     6.9042   -18.3779     6.4881   428.0916  1454.2631     0.0051     0.5228     0.0113
+B1_c2p0_slot0_neutran=314     6.5169     6.8888     5.3312     6.6969   -17.5803     6.1931   578.8144  1757.4387     0.0050     0.4433     0.0120
+B2_fulltrack_neutraln=314     6.7707     7.1185     5.3116     6.8915   -18.2935     6.4771   453.7234  1522.9335     0.0055     0.5124     0.0121
+
+############ VOCAL PROMPTS ############
+cell                           CE         CU         PC         PQ     rms_db      crest   centroid  rolloff95   hf_ratio   lf_ratio   flatness
+A1_fulltrack_noq    n=296     6.8076     7.0376     5.3442     6.8415   -18.3583     6.6381   416.4623  1409.7675     0.0060     0.5463     0.0120
+A2_c2p0_slot0_noq   n=296     6.6127     6.8903     5.5458     6.6772   -17.0671     6.0723   506.5232  1658.7357     0.0057     0.5103     0.0126
+A3_fulltrack_q3q9   n=296     6.8805     7.0772     5.3628     6.8799   -18.4784     6.6751   405.9964  1381.6799     0.0054     0.5499     0.0114
+B1_c2p0_slot0_neutran=296     6.6752     6.9414     5.5774     6.7240   -16.9634     6.0329   487.9278  1617.8944     0.0048     0.5144     0.0121
+B2_fulltrack_neutraln=296     6.8912     7.1139     5.3837     6.8866   -18.3302     6.6933   415.8427  1423.6007     0.0062     0.5566     0.0123
+
+############ NON-VOCAL PROMPTS ############
+cell                           CE         CU         PC         PQ     rms_db      crest   centroid  rolloff95   hf_ratio   lf_ratio   flatness
+A1_fulltrack_noq    n=215     6.4566     6.9950     5.1209     6.7578   -18.0225     6.2525   442.4732  1436.2333     0.0042     0.4871     0.0095
+A2_c2p0_slot0_noq   n=215     6.0057     6.5954     4.7088     6.4579   -18.6844     6.6162   670.0132  1823.6103     0.0062     0.3664     0.0114
+A3_fulltrack_q3q9   n=215     6.6239     7.0778     5.1808     6.8415   -18.2431     6.2767   416.9267  1353.4464     0.0041     0.4920     0.0088
+B1_c2p0_slot0_neutran=215     6.0421     6.6197     4.7521     6.4758   -18.4994     6.4790   650.4308  1802.7807     0.0051     0.3664     0.0110
+B2_fulltrack_neutraln=215     6.5582     7.0975     5.2109     6.8462   -17.9546     6.2496   436.0579  1409.9578     0.0037     0.4957     0.0094
+
+############ GAP  A1_fulltrack - A2_c2p0 ############
+subset                         CE         CU         PC         PQ     rms_db      crest   centroid  rolloff95   hf_ratio   lf_ratio   flatness
+ALL                       +0.3026    +0.2535    +0.0566    +0.2214    -0.4694    +0.1747  -147.9043  -307.2029    -0.0007    +0.0716    -0.0011
+LOW-FI                    +0.3933    +0.3047    +0.1708    +0.2660    -0.0853    -0.0031  -184.7977  -420.1606    -0.0025    +0.0762    -0.0031
+CLEAN                     +0.2456    +0.2214    -0.0151    +0.1934    -0.7104    +0.2863  -124.7578  -236.3345    +0.0005    +0.0688    +0.0001
+VOCAL                     +0.1949    +0.1474    -0.2016    +0.1643    -1.2912    +0.5658   -90.0608  -248.9683    +0.0003    +0.0359    -0.0006
+NON-VOCAL                 +0.4508    +0.3996    +0.4121    +0.2999    +0.6619    -0.3637  -227.5400  -387.3770    -0.0020    +0.1208    -0.0019
+
+saved per_clip.json
+cell                            0-100    100-250    250-500   500-1000  1000-2000  2000-4000  4000-8000      div
+A1_fulltrack_noq               26.64%     35.08%     18.19%     10.78%      5.23%      3.12%      0.96%   0.1694
+A2_c2p0_slot0_noq              22.82%     30.35%     16.49%     14.61%      8.95%      5.42%      1.34%   0.1941
+A3_fulltrack_q3q9              26.23%     36.17%     18.67%     10.25%      4.92%      2.87%      0.89%   0.1593
+B1_c2p0_slot0_neutral          23.23%     30.20%     16.91%     14.54%      8.72%      5.31%      1.09%   0.1860
+B2_fulltrack_neutral           27.57%     34.60%     17.81%     10.69%      5.29%      3.09%      0.95%   0.1677
+
+(band values = % of total energy; div = 1 - mean pairwise spectral-shape correlation, higher = more diverse output)

@@ -1,0 +1,11 @@
+{
+  "document_kind": "secondary_evaluation_harn_registration_v1",
+  "experiment_id": "caption2p0-013-random-quarter-cfg1p5-negative-prompt",
+  "run_id": "run-20260830-caption2p0-013-random-quarter-cfg1p5-neg",
+  "controller_kind": "resource_owning_preflight_controller",
+  "runtime_ledger": "/home/kojiek/logs/caption2p0_random_quarter_neg_cfg1p5_harn/controller_ledger.json",
+  "terminal_report_hashes": "recorded only after runtime report validation",
+  "future_report_hashes": null,
+  "terminal_notification_precedes_terminal_json": true,
+  "held_is_terminal": false
+}

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "document_kind": "full_scale_checkpoint_reuse_policy",
+  "recorded_at_local_date": "2026-08-22",
+  "operator_instruction": "For subsequent Full Scale training, reuse the matching Stage 1 100k checkpoint whenever valid to save time.",
+  "default_action": "continue_matching_arm_from_stage1_iteration_100000_to_400000",
+  "saved_updates": 100000,
+  "remaining_stage1_updates": 300000,
+  "required_exact_matches": [
+    "training ID set",
+    "caption corpus and selection semantics",
+    "text encoder and overlay binding",
+    "model and training stage architecture",
+    "optimizer and parameter groups",
+    "batch size and accumulation",
+    "seed",
+    "learning rate and warmup",
+    "Q conditioning and attention-mask behavior",
+    "schedule behavior through iteration 100000"
+  ],
+  "required_checkpoint_state": [
+    "weights",
+    "optimizer",
+    "scheduler",
+    "ema"
+  ],
+  "legacy_checkpoint_rule": "Preserve and hash the source; migrate only approved post-100k schedule fields; add an explicit RNG restart boundary at 100k; never label the result uninterrupted-from-zero.",
+  "forbidden": [
+    "reusing a 100k checkpoint from a different caption arm",
+    "reusing a checkpoint with mismatched data or overlay",
+    "silently changing optimizer or pre-100k schedule semantics",
+    "claiming exact uninterrupted equivalence when source RNG state is absent"
+  ],
+  "fail_closed": "Any mismatch or missing required state requires a fresh run or separate operator-approved continuation contract."
+}

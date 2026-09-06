@@ -1,0 +1,135 @@
+{
+ "bindings": {
+  "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_fullcov_quarter.sh",
+  "action_sha256": "b83aae77a61b54fe380377af0e70857312acc211a7d665f9681c19c4609f415e",
+  "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+  "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+  "indirection_note": "accept_guest hashes commands.run[-1], so the scale cannot ride as a trailing argument. The per-scale entry point is hashed here and re-verifies shared_action_sha256 at runtime before exec, so both files are effectively pinned.",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/038_mf_fullcov_quarter.sh",
+  "launcher_sha256": "a1b44d9f682ceb61320f85b02013a54b1b9683314fbc5274975b2515354cceb4",
+  "prep_script": "/home/kojiek/MeanAudio/scripts/preprocess/build_mf_fullcov_arm_inputs.py",
+  "prep_script_sha256": "457a5bd66bbb35a4a8a42832a5e58dc0721bcfef9fe0318f07772f65644029d3",
+  "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_fullcov_action.sh",
+  "shared_action_sha256": "8152213783b11f40b1ef9bc12341926f85d3524d78066268ea1c70222f1be77f"
+ },
+ "commands": {
+  "run": [
+   "/bin/bash",
+   "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_fullcov_quarter.sh"
+  ]
+ },
+ "completion_evidence": {
+  "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/mf_fullcov_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+  "ema": "/home/kojiek/MeanAudio/exps/mf_fullcov_noq_quarter_stage2_50000/mf_fullcov_noq_quarter_stage2_50000_ema_final.pth"
+ },
+ "decision_rule": {
+  "0_1900_to_0_2029": "coverage bought most of the deficit back; the full arm is worth its ~19h",
+  "comparator_budget_matched": "the MF 100k-slice quarter scored 0.1774 CLAP at CFG0 / MF25 / n=5521; c2p0 slot0 quarter scored 0.2029 in the same cell. Both are sample-budget-matched to this arm (0.80M samples).",
+  "gte_0_2029": "full coverage plus enforced captions closes the recipe-and-corpus gap outright; MF is a viable captioner at scale",
+  "lte_0_1900": "coverage was not the missing piece; 039 aborts itself on this gate rather than spending the budget",
+  "recorded_before_launch": true
+ },
+ "dependencies": [],
+ "document_kind": "preregistered_experiment_contract",
+ "experiment_id": "mf-fullcov-noq-quarter",
+ "fixed_protocol": {
+  "canonical_cell": {
+   "cfg_strength": 0,
+   "why": "required by harn_guest.py completion evidence, and puts the arm on the canonical CFG0 table"
+  },
+  "conditioning": "no_q",
+  "mask": "NoMask",
+  "precision": "full",
+  "primary_cell": {
+   "cfg_strength": 3.0,
+   "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+   "why": "joins the arm-comparison table that already holds paired59k mf 0.2221 and paired59k qwen 0.2294; NOT comparable to the canonical CFG0 table"
+  },
+  "rows": 5521,
+  "seed": 42,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv"
+ },
+ "hand_off": {
+  "blocking_job": "manual Music Flamingo full-coverage re-captioning, tmux mf_recap_full, pid 1188932, ~18.9 GiB",
+  "expected_free_at": "2026-09-07T06:00+08:00 (48,449 clips remaining at a measured 6,720 clips/h)",
+  "mechanism": "probe_foreign() in lib_scheduler.py:99 treats any non-queue GPU process over 3072 MiB as foreign and holds the seat, so neither arm can start until the captioner exits"
+ },
+ "hypothesis": {
+  "not_controlled": "the recaption is short_direct_v2 with enforcement, while the 100k slice was short_direct_v1 without it; prompt preset and coverage move together against 036/037. Against paired59k only coverage moves.",
+  "question": "Does Music Flamingo hold up as a captioner at c2p0's full 251,599-clip scale, once coverage is no longer the confound?",
+  "what_each_prior_run_could_not_settle": {
+   "036_037": "trained on a 100k slice whose captions failed the corpus audit (73.17% unique, 35.48% of rows sharing a caption, 79.05% truncated at the T5 77-token window), so the deficit was unattributable to the captioner",
+   "paired59k": "clean control -- same audio latents, rows, order, recipe and budget, only caption text differed -- but only over the 59,614-clip intersection, 23.7% of the corpus. Qwen won CLAP by 0.0073 (24x the seed floor) with all four AES metrics inside the floor."
+  },
+  "what_this_moves": "coverage only. Corpus rows go 59,614 -> 251,599 with the same captioner, prompt preset (short_direct_v2), enforcement (77-token window, max 5 attempts) and audio latents."
+ },
+ "launch_allowed": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "tail of p2/pending; does not preempt",
+  "scope": "text overlay encoding, training, one CFG 3.0 comparison eval and one canonical CFG 0 eval",
+  "valid": true
+ },
+ "operator_instruction": {
+  "actual_role": "p2",
+  "recorded_at": "2026-09-06",
+  "requested_role": "p1",
+  "role_note": "gpu-p1-host.service is disabled/inactive, so p1/pending is never seated. p2 host is the only live seater and already gates on a GPU probe, which supplies the requested hand-off behaviour.",
+  "text": "GO: \u6392\u5b9a MF quarter, MF full -- queue both Music Flamingo full-coverage arms so they take the GPU when the re-captioning finishes"
+ },
+ "ordering_dependencies": [],
+ "pairing_audit": {
+  "code_change": "meanaudio/data/data_setup.py now reads require_text_overlay per-dataset first, global second. A global-only flag also hits the val split, which has no overlay and would raise at startup -- which is why the guard ended up off everywhere.",
+  "offline_gate": "build_mf_fullcov_arm_inputs.py additionally samples 300 rows against the audio NPZ clip_id before writing bindings.json, and the action refuses to train if the unique caption rate is under 0.90 (CLAUDE.md checklist item 2).",
+  "runtime_guard": "require_text_overlay=true on the training split. The emitted TSV id is the c2p0 slot-suffixed id, which equals the audio NPZ clip_id, so extracted_audio.py:284 verifies audio clip_id, overlay clip_id and TSV caption sha on every row of every batch.",
+  "status": "runs_in_action_before_training",
+  "why_this_is_new": "paired59k had to leave the guard off because the MF 100k audio NPZs predate the clip_id field; its equivalent audit was offline and sampled. This closes the gap recorded in memory project_c2p0_corpus_provenance_2026_08_26.md."
+ },
+ "queue_name": "038_mf_fullcov_quarter.sh",
+ "queue_role": "p2",
+ "resume": {
+  "autoresume": "/home/kojiek/MeanAudio/exps/mf_fullcov_noq_quarter_stage1_100000/mf_fullcov_noq_quarter_stage1_100000_ckpt_last.pth",
+  "checkpoint": null,
+  "iteration": 0,
+  "kind": "from_scratch_with_autoresume",
+  "rng_restart_boundary": false
+ },
+ "run_id": "run-20260906-mf-fullcov-noq-quarter",
+ "runtime_storage": {
+  "audio_npz_on": "/mnt/HDD (exFAT, read-only; shared with every c2p0 arm)",
+  "checkpoints_on": "nvme via exps -> exps_nvme (~28G across both stages)",
+  "hard_stop_free_bytes": 110000000000,
+  "text_overlay_on": "nvme (~76G, 302 KB/row measured on paired59k)"
+ },
+ "schema_version": 1,
+ "sources": {
+  "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+  "cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+  "recaption_jsonl": "/home/kojiek/eval_output/mf_recaption_full_coverage/caption.jsonl",
+  "rows": 251599,
+  "shared_npz_mutation_prohibited": true,
+  "text_overlay_dir": "/home/kojiek/text_overlays/mf_fullcov",
+  "train_tsv": "/home/kojiek/exps_nvme/mf_full_coverage/arm_inputs/mf_fullcov_train.tsv",
+  "train_tsv_note": "built by the action at runtime from the recaption jsonl; rows follow the c2p0 cache list order exactly"
+ },
+ "status": "authorized_p2_pending",
+ "training": {
+  "batch_size": 8,
+  "final_iteration": 150000,
+  "learning_rate": 0.0001,
+  "lr_schedule_steps": [
+   999999,
+   999999
+  ],
+  "multi_cap": false,
+  "q_conditioning": false,
+  "recipe_note": "c2p0 launcher arguments verbatim; the only additions are text_npz_dir and require_text_overlay",
+  "scale": "quarter budget on the full 251,599-clip corpus",
+  "seed": 14159265,
+  "stage1_final_iteration": 100000,
+  "stage2_additional_iterations": 50000,
+  "use_text_attention_mask": false
+ }
+}

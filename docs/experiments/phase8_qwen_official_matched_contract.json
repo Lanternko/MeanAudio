@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "experiment": "phase8_qwen_official_matched_probe",
+  "hypotheses": {
+    "primary": "Official ATTM Qwen captions improve paired MusicCaps CLAP over the matched local-caption control after the same 20k continuation.",
+    "q_closure": "The historical q9 versus NoQ effect is descriptive and may be positive, null, or negative.",
+    "causal_variable": "caption source only; audio latents, row order, model source, optimizer reset, and training recipe are matched"
+  },
+  "inputs": {
+    "base_npz_dir": "/mnt/HDD/kojiek/phase8_legacy_matched_npz",
+    "base_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_legacy_catalog_train.tsv",
+    "base_tsv_sha256": "e224e0a136f56fe7876339e5bd6110ce3a3194b2060578812945ae66ab956a6b",
+    "base_cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/npz_cache_train.txt",
+    "base_cache_list_sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+    "official_qwen_json": "/home/kojiek/reference-repos/ICME26-ATTM-GC-FluxAudio/data/captions/jamendo_qwen.json",
+    "official_qwen_json_sha256": "f7ab7bf4644e00f522a26aead6eaf3f5806b664005c80a863e84546a1a65b41f",
+    "source_checkpoint": "/home/kojiek/exps_nvme/phase8_catalog_matched_noq_stage2_200000/phase8_catalog_matched_noq_stage2_200000_ckpt_last.pth",
+    "source_checkpoint_sha256": "40b78d1739a75bd73e22e94f174273260d81a0f07f86a50b7bf6be6f8330e149",
+    "source_checkpoint_iteration": 600000,
+    "source_ema": "/home/kojiek/exps_nvme/phase8_catalog_matched_noq_stage2_200000/phase8_catalog_matched_noq_stage2_200000_ema_final.pth",
+    "source_ema_sha256": "ade8f1ae2a8232d2292c5b3f0ba8c6900d026bd78dd70015e1e9493c9e5445cb",
+    "musiccaps_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "musiccaps_tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "evaluator": "/home/kojiek/research/meanaudio_eval/phase4_eval.py",
+    "evaluator_sha256": "129a2b8b0e53f3fc96863886fac5893eb9cf4f95b8723ef232a3417b12dd2935"
+  },
+  "derived_outputs": {
+    "qwen_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched.tsv",
+    "qwen_cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+    "qwen_metadata_manifest": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_manifest.json",
+    "qwen_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+    "qwen_npz_manifest": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_manifest.json",
+    "output_hashes": "bound by full cache-audit canonical content SHA-256 after successful build"
+  },
+  "runtime_code_sha256": {
+    "train.py": "24cdc0905c4759dccde6666bfbd9134c2a78eda8eeca22cb1929dcf6be5a595f",
+    "eval.py": "063faaa422f9012a41abb0385c606c3ce2bde117b844880a92b3324871d8ae58",
+    "meanaudio/runner_meanflow.py": "53996ef940ff8ea33b4d13c5ee2f191d78d100f2aa16849f13d6779ffbed61c0",
+    "meanaudio/model/mean_flow.py": "976c22f04692086865c29b5bba611cb6bdb80ff5ce9d2ad7b5347d413cef2701",
+    "meanaudio/data/data_setup.py": "e92a668b19d1467ff69b5dc40ef0b1deee01e0f2a5d03ebd44d34f008947361e",
+    "meanaudio/data/extracted_audio.py": "25763979582efbe3571572914fd85bd9c4e98ffbfe8a34fedb75adcb139bafae"
+  },
+  "training": {
+    "control": "base TSV + base NPZ",
+    "treatment": "Qwen TSV + Qwen NPZ",
+    "model": "meanaudio_s",
+    "use_q_conditioning": false,
+    "use_text_attention_mask": false,
+    "masking": "NoMask",
+    "multi_cap": false,
+    "single_caption": true,
+    "batch_size": 8,
+    "accumulation_steps": 1,
+    "learning_rate": 1e-5,
+    "linear_warmup_steps": 1000,
+    "lr_schedule": "step; explicit milestones [999999,999999]",
+    "seed": 14159265,
+    "source_iteration": 600000,
+    "final_iteration": 620000,
+    "optimizer_reset": true,
+    "scheduler_reset": true,
+    "fresh_resume": "explicit queue --run-mode; no implicit fresh/resume switching"
+  },
+  "metrics": {
+    "primary": "paired MusicCaps CLAP at final it620000",
+    "secondary": ["Audiobox CE", "Audiobox CU", "Audiobox PC", "Audiobox PQ", "paired per-prompt bootstrap CI"],
+    "stretch_target_clap": 0.19,
+    "historical_stretch_target_clap": 0.1998,
+    "thresholds_are_not_audit_or_retrain_gates": true,
+    "selection_rule": "predeclared final checkpoint only; no best-checkpoint cherry-picking"
+  },
+  "cache_contract": {
+    "expected_rows": 251599,
+    "cache_name_source": "iterate cache-list names only; never enumerate base NPZ directory",
+    "required_keys": ["mean", "std", "text_features", "text_features_c", "text_attention_mask", "clip_id", "catalog_index", "caption_sha256"],
+    "shapes": {"mean": [312, 20], "std": [312, 20], "text_features": [77, 1024], "text_features_c": [512], "text_attention_mask": [77]},
+    "dtypes": {"mean": "float32", "std": "float32", "text_features": "float32", "text_features_c": "float32", "text_attention_mask": "bool"},
+    "preserved_exactly": ["mean", "std", "clip_id", "catalog_index"],
+    "replaced": ["text_features", "text_features_c", "text_attention_mask", "caption_sha256"],
+    "semantic_gate": "matched-vs-shuffled CLAP on deterministic <=512 sample; margin > 0.01",
+    "disk_gate": "measured sample projection must leave >=50 GiB on HDD and root must have >=50 GiB"
+  },
+  "stop_resume_rules": {
+    "fail_closed": true,
+    "duplicate_process": "stop queue before launch",
+    "infrastructure_failure": "same audited prefix may resume at most twice; no automatic relaunch",
+    "persistent_nan": "stop/propose only when checkpoint or optimizer state remains non-finite; one recovered telemetry NaN is warning",
+    "disk_oom_corruption_config_drift": "stop and require Codex review",
+    "metric_miss": "report only; never retrain or change parameters",
+    "stop_change_relaunch_authority": "machine-readable Sol high approval required",
+    "luna": "diagnose and leave worktree proposal only; no launch/stop/change"
+  },
+  "historical_q_closure": {
+    "baseline_audio": "eval_output/phase8_stage2_200000_no_q_musiccaps_qsweep_baseline/audio",
+    "treatment_audio": "eval_output/phase8_stage2_200000_q9_musiccaps_qsweep_control/audio",
+    "prompt_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "script": "scripts/analysis/phase8_q_clap_bootstrap.py",
+    "not_a_training_gate": true
+  }
+}
