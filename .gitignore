@@ -190,3 +190,11 @@ node_modules/
 .openai/
 deliverables/
 smoke_data/
+
+# ...but ab-listening-test's own source lives in dirs the Python rules above
+# claim globally (app/, build/) and its stimuli are .flac
+!ab-listening-test/app/
+!ab-listening-test/examples/d1/app/
+!ab-listening-test/build/
+!ab-listening-test/public/audio/
+!ab-listening-test/public/audio/**/*.flac
