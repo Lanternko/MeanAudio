@@ -1,7 +1,7 @@
 {
   "bindings": {
     "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/mixcap_01m_random_full.sh",
-    "action_sha256": "b492891cc419e37f71d25d70583ea84578048145e33a6e1d6c4320ef2847d91c",
+    "action_sha256": "97dfb0a3a66f5339ecbd865067dbec54ffbb38dc034e0e40d81358e8188aee34",
     "harn": "/home/kojiek/gpu_queue/harn_guest.py",
     "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
     "launcher": "/home/kojiek/gpu_queue/p2/pending/047_mixcap_01m_random_full.sh",
@@ -48,6 +48,67 @@
       "conditioning": "no_q",
       "label": "mixcap_01m_random_noq_full_musiccaps_mf25_cfg0_noq",
       "report": "/home/kojiek/cfg0_eval_runtime/reports/mixcap_01m_random_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
+    },
+    {
+      "cell_id": "cfg3_neg",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/mixcap_01m_random_noq_full_stage2_200000/mixcap_01m_random_noq_full_stage2_200000_ema_final.pth",
+      "conditioning": "no_q",
+      "control_cell": {
+        "label": "phase8_qwen_caption2p0_k3_true_random_noq_full_mc_mf25_cfg3_neg",
+        "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true_random_noq_full_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_k3_true_random_noq_full_mc_mf25_cfg3_neg_REPORT.json",
+        "status": "does not exist yet; produced by mixcap_01m_random_full.sh Step 1 before the full arm trains",
+        "why": "neither all-Qwen rotation control has ever been evaluated at CFG 3.0 + negative prompt, so this cell would otherwise have no comparator"
+      },
+      "decision_rule": {
+        "comparator": "the same-scale all-Qwen rotation control, measured in Step 1 of the same job",
+        "recorded_before_either_number_existed": true,
+        "rule": "the CFG3+neg bands are the control's CFG3+neg number plus/minus 2x the CLAP floor (0.0006); the four AES metrics use their own floors. This cell is secondary: the pre-registered gate for the full arm stays the CFG0 number, because that is the protocol every existing rotation comparator was measured under.",
+        "seed_floor": {
+          "CE": 0.296,
+          "CLAP": 0.0003,
+          "CU": 0.1053,
+          "PC": 0.1884,
+          "PQ": 0.1416
+        },
+        "seed_floor_source": "CFG3+neg training-seed floors as recorded in mf_dedup_quarter_contract.json"
+      },
+      "existing_cfg3neg_reference_numbers": {
+        "c2p0_slot0_full": {
+          "CLAP": 0.2605
+        },
+        "c2p0_slot0_quarter": {
+          "CE": 6.6952,
+          "CLAP": 0.2248,
+          "CU": 7.3871,
+          "PC": 4.6661,
+          "PQ": 7.3101
+        },
+        "mf_dedup_full": {
+          "CE": 6.7534,
+          "CLAP": 0.242,
+          "CU": 7.349,
+          "PC": 4.8045,
+          "PQ": 7.214
+        },
+        "mf_dedup_quarter": {
+          "CE": 6.8383,
+          "CLAP": 0.2233,
+          "CU": 7.4619,
+          "PC": 4.8793,
+          "PQ": 7.3294
+        }
+      },
+      "label": "mixcap_01m_random_noq_full_mc_mf25_cfg3_neg",
+      "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+      "produced_by": {
+        "invoked_from": "scripts/training_pipelines/mixcap_01m_random_full.sh Step 4",
+        "script": "/home/kojiek/MeanAudio/scripts/eval/mc_mf25_cfg3neg_eval.sh",
+        "sha256": "08d25fb8d5ceca85c36855fe8f029df524ff4c05701c922c057407b3a96b8fdc",
+        "why_not_the_canonical_harness": "scripts/caption10s_pipeline/eval_musiccaps_mf25.sh hard-codes cfg=0 and rejects any other strength; every arm's CFG3+neg cell has always been produced by its own action block, and this is that block factored out",
+        "why_the_wrapper_and_not_the_action": "the shared action was already running under seat 046 when this cell was added; a live bash script cannot be edited safely and both wrappers pin its digest"
+      },
+      "protocol": "MusicCaps 5521; MeanFlow 25; CFG 3.0 + fidelity negative; seed 42; NoMask; full precision",
+      "report": "/home/kojiek/eval_output_nvme/mixcap_01m_random_noq_full_mc_mf25_cfg3_neg/mixcap_01m_random_noq_full_mc_mf25_cfg3_neg_REPORT.json"
     }
   ],
   "commands": {
@@ -124,7 +185,7 @@
   "launch_authorization": {
     "gpu_launch_allowed": true,
     "queue_position": "tail; p2 is idle as of 2026-09-09",
-    "scope": "full-scale training plus one canonical CFG0 evaluation",
+    "scope": "CFG3+neg evaluation of both all-Qwen rotation controls and of the quarter arm, then gated full-scale training, then the canonical CFG0 and CFG3+neg cells of the full arm",
     "valid": true
   },
   "operator_instruction": {

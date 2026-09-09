@@ -90,6 +90,40 @@ queue 沒有 dependency 機制（`lib_scheduler.py` 純字典序）。所以 `SC
 3. quarter 的 S1 100k = 3.18 epoch，rotation 只覆蓋到 2.19/3，是在 undertrained regime 量
    regulariser。所有 quarter rotation arm 共有此問題，內部仍是 budget-matched。
 
+## Eval：兩個 cell
+
+每個 arm 都取兩個數字（操作者 2026-09-09 追加）：
+
+| cell | 協定 | 產生者 |
+|---|---|---|
+| **CFG0**（primary，gate 用） | MusicCaps 5521 / MF25 / cfg 0 / seed 42 / NoMask / `--no_q` | 既有 canonical harness `eval_musiccaps_mf25.sh` |
+| **CFG3+neg**（secondary） | 同上但 cfg 3.0 + fidelity negative prompt | 新的 `scripts/eval/mc_mf25_cfg3neg_eval.sh` |
+
+canonical harness 把 `cfg=0` 寫死且拒絕其他強度，所以每條 arm 的 CFG3+neg cell 一向是各自
+action 裡的同一段 code。新腳本就是那一段抽出來，協定與產出 comparator 數字的
+`mf_dedup_action.sh` Step 6 逐字相同（negative prompt 字串寫死在腳本裡，改了就作廢所有跨 arm 比較）。
+
+**兩個全 Qwen control 都還沒有 CFG3+neg 數字** —— 板上的 rotation 數字全是 CFG0。所以
+047 的 Step 1 會先補跑 012 quarter 和 013 full 兩個 control 的 CFG3+neg，否則新 arm 的
+CFG3+neg cell 沒有對照。
+
+047 的執行順序（全部在同一個 seat，不與訓練搶 GPU）：
+
+1. control CFG3+neg ×2（012 quarter、013 full）
+2. quarter arm CFG3+neg（046 只產了 CFG0 cell）
+3. gate → full 訓練 → canonical CFG0
+4. full arm CFG3+neg
+
+eval 排在訓練**之前**是刻意的：就算 Step 3 的 gate 擋下 full，quarter 的兩個 cell 也已經完整。
+
+CFG3+neg 的 seed floor 是 CLAP 0.0003 / CE 0.2960 / CU 0.1053 / PC 0.1884 / PQ 0.1416，
+分界同樣取 control ± 2× floor。**gate 仍然只看 CFG0** —— 現有 rotation comparator 全部
+是在那個協定下量的。
+
+> CFG3+neg 的 code 放在 full wrapper 而不是 shared action：追加需求進來時 046 已經在跑，
+> bash 是逐段讀 script 的（memory `reference_bash_script_buffered_reads.md`），改動執行中的
+> action 不安全，而且兩個 wrapper 都 pin 了它的 digest。action 視同 immutable。
+
 ## 檔案
 
 | 角色 | 路徑 |
@@ -99,6 +133,7 @@ queue 沒有 dependency 機制（`lib_scheduler.py` 純字典序）。所以 `SC
 | caption pool | `docs/experiments/mixcap_01m_caption_pool.json` |
 | per-scale wrapper | `scripts/training_pipelines/mixcap_01m_random_{quarter,full}.sh` |
 | 共用 action | `scripts/training_pipelines/mixcap_01m_random_action.sh` |
+| CFG3+neg eval | `scripts/eval/mc_mf25_cfg3neg_eval.sh` |
 | pool 驗證報告 | `docs/experiments/mixcap_01m_composed_overlay_validation_20260909.json` |
 
 ---
