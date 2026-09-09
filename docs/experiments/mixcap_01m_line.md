@@ -168,6 +168,54 @@ MF 單獨 0.1865  <  mixcap_01m 0.1982  <  slot2 0.2017 < slot0 0.2029 < slot1 0
 這與「rotation 大致複製其成分的平均」一致 —— 換句話說，在 quarter 尺度上**沒有**看到
 captioner 多樣性帶來額外增益，較弱的 captioner 也沒有被 rotation 洗白。
 
-CFG3+neg cell 由 047 Step 2 補（含兩個 control 的 Step 1）。
+### CFG3+neg cell（047 Step 1/2 補跑，2026-09-10）
 
-### 047 full — running（2026-09-09 起）
+兩個全 Qwen rotation control 之前從來沒有 CFG3+neg 數字，這次一併補上。
+
+quarter，mixcap_01m vs 012 control：
+
+| metric | mixcap_01m | 012 control | delta | ×floor | 判定 |
+|---|---|---|---|---|---|
+| CLAP | 0.2323 | 0.2337 | −0.0014 | 4.67× | **LOSS** |
+| CE | 6.8971 | 7.0639 | −0.1668 | 0.56× | tie |
+| CU | 7.5937 | 7.5816 | +0.0121 | 0.11× | tie |
+| PC | 4.7422 | 4.9469 | −0.2047 | 1.09× | tie |
+| PQ | 7.4753 | 7.4207 | +0.0546 | 0.39× | tie |
+
+**與 CFG0 的圖像不同，不能當成同一件事的再確認**：
+
+1. CLAP 差距從 −0.0071 縮到 **−0.0014**。兩者都判給 control，但在 negprompt 協定下混合 pool
+   幾乎追平。
+2. CFG0 的「五指標同號向下」**沒有重現** —— CU 與 PQ 在這裡轉正。
+3. 混合 pool 在此協定下**勝過它的兩個單 captioner 成分**：0.2323 > slot0 0.2248、> mf_dedup 0.2233，
+   只輸給全 Qwen rotation 的 0.2337。
+
+CFG3+neg 的 CLAP seed floor 只有 0.0003（CFG0 是 0.0042），所以 4.67× 的絕對差距其實只有 0.0014。
+正確說法是「這個差在 seed 之間可重現」，不是「這個差很大」。
+
+### control 自身的協定相依性（副產品）
+
+補跑出來的 control 數字暴露一件與本 arm 無關但值得記的事：**rotation 對單槽的優劣在兩個協定下反號**。
+
+| | CFG0 | CFG3+neg |
+|---|---|---|
+| quarter：012 rotation vs slot0 | 0.2053 vs 0.2029（+0.0024） | 0.2337 vs 0.2248（**+0.0089**） |
+| full：013 rotation vs slot0 | 0.2221 vs 0.2149（+0.0072，1.71× floor＝平手） | 0.2515 vs 0.2605（**−0.0090**，30× floor＝LOSS） |
+
+full 尺度加上 negative prompt 之後，單槽 slot0 反而勝過 rotation。「per-epoch rotation 有沒有幫助」
+因此是協定相依的，不能只憑 CFG0 表下結論。
+
+| CFG3+neg 參照（quarter） | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| 012 rotation | 0.2337 | 7.0639 | 7.5816 | 4.9469 | 7.4207 |
+| mixcap_01m | 0.2323 | 6.8971 | 7.5937 | 4.7422 | 7.4753 |
+| c2p0 slot0 | 0.2248 | 6.6952 | 7.3871 | 4.6661 | 7.3101 |
+| mf_dedup | 0.2233 | 6.8383 | 7.4619 | 4.8793 | 7.3294 |
+
+| CFG3+neg 參照（full） | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| c2p0 slot0 | 0.2605 | 7.2114 | 7.6251 | 5.1059 | 7.5992 |
+| 013 rotation | 0.2515 | 7.1205 | 7.6737 | 4.8476 | 7.6111 |
+| mf_dedup | 0.2420 | 6.7534 | 7.3490 | 4.8045 | 7.2140 |
+
+### 047 full — running（2026-09-10 起，S1 已開跑）
