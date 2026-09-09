@@ -34,6 +34,7 @@
 | 完整實驗數字（Jamendo + MusicCaps 10-exp + P8V4） | `docs/experiments/best_results.md` |
 | Music Flamingo caption ablations（A1–A6 結果） | `docs/experiments/results/phase8/music_flamingo_ablation_todo.md` |
 | **MF 全覆蓋線**（038/039 queue job、判讀規則、early-kill gate） | `docs/experiments/mf_full_coverage_line.md` |
+| **跨 captioner rotation 線**（046/047、slot0/slot1/MF vs 全 Qwen random） | `docs/experiments/mixcap_01m_line.md` |
 | Qwen collapse 10-model audit | `docs/experiments/history/phase8/qwen_collapse_audit_10model.md` |
 | Qwen collapse root-cause EXP-A~H | `docs/experiments/history/phase8/qwen_collapse_root_cause_2026_05_08.md` |
 | Qwen single-cap rerun 總結 | `docs/experiments/history/phase8/qwen_rerun_summary.md` |
