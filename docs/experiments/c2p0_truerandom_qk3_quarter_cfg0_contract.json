@@ -1,0 +1,239 @@
+{
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/c2p0_truerandom_qk3_quarter.sh",
+    "action_sha256": "9f087f2d45b4fa3cb70e81e06944e5b45515b1137cc5d84bebd6d7dce4b6e403",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/048_c2p0_truerandom_qk3_quarter.sh",
+    "launcher_sha256": "7f8edbbb94e8e33a3273158300a0b2a320ec748f6a36965ef47853af61624ea7",
+    "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/c2p0_truerandom_q_action.sh",
+    "shared_action_sha256": "1fb4017ac6332b505792cfd41c75f07e0fb8ab8324c44950998d0283ddd73c57"
+  },
+  "cells": [
+    {
+      "cell_id": "noq_quarter_control",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true_random_noq_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "conditioning": "no_q",
+      "label": "phase8_qwen_caption2p0_k3_true_random_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true_random_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json",
+      "trains_nothing": true,
+      "why": "the 013 true-random NoQ arm was trained at quarter scale on 2026-08-26 but only ever evaluated at full (CLAP 0.2221). Both Q arms are quarter, so the same-scale NoQ number is the comparator and it does not exist yet. Evaluation only; the EMA has been on disk since August."
+    },
+    {
+      "cell_id": "canonical_q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "conditioning": "q9",
+      "label": "phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_musiccaps_mf25_cfg0_q9",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_musiccaps_mf25_cfg0_q9_REPORT.json",
+      "role": "primary: q9 is the code every historical Q number in this project was read at"
+    },
+    {
+      "cell_id": "canonical_q0",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "conditioning": "q0",
+      "label": "phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_musiccaps_mf25_cfg0_q0",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_musiccaps_mf25_cfg0_q0_REPORT.json",
+      "role": "response probe: if q9 and q0 sit inside 2x the seed floor of each other, the model ignored the code and its resolution is moot"
+    }
+  ],
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/c2p0_truerandom_qk3_quarter.sh"
+    ]
+  },
+  "completion_evidence": {
+    "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_musiccaps_mf25_cfg0_q9_REPORT.json",
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage2_50000/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage2_50000_ema_final.pth"
+  },
+  "decision_rule": {
+    "bands": [
+      {
+        "range": ">= NoQ_quarter + 0.0084",
+        "read": "a per-clip quality code still buys something on top of caption rotation"
+      },
+      {
+        "range": "NoQ_quarter +/- 0.0084",
+        "read": "rotation already supplies whatever Q was providing; Q is redundant here"
+      },
+      {
+        "range": "<= NoQ_quarter - 0.0084",
+        "read": "conditioning on a per-clip code while the caption rotates measurably hurts"
+      }
+    ],
+    "cross_arm_rule": "K=10 beats K=3 only if their q9 CLAP differ by more than 0.0084. Inside that band the ablation's answer is that Q resolution does not matter on a rotating caption pool, which is itself the finding -- it is not reported as a win for either arm.",
+    "metric": "MusicCaps 5521 / MeanFlow 25 / CFG 0 / seed 42 / NoMask / full precision / --quality_level 9, clap_score",
+    "q_response_rule": "|q9 - q0| <= 0.0084 means the code was ignored. That verdict is read BEFORE the cross-arm comparison: two arms that both ignore their code cannot be ranked by resolution.",
+    "recorded_before_launch": true,
+    "reporting_rule": "the four AES metrics are reported alongside CLAP against the same 2x-floor rule; margins under 2x a floor are ties, never wins",
+    "seed_floor": {
+      "CE": 0.1343,
+      "CLAP": 0.0042,
+      "CU": 0.052,
+      "PC": 0.0554,
+      "PQ": 0.0523
+    },
+    "seed_floor_source": "CFG0 training-seed floors as recorded in mf_dedup_quarter_contract.json"
+  },
+  "dependencies": [],
+  "deviations": [],
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "c2p0-truerandom-qk3-balanced-quarter-cfg0",
+  "fixed_protocol": {
+    "cfg_strength": 0,
+    "mask": "NoMask",
+    "precision": "full",
+    "rows": 5521,
+    "seed": 42,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+  },
+  "hypothesis": {
+    "known_caveat": [
+      "S1-Q never trains q_embed[10] (memory: project_q_null_token_never_trained_bug). Stage 2's MeanFlow CFG target uses q=10 as its unconditional code, so both Q arms carry the same untrained-null contamination. Shared across K=3 and K=10, so it does not confound the resolution comparison, but it does mean neither absolute number is cleanly comparable to a NoQ arm without this caveat stated.",
+      "q_level is a property of the CLIP (agreement among the captioner's n captions), not of the rotated caption. A clip whose three captions disagree carries the same code whichever of them is drawn this epoch. That is the only way the two knobs can be crossed at zero extra encoding cost, and it is an assumption, not a measurement.",
+      "S1 100k = 3.18 epochs, so the rotation reaches 3*(1-(2/3)**3.18) = 2.19 of 3 captions per clip. Inherited from every other quarter rotation arm and internally budget-matched.",
+      "The bucket grid's signal is Qwen n-caption mean_similarity. project_mean_sim_interpretation_hypothesis and reference_p7v1_q_support_gating both argue this is a coarse support-set marker rather than a quality measure, so a null result here is evidence about resolution, not about quality conditioning in general."
+    ],
+    "primary_comparator": {
+      "arm": "013 true-random NoQ quarter",
+      "full_scale_reference": {
+        "aes_CE": 6.3893,
+        "aes_CU": 6.8719,
+        "aes_PC": 5.1883,
+        "aes_PQ": 6.6513,
+        "clap_score": 0.2221
+      },
+      "quarter_number": "produced by 048 Step 0; does not exist at authoring time"
+    },
+    "prior": "c2p0 slot0 with K=3 balanced Q reached CLAP 0.2126 at FULL scale on a single, fixed caption; 013 true-random NoQ reached 0.2221 at the same scale without any Q. Those two differ in both knobs at once, so neither licenses a prediction here. The naive read is that a rotating caption pool already regularises the text side and a per-clip code adds little, in which case K=3 and K=10 land on top of each other.",
+    "question": "Does the RESOLUTION of the per-clip quality code matter when the caption attached to that clip rotates every epoch -- and does the code buy anything over NoQ at all?",
+    "secondary_comparators": {
+      "c2p0_slot0_qk3balanced_full_q9_CLAP": 0.2126,
+      "c2p0_true012_random_noq_quarter_CLAP": 0.2053,
+      "c2p0_true_random_noq_full_CLAP": 0.2221
+    },
+    "single_substitution": "arm = 013 true-random rotation + Q(k3_balanced); control = 013 true-random rotation + NoQ"
+  },
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "tail, behind 047; 048",
+    "scope": "quarter-scale training plus two canonical CFG0 evaluations (q9, q0), preceded by one evaluation-only CFG0 run of the existing NoQ quarter EMA",
+    "valid": true
+  },
+  "operator_instruction": {
+    "recorded_at": "2026-09-09",
+    "resolved_choices": {
+      "arms": "K=3 and K=10 (operator's '\u5207 3 \u5200 / \u5207 10 \u5200')",
+      "scale": "quarter first",
+      "strategy": "balanced, not fixed: k3_fixed leaves q0 empty and k10_fixed occupies only 7 of 10 codes, so `fixed` moves occupancy and K together",
+      "why_q9_and_q0": "the canonical CFG0 harness requires a Q arm to report at least q0 and q9"
+    },
+    "text": "qwen013 truerandom, with q = 5 / q = 10 -> quarter \u7248\u5148\u8dd1\uff0c\u7136\u5f8c\u505a\u5207 3 \u5200\u3001\u5207 10 \u5200 2 \u500b ablation"
+  },
+  "ordering_dependencies": [],
+  "pairing_audit": {
+    "builder": "/home/kojiek/MeanAudio/scripts/preprocess/build_c2p0_truerandom_q_tsvs.py",
+    "join": "positional, guarded by per-row id equality over all 251,599 rows",
+    "q_histogram": {
+      "0": 83866,
+      "5": 83866,
+      "9": 83867
+    },
+    "q_source": "copied row-for-row from the 2026-07-24 bucket grid; no q value is recomputed here",
+    "row_order_check": "k3_true_random_train.tsv and phase8_qwen_meansim_k3_balanced.tsv carry identical id sequences over all 251,599 rows (verified 2026-09-09, and re-checked per row by the builder)",
+    "runtime_guard": "require_text_overlay=true, so extracted_audio.py re-checks clip_id and caption membership on every row loaded during training",
+    "status": "passed"
+  },
+  "queue_name": "048_c2p0_truerandom_qk3_quarter.sh",
+  "queue_role": "p2",
+  "resume": {
+    "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage1_100000/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_stage1_100000_ckpt_last.pth",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume"
+  },
+  "run_id": "run-20260909-c2p0-truerandom-qk3-balanced-quarter-cfg0",
+  "runtime_storage": {
+    "estimated_checkpoint_bytes": 9340000000,
+    "hard_stop_free_bytes": 8589934592,
+    "hard_stop_rationale": "the CFG0 phase writes 5,521 FLACs (~1.1 GB) plus metrics before cleanup. 8 GiB is the floor for that phase, deliberately lower than the 59 GiB figure carried by the mixcap contracts, which would hold every job on this 99%-full NVMe.",
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics"
+  },
+  "schema_version": 1,
+  "selection": {
+    "algorithm": "sha256(k3-true-random-v1\\0seed\\0epoch\\0audio_id)[:8] mod 3",
+    "caption_seed": 14159265,
+    "mode": "per_epoch_rotation_keyed_by_seed_epoch_and_audio_id",
+    "slot_pool": [
+      "c2p0_slot0",
+      "c2p0_slot1",
+      "c2p0_slot3"
+    ]
+  },
+  "sources": {
+    "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+    "bucket_grid_manifest": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_bucket_grid.manifest.json",
+      "sha256": "b050d4336fbed48e6f9bc553a94e581072d9b094309ca98d1db5266b0f2a44ba"
+    },
+    "cache_list": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "rows": 251599,
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0"
+    },
+    "q_tsv_manifest": {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/c2p0_truerandom_q_tsvs.manifest.json",
+      "sha256": "c798f97b5110139fff8d99faf3f0d2bbf6caf3f3f6a831897192207232dcca3e"
+    },
+    "shared_npz_mutation_prohibited": true,
+    "text_overlay": {
+      "dir": "/home/kojiek/text_overlays/true_random",
+      "holds": "c2p0 Qwen slot0 / slot1 / slot3, 3-stack, already encoded",
+      "new_overlay_bytes": 0
+    },
+    "train_tsv": {
+      "caption_column_holds": "slot0; used only for the per-row membership check, the trained caption is the rotated one",
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_train_qk3_balanced.tsv",
+      "q_codes": [
+        0,
+        5,
+        9
+      ],
+      "rows": 251599,
+      "sha256": "698fde1a4c37204a2b3a6370fa4a72ef2a2e6534f2efefbeddce9282436acc56"
+    }
+  },
+  "status": "authorized_p2_pending_install",
+  "training": {
+    "batch_size": 8,
+    "epochs_stage1": 3.18,
+    "epochs_stage2": 1.59,
+    "final_iteration": 150000,
+    "learning_rate": 0.0001,
+    "multi_cap": true,
+    "q_conditioning": true,
+    "q_resolution": {
+      "K": 3,
+      "grid_arm": "k3_balanced",
+      "q_codes": [
+        0,
+        5,
+        9
+      ],
+      "strategy": "balanced"
+    },
+    "require_text_overlay": true,
+    "scale": "quarter",
+    "seed": 14159265,
+    "stage1_final_iteration": 100000,
+    "stage2_additional_iterations": 50000,
+    "use_text_attention_mask": false
+  }
+}

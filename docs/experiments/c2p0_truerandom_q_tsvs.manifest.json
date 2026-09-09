@@ -1,0 +1,74 @@
+{
+  "base_tsv": {
+    "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_train.tsv",
+    "rows": 251599,
+    "sha256": "5ec90b0f8d963df50546730384446bdca1b185ee4b2e21a4094cf60398b39999"
+  },
+  "created_at": "2026-09-09T07:10:50.686068+00:00",
+  "grid_manifest": {
+    "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_bucket_grid.manifest.json",
+    "sha256": "b050d4336fbed48e6f9bc553a94e581072d9b094309ca98d1db5266b0f2a44ba"
+  },
+  "join": "positional, guarded by per-row id equality over all 251,599 rows",
+  "outputs": {
+    "k10_balanced": {
+      "action": "created",
+      "grid_source": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_k10_balanced.tsv",
+      "grid_source_sha256": "5b83d371c6f2f6a1c0061b81cee9b8c57c21596929b730f456acb24d3456bc27",
+      "occupied_q_codes": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_train_qk10_balanced.tsv",
+      "q_histogram": {
+        "0": 25159,
+        "1": 25160,
+        "2": 25160,
+        "3": 25160,
+        "4": 25160,
+        "5": 25160,
+        "6": 25160,
+        "7": 25160,
+        "8": 25160,
+        "9": 25160
+      },
+      "rows": 251599,
+      "sha256": "b126c2a830929b3f622f5ee8f2bce97dc31fbdd0d1f4a8ee4529089700da68ed"
+    },
+    "k3_balanced": {
+      "action": "created",
+      "grid_source": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_meansim_k3_balanced.tsv",
+      "grid_source_sha256": "f7b181e46e49e8adc84f5b0370f536bf9a8345d5203ecd893d374744de301311",
+      "occupied_q_codes": [
+        0,
+        5,
+        9
+      ],
+      "path": "/home/kojiek/research/meanaudio_training/outputs/caption10s_pipeline/c2p0_k3_true_fake_random/k3_true_random_train_qk3_balanced.tsv",
+      "q_histogram": {
+        "0": 83866,
+        "5": 83866,
+        "9": 83867
+      },
+      "rows": 251599,
+      "sha256": "698fde1a4c37204a2b3a6370fa4a72ef2a2e6534f2efefbeddce9282436acc56"
+    }
+  },
+  "q_code_policy": "round-half-up(index*9/(K-1)); endpoints always q0/q9",
+  "rows": 251599,
+  "schema_version": 1,
+  "signal": "actual-clip credibility_analysis.mean_similarity",
+  "status": "passed",
+  "strategies": {
+    "balanced": "equal-frequency rank bins; key=(mean_similarity, source_id); one extra row assigned to each of the highest remainder bins",
+    "fixed": "equal-width bins on [0,1]; floor(mean_similarity*K), clamped"
+  }
+}
