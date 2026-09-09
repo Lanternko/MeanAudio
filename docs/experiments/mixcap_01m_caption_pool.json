@@ -1,0 +1,12 @@
+{
+ "schema_version": 1,
+ "document_kind": "composed_caption_pool",
+ "pool_id": "mixcap-01m-k3",
+ "slot_order": ["c2p0_slot0", "c2p0_slot1", "mf_dedup"],
+ "rationale": "A cross-captioner rotation pool. Positions 0 and 1 are indices 0/1 of the existing c2p0 013 stacked overlay (Qwen slot0 / slot1); position 2 is the Music Flamingo dedup corpus, its own single-caption overlay. All three carry text encoder fingerprint 27e88fac68d94a8a10e44d2db930a8f79db8ca0454ce996b82e448c48c40ab4c and cover the same 251,599 rows of the c2p0 cache list in the same order, so the pool is assembled at load time and no overlay is re-encoded.",
+ "sources": [
+  {"dir": "/home/kojiek/text_overlays/true_random", "index": 0},
+  {"dir": "/home/kojiek/text_overlays/true_random", "index": 1},
+  {"dir": "/home/kojiek/text_overlays/mf_dedup", "index": null}
+ ]
+}
