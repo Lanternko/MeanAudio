@@ -140,4 +140,34 @@ CFG3+neg 的 seed floor 是 CLAP 0.0003 / CE 0.2960 / CU 0.1053 / PC 0.1884 / PQ
 
 ## 結果
 
-（046 於 2026-09-09 06:35 UTC seat，待填）
+### 046 quarter — 完成，rc=0（2026-09-09）
+
+CFG0 / MusicCaps 5521 / MF25 / NoMask / seed 42 / `--no_q`。訓練 150,000 it 全程 0 個 NaN。
+
+| metric | mixcap_01m quarter | 012 control（全 Qwen） | delta | ×floor | 判定 |
+|---|---|---|---|---|---|
+| CLAP | 0.1982 | 0.2053 | −0.0071 | 1.69× | tie |
+| CE | 6.1791 | 6.3422 | −0.1631 | 1.21× | tie |
+| CU | 6.7617 | 6.8654 | −0.1037 | 1.99× | tie |
+| PC | 4.9864 | 5.0760 | −0.0896 | 1.62× | tie |
+| PQ | 6.5921 | 6.6997 | −0.1076 | 2.06× | **LOSS** |
+
+依 launch 前登記的規則：CLAP 0.1982 落在 tie 帶（0.1969–0.2137）的**下緣**，gate 通過，
+但只多出 0.0013（0.31× seed floor）。047 因此被 seat。
+
+**規則沒抓到的訊號**：五個指標**方向全部一致向下**，PQ 已跨過 2× floor。逐指標看是「四平一負」，
+但五個獨立指標同號的機率本身就低，這比任一單項的 tie 判定更值得注意。
+
+定位（quarter CFG0 CLAP）：
+
+```
+MF 單獨 0.1865  <  mixcap_01m 0.1982  <  slot2 0.2017 < slot0 0.2029 < slot1 0.2047 < 012 rotation 0.2053
+```
+
+混合 pool 明顯高於 MF 單獨，但**低於任何一條單獨的 Qwen slot**，也低於全 Qwen rotation。
+這與「rotation 大致複製其成分的平均」一致 —— 換句話說，在 quarter 尺度上**沒有**看到
+captioner 多樣性帶來額外增益，較弱的 captioner 也沒有被 rotation 洗白。
+
+CFG3+neg cell 由 047 Step 2 補（含兩個 control 的 Step 1）。
+
+### 047 full — running（2026-09-09 起）
