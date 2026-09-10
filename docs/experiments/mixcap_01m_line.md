@@ -218,4 +218,54 @@ full 尺度加上 negative prompt 之後，單槽 slot0 反而勝過 rotation。
 | 013 rotation | 0.2515 | 7.1205 | 7.6737 | 4.8476 | 7.6111 |
 | mf_dedup | 0.2420 | 6.7534 | 7.3490 | 4.8045 | 7.2140 |
 
-### 047 full — running（2026-09-10 起，S1 已開跑）
+### 047 full — 完成，rc=0（2026-09-11）
+
+訓練 600,000 it（S1 400k + S2 200k）全程 0 個 NaN。
+
+**CFG0，vs 013 全 Qwen rotation（primary）：五項全平**
+
+| metric | mixcap_01m full | 013 control | delta | ×floor | 判定 |
+|---|---|---|---|---|---|
+| CLAP | 0.2187 | 0.2221 | −0.0034 | 0.81× | tie |
+| CE | 6.3510 | 6.3893 | −0.0383 | 0.29× | tie |
+| CU | 6.8687 | 6.8719 | −0.0032 | 0.06× | tie |
+| PC | 5.1195 | 5.1883 | −0.0688 | 1.24× | tie |
+| PQ | 6.6391 | 6.6513 | −0.0122 | 0.23× | tie |
+
+對 MF 單獨（mf_dedup full）：CLAP +0.0109（2.60× **WIN**）、PC +0.1546（2.79× **WIN**），其餘平手。
+對 slot0 單槽（0.2149）：+0.0038（0.90×，平手）。
+
+**CFG3+neg，vs 013 control：同樣五項全平**
+
+| metric | mixcap_01m full | 013 control | delta | ×floor | 判定 |
+|---|---|---|---|---|---|
+| CLAP | 0.2517 | 0.2515 | +0.0002 | 0.67× | tie |
+| CE | 7.0024 | 7.1205 | −0.1181 | 0.40× | tie |
+| CU | 7.5761 | 7.6737 | −0.0976 | 0.93× | tie |
+| PC | 4.8943 | 4.8476 | +0.0467 | 0.25× | tie |
+| PQ | 7.4641 | 7.6111 | −0.1470 | 1.04× | tie |
+
+對 mf_dedup：CLAP +0.0097（32× **WIN**）、CU +0.2271（2.16× **WIN**）。
+對 slot0：CLAP −0.0088（29× **LOSS**）—— 與 013 control 對 slot0 的 −0.0090 幾乎相同，
+即混合 pool **完整繼承了 rotation 在 negprompt 協定下輸給單槽的那個行為**，
+見 [rotation vs 單槽的協定反號](#control-自身的協定相依性副產品)。
+
+### 結論
+
+登記的 tie 帶對應的判讀成立：**儘管 MF 單獨比 Qwen 單獨差，一條 MF caption 在 rotation 裡
+可以無損取代一條 Qwen caption。** 兩個協定、十個指標，沒有任何一項判給 control。
+同時 arm 在兩個協定下都明確勝過 MF 單獨。
+
+原始假說（「贏才代表 rotation 買到 captioner 多樣性」）**沒有成立** —— 沒有增益，是等價。
+
+**規模改變了結論，quarter 會誤導：**
+
+| | quarter | full |
+|---|---|---|
+| CLAP 對 control | −0.0071（1.69×） | −0.0034（0.81×） |
+| 最大單項偏離 | PQ 2.06×（LOSS） | PC 1.24×（全平） |
+| 對 slot0 單槽 | −0.0047（低於每一條 Qwen slot） | +0.0038（高於 slot0） |
+
+quarter 的落後有相當部分來自 undertrained：rotation 只覆蓋 2.19/3，full 才跑滿 12.72 epoch。
+若依 quarter 的「五指標同號向下」下結論，會得到偏負的錯誤答案。**這是 rotation 類 arm 不該只用
+quarter 判定的直接證據。**
