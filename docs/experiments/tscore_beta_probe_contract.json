@@ -1,0 +1,185 @@
+{
+ "schema_version": 1,
+ "document_kind": "preregistered_mechanism_probe_contract",
+ "experiment_id": "tscore-beta-probe-20260913",
+ "run_id": "run-20260913-053-tscore-beta-probe",
+ "status": "operator_authorized_queue_tail",
+ "operator_instruction": "好，先寫 doc 並做階段 A 的改動 然後排進 queue",
+ "approval_record": "/home/kojiek/MeanAudio/docs/experiments/harn/tscore_beta_probe_20260913/operator_request.txt",
+ "launch_allowed": true,
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "trusted_channel": "operator_console",
+  "operator": "responsible_operator",
+  "authorized_at": "2026-09-12T23:44:42.412193+00:00",
+  "scope": "Stage A of the score-aware Beta timestep line: 8 S1 probe runs (2k rows, 20k iters) + small evals, appended to the p2 queue tail."
+ },
+ "priority": "P2",
+ "queue_name": "053_tscore_beta_probe.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [],
+ "hypothesis": "arXiv 2606.07387: tilting low-alignment rows toward high-noise t (Beta(1+lambda(1-S),1)) regularises an overfitting S1; test whether the effect exists here and whether it needs the per-row score (vs permuted S).",
+ "design_doc": "/home/kojiek/MeanAudio/docs/experiments/tscore_beta_schedule_line.md",
+ "training": {
+  "model": "fluxaudio_s",
+  "stage": 1,
+  "iterations": 20000,
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "warmup": 1000,
+  "conditioning": "NoQ",
+  "mask": "NoMask",
+  "val_interval": 500,
+  "val_metric": "fm_mse fixed t grid",
+  "train_rows": 2000,
+  "val_rows": 100,
+  "seeds": [
+   14159265,
+   27182818
+  ],
+  "arms": {
+   "base": [
+    0.0,
+    "t_score"
+   ],
+   "lam0p2": [
+    0.2,
+    "t_score"
+   ],
+   "lam1p0": [
+    1.0,
+    "t_score"
+   ],
+   "lam1p0shuf": [
+    1.0,
+    "t_score_shuffled"
+   ]
+  }
+ },
+ "score": {
+  "model": "facebook/pe-av-large",
+  "window": "first 10 s @48 kHz",
+  "normalisation": "clip((s-p05)/(p75-p05),0,1) on train",
+  "shuffle_seed": 424242,
+  "leakage_note": "LAION-CLAP deliberately not used: it is the eval metric"
+ },
+ "secondary_eval": {
+  "splits": {
+   "mc500": "musiccaps_test.tsv head 500",
+   "val100": "val_scored.tsv"
+  },
+  "solver": "FlowMatching euler",
+  "steps": 25,
+  "cfg_strength": 0,
+  "seed": 42,
+  "precision": "full",
+  "gating": false
+ },
+ "decision_rule": {
+  "script": "/home/kojiek/MeanAudio/scripts/analysis/summarize_tscore_beta_probe.py",
+  "R1": "base argmin<=15k both seeds and mean overfit_gap > 2x seed |delta|",
+  "R2": "final_val(arm) < final_val(base) both seeds, mean paired gap > 2x base seed floor",
+  "R3": "final_val(lam1p0) < final_val(lam1p0shuf) both seeds, mean gap > 2x floor",
+  "outcomes": {
+   "R2 fail": "close line",
+   "R2+R3 pass": "stage B",
+   "R2 pass R3 fail": "reframe as t-shift; stage B at operator discretion"
+  }
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "iteration": 0,
+  "checkpoint": null,
+  "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/tscore_beta_probe_20260913/summary.json",
+  "behavior": "Idempotent re-run: skips built inputs, resumes PE-AV scoring by id, skips arms with ema_final, resumes training from ckpt_last, skips splits with metrics.txt. No pause-ack support: a preemption is recorded as held; move back to pending to resume."
+ },
+ "runtime_storage": {
+  "artifacts": "/home/kojiek/nvme_experiment_artifacts/meanaudio/tscore_beta_probe_20260913",
+  "checkpoints": "/home/kojiek/MeanAudio/exps/tscore_beta_probe_*",
+  "logs": "/home/kojiek/logs/tscore_beta_probe_20260913",
+  "min_free_nvme_bytes": 40000000000,
+  "cleanup": "after each arm's metrics: delete own ckpt_last, *_last.pth, ema_ckpts; keep ema_final"
+ },
+ "resource_budget": {
+  "gpu": "P2 GPU0",
+  "estimated_gpu_hours_range": [
+   7,
+   10
+  ]
+ },
+ "commands": {
+  "run": [
+   "/bin/bash",
+   "/home/kojiek/MeanAudio/scripts/training_pipelines/tscore_beta_probe_action.sh"
+  ]
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/053_tscore_beta_probe.sh",
+  "launcher_sha256": "c112a365dec89e7ceb2869a3e253579ed164a9c87afb257861dbf71be457ad85",
+  "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+  "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+  "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/tscore_beta_probe_action.sh",
+  "action_sha256": "63332a13b32b314620b0b2ffd93c98bf2ad7a10f11a12246794faed68272ba15"
+ },
+ "inputs": [
+  {
+   "path": "/home/kojiek/MeanAudio/meanaudio/model/mean_flow.py",
+   "sha256": "ff4dbd28a3418651622e929fd4ef1c5c209fc37c425b816360d39a1b05a0fdb0"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/meanaudio/runner_meanflow.py",
+   "sha256": "9071bfedfa0709c3652e38dba73c56b7f356438d2af65771cfa3dc48e00773af"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/meanaudio/data/extracted_audio.py",
+   "sha256": "21b27bc96edff379cd64ccb0af409912945fe279e276f1a0d7c6a097411c0ff8"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/meanaudio/data/data_setup.py",
+   "sha256": "1732e55cbd3699ff85a9a6267bf9de40ac5462b4a18d94f168a6241084224dee"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/preprocess/build_tscore_beta_probe_inputs.py",
+   "sha256": "8dece18b0b2a5c969a027c1a850713a7989527d361d30f47f8b4c1013d62cec9"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/preprocess/score_peav_alignment.py",
+   "sha256": "632bca3773616f15d1dadd90c134279acfe3135ac0e917968bb286a2cc4c3160"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/analysis/summarize_tscore_beta_probe.py",
+   "sha256": "3f28ad74548d3333f4080d5376c061dab9ede44abdde1f742ae96995a27580de"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/tscore_beta_schedule_line.md",
+   "sha256": "f60c38d74012ee53d3a88b178b0a9a59ffbc28853c8e640fc06d31c37ef8bee2"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/harn/tscore_beta_probe_20260913/operator_request.txt",
+   "sha256": "a19a350b63c94322faf08eb4bfe58691ef32aab18db78821941755201086d64b"
+  },
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/tscore_beta_probe_20260913/inputs/train.tsv",
+   "sha256": "3798080cb30b5e91ebbe0459c87f5a6d7fb09551ddbf0226c6f43389fbec3f89"
+  },
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/tscore_beta_probe_20260913/inputs/val.tsv",
+   "sha256": "e182fd2defec21c31150fff0fc8b08c694a9d01bbdba4b489ff0c22e07e8f79c"
+  }
+ ],
+ "inputs_note": "mean_flow.py hash recorded in its current Stage 2 working-tree form (052 running); the action switches to Stage 1 itself and does not re-verify these hashes.",
+ "completion_evidence": {
+  "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+  "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json",
+  "authoritative_results": "/home/kojiek/nvme_experiment_artifacts/meanaudio/tscore_beta_probe_20260913/summary.json (action exits non-zero unless all 8 curves and 16 metrics files exist)",
+  "legacy_scheduler_compatibility": "historical CFG0 report is used only by the host terminal classifier (same as 051), never as a scientific comparator"
+ },
+ "queue_registration_context": {
+  "prior_tail": "052_c2p0_slot4_no_digits_full.sh (running)",
+  "policy": "append-only 053; no scientific dependency on 052"
+ },
+ "git_revision": "da71e3b0617de7e9799a1cc59aca85f3fb901db5",
+ "dirty_worktree": "pre-existing user edits preserved; raw hashes above are authoritative"
+}

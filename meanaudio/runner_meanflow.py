@@ -250,6 +250,7 @@ class RunnerMeanFlow:
         a_std: torch.Tensor,
         text_attention_mask: torch.Tensor = None,
         q: torch.Tensor = None,
+        t_score: torch.Tensor = None,
         # it: torch.Tensor
     ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
         # sample
@@ -281,7 +282,9 @@ class RunnerMeanFlow:
                                   self.network.module.empty_string_feat_c,
                                   text_attention_mask=text_attention_mask,
                                   text_attention_mask_undrop=text_attention_mask_undrop,
-                                  q=q)
+                                  q=q,
+                                  t_score=t_score,
+                                  t_score_beta_lambda=float(self.cfg.get('t_score_beta_lambda', 0.0)))
         mean_loss = loss.mean()
         return x1, loss, mean_loss, t, r
 
@@ -345,11 +348,14 @@ class RunnerMeanFlow:
             #with torch.amp.autocast('cuda', enabled=False):
             use_q = self.cfg.get('use_q_conditioning', True)
             q = data['q_level'].cuda(non_blocking=True) if ('q_level' in data and use_q) else None
+            t_score = data['t_score'].cuda(non_blocking=True) if 't_score' in data else None
             x1, loss, mean_loss, t,r = self.train_fn(
                 text_f, text_f_c, a_mean, a_std,
-                text_attention_mask=text_attention_mask, q=q)
-           
+                text_attention_mask=text_attention_mask, q=q, t_score=t_score)
+
             self.train_integrator.add_dict({'loss': mean_loss})
+            if t_score is not None:
+                self.train_integrator.add_scalar('t_mean', t.float().mean())
             effective_q = q if q is not None else torch.full(
                 (x1.shape[0],), 10, dtype=torch.long, device=x1.device)
             for q_level in range(11):
@@ -475,6 +481,24 @@ class RunnerMeanFlow:
 
             self.val_integrator.add_binned_tensor('binned_loss', loss, t)
             self.val_integrator.add_dict({'loss': mean_loss})
+
+            if self.cfg.get('val_fm_mse', False):
+                # The MeanFlow val loss is adaptive L2, sg(1/(mse+c)) * mse, which sits at ~1 regardless
+                # of fit, and its t comes from the un-reset numpy rng. For overfitting curves log plain
+                # conditional velocity MSE on a fixed t grid instead; noise comes from self.rng, which
+                # train.py resets before every validation pass, so every pass sees identical inputs.
+                x = self.network.module.normalize(x1)
+                noise = torch.empty_like(x).normal_(generator=self.rng)
+                per_t = []
+                for t_val in (0.1, 0.3, 0.5, 0.7, 0.9):
+                    t_grid = torch.full((x.shape[0],), t_val, device=x.device, dtype=x.dtype)
+                    z = (1 - t_val) * x + t_val * noise
+                    u = self.network(latent=z, text_f=text_f, text_f_c=text_f_c, r=t_grid, t=t_grid,
+                                     q=None, text_attention_mask=text_attention_mask)
+                    mse = (u.float() - (noise - x).float()).pow(2).mean()
+                    self.val_integrator.add_scalar(f'fm_mse_t{t_val:.1f}', mse)
+                    per_t.append(mse)
+                self.val_integrator.add_scalar('fm_mse', torch.stack(per_t).mean())
 
         self.log.data_timer.start()
         return mean_loss.detach().float()

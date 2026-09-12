@@ -36,6 +36,7 @@ class ExtractedAudio(Dataset):
         cap_index_column: Optional[str] = None,   # reuse a stacked overlay by taking a per-row slot from the TSV
         text_npz_sources: Optional[list] = None,  # multi_cap over slots assembled from several existing overlays
         use_text_attention_mask: bool = True,
+        t_score_column: Optional[str] = None,     # per-row alignment score in [0, 1] for score-aware t sampling
     ):
         super().__init__()
         self.data_dim = data_dim
@@ -49,6 +50,21 @@ class ExtractedAudio(Dataset):
             npz_files = [f'{i}.npz' for i in range(len(self.df_list))]
             log.info(f'Using sequential NPZ indices: {len(npz_files)} files')
         self.npz_files = npz_files
+
+        # Score-aware Beta timestep schedule (arXiv 2606.07387). Only emitted when a column
+        # is named, so every existing arm keeps its exact batch layout. Fail closed on a
+        # missing column or an out-of-range value instead of silently defaulting.
+        self.t_scores: Optional[list[float]] = None
+        if t_score_column is not None:
+            if t_score_column not in self.df_list[0]:
+                raise ValueError(f't_score_column {t_score_column!r} is not a column of {tsv_path}')
+            scores = [float(row[t_score_column]) for row in self.df_list]
+            if any(not (0.0 <= s <= 1.0) for s in scores):
+                raise ValueError(f't_score_column {t_score_column!r} holds values outside [0, 1]')
+            self.t_scores = scores
+            log.info(
+                f't_score_column={t_score_column!r}: mean {sum(scores) / len(scores):.4f}, '
+                f'{sum(s >= 1.0 for s in scores)}/{len(scores)} rows at 1.0')
         self.concat_text_fc = concat_text_fc
         self.exclude_cls = exclude_cls
         self.repa_version = repa_version
@@ -344,7 +360,9 @@ class ExtractedAudio(Dataset):
         }
         if self.use_text_attention_mask:
             out_dict['text_attention_mask'] = text_attention_mask
-        if self.repa_npz_dir != None: 
+        if self.t_scores is not None:
+            out_dict['t_score'] = torch.tensor(self.t_scores[idx], dtype=torch.float32)
+        if self.repa_npz_dir != None:
             repa_npz_path = f'{self.repa_npz_dir}/{idx}.npz'
             repa_np_data = np.load(repa_npz_path)
             zs =  torch.from_numpy(repa_np_data['es'])   

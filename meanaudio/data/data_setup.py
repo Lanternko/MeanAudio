@@ -62,7 +62,8 @@ def load_audio_data(cfg: DictConfig, data_cfg: DictConfig) -> Dataset:
                             cap_index_fixed=cfg.get('cap_index_fixed', None),
                             cap_index_column=cfg.get('cap_index_column', None),
                             text_npz_sources=_text_npz_sources(data_cfg, cfg),
-                            use_text_attention_mask=cfg.get('use_text_attention_mask', True))
+                            use_text_attention_mask=cfg.get('use_text_attention_mask', True),
+                            t_score_column=data_cfg.get('t_score_column', None))
     return dataset
 
 

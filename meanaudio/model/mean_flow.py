@@ -78,14 +78,20 @@ class MeanFlow():
             self.create_graph = True
         log.info(f'MeanFlow initialized with {steps} steps')
 
-    def sample_t_r(self, batch_size, device):
+    def sample_t_r(self, batch_size, device, alpha=None):
         if self.time_dist[0] == 'uniform':
             samples = np.random.rand(batch_size, 2).astype(np.float32)
 
         elif self.time_dist[0] == 'lognorm':
             mu, sigma = self.time_dist[-2], self.time_dist[-1]
             normal_samples = np.random.randn(batch_size, 2).astype(np.float32) * sigma + mu
-            samples = 1 / (1 + np.exp(-normal_samples))  
+            samples = 1 / (1 + np.exp(-normal_samples))
+
+        if alpha is not None:
+            # Score-aware Beta(alpha, 1) tilt (arXiv 2606.07387 eq. 1-2) as its inverse CDF u ** (1 / alpha),
+            # applied to both draws before max/min. Monotone, so t >= r is preserved; alpha = 1 leaves both
+            # bit-identical and no extra rng is drawn. t = 1 is noise, so alpha > 1 moves mass toward noise.
+            samples = np.power(samples, 1.0 / alpha[:, None]).astype(np.float32)
 
         t_np = np.maximum(samples[:, 0], samples[:, 1])
         r_np = np.minimum(samples[:, 0], samples[:, 1])
@@ -130,12 +136,20 @@ class MeanFlow():
             empty_string_feat_c: torch.Tensor,
             text_attention_mask: torch.Tensor = None,
             text_attention_mask_undrop: torch.Tensor = None,
-            q: torch.Tensor = None):
+            q: torch.Tensor = None,
+            t_score: torch.Tensor = None,
+            t_score_beta_lambda: float = 0.0):
 
         batch_size = x0.shape[0]
         device = x0.device
         e = torch.randn_like(x0)
-        t, r = self.sample_t_r(batch_size, device)
+        alpha = None
+        if t_score_beta_lambda > 0:
+            if t_score is None:
+                raise ValueError('t_score_beta_lambda > 0 but the batch carries no t_score')
+            s = t_score.detach().float().clamp(0.0, 1.0).cpu().numpy()
+            alpha = (1.0 + t_score_beta_lambda * (1.0 - s)).astype(np.float32)
+        t, r = self.sample_t_r(batch_size, device, alpha=alpha)
         t_ = rearrange(t, "b -> b 1 1 ")
         r_ = rearrange(r, "b -> b 1 1 ")
         z = (1 - t_) * x0 + t_ * e  # r < t
