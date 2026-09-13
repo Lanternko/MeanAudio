@@ -193,30 +193,44 @@ quarter，mixcap_01m vs 012 control：
 CFG3+neg 的 CLAP seed floor 只有 0.0003（CFG0 是 0.0042），所以 4.67× 的絕對差距其實只有 0.0014。
 正確說法是「這個差在 seed 之間可重現」，不是「這個差很大」。
 
-### control 自身的協定相依性（副產品）
+### ⚠️ 2026-09-14 更正：本節原本的 CFG3+neg CLAP 混用了兩種 scorer
 
-補跑出來的 control 數字暴露一件與本 arm 無關但值得記的事：**rotation 對單槽的優劣在兩個協定下反號**。
+本線 CFG3+neg cell（mixcap、012、013）走 `phase4_eval.py`，CLAP **逐檔**計算；slot0 full 0.2605 來自
+`negprompt_reeval_full_arms.py`，CLAP **batch 32**。laion_clap 在 batch > 8 時 padding 行為不同，
+同一份音檔兩者差 **+0.004～+0.025 且因 arm 而異**，AES 逐位相同（memory `reference_clap_batch_size_sensitivity.md`）。
+CFG3+neg 的 CLAP seed floor 0.0003 本身是在 batch 32 下量的。
 
-| | CFG0 | CFG3+neg |
-|---|---|---|
-| quarter：012 rotation vs slot0 | 0.2053 vs 0.2029（+0.0024） | 0.2337 vs 0.2248（**+0.0089**） |
-| full：013 rotation vs slot0 | 0.2221 vs 0.2149（+0.0072，1.71× floor＝平手） | 0.2515 vs 0.2605（**−0.0090**，30× floor＝LOSS） |
+2026-09-14 用 `scripts/eval/rescore_clap_batch32.py` 把所有留有音檔的 CFG3+neg 目錄重算成 batch 32
+（驗證：013 full 逐位重現 negprompt_random_full_cfg3 的 0.2651）。下表以 batch 32 為準，逐檔數字僅供對照。
 
-full 尺度加上 negative prompt 之後，單槽 slot0 反而勝過 rotation。「per-epoch rotation 有沒有幫助」
-因此是協定相依的，不能只憑 CFG0 表下結論。
+### ~~control 自身的協定相依性~~ —— 撤回
 
-| CFG3+neg 參照（quarter） | CLAP | CE | CU | PC | PQ |
-|---|---|---|---|---|---|
-| 012 rotation | 0.2337 | 7.0639 | 7.5816 | 4.9469 | 7.4207 |
-| mixcap_01m | 0.2323 | 6.8971 | 7.5937 | 4.7422 | 7.4753 |
-| c2p0 slot0 | 0.2248 | 6.6952 | 7.3871 | 4.6661 | 7.3101 |
-| mf_dedup | 0.2233 | 6.8383 | 7.4619 | 4.8793 | 7.3294 |
+原本寫「full 尺度 013 rotation 0.2515 vs slot0 0.2605（−0.0090，LOSS），rotation 對單槽的優劣在兩個協定下反號」。
+**這是 scorer 不一致造成的假象**：
 
-| CFG3+neg 參照（full） | CLAP | CE | CU | PC | PQ |
-|---|---|---|---|---|---|
-| c2p0 slot0 | 0.2605 | 7.2114 | 7.6251 | 5.1059 | 7.5992 |
-| 013 rotation | 0.2515 | 7.1205 | 7.6737 | 4.8476 | 7.6111 |
-| mf_dedup | 0.2420 | 6.7534 | 7.3490 | 4.8045 | 7.2140 |
+| | CFG0 | CFG3+neg（batch 32，同 scorer） | 原文（混 scorer） |
+|---|---|---|---|
+| quarter：012 rotation vs slot0 | 0.2053 vs 0.2029（+0.0024） | 0.2450 vs 0.2372（+0.0078） | 0.2337 vs 0.2248（+0.0089） |
+| full：013 rotation vs slot0 | 0.2221 vs 0.2149（+0.0072，平手） | **0.2651 vs 0.2605（+0.0046）** | 0.2515 vs 0.2605（−0.0090） |
+
+同一把尺下 **沒有反號**：兩個尺度、兩個協定，rotation 的 CLAP 都不低於單槽。
+
+| CFG3+neg 參照（quarter） | CLAP b32 | CLAP 逐檔 | CE | CU | PC | PQ |
+|---|---|---|---|---|---|---|
+| 012 rotation | 0.2450 | 0.2337 | 7.0639 | 7.5816 | 4.9469 | 7.4207 |
+| mixcap_01m | 0.2419 | 0.2323 | 6.8971 | 7.5937 | 4.7422 | 7.4753 |
+| c2p0 slot0 | 0.2372 | 0.2248 | 6.6952 | 7.3871 | 4.6661 | 7.3101 |
+| mf_dedup | 0.2346 | 0.2233 | 6.8383 | 7.4619 | 4.8793 | 7.3294 |
+
+| CFG3+neg 參照（full） | CLAP b32 | CLAP 逐檔 | CE | CU | PC | PQ |
+|---|---|---|---|---|---|---|
+| 013 rotation | 0.2651 | 0.2515 | 7.1205 | 7.6737 | 4.8476 | 7.6111 |
+| mixcap_01m | 0.2630 | 0.2517 | 7.0024 | 7.5761 | 4.8943 | 7.4641 |
+| c2p0 slot0 | 0.2605 | （音檔已刪） | 7.2114 | 7.6251 | 5.1059 | 7.5992 |
+| mf_dedup | 0.2519 | 0.2420 | 6.7534 | 7.3490 | 4.8045 | 7.2140 |
+
+quarter mixcap vs 012 用 batch 32 是 −0.0031（10× floor，LOSS），與逐檔的 −0.0014 同號 —— 這個小落後兩種 scorer 都成立。
+混合 pool 勝過兩個單 captioner 成分（0.2419 > slot0 0.2372、> mf_dedup 0.2346）也兩種 scorer 都成立。
 
 ### 047 full — 完成，rc=0（2026-09-11）
 
@@ -235,25 +249,26 @@ full 尺度加上 negative prompt 之後，單槽 slot0 反而勝過 rotation。
 對 MF 單獨（mf_dedup full）：CLAP +0.0109（2.60× **WIN**）、PC +0.1546（2.79× **WIN**），其餘平手。
 對 slot0 單槽（0.2149）：+0.0038（0.90×，平手）。
 
-**CFG3+neg，vs 013 control：同樣五項全平**
+**CFG3+neg，vs 013 control：AES 四項全平；CLAP 依 scorer 而定**
 
 | metric | mixcap_01m full | 013 control | delta | ×floor | 判定 |
 |---|---|---|---|---|---|
-| CLAP | 0.2517 | 0.2515 | +0.0002 | 0.67× | tie |
+| CLAP（batch 32） | 0.2630 | 0.2651 | −0.0021 | 7.0× | **LOSS**（逐檔 +0.0002 tie；scorer 間不一致） |
 | CE | 7.0024 | 7.1205 | −0.1181 | 0.40× | tie |
 | CU | 7.5761 | 7.6737 | −0.0976 | 0.93× | tie |
 | PC | 4.8943 | 4.8476 | +0.0467 | 0.25× | tie |
 | PQ | 7.4641 | 7.6111 | −0.1470 | 1.04× | tie |
 
-對 mf_dedup：CLAP +0.0097（32× **WIN**）、CU +0.2271（2.16× **WIN**）。
-對 slot0：CLAP −0.0088（29× **LOSS**）—— 與 013 control 對 slot0 的 −0.0090 幾乎相同，
-即混合 pool **完整繼承了 rotation 在 negprompt 協定下輸給單槽的那個行為**，
-見 [rotation vs 單槽的協定反號](#control-自身的協定相依性副產品)。
+對 mf_dedup：CLAP（batch 32）+0.0111（37× **WIN**）、CU +0.2271（2.16× **WIN**）。
+對 slot0：CLAP（batch 32）+0.0025（8.3×，WIN）。~~原文 −0.0088 LOSS、「繼承 rotation 輸給單槽的行為」~~ 是
+逐檔 0.2517 對 batch 32 0.2605 的混 scorer 比較，已撤回（見上方更正）。
 
 ### 結論
 
 登記的 tie 帶對應的判讀成立：**儘管 MF 單獨比 Qwen 單獨差，一條 MF caption 在 rotation 裡
-可以無損取代一條 Qwen caption。** 兩個協定、十個指標，沒有任何一項判給 control。
+可以無損取代一條 Qwen caption。** CFG0 五項全平；CFG3+neg 四項 AES 全平，CLAP 在 batch 32 下
+−0.0021（按 0.0003 floor 算 LOSS）、逐檔下 +0.0002（tie）—— scorer 間差距（0.011～0.014）遠大於這個 delta，
+所以 full 的 CFG3+neg CLAP 不能判給任何一方。
 同時 arm 在兩個協定下都明確勝過 MF 單獨。
 
 原始假說（「贏才代表 rotation 買到 captioner 多樣性」）**沒有成立** —— 沒有增益，是等價。

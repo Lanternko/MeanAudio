@@ -4,8 +4,9 @@
 the actions; CFG3+neg cells for all five checkpoints/conditions back-filled on
 2026-09-13 (`scripts/eval/mc_mf25_cfg3neg_eval{,_q}.sh`).
 
-**Line closed: the model ignores the code at both resolutions, Q never beats
-NoQ, and K=3 vs K=10 cannot be separated — on either protocol.**
+**Line closed: no claimable response to the code at either resolution, Q never
+beats NoQ (and loses on CLAP robustly), and K=3 vs K=10 cannot be separated —
+on either protocol.**
 
 ### CFG0 (primary, MusicCaps 5521 / MF25 / seed 42 / NoMask)
 
@@ -36,32 +37,39 @@ Band ±0.0084 (2× CFG0 CLAP floor 0.0042).
 Q checkpoints use `--quality_level N`; the unconditional/negative branch shares
 the same q (`ode_wrapper` passes `q` to both calls).
 
-| | CLAP | CE | CU | PC | PQ |
-|---|---|---|---|---|---|
-| 013 true-random NoQ quarter | 0.2290 | 7.0443 | 7.6387 | 4.9165 | 7.4901 |
-| 048 qk3b q9 | 0.2167 | 7.0397 | 7.5069 | 4.9005 | 7.3956 |
-| 048 qk3b q0 | 0.2162 | 7.0078 | 7.4763 | 4.8879 | 7.3503 |
-| 049 qk10b q9 | 0.2167 | 7.1172 | 7.5811 | 4.9964 | 7.4022 |
-| 049 qk10b q0 | 0.2164 | 7.0532 | 7.5541 | 5.0162 | 7.3761 |
+CLAP is reported with **both scorers** (2026-09-14): `phase4_eval.py` scores file
+by file; the negprompt_reeval family — and the CFG3+neg seed floor — use batch 32
+(`scripts/eval/rescore_clap_batch32.py`). laion_clap pads differently above batch
+8, so the two differ by an arm-dependent +0.009…+0.015 on these cells while AES is
+bit-identical. A CLAP claim is only made where both scorers agree in sign and
+exceed the band.
 
-CFG3+neg seed floor (from the mixcap_01m line): CLAP 0.0003 / CE 0.2960 /
-CU 0.1053 / PC 0.1884 / PQ 0.1416; 2× = 0.0006 / 0.592 / 0.211 / 0.377 / 0.283.
+| | CLAP per-file | CLAP b32 | CE | CU | PC | PQ |
+|---|---|---|---|---|---|---|
+| 013 true-random NoQ quarter | 0.2290 | 0.2406 | 7.0443 | 7.6387 | 4.9165 | 7.4901 |
+| 048 qk3b q9 | 0.2167 | 0.2267 | 7.0397 | 7.5069 | 4.9005 | 7.3956 |
+| 048 qk3b q0 | 0.2162 | 0.2254 | 7.0078 | 7.4763 | 4.8879 | 7.3503 |
+| 049 qk10b q9 | 0.2167 | 0.2312 | 7.1172 | 7.5811 | 4.9964 | 7.4022 |
+| 049 qk10b q0 | 0.2164 | 0.2299 | 7.0532 | 7.5541 | 5.0162 | 7.3761 |
 
-- **Rule 1:** q9 − q0 = +0.0005 (qk3b) / +0.0003 (qk10b) CLAP, all AES inside
-  2× floor → code **ignored** here too, even more cleanly than at CFG0.
-- **Rule 2:** both q9 cells are −0.0123 CLAP vs NoQ (~41× floor) → Q
-  conditioning **hurts CLAP** at both resolutions. AES vs NoQ all inside 2× floor
-  (largest: qk3b CU −0.132, PQ −0.095).
-- **Rule 3:** qk10b q9 − qk3b q9 = 0.0000 CLAP; CE +0.078 / CU +0.074 /
-  PC +0.096 / PQ +0.007, all inside 2× floor → **resolution does not matter.**
-- Under CFG3+neg the qk10b CLAP deficit crosses the band that it sat inside at
-  CFG0, so the "Q hurts" reading is protocol-robust for qk3b and strengthened for
-  qk10b. Caveat: the CFG3+neg floor was measured at full scale; these are quarter
+CFG3+neg seed floor (from the mixcap_01m line, batch-32 CLAP): CLAP 0.0003 /
+CE 0.2960 / CU 0.1053 / PC 0.1884 / PQ 0.1416; 2× = 0.0006 / 0.592 / 0.211 / 0.377 / 0.283.
+
+- **Rule 1:** q9 − q0 = +0.0005 / +0.0003 per-file, +0.0013 / +0.0013 b32; all
+  AES inside 2× floor. Literally applying the 0.0006 CLAP band to b32 would call
+  that a response, but it is ~10× smaller than the scorer disagreement on the
+  same audio and far below the CFG0 band. **No claimable Q-response.**
+- **Rule 2:** q9 vs NoQ = −0.0123 / −0.0123 per-file, −0.0139 / −0.0094 b32 →
+  same sign, well outside the band under both → Q conditioning **hurts CLAP**
+  at both resolutions. AES vs NoQ all inside 2× floor.
+- **Rule 3:** qk10b q9 − qk3b q9 = 0.0000 per-file, +0.0045 b32 → scorers
+  disagree → **cannot rank K=10 vs K=3**. AES differences all inside 2× floor.
+- Caveat: the CFG3+neg floor was measured at full scale; these are quarter
   checkpoints.
 
 **Reading.** On a rotating 013 pool, a per-clip `mean_similarity` code carries no
 usable signal (the model does not respond to q0 vs q9) and conditioning on it
-costs ~0.012 CLAP under the negprompt protocol. This is consistent with the
+costs ~0.009–0.014 CLAP under the negprompt protocol (depending on scorer). This is consistent with the
 support-set-marker interpretation of the signal (see caveats below) and does not
 speak to quality conditioning in general.
 
