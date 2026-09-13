@@ -148,6 +148,53 @@ pool 內品質越接近，best 與 worst 的差距越小：`012` Δ 0.0172、`fa
 不同 corpus。真正的 caption2p0 S2 是 `caption_granularity_..._caption2p0_s2_mf25_cfg4p5`
 = 0.2419 @ cfg4.5（換協定不可比）。
 
+### CFG3+neg 補齊（2026-09-13）
+
+之前板上多數 quarter arm、slot3 full 與 048/049 Q 線都只有 CFG0 數字。2026-09-13 一次補跑 16 個 cell
+（tmux `cfg3neg_backfill_0913`，driver `run_cfg3neg_backfill_0913.sh`，log `~/logs/cfg3neg_backfill_0913/`），
+全部 rc=0、5521/5521。協定：MusicCaps 5521 / MF25 / cfg 3.0 + fidelity negative prompt / seed 42 / NoMask /
+full precision。NoQ 用 `scripts/eval/mc_mf25_cfg3neg_eval.sh`，Q checkpoint 用新增的
+`scripts/eval/mc_mf25_cfg3neg_eval_q.sh`（只差 `--quality_level N`；原腳本的 digest 被 mixcap_01m contract pin 住，
+所以沒改）。產物在 `~/eval_output_nvme/<exp>_mc_mf25_cfg3_neg[_qN]/`，每個都有 `*_REPORT.json`。
+
+| arm | CFG0 CLAP | CE | CU | PC | PQ | CFG3+neg CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 013 true random NoQ quarter | 0.2013 | 6.2505 | 6.7838 | 4.9690 | 6.6079 | 0.2290 | 7.0443 | 7.6387 | 4.9165 | 7.4901 |
+| qk3b quarter q9 | 0.1898 | 6.3433 | 6.7093 | 5.1366 | 6.6042 | 0.2167 | 7.0397 | 7.5069 | 4.9005 | 7.3956 |
+| qk3b quarter q0 | 0.1843 | 6.1299 | 6.5605 | 5.0969 | 6.4657 | 0.2162 | 7.0078 | 7.4763 | 4.8879 | 7.3503 |
+| qk10b quarter q9 | 0.1937 | 6.1677 | 6.7452 | 5.0382 | 6.4805 | 0.2167 | 7.1172 | 7.5811 | 4.9964 | 7.4022 |
+| qk10b quarter q0 | 0.1893 | 5.9583 | 6.6537 | 5.0304 | 6.4088 | 0.2164 | 7.0532 | 7.5541 | 5.0162 | 7.3761 |
+| slot3 full | 0.2194 | 6.1976 | 6.7172 | 5.0576 | 6.5189 | 0.2470 | 7.0849 | 7.5473 | 4.9945 | 7.4914 |
+| slot1 quarter | 0.2047 | 6.3008 | 6.7593 | 5.1632 | 6.5668 | 0.2272 | 6.8245 | 7.4758 | 5.0602 | 7.3096 |
+| slot2 quarter | 0.2017 | 6.2071 | 6.7487 | 5.0814 | 6.5623 | 0.2252 | 6.7102 | 7.4636 | 4.7721 | 7.2242 |
+| 012 bestof3 quarter | 0.2129 | 6.2368 | 6.7327 | 5.1212 | 6.5316 | 0.2398 | 7.0063 | 7.6436 | 4.9707 | 7.5605 |
+| 012 worstof3 quarter | 0.1957 | 6.4072 | 6.8399 | 5.3208 | 6.6398 | 0.2158 | 6.7602 | 7.5438 | 4.6943 | 7.4284 |
+| fair013 bestof3 quarter | 0.2114 | 6.2046 | 6.6693 | 5.1490 | 6.4793 | 0.2382 | 7.0030 | 7.5874 | 4.9713 | 7.5035 |
+| fair013 worstof3 quarter | 0.1985 | 6.4061 | 6.8835 | 5.2172 | 6.6789 | 0.2217 | 6.9806 | 7.5684 | 4.9342 | 7.4429 |
+| 013 fake random quarter | 0.2005 | 6.2253 | 6.7695 | 5.0934 | 6.5754 | 0.2268 | 7.0048 | 7.6177 | 4.9498 | 7.4868 |
+| fair013 q3 quarter (q9) | 0.1966 | 5.9310 | 6.4984 | 5.2635 | 6.3988 | 0.2154 | 7.0286 | 7.5454 | 4.8688 | 7.3899 |
+| qwen3cap q3 quarter (q9) | 0.1894 | 5.7757 | 6.4003 | 5.0264 | 6.2127 | 0.2146 | 6.9220 | 7.3425 | 5.1518 | 7.1426 |
+| modular_template quarter | 0.1865 | 6.5799 | 7.0477 | 5.3965 | 6.8294 | 0.2152 | 7.1946 | 7.6892 | 5.2660 | 7.4811 |
+
+先前已有 CFG3+neg 的 quarter 參照：slot0 0.2248 / PQ 7.3101、012 true random 0.2337 / PQ 7.4207。
+CFG3+neg seed floor：CLAP 0.0003 / CE 0.2960 / CU 0.1053 / PC 0.1884 / PQ 0.1416（在 full 尺度量的；以下 quarter 讀數借用，判讀帶取 2×）。
+
+觀察層（未另立 contract，只報數字與方向）：
+
+1. **Q 線（048/049）**：兩個解析度 q9−q0 CLAP 只差 +0.0005 / +0.0003（CFG0 是 +0.0055 / +0.0044），
+   q9 都比 NoQ 低 0.0123；K=10 vs K=3 的 q9 CLAP 完全相同，AES 全在 2× floor 內。判讀細節見
+   `c2p0_truerandom_q_granularity_line.md`。
+2. **best/worst-of-3 的 PQ 關係反號**：CFG0 下兩個 pool 都是 worstof3 PQ 較高（012 +0.108、fair013 +0.200）；
+   CFG3+neg 下 bestof3 反勝（012 +0.132、fair013 +0.061），CLAP 差距則放大（012 0.0172→0.0240、fair013 0.0129→0.0165）。
+   ⚠️ CFG3+neg 的 PQ 差都**在 2× floor（0.283）內**，只能寫成「CFG0 的 worst PQ 優勢在 negprompt 協定下消失／方向反轉」，
+   不能寫成 best 在 PQ 上勝出。與 memory `project_rotation_vs_single_slot_protocol_flip.md` 同類的協定相依現象。
+3. **quarter 單槽 vs rotation**：slot0/1/2 CFG3+neg CLAP 0.2248 / 0.2272 / 0.2252，都低於 012 rotation 0.2337
+   與 013 true 0.2290 / fake 0.2268。quarter 尺度 rotation 優勢在 negprompt 協定下保留（full 尺度則反號）。
+4. **true vs fake random quarter**：CLAP +0.0022、四項 AES 全在 2× floor 內，與 K=3 rotation 收線結論一致。
+5. **slot3 full**：0.2470，低於 slot0 full 0.2605 與 013 rotation 0.2515。
+6. **modular_template quarter**：CFG0 CLAP 墊底（0.1865）但 CFG3+neg 升到 0.2152，CE/CU/PC 仍是全表最高 —— 
+   CLAP 劣勢不隨協定消失，AES 優勢也不消失。
+
 ### `fulltrack q3 full` 不是 slot（2026-08-26 更正）
 
 `phase8_qwen_s2q_from_noq_full_k3_balanced`（0.1821）與

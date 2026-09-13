@@ -1,8 +1,69 @@
 # Q resolution on a rotating caption pool (013 true-random × K∈{3,10})
 
-**Status (2026-09-09):** 048 / 049 authored, contracts pre-registered, both
-accepted by `accept_guest`, installed in `p2/pending` behind 047. Nothing has
-trained yet.
+**Status (2026-09-13):** 048 and 049 both done, rc=0. CFG0 cells produced by
+the actions; CFG3+neg cells for all five checkpoints/conditions back-filled on
+2026-09-13 (`scripts/eval/mc_mf25_cfg3neg_eval{,_q}.sh`).
+
+**Line closed: the model ignores the code at both resolutions, Q never beats
+NoQ, and K=3 vs K=10 cannot be separated — on either protocol.**
+
+### CFG0 (primary, MusicCaps 5521 / MF25 / seed 42 / NoMask)
+
+| | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| 013 true-random NoQ quarter (048 Step 0) | 0.2013 | 6.2505 | 6.7838 | 4.9690 | 6.6079 |
+| 048 qk3b q9 | 0.1898 | 6.3433 | 6.7093 | 5.1366 | 6.6042 |
+| 048 qk3b q0 | 0.1843 | 6.1299 | 6.5605 | 5.0969 | 6.4657 |
+| 049 qk10b q9 | 0.1937 | 6.1677 | 6.7452 | 5.0382 | 6.4805 |
+| 049 qk10b q0 | 0.1893 | 5.9583 | 6.6537 | 5.0304 | 6.4088 |
+
+Band ±0.0084 (2× CFG0 CLAP floor 0.0042).
+
+- **Rule 1 (Q-response):** qk3b q9 − q0 = +0.0055, qk10b +0.0044 → both
+  ≤ 0.0084 → **both arms ignore their code** under rotation.
+- **Rule 2 (vs NoQ):** qk3b q9 − NoQ = −0.0115 → **hurts**; qk10b −0.0076 →
+  inside the band (tie), but same sign.
+- **Rule 3 (K=10 vs K=3):** gated by rule 1 — neither arm responds to its code,
+  so they cannot be ranked by resolution. The raw q9 gap (+0.0039) is inside the
+  band anyway.
+- AES, qk3b vs NoQ: PC +0.168 (> 2× floor 0.0554, better), CU −0.075 (> 2× floor
+  0.052, worse), CE +0.093 / PQ −0.004 inside. qk10b vs NoQ: PQ −0.127 and CU
+  −0.039 / CE −0.083 / PC +0.069 — PQ and PC outside their 2× floors (PQ worse,
+  PC better).
+
+### CFG3+neg (secondary; cfg 3.0 + fidelity negative prompt, otherwise identical)
+
+Q checkpoints use `--quality_level N`; the unconditional/negative branch shares
+the same q (`ode_wrapper` passes `q` to both calls).
+
+| | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| 013 true-random NoQ quarter | 0.2290 | 7.0443 | 7.6387 | 4.9165 | 7.4901 |
+| 048 qk3b q9 | 0.2167 | 7.0397 | 7.5069 | 4.9005 | 7.3956 |
+| 048 qk3b q0 | 0.2162 | 7.0078 | 7.4763 | 4.8879 | 7.3503 |
+| 049 qk10b q9 | 0.2167 | 7.1172 | 7.5811 | 4.9964 | 7.4022 |
+| 049 qk10b q0 | 0.2164 | 7.0532 | 7.5541 | 5.0162 | 7.3761 |
+
+CFG3+neg seed floor (from the mixcap_01m line): CLAP 0.0003 / CE 0.2960 /
+CU 0.1053 / PC 0.1884 / PQ 0.1416; 2× = 0.0006 / 0.592 / 0.211 / 0.377 / 0.283.
+
+- **Rule 1:** q9 − q0 = +0.0005 (qk3b) / +0.0003 (qk10b) CLAP, all AES inside
+  2× floor → code **ignored** here too, even more cleanly than at CFG0.
+- **Rule 2:** both q9 cells are −0.0123 CLAP vs NoQ (~41× floor) → Q
+  conditioning **hurts CLAP** at both resolutions. AES vs NoQ all inside 2× floor
+  (largest: qk3b CU −0.132, PQ −0.095).
+- **Rule 3:** qk10b q9 − qk3b q9 = 0.0000 CLAP; CE +0.078 / CU +0.074 /
+  PC +0.096 / PQ +0.007, all inside 2× floor → **resolution does not matter.**
+- Under CFG3+neg the qk10b CLAP deficit crosses the band that it sat inside at
+  CFG0, so the "Q hurts" reading is protocol-robust for qk3b and strengthened for
+  qk10b. Caveat: the CFG3+neg floor was measured at full scale; these are quarter
+  checkpoints.
+
+**Reading.** On a rotating 013 pool, a per-clip `mean_similarity` code carries no
+usable signal (the model does not respond to q0 vs q9) and conditioning on it
+costs ~0.012 CLAP under the negprompt protocol. This is consistent with the
+support-set-marker interpretation of the signal (see caveats below) and does not
+speak to quality conditioning in general.
 
 ## The question
 
