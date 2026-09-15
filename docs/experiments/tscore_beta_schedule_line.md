@@ -64,6 +64,12 @@ Cheng, Huang, Tan（NTU），*Making the Most of Limited Data: Score-Aware Train
 
 注意：傾斜的 arm 在高 t 訓練得多，格點 MSE 的高 t 項天然占優；summary 會附 per-t 數字，判讀時要看是不是只贏在 t=0.7/0.9。R1 不過時 R2/R3 仍報，但「正則化」的解釋站不住。
 
+### 判讀限制（2026-09-15 審查補記；不改 preregistered 規則，summary script 已被 contract 綁 hash）
+
+1. **這不是論文的 Beta 分布。** `u ** (1/α)` 只有在 u ~ Uniform(0,1) 時才是 Beta(α,1) 的反 CDF；這裡 u 是 logit-normal(−0.4,1)，之後再取兩次抽樣的 max/min。實際 t 分布是「logit-normal 經冪次傾斜 + max-of-2」，方向（往高噪聲偏）與論文一致但形狀不同。對外只能寫「受 arXiv 2606.07387 啟發的 MeanFlow 改編」，**不能寫「復現」或「與論文結果相反」**。`mean_flow.py:90` 註解的 "Beta(alpha, 1) tilt" 措辭同樣過強，但檔案被 053 contract 綁 hash，053 結束前不改。
+2. **R3 不過 ≠ 證明不是 score awareness。** 只有 2 個 seed，2×floor 是登記的操作門檻不是信賴區間。R2 過、R3 不過時只能寫「未檢出分數資訊的額外貢獻（2 seed，檢定力低）」；summary.json 的 `go-with-reframe` 字串照登記保留，但不可原句引用成結論。
+3. **讀 summary.json 前必須先過嚴格完成性檢查**：`scripts/analysis/validate_tscore_beta_probe_completeness.py`。summary 只要求 ≥30 個 val 點、metrics 只查檔案存在；validator 要求 val its 恰為 499…19999（40 點）、resume 重複點數值一致、fm_mse 與 5 個 t 格點皆 finite、ema_final 存在、metrics 五欄 finite 且 `Test clips` 等於 TSV 筆數。2026-09-15 13:30 實測時 lam1p0shuf seed1 只有 32 點（> 30），證明舊門檻會放行未完成曲線。validator 不過 → summary 不可採用。
+
 ## 階段 B：全量因果對照（P2，待階段 A）
 
 quarter 協定（S1 100k / S2 50k），c2p0 slot0 NoQ，PE-AV S 需補算 251,599 列（估 ~8 GPU-h，不佔磁碟）。
