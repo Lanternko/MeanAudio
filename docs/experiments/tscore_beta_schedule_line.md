@@ -113,3 +113,24 @@ Per-t：λ1.0 的損失集中在低噪聲端（t=0.1：base 1.127/1.133 → λ1.
 次要指標（MC 前 499 筆 + val100，CFG0，不 gate）：CLAP/AES 對 base 的差兩 seed 方向多半相反、量級 ≤0.01 CLAP / ≤0.35 AES，無一致訊號。
 
 **判讀**：論文 (ii) Beta timestep schedule 在我們的 S1（MeanFlow runner、c2p0 slot0 2k 子集）不成立——無 overfit 可正則、傾斜本身有害、逐列 PE-AV 分數無穩定資訊。依 preregistered 規則不開階段 B。限制：只測 2k/20k 小規模機制探針與 held-out velocity MSE；未測 full-scale 生成品質。
+
+## 階段 A 結果（2026-09-15 16:17 完成）— 收線
+
+嚴格完成性檢查 `validate_tscore_beta_probe_completeness.py`：**admissible**（8 run 皆 40 點、metrics 齊全），summary 可採用。報告 `~/nvme_experiment_artifacts/meanaudio/tscore_beta_probe_20260913/{summary,completeness_validation}.json`。
+
+| | seed 14159265 final_val | seed 27182818 final_val | argmin_it |
+|---|---|---|---|
+| base | 0.8150 | 0.8146 | 16999 / 18499 |
+| λ0.2 | 0.8156 | 0.8168 | 17999 / 16999 |
+| λ1.0 | 0.8215 | 0.8237 | 16999 / 16999 |
+| λ1.0 shuffled-S | 0.8260 | 0.8216 | 18999 / 16999 |
+
+雜訊底線 floor = 0.00042。
+
+- **R1 不過**：base 沒有 overfit（argmin 在 17k/18.5k，overfit gap 0.0019/0.0007）。論文「2k rows 會在 ~7.5k 後 overfit」的前提在我們的 MeanFlow S1 設定下沒有出現，所以「正則化」這個解釋從一開始就沒有對象。
+- **R2 不過，而且方向相反**：λ0.2、λ1.0 的 val MSE 在兩個 seed 都**高於** base；λ1.0 平均高 0.0078（約 18× floor），有劑量關係。
+- **per-t 分解**：差距幾乎全在低噪聲端（t=0.1：λ1.0 +0.035；t=0.3：+0.008），中段 t=0.5–0.7 反而略好（−0.002～−0.008）。訓練 t_mean 從 0.52–0.55 移到 0.60–0.62。這是 t 分配的取捨（高 t 多練、低 t 少練），均勻 t 格點的 MSE 天然偏向不傾斜的 arm，不能讀成「傾斜讓模型整體變差」。
+- **R3 不過**：λ1.0 vs shuffled 兩個 seed 符號相反（+0.0045 / −0.0021）→ 未檢出分數資訊的額外貢獻（2 seed，檢定力低）。
+- MC500 / val100 的 CLAP、AES 差值兩個 seed 符號多半相反，落在雜訊內（不作 gating）。
+
+預登記決策：**stop，階段 B 不開**。對外措辭：「受 arXiv 2606.07387 啟發的 MeanFlow t 傾斜改編，在 2k/20k 探針中未觀察到 base overfit，傾斜僅把誤差從中段 t 移到低 t；未檢出分數資訊效應」。
