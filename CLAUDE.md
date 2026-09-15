@@ -36,7 +36,7 @@
 | **MF 全覆蓋線**（038/039 queue job、判讀規則、early-kill gate） | `docs/experiments/mf_full_coverage_line.md` |
 | **跨 captioner rotation 線**（046/047、slot0/slot1/MF vs 全 Qwen random） | `docs/experiments/mixcap_01m_line.md` |
 | **c2p0 slot4 剝數字線**（050、slot0 有數字的 caption 改寫到零數字） | `docs/experiments/caption2p0_slot4_no_digits_line.md` |
-| **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；PE-AV 分數、shuffled-S 對照） | `docs/experiments/tscore_beta_schedule_line.md` |
+| **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |
 | **Q 解析度 × caption rotation 線**（048/049、013 true-random × K=3/K=10 balanced） | `docs/experiments/c2p0_truerandom_q_granularity_line.md` |
 | Qwen collapse 10-model audit | `docs/experiments/history/phase8/qwen_collapse_audit_10model.md` |
 | Qwen collapse root-cause EXP-A~H | `docs/experiments/history/phase8/qwen_collapse_root_cause_2026_05_08.md` |
