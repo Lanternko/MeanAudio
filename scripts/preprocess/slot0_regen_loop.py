@@ -25,7 +25,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "scripts/preprocess"))
-from slot0_audit_crosscheck import audit, load_local  # noqa: E402
+import slot0_contamination_a as audit  # noqa: E402  (digest)
+from slot0_audit_crosscheck import load_local  # noqa: E402
 
 DAC_PY = Path.home() / "venvs/dac/bin/python"
 VLLM_PY = Path.home() / "venvs/vllm/bin/python"
@@ -95,7 +96,7 @@ def main() -> int:
                                          "candidate": c["caption"]}
         for q in result["quarantined"]:
             last_failure[q["id"]] = {"attempt": k, "why": "local_quarantine", "candidate": by_id[q["id"]]["caption"]}
-        audit.atomic(accepted_path, accepted)
+        accepted_path.write_text(json.dumps(accepted, ensure_ascii=False, indent=1))
         pending = [i for i in flagged if i not in accepted]
         print(json.dumps({"attempt": k, "accepted_total": len(accepted), "still_pending": len(pending)}), flush=True)
 
@@ -135,7 +136,7 @@ def main() -> int:
                "assembled_rows": n_rows, "changed_rows": n_changed,
                "accepted_by_attempt": {k: sum(1 for a in accepted.values() if a["attempt"] == k)
                                        for k in range(1, args.max_attempts + 1)}}
-    audit.atomic(args.out / "summary.json", summary)
+    (args.out / "summary.json").write_text(json.dumps(summary, indent=1))
     print(json.dumps(summary), flush=True)
     return 0
 

@@ -1,47 +1,49 @@
 #!/usr/bin/env python3
-"""Luna spot check of the regenerated slot0 candidate corpus (operator flow step 3).
+"""Luna spot check of the regenerated slot0 corpus, definition A (operator flow step 3).
 
-  sample : two random strata from the assembled corpus (seed-fixed)
-             R = rows regenerated and accepted by the local LLM (up to --per-stratum)
-             U = rows the local LLM kept untouched            (up to --per-stratum)
-  run    : Luna reviews the sampled captions; hard cost cap; --execute required
-           to spend. full_v1 decisions are reused only when the caption hash matches.
-  report : Luna KEEP rate per stratum with exact Clopper-Pearson 95% CI.
-           PASS if every stratum's KEEP rate >= --pass-rate; otherwise
-           REPORT_TO_OPERATOR with the failing examples.
+Paired design (the contamination base rate is ~0.2%, so a fixed KEEP-rate
+threshold cannot tell a working screen from a useless one):
+  S = 6,000 random ids from the source. Luna (same definition-A prompt as the
+      local screen) reviews each ORIGINAL caption, and additionally the CLEANED
+      caption for ids that were regenerated. Untouched ids have identical text,
+      so one review serves both.
+  R = up to 500 random regenerated-and-accepted rows (quality of regenerations).
+  P = the probe set (checks Luna itself against the labels; report only).
 
-Luna is a second text-only reviewer, not ground truth; audio fidelity is not
-checked. A PASS means "an independent reviewer rarely disagrees on this sample",
-not "zero contamination". Never releases a corpus.
+report verdict:
+  base      = Luna FLAG count on originals in S
+  residual  = Luna FLAG count on cleaned captions in S (unresolved ids count as
+              FLAG only if their original was flagged; they are excluded from the corpus)
+  PASS if base >= 5, residual <= max(1, floor(0.25 * base)), and R KEEP rate >= 0.98.
+  INCONCLUSIVE if base < 5 (too few contaminated rows in the sample to judge).
+  otherwise REPORT_TO_OPERATOR with the failing captions.
+Luna is a text-only second reviewer, not ground truth; audio fidelity unchecked.
 """
 from __future__ import annotations
 
 import argparse
-import collections
 import csv
-import importlib.util
 import json
 import math
 import random
-import sqlite3
+import sys
 import threading
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-spec = importlib.util.spec_from_file_location("audit", HERE / "slot0_semantic_audit.py")
-audit = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(audit)
+sys.path.insert(0, str(HERE))
+import slot0_contamination_a as A  # noqa: E402
 
 BATCH = 8
-PRICE_IN, PRICE_OUT = 0.2e-6, 1.2e-6          # USD / token, from full_v1 contract
-EST_COST_PER_BATCH = 0.00075                    # observed ~0.00065 in full_v1, padded
-AMBIGUOUS_RESERVE = 0.002                       # budgeted per failed/unknown request
-SEED = 2026091505
+PRICE_IN, PRICE_OUT = 0.2e-6, 1.2e-6          # USD / token (gpt-5.6-luna, from full_v1 contract)
+EST_COST_PER_BATCH = 0.0008                     # padded
+AMBIGUOUS_RESERVE = 0.002
+SEED = 2026091507
+KEY_FILE = Path.home() / ".config/meanaudio/luna_api_key"
 
 
-# ---------------------------------------------------------------- statistics
 def _binom_cdf(k: int, n: int, p: float) -> float:
     if p <= 0:
         return 1.0
@@ -55,7 +57,6 @@ def _binom_cdf(k: int, n: int, p: float) -> float:
 
 
 def _cp_upper(x: int, n: int, tail: float) -> float:
-    """p with P(X <= x | n, p) = tail (CDF is decreasing in p)."""
     if x >= n:
         return 1.0
     lo, hi = 0.0, 1.0
@@ -73,7 +74,12 @@ def clopper_pearson(x: int, n: int, alpha: float = 0.05) -> tuple[float, float]:
     return lower, _cp_upper(x, n, alpha / 2)
 
 
-# ---------------------------------------------------------------- helpers
+def load_tsv(path: Path) -> dict:
+    csv.field_size_limit(10**9)
+    with path.open(newline="") as fh:
+        return {r["id"]: r["caption"] for r in csv.DictReader(fh, delimiter="\t")}
+
+
 def load_local(full_dir: Path) -> tuple[dict, list]:
     decisions, quarantined = {}, []
     for part in sorted(full_dir.glob("chunk_*.json")):
@@ -81,112 +87,113 @@ def load_local(full_dir: Path) -> tuple[dict, list]:
         for d in data["decisions"]:
             decisions[d["id"]] = d
         quarantined.extend(data["quarantined"])
-    state = json.loads((full_dir / "state.json").read_text())
-    if state.get("status") != "audit_complete_not_released":
+    if json.loads((full_dir / "state.json").read_text()).get("status") != "audit_complete_not_released":
         raise ValueError("local full audit is not complete")
     return decisions, quarantined
 
 
-def load_tsv(path: Path) -> dict:
-    csv.field_size_limit(10**9)
-    with path.open(newline="") as fh:
-        return {r["id"]: r["caption"] for r in csv.DictReader(fh, delimiter="\t")}
-
-
-def load_luna_prior(db_path: Path) -> dict:
-    db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
-    out = {}
-    for (result,) in db.execute("SELECT result FROM jobs WHERE phase='audit' AND status='done'"):
-        for d in json.loads(result)["decisions"]:
-            out[d["id"]] = d
-    return out
+def review_key(i: str, text: str) -> str:
+    return f"{i}#{A.digest(text.encode())[:16]}"
 
 
 # ---------------------------------------------------------------- sample
 def cmd_sample(args) -> int:
-    summary = json.loads((args.regen_dir / "summary.json").read_text())
-    if summary["status"] != "regen_complete_not_released":
+    if json.loads((args.regen_dir / "summary.json").read_text())["status"] != "regen_complete_not_released":
         raise ValueError("regeneration loop not complete")
+    source = load_tsv(args.source)
     corpus_path = args.regen_dir / "slot0_regen_candidate_corpus.tsv"
     corpus = load_tsv(corpus_path)
-    regenerated = sorted(json.loads((args.regen_dir / "accepted.json").read_text()))
-    local, _ = load_local(args.local_full)
-    untouched = sorted(i for i in corpus if i in local and local[i]["decision"] == "KEEP")
+    accepted = json.loads((args.regen_dir / "accepted.json").read_text())
+    local, quarantined = load_local(args.local_full)
+    flagged = {i for i, d in local.items() if d["decision"] != "KEEP"} | {q["id"] for q in quarantined}
     rng = random.Random(SEED)
-    strata = {"R_regenerated": sorted(rng.sample(regenerated, min(args.per_stratum, len(regenerated)))),
-              "U_untouched": sorted(rng.sample(untouched, min(args.per_stratum, len(untouched))))}
+    s_ids = sorted(rng.sample(sorted(source), args.paired_n))
+    r_ids = sorted(rng.sample(sorted(accepted), min(args.regen_n, len(accepted))))
+    reviews = {}  # key -> {"id", "caption"}
+    for i in s_ids:
+        reviews[review_key(i, source[i])] = {"id": i, "caption": source[i]}
+        if i in corpus and corpus[i] != source[i]:
+            reviews[review_key(i, corpus[i])] = {"id": i, "caption": corpus[i]}
+    for i in r_ids:
+        reviews[review_key(i, corpus[i])] = {"id": i, "caption": corpus[i]}
+    probe = json.loads(args.probe.read_text())
+    for x in probe:
+        reviews[review_key(x["id"], x["caption"])] = {"id": x["id"], "caption": x["caption"]}
     args.out.mkdir(parents=True, exist_ok=True)
-    audit.atomic(args.out / "sample.json", {
-        "seed": SEED, "corpus": str(corpus_path), "corpus_sha256": audit.digest(corpus_path.read_bytes()),
-        "population": {"R_regenerated": len(regenerated), "U_untouched": len(untouched)},
-        "strata": strata})
-    print(json.dumps({k: len(v) for k, v in strata.items()}))
+    A_path = args.out / "sample.json"
+    tmp = A_path.with_suffix(".tmp")
+    tmp.write_text(json.dumps({
+        "seed": SEED, "source_sha256": A.digest(args.source.read_bytes()),
+        "corpus": str(corpus_path), "corpus_sha256": A.digest(corpus_path.read_bytes()),
+        "probe": str(args.probe), "probe_sha256": A.digest(args.probe.read_bytes()),
+        "S": s_ids, "R": r_ids, "S_locally_flagged": sorted(set(s_ids) & flagged),
+        "population": {"source": len(source), "regenerated": len(accepted), "local_flagged": len(flagged)},
+        "reviews": reviews}, ensure_ascii=False))
+    tmp.replace(A_path)
+    print(json.dumps({"S": len(s_ids), "S_locally_flagged": len(set(s_ids) & flagged), "R": len(r_ids),
+                      "probe": len(probe), "unique_reviews": len(reviews)}))
     return 0
 
 
 # ---------------------------------------------------------------- run
 def cmd_run(args) -> int:
     sample = json.loads((args.out / "sample.json").read_text())
-    corpus_path = Path(sample["corpus"])
-    if audit.digest(corpus_path.read_bytes()) != sample["corpus_sha256"]:
-        raise ValueError("corpus changed since sampling")
-    corpus = load_tsv(corpus_path)
-    prior = load_luna_prior(args.luna_db)
-    ids = sorted({i for s in sample["strata"].values() for i in s})
-    reusable = {i for i in ids if i in prior and prior[i]["caption_sha256"] == audit.digest(corpus[i].encode())}
-    need = [i for i in ids if i not in reusable]
-    batches = [need[j:j + BATCH] for j in range(0, len(need), BATCH)]
+    keys = sorted(sample["reviews"])
+    batches = [keys[j:j + BATCH] for j in range(0, len(keys), BATCH)]
     bdir = args.out / "luna_batches"
     bdir.mkdir(exist_ok=True)
     remaining = sum(1 for idx in range(len(batches)) if not (bdir / f"b{idx:05d}.json").exists()
                     and not (bdir / f"b{idx:05d}.failed.json").exists())
-    projected = remaining * EST_COST_PER_BATCH
     spent_path = args.out / "luna_cost.json"
     spent = json.loads(spent_path.read_text())["usd"] if spent_path.exists() else 0.0
-    print(json.dumps({"rows_needing_api": len(need), "reused_from_full_v1": len(reusable),
-                      "batches": len(batches), "projected_usd": round(projected, 3),
-                      "already_spent_usd": round(spent, 4), "cap_usd": args.cap_usd}), flush=True)
+    projected = remaining * EST_COST_PER_BATCH
+    print(json.dumps({"reviews": len(keys), "batches": len(batches), "remaining": remaining,
+                      "projected_usd": round(projected, 3), "already_spent_usd": round(spent, 4),
+                      "cap_usd": args.cap_usd}), flush=True)
     if spent + projected > args.cap_usd:
         raise SystemExit(f"[HOLD] projected {spent + projected:.2f} USD exceeds cap {args.cap_usd}")
     if not args.execute:
         print("[DRY-RUN] no API call made; pass --execute to spend", flush=True)
         return 0
-    key = audit.read_key_file(args.key_file)
+    key = A.read_key_file(KEY_FILE)
     lock = threading.Lock()
     state = {"usd": spent, "failed": 0}
 
-    def work(idx_ids):
-        idx, batch_ids = idx_ids
+    def work(idx_keys):
+        idx, bkeys = idx_keys
         part = bdir / f"b{idx:05d}.json"
-        failed_marker = part.with_suffix(".failed.json")
-        if part.exists() or failed_marker.exists():
+        failed = part.with_suffix(".failed.json")
+        if part.exists() or failed.exists():
             return  # never auto-resubmit a failed/ambiguous request (possible double spend)
-        rows = [{"id": i, "caption": corpus[i]} for i in batch_ids]
+        # Luna sees unique per-batch ids; map back through the review key.
+        rows = [{"id": f"r{n}", "caption": sample["reviews"][k]["caption"]} for n, k in enumerate(bkeys)]
         for attempt in range(4):
             with lock:
                 if state["usd"] + AMBIGUOUS_RESERVE > args.cap_usd:
                     return
             try:
-                res = audit.call_model(key, rows, part.with_suffix(".receipt.json"))
-            except audit.ApiFailure as e:
+                res = A.luna_call_a(key, rows, part.with_suffix(".receipt.json"))
+            except A.ApiFailure as e:
                 if e.status == 429 and attempt < 3:
                     time.sleep(max(e.retry_after, 2 ** (attempt + 1)))
                     continue
                 err = {"type": "ApiFailure", "status": e.status}
             except Exception as e:  # noqa: BLE001
-                err = {"type": type(e).__name__}
+                err = {"type": type(e).__name__, "detail": str(e)[:200]}
             else:
-                u = res.get("usage", {})
+                u = res["usage"]
                 with lock:
                     state["usd"] += u.get("prompt_tokens", 0) * PRICE_IN + u.get("completion_tokens", 0) * PRICE_OUT
-                    audit.atomic(spent_path, {"usd": state["usd"]})
-                audit.atomic(part, res)
+                    spent_path.write_text(json.dumps({"usd": state["usd"]}))
+                out = {k: {"decision": d["decision"], "category": d["category"], "reason": d["reason"]}
+                       for k, d in zip(bkeys, res["decisions"])}
+                part.write_text(json.dumps(out, ensure_ascii=False))
                 return
             with lock:
                 state["usd"] += AMBIGUOUS_RESERVE
                 state["failed"] += 1
-                audit.atomic(spent_path, {"usd": state["usd"]})
-            audit.atomic(failed_marker, {"error": err, "ids": batch_ids, "time": time.time()})
+                spent_path.write_text(json.dumps({"usd": state["usd"]}))
+            failed.write_text(json.dumps({"error": err, "keys": bkeys, "time": time.time()}))
             return
 
     with ThreadPoolExecutor(max_workers=4) as pool:
@@ -199,33 +206,69 @@ def cmd_run(args) -> int:
 # ---------------------------------------------------------------- report
 def cmd_report(args) -> int:
     sample = json.loads((args.out / "sample.json").read_text())
+    source = load_tsv(args.source)
     corpus = load_tsv(Path(sample["corpus"]))
-    luna = {i: d for i, d in load_luna_prior(args.luna_db).items()
-            if i in corpus and d["caption_sha256"] == audit.digest(corpus[i].encode())}
+    luna = {}
     for part in (args.out / "luna_batches").glob("b*.json"):
         if not part.name.endswith((".receipt.json", ".failed.json")):
-            for d in json.loads(part.read_text())["decisions"]:
-                luna[d["id"]] = d
-    strata, passed = {}, True
-    for name, ids in sample["strata"].items():
-        done = [i for i in ids if i in luna]
-        keep = sum(1 for i in done if luna[i]["decision"] == "KEEP")
-        lo, hi = clopper_pearson(keep, len(done)) if done else (None, None)
-        rate = keep / len(done) if done else None
-        ok = bool(done) and len(done) == len(ids) and rate >= args.pass_rate
-        passed &= ok
-        strata[name] = {"population": sample["population"][name], "sampled": len(ids), "luna_reviewed": len(done),
-                        "luna_keep": keep, "keep_rate": rate, "keep_rate_ci95": [lo, hi], "pass": ok,
-                        "luna_decisions": dict(collections.Counter(luna[i]["decision"] for i in done)),
-                        "failures": [{"id": i, "luna": luna[i]["decision"], "reason": luna[i]["reason"],
-                                      "caption": corpus[i]} for i in done if luna[i]["decision"] != "KEEP"]}
-    verdict = "PASS" if passed else "REPORT_TO_OPERATOR"
-    report = {"verdict": verdict, "pass_rate_threshold": args.pass_rate, "strata": strata,
-              "meaning": ("Luna KEEP rate on a random sample; Luna is a text-only second reviewer, not ground "
-                          "truth; audio fidelity unchecked; PASS is not a zero-contamination claim")}
-    audit.atomic(args.out / "spotcheck_report.json", report)
-    print(verdict, json.dumps({n: {k: s[k] for k in ("sampled", "luna_reviewed", "keep_rate", "keep_rate_ci95", "pass")}
-                               for n, s in strata.items()}), flush=True)
+            luna.update(json.loads(part.read_text()))
+    rev = lambda i, text: luna.get(review_key(i, text))  # noqa: E731
+    flagged_local = set(sample["S_locally_flagged"])
+
+    missing, base, residual, local_caught, base_rows, residual_rows = 0, 0, 0, 0, [], []
+    for i in sample["S"]:
+        o = rev(i, source[i])
+        if o is None:
+            missing += 1
+            continue
+        if o["decision"] == "FLAG":
+            base += 1
+            local_caught += int(i in flagged_local)
+            base_rows.append({"id": i, "category": o["category"], "local_flagged": i in flagged_local,
+                              "caption": source[i][:300]})
+        if i not in corpus:  # unresolved, excluded from corpus
+            continue
+        c = rev(i, corpus[i])
+        if c is None:
+            missing += 1
+            continue
+        if c["decision"] == "FLAG":
+            residual += 1
+            residual_rows.append({"id": i, "category": c["category"], "regenerated": corpus[i] != source[i],
+                                  "caption": corpus[i][:300]})
+    r_done = [i for i in sample["R"] if rev(i, corpus[i]) is not None]
+    r_keep = sum(1 for i in r_done if rev(i, corpus[i])["decision"] == "KEEP")
+    r_rate = r_keep / len(r_done) if r_done else None
+
+    probe = json.loads(Path(sample["probe"]).read_text())
+    p_agree = [rev(x["id"], x["caption"])["decision"] == x["label"] for x in probe if rev(x["id"], x["caption"])]
+
+    n_s = len(sample["S"]) - missing
+    if missing:
+        verdict = "INCOMPLETE"
+    elif base < 5:
+        verdict = "INCONCLUSIVE"
+    elif residual <= max(1, math.floor(0.25 * base)) and r_rate is not None and r_rate >= 0.98:
+        verdict = "PASS"
+    else:
+        verdict = "REPORT_TO_OPERATOR"
+    report = {
+        "verdict": verdict, "missing_reviews": missing,
+        "paired": {"n": n_s, "base_flags": base, "base_rate_ci95": clopper_pearson(base, n_s) if n_s else None,
+                   "residual_flags": residual, "residual_rate_ci95": clopper_pearson(residual, n_s) if n_s else None,
+                   "local_recall_on_luna_flags": (local_caught / base) if base else None,
+                   "base_rows": base_rows, "residual_rows": residual_rows},
+        "regenerated": {"n": len(r_done), "keep": r_keep, "keep_rate": r_rate,
+                        "failures": [{"id": i, **rev(i, corpus[i]), "caption": corpus[i][:300]}
+                                     for i in r_done if rev(i, corpus[i])["decision"] != "KEEP"]},
+        "luna_probe_agreement": (sum(p_agree) / len(p_agree)) if p_agree else None,
+        "rule": "PASS iff base>=5 and residual<=max(1,floor(0.25*base)) and regenerated KEEP rate>=0.98",
+        "meaning": "Luna (definition A, text only) is a second reviewer, not ground truth; audio fidelity unchecked"}
+    (args.out / "spotcheck_report.json").write_text(json.dumps(report, ensure_ascii=False, indent=1))
+    print(verdict, json.dumps({"base": base, "residual": residual, "n": n_s,
+                               "local_recall": report["paired"]["local_recall_on_luna_flags"],
+                               "regen_keep_rate": r_rate, "luna_probe_agreement": report["luna_probe_agreement"]}),
+          flush=True)
     return 0
 
 
@@ -233,12 +276,12 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("mode", choices=["sample", "run", "report"])
     ap.add_argument("--out", type=Path, required=True)
+    ap.add_argument("--source", type=Path)
     ap.add_argument("--local-full", type=Path)
     ap.add_argument("--regen-dir", type=Path)
-    ap.add_argument("--luna-db", type=Path)
-    ap.add_argument("--key-file", type=Path, default=Path.home() / ".config/meanaudio/luna_api_key")
-    ap.add_argument("--per-stratum", type=int, default=500)
-    ap.add_argument("--pass-rate", type=float, default=0.98)
+    ap.add_argument("--probe", type=Path)
+    ap.add_argument("--paired-n", type=int, default=6000)
+    ap.add_argument("--regen-n", type=int, default=500)
     ap.add_argument("--cap-usd", type=float, default=2.0)
     ap.add_argument("--execute", action="store_true", help="run: actually call the paid API")
     args = ap.parse_args()

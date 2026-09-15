@@ -1,0 +1,2654 @@
+[
+ {
+  "id": "fx:calibration_v5.json:keep_00",
+  "caption": "A piano plays.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_01",
+  "caption": "The track runs at 120 BPM in 4/4 time.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_02",
+  "caption": "The 808 bass and 80s synthesizers give the song a retro feel.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_03",
+  "caption": "The singer asks \"What is your opinion?\" in the chorus.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_04",
+  "caption": "The music evokes a group of friends adventuring through the Amazon rainforest.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_05",
+  "caption": "This would suit a quiet evening with friends.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_06",
+  "caption": "The instrument used here is a synthesizer.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_07",
+  "caption": "The vocals repeat the words \"please let me know\" over soft guitar.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_08",
+  "caption": "A brass band plays a political protest song.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_09",
+  "caption": "The recording contains speech rather than music.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_10",
+  "caption": "This sounds like jazz, although the recording is muffled.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:keep_11",
+  "caption": "The piano answers the guitar with a short melodic phrase.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_00",
+  "caption": "The description is missing, so please provide a music clip for analysis.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_01",
+  "caption": "The provided audio is not a music clip. Please provide the correct file or describe the audio in detail if you have any other questions.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_02",
+  "caption": "The description of the music in 2-5 sentences.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_03",
+  "caption": "The description of the music.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_04",
+  "caption": "Write a Python program to find all the factors of a given number.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_05",
+  "caption": "I need the actual recording before I can describe its sound.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_06",
+  "caption": "Tell me whether this answer meets your needs.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:invalid_07",
+  "caption": "No audio was attached to this request.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:review_00",
+  "caption": "Here is your requested caption: A piano plays softly.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:review_01",
+  "caption": "A piano plays. Please provide another clip. A guitar joins the melody.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:review_03",
+  "caption": "The music features a violin, and please tell me if you want changes, over quiet drums.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:review_04",
+  "caption": "A piano plays softly, and I hope this description meets your needs.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:review_05",
+  "caption": "Assistant: A piano plays softly.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:review_06",
+  "caption": "```A piano plays softly.```",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:review_07",
+  "caption": "A piano plays softly. The text above should remain unchanged. A flute enters.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_00",
+  "caption": "A piano plays softly over a steady drum beat. What is your opinion on the current political climate in your country?",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_01",
+  "caption": "A piano plays softly over a steady drum beat. Please provide another clip for analysis.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_02",
+  "caption": "A piano plays softly over a steady drum beat. The movie follows friends exploring the Amazon rainforest.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_03",
+  "caption": "A piano plays softly over a steady drum beat. Write a Python program to find the factors of a number.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_04",
+  "caption": "A piano plays softly over a steady drum beat. I hope this answers your question.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_05",
+  "caption": "A piano plays softly over a steady drum beat. Given the current trend of artificial intelligence, businesses should invest in automation.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_06",
+  "caption": "A piano plays softly over a steady drum beat. Your next task is to describe an image of a cat.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:trim_07",
+  "caption": "A piano plays softly over a steady drum beat. We can proceed once you upload the required file.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:bare_no_music",
+  "caption": "The provided audio is not a music clip. Please provide another file.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:calibration_v5.json:concrete_no_music",
+  "caption": "This is not music but the steady rumble of an idling car engine.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:silence",
+  "caption": "The clip is completely silent.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:calibration_v5.json:86_1420086_segment_7_0",
+  "caption": "The caption describes a fast-paced electronic track with a consistent beat and synthesized melodies typical of techno or trance music. The production quality is high, with clear and vibrant sound, likely featuring digital synthesizers and basslines. The mood is energetic and lively, setting an upbeat and modern atmosphere.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:heldout_v3.json:32_20232_segment_10_0",
+  "caption": "This audio is a modern techno dance instrumental with a strong sense of rhythm. The tempo is 109 BPM and the music is in the key of F# major, with a 4/4 time signature. The song features a synth lead melody, a strong synth bass, and an electronic drum beat providing the rhythm. The production is of high quality with well-balanced sound and clear audio. The mood is energetic and upbeat, making it suitable for dancing or as background music for various settings.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:83_299483_segment_2_0",
+  "caption": "The audio features a piano melody paired with an electronic beat. The piano plays a simple, repetitive chord progression that evokes a melancholic mood. The electronic beat introduces a rhythmic element, providing a subtle counterpoint. The combination of the piano and electronic elements suggests a modern, perhaps ambient genre. The production quality is average, with typical reverb and mix elements present.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:93_1377693_segment_2_0",
+  "caption": "The clip features a lively rock song with an upbeat rhythm and energetic melodies. The guitar strums and bass lines provide a solid foundation for the drums to drive the beat forward. The overall mood is one of excitement and enthusiasm. The production quality appears to be high, with clear instrumentation and well-balanced dynamics.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:26_37226_segment_0_0",
+  "caption": "The audio contains a rhythmic electronic composition featuring a steady drumline and a repetitive arpeggiated synth pattern. The music has a futuristic and slightly mysterious mood, suitable for a tech-themed background or multimedia project. The production quality is moderate with a clear but somewhat subdued sound, indicating a focus on the electronic elements over clarity of individual instruments.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:21_369921_segment_8_0",
+  "caption": "The music clip features a chillout genre with a dreamy and relaxed ambiance. It incorporates a soft pad, a melancholic piano melody, and a steady bassline. There are also subtle glitchy percussive elements and ambient textures in the background, providing a cohesive and immersive listening experience. The production quality is well-mixed, with a clear and smooth sound that enhances the overall mood of the music.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:94_215994_segment_0_0",
+  "caption": "The audio clip features a minimalist electronic composition that begins with an unobtrusive and steady beat, accompanied by a repetitive percussive noise. As the music progresses, the noise transitions into a more melodic, bell-like tone, creating a gentle and soothing atmosphere. The production quality is high, with clear audio and balanced mixing, allowing the listener to focus on the subtle intricacies of the piece. The tempo is measured and the genre can be described as ambient or experimental electronic.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:69_1328169_segment_6_0",
+  "caption": "The music is a jazzy, smooth, lounge instrumental piece with a laid-back and warm mood. It features a guitar, likely an electric or nylon string guitar, playing a soothing melody accompanied by a drum kit providing a steady rhythm. The overall production quality is excellent, with clear and balanced sound, smooth transitions between instruments, and a high-quality recording fidelity. The artist employs reverb, giving a sense of spaciousness and depth to the musical arrangement.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:87_1273387_segment_7_0",
+  "caption": "The music features a steady electronic beat with a synth driving the melody, creating an energetic and uplifting mood.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:95_1377395_segment_2_0",
+  "caption": "This is a piece of rock music that is upbeat and creates a laid-back, relaxed mood, suitable for a bar or a chill-out space. The genre is rock, and the tempo is 120 BPM. The production quality is quite good, with clear audio and well-mixed instruments including drums, bass, electric guitars, and synthesizers. The sound is dynamic and engaging, with a distinct and well-defined rhythm.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:79_34579_segment_1_0",
+  "caption": "The music features a live acoustic guitar playing a gentle, soft melody in a country-like style. The sound is warm, with a somewhat warm and fuzzy tone, likely achieved through a lo-fi production technique. The audio quality is clear but not overly polished, giving it a natural, intimate feel.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:32_1310232_segment_1_0",
+  "caption": "The music features a gentle and soothing guitar melody accompanied by soft piano notes. The instrumentation is acoustic and the overall mood is tranquil and dreamy. The tempo is slow, creating a calming atmosphere. The genre can be described as ambient folk or acoustic folk, and the production quality is clean and professional, with well-balanced audio elements.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:36_1118836_segment_1_0",
+  "caption": "The music features a fast-paced electric guitar riff, accompanied by a drum kit and bass guitar, creating an energetic and upbeat mood. The audio has a moderate tempo, likely around 80-90 BPM, and the production is of moderate quality with clear audio and good level of detail.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:99_1347099_segment_4_0",
+  "caption": "This music clip features a guitar playing a melodic tune, accompanied by soft drums, an organ, and strings in the background. The overall mood is soft and soothing, ideal for a relaxed setting. The tempo is slow and steady, creating a calm atmosphere. The genre can be categorized as a slow tempo instrumental piece. The production quality is clear with well-balanced instrumental layers.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:95_1345295_segment_1_0",
+  "caption": "The audio features a retro pop or jazz pop arrangement with piano, saxophone, and drums, set at a moderate tempo and creating a lively and energetic mood.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:75_1352775_segment_4_0",
+  "caption": "The audio features a pop rock instrumental with a fast tempo. The music is driven by electric guitars, with a strong and energetic rhythm provided by drums. The production quality is clear and polished, with well-defined instrument separation and a consistent sound throughout. There is a sense of youthful exuberance and optimism in the music.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:23_453823_segment_2_0",
+  "caption": "A soulful piano solo, with a warm and nostalgic sound, creates an intimate and reflective atmosphere. The tempo is slow and steady, providing a calm and peaceful listening experience. The genre is likely classical or jazz, with a rich and mellow production quality.",
+  "label": "KEEP",
+  "stratum": "fixture_keep"
+ },
+ {
+  "id": "fx:heldout_v3.json:metatext_0",
+  "caption": "This answer depicts a gentle guitar melody over brushed drums.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:heldout_v3.json:metatext_1",
+  "caption": "The generated description portrays a dark electronic bassline.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:heldout_v3.json:metatext_2",
+  "caption": "In this caption, a piano plays over a slow drum beat.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "fx:heldout_v3.json:metatext_3",
+  "caption": "My response describes an energetic brass ensemble.",
+  "label": "FLAG",
+  "stratum": "fixture_flag"
+ },
+ {
+  "id": "00_1194000_segment_1_0",
+  "caption": "The description should emphasize these features: instruments, arrangement, mood, tempo, genre, and production quality.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "00_1385300_segment_2_0",
+  "caption": "The audio features a soft, ambient piece of music with a gentle piano melody playing in the foreground. The piano creates a serene and contemplative atmosphere, with subtle electronic elements in the background adding a slight texture without overpowering the melody. The composition has a slow tempo, contributing to a calm and introspective mood. It could be classified as ambient or new age music, with high-quality production evident in the clear and balanced sound. The low recording fidelity suggests an intimate performance or a purposefully controlled sound quality, enhancing the sense of closeness and focus.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "00_383000_segment_5_0",
+  "caption": "The audio contains a lively electronic dance music track, characterized by a steady 136 BPM tempo, featuring a repetitive synth lead melody and a steady four-on-the-floor kick drum beat. It is possible that it is an official music production.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "00_433600_segment_25_0",
+  "caption": "This is a solo instrumental piece with a calming and atmospheric mood. The music has a slow tempo and features ambient, electronic pads and a mellow female vocal. The production quality is high, with clear sound and well-balanced mix, creating an immersive and tranquil listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "00_588700_segment_6_0",
+  "caption": "The caption is: A soulful jazzy track, with a rhythmic and groovy beat supported by a combination of drums, percussion, and bass, and is enhanced by a melodic guitar and synthesizer. The overall mood is warm, comforting and relaxing, and gives off a modern lounge atmosphere. The music has a moderate tempo, and the genre is electronic jazz. The production quality is high, with clear and well-balanced sounds and a smooth mix.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "00_985000_segment_6_0",
+  "caption": "The audio features an energetic rock music piece with a prominent electric guitar and piano playing the main melody. pounding drums, bass guitar, and various percussion elements create a lively and upbeat atmosphere. The arrangement is compact yet rich with texture, showcasing the genre's characteristic intensity and dynamic range. The production quality, while somewhat rough, indicates a live performance or an early mix-stage recording.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_1009701_segment_2_0",
+  "caption": "The music is a lively pop rock track with a retro feel, featuring a prominent electric guitar riffs and a driving drum pattern. The production quality is quite clear, with balanced mix of instruments and good recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_1125001_segment_1_0",
+  "caption": "The caption reads: \"A cheerful Latin-inspired piece featuring a flute playing a lively melody over a rhythmic percussion beat, with the addition of a smooth bassline. The production quality is high, with clear and resonant sound, indicating a professional recording.\"",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "01_1133301_segment_0_0",
+  "caption": "The piece features a solo piano playing a repetitive, slow, and melodic tune in C major, with a minor key signature and a slow tempo. The mood is serene and introspective, evoking feelings of calmness and contemplation. The production quality is high, with clear and well-defined sound, suggesting a professional recording setting.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_1248601_segment_0_0",
+  "caption": "The caption should be clear and informative, capturing the essence of the audio.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "01_1269101_segment_0_0",
+  "caption": "The audio features a electronic synthesizer melody, likely in the genre of ambient or synthpop, with a rhythmic, minimalist arrangement. The mood is ethereal and contemplative, evoking a sense of space or contemplation. The tempo is moderately slow, around 100 BPM. The production quality is professional, with a clear and focused sound with good dynamics and balanced mix. There is an absence of background noise, indicating a high-quality recording.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_133101_segment_0_0",
+  "caption": "The caption for this music clip would be: The audio features a steady, rhythmic electronic beat dominated by a deep, resonant bassline. Accompanied by a synthesizer, the melody provides a futuristic and energetic atmosphere, suggesting a techno or club genre. The production quality appears to be high, with clear audio and well-defined elements, indicating a professional recording.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "01_1366001_segment_1_0",
+  "caption": "The audio features a blend of electronic and acoustic elements, with a prominent guitar melody providing the main instrumental backdrop. The rhythm consists of a steady drumbeat, creating a groovy and chill atmosphere. The production quality is soundproofed, with good mix and clear recording fidelity, allowing the instruments to resonate well.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_1375801_segment_11_0",
+  "caption": "The audio features a pulsating electronic beat with a synth-driven melody. The arrangement is simple yet engaging, with a steady kick and snare drive the rhythm. The mood is energetic and danceable, typical of techno or house music. The tempo is fast, around 130 BPM, contributing to the lively and vibrant atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_1378101_segment_5_0",
+  "caption": "The caption of this audio starts with a bass heavy sub-bass foundation, playing a strong pulse that is consistently in the lower registers, setting a hard-hitting and energetic tone. Above this, a melody line emerges, featuring a blend of synthetic and electronic sounds, creating a futuristic and urban atmosphere. The overall production quality is clear, with the instruments and vocals distinctly separated, which is ideal for modern electronic music. The tempo maintains a consistent 120 BPM, keeping the mood upbeat and danceable throughout the entire clip.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "01_191401_segment_4_0",
+  "caption": "The caption should include the genre, mood, tempo, and production quality of the music clip.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "01_199501_segment_3_0",
+  "caption": "The music features a gritty and distorted electric guitar riffs throughout the piece, accompanied by strong and steady drumming, with a bass guitar providing a solid mid-range foundation. The overall arrangement creates an edgy, raw, and energetic mood. The genre is likely rock or psychedelic rock, with production that highlights the raw sound and intensity. The recording quality seems to be high, despite the distortion, showcasing the powerful instruments and rhythmic elements.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_202201_segment_8_0",
+  "caption": "The music is a slow, atmospheric piece featuring a piano melody accompanied by a string section. It creates a somber and contemplative mood. The tempo is very slow, and the genre is likely classical or ambient. The recording quality is high, with good mix and mix.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_374601_segment_1_0",
+  "caption": "A soft and gentle piano melody plays in a minor key, creating a reflective and melancholic mood. The music has a classical feel to it, with the piano being the primary instrument. The tempo is slow and steady, adding to the introspective atmosphere. The production quality is high, showcasing clear and well-defined sound with good balance and depth, although there is no additional information on production techniques or effects.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "01_429201_segment_1_0",
+  "caption": "The audio features an instrumental piece of music with a driving rock beat, featuring electric guitar in the foreground and acoustic drums in the background. The genre is a fusion of garage rock and alternative rock, characterized by its raw, energetic sound. The track appears to be recorded with a professional quality, with clear vocals and instruments, as well as well-defined reverb on the guitar and drums. The mood is energetic and upbeat.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_4401_segment_2_0",
+  "caption": "A solo acoustic guitar strums rhythmically with a melodic melody, creating an uplifting and motivational mood. The tempo is moderate, with the production quality being high, suggesting a professional recording.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "01_4401_segment_3_0",
+  "caption": "The audio is a folk rock piece with a guitar strumming a bluesy melody, accompanied by drums and bass. The mood is energetic and lively, and the tempo is fast-paced. The production quality is modest, with clear instrument separation and a low level of stereo balance.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "02_1061502_segment_1_0",
+  "caption": "The audio features a rock and roll instrumental piece characterized by a quick tempo and an energetic mood. It includes a catchy guitar riff and driving drums, with a chorus effect used to add atmosphere and depth to the sound. The production quality is good, with clear vocals and well-defined instruments that blend together seamlessly.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "02_1118602_segment_25_0",
+  "caption": "The caption is: A soothing ambient track featuring soft synthesized tones and subtle electronic drums, creating a peaceful and introspective mood.",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "02_1137202_segment_0_0",
+  "caption": "The caption for this music clip would be: 'A dreamy, atmospheric piece characterized by smooth synthesizer tones that create a serene and ethereal mood. The instrument arrangement is sparse, allowing the ambient sound to take center stage. The tempo is slow and steady, contributing to the hypnotic quality of the piece. The production quality is excellent, with high fidelity and well-balanced mix, providing a rich, immersive listening experience.'",
+  "label": "FLAG",
+  "stratum": "luna_real_flag"
+ },
+ {
+  "id": "02_1195902_segment_0_0",
+  "caption": "The audio features a solo piano performance with a minimalist and emotional composition. The piano plays a repetitive, flowing melody that gradually builds in intensity, evoking a reflective and melancholic mood. The lighting quality and mix of the recording are excellent, allowing the piano to shine prominently.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "02_1196902_segment_2_0",
+  "caption": "The audio features a heavy metal track with distorted guitars and a fast tempo, creating a aggressive and energetic mood. The production quality includes a strong mix and reverb on the drums, indicating professional recording.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "02_1196902_segment_4_0",
+  "caption": "The audio features a heavy metal track with fast-paced drumming and distorted electric guitars, creating a aggressive and intense atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_hard_keep"
+ },
+ {
+  "id": "02_1049702_segment_6_0",
+  "caption": "The audio features a slow-paced, instrumental piece with a dark and cinematic mood. It includes a gentle piano melody accompanied by ambient textures, likely using a synthesizer or string instruments. The production quality is high, with clear separation of instruments and good mix. The recording fidelity is excellent, with no noticeable distortion or noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_661601_segment_1_0",
+  "caption": "The audio features an acoustic guitar accompanied by a funky electronic rhythm, producing a laid-back yet energetic mood. The combination of guitar and electronic beats creates a unique genre of modern folk or indie rock. The audio exhibits high-quality production with clear separation between the instruments and a well-executed mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1136902_segment_2_0",
+  "caption": "The music features a digital, synth-driven tune with an electronic feel, characterized by a consistent rhythm and a repetitive melody. The atmosphere is dreamy and introspective, offering a nostalgic and emotional experience. The production quality is high, with clear and detailed sound, and the mix is balanced, allowing the synth sounds to shine while the drums provide a solid beat.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1313000_segment_20_0",
+  "caption": "The music features a prominent bell chime, accompanied by electronic percussion and a soft, pulsing synth pad. The arrangement is spacious and ambient, evoking a sense of mystery and depth. The tempo is slow and steady, creating a dreamy and contemplative atmosphere. The production quality is high, with clear and distinct sound elements that contribute to the overall immersive experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1173502_segment_1_0",
+  "caption": "The audio features a soft piano melody accompanied by a gentle violin and a steady drum and bass rhythm, creating an intimate and peaceful atmosphere. The music is likely in the ambient or classical genre and has a slow tempo with high production quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_317200_segment_1_0",
+  "caption": "The audio features a rock and roll or classic rock song with a steady drum beat providing the tempo. Electric guitar and bass guitar provide the main instrumental backing, creating a driving and rhythmic sound. The melody is light and upbeat, with a sense of energy and excitement. The production quality is clear, with good mix and recording fidelity, highlighting the instruments and the overall sound of the song.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1313000_segment_14_0",
+  "caption": "This is a fast-paced, loud, and high-tempo electronic dance music piece. It has a heavy, chaotic synth sound. The production quality is quite good, with clear and sharp sound effects.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1066901_segment_0_0",
+  "caption": "The audio contains a blend of acoustic guitar, piano, drums, and strings, with a soft, dreamy mood. The tempo is slow, and the genre is likely ambient or chillout music. The production quality is high, with clear and well-balanced instrumentation and a smooth, flowing arrangement.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1159702_segment_0_0",
+  "caption": "A solo violin plays a solo composition with intricate melodies and a clear, resonant tone, creating a mood of intensity and focus. The tempo is moderate, and the genre is classical. The recording is of high production quality with excellent clarity and balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1066200_segment_8_0",
+  "caption": "The audio features a lively and upbeat pop song with an electronic synthesizer and drums, creating a happy and catchy atmosphere. The music is in F minor with a tempo of 148.2 BPM and a 4/4 time signature. The chord progression alternates between F minor, Bb major, and C major.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1247101_segment_4_0",
+  "caption": "The audio features a repetitive electronic drum and bass beat, typical of dubstep and drum and bass genres. The production quality is somewhat basic, possibly a homemade or amateur recording, with straightforward recording fidelity and no notable effects or reverb. The mood conveyed is energetic and rhythmic, suitable for a high-energy dance track.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_860000_segment_1_0",
+  "caption": "The music clip features a fast-paced electronic track with prominent digital drum beats and synthetic melodies. The arrangement is energetic and rhythmic, with a heavy emphasis on the bass and drums. The mood is dynamic and intense, conveying a sense of urgency and excitement. The tempo is very fast, with a tempo of approximately 179 BPM, indicating a high-energy genre such as drum and bass. The production quality is fairly average, with clear audio but simple and straightforward arrangements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1368300_segment_5_0",
+  "caption": "The audio clip features a lively electronic music track with a pulsating bassline that drives the rhythm. The arrangement is characterized by its bright and energetic production quality, with clear and well-balanced sound. The music's fast tempo and bright tone evoke a vibrant, danceable atmosphere typical of electronic dance music (EDM) genres.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_460301_segment_1_0",
+  "caption": "The music features a solo piano performance that produces a bright and uplifting mood. The genre is classical and the piano plays a simple yet pleasant melody with a moderate tempo. The recording quality is clear, suggesting good mixing and mastering.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1375801_segment_4_0",
+  "caption": "The audio features a fast-paced electronic techno track with a repetitive kick drum and a consistent synth pattern. The arrangement is minimalistic with a focus on rhythm and melody, creating an energetic and danceable mood. The production quality is high, with clear audio and well-defined instruments, indicating a professional recording and mixing process.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1151702_segment_4_0",
+  "caption": "The audio features a lively electronic music track with a fast tempo, likely in the techno or trance genre. The instrumentation includes a fast-paced drum beat, electronic synths providing a rhythmic and melodic structure. The production quality is high, with clear and balanced audio. The music evokes a sense of energy and excitement, encouraging dancing and movement.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1414200_segment_3_0",
+  "caption": "The audio features a contemporary electronic dance track with a driving tempo, prominent synth patterns, and a consistent beat that provides a lively, energetic atmosphere. The production quality is well-mixed, with clear audio.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1149700_segment_6_0",
+  "caption": "The audio clip features a fast-paced rock track with prominent electric guitars and bass guitar, accompanied by rhythmic drums. The overall mood is energetic and upbeat, perfect for a high-intensity workout or road trip playlist. The production quality is clear and well-mixed, with a slight echo effect on the instruments to give a more immersive feel.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1194000_segment_13_0",
+  "caption": "The music is a fusion of world and ethnic elements, featuring a rich tapestry of instruments that create a meditative atmosphere. The rhythm is steady and captivating, characteristic of world music. The mood is serene and introspective, inviting the listener on a journey of introspection and cultural exploration.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1330500_segment_5_0",
+  "caption": "A guitar is being played with a variety of effects, creating a moody and atmospheric ambiance. The sound is likely to be recorded in a controlled environment with good sound quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1398800_segment_9_0",
+  "caption": "The music features a digital synthesizer playing a melodic tune while a steady electronic drum beat keeps the rhythm. The audio production quality is quite good, with clear and balanced sound. The mood of the clip is chill and ambient.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_250100_segment_12_0",
+  "caption": "The audio features a steady, rhythmic electronic music track with a minimalistic arrangement, characterized by soft synth plucks, ambient tones, and a subtle, pulsating beat. The overall mood is ethereal and dreamy, while the tempo is slow and steady, creating a soothing, hypnotic effect. The production quality is high, with clear and focused audio that highlights the intricate details of the synthetic sounds.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_474700_segment_4_0",
+  "caption": "A crunchy electric guitar plays a fast-paced and energetic verse with melodic riffs, creating an upbeat punk rock mood. The recording is of average quality, with some distortion and slight background noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1066302_segment_5_0",
+  "caption": "The music clip features a lively electronic track with a fast tempo, showcasing bright synthesizer melodies and a consistent drum pattern throughout. The production quality is high, with clear sound and well-balanced audio elements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1060600_segment_4_0",
+  "caption": "The audio features a soft, melodic tune with a prominent electric piano and subtle percussion elements. The arrangement is minimalistic, creating a relaxed and calm atmosphere. The mood is neutral with a hint of nostalgia or introspection. The tempo is slow and steady, contributing to the laid-back feel. The production quality is average, with clear instrumentation but a slightly muffled mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_768200_segment_6_0",
+  "caption": "The audio features a lively rock music piece with prominent electric guitars, bass guitar, and drums. The music has a strong and energetic vibe, and the overall production quality is high, with clear and defined sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1170202_segment_3_0",
+  "caption": "The music features a deep, pulsing bass line accompanied by a repetitive, shimmering synth melody, creating an atmospheric and spacious mood. The arrangement is minimalist, with a focus on the bass and the synth, giving it a modern, electronic dance genre feel. The production quality is high, with clear and well-defined sound, likely created using professional recording and mixing techniques.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_192101_segment_2_0",
+  "caption": "The music features a guitar strumming a melodic and rhythmic pattern, accompanied by a simple and smooth rhythm section. The arrangement is straightforward and easygoing, providing a calm and gentle mood. The genre can be described as folk or acoustic indie. The production quality is good, with clear instrument separation and slight ambient reverb on the guitar.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1395501_segment_7_0",
+  "caption": "The audio clip features a solo melody played on a ukulele. The instrument is plucked rhythmically, producing a lively and upbeat tune. The arrangement is minimalistic, focusing entirely on the ukulele's sound. The mood of the music is cheerful and carefree, fitting the indie or folk genre. The production quality is modest, with the sound recorded in a confined space, possibly a home studio, with clear, undistorted audio.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1069802_segment_7_0",
+  "caption": "This is a lively and playful jazzy instrumental piece. It features a bouncy drum beat, a smooth bass line, a cheerful flute melody, and a warm electric piano. The production quality is high, with clear and balanced sound. The piece has a joyful and upbeat mood, suitable for a children's show or cartoon soundtrack.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1160602_segment_7_0",
+  "caption": "The music features a lively rhythm with a combination of electric guitar and drums. The electric guitar plays a catchy melody while the drums provide a groovy beat, creating a fun and upbeat mood. The production quality is high with clear and balanced mix, making the instruments and rhythm very easy to focus on.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1417200_segment_6_0",
+  "caption": "The audio features a traditional folk music composition with the main melody played by a glockenspiel, accompanied by a group of percussion instruments and a string section. The rhythm is steady and the tempo is moderate, creating a lively and festive atmosphere. The sound is balanced with clear separation between the instruments, and the recording quality is high, especially the details in the percussion and string sections are well-defined.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_170601_segment_6_0",
+  "caption": "The audio features rapid-paced, continuous electronic music with a fast tempo and strong beats. It evokes a high-energy, intense mood. The genre is likely techno or trance, and the production is of standard quality with minimal background noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_133600_segment_2_0",
+  "caption": "The audio features a fast-paced, energetic punk rock piece with driving electric guitar riffs, a deep bass line, and assertive drum beats. The production quality is excellent, with clear sound and smooth transitions. The overall mood is intense and rebellious, capturing the essence of the punk genre.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1320001_segment_1_0",
+  "caption": "The music clip features a chill, ambient hip hop track with a groovy beat and a relaxed atmosphere. A smooth synthesizer melody plays in the background, accompanied by a rhythmic drum and bass groove. The production quality is high, with well-balanced sound and clear mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_902200_segment_4_0",
+  "caption": "The music features a digital synth arpeggio in the foreground accompanied by rhythmic electronic drums. A dark, brooding mood pervades the piece as a large choir enters in the background, bolstering the ominous atmosphere. The production quality is high, with well-balanced mix and crisp reverb effects that lend a modern, high-quality feel to the overall sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_259900_segment_0_0",
+  "caption": "The music is a lively and joyful piece featuring a solo piano melody in D major. The arrangement is straightforward, with a repetitive and upbeat sequence of notes. The mood is cheerful and upbeat, suitable for a dance or a light-hearted performance. The tempo is brisk, consistent with a classical or jazz piano piece, and the production quality is clear, indicating a professional recording with good mix and fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_985000_segment_1_0",
+  "caption": "The music features a guitar playing a melodic tune with a recurring chorus effect, accompanied by a steady bassline, driving drums, and subtle percussion. The overall arrangement creates an upbeat, lively atmosphere, typical of alternative rock or indie music. The production quality is high, with clear guitar tones, rich bass, and balanced drum patterns, providing a professionally recorded sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_442801_segment_3_0",
+  "caption": "The music clip features an electronic genre with a calm and soothing mood. It is characterized by a steady, medium tempo with a pulsating synthesizer, rhythmic drum machine beats, and atmospheric background vocals. The mix is well-balanced, with the sound elements clearly defined, and the recording fidelity is good.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_478300_segment_6_0",
+  "caption": "The music features a melancholic piano melody accompanied by a somber atmospheric synth pad, creating a introspective and reflective mood. The tempo is slow, contributing to a calm and pensive atmosphere, ideal for relaxation or thoughtful introspection. The audio quality is clear, with well-defined instrument separation and a natural, unprocessed sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1371800_segment_3_0",
+  "caption": "The music contains a steady, funky beat from the drums, combined with a keyboard sound that adds depth and rhythm. The arrangement includes a prominent bass synth that complements the drums, evoking a vintage hip-hop groove. The piece has a relaxed and groovy mood, suitable for a chill vibe. The tempo is moderate and evenly paced, maintaining a consistent rhythm. It features elements of electronic music, specifically hip-hop with jazz influences, and the production quality is professional, with well-balanced mix and clear audio.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_872000_segment_0_0",
+  "caption": "The audio features a deep, ominous sound effect that transitions into a sweeping whoosh, setting a dark and suspenseful mood. Following this, instrumental music begins, creating a somber and eerie atmosphere. The music is likely from a horror or thriller genre, with a slow tempo and a significant use of reverb to enhance the chilling effect. The recording fidelity suggests a high-quality production, with careful attention to sound design and mixing.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1321300_segment_5_0",
+  "caption": "The music is an electronic house track, featuring lush synthesizer lines with a soft, deep rhythm. The production is polished, with a well-balanced mix. It has a dreamy, atmospheric mood that is both catchy and laid-back.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_953500_segment_0_0",
+  "caption": "The audio features a lively punk rock song with a fast-paced tempo. The arrangement includes a driving guitar riff with a lot of distortion and a bass guitar providing rhythmic support. The drums have a strong kick beat with a snare and ride cymbal, contributing to the overall energetic mood. The vocal line is assertive and aggressive, typical of punk rock. The production quality is straightforward, with basic sound effects, likely recorded in a small studio with good clarity, minimal reverb, and a balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1413901_segment_9_0",
+  "caption": "The audio features a hard-hitting electronic music piece with heavy bass drops and aggressive synth lines. The tempo is fast and driving, creating a high-energy, intense mood. The production quality is clear and modern, with well-balanced mix and strong, solid sound production. The genre is dubstep, known for its complex rhythmic structure and aggressive electronic soundscapes.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1393900_segment_3_0",
+  "caption": "This is electronic techno music with a fast tempo and a driving bass line. The instruments used are synthesizer and drums. The mood of this song is energetic and uplifting. The production quality is high with good mix and recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_89400_segment_4_0",
+  "caption": "The music features a gentle and mellow sound, with soft acoustic guitar strumming, atmospheric synths, and a delicate piano melody. The mood is calm and introspective, evoking a sense of peace or melancholy. The genre is likely folk or indie, with a production quality that suggests a carefully mixed and recorded composition.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1385600_segment_9_0",
+  "caption": "The music features a steady beat with a drum machine, accompanied by electric guitar strumming chords and a melodic line. The arrangement has a pop sound with a bouncy and cheerful mood, and the production quality is clear with a balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1415500_segment_4_0",
+  "caption": "The music is a driving and energetic indie rock piece with a fast tempo featuring electric guitars, bass, and drums. The guitar riffs are prominent, creating a gritty and edgy sound, while the bass provides a solid foundation. The drums drive the rhythm forward with a strong, steady beat. The overall mood is youthful and adventurous, perfect for a road trip or high-energy activity. The production quality is clear and well-mixed, with a good balance between the instruments, allowing for a rich and immersive listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1053500_segment_8_0",
+  "caption": "This musical piece features a solid bass guitar foundation along with rhythmic guitar strums and occasional marimba accents. The drums play at a medium tempo, providing a steady and upbeat rhythm that creates a light and lively mood. The production quality is clear, with good overall balance between the different instruments. This indicates a professional recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1066801_segment_3_0",
+  "caption": "The audio presents a lively instrumental piece, predominantly featuring a mandolin and acoustic guitar. The track is upbeat and rhythmic, with a fast tempo that matches well with a 4/4 time signature. The musical style can be categorized as folk or world music, showcasing a vibrant and energetic mood. The production quality is high, with clear sounds, good balance, and proper mixing. There is a slight resonance or reverb present, adding to the richness of the track.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1339600_segment_7_0",
+  "caption": "The audio is a fast-paced electronic and trance piece, featuring a prominent synthesizer melody, electronic drums, and ambient texture, creating an energetic and vibrant mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1393900_segment_2_0",
+  "caption": "This audio features a lively electronic dance track with a strong house influence. The arrangement showcases a powerful bassline that drives the beat, complemented by synthesized melodies and rhythmic effects. The mood is energetic and upbeat, designed to keep the dance floor moving. The tempo is fast, with a steady 130 BPM, typical for electronic dance music. The production quality is high, with clear sound and effective use of reverb to enhance the overall texture.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1066901_segment_2_0",
+  "caption": "The music features a soft keyboard melody, accompanied by a gentle guitar strumming, and the backdrop is provided by a calm synthesizer. The arrangement is simple and relaxing, creating a soothing ambiance. It is a part of an easy listening composition, with the production quality focusing on a clean mix and subtle reverb, indicating a professional recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_338200_segment_3_0",
+  "caption": "The audio features a soothing ambient electronic track with a slow tempo, combining soft synth pads and subtle textural elements. The music evokes a dreamy, contemplative mood, suitable for a meditation or reflective listening experience in a tranquil setting. The recording quality is clear and well-mixed, with good balance between the background ambience and the main melodic elements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1179202_segment_9_0",
+  "caption": "The audio contains a fast-paced, intense drum and bass beat with a strong bassline and rapid synths, creating a powerful and energetic mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_4401_segment_0_0",
+  "caption": "The audio features a continuous drone of a drone synthesizer, creating a calm and meditative mood. There are layers of strings and a soft, atmospheric wind sound, contributing to a serene ambiance. The production quality is professional, with well-balanced audio, minimal background noise, and high-fidelity reproduction of the synth sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_941401_segment_3_0",
+  "caption": "The audio features a pop rock and roll track with a lively and energetic mood. The band showcases catchy guitar riffs and a solid percussion section, accompanied by a prominent electric guitar. The bass guitar provides a solid rhythm foundation, and the drums offer a consistent beat. The overall production is clear, with a well-balanced mix of instruments and good sound quality, including clear instrumental tones and a good balance between the different elements of the composition.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1056402_segment_5_0",
+  "caption": "The music has a slow tempo, featuring a combination of electric guitar, piano, synth, strings, and drums. The mood is nostalgic and sentimental. It belongs to the electronic genre and has a production quality with a mix that is well-balanced and a solid recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1223700_segment_6_0",
+  "caption": "The music is a fast-paced blues rock track with a solo electric guitar. The arrangement includes electric guitar, drums, bass, and piano, in a mix that is balanced but with the electric guitar taking center stage. The production quality is high with clear sound and moderate reverb. The mood is upbeat and energetic. The genre is blues rock.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_373001_segment_13_0",
+  "caption": "The audio features a repetitive electronic music track characterized by a pulsing synth bass and a minimalistic drum beat. The arrangement is sparse, emphasizing the use of synthesisers. The mood is energetic and modern, with a consistent tempo that suggests a danceable style. The production quality appears high, with clear and distinct sound elements that are evenly mixed. The reverb is subtle but present, contributing to the overall modern and electronic feel of the music.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_963401_segment_5_0",
+  "caption": "The music clip features a soft and soothing electronic pop song with a slow tempo. It includes a melodic synth lead, rhythmic bass, and gentle drums, creating a relaxed and comforting atmosphere. The arrangement is well-balanced, with rich sound production and clear vocals.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_633201_segment_2_0",
+  "caption": "The audio features a solo piano performance with a classical style. The melody is soft and slow, creating a serene and contemplative mood. The piano sound is rich and resonant, with a well-balanced mix, and the recording quality is high, with clear and distinct sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_433600_segment_5_0",
+  "caption": "The audio features a melancholic melody played on a synthesizer, creating an atmospheric and introspective mood. The arrangement consists of a single, sustained note with a soft, ambient reverb that adds depth. The genre is likely ambient or electronic, and the production quality is high, with clear and balanced sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1418000_segment_4_0",
+  "caption": "The music features a smooth electronic beat with a pulsating rhythm and a deep, ambient synthesizer melody creating a mellow, laid-back atmosphere suitable for yoga or meditation.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1395100_segment_1_0",
+  "caption": "The audio features a calming and ethereal ambient piece, likely intended for relaxation or meditation purposes. The composition is characterized by a soft, flowing atmosphere created by a synth pad, possibly with a bell-like quality towards the end. The music is evenly paced with a slow tempo, contributing to a serene and peaceful mood. The production quality is high, with clear and defined elements, and the mix is well-balanced, allowing the ambient sound to resonate without being overpowering.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_25001_segment_11_0",
+  "caption": "A slow, melancholic melody is played on strings and accompanied by a soft horn and other light orchestration. The music conveys a sense of sadness or longing with a somber atmosphere, likely from a classical or film soundtrack. The production quality is high, with detailed mixing and good recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_25000_segment_2_0",
+  "caption": "The audio features a calming and atmospheric ambient track with gentle, soft piano notes layered over a lush string and synth pad arrangement. The mood is introspective and serene, ideal for relaxation or background music in a meditation setting. The production quality includes subtle reverb and mix, contributing to a serene and immersive listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_186601_segment_2_0",
+  "caption": "The clip features a soft, dreamy guitar melody with an ambient atmosphere, creating a serene and ethereal mood. The tempo is slow, and the genre leans toward electronic or synthpop. The production quality is high with clear, well-balanced sound and slight reverb on the guitar.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1150101_segment_5_0",
+  "caption": "The audio features a mysterious and suspenseful music piece with a slow tempo. It prominently includes strings, piano, and drums with a melancholic and eerie mood. The production quality is professional, with detailed mixing, clear visibility of instruments, and a smooth transition between sections.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1189102_segment_9_0",
+  "caption": "The music features a rich and resonant sound with strings playing in harmony. The tempo is steady and moderate, creating a nostalgic and serene mood. The production quality is very good, with clear sound and detailed instrumental arrangement.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1275301_segment_1_0",
+  "caption": "This piece features a strong drum beat throughout, punctuated with snare and hi-hat hits, providing a firm rhythmic foundation. A deep, rich string section plays a powerful melody, creating a feeling of drama and determination. The atmosphere is one of tension and anticipation, while the tempo is mid to fast-paced, appropriate for a dramatic musical composition. The genre likely leans towards classical or orchestral, with a focus on live instrumentation. The production quality is high, with clear instrument separation and balanced mix, suggesting a professional recording setup.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_75200_segment_0_0",
+  "caption": "The music features a straightforward guitar melody, likely acoustic or electric, with a simple, minimalistic arrangement. The tempo is moderate, creating a calm and soothing mood. The genre appears to be folk or acoustic, with a focus on the natural sound of the guitar. The recording quality is decent, with the instruments well-mixed and sufficient clarity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1114500_segment_2_0",
+  "caption": "The audio is a soft electronic track, characterized by a warm and soothing synth melody. The arrangement is simple, featuring a repetitive pattern of soft percussion and understated basslines. The overall mood is tranquil and dreamy, with a relaxed tempo and minimalistic production quality, including low-level reverb and clean recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1179402_segment_2_0",
+  "caption": "A lively indie rock song with a driving tempo, dynamic guitar riffs, and a solid drum beat, creating a mood that is both energetic and introspective. The production quality is high, with clear and well-balanced instrumentation.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1189102_segment_5_0",
+  "caption": "A lively and upbeat country-style melody featuring strumming guitar, driving drums, and a bright horn section.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_89400_segment_14_0",
+  "caption": "The music features a synth bass playing a steady rhythm, accompanied by a synth pad and a synth lead moving in harmony, all over a digital drum machine beat. The mood is bright and upbeat, and the genre can be described as electronic dance music.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1227101_segment_0_0",
+  "caption": "The audio presents a simple, repetitive tune produced by a bass guitar. The melody is monotonous and carries a sense of melancholy, with a consistent tempo and no other instrumentation. The production quality is basic, with noticeable reverb on the bass and a straightforward mix with no additional layers or effects.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1081002_segment_5_0",
+  "caption": "The music features a delicate electric piano melody accompanied by a gentle, ambient synth. The arrangement is sparse, with the piano being the dominant instrument. The mood is introspective and dreamy. The tempo is slow, creating a soothing and calming atmosphere. The production quality is clear with well-balanced instrument sounds.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1178100_segment_4_0",
+  "caption": "The music is a lively pop song performed by a male singer. The instrument includes a flute playing the main melody, accompanied by a synth bass, piano, and a synth pad playing the background. The percussion features a shaker and a tambourine, creating a playful mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1332600_segment_3_0",
+  "caption": "The music features a strong electronic beat, synthesized bass, and atmospheric synth elements. The arrangement is intense and energetic with a repetitive, driving melody. The mood is dark, edgy, and aggressive. The tempo is fast-paced and the genre is dubstep. The production quality is high, with clear and well-mixed elements and a strong, dynamic sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_40301_segment_7_0",
+  "caption": "This lively music piece features a prominent flute playing the melody accompanied by a synthesizer, drums, and bass guitar. The audio is well-produced with good quality, including clear mixing and appropriate reverb effects.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1098500_segment_0_0",
+  "caption": "The audio features a brass band playing a lively piece of swing music with a prominent trumpet melody. Accompanied by an electric guitar and a rhythm section of bass and drums, the music has an upbeat tempo and a nostalgic vintage feel. The audio is of good quality, with clear instrument separation and a well-balanced mix, providing an authentic and engaging listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_373000_segment_6_0",
+  "caption": "A hypnotic electronic piece featuring a pulsing bass synth and minimalistic drum machine beats, creating a trippy and ethereal atmosphere with ambient soundscapes.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1309600_segment_4_0",
+  "caption": "The music clip features a smooth and synthesized electronic beat, with repetitive and melodic synth tones that create a laid-back, ambient mood. The tempo is moderate and the genre can be described as chillout or lounge music. The production quality is clear and well-mixed, with good sound fidelity and a consistent, controlled reverb effect.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_251100_segment_19_0",
+  "caption": "The audio features a suspenseful, ambient soundtrack with a dark, intense atmosphere, produced by a digital synthesizer. The tempo is slow and steady, creating a foreboding mood. The synthesizer layers rich, low frequencies and atmospheric sounds, giving the music a cinematic quality. The production quality is refined, with balanced mix and clear, high-quality audio.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1110002_segment_0_0",
+  "caption": "The music is a simple electronic track, featuring a soft synth melody and a soft electronic drum beat. The mood is calm and relaxed. The tempo is moderate and steady, creating a smooth and unobtrusive sound. The genre is likely ambient electronic or minimal techno. The production quality is good, with clear and balanced sounds.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1134301_segment_4_0",
+  "caption": "The music features a smooth, soft, and dreamy sound with a slow tempo and a guitar playing a chord progression. There is a steady beat from drums and bass. The overall atmosphere is relaxed and ambient. The production quality is high with good mix and recording fidelity, making the music sound rich and full-bodied.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1171700_segment_0_0",
+  "caption": "The audio features a piano playing a repetitive melody in A minor with a consistent tempo of 101 BPM. The mood is melancholic, and the genre appears to be classical. The production quality is moderate, with some background noise present.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_165900_segment_1_0",
+  "caption": "The music features a lively drum beat, accompanied by a vibrant and energetic rock guitar riff, creating a bouncy and enthusiastic mood. The recording quality is very good with clear, balanced mix highlighting the instruments effectively.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1378001_segment_1_0",
+  "caption": "The audio features a haunting piano melody with a sense of melancholy, accompanied by a background of slow, pulsing drums and mysterious chimes. The mood is eerie yet uplifting, evoking a sense of hope. The genre is ambient or dark ambient. The production is clear with a well-defined mix of instruments and a good level of fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_810901_segment_6_0",
+  "caption": "The instrumental music features a lively rhythm driven by the strumming and playing of an electric guitar, backed by a steady drum beat. An electric bass also provides a rhythmic foundation. The song has a positive and upbeat mood, creating a pleasant and energetic atmosphere suitable for dancing. The production quality is average, with clear, loud, and well-defined sounds.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_400700_segment_1_0",
+  "caption": "The music clip features a mix of electronic and acoustic elements. A piano plays a soothing melody that builds up with the addition of strings, brass, and horns. A steady, driving drum beat provides a rhythmic backbone. The production is high-quality, with balanced mix and clear, well-defined sound. The mood is vibrant and dynamic, evoking a sense of movement and energy.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1088002_segment_2_0",
+  "caption": "The audio features a slow, melancholic melody with a mix of electric piano playing and a horn section playing a somber theme. The production quality is high, with clear and detailed instrument sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_970601_segment_1_0",
+  "caption": "The audio features a solo acoustic guitar with a soft, melancholic melody played in a minor key, creating a reflective and somber mood. The arrangement is sparse, with the guitar as the only instrument, and the production quality is studio-grade with clear, well-balanced sound. The song has a slow tempo, likely in the range of 60 to 80 BPM, which contributes to the emotional depth of the piece. The genre is likely classical or acoustic folk, focusing on a minimalist approach to songwriting.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_604401_segment_3_0",
+  "caption": "The music is a lively pop rock piece featuring an energetic acoustic guitar accompanied by a steady drumbeat and a smooth, soulful vocal line that adds to the vibrant mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_760900_segment_1_0",
+  "caption": "The music features a driving electric guitar riff with drums providing a steady rhythm in the background. The audio has a strong, energetic mood and the genre is classic rock, characterized by its garage rock feel. The production quality is moderate with clear instrument separation and a slight echo on the guitar.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_399401_segment_9_0",
+  "caption": "The music features a solo piano playing a melodic and flowing melody accompanied by strings in the background, creating a slow and somber mood. The tempo is slow, and the genre is likely classical or cinematic. The production quality is high with clear sound and balanced mix of instruments.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1073702_segment_7_0",
+  "caption": "The music clip showcases a vibrant electronic pop sound with a driving synth-driven beat, complemented by lush, layered textures in the atmospheric pads. The tempo is moderate with a bouncy rhythm, creating an energetic and uplifting mood. The production quality is professional with balanced mix and rich, detailed sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1359901_segment_1_0",
+  "caption": "The music features a lively accordion playing a vibrant melody while dynamic drumming provides a steady rhythm. The arrangement combines energetic elements to create a cheerful and upbeat mood. The genre is likely folk or folk-inspired, and the production quality is clear and well-mixed.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_159801_segment_0_0",
+  "caption": "The music clip features a shimmering electronic synthesizer arpeggio, accompanied by a soft, ambient background melody. The mood is soothing and dreamy, with a gentle, laid-back tempo. The genre is electronic or ambient, with a clean, well-mixed production quality, and good recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1216201_segment_1_0",
+  "caption": "The audio features a lively electronic track with a steady, upbeat tempo, driven by a synth arpeggio and a punchy drum machine rhythm. The production quality is high, with clear and balanced sound, and the mix is well-balanced with the electronic elements clearly defined and the synth overtones adding depth to the overall texture. The mood of the music is energetic and engaging, setting a positive, forward-moving tone.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1357400_segment_0_0",
+  "caption": "The audio features a gentle and reflective solo piano performance in C major, maintaining a slow tempo at approximately 120 BPM. The melody is calm and minimalist, evoking a peaceful and contemplative mood, while the recording quality is clear and well-mixed.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_82601_segment_8_0",
+  "caption": "The music features a driving electronic beat with a pulsating rhythm guitar, dynamic synth bass, and airy synthesizer melodies. It has an uplifting and energetic mood, suitable for scenes involving action or excitement. The production quality is high, with clear and well-defined sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1400800_segment_9_0",
+  "caption": "The audio features a ambient electronic piece showcasing a haunting synth melody, accompanied by ethereal tones and atmospheric sound effects, creating a mysterious and otherworldly mood. The track has a slow to medium tempo, with a minimalistic arrangement that emphasizes the instrumental soundscape. The production quality is high, with clear and balanced instrument separation, while the reverb adds to the immersive quality of the music.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_953500_segment_1_0",
+  "caption": "The audio features a dynamic and energetic rock song with a heavy metal influence. The arrangement includes powerful electric guitar riffs and a driving bassline. The rhythm is defined by relentless drums that add to the intense and fast-paced nature of the music. The mood is aggressive and edgy, complemented by a gritty and gritty audio quality that enhances the overall sensation of the rock genre.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1337900_segment_4_0",
+  "caption": "The music features a blend of electronic and acoustic elements, including a lead synth melody, ambient pads, rhythmic drums, and a subtle bass. The arrangement is dynamic with the synth leading and the drums driving the rhythm. The mood is atmospheric and introspective, evoking a sense of mystery and contemplation. The tempo is moderate, neither too fast nor too slow, creating a tranquil and thought-provoking listening experience. The production quality is clear and well-mixed, with the instruments layered and balanced for an immersive sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_893401_segment_0_0",
+  "caption": "The music in this clip appears to be a dark, somewhat dissonant piece, possibly belonging to an experimental or ambient genre, featuring a blend of electronic and acoustic elements. The instrumentation includes electronic instruments that create a continuous drone and underlying textures, interspersed with occasional striking beats that maintain a steady tempo. The production quality is high, with clear and well-defined sounds, and the mix is effectively balanced to create a cohesive and immersive listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_373101_segment_1_0",
+  "caption": "The audio features a rock and roll piece characterized by a strong, driving guitar riff. The arrangement is typical of the genre, with an electric guitar leading the instrumentation. The background has a steady rhythm with a rock drum beat, and the atmosphere creates a vibrant and energetic mood. The production quality is high, with good clarity and a well-mixed sound that highlights the main instruments without overwhelming other elements. This music could appeal to fans of classic rock or fans of energetic, upbeat, and melodic rock and roll.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_881100_segment_9_0",
+  "caption": "The music features a melancholic melody led by a harp, accompanied by slow strings. There is a distant choral element and the music has a somber mood. The tempo is slow and measured, indicative of an ambient or film scoring genre. The production quality is high, with clear sound and smooth dynamics.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_117300_segment_3_0",
+  "caption": "The music is a slow-paced ambient piece featuring a synth pad with a deep, resonant sound. The tone is ethereal and mysterious, creating a relaxing and introspective mood. The production quality is high, with well-balanced mix and rich, smooth reverb adding to the atmospheric quality. The genre is electronic or experimental, focusing on creating a meditative and dreamlike listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_202200_segment_7_0",
+  "caption": "The music features a soothing piano melody accompanied by gentle string instruments, creating a calming and reflective atmosphere. The tempo is slow and steady, contributing to a peaceful and serene mood. The genre is likely classical or ambient, and the production quality is high, with detailed sound textures and balanced mixing.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1359901_segment_4_0",
+  "caption": "This lively track features prominent accordion melodies over a lively rhythm section, creating a festive, Latin-inspired mood. The production quality is high, with clear instrument separation and a well-balanced mix, contributing to an energetic and engaging listen.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1064502_segment_3_0",
+  "caption": "The music features a prominent electric guitar playing a mellow melody, accompanied by a soft electronic drum beat that creates a chill and relaxed atmosphere. The arrangement is simple, with minimal instruments, and the production quality is clear but not overly polished.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1378900_segment_1_0",
+  "caption": "The audio features a heavy electronic beat with a pulsating bass and synthesized melodic lines. This creates a dark, energetic atmosphere common in electronic music genres such as techno or house. The mix is tight, with a clear and balanced sound, and the production quality is high, suggesting professional studio recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1309600_segment_2_0",
+  "caption": "The music is a soft, ambient track with an electric piano melody playing alongside synth pads and atmospheric textures. The beat is laid-back and rhythmic, creating a chill and soothing mood. The production is clean and well-mixed, with clear separation between instruments and no significant distortion or noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_400700_segment_6_0",
+  "caption": "The audio features a richly layered, complex instrumental piece with a prominent drum and bass beat. The piece has an energetic and uplifting mood, showcasing vibrant guitar harmonies and textured synth elements. The production quality is professional, with clear and balanced sound, and the track flows smoothly at a steady tempo, suitable for enhancing the atmosphere of a movie scene.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_433600_segment_1_0",
+  "caption": "The music clip features a meditative and ethereal atmosphere, created by the use of ambient drones and soft synth pads. The genre could be classified as ambient or new age, with a slow tempo and a dreamy quality. The production quality is high, with clear and balanced sound, good mix, and a well-recorded performance.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1331801_segment_0_0",
+  "caption": "The audio features a solo piano performance with a classical arrangement. The mood is reflective and emotional, with a steady tempo that suggests a slow, contemplative piece. The production quality is high, with clear audio and well-balanced sound, indicating a professionally recorded and mixed piece.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1095602_segment_12_0",
+  "caption": "A solo piano piece is played in a minor key with a lively tempo, creating a melancholic and introspective mood. The arrangement features a simple melody that is repeated with subtle variations, and the production is clear with good recording fidelity and minimal reverb, which highlights the purity of the piano sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_810900_segment_4_0",
+  "caption": "The music features distorted electric guitar strumming a heavy metal riff accompanied by a loud drum kit, creating a raw and aggressive mood. The audio quality suggests it might be from a live recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1073701_segment_4_0",
+  "caption": "The audio features a synth arpeggio with a high-pitched, bright sound that rises and falls, accompanied by a soft, ambient background drone. The mood is tranquil and ethereal, with a progressive style of arrangement that creates a dreamy atmosphere. The music has a slow tempo with a steady, rhythmic pulse, and the production quality is quite good, with clear resolution and balanced mix of sounds.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_464501_segment_0_0",
+  "caption": "The audio features a soft, ambient instrumental piece with a slow tempo, likely from an electronic or ambient genre. The sound is serene and meditative, with a minimalistic arrangement. The quality of the recording is quite good, with clear audio that suggests professional or high-quality equipment was used.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_207501_segment_2_0",
+  "caption": "The music is a lively rock piece with a driving rhythm provided by the bass guitar and drums. The electric guitar adds a bright, upbeat tone to the arrangement. The melody is catchy and memorable, creating a fun and energetic mood. The production quality is high, with clear and balanced instrumental and vocal elements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_890101_segment_2_0",
+  "caption": "The music features a guitar playing a catchy melody, accompanied by a bass guitar providing a solid foundation, and a drum set that supports the rhythm. The song has a melancholic atmosphere with emotional depth, and it likely belongs to the rock genre. The recording quality is moderate with a clear, balanced mix among the instruments, though there may be some background noise, indicative of an informal recording setting.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1379100_segment_0_0",
+  "caption": "The audio clip features the distinct sound of footsteps on gravel, followed by a melancholic melody played on a piano accompanied by a gentle drum beat. The overall mood is somber and introspective, with a slow tempo. The genre can be categorized as classical or ambient music. The production quality is slightly muffled with a noticeable reverb effect and the audio is somewhat distorted.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_89400_segment_1_0",
+  "caption": "The audio contains an intense, suspenseful composition with electronic instruments that provide a thrilling atmosphere. A dramatic, high-pitched sound effect reminiscent of a siren adds to the tension, indicative of a horror or thriller genre. The production quality suggests a low-fidelity recording with a focus on the sound effects to create a gripping and immersive experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1014400_segment_4_0",
+  "caption": "The music is a soft, soothing acoustic guitar melody with a guitar, piano, and bass guitar accompaniment and drums playing on the snare, kick, and hi-hat. The genre is folk or soft rock with a relaxed and calming mood. The tempo is slow and steady, with a steady 4/4 time signature. The production quality is clear with a clean mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1324900_segment_3_0",
+  "caption": "The music clip is a soothing pop rock genre track featuring electric guitar, electric bass guitar, and drums. The guitar has a soothing melody and the bass guitar provides a steady rhythm. The drums are set up with a kick drum, snare, and a bell-like rimshot. The music is produced with high quality production techniques, resulting in clear and polished audio.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_468601_segment_1_0",
+  "caption": "The music is characterized by a funk and hip hop style with a strong electric guitar lead, accompanied by a steady bass guitar. The tempo is lively with a steady beat, and the arrangement includes a consistent rhythm with occasional syncopated elements. The mood is upbeat and energetic, suitable for dancing or lively gatherings. The production quality is good, with clear instruments and a well-orchestrated mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_429201_segment_6_0",
+  "caption": "The audio is a fast-paced, energetic tune with a rock and roll theme, heavy guitar distortion, and drums. The genre is rock with elements of grunge and punk. The production quality features good clarity and a well-rounded mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1135200_segment_5_0",
+  "caption": "The music clip features a soothing and ethereal atmosphere with a smooth, flowing melody played on a stringed instrument, likely a harp or similar. The arrangement is sparse and dreamy, with a synth sound layering in the background. The tempo is slow and steady, creating a tranquil and introspective mood. The production quality is high, with clear and balanced sound, and the mix is well-composed, with the instrument and synth blending seamlessly.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1027602_segment_0_0",
+  "caption": "The track features a soft and flowing electronic melody with a consistent, medium-fast rhythm, creating a cool and ambient atmosphere. The production is of high fidelity, with clear and detailed sound, and the mix is well-balanced.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_89400_segment_7_0",
+  "caption": "The music features a repetitive synth melody accompanied by a steady electronic beat. The production quality is notably crisp, with clear separation between instruments and minimal background noise. The mood is futuristic and ethereal, with a hint of nostalgia.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1031402_segment_0_0",
+  "caption": "The piece features a lively accordion melody accompanied by a rhythmic electric guitar, bass, and steady percussion, creating a fun and upbeat mood. The production quality is high, with clear and balanced sound, minimal background noise, and well-defined instruments.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_488400_segment_8_0",
+  "caption": "The music features a lively, upbeat reggae rhythm with prominent saxophone melodies and a steady drum and bass beat, creating a joyful and energetic mood. The production quality is high with rich, clear sound, and the instruments blend harmoniously to create a captivating listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1062600_segment_3_0",
+  "caption": "The music features a chillout genre with a smooth, laid-back ambiance provided by synth pads and other atmospheric textures. The rhythm is set by drums in a calming tempo, creating a soothing and immersive listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_12301_segment_3_0",
+  "caption": "The music features a lively and upbeat tempo with a prominent brass section, likely trumpets or similar instruments, accompanied by a steady drumbeat. The mood is energetic and joyful, characteristic of a folk or country rock genre. The production quality is clear with a well-mixed and balanced sound, likely recorded in a professional studio with attention to detail in reverb and mixing.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_224800_segment_3_0",
+  "caption": "The audio features a catchy pop dance track. The production quality is top-notch, with a highly polished mix. The music is driven by a solid, driving beat with a prominent bassline, accompanied by a catchy melody and electronic synthesizer textures. The track has a lively, upbeat tempo, creating an energetic and danceable mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1288900_segment_6_0",
+  "caption": "This audio clip features a modern electronic music track with an energetic and upbeat vibe, characterized by a fast-paced tempo and a prominent synthesizer melody. The arrangement includes various electronic effects, including shimmering and flanger effects, contributing to the lively atmosphere of the piece. The recording quality is high, with clear and well-defined sounds, and the production values are top-notch, ensuring a professional and polished final product.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1056402_segment_4_0",
+  "caption": "The music is a soft, chillout ambient piece featuring layered guitars and a mellow synth that evokes a laid-back, warm and breezy vibe. The overall production is high quality with a mix that is well-balanced and the recording fidelity is excellent.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_464501_segment_5_0",
+  "caption": "The music features a lively tempo, with a cheerful and upbeat melody. It includes the strumming of the ukulele and the gentle plucking of the guitar, providing a warm and inviting atmosphere. The overall production quality is clear and well-mixed, with good balance between the different instruments.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1323801_segment_7_0",
+  "caption": "The music features a fast-paced, upbeat tempo with a dubstep or electronic genre feel. It includes electronic drum samples, a synthetic bassline, and glitchy, chopped-up samples that give the music a high-energy, rhythmic, and futuristic mood. There is also a synthetic vocal sample that provides a rhythmic harmony with the beat. The production quality appears to be professional, with well-mixed and mastered digital audio, resulting in a clear and dynamic sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1105600_segment_0_0",
+  "caption": "The music features an acoustic guitar with a warm, resonant sound, accompanied by a gentle piano melody in the background. The overall mood is serene and contemplative, with a slow and steady tempo that encourages introspection. The genre is likely folk or acoustic, with a focus on simplicity and natural acoustics. The production quality is high, with clear and detailed sound, including natural reverb and minimal background noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_997000_segment_8_0",
+  "caption": "A lively rock and roll piece with a fast tempo featuring electric guitar, bass, and drums, creating a joyful and energetic mood. The production is of high quality, with clear vocals, well-defined instrument sounds, and balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1158201_segment_15_0",
+  "caption": "A lively Christmas jingle, featuring bright bells, glockenspiel, and synthesizer, with a cheerful and upbeat mood, played at a tempo of 180.0 bpm. The music production is of high quality, with clear and balanced sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_953501_segment_5_0",
+  "caption": "The audio features a vibrant hip-hop track with a groovy, upbeat tempo. The song is produced with a prominent brass section playing a catchy melody over a rhythmic drum beat. The recording quality is high, with clear and resonant instrument sounds. The music has a lively, energetic feel and an infectious rhythm that encourages movement.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1073702_segment_3_0",
+  "caption": "The audio features a synth-driven electronic piece with a steady, upbeat tempo. The music is characterized by a soft, melodic synth wave, rhythmic percussion, and an ethereal choir. It creates a dreamy and reflective atmosphere, with a high degree of production quality including clear mix and smooth reverb effects.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_82601_segment_4_0",
+  "caption": "The music features a synth lead playing a melodic tune in a minor key, accompanied by rhythmic drums and ambient pads. The mood is contemplative and ethereal, with a steady tempo that suggests a synth-pop or electronic genre. The production quality is clear and balanced, with well-defined instrument separation and natural reverb.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1157701_segment_1_0",
+  "caption": "The audio features a blend of soft, melodic guitar strumming and subtle percussion. The music creates a calm and relaxing atmosphere, with a gentle tempo that is perfect for unwinding or focusing. The recording is clear and well-balanced, with the guitar and percussion clearly distinguishable.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_810100_segment_8_0",
+  "caption": "The audio features a lively electronic dance piece with a disco beat. It has a rhythmic, repetitive rhythm with synthesizer and percussion elements contributing to the upbeat, danceable mood. The production quality is high, with clear instrument separation and a controlled mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_152801_segment_8_0",
+  "caption": "The music features a fast-paced drum and bass beat, providing a lively and energetic vibe, accompanied by an orchestra of brass instruments, including the tuba and trombone, creating a powerful and rich sound texture. The recording is of high production quality, with excellent sound clarity and balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1095602_segment_18_0",
+  "caption": "This audio captures a solo piano performance with a classical feel, featuring a melody in the key of A major with a recurring chord progression. The piano has a clean and resonant sound, enhanced by subtle reverb to add depth and atmosphere. The tempo is moderate and steady, creating a solemn yet elegant mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1030101_segment_0_0",
+  "caption": "The audio features a solo acoustic guitar playing a gentle, slow-paced piece. The guitar is plucked with a fingerpicking technique, creating a warm, soft melody. The sound is rich and resonant, with clear notes that create a soothing and intimate mood. The track is likely of the folk or acoustic genre, produced with high-quality recording fidelity that ensures the acoustic nuances are captured clearly.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1027900_segment_0_0",
+  "caption": "The audio features an energetic rock guitar track with a driving rhythm, featuring a distorted guitar with a crunchy tone and a fast-paced drumbeat. The overall mood is upbeat and intense, with elements of punk and garage rock. Reverb is applied to the guitar, giving it a slightly echoey quality, while the drum mix is balanced and clear, showcasing the production's quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1066801_segment_1_0",
+  "caption": "The audio features a lively pop-rock track with a fast tempo, lively rhythm, and catchy melody. The instrumentation includes electric guitar, bass, drums, and keys, creating a bright and upbeat mood. The production quality is excellent, with well-defined instruments and a well-balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1018801_segment_4_0",
+  "caption": "A solo piano track plays a light, upbeat melody at a tempo of approximately 180 BPM. The genre is classical, featuring a well-crafted and harmonious arrangement. The recording fidelity is high, with clear and crisp sound quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_131600_segment_2_0",
+  "caption": "The audio features a lively and upbeat pop-dance track with a prominent electric guitar lead, accompanied by a steady bass line and rhythmic percussion. The mood is energetic and cheerful, suitable for dance or summer vibes. The production quality is clear, with well-balanced dynamics and a strong sense of depth that reflects a proficient recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_251100_segment_24_0",
+  "caption": "The audio features a slow and ethereal ambient electronic piece. The instruments include a soft, dreamy synth playing a melodic tune. The arrangement is sparse, with minimalistic instrumentation, providing a meditative mood. The tempo is slow and steady, allowing the listener to focus on the ethereal quality of the music. The production quality is high, with clear and well-defined sound, minimal background noise, and precise mixing. There is a sense of calm and otherworldliness in the recording, making it suitable for relaxation or introspection.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_318601_segment_0_0",
+  "caption": "The music features a melodic acoustic guitar playing in the foreground, accompanied by a subtle background, possibly from another instrument or a chorus effect. The overall composition has a serene and acoustic mood, and the tempo is moderate, creating a peaceful and tranquil atmosphere. The production quality appears to be quite good, with clear and consistent sound captured.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1374701_segment_1_0",
+  "caption": "The audio features a vibrant and lively country or folk-style music piece with prominently featured acoustic guitar. Accompanied by soft drums and bass, it conveys a cheerful and optimistic mood. The tempo is moderate, providing a steady and pleasant rhythm, while the production quality indicates a well-mixed and finely recorded performance.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_133600_segment_3_0",
+  "caption": "This is an instrumental rock music piece. There are guitar and drums. The mood is energetic. The tempo is fast. The recording quality is clear.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_146401_segment_1_0",
+  "caption": "The music features a steady beat with electronic synth elements, creating an energetic and engaging atmosphere. The production quality is clear, with good mix and recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_130500_segment_5_0",
+  "caption": "The audio features a heavy, rhythmic electronic beat with a pulsating synth bassline and sharp, high-pitched digital sounds, creating an energetic and intense atmosphere typical of hard dance music.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_159201_segment_11_0",
+  "caption": "The music clip features a soft and serene melody, with a blend of electronic and acoustic sounds. The melody is created by a synth, electric guitar, and piano, accompanied by a gentle rhythm. The overall mood is tranquil and gentle, creating a calming atmosphere. The production quality is average, with slight background noise and the sound is well-mixed.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_326501_segment_3_0",
+  "caption": "The audio features a solo piano performance with a classical composition. The melody is composed of somber and melancholic notes, evoking a sense of nostalgia and introspection. The tempo is moderate, with each note played with precision and emotion. The production quality is high with clear, resonant reverb, resulting in a rich and immersive listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_3900_segment_4_0",
+  "caption": "A soulful jazz piece features brass instruments, particularly a saxophone, accompanied by a steady drum groove, a groovy bassline, and a smooth yet expressive piano. The ambiance is vibrant and lively, with a relaxed, carefree mood. The tempo is moderate, creating a balanced rhythm that invites listeners to sway along. The production quality is excellent, with clear instrument separation and rich, full-bodied sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1075802_segment_8_0",
+  "caption": "The audio features a dreamy ambient piece with intricate piano arpeggios, lush strings, and ethereal chimes in the background. The mood is serene and introspective, creating a calming atmosphere. The tempo is relaxed, and the genre is electronic with a touch of new age. The production quality is high, with clear and well-balanced instrumentation.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_945201_segment_4_0",
+  "caption": "The music is a lively and upbeat electronic dance track in major. It features a synthesizer playing the main melody and chords, and a steady bass. There is also an electronic drum beat. The mood is positive and energetic, suitable for dancing. The tempo is around 128 beats per minute. The production quality is high-fidelity with clear sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1069400_segment_4_0",
+  "caption": "The audio contains a meditative piece with a blend of ambient synths, atmospheric pads, and a soft electric piano. The arrangement creates a dreamy and serene mood. The tempo is slow and steady, contributing to a calming atmosphere. The music is of the ambient genre and has been produced with high quality, evident from the clear and distinct instrument sounds with rich reverb and good mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1170202_segment_0_0",
+  "caption": "The audio presents a minimal techno track with a deep, pulsating bassline and a repetitive drum pattern, creating an energetic and dynamic atmosphere. The production quality is high, with clean sound and balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1179402_segment_0_0",
+  "caption": "The music features a clean electric guitar with a warm and natural tone, playing a catchy melody, accompanied by a strong and solid bass line in the background, a steady drumbeat, and a steady and driving rhythm that creates a positive and uplifting mood. The production quality is excellent, with clear and balanced sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1420800_segment_2_0",
+  "caption": "The audio features a classical piece with a soft piano melody accompanied by strings playing a gentle, harmonious layer. The music has a calming, serene mood that invites introspection. The tempo is slow and steady, typical of a ballad or slow movement in a classical composition. The sound is clear and rich, indicating high production quality with good mixing and mastering.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_865000_segment_10_0",
+  "caption": "The audio features a gentle and uplifting melody of a music box, accompanied by soft piano notes and twinkling bells. This composition evokes a serene mood, combining elements of ambient and classical music. The production quality suggests a high-fidelity recording, with balanced instrument placement and clear, crisp sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_253900_segment_3_0",
+  "caption": "The clip features a modern pop rock track with a soothing and upbeat mood. It utilizes electronic synths and a pop melody, complemented by a soft electric guitar and a steady drum beat. The production quality is high, with clear and clean sound. The overall tempo is slow and steady, providing a relaxing and pleasant listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_810901_segment_3_0",
+  "caption": "A fast-paced, upbeat rock song with an energetic tempo, prominent guitar riffs and a driving rhythm. The production quality is high with good mix and clarity, creating an engaging and lively atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_236401_segment_0_0",
+  "caption": "The music clip features a dreamy, ambient soundscape with electronic and synthesizer elements. The arrangement includes soft, flowing synth tones and distant, ethereal vocals. The mood is serene and otherworldly, creating a tranquil, introspective atmosphere. The tempo is slow and measured, emphasizing the dreamy vibe. The production quality is high, with good clarity and balanced mix, highlighting the ethereal quality of the music.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1129800_segment_6_0",
+  "caption": "The audio features ambient electronic music with a smooth synth pad creating a dreamlike atmosphere, reminiscent of a celestial or futuristic setting. The music is well mixed, with the reverb providing a spacious and immersive quality, contributing to an overall production that is polished and professional.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1415500_segment_3_0",
+  "caption": "The audio contains an alternative or indie rock composition with a dark and somber mood. The track features gritty, atmospheric guitar riffs, distorted bass, and driving punk rock drum patterns with a bit of punk flair. The production is raw, with a distinct lack of polish or reverb, giving it a grungy, street-smart vibe.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_12301_segment_8_0",
+  "caption": "The audio features a lively rock and roll piece with a prominent guitar lead. The harmony includes harmonica and brass instruments, giving the piece a rich, layered sound. The arrangement maintains a fast tempo, creating a vibrant and upbeat mood. The production quality is high, with clear audio and balanced mix of instruments.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_165900_segment_6_0",
+  "caption": "A soft and dreamy pop rock song with a light piano melody and guitar. The emotional and nostalgic mood creates a calming and serene atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1397901_segment_8_0",
+  "caption": "The audio features a fusion of electronic and acoustical elements, with a dominant bass guitar creating a rich, resonant background. The rhythm is steady and syncopated, providing a groovy and bouncy feel. The melody is primarily driven by repetitive patterns and layered with synth textures. The overall mood is nostalgic yet modern, with a touch of improvisational flair. The production quality is high, with clear, balanced sound and well-crafted layering.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1317801_segment_3_0",
+  "caption": "The music features a steady, medium-fast tempo with a groovy hip-hop beat and a repetitive, minimalist melody. The arrangement is sparse but effective, with a prominent bassline, rhythmic percussion, and an electronic synthesizer. The mood is cool and contemplative, with a focus on the rhythm and melody. The production quality is clear and professional, with good sound clarity and balanced mixing.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_250100_segment_41_0",
+  "caption": "The music features a soothing string ensemble with a calming melody, accompanied by a gentle, ethereal sound effect. The tempo is soothing and relaxed, with a calm mood, and the genre is ambient or new age. The sound is well-mixed, with good recording fidelity and a spacious, airy quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_449900_segment_2_0",
+  "caption": "The audio features a minimalistic electronic music track characterized by a synth arpeggio and a rhythmic synth bass line. The mood is dreamy and introspective, with a steady tempo suitable for reflective or meditative purposes. The production quality is clear, with a well-balanced mix and good recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1242000_segment_5_0",
+  "caption": "The audio features a soft, delicate tone from a tinkling bell and gentle chimes layered over a dreamy, ambient synth pad, creating a calming and ethereal atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1354100_segment_0_0",
+  "caption": "The music features a lively fiddle melody accompanied by acoustic guitar strumming, a bouncy drum beat, and a keyboard harmony, creating an upbeat and energetic country music piece with a clean and clear production quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1281201_segment_6_0",
+  "caption": "The audio features a modern electronic track with a soft, ambient feel. It employs a keyboard for the melody and percussion, accompanied by a steady bassline. The production quality is high, with clear and well-balanced instruments and a professional mix. The tempo is moderate and consistent, creating a soothing and relaxing atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_433600_segment_18_0",
+  "caption": "The audio features ambient electronic music with a tranquil and ethereal mood. The sound is characterized by a soothing synth texture and slow progression, creating a dreamlike atmosphere. The production quality is notable, with clear and balanced sound, providing a sense of space and depth.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_442801_segment_2_0",
+  "caption": "The audio features a fast-paced electronic track with a constant tempo and driving rhythm, driven by synthetic drum beats and a pulsating synth bass line. The genre is electronic or techno, and the sound is produced with a high level of production quality, featuring clear and vibrant audio textures and balanced instrumentation.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_250100_segment_27_0",
+  "caption": "The audio features a melodic, electronic music piece composed of a synthesizer playing a repetitive arpeggio pattern. The mood is dreamy and floating, reminiscent of an ambient track. The tempo is slow, creating a serene atmosphere. The production quality is high, with clear and balanced sound, and the mix is well-mastered, with minimal background noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_400400_segment_5_0",
+  "caption": "A rock/alternative music piece featuring a distorted electric guitar playing a complex riffs, a bass guitar providing a steady rhythm, and a fast-paced drum kit. The arrangement is intricate with a strong emphasis on the guitar and drums. The mood is energetic and lively. The tempo is fast-paced, around 145 BPM. The genre is rock or alternative metal. The production is high quality, with clear sound and balanced mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1095102_segment_1_0",
+  "caption": "The audio features a soft, melancholic piano melody with a smooth, flowing arrangement. The music conveys a somber and reflective mood, with a slow tempo and a touch of ambient reverb that enhances the emotional depth. The production quality is professional, with balanced mixes and high recording fidelity, creating a rich and immersive listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_80801_segment_0_0",
+  "caption": "The music clip features a synth arpeggio that repeatedly ascends in pitch in a three-quarter time signature. The arrangement is minimalistic with a prominent and clear synth lead, supported by a simple rhythmic background. The mood is minimalistic and electronic, with a sense of anticipation or buildup. The tempo is moderate, with a consistent and repetitive structure. The genre is synthwave or electronic techno, and the production quality is clear and straightforward. The recording fidelity suggests this is likely a digital recording with no noticeable ambient noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_433600_segment_7_0",
+  "caption": "The music features sustained electronic pads in the background, creating a serene and otherworldly atmosphere. The sound is consistently layered, blending smoothly to maintain a cohesive and immersive audio experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_372601_segment_0_0",
+  "caption": "The music clip features a soft, ethereal synth pad playing a slow, dreamy melody, with subtle atmospheric effects and spacious reverb. The overall mood is calm and introspective, with a gentle tempo that invites relaxation. The production quality is high, with a clean mix and clear recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1153401_segment_3_0",
+  "caption": "The music features a fast-paced electronic beat with a dominant synth melody accompanied by rhythmic percussion, creating a vibrant and energetic atmosphere. The production quality is high, with clear mixing and well-defined treble and bass tones.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1378001_segment_4_0",
+  "caption": "The audio features a slow and soothing electronic track with a strong presence of synthetic instruments accompanied by a gentle pad. The mood is tranquil, ideal for meditative practices, with a slow tempo and a gentle ambient background. The production quality is high, with clear audio and detailed instrument recognition.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1385200_segment_1_0",
+  "caption": "The music features a crisp and resonant digital synth lead, complemented by a soft arpeggiated synth melody, all carried by a driving four-on-the-floor beat. The arrangement is sparse yet vibrant, with a lively tempo that creates an energetic yet controlled atmosphere. The production quality is high, with clear and balanced instrumentation and refined mix, indicative of a modern and polished sound. The genre can be best described as a blend of dance and electronic, with a focus on contemporary production techniques.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_702500_segment_1_0",
+  "caption": "The music features a smooth and soothing string ensemble, evoking a serene and elegant mood. The tempo is slow and steady, allowing the listener to immerse themselves in the rich, layered sound of the strings. The production quality is high fidelity, with clear and well-defined instrument tones that blend seamlessly. The genre appears to be classical or orchestral, characterized by the use of strings to create a calm and sophisticated atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1295901_segment_1_0",
+  "caption": "The audio features heavy basslines and synthesized melodies, creating a synth-pop dance genre. The arrangement is dense and layered, with a consistent tempo that encourages dancing. The production is polished, with clear focus on the bass and synth textures, emphasizing a vibrant, energetic mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1363601_segment_3_0",
+  "caption": "This is a soft rock instrumental piece featuring a slow and calming tempo. The guitar and drums are prominent, providing a relaxing and laid-back atmosphere. The music is evenly balanced and has a moderate production quality, with the sound being clear and in focus, suggesting it was recorded in a professional studio setting.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1378201_segment_3_0",
+  "caption": "The audio features an electronic music track with prominent bass, heavy use of synths, and industrial sounds. The tempo is fast, with a driving, intense rhythm. The mood is dark and energetic, typical of the dubstep genre. The production quality is low, with noticeable distortion and limited clarity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_409701_segment_0_0",
+  "caption": "This clip features a solo acoustic guitar, alternating between finger-picking and strumming patterns. The melody is upbeat and hopeful, creating a cheerful and optimistic mood. The production quality is high, with clear and rich sound, and the mix is well-balanced between the guitar and the ambient atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_400700_segment_2_0",
+  "caption": "The audio features a medley of synthesizer sounds that create a space-age, futuristic atmosphere. The arrangement is minimalist, with a focus on electronic elements such as a digital beep and a synth lead. The music has a consistent tempo, creating a steady, driving beat. The genre is electronic, with a mix that is balanced but slightly leaning towards the synth and digital elements. The production quality is high, with a clear and detailed sound without any noticeable noise or distortion.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1375801_segment_3_0",
+  "caption": "The audio features a fast-paced electronic techno track with a prominent synth bass line and drum machine beats creating a rhythmic and energetic atmosphere. The production quality is high, with clear and balanced sound elements and well-defined drum sounds.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1075802_segment_10_0",
+  "caption": "The music is a harmonious blend of electronic sounds reminiscent of a synthesizer, creating a soothing and melodic atmosphere, with a steady beat that suggests a drum and bass rhythm. The production quality is high, with clear and balanced sound, allowing each instrument to be distinctly heard. The mood is chill and relaxing, perfect for a serene background score or for setting a calm ambiance.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_173801_segment_2_0",
+  "caption": "The music features a solo keyboard playing a melancholic melody, accompanied by a strings section that provides a rich counterpoint and a gentle cymbal wash. The overall mood is somber and introspective, with a slow tempo and a cinematic quality. The production quality is moderate, with the keys having a nostalgic reverb and the strings coming together smoothly.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1377101_segment_2_0",
+  "caption": "A solo piano piece in a minor key with a somber and reflective mood. The tempo is slow, around 87.8 BPM, and the style is classical or solo instrumental music. The production quality is high, with clean recording and clear articulation of the piano notes.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1158201_segment_20_0",
+  "caption": "The audio features a relaxing music track with a slow tempo, featuring a combination of various instruments. The mood of the music is calm and serene, with a mix of soothing tones and gentle rhythms, possibly drawing from genres like ambient, new age, or easy listening. The production quality is high, with clear instrument sounds and well-balanced audio mix that provides a refined listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_973501_segment_0_0",
+  "caption": "The audio features a driving electric guitar with a rock sound, accompanied by a strong bass guitar line and upbeat, rhythmic drums. The production is clear, with good mix and recording fidelity. The overall mood is energetic and vibrant.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1295900_segment_2_0",
+  "caption": "The audio clip is a fast-paced electronic music track featuring a pulsing synthesizer melody with occasional bursts of distorted guitar riffs. The arrangement is straightforward with no distinct percussion instruments, contributing to an energetic and trance-like atmosphere. The production quality is relatively clear, with good audio fidelity and no noticeable reverberation or distortion.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1300001_segment_7_0",
+  "caption": "This is an electronic music track featuring a synth-based arrangement with evolving arpeggios and atmospheric soundscapes. The tempo is moderately fast, and the genre can be classified as ambient or experimental electronic. The production quality is high, with clear and distinct sound elements. The mood is introspective and immersive, complemented by a lush, evolving sound environment.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_840600_segment_4_0",
+  "caption": "The music is a fast-paced metal track with a prominent electric guitar melody, accompanied by a strong bass line and pounding drums. The tempo is quick, creating a high-energy atmosphere. The production quality is high with clear and detailed sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1125402_segment_0_0",
+  "caption": "The audio is a blend of electronic and orchestral elements, featuring a steady rhythm accompanied by a melancholic melody. The mood is introspective and somber, akin to an intimate live performance captured with high-quality recording techniques. The music has a slow tempo with a subtle, almost whispering quality, suggesting a reflective or emotional narrative.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1095600_segment_9_0",
+  "caption": "The music is a solo piano piece in the key of F minor with a tempo of 165.8 BPM. It features a flowing and somewhat melancholic melody with a simple chord progression and a strong rhythmic emphasis. The production quality is high, with clear sound and the piano playing beautifully.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_209800_segment_4_0",
+  "caption": "The audio features a heavy metal rock piece with distorted electric guitar riffs, driving bass guitar, and drum kit accentuated with fast-paced snare drum rolls and double bass drumming, creating an intense and energetic mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1150102_segment_2_0",
+  "caption": "The music features a soft piano melody accompanied by gentle chimes and ambient textures, creating a tranquil and introspective atmosphere. The tempo is slow and steady, evoking a calm and contemplative mood. The production quality is high, with clear sound and well-balanced instrument blend, indicating a professional recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_80501_segment_1_0",
+  "caption": "This is a guitar-driven rock track with a strong, melodic riff. The song has a steady tempo and a feeling of urgency. The production is of high quality, with clear and balanced instrumentation, including a prominent electric guitar and a strong drum beat.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_347600_segment_5_0",
+  "caption": "A soothing folk song with acoustic guitar strumming, accompanied by soft drums, strings, and ambient sound effects. The music is bright and gentle, evoking a peaceful and contemplative mood.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_881100_segment_5_0",
+  "caption": "The music features a rich orchestral arrangement with strings, brass, and percussion, creating a dramatic and epic mood. The tempo is moderately fast, contributing to the energetic and powerful feel. The genre is likely classical or soundtrack, with a strong emphasis on harmony and balance. The production quality is high, with clear and well-crafted instrumentation and a cohesive mix.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1032802_segment_4_0",
+  "caption": "The audio features a high-energy electronic music track with a pulsating bass line and rapid drum patterns. The overall mood is intense and dark, evoking a sense of foreboding and mystery. The production quality is excellent, with crisp sound design and clear instrument separations. The track is likely intended for a high-impact performance or cinematic soundtrack.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1124802_segment_0_0",
+  "caption": "The clip features a rock drum beat that is consistent and heavy, with a strong, driving rhythm in a 4/4 time signature. Accompanying the drum kit are electric guitars that contribute to the rich, distorted sound typical of hard rock and grunge. The production quality is high, with clear and balanced audio, and the mix brings out the full energy of the instruments. The mood of the music is intense and aggressive, evoking a sense of power and emotion.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1195702_segment_2_0",
+  "caption": "The audio showcases a melodic, orchestral piece featuring violins and a horn section, with a regal and classical atmosphere that evokes a sense of nobility and grandeur. The tempo is moderate, and the production quality is high, with clear and well-balanced sound elements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_310401_segment_7_0",
+  "caption": "The music features a lively rock and roll rhythm with a prominent brass section and electric guitar throughout. The song begins with a fast tempo and energetic feel, but gradually slows down towards the middle. The production quality is high with clear instrument separation and good audio fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_224800_segment_6_0",
+  "caption": "This music clip features a vibrant electronic house track with a driving beat produced by a synthesizer. The music is energetic and upbeat, creating a lively and danceable atmosphere. The production quality is high, with clear and well-balanced sound, indicating a professional recording setting, and the ambient effects are subtle but effective in enhancing the overall mood of the track.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_75201_segment_4_0",
+  "caption": "The audio features a soothing melody of a guitar strumming, backed by a gentle piano, complemented by soft ambient noise. The overall atmosphere is calm and introspective, typical of a live, low-fidelity performance.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1161202_segment_3_0",
+  "caption": "The audio features a heavy industrial metal arrangement that utilizes a dominant drum set and heavy distortion guitar riffs. The overall mood is aggressive and intense, creating an atmosphere of tension and conflict. The tempo is fast-paced and energetic, characteristic of heavy metal music. The production quality is high, with clear instrumentation and a strong soundstage.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_165901_segment_3_0",
+  "caption": "The audio features a pop music composition with a lively tempo and a catchy chorus accompanied by a memorable melody. It includes a prominent drum beat, a melodic bassline, and a lush string section. The production quality is professional, with a clear mix and well-distributed sound effects.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1418300_segment_1_0",
+  "caption": "The audio features a tranquil, acoustic guitar melody accompanied by a soft, ambient chorus effect.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1014400_segment_3_0",
+  "caption": "The audio features a soft, ambient track with guitar strumming as the primary instrument. The music is slow-paced and has a dreamy, melancholic mood. The production quality is high, with clear mixes and good recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_141800_segment_1_0",
+  "caption": "The music features a slow tempo with a prominent guitar melody, accompanied by subtle percussion and melodic background elements. The mood is introspective and melancholic, characteristic of ambient or experimental genres. The production quality is mid-fi, with some distortion and noise, suggesting an informal recording environment.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_485800_segment_7_0",
+  "caption": "The music features a classic rock groove with a prominent lead guitar melody playing over a steady bass and drum rhythm. The sound is crisp and well-balanced, indicating high production quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1330500_segment_8_0",
+  "caption": "The music features a melancholic melody played by an electric guitar, accompanied by an underlying electronic tone. It has a slow tempo and a somber mood, characteristic of a sad rock genre. The production quality is high, with clear and well-mixed sound elements and balanced reverb effects, providing an immersive listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1075202_segment_2_0",
+  "caption": "The music clip features a soothing lo-fi hip hop genre with a soft piano melody, mellow guitar strums, and gentle percussion, creating a relaxed and introspective mood. The production quality is high, with a clean and balanced mix, allowing the instruments to shine through without any distortion or interference.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_478300_segment_8_0",
+  "caption": "The audio features a heavy metal/rock track with a fast-paced drum beat providing a driving rhythm in the background. Over the top, an electric guitar plays a powerful lead melody, accompanied by an intense bass guitar. The overall arrangement is aggressive and energetic, creating a thrilling and powerful mood that suits the genre well. The recording has a high production quality, maintaining clarity and balance between the instruments.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1150102_segment_15_0",
+  "caption": "This is a slow and gentle ambient music piece with soft, dreamy guitar arpeggios and ethereal string arrangements. The overall mood is tranquil and atmospheric, conveying a sense of calmness and introspection. The production quality is high, with clear and well-balanced sound, and a smooth, uninterrupted mix that enhances the serene atmosphere. The tempo is very slow, creating a relaxing and contemplative environment.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1168701_segment_0_0",
+  "caption": "The music features an ethereal and atmospheric texture, with floating synth pads and subtle percussion that create a dreamy, experimental mood. The arrangement is sparse, focusing on subtle soundscapes and ambient elements, while the production quality is high, offering clear and immersive sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1080502_segment_8_0",
+  "caption": "The music features a strumming acoustic guitar with a calming and relaxed mood, played in a minor key, with a steady tempo of around 95 BPM. The production quality is high with clear audio, minimal background noise, and well-balanced mix of instruments.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_387501_segment_1_0",
+  "caption": "The music features a clean electric guitar playing a simple and melodic riff, supported by a gentle bassline and atmospheric synth pads. The mood is dreamy and introspective, with a tempo of around 70 BPM. The genre could be ambient or shoegaze. The production quality is clear with good mix and balance, and the reverb on the guitar adds depth to the sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_798201_segment_6_0",
+  "caption": "The music features a lush orchestral arrangement with prominent strings and brass. The tempo is slow with a melancholic mood, while the production quality is high fidelity, creating a rich and emotional listening experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1157302_segment_2_0",
+  "caption": "A solo piano piece with a warm, bright, and flowing melody playing in the minor key, giving the piece an elegant and sophisticated mood at a medium tempo. The recording is clear with good focus on the piano and a balanced mix in the recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1289300_segment_0_0",
+  "caption": "The music features a steady tempo with a mix of string instruments such as violins and cellos creating a dramatic and suspenseful mood, typical of a soundtrack or film score. The production quality is high with clear sound and well-balanced mix, suggesting a studio recording.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1168502_segment_2_0",
+  "caption": "The audio features an electronic instrumental piece characterized by a medium tempo and a lively, upbeat mood. The instruments include synthesizers, electric piano, and drum kit, weaving together a vibrant and energetic soundscape. The production quality is high, with clear and crisp sound, and the mix effectively balances the different elements, giving the track a polished and professional production.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_400700_segment_7_0",
+  "caption": "The music features a lively drum and bass rhythm with a lively brass section, creating an upbeat and energetic mood. The instrumentation includes a strong emphasis on percussion and brass, resulting in a rich and vibrant sound with high production quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1235700_segment_5_0",
+  "caption": "A synth plays an energetic and driving melody, accompanied by a consistent beat from drums. The piece has a positive and upbeat mood, with a fast tempo and a danceable rhythm. The production is clear and well-mixed, with a slight echo effect on the synth.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1060000_segment_1_0",
+  "caption": "The audio contains a pleasant classical music piece featuring a violin playing the main melody accompanied by a soft piano in the background. The arrangement creates a light and soothing mood, perfect for a calm setting, and it is rendered with clear production quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1158502_segment_2_0",
+  "caption": "This is an instrumental rock piece played in A major with a tempo of 153.3 BPM, featuring electric guitar and drums. The electric guitar and drums are in a two measure progression, with a chord progression alternating between A major and E major. The track is well produced, with good mix and recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1353300_segment_4_0",
+  "caption": "The music is a deep house track characterized by a steady, driving beat and a pulsing bassline. It features a minimalistic arrangement with electronic sounds, creating an immersive and energetic atmosphere. The production quality is high, with clear, balanced instrumentals and well-defined sound textures.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1288400_segment_1_0",
+  "caption": "The music features a heavy electronic beat with driving basslines and pulsating synths, creating a relentless and intense atmosphere. The arrangement is intricate, with sharp, staccato percussion and a mix of glitchy textures added to the main groove, indicative of a modern dubstep track. The production quality is high, with clear and balanced instrumentation despite the fast tempo and complex production elements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_80701_segment_5_0",
+  "caption": "The music clip features a soft, ambient composition with a slow tempo and a moody, mysterious mood. It is produced with high-quality recording fidelity, showcasing a delicate interplay of strings and electronic synths, reminiscent of a serene nocturnal landscape. The overall atmosphere is tranquil, evoking feelings of introspection and reflection.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1166101_segment_3_0",
+  "caption": "The audio features a cheerful and positive acoustic track led by a gentle guitar and ukulele. The melody is complemented by light, mellow piano and bells, creating a serene and upbeat atmosphere. The track is well-produced, with balanced audio and clear, distinct instrument sounds. The tempo is steady, creating a calming and inviting mood. This piece would be perfect for advertisements, podcasts, or videos that wish to convey a sense of happiness and relaxation.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_504000_segment_6_0",
+  "caption": "This audio features a futuristic electronic music piece with a fast-paced, steady rhythm, dominated by a synth and a driving beat. The synth has a pulsating quality, creating an intense, energetic mood. There is a sense of progression and forward movement in the music, which is typical of synthwave or retrowave genres. The production quality is clear and sharp, indicative of a modern recording setup.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_250100_segment_18_0",
+  "caption": "The music features a soft, ambient atmosphere with a repetitive, pulsing electronic melody played on xylophones creating a serene and dreamy mood. The production quality is impeccable, with well-defined layers and a smooth sound. A gentle, shimmering synth background adds to the calmness, likely providing a calming effect with its steady tempo.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1326800_segment_4_0",
+  "caption": "A soulful piece of music with prominent organ and synth elements. The beat is pulsating and energetic. The atmosphere is reminiscent of a lively cityscape. The production quality is high, with clear and balanced audio that enhances the overall musical experience.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_40301_segment_8_0",
+  "caption": "The audio features a lively rock and roll composition with a prominent flute melody, a lively drum beat, and a guitar strumming rhythm. The arrangement is rich and harmonious, setting an energetic and upbeat mood. The tempo is upbeat and slightly fast-paced, making the music feel lively and invigorating. The recording quality appears to be of high fidelity, with good clarity and balance between the instruments.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_108302_segment_6_0",
+  "caption": "The music clip features a driving electronic beat with a heavy emphasis on synth bass and atmospheric pads. The arrangement is characterized by a repetitive, yet evolving pattern that creates a sense of forward motion. The mood is futuristic and intense, with layers of synthesizer textures adding depth and complexity. The tempo is fast-paced, with an energetic and rhythmic feel. The production quality is high, with clear and balanced audio elements, suggesting a professional recording session.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1399701_segment_8_0",
+  "caption": "The audio features a pulsing electronic dance music track, likely of the Trance genre, with a steady and driving tempo. The song is produced with a mix that includes reverb and other effects, lending it a rich, immersive quality. The instruments primarily consist of synthesizers, which create the rhythmic and melodic elements, while the bass adds depth and drive to the composition.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1189902_segment_1_0",
+  "caption": "This is a lively classic rock piece with an energetic and upbeat tempo. The distorted electric guitar and bass guitar play the main melody against a simple yet effective drum beat. The overall mood is positive and confident, making it suitable for a rock and roll playlist. The production quality is high, with clear and well-balanced instruments and a well-crafted arrangement.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1371501_segment_0_0",
+  "caption": "The music features a soft and mellow synthesizer melody that creates a calm and introspective mood. The arrangement is minimalist, focusing on a subtle arpeggio pattern that moves gently in a slow tempo. The production quality is high, with clear and balanced sound, and a sense of space and depth is achieved through the use of reverb. The genre is ambient or electronic, with a focus on creating a soothing and dreamy atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_311701_segment_9_0",
+  "caption": "The music features a distinct tabla rhythm and melodic sitar playing, creating a traditional Indian musical piece. The arrangement is simple yet elegant, evoking a calm and introspective mood. The production quality is clear, with good recording fidelity and minimal background noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1313000_segment_3_0",
+  "caption": "The music features a muffled electronic sound with a steady, rhythmic beat and a low-frequency bassline, creating an ambient, melancholic mood. The arrangement is sparse, with a minimalistic sound design, and the production quality suggests a live recording scenario with modest audio equipment.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_74601_segment_2_0",
+  "caption": "The audio features a classical music piece, likely composed for solo harp, with intricate melodies and harmonies. The music creates a serene and ethereal atmosphere, suggestive of a tranquil and majestic setting. The recording quality is good, with clear sound and well-defined dynamics.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_533201_segment_7_0",
+  "caption": "The audio features a melancholic piano melody accompanied by heavy, pulsating synth bass and a haunting string orchestra, creating a somber and introspective mood. The production quality is professional, with careful balance and clarity, suggesting a classical or experimental ambient genre.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1118602_segment_22_0",
+  "caption": "This music clip features a minimalistic electronic arrangement with ambient pads and glitchy, pulsing textures, creating a moody and introspective atmosphere. The tempo is slow and steady, with a subtle rhythmic element that enhances the glitchy elements of the sound. The production quality is high, with clear and focused sound, allowing the glitchy textures to stand out against the more muted background pads.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1196501_segment_0_0",
+  "caption": "The audio features a repetitive pattern of drum hits, possibly from a drum machine or similar device, creating a steady, electronic dance groove. The mood is upbeat and energetic, suited for a lively party or dance environment. The tempo is consistent with 128 BPM, emphasizing a lively beat. The genre is electronic dance music (EDM) with a focus on rhythmic patterns. The production quality appears to be simple or minimalistic, focusing on the beat without complex layering or additional effects.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1080502_segment_9_0",
+  "caption": "This music clip features a solo acoustic guitar playing gentle, finger-picked chords in a relaxed and melodic style, creating an ambient and serene mood. The guitar is the sole instrument used, producing a warm, organic, and intimate sound with a steady rhythm that evokes a sense of calm and introspection. The production quality is clear with minimal background noise, making the melody the focal point of the composition.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_31801_segment_1_0",
+  "caption": "The music is a modern electronic production characterized by a steady, driving beat and a simple yet repetitive chord progression. The synth lines are crisp and electronic, contributing to an overall futuristic and technical sound. The mood is neutral, neither particularly happy nor sad, and it has a consistent tempo that contributes to a sense of smooth, uninterrupted flow. The recording quality is moderate, with some background noise, but the audio is clear enough to identify the key as B minor and the time signature as 4/4.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_49100_segment_4_0",
+  "caption": "The music features a blend of orchestral strings with a hip-hop beat, creating a cinematic and dramatic atmosphere. The tempo is slow and steady, complementing the emotional and reflective mood of the piece. The production quality is high, with clear and balanced sound, enhanced by a subtle reverb effect on the strings to create depth and texture.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1029002_segment_2_0",
+  "caption": "The music is an orchestral piece with a powerful, dramatic mood. It features majestic symphonic strings, a thunderous timpani beat, and a choir, all contributing to a grand and epic atmosphere, reminiscent of an adventure game or Hollywood blockbuster film score. The audio is well-produced, with balanced sound mix and clear audio fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1157701_segment_6_0",
+  "caption": "The music features a gentle acoustic guitar melody accompanied by soft string instruments, creating a tranquil and soothing mood. The song has a moderate tempo, typical for ambient or chill-out music. The production quality is of moderate fidelity, with a well-balanced sound mix that allows the guitar and string tones to shine.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_659901_segment_1_0",
+  "caption": "This is a lounge music track with an easygoing atmosphere. The sound is soft and smooth, featuring a simple drum beat and a melodic electric guitar. This track would be suitable for a relaxing environment, such as a cafe or a spa.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_760900_segment_4_0",
+  "caption": "The music clip features a solo electric guitar playing an upbeat and energetic rock and roll piece, with prominent distortion and crunch effects. The music has a driving rhythm with a steady tempo and a bright, lively mood. The recording quality is clear and well-mixed, allowing the guitar tone to shine through.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_31801_segment_0_0",
+  "caption": "The audio features a repetitive, low-frequency electronic sound accompanied by a deeper, resonant element that creates a futuristic and ambient atmosphere.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_141800_segment_13_0",
+  "caption": "The music features a deep, heart-like rhythm set against a backdrop of electronic noise and beeps. It creates an atmosphere of suspense and anticipation, potentially for a dramatic or suspenseful scene in a film or game. The production quality is high, with clear and distinct sounds of the heartbeat and electronic beeps, and the mix is well-balanced.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1170402_segment_3_0",
+  "caption": "The audio features a minimalist piano piece with a repetitive motif and minimal variation, creating a serene and reflective mood. The tempo is slow and steady, with a focus on the purity of the piano sound. The production quality is high, with clear and unobtrusive sound, allowing the simplicity of the piano to shine.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_322101_segment_9_0",
+  "caption": "The track features a deep, throbbing electronic bassline driving the melody, while a crisp, rhythmic synth pulse overlays it, creating a compelling and energetic dance groove. The production is polished and well-mixed, with a clear and focused sound, characteristic of modern electronic music production.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1300500_segment_9_0",
+  "caption": "The music features a choir and harp, creating an atmosphere of otherworldly beauty and tranquility. The tempo is slow and gentle, allowing the melodies to evoke a sense of wonder. The production quality is high, with clear and balanced sound, likely produced in a professional studio.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_474700_segment_1_0",
+  "caption": "This is an instrumental thrash metal song. The electric guitar has a fast paced and aggressive sound. The song is dynamic with a complex arrangement of the guitar and drums.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_992500_segment_4_0",
+  "caption": "The music features a lively rock and roll rhythm with prominent electric guitar and drums, giving it a feel like a classic rock and roll band.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_474700_segment_5_0",
+  "caption": "The music is a fast-paced rock piece with a heavy metal influence, featuring a prominent electric guitar playing an energetic and intense melody with a shredding effect. The arrangement is structured with energetic chord progressions and a fast tempo, creating a lively and aggressive mood. The recording quality is high, with clear audio and well-defined sound texture, and the production is polished, showcasing the band's skill and expertise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1160600_segment_5_0",
+  "caption": "The audio is a lively rock track featuring a strong electric guitar riff and driving bass line. The drums provide a solid rhythm with a bit of sparkle. The overall mood is upbeat and energetic. The production quality is average with some background noise and mix issues, but the sound is clear enough to hear the instruments distinctly.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1417801_segment_2_0",
+  "caption": "The clip features a heavy metal music track with distorted electric guitar riffs, a loud bass guitar, and aggressive drumming. The music is intense, energetic, and aggressive, creating a powerful and intense mood, characteristic of hard rock and heavy metal genres. The production quality is professional, with clear and well-balanced instruments and an overall polished sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1173500_segment_5_0",
+  "caption": "The music features an evocative blend of piano and strings, with the piano playing a poignant melody while the strings add depth and emotion, creating an atmospheric and melancholic mood. The tempo is slow and methodical, suggesting a serious and contemplative genre, likely classical or orchestral. The production quality is high, with clear and balanced instrument separation, allowing the emotional progression of the music to be fully appreciated.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_203701_segment_2_0",
+  "caption": "The audio features a groovy, electronic track with a prominent bassline and synthesizer melodies, creating a warm and textured sound. The tempo is steady and driving, maintaining an energetic pace. The genre is modern electronic music with a chill, danceable feel. The production quality is high, with clear and balanced mix between the instruments, and good recording fidelity.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_399200_segment_6_0",
+  "caption": "An acoustic guitar plays a rhythmic melody in the forefront while a drum kit provides steady, pulsating rhythm in the background. The mood is soothing and the tempo is slow, characteristic of an acoustic blues or soulful folk genre. The production is of average fidelity, with some background noise making the overall sound slightly unclear.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_468601_segment_2_0",
+  "caption": "The music features a lively tempo with a prominent bass guitar and acoustic guitar playing in a minor key, accompanied by a drum kit and other percussive elements. The mood is energetic and slightly melancholic, with the arrangement consisting of a four-to-the-floor beat and occasional synth accents. The production quality is clear with well-balanced mix, though no evident reverb or special effects are noted.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1399701_segment_5_0",
+  "caption": "The audio features a techno track with an electronic sound. The music has a hypnotic and rhythmic beat with a bouncy, repetitive melody that is typical of the techno genre. The arrangement includes a strong synth with a syncopated rhythm, driving bass, and a steady drumbeat. The production quality is high, with clear and balanced sound, allowing the listener to focus on the intricate rhythms. The mood is intense and energetic, with a futuristic feel that is characteristic of modern electronic music.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1339600_segment_4_0",
+  "caption": "The music features a consistent and energetic electronic beat with a prominent synthesizer melody. The arrangement is simple yet compelling with a strong focus on the rhythm, creating an upbeat and danceable mood. The production quality is clear and modern, with a well-mixed sound that highlights both the melody and the rhythmic elements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_141800_segment_12_0",
+  "caption": "The audio features a fusion of electronic and classical elements, with a synth providing a layered melody over a drum machine and bass drum beat. The mood is atmospheric and reflective, creating a modern classical ambiance. The tempo is moderate, contributing to the composition's balanced and spacious sound. The production quality suggests professional recording with clear mixing and processing, enhancing the depth and richness of the audio texture.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1095602_segment_3_0",
+  "caption": "The audio features a solo piano piece with a classical and sophisticated arrangement. The piano plays a catchy and dynamic melody in a major key, creating a lively and upbeat mood. The tempo is quite fast, and the production quality is high, with clear and well-balanced sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_250100_segment_22_0",
+  "caption": "The music clip features a minimalistic electronic track with a fast tempo, featuring a repetitive synth arpeggio and a soft, pulsing beat. The arrangement is sparse, with no noticeable percussion. The mood is uplifting and energetic, with a clean and clear mix, contributing to a modern and polished production quality.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_16101_segment_5_0",
+  "caption": "The music features a lively, fast-paced rock and roll sound, characterized by distorted guitar riffs, prominent bassline, and rhythmic drumming. The audio is clear with good production quality, allowing for a confident and energetic performance.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_451400_segment_2_0",
+  "caption": "The music is a slow-paced, mellow rock with a laid-back, mellow mood. The electric guitar is the main instrument, accompanied by bass guitar, drums, and occasional piano. The tempo is slow with a steady, repetitive beat. The production quality is quite good, with clear instrument separation and controlled reverb, ensuring a well-mixed and professional sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1404701_segment_5_0",
+  "caption": "The audio features a minimalist electronic composition with a repetitive synth bassline, subtle arpeggiated melodies, and a steady, slow tempo. The mood is dreamy and atmospheric, evoking a sense of nostalgia or introspection. The production quality is high, with clear sound and minimal background noise.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1346600_segment_0_0",
+  "caption": "The audio contains a chaotic industrial drumming sequence with metallic, distorted percussion and an intense, noisy atmosphere. The tempo is fast and aggressive, typical of noise and experimental rock genres. The production quality is notably low-fidelity, with significant background noise and harsh distortion.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1414001_segment_2_0",
+  "caption": "The music is a soft ambient track featuring a simple piano melody accompanied by a steady synth bass line, creating a tranquil and minimalistic mood. The tempo is slow and steady at 105 BPM, and the genre can be classified as electronic or ambient. The production quality is average, with some reverb on the synth bass giving it a slight echo that softens the overall sound.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "02_1074802_segment_1_0",
+  "caption": "The audio features a reggae-style instrumental piece with a steady bassline, rhythmic guitar strums, and a repetitive reggae rhythm. The music has a relaxed, laid-back mood characteristic of reggae. The production quality is excellent, with clear audio and well-defined sound elements.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "00_1283000_segment_3_0",
+  "caption": "The audio features a classic rock song with an upbeat tempo, characterized by a prominent electric guitar playing a catchy melody accompanied by rhythmic drums and a solid bass line. The producer has ensured a high-quality recording with clear audio, lending an authentic and lively feel to the song.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "01_1399701_segment_2_0",
+  "caption": "The music features a fast-paced electronic beat with a consistent tempo and a repetitive melody. The production quality suggests a modern and commercially-oriented sound, with clear and well-balanced instrumentation.",
+  "label": "KEEP",
+  "stratum": "luna_random_keep"
+ },
+ {
+  "id": "81_874881_segment_0_0",
+  "caption": "The caption is: 'A high-pitched, repetitive rhythmic pattern of a shaker instrument, creating an energetic and lively mood, with a tempo of approximately 170 BPM, indicative of a genre such as house or electronic music, and exhibiting good recording fidelity with clear and precise sound quality.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "49_1326649_segment_0_0",
+  "caption": "The caption is: 'A digital synth melody plays with a shimmering delay effect. The arrangement is simple, with a single synth line. The mood is futuristic and experimental. The tempo is slow and steady at 90 beats per minute. It is likely from the electronic genre, with low production quality and a focus on sound design over detailed mixing or recording fidelity.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "65_24065_segment_3_0",
+  "caption": "The caption is: 'The audio features a synth-driven electronic piece with a steady, driving beat, evoking a futuristic and mysterious atmosphere, characteristic of techno genre with high production quality.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "81_1414081_segment_0_0",
+  "caption": "The caption text is: 'A melodic, rhythmic jingle with a soft, tinkling xylophone sound accompanied by a delicate bell-like chime. The track has an upbeat, whimsical mood, with a light, happy tone and a tempo of about 120 BPM. It appears to be a production of a video game or children's theme, designed to be engaging and playful, with a focus on simplicity and charm. The recording is of moderate clarity, with the instruments well-defined yet slightly muffled, indicating a sound design meant to keep the focus on the melody.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "36_949036_segment_1_0",
+  "caption": "The caption is: A heavy electronic rock track, with hard-hitting drums, deep bass, and distorted guitars. The music has a gritty, industrial feel, with a fast tempo and a tense, ominous mood. The production quality is high, with clear and balanced sound, and the mix is well-composed but somewhat aggressive.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "73_1397773_segment_9_0",
+  "caption": "The caption is: 'A slow-paced, dark piece of classical music in Bb minor with a tempo of 86.6 BPM. It features a prominent bassoon and a harpsichord, with a melancholic melody created by strings. The music has a rich, warm sound with rich reverb that gives it a mystical atmosphere.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "25_1420525_segment_5_0",
+  "caption": "The caption is: This music features a pulsating rhythm driven by a lively drum and bass beat, accompanied by a vibrant synth melody and occasional piano notes. The production quality is high, with a well-balanced mix and clear audio.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "89_5089_segment_0_0",
+  "caption": "The caption is: A clean electric guitar plays a series of arpeggiated chords in this melodic and mellow jazz fusion track. The instrumentation is minimal, with the guitar as the sole focal point. The mood is introspective and contemplative, while the tempo is gentle and relaxed, characteristic of a smooth jazz genre. The production is of good quality, with clear and balanced audio.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "39_1344839_segment_0_0",
+  "caption": "The caption of this music clip is: 'The audio clip features a lively accordion melody accompanied by rhythmic drums. The music is in the genre of folk music, characterized by its traditional instrumentation and upbeat tempo. The recording is clear with good audio clarity and balanced sound mix, resulting in a rich and engaging listening experience.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "10_44910_segment_0_0",
+  "caption": "The caption for this music clip is: The audio features a lively drum kit performance, likely a jazz piece with a steady, upbeat tempo. The sound is rich and warm, suggesting a high-quality recording with good production values. The recording fidelity is excellent, allowing for clarity in both bass drum and snare drum, and the overall effect is engaging and energetic.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "47_1080547_segment_7_0",
+  "caption": "The caption for this music clip is: 'This audio features a soft, ambient piece with a dreamy and ethereal atmosphere. The music is played predominantly on a synth, giving a melancholic and reflective mood. The arrangement is simple, focusing on a single synth pad with a slow, deliberate tempo. The production quality is high, with detailed sound design and clarity, creating a sense of being in a serene, otherworldly space.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "26_218726_segment_3_0",
+  "caption": "The caption text is: 'Electronic music with a rhythmic beat and synthesized sounds creating an upbeat, energetic atmosphere.'.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "05_1181205_segment_0_0",
+  "caption": "The caption for this music clip is: 'A piano with a consistent, gentle melody playing in the key of C minor, creating a reflective and somber mood at a moderate tempo. The production quality is high, with clear and balanced sound, with a slight reverb effect to enhance the emotional depth.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "42_3442_segment_1_0",
+  "caption": "The caption is: A melodic rock composition features a chorus of electric guitars and bass guitar, creating a layered and complex sound with a steady, driving rhythm. The production quality is excellent, with clear and balanced sound and well-defined dynamics.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "85_523085_segment_5_0",
+  "caption": "The caption is: 'A heavy metal, punk rock piece featuring distorted guitars playing the melody, with a bass guitar and drums providing rhythmic support. The track has an aggressive mood and a fast tempo. The production quality is quite good, with detailed mixes and clear audio, including a distinct reverb effect that is characteristic of the genre.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "63_1387463_segment_11_0",
+  "caption": "The caption text for this music clip is: 'A fast-paced electronic music track with a high-energy, trance-like feel. The production quality is top-notch with crisp, clear sound and a balanced mix. The piece features pulsating synthesizers and a steady beat, creating an immersive, danceable atmosphere.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "61_1248561_segment_0_0",
+  "caption": "The caption text for this audio is: 'The clip features a rhythmic, bass-driven drum track with a consistent tempo and a catchy, danceable beat. It is likely from a disco or funk genre, showcasing a production quality that includes good mix and recording fidelity.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "82_365682_segment_1_0",
+  "caption": "The caption is: 'A rhythmic electronic track featuring a steady synth bass and a drum kit pattern, with a high level of production quality and a driving, urban mood.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "27_1403727_segment_8_0",
+  "caption": "The caption is: The music plays with a light, whimsical arrangement of a piano melody accompanied by a flute and glockenspiel. The mood is playful and dreamy, with a moderate tempo. The genre is classical with a nod to minimalist composition. The production quality is of moderate fidelity, with the instruments clearly audible and a balanced mix.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "71_1329971_segment_1_0",
+  "caption": "The caption is: A synth lead with a dreamy, ethereal quality plays in a minor key, creating a melancholic and reflective mood. The track is likely ambient or instrumental, featuring rich and reverberant tones. The production quality is high, with clear separation between the lead synth and supporting atmospheric sounds.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "55_88555_segment_11_0",
+  "caption": "The caption is: A smooth and melodic piano solo. The song is in Bb major and follows a 2/4 time signature. The tempo is 138.0 bpm and the music is characterized by a mellow and slightly melancholic mood. The production quality is high, with detailed audio and clear piano notes.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "91_1127191_segment_31_0",
+  "caption": "The caption is: The audio features a solo piano piece with a lively tempo, creating a dynamic and engaging mood. The composition is simple, with a repetitive melody that builds a sense of progression. The production quality is high, with clear audio and minimal background noise, indicating good recording fidelity.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "10_1136710_segment_2_0",
+  "caption": "The caption is: A piece of ambient electronic music featuring a floating, ethereal synth pad with a dreamy atmosphere, slowly evolving and drifting through the audio space.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "81_313781_segment_9_0",
+  "caption": "The caption is: A fast-paced electronic track with a heavy emphasis on heavy drum and bass beats played on a drum machine and a fast-paced, distorted beatbox beat, with a synthesizer creating a high-pitched melodic tune and a saxophone playing a solo over it. The production quality is low, with significant distortion and lack of clarity in the sound.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "88_1420688_segment_0_0",
+  "caption": "The caption for the audio is: The music is a lively electronic House track with a steady tempo featuring a groovy bassline, bright synthesizers, and rhythmic drum beats. The production quality is clear and the mood is upbeat and cheerful.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "28_1085328_segment_0_0",
+  "caption": "The caption is: This music features a solo acoustic guitar, playing a melodic and rhythmic tune with a distinct folk or acoustic style. The sound is clear and well-defined, suggesting a high-quality recording or mixing. The tempo is moderate, creating a steady, easy-going feel.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "82_1048782_segment_0_0",
+  "caption": "The caption would be: 'A soft, melodic flute melody is played over a warm, ambient synth layer, creating a tranquil and ethereal mood. The music has a relaxed tempo and is characteristic of new-age or ambient genre, with notable high-quality sound production evident.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "71_1203871_segment_6_0",
+  "caption": "The caption for this music clip is: 'The song features a strong rhythm driven by drums and a consistent bassline. A male and female vocal together provide an energetic and catchy chorus. The music has a synthesizer that creates a modern, dynamic sound.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "45_128545_segment_5_0",
+  "caption": "The caption is: 'This is a techno dance music piece with a fast tempo. It is a digital techno track with a lot of reverb effect and a strong beat. The instruments that are used in this piece are synthesizers.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "97_470997_segment_7_0",
+  "caption": "The caption is: The audio clip features a rock song with a fast tempo and an energetic mood, featuring electric guitars and drums being played. The recording is of reasonable quality, with clear sound of the instruments and minimal background noise.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "21_404221_segment_1_0",
+  "caption": "The caption for the music clip is: \"An instrumental piece featuring a solo acoustic guitar playing a gentle and warm melody with a slight echo. The music is likely folk or acoustic, with a calm and reflective mood. The production quality is moderate, with good sound reproduction but slightly ambient noise. The tempo is slow and steady, contributing to the dreamy and tranquil atmosphere.\"",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "86_1413386_segment_3_0",
+  "caption": "The caption is: A track with a steady, rapid tempo and a pulsating electronic beat, creating a futuristic and energetic mood. The music consists of a driving synth bass, bright synth lead, and rhythmic drum beats. It has a high production quality with good mixing and recording fidelity. The genre is electronic or synth-pop. The mood is upbeat and dynamic.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "65_1095365_segment_1_0",
+  "caption": "The caption text is: 'A rhythmic electronic music track with a synthesized melody and lively beats.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "80_433580_segment_39_0",
+  "caption": "The caption text for this music clip is: 'A calming, ethereal piece with a smooth, flowing chord progression and lush, reverberating synths. The arrangement is delicate and atmospheric, creating a peaceful and dreamy mood. The tempo is slow and measured, which complements the melancholic and contemplative nature of the music. The production quality is very good, with a clear and balanced mix that highlights the serene and reflective nature of the composition.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "63_48963_segment_7_0",
+  "caption": "The caption is: 'The music features a rich, harmonious chord progression created by lush, synthesized string instruments.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "77_1341177_segment_1_0",
+  "caption": "The caption is: 'A techno beat with a minimalistic arrangement of synthesizer melody and simple percussion rhythm.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "61_7361_segment_2_0",
+  "caption": "The caption text for the music clip is: A soft electronic music track, featuring a keyboard and synthesizer, with a minimalist arrangement, creating a relaxed and calm mood.",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "52_74352_segment_0_0",
+  "caption": "The caption is: 'An electronic music track featuring a steady rhythm, pulsating with the steady beat of a drum machine and a repeating synth melody that gives a futuristic, technological vibe.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "20_1326620_segment_1_0",
+  "caption": "The caption of the audio is: 'A jazzy and groovy composition with a rich, warm, bright, and vibrant sound. The arrangement is lively and energetic, featuring a variety of instruments like drums, bass, piano, and keyboards. The music is likely produced with high-quality recording fidelity, with a focus on reverb, mix, and clarity. The mood is upbeat and engaging, inviting the listener to tap their feet and feel the rhythm.'",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "43_1231343_segment_0_0",
+  "caption": "The caption is: \"A repeating electronic piece with minimal instrumentation, featuring a simple arpeggiated pattern on a synthesizer, creating a tranquil, hypnotic mood. The tempo is moderately slow, typical of ambient or techno genres. The production quality is high, with clear and balanced sound that is well-mixed.\"",
+  "label": "FLAG",
+  "stratum": "pattern_meta_flag"
+ },
+ {
+  "id": "19_1023319_segment_1_0",
+  "caption": "The caption should mention the presence of a piano. It should describe the mood as somber and reflective, and note that the music has a slow tempo. The genre is likely classical or soundtrack, and the production quality is consistent with studio recordings, featuring clean audio with good spatial dynamics.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "03_629103_segment_3_0",
+  "caption": "The caption should include the presence of synthesizers and a strong beat, noting a techno genre with a fast tempo, and quality production characteristics such as reverb and mix.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "04_1190104_segment_19_0",
+  "caption": "The caption should describe the audio clip, focusing on the instruments, arrangement, mood, tempo, genre, and production quality based on the provided audio.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "59_979859_segment_1_0",
+  "caption": "The caption should describe the audio in the following way: The audio features a rich, ambient soundscape with a soft electronic drone, likely produced using synthesizers. The music has a soft, warm, and relaxing mood, perfect for meditation, yoga, or background noise. The tempo is slow and steady, contributing to a calming atmosphere. The recording is of high quality, with clear and balanced sound, including good layering of the synth elements.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "44_1420244_segment_1_0",
+  "caption": "The caption should describe the audio clip accurately: 'In this piece of music, a slow, melodic tune is played on a harp with a melancholic atmosphere, accompanied by a low, steady hum that adds depth to the composition. The recording is crisp and clear, with excellent balance and rich, warm tones.'",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "60_145760_segment_19_0",
+  "caption": "The caption should be concise and succinctly describe the audio content. The caption must be given in a simple sentence. The caption should be based on the given audio content. The caption must not be repetitive or include unnecessary information.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "40_1076040_segment_0_0",
+  "caption": "The caption should describe the type of music, the instruments and their interaction, the overall mood, tempo (in BPM if indicated), genre, and production quality such as reverb and mix level.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "31_967231_segment_2_0",
+  "caption": "The caption should detail the instrument utilized in the music, the arrangement of the music, the mood conveyed by the music, the tempo of the music, the genre of the music, and the production quality.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "70_288370_segment_6_0",
+  "caption": "The caption should read: A solo piano performance is being played, featuring a classical piece with a gentle and flowing melody. The piano plays in a clear and focused manner, producing a warm and resonant tone. The recording fidelity is high, resulting in a clean and crisp sound.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "80_4880_segment_4_0",
+  "caption": "The caption should include the presence of a guitar with a prominent bassline, a strong and steady tempo, the genre of jazz fusion, and the production quality with clear instrument separation and good sound fidelity.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "37_357137_segment_6_0",
+  "caption": "The caption should include details about the music's instruments, arrangement, mood, tempo, genre, and production quality of the recording.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "98_1397798_segment_4_0",
+  "caption": "The caption should describe the music as having a dark electronic sound, characterized by a consistent and steady 4/4 rhythmic beat that is played by a deep, resonant kick drum. Accompanying the kick drum are sharp, high-pitched sounds, which could be synthesizers or electronic percussion, adding to the overall intensity and mood of the piece. The music has a strong, driving tempo that keeps the listener engaged, and the production quality includes clearly defined reverb effects that enhance the texture and depth of the sounds.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "35_660435_segment_3_0",
+  "caption": "The caption should include a description of the instruments, arrangement, mood, tempo, genre, and production quality of the music.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "60_126060_segment_4_0",
+  "caption": "The caption should convey the mood and texture of the sounds, as well as any unique characteristics or elements present in the music.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ },
+ {
+  "id": "82_962582_segment_1_0",
+  "caption": "The caption should detail the instruments used, the arrangement of the music, the mood of the piece, the tempo, the genre, and the quality of the recording.",
+  "label": "FLAG",
+  "stratum": "pattern_should_flag"
+ }
+]
