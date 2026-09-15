@@ -28,6 +28,14 @@ PY="$HOME/venvs/dac/bin/python"
 TORCHRUN="$HOME/venvs/dac/bin/torchrun"
 export PATH="$HOME/venvs/dac/bin:$PATH"
 cd "$WORK_DIR"
+
+# set_training_stage.py --stage 2 rewrites meanaudio/model/mean_flow.py in place and
+# nothing switched it back, so the tree was left on Stage 2 after every training run.
+# Contracts hash-pin the Stage 1 (git HEAD) form, so the next such job died in preflight
+# with an unlogged "input drift". Restore on every exit, including kill/preempt.
+# set_training_stage.py is a no-op when already on the target stage.
+restore_stage_1() { "$PY" "$WORK_DIR/set_training_stage.py" --stage 1 >/dev/null 2>&1 || true; }
+trap restore_stage_1 EXIT
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 # $1 = quarter | full. Both share one TSV and one text overlay, so the full arm
@@ -70,35 +78,32 @@ if [ ! -f "$OVERLAY/DONE.json" ] && [ "$FREE_NVME" -lt "$NEED" ]; then
   exit 3
 fi
 
-# ---- Step 0b: early-kill gate on the quarter arm (full only) ---------------
-# 037 was seated automatically after 036 returned a number that its own contract
-# said should cancel it, and had to be killed by hand 27k iterations in. The
-# queue has no dependency mechanism -- ordering is purely lexicographic -- so the
-# rule enforces itself here instead of relying on an operator being awake.
-#
-# The hypothesis this arm tests is that full coverage plus the enforced
-# short_direct_v2 captions fix what the 100k slice could not. The quarter arm is
-# budget-matched to the 100k quarter that scored 0.1774 CFG0, so if the quarter
-# does not clear 0.1900 the coverage story has already failed and the ~19h full
-# run is not justified. Override deliberately by touching the file named below.
-GATE_MIN=0.1900
-QUARTER_REPORT="$HOME/cfg0_eval_runtime/reports/mf_fullcov_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
 OVERRIDE="$HOME/exps_nvme/mf_full_coverage/PROCEED_TO_FULL_ANYWAY"
+# ---- Step 0b: the full budget goes to the better quarter arm (full only) ---
+# Lanternko 2026-09-07: "誰 clap+aes 好就跑誰，不用問我". This CANCELS the
+# absolute CFG0 >= 0.1900 gate that this line pre-registered and that 039
+# self-aborted on. That gate asked whether MF is viable at all; the quarter
+# numbers answered it, and the open question is now which of the two MF corpora
+# -- full-coverage or duplicate-repaired -- deserves the ~19h.
+#
+# The rule is in scripts/eval/decide_mf_full_arm.py and was written before
+# either set of numbers was in hand: 5 metrics x 2 eval cells, a comparison
+# counts only above 2x that cell's measured training-seed floor, most counted
+# wins takes it. Each full arm asserts that IT won, so whichever arm the queue
+# seats first stands down if it is not the winner and the other one runs.
+DECIDE="$WORK_DIR/scripts/eval/decide_mf_full_arm.py"
 if [ "$SCALE" = "full" ] && [ ! -f "$OVERRIDE" ]; then
-  if [ ! -f "$QUARTER_REPORT" ]; then
-    log "[FAIL] quarter arm has no CFG0 report yet; nothing to gate on"; exit 5
+  "$PY" "$DECIDE" --assert-winner mf_fullcov \
+    --json-out "$STATE/full_arm_decision.json" 2>&1 | tee "$STATE/decide.log"
+  rc=${PIPESTATUS[0]}
+  # rc 5 means the sibling won -- a clean stand-down. Any other non-zero is a
+  # broken comparison (a missing or unreadable report), and must fail loudly:
+  # if both arms treated that as a stand-down, neither would ever run.
+  if [ "$rc" -eq 5 ]; then
+    log "[STAND DOWN] the other corpus won; it takes the full budget"; exit 5
+  elif [ "$rc" -ne 0 ]; then
+    log "[FAIL] decision script errored rc=$rc; refusing to guess a winner"; exit 2
   fi
-  "$PY" - <<GATEPY
-import json
-d = json.load(open("$QUARTER_REPORT"))
-clap = d["metrics"]["clap_score"]
-print(f"  quarter CFG0 clap={clap:.4f} gate=$GATE_MIN")
-if clap < $GATE_MIN:
-    raise SystemExit(
-        f"[FAIL] quarter CFG0 {clap:.4f} < $GATE_MIN; the coverage hypothesis "
-        f"failed at quarter budget (the 100k-slice quarter was 0.1774). Touch "
-        f"$OVERRIDE to run anyway.")
-GATEPY
 fi
 
 # ---- Step 1: training TSV bound to the c2p0 row order -----------------------
@@ -115,6 +120,17 @@ fi
 # 037 trained for 27k iterations on a corpus that was only 73.17% unique before
 # anyone measured it. The gate is CLAUDE.md's pre-experiment checklist item 2,
 # enforced here so it cannot be skipped.
+#
+# DEVIATION 2026-09-07 (Lanternko): threshold lowered 0.90 -> 0.89 for this line
+# only. The full-coverage MF corpus lands at 0.8916 -- 0.0084 under the original
+# bar. The shortfall is genuine Music Flamingo mode collapse on generic EDM/rock
+# clips (7,590 duplicate groups over 34,863 rows; hottest string 387x, top-50
+# groups only 5,243 rows), and it is already the RESIDUAL after
+# enforced_caption() exhausted its per-clip resampling retries on 27,265 clips.
+# Decision: spend the quarter budget (~0.80M samples) to read the score rather
+# than re-run recaption blind. The quarter arm's result must be reported with
+# this deviation attached; a full arm on this corpus is NOT authorized by this
+# change alone.
 log "[Step 2] corpus audit gate"
 "$PY" - <<PYEOF
 import csv, json
@@ -125,8 +141,11 @@ caps = [r["caption"] for r in rows]
 uniq = len(set(caps)) / len(caps)
 empty = sum(1 for c in caps if not c.strip())
 print(f"  rows={len(rows)} unique_rate={uniq:.4f} empty={empty}")
+if uniq < 0.89:
+    raise SystemExit(f"[FAIL] unique caption rate {uniq:.4f} < 0.89 (CLAUDE.md checklist item 2, deviated 2026-09-07)")
 if uniq < 0.90:
-    raise SystemExit(f"[FAIL] unique caption rate {uniq:.4f} < 0.90 (CLAUDE.md checklist item 2)")
+    print(f"  [DEVIATION] unique_rate {uniq:.4f} is below the CLAUDE.md 0.90 bar; "
+          f"running under the 2026-09-07 0.89 exception -- results carry this caveat")
 if empty:
     raise SystemExit(f"[FAIL] {empty} empty captions")
 PYEOF

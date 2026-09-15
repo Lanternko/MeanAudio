@@ -1,0 +1,27 @@
+{
+  "status": "passed",
+  "no_gpu": true,
+  "scheduler": {
+    "passed": 33,
+    "failed": 0,
+    "log_sha256": "d88c6097c2fe496669566814673af8d11dc19426f110bb06593bdd6f77017530",
+    "initial_fixture_issue": "Uninjected GPU_NOTIFY_QUEUE_STATUS used the live idle notifier; fixture rerun with explicit fake notifier passed. No production scheduler changes."
+  },
+  "tests": [
+    "test_lib_scheduler.py",
+    "test_notification_receipts.py",
+    "selftest_secondary_queue_notifications.py",
+    "selftest_vocal_negative_cfg3.py"
+  ],
+  "bindings": {
+    "/home/kojiek/MeanAudio/scripts/eval/vocal_negative_cfg3_20260908.py": "01604a74df9d1e0ef6fb1130415c277b405a43256957ffbe5aa5eca8771fd506",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/vocal_negative_cfg3_20260908_guest.py": "7450878a2e0967f29e94d117ea80e6ae80ab1df3877d11e1353833026e826d00",
+    "/home/kojiek/MeanAudio/scripts/tests/selftest_vocal_negative_cfg3.py": "e98e6f0fbd464057d07f9c4adbe3f889b083c59c5e9c5e582550fa7630fda682",
+    "/home/kojiek/gpu_queue/lib_scheduler.py": "aeb8f7be524902e2ea8a6d65b44b02a8f2dc730e56cfd245939e185ce0b39387",
+    "/home/kojiek/gpu_queue/lib_host.sh": "1c487e3af6a1a8d2753edcae0975ba2ea7c3e1400967753353761dc7bbaf4c2f",
+    "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+  },
+  "limitations": [
+    "No GPU launched during preparation; real-GPU pause fixture not run."
+  ]
+}

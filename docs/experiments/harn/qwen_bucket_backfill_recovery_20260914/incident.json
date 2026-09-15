@@ -1,0 +1,27 @@
+{
+  "incident": "fail-054_qwen_bucket_quarter_eval_backfill",
+  "diagnosis": "Resolved checkpoint /mnt/HDD/kojiek/MeanAudio_exps was missing from allowed roots; action NoQ arm ID noq_cfg0 also mismatched registered noq_cfg0_noq.",
+  "original_exit_code": 2,
+  "notification_exit_code": 0,
+  "notification_cause": "Legacy host hardcodes --exit-code 0; shared host code preserved.",
+  "authorization": "fix it then continue the experiment",
+  "scientific_changes": false,
+  "checkpoints_all_hash_match": true,
+  "tsv_hash_match": true,
+  "state": "resumed_validating",
+  "rollback": "Do not start candidate; retain original launcher and contract. Once seated, only controller-owned pause/stop via registered P2 control; do not move a running launcher manually.",
+  "resume_command": [
+    "/bin/bash",
+    "/home/kojiek/gpu_queue/p2/pending/054_qwen_bucket_quarter_eval_backfill.sh"
+  ],
+  "apply_action": "Archive original failed launcher and terminal evidence, atomically publish candidate at same 054 position in empty P2 pending queue. Existing host owns resource acquisition and launch.",
+  "candidate_patch_sha256": "159f3e73b1e147d3ee6f4148d3cd39d090e41d8bf0c6c4802d5f8cde673a451b",
+  "contract_sha256": "c47a8fc6d20795d9b865c8b84bcc0295f07eadbb556788e21de7840e2d55b555",
+  "git_revision": "bb1d117456f5392626e2e0ff7aca94e402a0a50d",
+  "dirty_worktree": "Pre-existing edits preserved. Recovery is new private files only; raw hashes bind candidate.",
+  "apply_command": [
+    "/home/kojiek/venvs/dac/bin/python",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/qwen_bucket_backfill_recovery_20260914/requeue.py"
+  ],
+  "launch_validation": "/home/kojiek/MeanAudio/docs/experiments/harn/qwen_bucket_backfill_recovery_20260914/launch_validation.json"
+}

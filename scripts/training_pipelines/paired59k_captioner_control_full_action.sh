@@ -24,6 +24,14 @@ PY="$HOME/venvs/dac/bin/python"
 TORCHRUN="$HOME/venvs/dac/bin/torchrun"
 export PATH="$HOME/venvs/dac/bin:$PATH"
 cd "$WORK_DIR"
+
+# set_training_stage.py --stage 2 rewrites meanaudio/model/mean_flow.py in place and
+# nothing switched it back, so the tree was left on Stage 2 after every training run.
+# Contracts hash-pin the Stage 1 (git HEAD) form, so the next such job died in preflight
+# with an unlogged "input drift". Restore on every exit, including kill/preempt.
+# set_training_stage.py is a no-op when already on the target stage.
+restore_stage_1() { "$PY" "$WORK_DIR/set_training_stage.py" --stage 1 >/dev/null 2>&1 || true; }
+trap restore_stage_1 EXIT
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 ARM="${1:?usage: $0 <mf or qwen>}"

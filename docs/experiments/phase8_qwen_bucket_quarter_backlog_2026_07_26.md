@@ -132,3 +132,35 @@ Per-arm reports are written below `/home/kojiek/logs`:
 After all seven reports validate, the chain writes
 `phase8_qwen_bucket_quarter_backlog_FINAL_METRICS.json` atomically. Its
 `claim_policy` records that K=5 fixed is diagnostic-only.
+
+## 2026-09-14：評估補跑排入 p2 隊尾（054）
+
+五個 S2 EMA（NoQ、K=3/5/10 balanced、K=5 fixed）從 07-26~30 就在磁碟上，但 `cfg0_eval_runtime` 裡沒有任何一個的 canonical 報告。
+
+- queue seat `054_qwen_bucket_quarter_eval_backfill.sh`，在 053 → 052 之後
+- contract `docs/experiments/qwen_bucket_quarter_eval_backfill_contract.json`，action `scripts/training_pipelines/qwen_bucket_quarter_eval_backfill.sh`
+- 只做評估，不訓練。CFG0：NoQ 跑 noq；每個 Q arm 跑 q9（主）+ q0（檢查模型有沒有在看 code），共 9 格。CFG3+neg：NoQ 跑 noq、Q arm 只跑 q9，共 5 格。估 ~6.5 GPU-h、~15 GB 音檔
+- 判讀（預先寫死，floor CLAP 0.0042）：q9 vs q0 差 < 0.0084 = 忽略 code；Q arm q9 vs NoQ ±0.0084 = 平手；K 之間差 > 0.0084 才算有差（只比 balanced）；兩個協定同號才下結論
+- **Provenance caveat**：這批 run 從 `phase8_qwen_official_matched_npz` 讀文字特徵，該目錄 08-22 已被原地覆寫成 Caption 2.0。EMA 本身有效，但數字無法從現在的 NPZ 重現，也**不能**放進 c2p0 表比較
+
+## 2026-09-14：054 結果（14/14 cell PASS）
+
+原始 guest 在生成前 exit 2（checkpoint root 漏列 `/mnt/HDD/kojiek/MeanAudio_exps`；NoQ arm id 應為 `noq_cfg0_noq`）。另一 session 以 `harn/qwen_bucket_backfill_recovery_20260914/` 修復重排，科學設定不變，5 個 EMA sha 全符。CFG3 cell 用 `phase4_eval.py` 逐檔 CLAP（非 b32），只能在 054 內部比，不可與 b32 數字混比。語料 provenance caveat 同上：不可與 c2p0 表比。單一訓練 seed。
+
+| arm | CFG0 CLAP | CE | CU | PC | PQ | CFG3+fid8 CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|---|---|---|---|---|
+| NoQ | **0.1724** | 6.480 | 6.902 | 5.379 | 6.647 | **0.1969** | 6.753 | 7.243 | 4.689 | 7.078 |
+| k3_bal q9 | 0.1597 | 6.275 | 6.630 | 5.456 | 6.297 | 0.1800 | 7.104 | 7.300 | 4.660 | 7.042 |
+| k3_bal q0 | 0.1550 | 6.008 | 6.487 | 5.384 | 6.169 | — | | | | |
+| k5_bal q9 | 0.1565 | 6.545 | 6.766 | 5.545 | 6.624 | 0.1767 | 6.802 | 7.154 | 4.799 | 6.980 |
+| k5_bal q0 | 0.1508 | 6.285 | 6.642 | 5.483 | 6.536 | — | | | | |
+| k10_bal q9 | 0.1556 | 6.169 | 6.393 | 5.398 | 6.136 | 0.1513 | 6.259 | 6.799 | 4.558 | 6.622 |
+| k10_bal q0 | 0.1560 | 6.014 | 6.338 | 5.401 | 6.122 | — | | | | |
+| k5_fixed q9 | 0.1541 | 5.963 | 6.411 | 5.425 | 6.028 | 0.1865 | 6.568 | 6.963 | 4.793 | 6.692 |
+| k5_fixed q0 | 0.1277 | 5.643 | 6.070 | 5.482 | 5.731 | — | | | | |
+
+判讀（門檻 = 同協定訓練 seed 底線 2×；CLAP CFG0 0.0084）：
+1. **q 碼在 CLAP 上被忽略（balanced arm）**：q9−q0 = k3 +0.0047、k5 +0.0057、k10 −0.0004，皆 <0.0084。AES 有小幅一致 q9>q0（k3 CU +0.14 / PQ +0.13、k5 CU +0.12 超門檻），僅 CFG0 單協定。k5_fixed q9−q0 +0.026 是 fixed 分桶的 q0 支撐集問題，不計。
+2. **Q 輸 NoQ（兩協定一致）**：CFG0 所有 Q arm 低 0.013–0.018；CFG3 低 0.010–0.046。PQ：k5_bal / k3_bal 在兩協定內與 NoQ 平手，k10 / k5_fixed 明確較低。
+3. **K 排名**：CLAP CFG0 三個 balanced 相差 0.0041 → 不可排；CFG3 k10 低 ~0.027，但兩協定不一致 → CLAP 不宣稱。**PQ 兩協定一致 k10 最差**（CFG0 −0.16 vs k3、−0.49 vs k5；CFG3 −0.42 / −0.36，均 >2× 底線）。
+結論：與 048/049（c2p0 true-random）一致——Q 傷 CLAP、q 碼無 CLAP 響應；新增一點：細分到 K=10 在 AES 上有害。收線。

@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "75ac636e00ea09e6369c217688e4e9489c1b5112918c30c3b5ac19adcb3748e4",
+        "ledger_raw_sha256": "b52ee2aaa24a07fbea10d7557995f05b46ff3d0f7c586ef3101a0c3d362e3af4",
+        "preflight_report_raw_sha256": "cb83f86cf212ee79c15bc79379b9e72d29eb1e4b12368f6c62f9e4a5af10e2e5",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "vocal-negative-044",
+      "experiment_id": "vocal-negative-cfg3-20260908",
+      "position": 1,
+      "run_id": "run-20260908-044-vocal-negative-cfg3",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-vocal-negative-044",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-09-07T22:41:01Z"
+}

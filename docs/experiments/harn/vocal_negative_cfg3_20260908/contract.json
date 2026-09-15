@@ -1,0 +1,117 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "03222789f988113076dfd67ae8ae6b502b9875512fc28bf55f01c0ae19c1f563",
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "runtime_sha256": "7450878a2e0967f29e94d117ea80e6ae80ab1df3877d11e1353833026e826d00",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "eval_044",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/044_vocal_negative_cfg3.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume_044",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/044_vocal_negative_cfg3.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/vocal_negative_20260908/musiccaps5521.tsv",
+        "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "vocal-negative-cfg3-20260908",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 63687091200,
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/vocal_negative_20260908",
+      "peak_additional_bytes": 8000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 6000000000,
+      "warning_floor_bytes": 80000000000
+    }
+  ],
+  "notification_events": [
+    "preflight-pass",
+    "start",
+    "disk-warning",
+    "disk-hard-stop",
+    "stall",
+    "interruption",
+    "terminal",
+    "queue-handoff"
+  ],
+  "phases": [
+    {
+      "action_id": "eval_044",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/vocal_negative_cfg3_20260908.py",
+          "sha256": "01604a74df9d1e0ef6fb1130415c277b405a43256957ffbe5aa5eca8771fd506"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+          "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+        },
+        {
+          "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/vocal_negative_20260908/musiccaps5521.tsv",
+          "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/vocal_negative_cfg3_20260908_contract.json",
+          "sha256": "4d553751f29896c7f11b28378fb1c3e6cd6d5a64a80d8db68849939be2d94cf5"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/nvme_experiment_artifacts/meanaudio/vocal_negative_20260908/summary.json"
+      ],
+      "phase_id": "recovery-044",
+      "resume_action_id": "resume_044"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "run_id": "run-20260908-044-vocal-negative-cfg3",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

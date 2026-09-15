@@ -1,0 +1,19 @@
+# MF dedup quarter/full loss analysis — 2026-09-09
+
+Read-only retrospective analysis of four completed training runs; no training, evaluation, queue, or scientific contract changes. Full was selected comparatively; the original absolute CLAP 0.1900 gate was cancelled by operator authorization on 2026-09-07.
+
+Sources and their SHA256 hashes plus actual logged configs are in provenance.json. scalars.csv contains text-log loss/LR records, windows.json contains nonoverlapping 25k-step block means and within-block linear slopes. analyze.py reproduces PNG/PDF and tables. TensorBoard independently confirmed counts and step endpoints: quarter S1 1,999 records (50–99,950); full S1 7,999 (50–399,950); quarter S2 1,000 (100,000–149,950); full S2 4,000 (400,000–599,950). S2 is plotted with the S1 budget subtracted. Logging interval is 50 steps; first S2 record at local 0 is a boundary record. No val/loss scalar exists in any of the four event files. Validation interval is 999999, beyond each run budget.
+
+All four logged configs use use_meanflow=true (including S1 fluxaudio_s), seed 14159265, batch 8, LR 1e-4, 1000-step warmup, no scheduled decay within budget. Full starts from scratch. S2 starts from its respective S1 checkpoint, with optimizer/scheduler reset by migration. Stage-local S2 budgets therefore do not hold initialization fixed. S1 prefixes almost overlap: mean absolute logged-loss difference over shared steps is 0.00001434. Same seed does not mean these are independent training-seed replications.
+
+The actual loss is adaptive_l2_loss with gamma=0 and c=0.001: for each example's squared residual d, logged contribution is d/(d+0.001), with detached inverse weighting for gradients. Averaging happens over examples and logging windows. Its near-1 scale compresses changes; it is not raw MSE, and transforming an averaged loss back does not recover mean raw MSE. S2 also changes the model/target computation, so S1 and S2 loss values should not be interpreted as one continuous objective curve. Current stage-selector diff changes r/JVP arguments, not this loss formula.
+
+## Observations
+
+S1 full 25k block means: 0–25k 0.989137; 25–50k 0.988229; 75–100k 0.987839; 175–200k 0.987537; 225–250k 0.987467; 375–400k 0.987312. Strong early improvement slows around 50–100k. Around 200–250k the curve is in a much slower tail; it still improves to 400k. Last 25k quarter/full means are 0.987838 / 0.987312.
+
+S2 full block means: 0–25k 0.986728; 25–50k 0.986624; 75–100k 0.986568; 125–150k 0.986544; 175–200k 0.986507. Slow tail is visible around 25–50k; no strictly flat sustained endpoint established. Quarter 25–50k mean is 0.987007. At matched S2 25–50k, the full arm is already lower by 0.000384. Continuing full S2 to 175–200k adds 0.000117 reduction. This is a descriptive decomposition, not causal attribution of CLAP/AES to S1 versus S2.
+
+Plateau ranges are exploratory visual/descriptive judgments, not preregistered stopping thresholds or confidence intervals. Sensitivity: using sustained adjacent 25k-block decreases below 0.0001 identifies S1 comparison ending at 150k and S2 ending at 75k; threshold 0.00005 identifies S1 ending at 225k and S2 ending at 75k. A stricter 0.000025 does not stay satisfied over a long tail. Thus an exact plateau step is unsupported.
+
+Training loss continues to decline while endpoint AES does not reliably improve. This is compatible with diminishing returns in the logged objective, but cannot establish an AES plateau date, overfitting, optimal early stopping, or lack of benefit from late training. No validation-loss curve, intermediate canonical CLAP/AES series, or raw unweighted residual series is available in these event records. Intermediate checkpoint evaluation would need separately registered/approved execution; this analysis launches none.

@@ -1,0 +1,72 @@
+{
+  "document_kind": "preflight_report",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "mf-legacydup-noq-quarter",
+  "run_id": "run-20260908-mf-legacydup-noq-quarter",
+  "contract_raw_sha256": "ae8e011de3bd7702e62f9391ae738edf23df687afae4c3ba5ffb1f4badbb3145",
+  "approval_evidence": {
+    "evidence_id": "approval-20260908-legacydup",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console",
+    "channel_record_id": "codex-20260908-legacydup-request",
+    "channel_record_sha256": "dfbcc21a89065877a5c33ac97dda3a3b0ed72f4b22858061874ee59694a1ff5d",
+    "approver_id": "responsible-operator",
+    "issued_at": "2026-09-07T22:35:55Z",
+    "expires_at": "2026-10-08T00:00:00Z",
+    "experiment_id": "mf-legacydup-noq-quarter",
+    "run_id": "run-20260908-mf-legacydup-noq-quarter",
+    "bindings": {
+      "contract_raw_sha256": "ae8e011de3bd7702e62f9391ae738edf23df687afae4c3ba5ffb1f4badbb3145",
+      "policy_bundle_sha256": "500345835b3bad1d15e707ade866c432bc319835cd5987d382bd38b33cb8be30",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+      "runtime_sha256": "b7e40ed575d17936603ce985c93c6625c57aeb3049defcd4f7ea262035921d97",
+      "command_set_sha256": "ddd835829726cd04c11a6170286b259ba43387360b2e6f9f36572a60aed7101a",
+      "repair_envelope_sha256": null
+    }
+  },
+  "checks": [
+    {
+      "check_id": "generated_corpus_full_gate",
+      "verdict": "fail",
+      "observed_at": "2026-09-07T22:35:55Z",
+      "valid_until": "2026-10-08T00:00:00Z",
+      "evidence_sha256": "95b6d3101d12969f37fc064db79ecc84646cb4bdf1272f00f3fa6eeec011397f"
+    },
+    {
+      "check_id": "provenance",
+      "verdict": "invalid",
+      "observed_at": "2026-09-07T22:35:55Z",
+      "valid_until": "2026-10-08T00:00:00Z",
+      "evidence_sha256": "41e490f45ba62c78be97699de55822221903ed9cc276765f8595b8f77fc960f6"
+    },
+    {
+      "check_id": "storage",
+      "verdict": "fail",
+      "observed_at": "2026-09-07T22:35:55Z",
+      "valid_until": "2026-10-08T00:00:00Z",
+      "evidence_sha256": "2ccb6dcd6e25169a379741150e67b35f5579e725b7e7e4bf60ce3d794c6034ce"
+    },
+    {
+      "check_id": "runtime-prepared",
+      "verdict": "fail",
+      "observed_at": "2026-09-07T22:35:55Z",
+      "valid_until": "2026-10-08T00:00:00Z",
+      "evidence_sha256": "4d1fefd8127566c7819eded8e4cd63827b0f9b53f33838aa78683558b6194293"
+    }
+  ],
+  "storage": [
+    {
+      "path": "/home/kojiek/mf_legacydup_quarter_runtime",
+      "measured_at": "2026-09-07T22:35:55Z",
+      "free_bytes": 140209143808,
+      "hard_floor_bytes": 53687091200,
+      "peak_additional_bytes": 110000000000,
+      "transient_bytes": 6000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "verdict": "fail"
+    }
+  ],
+  "derived_verdict": "invalid",
+  "created_at": "2026-09-07T22:35:55Z"
+}

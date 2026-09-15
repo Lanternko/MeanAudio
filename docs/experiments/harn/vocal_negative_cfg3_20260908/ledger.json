@@ -1,0 +1,40 @@
+{
+  "bindings": {
+    "contract_raw_sha256": "75ac636e00ea09e6369c217688e4e9489c1b5112918c30c3b5ac19adcb3748e4",
+    "preflight_report_raw_sha256": "cb83f86cf212ee79c15bc79379b9e72d29eb1e4b12368f6c62f9e4a5af10e2e5",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "document_kind": "event_ledger",
+  "events": [
+    {
+      "event_id": "contract-register",
+      "event_kind": "contract_registered",
+      "event_sha256": "900c26369cfb785d4dcde474517554d98555d8bfe3b0a06faf23e8eeab006d78",
+      "idempotency_key": "vocal-negative-cfg3-20260908:contract-register",
+      "notification_status": "not_applicable",
+      "occurred_at": "2026-09-07T22:41:01Z",
+      "phase": null,
+      "previous_event_sha256": null,
+      "relates_to_event_id": null,
+      "sequence": 1,
+      "verdict": "none"
+    },
+    {
+      "event_id": "storage-gate",
+      "event_kind": "gate_result",
+      "event_sha256": "7a4ef8b58529eb1df22df8c4d6c2baaaa9ebc4a4878414440645473734c669a0",
+      "idempotency_key": "vocal-negative-cfg3-20260908:storage-gate",
+      "notification_status": "delivered",
+      "occurred_at": "2026-09-07T22:41:01Z",
+      "phase": null,
+      "previous_event_sha256": "900c26369cfb785d4dcde474517554d98555d8bfe3b0a06faf23e8eeab006d78",
+      "relates_to_event_id": null,
+      "sequence": 2,
+      "verdict": "pass"
+    }
+  ],
+  "experiment_id": "vocal-negative-cfg3-20260908",
+  "run_id": "run-20260908-044-vocal-negative-cfg3",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

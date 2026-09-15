@@ -1,0 +1,461 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_secondary_evaluation_contract",
+  "experiment_id": "instrument-conflict-cfg3-20260908",
+  "run_id": "run-20260908-045-instrument-conflict-cfg3",
+  "status": "operator_authorized_queue_tail",
+  "operator_instruction": "从每个符合条件的 caption 选一个明确提到的乐器，故意否定它。三组用相同 captions；原 fidelity8、否定已提及乐器、否定未提及乐器。多乐器固定 seed 抽一个，平衡未提及负词；按目标乐器分组报告。\n好的，我觉得这个 ablation 应该是蛮广泛的，蛮完善的。那我们就排一个实验，排在目前的队列的最末尾。然后这应该不会花很久吧。对啊，你就把它排在最末尾吧。",
+  "launch_allowed": true,
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "trusted_channel": "operator_console",
+    "operator": "responsible_operator",
+    "authorized_at": "2026-09-07T23:00:36.176297+00:00",
+    "scope": "Append this preregistered evaluation to the live P2 queue tail without changing running or previously pending contracts."
+  },
+  "queue_name": "045_instrument_conflict_cfg3.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [],
+  "dependencies": [],
+  "scientific_question": "Does negating an explicitly mentioned instrument reduce caption alignment and audible instrument prominence more than negating an unmentioned instrument, on the same prompts?",
+  "protocol": {
+    "classification": "operator_authorized_secondary_instrument_subset_protocol_not_canonical",
+    "dataset": "MusicCaps explicit-instrument subset, original order",
+    "rows": 3207,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 3.0,
+    "generation_seed": 42,
+    "mask": "NoMask",
+    "precision": "full",
+    "conditioning": "NoQ",
+    "negative_cells": {
+      "fidelity8": "fixed canonical fidelity8 text on this secondary subset",
+      "fidelity8_conflict": "fidelity8 + target instrument from frozen per-row TSV",
+      "fidelity8_unmentioned": "fidelity8 + unmentioned instrument from frozen per-row TSV"
+    },
+    "metrics": [
+      "CLAP",
+      "AES_CE",
+      "AES_CU",
+      "AES_PC",
+      "AES_PQ"
+    ],
+    "confound_metrics": [
+      "rms_db_mean",
+      "spectral_centroid_hz_mean",
+      "crest_min",
+      "clipped_fraction"
+    ],
+    "scoring_batch_size": 32
+  },
+  "comparison": {
+    "paired_same_captions": true,
+    "assignment_seed": 20260908,
+    "lexicon_instruments": 23,
+    "rows": 3207,
+    "negative_word_frequency_exact_match": false,
+    "control_assignment": "Tried exact target-frequency matching; infeasible due mention constraints. Fallback: each unmentioned term appears 139 or 140 times, deterministic balancing. Report this limitation; do not claim pure semantic specificity from aggregate alone.",
+    "target_counts": {
+      "piano": 508,
+      "guitar": 1428,
+      "flute": 133,
+      "drums": 303,
+      "bagpipes": 42,
+      "harp": 65,
+      "violin": 131,
+      "tabla": 55,
+      "ukulele": 34,
+      "sitar": 25,
+      "marimba": 26,
+      "trumpet": 87,
+      "clarinet": 26,
+      "harmonica": 33,
+      "banjo": 32,
+      "saxophone": 56,
+      "cello": 44,
+      "accordion": 79,
+      "mandolin": 22,
+      "trombone": 29,
+      "xylophone": 30,
+      "tuba": 12,
+      "oboe": 7
+    },
+    "unmentioned_counts": {
+      "clarinet": 139,
+      "accordion": 139,
+      "cello": 140,
+      "bagpipes": 140,
+      "harmonica": 139,
+      "xylophone": 140,
+      "sitar": 140,
+      "marimba": 139,
+      "tuba": 140,
+      "banjo": 140,
+      "tabla": 139,
+      "ukulele": 140,
+      "guitar": 139,
+      "flute": 139,
+      "oboe": 139,
+      "trumpet": 139,
+      "harp": 140,
+      "violin": 139,
+      "piano": 140,
+      "saxophone": 140,
+      "drums": 139,
+      "trombone": 139,
+      "mandolin": 139
+    },
+    "automated_primary": "CLAP original-caption conflict minus unmentioned; paired 10000-bootstrap seed20260908; upper95<0 indicates semantic interference proxy only",
+    "secondary": "Both vs fidelity8; AES CE/CU/PC/PQ; per-target strata and macro instrument mean; RMS/crest/centroid/clipping. All exploratory, no PQ winner selection.",
+    "listening_primary": "183 target-stratified triplets (549 clips); blinded ABC. Presence 0 absent/1 uncertain/2 present; prominence 0..4 and quality1..5; analyze paired prominence conflict-minus-unmentioned after ratings. No audible-suppression verdict from automated metrics.",
+    "scope_of_queue_completion": "Compute/report/listening-pack complete; human ratings pending does not block queue successors. No automatic promotion.",
+    "limitations": [
+      "Unmentioned is not confirmed absent in audio.",
+      "One checkpoint/generation seed.",
+      "Lexical frequency mismatch remains a confound.",
+      "Guitar includes bass/acoustic/electric guitar mentions; target is family-level.",
+      "Blind subset is instrument-stratified, not population-proportional."
+    ]
+  },
+  "inputs": [
+    {
+      "kind": "checkpoint",
+      "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "bytes": 482119875,
+      "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+    },
+    {
+      "kind": "clap_checkpoint",
+      "path": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+      "bytes": 2352471003,
+      "sha256": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006"
+    },
+    {
+      "kind": "evaluation_entrypoint",
+      "path": "/home/kojiek/MeanAudio/eval.py",
+      "bytes": 10631,
+      "sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339"
+    },
+    {
+      "kind": "evaluation_utils",
+      "path": "/home/kojiek/MeanAudio/meanaudio/eval_utils.py",
+      "bytes": 7200,
+      "sha256": "68315af94d35401c778c8a6bad3d449b82afe50c378dbe0ed8d7cd192bb6a84c"
+    },
+    {
+      "kind": "scoring_reference",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/negprompt_ablation_matrix.py",
+      "bytes": 17154,
+      "sha256": "6f5c902b3d7dbea51c803eae0f220fed98b9741cd4253d109b01c327a4bee476"
+    },
+    {
+      "kind": "notification_notifier",
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "bytes": 25227,
+      "sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+    },
+    {
+      "kind": "notification_helper",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "bytes": 11113,
+      "sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+    },
+    {
+      "kind": "resource_controller",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py",
+      "bytes": 3977,
+      "sha256": "4a1fff8c90c8f69f663f0d61c1fabfb8d136ec11ca2086eede6b49ec34195c67"
+    },
+    {
+      "kind": "evaluation_full_tsv",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8.tsv",
+      "bytes": 1277753,
+      "sha256": "9e090de139d65522b10c8c217a4af482cb81b8e166adc775ab45d62d59b8986e"
+    },
+    {
+      "kind": "conflict_tsv",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8_conflict.tsv",
+      "bytes": 1303120,
+      "sha256": "4b3655a4f326502aa9729a29f9b16e31d39cd4d733f60f7c1174ba50e0bb2470"
+    },
+    {
+      "kind": "unmentioned_tsv",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8_unmentioned.tsv",
+      "bytes": 1304800,
+      "sha256": "a635eafdf7f3ddc3224bfff30738921679fc57bb1c10d656ec5c6f6ecf8a0f2d"
+    },
+    {
+      "kind": "fixed_assignments",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/assignments.json",
+      "bytes": 1544993,
+      "sha256": "0abfbd6ab8de6dd54eecbf8755b771a9fd19b054968a2e6d2ac7795262d1abe1"
+    },
+    {
+      "kind": "selection_code",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/build_instrument_conflict_inputs.py",
+      "bytes": 5809,
+      "sha256": "7fd4ba03ded3089acba0bc4f17f811e733da800ce379c3d4ef4d38531c748968"
+    },
+    {
+      "kind": "action",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908.py",
+      "bytes": 14936,
+      "sha256": "ab98a11a59425b46c085f76f9d2c2e2bea1d20ea4b5d23cd552aa1b5433d6636"
+    },
+    {
+      "kind": "preflight",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/validate_instrument_conflict_cfg3_20260908.py",
+      "bytes": 2667,
+      "sha256": "156b676572c0c1ea3fd2883ca72ab0598d14d7984e1ca225fd22b901395f9003"
+    },
+    {
+      "kind": "harn",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/instrument_conflict_cfg3_20260908_guest.py",
+      "bytes": 6777,
+      "sha256": "a526ba88c6ecad91c41d43a878772905e27f26aa71aac4de4d3356443d49d0c7"
+    },
+    {
+      "kind": "generator",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908_generate.py",
+      "bytes": 11168,
+      "sha256": "be5daa61283a5b024a118acca6254ee8c359ff53790533c27a1b9afa02eb6bf6"
+    },
+    {
+      "kind": "vae_checkpoint",
+      "path": "/home/kojiek/MeanAudio/weights/v1-16.pth",
+      "bytes": 686652758,
+      "sha256": "15ad082c714ccf3771898a771fc6eebdc1d9c8d5c6154726906a97f43603d62c"
+    },
+    {
+      "kind": "vocoder_checkpoint",
+      "path": "/home/kojiek/MeanAudio/weights/best_netG.pt",
+      "bytes": 449217313,
+      "sha256": "970ca75ee4d5ce583e9396a4534acb14971ea2b4f1c22e038f476680c868a789"
+    }
+  ],
+  "reports": [
+    {
+      "negative_key": "fidelity8",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/c2p0_slot0__cfg3.0__fidelity8.json"
+    },
+    {
+      "negative_key": "fidelity8_conflict",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/c2p0_slot0__cfg3.0__fidelity8_conflict.json"
+    },
+    {
+      "negative_key": "fidelity8_unmentioned",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/c2p0_slot0__cfg3.0__fidelity8_unmentioned.json"
+    }
+  ],
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "iteration": 0,
+    "checkpoint": null,
+    "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/resume_progress.json",
+    "behavior": "Revalidate complete reports and notification receipts; preserve blind samples. Regenerate incomplete cell from seed42 in original order; never skip existing partial audio RNG draws."
+  },
+  "storage": {
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908",
+    "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/_audio",
+    "estimated_peak_additional_bytes": 5000000000,
+    "warning_free_bytes": 85000000000,
+    "hard_stop_free_bytes": 63687091200,
+    "authorized_cleanup": "Only registered cell transient FLACs, after complete report validation and hash-verified copy of 183 blind samples per arm. Retain reports and 549 blind FLACs. No other cleanup."
+  },
+  "watcher": {
+    "poll_seconds": 2,
+    "stall_seconds": 7200,
+    "healthy_poll_model_calls": 0,
+    "progress": "Independent parent polls audio count/mtime and persisted report count every2s; hard stall7200s; storage holds remain pollable with child stopped; can acknowledge P1 pause while held.",
+    "automatic_repair": false
+  },
+  "notifications": [
+    "queue_registration",
+    "preflight_pass_or_hold",
+    "experiment_start",
+    "terminal_success_failure_or_interruption",
+    "queue_handoff",
+    "unexpected_gpu_idle",
+    "disk_warning_or_hard_stop"
+  ],
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_instrument_conflict_cfg3_20260908.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908.py",
+      "--validate-only"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/045_instrument_conflict_cfg3.sh",
+    "launcher_sha256": "d3f8100d7fa54ff340dd2e9685398dd60276b495b5a3587d1467593afc4b960d",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/instrument_conflict_cfg3_20260908_guest.py",
+    "harn_sha256": "a526ba88c6ecad91c41d43a878772905e27f26aa71aac4de4d3356443d49d0c7",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908.py",
+    "action_sha256": "ab98a11a59425b46c085f76f9d2c2e2bea1d20ea4b5d23cd552aa1b5433d6636"
+  },
+  "notification_receipts": {
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "attempting_restart_behavior": "ambiguous_fail_closed_no_retry"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json",
+    "authoritative_results": "reports",
+    "legacy_scheduler_compatibility": "ema/cfg0_report are only host classifier compatibility evidence; authoritative new science is the three reports, summary and blind-audio hashes, never historical CFG0 metrics."
+  },
+  "phases": [
+    {
+      "id": "fidelity8",
+      "input_ids": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8.tsv",
+      "output": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/c2p0_slot0__cfg3.0__fidelity8.json",
+      "resume": "Revalidate complete reports and notification receipts; preserve blind samples. Regenerate incomplete cell from seed42 in original order; never skip existing partial audio RNG draws.",
+      "pass": "3207 valid mono16kHz audio and finite complete metrics with input/output hashes; required notification; retain blind clips then cleanup and next arm",
+      "fail": "terminal failure; outer P2 selects eligible successor",
+      "invalid": "hold with exact reason; no next arm",
+      "resource_wait": "poll capacity; same cell resumes after mutable preflight"
+    },
+    {
+      "id": "fidelity8_conflict",
+      "input_ids": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8_conflict.tsv",
+      "output": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/c2p0_slot0__cfg3.0__fidelity8_conflict.json",
+      "resume": "Revalidate complete reports and notification receipts; preserve blind samples. Regenerate incomplete cell from seed42 in original order; never skip existing partial audio RNG draws.",
+      "pass": "3207 valid mono16kHz audio and finite complete metrics with input/output hashes; required notification; retain blind clips then cleanup and next arm",
+      "fail": "terminal failure; outer P2 selects eligible successor",
+      "invalid": "hold with exact reason; no next arm",
+      "resource_wait": "poll capacity; same cell resumes after mutable preflight"
+    },
+    {
+      "id": "fidelity8_unmentioned",
+      "input_ids": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8_unmentioned.tsv",
+      "output": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/c2p0_slot0__cfg3.0__fidelity8_unmentioned.json",
+      "resume": "Revalidate complete reports and notification receipts; preserve blind samples. Regenerate incomplete cell from seed42 in original order; never skip existing partial audio RNG draws.",
+      "pass": "3207 valid mono16kHz audio and finite complete metrics with input/output hashes; required notification; retain blind clips then cleanup and next arm",
+      "fail": "terminal failure; outer P2 selects eligible successor",
+      "invalid": "hold with exact reason; no next arm",
+      "resource_wait": "poll capacity; same cell resumes after mutable preflight"
+    }
+  ],
+  "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/summary.json",
+  "commands_generation": {
+    "fidelity8": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908_generate.py",
+      "--variant",
+      "meanaudio_s",
+      "--model_path",
+      "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "--output",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/_audio/c2p0_slot0__cfg3.0__fidelity8",
+      "--tsv",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8.tsv",
+      "--use_meanflow",
+      "--num_steps",
+      "25",
+      "--cfg_strength",
+      "3",
+      "--no_text_attention_mask",
+      "--encoder_name",
+      "t5_clap",
+      "--text_c_dim",
+      "512",
+      "--seed",
+      "42",
+      "--full_precision",
+      "--no_q",
+      "--negative_prompt_column",
+      "negative_prompt"
+    ],
+    "fidelity8_conflict": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908_generate.py",
+      "--variant",
+      "meanaudio_s",
+      "--model_path",
+      "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "--output",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/_audio/c2p0_slot0__cfg3.0__fidelity8_conflict",
+      "--tsv",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8_conflict.tsv",
+      "--use_meanflow",
+      "--num_steps",
+      "25",
+      "--cfg_strength",
+      "3",
+      "--no_text_attention_mask",
+      "--encoder_name",
+      "t5_clap",
+      "--text_c_dim",
+      "512",
+      "--seed",
+      "42",
+      "--full_precision",
+      "--no_q",
+      "--negative_prompt_column",
+      "negative_prompt"
+    ],
+    "fidelity8_unmentioned": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908_generate.py",
+      "--variant",
+      "meanaudio_s",
+      "--model_path",
+      "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "--output",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/_audio/c2p0_slot0__cfg3.0__fidelity8_unmentioned",
+      "--tsv",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8_unmentioned.tsv",
+      "--use_meanflow",
+      "--num_steps",
+      "25",
+      "--cfg_strength",
+      "3",
+      "--no_text_attention_mask",
+      "--encoder_name",
+      "t5_clap",
+      "--text_c_dim",
+      "512",
+      "--seed",
+      "42",
+      "--full_precision",
+      "--no_q",
+      "--negative_prompt_column",
+      "negative_prompt"
+    ]
+  },
+  "resource_budget": {
+    "gpu": "P2 shared GPU0 scheduler ownership only",
+    "generated_clips": 9621,
+    "generation_cells": 3,
+    "estimated_gpu_hours_range": [
+      1.5,
+      3
+    ],
+    "checkpoint_retention": "read only",
+    "writable_filesystems": [
+      "/"
+    ],
+    "peak_additional_bytes": 5000000000,
+    "repair": "disabled",
+    "estimate_evidence": "Prior same-checkpoint MF25 CFG3 logs: 1024 clips/5.6-6.4min; generation ~53-60min, additional scoring/I/O allowance. Queue wait/preemption excluded."
+  },
+  "queue_registration_context": {
+    "prior_tail": "044_vocal_negative_cfg3.sh",
+    "policy": "append only; keep 042 active, 043 held and 044 pending unchanged",
+    "ordering_semantics": "Lexicographic append-only P2 order after 044; no artifact/scientific dependency. An ineligible held earlier entry remains preserved while the host considers later eligible entries."
+  }
+}

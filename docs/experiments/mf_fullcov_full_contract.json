@@ -1,16 +1,19 @@
 {
  "bindings": {
   "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_fullcov_full.sh",
-  "action_sha256": "4d6ef6e323497aade6a2d73394a8e85fd4c3aa179b9e4426baefa7b6b1d4b749",
+  "action_sha256": "bac79cd592c2ce86537467f80b7d42bdce95caaade82f1ba1855b4ad8735da0f",
+  "decision_script": "/home/kojiek/MeanAudio/scripts/eval/decide_mf_full_arm.py",
+  "decision_script_sha256": "2ae47e579e4c4d2b7e6db1edde4ee9be9b38a172637246b6b22ade89f719adb2",
   "harn": "/home/kojiek/gpu_queue/harn_guest.py",
   "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
   "indirection_note": "accept_guest hashes commands.run[-1], so the scale cannot ride as a trailing argument. The per-scale entry point is hashed here and re-verifies shared_action_sha256 at runtime before exec, so both files are effectively pinned.",
-  "launcher": "/home/kojiek/gpu_queue/p2/pending/039_mf_fullcov_full.sh",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/041_mf_fullcov_full.sh",
   "launcher_sha256": "03dd5ef33293ec8ad94e1835675781e8f9ef0fae9d1a60da09ab066954827a4b",
   "prep_script": "/home/kojiek/MeanAudio/scripts/preprocess/build_mf_fullcov_arm_inputs.py",
-  "prep_script_sha256": "457a5bd66bbb35a4a8a42832a5e58dc0721bcfef9fe0318f07772f65644029d3",
+  "prep_script_sha256": "a36d691c4f2754d847a479fd6201b7f9173579c1feeae26a7b069d56eb54223c",
+  "prep_script_sha256_note": "updated 2026-09-07: build_mf_fullcov_arm_inputs.py gained an --out-name flag so the mf_dedup arm can write its own training TSV basename. Default behaviour is unchanged; previous digest 457a5bd66bbb35a4a8a42832a5e58dc0721bcfef9fe0318f07772f65644029d3.",
   "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_fullcov_action.sh",
-  "shared_action_sha256": "8152213783b11f40b1ef9bc12341926f85d3524d78066268ea1c70222f1be77f"
+  "shared_action_sha256": "fe04f68e1eb12f495e17f8989d77d09adda5f42718dd138182bd97d7e0c5de30"
  },
  "commands": {
   "run": [
@@ -23,14 +26,49 @@
   "ema": "/home/kojiek/MeanAudio/exps/mf_fullcov_noq_full_stage2_200000/mf_fullcov_noq_full_stage2_200000_ema_final.pth"
  },
  "decision_rule": {
-  "0_2029_to_0_2149": "MF trails Qwen by less than the quarter-to-full gain; report as a narrow captioner difference, not a corpus failure",
-  "comparator": "c2p0 slot0 full = 0.2149 CLAP at CFG0 and 0.2605 at CFG 3.0 + fidelity negative, MusicCaps 5521 / MF25 / NoMask / seed 42 / full precision / --no_q",
-  "early_kill": "The queue has no dependency mechanism -- ordering is lexicographic -- so the gate is enforced inside the action: with SCALE=full it reads the quarter arm's CFG0 report and exits 5 if clap_score < 0.1900. Touching /home/kojiek/exps_nvme/mf_full_coverage/PROCEED_TO_FULL_ANYWAY overrides it. This is the failure mode of 037, which was seated automatically after 036 returned a number its own contract said should cancel it, and had to be killed by hand 27k iterations in.",
-  "gte_0_2149": "Music Flamingo matches Qwen at equal coverage and budget; the captioner question is settled in MF's favour",
-  "lte_0_2029": "MF trails at equal coverage; the deficit is the captioner, not the corpus",
-  "recorded_before_launch": true
+  "cancelled_absolute_gate": "quarter CFG0 CLAP >= 0.1900 (cancelled 2026-09-07, see deviations)",
+  "quarter_numbers": {
+   "cfg0": {
+    "aes_CE": 6.2116,
+    "aes_CU": 6.781,
+    "aes_PC": 5.0496,
+    "aes_PQ": 6.5981,
+    "clap_score": 0.1892
+   },
+   "cfg3_neg": {
+    "aes_CE": 6.9567,
+    "aes_CU": 7.581,
+    "aes_PC": 4.7247,
+    "aes_PQ": 7.4771,
+    "clap_score": 0.2172
+   }
+  },
+  "recorded_before_launch": true,
+  "selection": "comparative, not absolute: this arm runs only if decide_mf_full_arm.py names mf_fullcov the winner"
  },
  "dependencies": [],
+ "deviations": [
+  {
+   "authorized_by": "Lanternko",
+   "date": "2026-09-07",
+   "item": "CLAUDE.md pre-experiment checklist item 2 (caption unique rate >= 0.90)",
+   "observed": 0.891637,
+   "rationale": "Shortfall is genuine Music Flamingo mode collapse on generic EDM/rock clips (7,590 duplicate groups over 34,863 rows, 13.9% of corpus; hottest string 387x; top-50 groups only 5,243 rows), and is the residual AFTER enforced_caption() exhausted per-clip resampling on 27,265 clips. Reading the score is cheaper than a blind recaption re-run.",
+   "relaxed_to": 0.89,
+   "reporting_requirement": "any result from either arm must be reported with this deviation attached",
+   "scope": "038 quarter and 039 full, both on this corpus. Extended to 039 on 2026-09-07 at Lanternko's instruction; 039 still self-aborts on its own CFG0 >= 0.1900 gate, so the ~19h full budget is spent only if the quarter earns it."
+  },
+  {
+   "authorized_by": "Lanternko",
+   "cancelled": true,
+   "date": "2026-09-07",
+   "item": "the pre-registered absolute gate 'quarter CFG0 CLAP >= 0.1900 or the full arm self-aborts'",
+   "rationale": "The absolute gate asked whether MF is viable at all. The quarter numbers answered that (0.1892, 0.0008 under the bar, inside the plausible training-seed spread). The live question is which of two MF corpora deserves the ~19h, which is a comparison, not a threshold. Lanternko cancelled the absolute gate explicitly and delegated the choice: 'who is better on clap+aes runs, do not ask me'.",
+   "replaced_by": "scripts/eval/decide_mf_full_arm.py -- the full budget goes to whichever of mf_fullcov / mf_dedup wins on CLAP + AES across both eval cells",
+   "reporting_requirement": "any full-arm result must state that the original 0.1900 gate was cancelled by authorization on 2026-09-07 and that the arm was selected comparatively",
+   "scope": "041_mf_fullcov_full.sh and 042_mf_dedup_full.sh"
+  }
+ ],
  "document_kind": "preregistered_experiment_contract",
  "experiment_id": "mf-fullcov-noq-full",
  "fixed_protocol": {
@@ -90,7 +128,7 @@
   "status": "runs_in_action_before_training",
   "why_this_is_new": "paired59k had to leave the guard off because the MF 100k audio NPZs predate the clip_id field; its equivalent audit was offline and sampled. This closes the gap recorded in memory project_c2p0_corpus_provenance_2026_08_26.md."
  },
- "queue_name": "039_mf_fullcov_full.sh",
+ "queue_name": "041_mf_fullcov_full.sh",
  "queue_role": "p2",
  "resume": {
   "autoresume": "/home/kojiek/MeanAudio/exps/mf_fullcov_noq_full_stage1_400000/mf_fullcov_noq_full_stage1_400000_ckpt_last.pth",

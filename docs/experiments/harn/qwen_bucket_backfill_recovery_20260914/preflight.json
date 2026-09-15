@@ -1,0 +1,93 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "5409aeeaf17d20973426db253ee6af37721913af159030028b9f84972da3ba21",
+      "contract_raw_sha256": "1be43caae1292fad5770b627818623c59cdf9b5342f0b9e1b1e84900b40be481",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "f15d22efddbf7c57c2b07c03743f6b6535e38364e26dbc90f946caa0a3c2a69e",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-task-20260914-qwen-recovery",
+    "channel_record_sha256": "8e7eec063e9d0b1d31e98457cebd4ddf1d6e8c5c08f70b51c2937b467805e96e",
+    "evidence_id": "approval-20260914-qwen-recovery",
+    "experiment_id": "qwen-bucket-quarter-eval-backfill",
+    "expires_at": "2026-12-31T00:00:00Z",
+    "issued_at": "2026-09-14T02:03:33.195985+00:00",
+    "run_id": "run-20260914-qwen-bucket-backfill-recovery1",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac",
+      "observed_at": "2026-09-14T02:03:33.195985+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac",
+      "observed_at": "2026-09-14T02:03:33.195985+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac",
+      "observed_at": "2026-09-14T02:03:33.195985+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "notification",
+      "evidence_sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac",
+      "observed_at": "2026-09-14T02:03:33.195985+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac",
+      "observed_at": "2026-09-14T02:03:33.195985+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac",
+      "observed_at": "2026-09-14T02:03:33.195985+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac",
+      "observed_at": "2026-09-14T02:03:33.195985+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "1be43caae1292fad5770b627818623c59cdf9b5342f0b9e1b1e84900b40be481",
+  "created_at": "2026-09-14T02:03:33.195985+00:00",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "qwen-bucket-quarter-eval-backfill",
+  "run_id": "run-20260914-qwen-bucket-backfill-recovery1",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 263266312192,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-09-14T02:03:33.195985+00:00",
+      "path": "/home/kojiek/cfg0_eval_runtime",
+      "peak_additional_bytes": 15400000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 25000000,
+      "verdict": "pass"
+    }
+  ]
+}

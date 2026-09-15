@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "queue_id": "p2-mf-legacydup-registration",
+  "updated_at": "2026-09-07T22:35:55Z",
+  "entries": [
+    {
+      "entry_id": "043-mf-legacydup-quarter",
+      "position": 1,
+      "experiment_id": "mf-legacydup-noq-quarter",
+      "run_id": "run-20260908-mf-legacydup-noq-quarter",
+      "status": "blocked",
+      "dependencies": [],
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "ae8e011de3bd7702e62f9391ae738edf23df687afae4c3ba5ffb1f4badbb3145",
+        "preflight_report_raw_sha256": "b21ca5cb623768225fc9565980f1827dbf8bfae5e11b13fe47f6874a5fafdccb",
+        "ledger_raw_sha256": "a10ffad291bbd5e887fe7ca27d00ec789f6b812e872e0878420fd608e7d5a0e3",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "terminal_notification_status": "not_applicable"
+    }
+  ]
+}

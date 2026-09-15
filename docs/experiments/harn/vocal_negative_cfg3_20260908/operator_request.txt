@@ -1,0 +1,2 @@
+如果我們再 negative prompt 裡面加入 vocal 然後 eval set 選用 no vocal 表現會提升嗎？設計一個實驗然後 queue
+要排除人聲，負詞寫 vocals, singing, choir 三選一，或全選

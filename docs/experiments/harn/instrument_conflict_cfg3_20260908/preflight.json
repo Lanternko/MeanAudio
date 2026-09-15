@@ -1,0 +1,93 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "48f17c0f0ea843b2fbda6cf95af873b2f69605ea2a706e4808bf977974a03bd4",
+      "contract_raw_sha256": "388ba080436e6bdfda93caab133f605f856aec78ea61ae76cd78b218f6fe251e",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "a526ba88c6ecad91c41d43a878772905e27f26aa71aac4de4d3356443d49d0c7",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-task-cfg0-recovery-20260831",
+    "channel_record_sha256": "df069859ea3e68351de29af34697a8d759456f988c645c07bea603419feb40af",
+    "evidence_id": "approval-20260831-cfg0-recovery",
+    "experiment_id": "instrument-conflict-cfg3-20260908",
+    "expires_at": "2026-09-30T00:00:00Z",
+    "issued_at": "2026-09-07T23:03:10Z",
+    "run_id": "run-20260908-045-instrument-conflict-cfg3",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "d9d54341871794894b6b562e310b7548f1cb207fec7b31f8d0c4da6d1a0ee442",
+      "observed_at": "2026-09-07T23:03:10Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "d9d54341871794894b6b562e310b7548f1cb207fec7b31f8d0c4da6d1a0ee442",
+      "observed_at": "2026-09-07T23:03:10Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "d9d54341871794894b6b562e310b7548f1cb207fec7b31f8d0c4da6d1a0ee442",
+      "observed_at": "2026-09-07T23:03:10Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "notification",
+      "evidence_sha256": "21cc1f7eaf2c39c20b00a8200cc74b4882c186da5a3be6ea82fdfae5a5c78564",
+      "observed_at": "2026-09-07T23:03:10Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "d9d54341871794894b6b562e310b7548f1cb207fec7b31f8d0c4da6d1a0ee442",
+      "observed_at": "2026-09-07T23:03:10Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "d9d54341871794894b6b562e310b7548f1cb207fec7b31f8d0c4da6d1a0ee442",
+      "observed_at": "2026-09-07T23:03:10Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "d9d54341871794894b6b562e310b7548f1cb207fec7b31f8d0c4da6d1a0ee442",
+      "observed_at": "2026-09-07T23:03:10Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "388ba080436e6bdfda93caab133f605f856aec78ea61ae76cd78b218f6fe251e",
+  "created_at": "2026-09-07T23:03:10Z",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "instrument-conflict-cfg3-20260908",
+  "run_id": "run-20260908-045-instrument-conflict-cfg3",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 136340807680,
+      "hard_floor_bytes": 63687091200,
+      "measured_at": "2026-09-07T23:03:10Z",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908",
+      "peak_additional_bytes": 8000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 6000000000,
+      "verdict": "pass"
+    }
+  ]
+}

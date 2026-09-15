@@ -1,0 +1,175 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "f3756e2a4885f7605dc017d8b058fe3fcd9c3408f3f6fe2979b19cc0eb84672e",
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "runtime_sha256": "6f13a954fb5dc3369972a9b1dd16281c6bcc3e8046d303f9f3532a08f0c23ee3",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/051_loudness_aes_cfg3_fidelity8.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/051_loudness_aes_cfg3_fidelity8.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/validate_loudness_aes_cfg3_20260911.py"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/loudness_aes_cfg3_20260911.py",
+        "--validate-only"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/loudness_aes_cfg3_20260911_contract.json",
+        "sha256": "2aebd3a845a5507a4b01995a612c3a1dc6d3a2775d40be8fd30f27ac28fb65de"
+      },
+      {
+        "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+        "sha256": "09e52fdfd1f54efb7d9006e2f65798ff601ab72f96625e113c4d21a1b836e4b8"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+        "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/loudness_aes_cfg3_20260911/acceptance.json",
+        "sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/loudness_aes_cfg3_20260911/operator_request.txt",
+        "sha256": "d4881aeda8266ca9789739b2ef1e6a6446583e1b593cada958a7d6c13455c76f"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "loudness-aes-cfg3-fidelity8-20260911",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911",
+      "peak_additional_bytes": 6000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 25000000,
+      "warning_floor_bytes": 80000000000
+    }
+  ],
+  "notification_events": [
+    "queue_registration",
+    "generation_preflight_pass",
+    "generation_pass",
+    "aes_0_pass",
+    "aes_-3_pass",
+    "aes_-6_pass",
+    "aes_-9_pass",
+    "clap_pass",
+    "analysis_pass",
+    "start",
+    "terminal_success_failure_interruption",
+    "queue_handoff",
+    "unexpected_gpu_idle",
+    "disk_warning",
+    "disk_hard_stop",
+    "storage_recovered",
+    "stall"
+  ],
+  "phases": [
+    {
+      "action_id": "launch",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/loudness_aes_cfg3_20260911.py",
+          "sha256": "4a00432f9a870e90f04700b255b31ae6786185caa7c58f925d43330e5157979b"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/loudness_aes_cfg3_20260911_contract.json",
+          "sha256": "2aebd3a845a5507a4b01995a612c3a1dc6d3a2775d40be8fd30f27ac28fb65de"
+        },
+        {
+          "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+          "sha256": "09e52fdfd1f54efb7d9006e2f65798ff601ab72f96625e113c4d21a1b836e4b8"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+          "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/loudness_aes_cfg3_20260911/acceptance.json",
+          "sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/loudness_aes_cfg3_20260911/operator_request.txt",
+          "sha256": "d4881aeda8266ca9789739b2ef1e6a6446583e1b593cada958a7d6c13455c76f"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/summary.json"
+      ],
+      "phase_id": "canonical-baseline-and-gain-analysis",
+      "resume_action_id": "resume"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "run_id": "run-20260911-051-loudness-aes-cfg3-fidelity8",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

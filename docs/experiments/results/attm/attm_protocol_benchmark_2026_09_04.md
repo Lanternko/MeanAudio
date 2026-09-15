@@ -100,6 +100,12 @@ ATTM 用 Borda count 等權合併 FAD / CLAP / CCS。negprompt 的完整帳目�
 **negprompt 本身的價值不變** —— 在我們自己的 CLAP + AES 體系裡仍是 +0.046 CLAP /
 +0.95 PQ 的最佳免費槓桿。變的只是「拿它打 ATTM 榜」這個特定用途。
 
+> **2026-09-07 後續**：prompt 換成合成 tag 三元組重跑，見
+> `attm_tag_triplet_prompts_2026_09_07.md`。三點更動：(1) domain-match confound 有了
+> 方向性證據，FAD 全體上升；(2) topline 在短 tag prompt 上崩掉，但與他們論文數字方向
+> 相反，該輪 topline 不可外用；(3) negprompt 打 ATTM 榜的淨效果由「約為零」下修為
+> 明確負值。
+
 ## 未解 / 下一步
 
 - **instrument 軸不可用**：校準後只剩 `electronic drums` 一個 tag（n=47）。3B judge 對

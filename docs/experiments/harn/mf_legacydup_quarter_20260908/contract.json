@@ -1,0 +1,113 @@
+{
+  "document_kind": "experiment_contract",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "mf-legacydup-noq-quarter",
+  "run_id": "run-20260908-mf-legacydup-noq-quarter",
+  "bindings": {
+    "policy_bundle_sha256": "500345835b3bad1d15e707ade866c432bc319835cd5987d382bd38b33cb8be30",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+    "runtime_sha256": "b7e40ed575d17936603ce985c93c6625c57aeb3049defcd4f7ea262035921d97",
+    "command_set_sha256": "ddd835829726cd04c11a6170286b259ba43387360b2e6f9f36572a60aed7101a"
+  },
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "corpus": {
+    "kind": "generated",
+    "corpus_artifact": {
+      "path": "/home/kojiek/mf_legacydup_quarter_runtime/inputs/mf_legacydup_train.tsv",
+      "sha256": "dfd7038d5fe3f6ca4398d34b59fe4b053720187f2482f9bee505c71dfcbe2ae3"
+    },
+    "corpus_schema_sha256": "c497d943b25e3f7d79465282cf485ae38f2c90482283856807e59b55483ee139",
+    "classifier_version": "mf-legacydup-structural-v1",
+    "defect_taxonomy_sha256": "9699bc349b92a8b5c9ac7a157616f41f9e80854a4107407c75931e5a44cdd245",
+    "stop_behavior_test_id": "historical-stop-evidence-unavailable",
+    "full_gate_report": {
+      "path": "/home/kojiek/mf_legacydup_quarter_runtime/inputs/gate.json",
+      "sha256": "95b6d3101d12969f37fc064db79ecc84646cb4bdf1272f00f3fa6eeec011397f"
+    },
+    "downstream_bindings": {
+      "tsv_manifest_sha256": "fe2dbd4904c422492c12a4c0537fd2e9f962fb1b22faa40fd87515fb27887a41",
+      "feature_cache_report_sha256": "41e490f45ba62c78be97699de55822221903ed9cc276765f8595b8f77fc960f6"
+    },
+    "required_gate_points": [
+      "launch",
+      "pre_training",
+      "post_change"
+    ]
+  },
+  "repair": {
+    "enabled": false
+  },
+  "phases": [
+    {
+      "phase_id": "corpus-preflight",
+      "action_id": "preflight",
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/mf_legacydup_quarter_20260908/science.json",
+          "sha256": "bfd88049cf7bd5e92098ef77b163a1f76af7dfe5ed5a672bff60b387be5db31a"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/mf_legacydup_quarter_runtime/state.json"
+      ],
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/mf_legacydup_quarter_runtime/inputs/gate.json",
+          "sha256": "95b6d3101d12969f37fc064db79ecc84646cb4bdf1272f00f3fa6eeec011397f"
+        }
+      ],
+      "resume_action_id": "resume"
+    }
+  ],
+  "filesystems": [
+    {
+      "path": "/home/kojiek/mf_legacydup_quarter_runtime",
+      "hard_floor_bytes": 53687091200,
+      "warning_floor_bytes": 80000000000,
+      "peak_additional_bytes": 110000000000,
+      "transient_bytes": 6000000000,
+      "recovery_reserve_bytes": 53687091200
+    }
+  ],
+  "commands": [
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/kojiek/MeanAudio/scripts/experiment_harness/mf_legacydup_queue_guest.py",
+        "--check"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {}
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/kojiek/MeanAudio/scripts/experiment_harness/mf_legacydup_queue_guest.py",
+        "--check"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {}
+    }
+  ],
+  "required_preflight_checks": [
+    "generated_corpus_full_gate",
+    "provenance",
+    "storage",
+    "runtime-prepared"
+  ],
+  "notification_events": [
+    "gate-result",
+    "hold",
+    "terminal",
+    "queue-handoff"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "03222789f988113076dfd67ae8ae6b502b9875512fc28bf55f01c0ae19c1f563",
+      "contract_raw_sha256": "75ac636e00ea09e6369c217688e4e9489c1b5112918c30c3b5ac19adcb3748e4",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "7450878a2e0967f29e94d117ea80e6ae80ab1df3877d11e1353833026e826d00",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-task-cfg0-recovery-20260831",
+    "channel_record_sha256": "b16b6f42473fc28b5f4d95602d6bbdbf1fb475c4aabbf177890db1273535a70b",
+    "evidence_id": "approval-20260831-cfg0-recovery",
+    "experiment_id": "vocal-negative-cfg3-20260908",
+    "expires_at": "2026-09-30T00:00:00Z",
+    "issued_at": "2026-09-07T22:41:01Z",
+    "run_id": "run-20260908-044-vocal-negative-cfg3",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "b481235e9aca75850bbc6e2eae50001e57628211e689482f5733b1a613bd64c1",
+      "observed_at": "2026-09-07T22:41:01Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "b481235e9aca75850bbc6e2eae50001e57628211e689482f5733b1a613bd64c1",
+      "observed_at": "2026-09-07T22:41:01Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "b481235e9aca75850bbc6e2eae50001e57628211e689482f5733b1a613bd64c1",
+      "observed_at": "2026-09-07T22:41:01Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "notification",
+      "evidence_sha256": "65f2e2e0f81a06d391b5cadab0b0fde09d6d535e19a097e187f291f2935ce0ac",
+      "observed_at": "2026-09-07T22:41:01Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "b481235e9aca75850bbc6e2eae50001e57628211e689482f5733b1a613bd64c1",
+      "observed_at": "2026-09-07T22:41:01Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "b481235e9aca75850bbc6e2eae50001e57628211e689482f5733b1a613bd64c1",
+      "observed_at": "2026-09-07T22:41:01Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "b481235e9aca75850bbc6e2eae50001e57628211e689482f5733b1a613bd64c1",
+      "observed_at": "2026-09-07T22:41:01Z",
+      "valid_until": "2026-09-30T00:00:00Z",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "75ac636e00ea09e6369c217688e4e9489c1b5112918c30c3b5ac19adcb3748e4",
+  "created_at": "2026-09-07T22:41:01Z",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "vocal-negative-cfg3-20260908",
+  "run_id": "run-20260908-044-vocal-negative-cfg3",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 140205928448,
+      "hard_floor_bytes": 63687091200,
+      "measured_at": "2026-09-07T22:41:01Z",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/vocal_negative_20260908",
+      "peak_additional_bytes": 8000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 6000000000,
+      "verdict": "pass"
+    }
+  ]
+}

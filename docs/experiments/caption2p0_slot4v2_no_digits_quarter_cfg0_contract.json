@@ -1,0 +1,219 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "caption2p0-slot4v2-no-digits-noq-quarter",
+  "run_id": "run-20260914-caption2p0-slot4v2-no-digits-noq-quarter",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "055_c2p0_slot4v2_no_digits_quarter.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [],
+  "dependencies": [],
+  "deviations": [
+    {
+      "id": "D1-incremental-build",
+      "text": "The TSV was built incrementally in one session: the gates and the pass-2/pass-3 stages were tightened after QA found problems (chat-turn free but: spelled meters like two-on-the-floor, tempo decades read as eras, invented tempo adjectives, dropped decade/meter information, adjective-list cuts). Logged records were re-validated against the final gates (--revalidate) and anything failing was regenerated, so every record in the log passes the final script. A from-scratch rerun of the final script is expected to give a corpus of the same kind but not byte-identical (sampled attempts). The action skips Step 1 because the TSV exists; Step 2 re-runs the audit and strict QA before training."
+    }
+  ],
+  "hypothesis": {
+    "question": "With a clean digit-free rewrite (only digit sentences edited, no chat-turn junk, no dangling fragments, digit-free sentences byte-identical), does c2p0 slot0 without digits change MusicCaps CFG0 or CFG3+neg?",
+    "why_rerun": "slot4 (050/052) tied slot0, but its corpus was polluted: the slot4 rewrite passed no eos_token_id and its fallback stripped the LLM output instead of the original, leaving ~8,848 rows (40.9% of rewritten rows, 3.5% of the corpus) with chat-turn injection or 'tempo of.' fragments, and the LLM dropped 36-44% of digit-free sentences in rewritten rows. slot4 therefore did not isolate 'remove digits'.",
+    "what_moves": "Only the digit-bearing sentences inside the 21644 / 251599 slot0 rows (8.6%) that contain an ASCII digit. Every other sentence and every other row is byte-identical to slot0 (asserted in the rewrite audit and in the action's Step 2).",
+    "not_controlled": "Accepted rewrites come from Qwen2.5-Omni-3B text-only (greedy first, then temperature 0.3/0.5/0.7) behind hard gates; failures fall back to a deterministic lexicon + digit-clause drop of the original sentence. A sentence whose main clause is only the number is dropped.",
+    "primary_comparator": {
+      "arm": "c2p0 slot0 quarter CFG0",
+      "CLAP": 0.2029
+    },
+    "secondary_comparators": {
+      "slot4 quarter CFG0 CLAP": 0.205,
+      "slot0 quarter CFG3+neg CLAP batch32": 0.2372,
+      "slot4 quarter CFG3+neg CLAP batch32": 0.2374
+    },
+    "seed_floor_caveat": "CFG0 training-seed floor CLAP = 0.0042; 2x = 0.0084. Margins under 2x are ties."
+  },
+  "operator_instruction": {
+    "recorded_at": "2026-09-14",
+    "text": "修好 rewrite bug 重產語料，排 quarter",
+    "resolved_choices": {
+      "digit_policy": "strict zero ASCII digits (unchanged from slot4)",
+      "rewrite_fix": "sentence-level edits with eos_token_id, gated LLM output, fallback on the original sentence only",
+      "scale": "overlay + quarter train; full not queued",
+      "overlay": "hardlink true_random and patch slot 0 for rewritten rows; cap_index_fixed=0"
+    }
+  },
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "p2 tail (queue empty at 2026-09-14)",
+    "scope": "rewrite + overlay patch + quarter-scale training + CFG3+neg (with batch-32 CLAP rescore) and CFG0 eval",
+    "valid": true
+  },
+  "selection": {
+    "slot": "slot4v2",
+    "parent_slot": "c2p0_slot0",
+    "rewrite": "digit_sentences_only_gated",
+    "supersedes": "slot4 corpus (050/052)"
+  },
+  "sources": {
+    "parent_tsv": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+      "rows": 251599
+    },
+    "train_tsv": {
+      "path": "/home/kojiek/exps_nvme/slot4v2/arm_inputs/phase8_caption2p0_slot4v2_train.tsv",
+      "rows": 251599,
+      "sha256": "5edce44c75e096998ed1507759c39303653689a73ac7b0888997db5722112aa0"
+    },
+    "cache_list": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "rows": 251599
+    },
+    "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+    "text_overlay_dir": "/home/kojiek/text_overlays/slot4v2",
+    "base_overlay": "/home/kojiek/text_overlays/true_random",
+    "shared_npz_mutation_prohibited": true,
+    "rewrite_log": {
+      "path": "/home/kojiek/exps_nvme/slot4v2/arm_inputs/rewrites.jsonl",
+      "sha256": "a3961b74824e5fed2a5e8cebc6a8be8c969f350c5446fb15ee119044f04258d5",
+      "note": "append-only; last record per key wins"
+    },
+    "qa_report": {
+      "path": "/home/kojiek/exps_nvme/slot4v2/arm_inputs/qa_report.json"
+    }
+  },
+  "training": {
+    "scale": "quarter",
+    "stage1_final_iteration": 100000,
+    "stage2_additional_iterations": 50000,
+    "final_iteration": 150000,
+    "seed": 14159265,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "q_conditioning": false,
+    "multi_cap": false,
+    "cap_index_fixed": 0,
+    "require_text_overlay": true,
+    "use_text_attention_mask": false
+  },
+  "fixed_protocol": {
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "seed": 42,
+    "mask": "NoMask",
+    "precision": "full",
+    "canonical_cell": {
+      "cfg_strength": 0,
+      "why": "required by harn_guest.py completion evidence and puts the arm on the canonical CFG0 table"
+    },
+    "primary_cell": {
+      "cfg_strength": 3.0,
+      "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+      "why": "joins the recent arm-comparison table; not comparable to the canonical CFG0 table"
+    }
+  },
+  "decision_rule": {
+    "comparator": "c2p0 slot0 quarter CFG0 CLAP 0.2029",
+    "recorded_before_launch": true,
+    "rule": "CFG0 CLAP >= 0.2113 counts as a win, 0.1945-0.2113 a tie, < 0.1945 a loss. The band is +/- 2x the CFG0 CLAP training-seed floor (0.0042).",
+    "seed_floor": {
+      "CLAP": 0.0042,
+      "CE": 0.1343,
+      "CU": 0.052,
+      "PC": 0.0554,
+      "PQ": 0.0523
+    }
+  },
+  "cells": [
+    {
+      "cell_id": "canonical_noq",
+      "label": "phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage2_50000/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+    },
+    {
+      "cell_id": "cfg3_neg",
+      "label": "phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_mc_mf25_cfg3_neg",
+      "conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage2_50000/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage2_50000_ema_final.pth",
+      "clap_batch32": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_mc_mf25_cfg3_neg/clap_batch32.json"
+    }
+  ],
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage1_100000/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage1_100000_ckpt_last.pth"
+  },
+  "runtime_storage": {
+    "estimated_overlay_bytes": 20000000000,
+    "hard_stop_free_bytes": 25000000000,
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics"
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot4v2_quarter.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/055_c2p0_slot4v2_no_digits_quarter.sh",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot4v2_quarter.sh",
+    "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot4v2_action.sh",
+    "rewrite_script": "/home/kojiek/MeanAudio/scripts/preprocess/rewrite_slot4v2_no_digits.py",
+    "overlay_script": "/home/kojiek/MeanAudio/scripts/preprocess/patch_stacked_overlay_slot0.py",
+    "launcher_sha256": "876d394896fc5f5876e731a42155ac6a0ab8de3f5ca1c297b255a0eae197e09f",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action_sha256": "cc883c47651e8c2339c640127b71e697772881cca97e0357fab0f821fedf9582",
+    "shared_action_sha256": "fccb2df452d04f5286dbd1ac094b3ce7850bd9dea57bd9c9467e052af886c914",
+    "rewrite_script_sha256": "9f37efc2b8be637a381e5548477ff89330669c34a1b91a5b5db6d088a303711b",
+    "overlay_script_sha256": "7a812508eae894aef1efa39a31c859dcb0bb19e2006a05a822f4922880a9e7ac",
+    "rescore_script": "/home/kojiek/MeanAudio/scripts/eval/rescore_clap_batch32.py",
+    "qa_script": "/home/kojiek/MeanAudio/scripts/preprocess/qa_slot4v2_corpus.py",
+    "rescore_script_sha256": "1de23a5424b79c770046be7b70f1139b9b4c51fc8dc607507bdc204a7a7aa1ea",
+    "qa_script_sha256": "2e15e7a088214988639cd705b3cdbe4a5ca070963f4ed695f6fffba957b2486b"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage2_50000/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_stage2_50000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_musiccaps_mf25_cfg0_noq_REPORT.json"
+  },
+  "corpus_build": {
+    "built_at": "2026-09-14",
+    "sentence_methods": {
+      "llm": 12905,
+      "lexicon": 961,
+      "llm_restructure": 3301,
+      "llm_none": 213,
+      "lexicon_clause": 2187,
+      "llm_pass3": 2218,
+      "lexicon_span": 100,
+      "lexicon_drop": 367,
+      "lexicon_prefix": 25
+    },
+    "audit": {
+      "rewritten_rows": 21644,
+      "digit_free_sentences_kept": 57671,
+      "src_words": 1288523,
+      "dst_words": 1190287
+    },
+    "row_last_resort": [
+      {
+        "id": "32_1353332_segment_10_0",
+        "src": "The description of the music in 2-5 sentences.",
+        "dst": "The description of the music."
+      }
+    ],
+    "models": {
+      "pass1_pass2": "Qwen/Qwen2.5-Omni-3B (thinker, text-only, eos=<|im_end|>)",
+      "pass3": "Qwen/Qwen2.5-7B-Instruct"
+    },
+    "passes": "pass1 minimal digit removal (greedy + 3 sampled) -> pass2 restructure (verb forms from source participles only) -> pass3 7B instruct on the same gates -> deterministic fallback on the ORIGINAL sentence: token lexicon, number-span cut after \"<adj> tempo\", digit-clause drop, phrase-comma prefix, else drop the sentence",
+    "qa": "qa_slot4v2_corpus.py --strict passed (0 hard failures); manual review of >200 sampled sentences across all methods"
+  }
+}

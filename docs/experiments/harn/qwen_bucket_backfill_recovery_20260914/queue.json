@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "1be43caae1292fad5770b627818623c59cdf9b5342f0b9e1b1e84900b40be481",
+        "ledger_raw_sha256": "55e010b4091449f562543cc9c76617281cda09f8ab0f63068f7aaaf29c49e60e",
+        "preflight_report_raw_sha256": "150a92698e7927b031bfe10a2cc9a9e126ad5d38e11fec94d1719cc68e3a4f9b",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "054-qwen-bucket",
+      "experiment_id": "qwen-bucket-quarter-eval-backfill",
+      "position": 1,
+      "run_id": "run-20260914-qwen-bucket-backfill-recovery1",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-qwen-bucket-054",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-09-14T02:03:33.195985+00:00"
+}

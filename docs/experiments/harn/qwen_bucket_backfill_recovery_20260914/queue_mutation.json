@@ -1,0 +1,13 @@
+{
+  "after_pending": [
+    "054_qwen_bucket_quarter_eval_backfill.sh"
+  ],
+  "archive": "/home/kojiek/gpu_queue/p2/maintenance/054_recovery_20260914",
+  "before_pending": [],
+  "candidate_sha256": "d2958775db00c8b9277f3322fc0f32a9eec09fc5c7306dea24302d6c5eccd522",
+  "contract": "/home/kojiek/MeanAudio/docs/experiments/qwen_bucket_quarter_eval_backfill_recovery_contract.json",
+  "contract_sha256": "c47a8fc6d20795d9b865c8b84bcc0295f07eadbb556788e21de7840e2d55b555",
+  "operator_instruction": "fix it then continue the experiment",
+  "registration_receipt": "/home/kojiek/gpu_queue/notification_receipts/qwen-bucket-quarter-eval-backfill/queue_registration.json",
+  "state": "queued"
+}

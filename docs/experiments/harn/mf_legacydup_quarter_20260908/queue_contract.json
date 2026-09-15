@@ -1,0 +1,50 @@
+{
+  "document_kind": "preregistered_experiment_contract",
+  "schema_version": 1,
+  "experiment_id": "mf-legacydup-noq-quarter",
+  "run_id": "run-20260908-mf-legacydup-noq-quarter",
+  "launch_allowed": true,
+  "launch_scope": "CPU-only fail-closed preflight; GPU launch not prepared or permitted",
+  "prepared": false,
+  "approval_required": true,
+  "approval": {
+    "valid": true,
+    "scope": "append approved experiment with preflight hold",
+    "instruction_sha256": "dfbcc21a89065877a5c33ac97dda3a3b0ed72f4b22858061874ee59694a1ff5d"
+  },
+  "commands": {
+    "run": [
+      "/usr/bin/python3",
+      "/home/kojiek/MeanAudio/scripts/experiment_harness/mf_legacydup_queue_guest.py"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/043_mf_legacydup_quarter.sh",
+    "launcher_sha256": "432ec9eb39535a97e6d8285e39b9277420d9becf87a75cfa0ed1dde898382370",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/mf_legacydup_queue_guest.py",
+    "harn_sha256": "b7e40ed575d17936603ce985c93c6625c57aeb3049defcd4f7ea262035921d97",
+    "action": "/home/kojiek/MeanAudio/scripts/experiment_harness/mf_legacydup_queue_guest.py",
+    "action_sha256": "b7e40ed575d17936603ce985c93c6625c57aeb3049defcd4f7ea262035921d97"
+  },
+  "ordering_dependencies": [
+    "042_mf_dedup_full.sh"
+  ],
+  "dependencies": [],
+  "harn_schema_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/mf_legacydup_quarter_20260908",
+  "science": "/home/kojiek/MeanAudio/docs/experiments/harn/mf_legacydup_quarter_20260908/science.json",
+  "state_source": "/home/kojiek/mf_legacydup_quarter_runtime/state.json",
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "iteration": 0,
+    "checkpoint": null,
+    "autoresume": null
+  },
+  "notification_receipts": {
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+  }
+}

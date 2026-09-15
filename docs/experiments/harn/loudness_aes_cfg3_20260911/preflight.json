@@ -1,0 +1,93 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "f3756e2a4885f7605dc017d8b058fe3fcd9c3408f3f6fe2979b19cc0eb84672e",
+      "contract_raw_sha256": "172f026f0d1c3da508d1921a10e20eab314128f636240059eb7b5657e2364f71",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "6f13a954fb5dc3369972a9b1dd16281c6bcc3e8046d303f9f3532a08f0c23ee3",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-task-20260911-loudness-aes",
+    "channel_record_sha256": "d4881aeda8266ca9789739b2ef1e6a6446583e1b593cada958a7d6c13455c76f",
+    "evidence_id": "approval-20260911-loudness-aes",
+    "experiment_id": "loudness-aes-cfg3-fidelity8-20260911",
+    "expires_at": "2026-12-31T00:00:00Z",
+    "issued_at": "2026-09-11T02:58:27.662210+00:00",
+    "run_id": "run-20260911-051-loudness-aes-cfg3-fidelity8",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32",
+      "observed_at": "2026-09-11T02:58:27.662210+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32",
+      "observed_at": "2026-09-11T02:58:27.662210+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32",
+      "observed_at": "2026-09-11T02:58:27.662210+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "notification",
+      "evidence_sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32",
+      "observed_at": "2026-09-11T02:58:27.662210+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32",
+      "observed_at": "2026-09-11T02:58:27.662210+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32",
+      "observed_at": "2026-09-11T02:58:27.662210+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "c75c784a608a10240fa58ffb59776098e27b331565f54b87dfb7fad603971c32",
+      "observed_at": "2026-09-11T02:58:27.662210+00:00",
+      "valid_until": "2026-12-31T00:00:00Z",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "172f026f0d1c3da508d1921a10e20eab314128f636240059eb7b5657e2364f71",
+  "created_at": "2026-09-11T02:58:27.662210+00:00",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "loudness-aes-cfg3-fidelity8-20260911",
+  "run_id": "run-20260911-051-loudness-aes-cfg3-fidelity8",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 131192487936,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-09-11T02:58:27.662210+00:00",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911",
+      "peak_additional_bytes": 6000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 25000000,
+      "verdict": "pass"
+    }
+  ]
+}

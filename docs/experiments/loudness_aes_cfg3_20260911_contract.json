@@ -1,0 +1,1043 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_loudness_aes_evaluation_contract",
+  "experiment_id": "loudness-aes-cfg3-fidelity8-20260911",
+  "run_id": "run-20260911-051-loudness-aes-cfg3-fidelity8",
+  "status": "operator_authorized_queue_tail",
+  "operator_instruction": "設計實驗並加入 queue",
+  "approval_record": "/home/kojiek/MeanAudio/docs/experiments/harn/loudness_aes_cfg3_20260911/operator_request.txt",
+  "launch_allowed": true,
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "trusted_channel": "operator_console",
+    "operator": "responsible_operator",
+    "authorized_at": "2026-09-11T02:58:27.627352+00:00",
+    "scope": "Design and append this loudness-stratified and paired-gain AES evaluation to the live queue tail."
+  },
+  "queue_name": "051_loudness_aes_cfg3_fidelity8.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [],
+  "label": "c2p0_slot0_musiccaps5521_mf25_cfg3_fidelity8_seed42_nomask_fp32_loudness_aes",
+  "protocol": {
+    "classification": "canonical_baseline_with_separately_labeled_secondary_gain_interventions",
+    "dataset": "MusicCaps",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 3,
+    "negative_key": "fidelity8",
+    "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+    "generation_seed": 42,
+    "mask": "NoMask",
+    "precision": "full",
+    "conditioning": "NoQ",
+    "scoring_batch_size": 32,
+    "metrics": [
+      "CLAP",
+      "AES_CE",
+      "AES_CU",
+      "AES_PC",
+      "AES_PQ"
+    ]
+  },
+  "analysis": {
+    "gains_db": [
+      0,
+      -3,
+      -6,
+      -9
+    ],
+    "bootstrap_seed": 20260911,
+    "bootstrap_replicates": 10000,
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "group_quantiles": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "ties": "keep together in lower bin; empty bins explicit",
+    "primary_association": "PQ LUFS Q5 minus Q1",
+    "primary_intervention": "paired PQ(-6dB)-PQ(0dB)",
+    "secondary": "RMS/crest grouping; CE/CU/PC; -3/-9dB; crest terciles within baseline LUFS; gain delta by baseline LUFS",
+    "multiple_comparisons": "Pointwise intervals. No global significance, equivalence or automatic promotion claim.",
+    "invalid_lufs": "null; excluded only from LUFS analyses; retain AES intervention"
+  },
+  "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+  "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+  "aes_snapshot": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+  "tsv": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+  "source_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "inputs": [
+    {
+      "kind": "checkpoint",
+      "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "bytes": 482119875,
+      "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+      "bytes": 2352471003,
+      "sha256": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006"
+    },
+    {
+      "kind": "evaluation_full_tsv",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+      "bytes": 2155348,
+      "sha256": "09e52fdfd1f54efb7d9006e2f65798ff601ab72f96625e113c4d21a1b836e4b8"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+      "bytes": 1680526,
+      "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/docs/experiments/harn/loudness_aes_cfg3_20260911/operator_request.txt",
+      "bytes": 28,
+      "sha256": "d4881aeda8266ca9789739b2ef1e6a6446583e1b593cada958a7d6c13455c76f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/loudness_aes_cfg3_20260911.py",
+      "bytes": 19990,
+      "sha256": "4a00432f9a870e90f04700b255b31ae6786185caa7c58f925d43330e5157979b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/loudness_aes_cfg3_20260911_guest.py",
+      "bytes": 8115,
+      "sha256": "6f13a954fb5dc3369972a9b1dd16281c6bcc3e8046d303f9f3532a08f0c23ee3"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/validate_loudness_aes_cfg3_20260911.py",
+      "bytes": 4509,
+      "sha256": "cc24062154674e8c509879f7f6323893dbb8717af76ee08ca95be348fc982068"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/queue_candidates/051_loudness_aes_cfg3_fidelity8.sh",
+      "bytes": 545,
+      "sha256": "b8b832091d57457f1fc31af96eaae4741c536f69e34c3e3950f38b4fd79f0308"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908_generate.py",
+      "bytes": 11168,
+      "sha256": "be5daa61283a5b024a118acca6254ee8c359ff53790533c27a1b9afa02eb6bf6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/score_musiccaps_per_item.py",
+      "bytes": 25035,
+      "sha256": "7725979e90087f404ed34518221f9e5b8ef7a6ff6896f3a951cc21303237cf14"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/validate_experiment_harness_documents.py",
+      "bytes": 50012,
+      "sha256": "930f412761ed23561ec9dbb93ac4103a84979bd715655b4822dcfd3a122bd7dc"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py",
+      "bytes": 3977,
+      "sha256": "4a1fff8c90c8f69f663f0d61c1fabfb8d136ec11ca2086eede6b49ec34195c67"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "bytes": 25227,
+      "sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "bytes": 11113,
+      "sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/v1-16.pth",
+      "bytes": 686652758,
+      "sha256": "15ad082c714ccf3771898a771fc6eebdc1d9c8d5c6154726906a97f43603d62c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/best_netG.pt",
+      "bytes": 449217313,
+      "sha256": "970ca75ee4d5ce583e9396a4534acb14971ea2b4f1c22e038f476680c868a789"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6/config.json",
+      "bytes": 492,
+      "sha256": "0b8eabc5ced92cefed116a3aca8f1e59d2a33dc4d376b9e86dfb9c072e1d280d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6/model.safetensors",
+      "bytes": 415472992,
+      "sha256": "a5a3c2412649cc2384ec525ffd5180ce6c4778f43bed6108e0a1303de04d014e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/tests/selftest_loudness_aes_cfg3.py",
+      "bytes": 8129,
+      "sha256": "c8e9e8ab58fcf28577f506cf66e4c3396c9ec8d4c8b046b5533c91c99aa50ca1"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/tests/run_loudness_queue_acceptance.py",
+      "bytes": 1917,
+      "sha256": "6cbe341cc09812aaab342748e087af2912434106d89a97a4411b61cfbfa8e5dd"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/register_loudness_aes_cfg3_20260911.py",
+      "bytes": 10247,
+      "sha256": "f093aea23e1448d1a07d196518db2a37a3f423c7016cf0a2e47a023b9f7ad856"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/bundle_loudness_aes_cfg3_20260911.py",
+      "bytes": 5781,
+      "sha256": "fe0028521b6d31e3ad6a1152d8c610945c15a06f90d997b6fd93f4b6f76a2941"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/docs/experiments/loudness_aes_cfg3_20260911.md",
+      "bytes": 7092,
+      "sha256": "cbdbc4c586bb6fdbb0008529c7bc6db10ea43f47a1747d05433bc3bd53611e89"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/av_utils.py",
+      "bytes": 5404,
+      "sha256": "403e5eb01d12d204668a55adca937a2a7250501eab6a347e182b11eb20f34456"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/data_setup.py",
+      "bytes": 7662,
+      "sha256": "9c2fb9e1eda197af8b35cd7649b82f0b933f670ab4f6a820bbf349e3e38e9900"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/eval/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/eval/audiocaps.py",
+      "bytes": 1049,
+      "sha256": "771c5f0a5f705054f226d2a044854937e151c759dd519f52eea3af77022c98a8"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/eval/moviegen.py",
+      "bytes": 4284,
+      "sha256": "ebde6a8c518b18b2c7b8a3a4379f2cf011eb2b6f171a233571cba5fa04e09cb1"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/eval/video_dataset.py",
+      "bytes": 6523,
+      "sha256": "8638c59f565844e032f08128e4f20eea3e20eeaff9e74d73d3329cb28daf5c8e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/extracted_audio.py",
+      "bytes": 21388,
+      "sha256": "707769755205152b67a94b237ef72ac4488ece7d798f046f6e8841f91f707da1"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/extraction/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/extraction/vgg_sound.py",
+      "bytes": 7090,
+      "sha256": "b9cf09fa96642d3e69af6f93c3fa3fb0470767d6a717a18e411a3102c8668209"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/extraction/wav_dataset.py",
+      "bytes": 6101,
+      "sha256": "e73a74b7e1608121ceea2ebef88f33f7d8b508d1c7ab4dbab16b6f0b2ed7664e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/mm_dataset.py",
+      "bytes": 2080,
+      "sha256": "c51490fb9ee276fd7b796bb5c85eaab34887b559ff31641cf7f4df29e414cbbe"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/data/utils.py",
+      "bytes": 4845,
+      "sha256": "f41e0a5d7577689f9c889bccdbd647df662e34f03d99d42ce33967e333243294"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/eval_utils.py",
+      "bytes": 7200,
+      "sha256": "68315af94d35401c778c8a6bad3d449b82afe50c378dbe0ed8d7cd192bb6a84c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/__init__.py",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/autoencoder/__init__.py",
+      "bytes": 43,
+      "sha256": "429abde414b7f5bf799f666b378340695af33136682831404b8f7ce3e080f042"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/autoencoder/autoencoder.py",
+      "bytes": 1805,
+      "sha256": "5b2e22472767d967c0a4df3f8ccc75812a945c4053fac126a9b59e3c57fd2788"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/autoencoder/edm2_utils.py",
+      "bytes": 5549,
+      "sha256": "838e77d4252a4771e50b204c60bf44048a5c4d37a6b694b348dc8ab6f7a5f048"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/autoencoder/vae.py",
+      "bytes": 14674,
+      "sha256": "9ec08e6238cdde1da170270bc223612367120c859896d68688da270773bf10a7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/autoencoder/vae_modules.py",
+      "bytes": 3364,
+      "sha256": "c3ffa001023713aa98611adc959f0054099d33ebe98817b4e29241cfbd75926d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/__init__.py",
+      "bytes": 29,
+      "sha256": "36d064aaaff4c5654b55991617ae8d0fa6d55493a95da9ba3d02fbc1827eb9b8"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/activations.py",
+      "bytes": 4504,
+      "sha256": "3ba94028aebabfc994bcd746bf9cbe92ecace528434c922c480be6ada182cad6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/alias_free_torch/__init__.py",
+      "bytes": 199,
+      "sha256": "a520b10a7e52fa817b46af9cb0b8d1cf7672d3016e3632b7296cc06c11b76da0"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/alias_free_torch/act.py",
+      "bytes": 854,
+      "sha256": "fb2c0ccfda50344e82227e53cab40ea6c157e9a7c33c0d8191245ba0e3807dac"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/alias_free_torch/filter.py",
+      "bytes": 3456,
+      "sha256": "41890f2dc9ad822e679f17db34eb7beb7c0f5f2a3b01229c2d55393cd0538991"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/alias_free_torch/resample.py",
+      "bytes": 1859,
+      "sha256": "f9d28fb23311ecfac2b9fc7f3e16be0e6b5e8cc33f60c2e40b435f1078edcfe0"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/bigvgan.py",
+      "bytes": 988,
+      "sha256": "7f5d0fe9ab689e50fb5356d1b6005096d364b5d576e9686316a371c710ee07fa"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/env.py",
+      "bytes": 510,
+      "sha256": "54ae665797fbb20ed3fc9b856be688f6b8a903b0bed8ff7edabff81dd9cdcd33"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/models.py",
+      "bytes": 9566,
+      "sha256": "545a1aa9e2078d472884c953e4065494af9492c805e2cec4743851aec73a3f3b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan/utils.py",
+      "bytes": 814,
+      "sha256": "23c12cd2a92babe447f9b74a1f24e68d9a341855ebcbbefdab95120d6dda96db"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/activations.py",
+      "bytes": 4541,
+      "sha256": "ff2562e116399bca730929aeb07e029a61321660a4f07c3db0b8f9853c70470f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/activation1d.py",
+      "bytes": 2555,
+      "sha256": "54778a4308d359cac8348bc28f5407652982b22732c3c768a6721183c26f5b0e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/load.py",
+      "bytes": 2594,
+      "sha256": "6ee5cbfaedc6b73cf2bff9677f18bcc5a46c91a088523e853bca12805a909e8a"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/__init__.py",
+      "bytes": 200,
+      "sha256": "2e3138e1052e377ba2e51ea59c7d5d255a519559001757af21dbec4cb9c22471"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/act.py",
+      "bytes": 881,
+      "sha256": "afb517e64f37543d4753a6651d53fbd4cbfca400ef83947b3fa73f439219461d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/filter.py",
+      "bytes": 3401,
+      "sha256": "acf2257276e617dd3161e53abc0a1582e586a3d2d618a43235c7f83818b4e179"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/resample.py",
+      "bytes": 1917,
+      "sha256": "350320c2ed2a077bac8254515ae9f83c55c2b407b310ff0e8bdc64451e487eee"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/bigvgan.py",
+      "bytes": 16725,
+      "sha256": "feb745ea979e947e03f9763294a4c401cfb0c36520c16fef97a98b72a66745d7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/env.py",
+      "bytes": 510,
+      "sha256": "54ae665797fbb20ed3fc9b856be688f6b8a903b0bed8ff7edabff81dd9cdcd33"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/bigvgan_v2/utils.py",
+      "bytes": 789,
+      "sha256": "cfd3d2e280120d48f5c87f3d81c1d8cee070da1f8f219c752abb88066b7be120"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/mel_converter.py",
+      "bytes": 3458,
+      "sha256": "892a64fee5ff50488fec6336f25d8614ff6d77c70e82d192bce93cdd8aba1d90"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/rotary_embeddings.py",
+      "bytes": 2163,
+      "sha256": "598085e30e83b9a6f85d85ada0943aac9f225635b4424c7f9bbe5765ad08ce3a"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/stft_converter.py",
+      "bytes": 5883,
+      "sha256": "89de5456a4fbc3cd0c1d6a2af6e7a8b7ade38764bc0c5835fbcbad6472e7714f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/ext/stft_converter_mel.py",
+      "bytes": 7731,
+      "sha256": "c9328a125ac22561f7e322ba860613a6d9890a97436d8bdfc4f3804361c6b259"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/embeddings.py",
+      "bytes": 2070,
+      "sha256": "6cfc362aa509a0ef9747d3a91f1ce6bf852a3289d5c2e4911a66a2d34f9896d6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/flow_matching.py",
+      "bytes": 3275,
+      "sha256": "5d3d171cf533b1e137229a3492376129d1c02d40f2a8b03a54abc04a591eae15"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/low_level.py",
+      "bytes": 3901,
+      "sha256": "3d5780450b7b4493661fbfc22123af2e7742b197c0aa2e63af8a58406e70b764"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/mean_flow.py",
+      "bytes": 6387,
+      "sha256": "d39ec151df2642e0c61b84539e3da364f7d47e10d56ed6bac9e8b2a7fcd2b0f3"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/networks.py",
+      "bytes": 30934,
+      "sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/sequence_config.py",
+      "bytes": 1111,
+      "sha256": "441ce9145e28e8d2a993d3bb87250f1f33c2a01f9df74a7fad0b8f5637556877"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/transformer_layers.py",
+      "bytes": 8211,
+      "sha256": "ed2d28192e7c9ee6e8e24ce16459dbaba974ed155496ad82f631d1d43b94c8de"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/utils/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/utils/distributions.py",
+      "bytes": 1617,
+      "sha256": "4781b5981d4268ea99b21a667c9cab4f29a79173f30b7485a141dea32767b9f0"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/utils/features_utils.py",
+      "bytes": 7853,
+      "sha256": "830a36a6dece66d1c583419587211ca95aab624db9e36e6bf2f6a493d682d10d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/utils/parameter_groups.py",
+      "bytes": 2093,
+      "sha256": "296043ef908adfc4a60ac450c4375cbf6586af9b08c88ceeed1ac9dedfda9872"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/model/utils/sample_utils.py",
+      "bytes": 373,
+      "sha256": "5bfdf41b83c557587e017ff80283063f5962a22b061243b92947328df1ec0858"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/runner_flowmatching.py",
+      "bytes": 31888,
+      "sha256": "70a97a1e0cd3928e9b53b51378be093399a531de1e6c46b189cdb37f9a76663c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/runner_meanflow.py",
+      "bytes": 33244,
+      "sha256": "a02f2b2b087df7b4873d424eb7f96933635e788fa1e284350d474f20c4b8d8f7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/sample.py",
+      "bytes": 3622,
+      "sha256": "d82947680285bbfd737ed37733c21bc45d1510e8b107e4ec0847fa55d0c33055"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/dist_utils.py",
+      "bytes": 516,
+      "sha256": "8085b5c5816b8a219511a7d251ad9d047a0f6e66bb90f85341e77c25a0d4ead2"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/download_utils.py",
+      "bytes": 1947,
+      "sha256": "609063e008712df9515ea7993e79ad09a5e69eff255a12cef8eb91498bebcd04"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/email_utils.py",
+      "bytes": 1745,
+      "sha256": "8bbcd40e550b7af2d787d320889c3dae6e2ce7308727f6947c78bd4fa16041bb"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/log_integrator.py",
+      "bytes": 3920,
+      "sha256": "c8b44ff9a4e87d966cd5e5912365009c6d5e3eae79aa5391a882de01d18fb24c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/logger.py",
+      "bytes": 7424,
+      "sha256": "8ed340ae611112fba15eb01fdf08285b6072a7d5fa52b710fc197e5ed46a3abf"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/synthesize_ema.py",
+      "bytes": 1267,
+      "sha256": "808cc9c337a2132fbc4808c35ee861355086f6f0b76b3d1c8a5bfa3d46beb7c6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/tensor_utils.py",
+      "bytes": 510,
+      "sha256": "889fc8d4f41bb623cec39272d409cb8ebeb175cc82b68818594e27a00cb8a439"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/time_estimator.py",
+      "bytes": 2434,
+      "sha256": "567d8722697e9eaf2fe86852b6e041d0eb6139700e135cf56f1cd8543648b932"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/timezone.py",
+      "bytes": 27,
+      "sha256": "ecf7018055c641e9892439dcde410ece6cef6fd6c0836ed7ba40fe850c1c0a76"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/training_resume.py",
+      "bytes": 751,
+      "sha256": "72b7b292b7b7ef2eac40aa45c9f1967a6f1f82356630fe93f16bc447e0c5444d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/meanaudio/utils/video_joiner.py",
+      "bytes": 2278,
+      "sha256": "975b2b48903b09d77259069eeba36dfcdca5fb83855cbd9e954515d89d165b74"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/pyloudnorm/__init__.py",
+      "bytes": 149,
+      "sha256": "4537fc38e05119abfbd343d9df912cc2ad8bff3117b58465f99b7269eab9e5b2"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/pyloudnorm/iirfilter.py",
+      "bytes": 6492,
+      "sha256": "4e20bb7c0a1b75eedee0dfefad1f5a238488551a82677fac6f7311d3ccdf56e3"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/pyloudnorm/meter.py",
+      "bytes": 6690,
+      "sha256": "97566b9bc402c43e1c5ce0ca788930c01d40326ed5dc48f0c6f79c489366d823"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/pyloudnorm/normalize.py",
+      "bytes": 1654,
+      "sha256": "e0601829d64e665a4763cb3616ac0b2dadbcf21b60d610fc2f4ea140fe752167"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/pyloudnorm/util.py",
+      "bytes": 925,
+      "sha256": "38554a8fda0ff773504735d6d5533378a0ab699bf6a7e4f748dd2e10cc32b947"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/cli.py",
+      "bytes": 4168,
+      "sha256": "218967b1634411f8f8fc8c06cc9c5d76b56c7ddd960a9ef5b023416e590ac433"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/infer.py",
+      "bytes": 7440,
+      "sha256": "0dd81c8952f0fdb9c706da5cae0b75b859e26720a6c08034dcfb23244f8c9733"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/model/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/model/aes.py",
+      "bytes": 6138,
+      "sha256": "2f339d5d2526ccee45f1daf7722d2b9d36bd9c99212134be12439057d1196238"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/model/utils.py",
+      "bytes": 877,
+      "sha256": "6af4d2acb03b9dad5ee34698f2ce96d423d4adb6bbdc6f3c591015c4da22ff3b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/model/wavlm.py",
+      "bytes": 59108,
+      "sha256": "ed010d90278d5a8414049041a0c8ff60826fbd53045f32f0551c66dee8cac29f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/venvs/dac/lib/python3.12/site-packages/audiobox_aesthetics/utils.py",
+      "bytes": 2586,
+      "sha256": "c69c8c033518ae1274707aa055c8768ec2088b4a9604e8b513f039acaeb6e035"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/snapshots/0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a/config.json",
+      "bytes": 662,
+      "sha256": "bfa5beeb5a4630a97f043f071b9b5d858c842604cff5db874680f33b56090c8c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/snapshots/0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a/model.safetensors",
+      "bytes": 3132668804,
+      "sha256": "a9dd06ce490f139af36e9eb77dd3758b4fd07a08a73d5a1abe5ff2591e2d388e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/snapshots/0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a/special_tokens_map.json",
+      "bytes": 2201,
+      "sha256": "5c87151ef0f72a99d1f766a4c418bd2a1f90aaa30a8e22fe5eca9641daebb64f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/snapshots/0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a/spiece.model",
+      "bytes": 791656,
+      "sha256": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/snapshots/0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a/tokenizer.json",
+      "bytes": 2424064,
+      "sha256": "fe2ebbbbde2985be723e0ce18217853e4020c5e9d35bd07be2c27ab9d3ead57a"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/snapshots/0613663d0d48ea86ba8cb3d7a44f0f65dc596a2a/tokenizer_config.json",
+      "bytes": 2539,
+      "sha256": "5d19985330a9123285cc583fc60616d083aa9df7435812b5d8bb3e749f435d56"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--google--flan-t5-large/refs/main",
+      "bytes": 40,
+      "sha256": "4c87c19ac956c8b6fdf86ed6009e9a22f5b7b5c5e964df2491caafa2a8f56005"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--roberta-base/snapshots/e2da8e2f811d1448a5b465c236feacd80ffbac7b/config.json",
+      "bytes": 481,
+      "sha256": "ef0185e2aae6e06c5f105a285006952c340e20c7dbf43c86ec82601b13fc45e9"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--roberta-base/snapshots/e2da8e2f811d1448a5b465c236feacd80ffbac7b/merges.txt",
+      "bytes": 456318,
+      "sha256": "1ce1664773c50f3e0cc8842619a93edc4624525b728b188a9e0be33b7726adc5"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--roberta-base/snapshots/e2da8e2f811d1448a5b465c236feacd80ffbac7b/model.safetensors",
+      "bytes": 498818054,
+      "sha256": "5bde1d28afb363d0103324efeb5afc8b2b397fe5e04beabb9b1ef355255ade81"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--roberta-base/snapshots/e2da8e2f811d1448a5b465c236feacd80ffbac7b/tokenizer.json",
+      "bytes": 1355863,
+      "sha256": "847bbeab6174d66a88898f729d52fa8d355fafe1bea101cf960dd404581df70e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--roberta-base/snapshots/e2da8e2f811d1448a5b465c236feacd80ffbac7b/tokenizer_config.json",
+      "bytes": 25,
+      "sha256": "994f46754c5bf4014f1aa92d34b1374319c3a6b3f702105cd5b742beaecd18ce"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--roberta-base/snapshots/e2da8e2f811d1448a5b465c236feacd80ffbac7b/vocab.json",
+      "bytes": 898823,
+      "sha256": "9e7f63c2d15d666b52e21d250d2e513b87c9b713cfa6987a82ed89e5e6e50655"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--roberta-base/refs/main",
+      "bytes": 40,
+      "sha256": "11c68c3e779c25a0bbefd88f7bbd5cb82d1bc8b5beeaa988df782fa888f9ce83"
+    }
+  ],
+  "reports": [
+    {
+      "negative_key": "fidelity8",
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/summary.json"
+    }
+  ],
+  "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/summary.json",
+  "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/loudness_aes_cfg3_20260911",
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "iteration": 0,
+    "checkpoint": null,
+    "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/resume_progress.json",
+    "behavior": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+  },
+  "storage": {
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911",
+    "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/_audio",
+    "estimated_peak_additional_bytes": 6000000000,
+    "warning_free_bytes": 80000000000,
+    "hard_stop_free_bytes": 53687091200,
+    "authorized_cleanup": "Only own unmanifested _audio/baseline/*.flac on interrupted generation; own _gain_batch/<expected-id>.wav after atomic per-ID score. Retain manifested baseline and all metrics/reports. No shared cache changes."
+  },
+  "resource_budget": {
+    "gpu": "P2 assigned GPU0 only",
+    "estimated_gpu_hours_range": [
+      1.5,
+      3
+    ],
+    "generated_clips": 5521,
+    "aes_clip_conditions": 22084,
+    "clap_clips": 5521,
+    "writable_filesystems": [
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911",
+      "/home/kojiek/logs",
+      "/home/kojiek/gpu_queue/notification_receipts",
+      "/home/kojiek/MeanAudio"
+    ],
+    "peak_additional_bytes": 6000000000,
+    "recovery_reserve_bytes": 53687091200,
+    "cpu_threads": 2,
+    "automatic_repair": false
+  },
+  "watcher": {
+    "poll_seconds": 2,
+    "stall_seconds": 7200,
+    "healthy_poll_model_calls": 0,
+    "progress": "generation FLAC count/mtime; per-batch progress.json phase/count/mtime; completed summary; independent parent; 7200s hard stall",
+    "automatic_repair": false
+  },
+  "notifications": [
+    "queue_registration",
+    "generation_preflight_pass",
+    "generation_pass",
+    "aes_0_pass",
+    "aes_-3_pass",
+    "aes_-6_pass",
+    "aes_-9_pass",
+    "clap_pass",
+    "analysis_pass",
+    "start",
+    "terminal_success_failure_interruption",
+    "queue_handoff",
+    "unexpected_gpu_idle",
+    "disk_warning",
+    "disk_hard_stop",
+    "storage_recovered",
+    "stall"
+  ],
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_loudness_aes_cfg3_20260911.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/loudness_aes_cfg3_20260911.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/loudness_aes_cfg3_20260911.py",
+      "--validate-only"
+    ]
+  },
+  "commands_generation": {
+    "fidelity8": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908_generate.py",
+      "--variant",
+      "meanaudio_s",
+      "--model_path",
+      "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+      "--output",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/_audio/baseline",
+      "--tsv",
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+      "--use_meanflow",
+      "--num_steps",
+      "25",
+      "--cfg_strength",
+      "3",
+      "--no_text_attention_mask",
+      "--encoder_name",
+      "t5_clap",
+      "--text_c_dim",
+      "512",
+      "--seed",
+      "42",
+      "--full_precision",
+      "--no_q",
+      "--negative_prompt_column",
+      "negative_prompt"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/051_loudness_aes_cfg3_fidelity8.sh",
+    "launcher_sha256": "b8b832091d57457f1fc31af96eaae4741c536f69e34c3e3950f38b4fd79f0308",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/loudness_aes_cfg3_20260911_guest.py",
+    "harn_sha256": "6f13a954fb5dc3369972a9b1dd16281c6bcc3e8046d303f9f3532a08f0c23ee3",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/loudness_aes_cfg3_20260911.py",
+    "action_sha256": "4a00432f9a870e90f04700b255b31ae6786185caa7c58f925d43330e5157979b"
+  },
+  "notification_receipts": {
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "attempting_restart_behavior": "ambiguous_fail_closed_no_retry"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/logs/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_musiccaps_mf25_cfg0_noq_REPORT.json",
+    "authoritative_results": "summary.json + exact per-item AES/CLAP/audio hashes validated by commands.postflight",
+    "legacy_scheduler_compatibility": "historical CFG0 report is used only by old host terminal classifier, never as scientific comparator"
+  },
+  "queue_registration_context": {
+    "prior_tail": "050_c2p0_slot4_no_digits_quarter.sh",
+    "policy": "append-only 051; preserve every active/pending/held entry; no scientific dependency"
+  },
+  "package_versions": {
+    "numpy": "2.3.0",
+    "scipy": "1.16.3",
+    "soundfile": "0.13.1",
+    "pyloudnorm": "0.1.1",
+    "torch": "2.11.0.dev20260127+cu128",
+    "audiobox-aesthetics": "0.0.4"
+  },
+  "git_revision": "bf3ff1cac8d568753b6db0317fc591056483d993",
+  "dirty_worktree": "pre-existing user edits preserved; executable/input raw hashes are authoritative",
+  "phases": [
+    {
+      "id": "generate_canonical_baseline",
+      "pass": "verified exact expected artifacts, then required delivered gate event, then next phase",
+      "fail": "terminal failure, retain artifacts, outer host continues successors",
+      "invalid": "hold exact reason; no promotion",
+      "resource_wait": "75; poll capacity; repeat preflight and resume",
+      "resume": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+    },
+    {
+      "id": "aes_gain0",
+      "pass": "verified exact expected artifacts, then required delivered gate event, then next phase",
+      "fail": "terminal failure, retain artifacts, outer host continues successors",
+      "invalid": "hold exact reason; no promotion",
+      "resource_wait": "75; poll capacity; repeat preflight and resume",
+      "resume": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+    },
+    {
+      "id": "aes_gain_minus3",
+      "pass": "verified exact expected artifacts, then required delivered gate event, then next phase",
+      "fail": "terminal failure, retain artifacts, outer host continues successors",
+      "invalid": "hold exact reason; no promotion",
+      "resource_wait": "75; poll capacity; repeat preflight and resume",
+      "resume": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+    },
+    {
+      "id": "aes_gain_minus6",
+      "pass": "verified exact expected artifacts, then required delivered gate event, then next phase",
+      "fail": "terminal failure, retain artifacts, outer host continues successors",
+      "invalid": "hold exact reason; no promotion",
+      "resource_wait": "75; poll capacity; repeat preflight and resume",
+      "resume": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+    },
+    {
+      "id": "aes_gain_minus9",
+      "pass": "verified exact expected artifacts, then required delivered gate event, then next phase",
+      "fail": "terminal failure, retain artifacts, outer host continues successors",
+      "invalid": "hold exact reason; no promotion",
+      "resource_wait": "75; poll capacity; repeat preflight and resume",
+      "resume": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+    },
+    {
+      "id": "canonical_clap",
+      "pass": "verified exact expected artifacts, then required delivered gate event, then next phase",
+      "fail": "terminal failure, retain artifacts, outer host continues successors",
+      "invalid": "hold exact reason; no promotion",
+      "resource_wait": "75; poll capacity; repeat preflight and resume",
+      "resume": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+    },
+    {
+      "id": "analysis_report",
+      "pass": "verified exact expected artifacts, then required delivered gate event, then next phase",
+      "fail": "terminal failure, retain artifacts, outer host continues successors",
+      "invalid": "hold exact reason; no promotion",
+      "resource_wait": "75; poll capacity; repeat preflight and resume",
+      "resume": "Partial unmanifested generation: remove own partial FLAC and regenerate seed42 original order. Manifested baseline: verify hashes. AES: verify per-ID contract/source/gain and score only missing. CLAP/report recompute if incomplete. Receipts persist."
+    }
+  ]
+}

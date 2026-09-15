@@ -1,0 +1,17 @@
+{
+  "instruction": "/home/kojiek/MeanAudio/docs/experiments/harn/mf_legacydup_quarter_20260908/operator_request.txt",
+  "recorded_at": "2026-09-07T22:36:19.602280+00:00",
+  "prior_running": [
+    "042_mf_dedup_full.sh"
+  ],
+  "prior_pending": [],
+  "new_entry": "043_mf_legacydup_quarter.sh",
+  "requested_position": "tail after preserved approved queue",
+  "status": "held_for_operator",
+  "prepared": false,
+  "reason": "full corpus structural gate failed; provenance/cache/runtime and storage preflight not passed",
+  "state_source": "/home/kojiek/mf_legacydup_quarter_runtime/state.json",
+  "launcher": "/home/kojiek/gpu_queue/p2/held/043_mf_legacydup_quarter.sh",
+  "next_action": "resolve corpus disposition before preparing GPU launcher; preserve ordering after current 042",
+  "no_existing_entries_removed": true
+}

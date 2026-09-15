@@ -1,0 +1,490 @@
+{
+  "mf_dedup_noq_quarter_stage1_100000": {
+    "sources": [
+      {
+        "path": "/home/kojiek/exps_nvme/mf_dedup_noq_quarter_stage1_100000/train-2026-09-07_23-05-16-rank0.log",
+        "sha256": "78be0b6dc36597fb234b94f07b736a996aeb69e3bd42251861589237292df564"
+      }
+    ],
+    "count": 1999,
+    "local_first": 50.0,
+    "local_last": 99950.0,
+    "config": {
+      "data": {
+        "AudioCaps_npz": {
+          "tag": "train",
+          "tsv": "/home/kojiek/exps_nvme/mf_dedup/arm_inputs/mf_dedup_train.tsv",
+          "npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+          "text_npz_dir": "/home/kojiek/text_overlays/mf_dedup",
+          "require_text_overlay": true
+        },
+        "AudioCaps_val_npz": {
+          "tag": "val",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/_QUARANTINED_phase4_val.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz_phase8v4",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "AudioCaps_test_npz": {
+          "tag": "test",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/meanaudio_captions.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "latent_mean": "sets/latent_mean.pt",
+        "latent_std": "sets/latent_std.pt"
+      },
+      "enable_email": false,
+      "model": "fluxaudio_s",
+      "text_encoder_name": "t5_clap",
+      "concat_text_fc": false,
+      "exp_id": "mf_dedup_noq_quarter_stage1_100000",
+      "debug": false,
+      "cudnn_benchmark": true,
+      "compile": false,
+      "amp": true,
+      "weights": null,
+      "checkpoint": null,
+      "pause_request_file": null,
+      "require_text_overlay": false,
+      "seed": 14159265,
+      "num_workers": 4,
+      "pin_memory": false,
+      "data_dim": {
+        "text_seq_len": 77,
+        "text_dim": 1024,
+        "text_c_dim": 512,
+        "latent_seq_len": 312
+      },
+      "ema": {
+        "enable": true,
+        "sigma_rels": [
+          0.05,
+          0.1
+        ],
+        "update_every": 1,
+        "checkpoint_every": 10000,
+        "checkpoint_folder": "${hydra:run.dir}/ema_ckpts",
+        "default_output_sigma": 0.05,
+        "start": 0
+      },
+      "sampling": {
+        "mean": 0.0,
+        "scale": 1.0,
+        "min_sigma": 0.0,
+        "method": "euler",
+        "num_steps": 25
+      },
+      "null_condition_probability": 0.1,
+      "cfg_strength": 1,
+      "vae_16k_ckpt": "./weights/v1-16.pth",
+      "vae_44k_ckpt": "./weights/v1-44.pth",
+      "bigvgan_vocoder_ckpt": "./weights/best_netG.pt",
+      "mini_train": false,
+      "example_train": false,
+      "enable_grad_scaler": true,
+      "ac_oversample_rate": 5,
+      "log_text_interval": 50,
+      "log_extra_interval": 10000,
+      "val_interval": 999999,
+      "eval_interval": 999999,
+      "save_eval_interval": 999999,
+      "save_weights_interval": 10000,
+      "save_checkpoint_interval": 10000,
+      "save_copy_iterations": [],
+      "batch_size": 8,
+      "eval_batch_size": 4,
+      "num_iterations": 100000,
+      "learning_rate": 0.0001,
+      "linear_warmup_steps": 1000,
+      "lr_schedule": "step",
+      "lr_schedule_steps": [
+        999999,
+        999999
+      ],
+      "lr_schedule_gamma": 0.1,
+      "clip_grad_norm": 1.0,
+      "weight_decay": 1e-06,
+      "output_name": null,
+      "use_meanflow": true,
+      "use_repa": false,
+      "use_q_conditioning": false,
+      "accumulation_steps": 1,
+      "use_rope": false,
+      "use_wandb": false,
+      "use_text_attention_mask": false
+    }
+  },
+  "mf_dedup_noq_quarter_stage2_50000": {
+    "sources": [
+      {
+        "path": "/home/kojiek/exps_nvme/mf_dedup_noq_quarter_stage2_50000/train-2026-09-08_03-03-41-rank0.log",
+        "sha256": "45c843a04b81648840e878324031d009549a8258d0885e460b062a1ff7700fd6"
+      }
+    ],
+    "count": 1000,
+    "local_first": 0.0,
+    "local_last": 49950.0,
+    "config": {
+      "data": {
+        "AudioCaps_npz": {
+          "tag": "train",
+          "tsv": "/home/kojiek/exps_nvme/mf_dedup/arm_inputs/mf_dedup_train.tsv",
+          "npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+          "text_npz_dir": "/home/kojiek/text_overlays/mf_dedup",
+          "require_text_overlay": true
+        },
+        "AudioCaps_val_npz": {
+          "tag": "val",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/_QUARANTINED_phase4_val.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz_phase8v4",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "AudioCaps_test_npz": {
+          "tag": "test",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/meanaudio_captions.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "latent_mean": "sets/latent_mean.pt",
+        "latent_std": "sets/latent_std.pt"
+      },
+      "enable_email": false,
+      "model": "meanaudio_s",
+      "text_encoder_name": "t5_clap",
+      "concat_text_fc": false,
+      "exp_id": "mf_dedup_noq_quarter_stage2_50000",
+      "debug": false,
+      "cudnn_benchmark": true,
+      "compile": false,
+      "amp": true,
+      "weights": null,
+      "checkpoint": null,
+      "pause_request_file": null,
+      "require_text_overlay": false,
+      "seed": 14159265,
+      "num_workers": 4,
+      "pin_memory": false,
+      "data_dim": {
+        "text_seq_len": 77,
+        "text_dim": 1024,
+        "text_c_dim": 512,
+        "latent_seq_len": 312
+      },
+      "ema": {
+        "enable": true,
+        "sigma_rels": [
+          0.05,
+          0.1
+        ],
+        "update_every": 1,
+        "checkpoint_every": 10000,
+        "checkpoint_folder": "${hydra:run.dir}/ema_ckpts",
+        "default_output_sigma": 0.05,
+        "start": 0
+      },
+      "sampling": {
+        "mean": 0.0,
+        "scale": 1.0,
+        "min_sigma": 0.0,
+        "method": "euler",
+        "num_steps": 25
+      },
+      "null_condition_probability": 0.1,
+      "cfg_strength": 1,
+      "vae_16k_ckpt": "./weights/v1-16.pth",
+      "vae_44k_ckpt": "./weights/v1-44.pth",
+      "bigvgan_vocoder_ckpt": "./weights/best_netG.pt",
+      "mini_train": false,
+      "example_train": false,
+      "enable_grad_scaler": true,
+      "ac_oversample_rate": 5,
+      "log_text_interval": 50,
+      "log_extra_interval": 10000,
+      "val_interval": 999999,
+      "eval_interval": 999999,
+      "save_eval_interval": 999999,
+      "save_weights_interval": 10000,
+      "save_checkpoint_interval": 10000,
+      "save_copy_iterations": [],
+      "batch_size": 8,
+      "eval_batch_size": 4,
+      "num_iterations": 150000,
+      "learning_rate": 0.0001,
+      "linear_warmup_steps": 1000,
+      "lr_schedule": "step",
+      "lr_schedule_steps": [
+        999999,
+        999999
+      ],
+      "lr_schedule_gamma": 0.1,
+      "clip_grad_norm": 1.0,
+      "weight_decay": 1e-06,
+      "output_name": null,
+      "use_meanflow": true,
+      "use_repa": false,
+      "use_q_conditioning": false,
+      "accumulation_steps": 1,
+      "use_rope": false,
+      "use_wandb": false,
+      "use_text_attention_mask": false
+    }
+  },
+  "mf_dedup_noq_full_stage1_400000": {
+    "sources": [
+      {
+        "path": "/home/kojiek/exps_nvme/mf_dedup_noq_full_stage1_400000/train-2026-09-08_06-10-09-rank0.log",
+        "sha256": "9382c097a816449dce267eacc5719e659fd03f28fe40a1d86a8981a7ee3d4e17"
+      }
+    ],
+    "count": 7999,
+    "local_first": 50.0,
+    "local_last": 399950.0,
+    "config": {
+      "data": {
+        "AudioCaps_npz": {
+          "tag": "train",
+          "tsv": "/home/kojiek/exps_nvme/mf_dedup/arm_inputs/mf_dedup_train.tsv",
+          "npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+          "text_npz_dir": "/home/kojiek/text_overlays/mf_dedup",
+          "require_text_overlay": true
+        },
+        "AudioCaps_val_npz": {
+          "tag": "val",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/_QUARANTINED_phase4_val.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz_phase8v4",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "AudioCaps_test_npz": {
+          "tag": "test",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/meanaudio_captions.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "latent_mean": "sets/latent_mean.pt",
+        "latent_std": "sets/latent_std.pt"
+      },
+      "enable_email": false,
+      "model": "fluxaudio_s",
+      "text_encoder_name": "t5_clap",
+      "concat_text_fc": false,
+      "exp_id": "mf_dedup_noq_full_stage1_400000",
+      "debug": false,
+      "cudnn_benchmark": true,
+      "compile": false,
+      "amp": true,
+      "weights": null,
+      "checkpoint": null,
+      "pause_request_file": null,
+      "require_text_overlay": false,
+      "seed": 14159265,
+      "num_workers": 4,
+      "pin_memory": false,
+      "data_dim": {
+        "text_seq_len": 77,
+        "text_dim": 1024,
+        "text_c_dim": 512,
+        "latent_seq_len": 312
+      },
+      "ema": {
+        "enable": true,
+        "sigma_rels": [
+          0.05,
+          0.1
+        ],
+        "update_every": 1,
+        "checkpoint_every": 10000,
+        "checkpoint_folder": "${hydra:run.dir}/ema_ckpts",
+        "default_output_sigma": 0.05,
+        "start": 0
+      },
+      "sampling": {
+        "mean": 0.0,
+        "scale": 1.0,
+        "min_sigma": 0.0,
+        "method": "euler",
+        "num_steps": 25
+      },
+      "null_condition_probability": 0.1,
+      "cfg_strength": 1,
+      "vae_16k_ckpt": "./weights/v1-16.pth",
+      "vae_44k_ckpt": "./weights/v1-44.pth",
+      "bigvgan_vocoder_ckpt": "./weights/best_netG.pt",
+      "mini_train": false,
+      "example_train": false,
+      "enable_grad_scaler": true,
+      "ac_oversample_rate": 5,
+      "log_text_interval": 50,
+      "log_extra_interval": 10000,
+      "val_interval": 999999,
+      "eval_interval": 999999,
+      "save_eval_interval": 999999,
+      "save_weights_interval": 10000,
+      "save_checkpoint_interval": 10000,
+      "save_copy_iterations": [],
+      "batch_size": 8,
+      "eval_batch_size": 4,
+      "num_iterations": 400000,
+      "learning_rate": 0.0001,
+      "linear_warmup_steps": 1000,
+      "lr_schedule": "step",
+      "lr_schedule_steps": [
+        999999,
+        999999
+      ],
+      "lr_schedule_gamma": 0.1,
+      "clip_grad_norm": 1.0,
+      "weight_decay": 1e-06,
+      "output_name": null,
+      "use_meanflow": true,
+      "use_repa": false,
+      "use_q_conditioning": false,
+      "accumulation_steps": 1,
+      "use_rope": false,
+      "use_wandb": false,
+      "use_text_attention_mask": false
+    }
+  },
+  "mf_dedup_noq_full_stage2_200000": {
+    "sources": [
+      {
+        "path": "/home/kojiek/exps_nvme/mf_dedup_noq_full_stage2_200000/train-2026-09-08_22-16-01-rank0.log",
+        "sha256": "7aa6e63cfd3b92306f4bbec065e28d9eaf4abd9d0abcfc614e6781f6b106321f"
+      }
+    ],
+    "count": 4000,
+    "local_first": 0.0,
+    "local_last": 199950.0,
+    "config": {
+      "data": {
+        "AudioCaps_npz": {
+          "tag": "train",
+          "tsv": "/home/kojiek/exps_nvme/mf_dedup/arm_inputs/mf_dedup_train.tsv",
+          "npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+          "text_npz_dir": "/home/kojiek/text_overlays/mf_dedup",
+          "require_text_overlay": true
+        },
+        "AudioCaps_val_npz": {
+          "tag": "val",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/_QUARANTINED_phase4_val.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz_phase8v4",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "AudioCaps_test_npz": {
+          "tag": "test",
+          "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/meanaudio_captions.tsv",
+          "npz_dir": "/home/kojiek/research/meanaudio_training/npz",
+          "output_subdir": null,
+          "repa_npz_dir": null,
+          "gt_cache": null
+        },
+        "latent_mean": "sets/latent_mean.pt",
+        "latent_std": "sets/latent_std.pt"
+      },
+      "enable_email": false,
+      "model": "meanaudio_s",
+      "text_encoder_name": "t5_clap",
+      "concat_text_fc": false,
+      "exp_id": "mf_dedup_noq_full_stage2_200000",
+      "debug": false,
+      "cudnn_benchmark": true,
+      "compile": false,
+      "amp": true,
+      "weights": null,
+      "checkpoint": null,
+      "pause_request_file": null,
+      "require_text_overlay": false,
+      "seed": 14159265,
+      "num_workers": 4,
+      "pin_memory": false,
+      "data_dim": {
+        "text_seq_len": 77,
+        "text_dim": 1024,
+        "text_c_dim": 512,
+        "latent_seq_len": 312
+      },
+      "ema": {
+        "enable": true,
+        "sigma_rels": [
+          0.05,
+          0.1
+        ],
+        "update_every": 1,
+        "checkpoint_every": 10000,
+        "checkpoint_folder": "${hydra:run.dir}/ema_ckpts",
+        "default_output_sigma": 0.05,
+        "start": 0
+      },
+      "sampling": {
+        "mean": 0.0,
+        "scale": 1.0,
+        "min_sigma": 0.0,
+        "method": "euler",
+        "num_steps": 25
+      },
+      "null_condition_probability": 0.1,
+      "cfg_strength": 1,
+      "vae_16k_ckpt": "./weights/v1-16.pth",
+      "vae_44k_ckpt": "./weights/v1-44.pth",
+      "bigvgan_vocoder_ckpt": "./weights/best_netG.pt",
+      "mini_train": false,
+      "example_train": false,
+      "enable_grad_scaler": true,
+      "ac_oversample_rate": 5,
+      "log_text_interval": 50,
+      "log_extra_interval": 10000,
+      "val_interval": 999999,
+      "eval_interval": 999999,
+      "save_eval_interval": 999999,
+      "save_weights_interval": 10000,
+      "save_checkpoint_interval": 10000,
+      "save_copy_iterations": [],
+      "batch_size": 8,
+      "eval_batch_size": 4,
+      "num_iterations": 600000,
+      "learning_rate": 0.0001,
+      "linear_warmup_steps": 1000,
+      "lr_schedule": "step",
+      "lr_schedule_steps": [
+        999999,
+        999999
+      ],
+      "lr_schedule_gamma": 0.1,
+      "clip_grad_norm": 1.0,
+      "weight_decay": 1e-06,
+      "output_name": null,
+      "use_meanflow": true,
+      "use_repa": false,
+      "use_q_conditioning": false,
+      "accumulation_steps": 1,
+      "use_rope": false,
+      "use_wandb": false,
+      "use_text_attention_mask": false
+    }
+  }
+}

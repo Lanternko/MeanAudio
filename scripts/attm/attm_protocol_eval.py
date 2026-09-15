@@ -67,12 +67,12 @@ ARMS = {
 }
 
 
-def load_rows():
-    with TSV.open(encoding='utf-8', newline='') as fh:
+def load_rows(tsv=TSV):
+    with Path(tsv).open(encoding='utf-8', newline='') as fh:
         return list(csv.DictReader(fh, delimiter='\t'))
 
 
-def generate(label, ckpt, flags, audio_dir, expected):
+def generate(label, ckpt, flags, audio_dir, expected, tsv=TSV):
     audio_dir.mkdir(parents=True, exist_ok=True)
     have = len(list(audio_dir.glob('*.flac')))
     if have >= expected * 0.99:
@@ -82,7 +82,7 @@ def generate(label, ckpt, flags, audio_dir, expected):
         raise SystemExit(f'[FAIL] missing checkpoint {ckpt}')
     variant = 'meanaudio_l' if 'meanaudio_l' in label else 'meanaudio_s'
     cmd = [PYTHON, 'eval.py', '--variant', variant, '--model_path', str(ckpt),
-           '--output', str(audio_dir), '--tsv', str(TSV), '--use_meanflow',
+           '--output', str(audio_dir), '--tsv', str(tsv), '--use_meanflow',
            '--encoder_name', 't5_clap', '--text_c_dim', '512', '--seed', '42',
            '--full_precision'] + flags
     t0 = time.time()
@@ -180,9 +180,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('arms', nargs='*', default=None)
     ap.add_argument('--gen-only', action='store_true')
+    ap.add_argument('--tsv', default=str(TSV),
+                    help='prompt set; default is the instrumental MusicCaps split')
+    ap.add_argument('--suffix', default='',
+                    help='appended to audio dir and artifact names, so an '
+                         'alternate prompt set does not clobber the main run')
     args = ap.parse_args()
 
-    rows = load_rows()
+    rows = load_rows(args.tsv)
     expected = len(rows)
     ref_paths = sorted(REF_DIR.glob('*.wav'))
     print(f'prompts={expected}  fad_reference={len(ref_paths)}', flush=True)
@@ -192,8 +197,8 @@ def main():
     for label in selected:
         ckpt, flags = ARMS[label]
         print(f'\n=== {label} ===', flush=True)
-        audio_dir = OUT / '_audio' / label
-        generate(label, ckpt, flags, audio_dir, expected)
+        audio_dir = OUT / '_audio' / f'{label}{args.suffix}'
+        generate(label, ckpt, flags, audio_dir, expected, args.tsv)
         if args.gen_only:
             continue
 
@@ -211,9 +216,11 @@ def main():
             'checkpoint': str(ckpt),
             'flags': flags,
             'n': len(present),
-            'protocol': ('instrumental MusicCaps 2535; seed 42; full precision; '
-                         'CLAP batch 32; FAD in LAION-CLAP music_audioset space '
-                         f'vs {len(ref_paths)} instrumental MusicCaps refs'),
+            'tsv': str(args.tsv),
+            'protocol': (f'{expected} prompts from {Path(args.tsv).name}; seed 42; '
+                         'full precision; CLAP batch 32; FAD in LAION-CLAP '
+                         f'music_audioset space vs {len(ref_paths)} instrumental '
+                         'MusicCaps refs'),
             'attm_clap_90p14': attm_clap,
             'attm_fad_90p14': attm_fad,
             'ours_clap_89p98': ours_clap,
@@ -221,7 +228,7 @@ def main():
             **agg,
         }
         OUT.mkdir(parents=True, exist_ok=True)
-        (OUT / f'{label}.json').write_text(json.dumps(
+        (OUT / f'{label}{args.suffix}.json').write_text(json.dumps(
             {**result, 'per_clip_attm_clap': attm_per}, indent=1))
         print(json.dumps(result, indent=1), flush=True)
 

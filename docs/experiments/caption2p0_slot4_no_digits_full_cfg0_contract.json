@@ -1,0 +1,183 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "caption2p0-slot4-no-digits-noq-full",
+  "run_id": "run-20260912-caption2p0-slot4-no-digits-noq-full",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "052_c2p0_slot4_no_digits_full.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [
+    "050_c2p0_slot4_no_digits_quarter"
+  ],
+  "dependencies": [],
+  "deviations": [
+    "The shared action gained a full) budget case and a scale-aware NVMe gate on 2026-09-12, so its sha256 changed from 085fca48... to 4e15b289.... The quarter arm had already completed under the old digest; its budgets, corpus, overlay and eval cells are untouched by the edit."
+  ],
+  "hypothesis": {
+    "question": "At the 600k budget the board's headline c2p0 numbers live at, does stripping every digit from slot0 captions raise MusicCaps CFG0 relative to slot0 itself?",
+    "what_moves": "The same 21644 / 251599 rewritten rows as the quarter arm, byte-identical TSV and overlay. Only the training budget changes: S1 400k / S2 200k instead of 100k / 50k.",
+    "not_controlled": "Nothing new. The rewrite and overlay were produced once on 2026-09-11 and are reused as-is.",
+    "prior": "The quarter arm came in a tie: CFG0 CLAP 0.2050 vs slot0 quarter 0.2029, a 0.0021 margin = 0.5x the training-seed floor. This arm was queued on operator instruction, not because the quarter cleared a gate.",
+    "primary_comparator": {
+      "arm": "c2p0 slot0 full CFG0",
+      "CLAP": 0.2149
+    },
+    "seed_floor_caveat": "CFG0 training-seed floor CLAP = 0.0042; 2x = 0.0084. Margins under 2x are ties."
+  },
+  "operator_instruction": {
+    "recorded_at": "2026-09-12",
+    "text": "如果有就 queue slot4 quarter + full",
+    "resolved_choices": {
+      "quarter": "already completed as queue seat 050 on 2026-09-12; not re-run",
+      "full": "queued as seat 052 at the standard c2p0 full budget (S1 400k / S2 200k)",
+      "gate": "no early-kill gate; the operator asked for the full arm with the quarter tie already on the record"
+    }
+  },
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "tail",
+    "scope": "full-scale training on the existing slot4 corpus and overlay, plus CFG0 and CFG3+neg eval",
+    "valid": true
+  },
+  "selection": {
+    "slot": "slot4",
+    "parent_slot": "c2p0_slot0",
+    "rewrite": "digits_until_none"
+  },
+  "sources": {
+    "parent_tsv": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+      "rows": 251599
+    },
+    "train_tsv": {
+      "path": "/home/kojiek/exps_nvme/slot4/arm_inputs/phase8_caption2p0_slot4_train.tsv",
+      "rows": 251599,
+      "sha256": "9cb1e344923ec2bcce503a54d28d4e1969cf8f89c900a62e869c881e3eebc38a",
+      "note": "built by seat 050; the action's Step 1 is a no-op when this file exists"
+    },
+    "cache_list": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "rows": 251599
+    },
+    "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+    "text_overlay_dir": "/home/kojiek/text_overlays/slot4",
+    "text_overlay_done": {
+      "patched_rows": 21644,
+      "patched_slot": 0,
+      "train_tsv_sha256": "9cb1e344923ec2bcce503a54d28d4e1969cf8f89c900a62e869c881e3eebc38a",
+      "completed_at": "2026-09-11T14:00:49Z"
+    },
+    "base_overlay": "/home/kojiek/text_overlays/true_random",
+    "shared_npz_mutation_prohibited": true
+  },
+  "training": {
+    "scale": "full",
+    "stage1_final_iteration": 400000,
+    "stage2_additional_iterations": 200000,
+    "final_iteration": 600000,
+    "seed": 14159265,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "q_conditioning": false,
+    "multi_cap": false,
+    "cap_index_fixed": 0,
+    "require_text_overlay": true,
+    "use_text_attention_mask": false
+  },
+  "fixed_protocol": {
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "seed": 42,
+    "mask": "NoMask",
+    "precision": "full",
+    "canonical_cell": {
+      "cfg_strength": 0,
+      "why": "required by harn_guest.py completion evidence and puts the arm on the canonical CFG0 table"
+    },
+    "primary_cell": {
+      "cfg_strength": 3.0,
+      "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+      "why": "joins the recent arm-comparison table; not comparable to the canonical CFG0 table"
+    }
+  },
+  "decision_rule": {
+    "comparator": "c2p0 slot0 full CFG0 CLAP 0.2149",
+    "recorded_before_launch": true,
+    "rule": "CFG0 CLAP >= 0.2233 counts as a win, 0.2065-0.2233 a tie, < 0.2065 a loss. The band is +/- 2x the CFG0 CLAP training-seed floor (0.0042).",
+    "secondary": {
+      "cell": "CFG3+neg",
+      "comparator_arm": "c2p0 slot0 full",
+      "CLAP": 0.2605,
+      "CE": 7.2114,
+      "CU": 7.6251,
+      "PC": 5.1059,
+      "PQ": 7.5992,
+      "note": "reported alongside CFG0; per project_rotation_vs_single_slot_protocol_flip the two protocols can disagree in sign, so neither cell alone settles the line"
+    },
+    "seed_floor": {
+      "CLAP": 0.0042,
+      "CE": 0.1343,
+      "CU": 0.052,
+      "PC": 0.0554,
+      "PQ": 0.0523
+    }
+  },
+  "cells": [
+    {
+      "cell_id": "canonical_noq",
+      "label": "phase8_qwen_caption2p0_slot4_no_digits_noq_full_musiccaps_mf25_cfg0_noq",
+      "conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage2_200000/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage2_200000_ema_final.pth",
+      "checkpoint_sha256": "pending_runtime_output",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot4_no_digits_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
+    },
+    {
+      "cell_id": "cfg3_neg",
+      "label": "phase8_qwen_caption2p0_slot4_no_digits_noq_full_mc_mf25_cfg3_neg",
+      "conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage2_200000/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage2_200000_ema_final.pth"
+    }
+  ],
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage1_400000/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage1_400000_ckpt_last.pth"
+  },
+  "runtime_storage": {
+    "estimated_checkpoint_bytes": 66000000000,
+    "hard_stop_free_bytes": 80000000000,
+    "note": "ema_ckpts is 2 sigma series x (iters/10000) snapshots at ~460M; 400k+200k holds ~54G of snapshots plus ~11G of ckpt/last/shadow. NVMe had 126G free at authorship.",
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics"
+  },
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot4_full.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/052_c2p0_slot4_no_digits_full.sh",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot4_full.sh",
+    "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot4_action.sh",
+    "rewrite_script": "/home/kojiek/MeanAudio/scripts/preprocess/rewrite_slot4_no_digits.py",
+    "overlay_script": "/home/kojiek/MeanAudio/scripts/preprocess/patch_stacked_overlay_slot0.py",
+    "launcher_sha256": "2d54f62596ae1e27d18da8b731b43535109b87c691fda840d35fa6c5befd18fe",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action_sha256": "c4e70d7e40f3272877fabf3d2d059863888b6592e6f4afe117088e98f644f6c7",
+    "shared_action_sha256": "4e15b289a20586d62d02507b5d283bc7d65e566aed1fdace6e81986c57a858a7",
+    "rewrite_script_sha256": "74b74eb8243e5adb1f5d80f864055729bb7de92987e4fa7c9b4dea25b7a15b47",
+    "overlay_script_sha256": "7a812508eae894aef1efa39a31c859dcb0bb19e2006a05a822f4922880a9e7ac"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage2_200000/phase8_qwen_caption2p0_slot4_no_digits_noq_full_stage2_200000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot4_no_digits_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json"
+  }
+}

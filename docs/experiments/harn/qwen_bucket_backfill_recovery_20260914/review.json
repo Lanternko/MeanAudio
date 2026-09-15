@@ -1,0 +1,23 @@
+{
+  "verdict": "CONFIRMED",
+  "reviewer": "/root/recovery_review",
+  "role": "independent read-only verifier",
+  "reviewed_at": "2026-09-14T02:08:00.303109+00:00",
+  "contract_sha256": "c47a8fc6d20795d9b865c8b84bcc0295f07eadbb556788e21de7840e2d55b555",
+  "candidate_patch_sha256": "159f3e73b1e147d3ee6f4148d3cd39d090e41d8bf0c6c4802d5f8cde673a451b",
+  "conditions": [
+    "14-cell preservation",
+    "MusicCaps5521 MeanFlow25 seed42 NoMask full precision",
+    "registered fidelity8 negative prompt",
+    "HDD path and NoQ arm fixes",
+    "strict report resume validation and partial quarantine",
+    "all14 completion gate",
+    "idempotent per-cell/recovery/storage/terminal events",
+    "supervisor failure/pause/resource/notification branches"
+  ],
+  "tests": "selftest_qwen_bucket_backfill.py and shell syntax passed; no reproducible P0-P2 blocker",
+  "apply_command": [
+    "/home/kojiek/venvs/dac/bin/python",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/qwen_bucket_backfill_recovery_20260914/requeue.py"
+  ]
+}

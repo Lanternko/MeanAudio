@@ -1,0 +1,57 @@
+{
+  "document_kind": "operator_authorized_queue_append",
+  "at": "2026-09-11T02:59:46Z",
+  "instruction": "\u8a2d\u8a08\u5be6\u9a57\u4e26\u52a0\u5165 queue",
+  "instruction_sha256": "d4881aeda8266ca9789739b2ef1e6a6446583e1b593cada958a7d6c13455c76f",
+  "contract": "/home/kojiek/MeanAudio/docs/experiments/loudness_aes_cfg3_20260911_contract.json",
+  "contract_sha256": "2aebd3a845a5507a4b01995a612c3a1dc6d3a2775d40be8fd30f27ac28fb65de",
+  "before": {
+    "running": [
+      {
+        "name": "049_c2p0_truerandom_qk10_quarter.sh",
+        "sha256": "052dabc42f32a31b2df20f8fdcfd60769a01ad3a8615caf060b9095abdcffe86"
+      }
+    ],
+    "pending": [
+      {
+        "name": "050_c2p0_slot4_no_digits_quarter.sh",
+        "sha256": "e9d52f301da608590c8a8f26f4d96e913e642a974a475397bacd6d1915a756c2"
+      }
+    ],
+    "held": [
+      {
+        "name": "021_true_random_quarter.sh",
+        "sha256": "50f6c583fa6f3dacdd664df8da05a5cbcdfa09c74479a82a8d2f6cf8abfee4b9"
+      },
+      {
+        "name": "022_fair013_best_full.sh",
+        "sha256": "3d5722910e56d6e01e7b243e0e0f5bd26ef7d332e0d924e2a2d1e380e7ab2297"
+      },
+      {
+        "name": "023_slot2_full.sh",
+        "sha256": "7fd6b993529337a29b29b2893101b5fb75f699761477a8e113a3792f05971231"
+      },
+      {
+        "name": "043_mf_legacydup_quarter.sh",
+        "sha256": "432ec9eb39535a97e6d8285e39b9277420d9becf87a75cfa0ed1dde898382370"
+      },
+      {
+        "name": "044_vocal_negative_cfg3.sh",
+        "sha256": "2558d63a6b5b7e961504ec5b1be7d020dc82040920ab5e961ef156c26d05527f"
+      }
+    ]
+  },
+  "append": {
+    "name": "051_loudness_aes_cfg3_fidelity8.sh",
+    "sha256": "b8b832091d57457f1fc31af96eaae4741c536f69e34c3e3950f38b4fd79f0308"
+  },
+  "after_pending": [
+    "050_c2p0_slot4_no_digits_quarter.sh",
+    "051_loudness_aes_cfg3_fidelity8.sh"
+  ],
+  "ordering_dependencies": [],
+  "dependencies": [],
+  "state": "committed",
+  "registration_receipt": "/home/kojiek/gpu_queue/notification_receipts/loudness-aes-cfg3-fidelity8-20260911/queue_registration.json",
+  "committed_at": "2026-09-11T02:59:46Z"
+}

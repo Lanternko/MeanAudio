@@ -1,0 +1,289 @@
+--- scripts/caption10s_pipeline/eval_musiccaps_mf25.sh
++++ scripts/eval/qwen_bucket_backfill/cfg0.sh
+@@ -1,5 +1,5 @@
+ #!/bin/bash
+-# Canonical MusicCaps 25-step eval for Caption 2.0 fair compare.
++# Private 054 recovery evaluator: exact MusicCaps 5521 report gate.
+ #
+ # Protocol (operator-authorized 2026-08-20):
+ #   MusicCaps 5521, MeanFlow, num_steps=25, cfg=0, seed=42,
+@@ -60,7 +60,7 @@
+ METRICS="$METRICS_ROOT/$LABEL/metrics.txt"
+ REPORT="$REPORT_ROOT/${LABEL}_REPORT.json"
+ AUDIO="$OUT/audio"
+-STRICT_VALIDATOR="$MEANAUDIO/scripts/eval/validate_caption2p0_cfg0_report.py"
++STRICT_VALIDATOR="$MEANAUDIO/scripts/eval/qwen_bucket_backfill/validate_report.py"
+ PATH_VALIDATOR="$MEANAUDIO/scripts/eval/validate_cfg0_output_path.py"
+ 
+ [ -f "$CKPT" ] || { echo "FAIL missing ckpt $CKPT" >&2; exit 2; }
+@@ -77,6 +77,7 @@
+   /home/kojiek/MeanAudio/exps \
+   /home/kojiek/exps_nvme \
+   /mnt/HDD/kojiek/meanaudio_exps \
++  /mnt/HDD/kojiek/MeanAudio_exps \
+   /mnt/HDD/kojiek/MeanAudio_exps_hdd
+ do
+   [ -d "$_root" ] || continue
+@@ -238,29 +239,3 @@
+ 
+ python "$STRICT_VALIDATOR" --contract "$CFG0_CONTRACT" --arm "$CFG0_ARM" --report "$REPORT"
+ 
+-# Registered cleanup: only exact FLACs under this label's contained audio dir,
+-# and only after the bound final report exists.
+-[ -f "$REPORT" ] || { echo "FAIL refusing cleanup without report" >&2; exit 2; }
+-python - "$MUSICCAPS" "$AUDIO" <<'PY'
+-import csv, os, stat, sys
+-from pathlib import Path
+-
+-tsv, audio = map(Path, sys.argv[1:3])
+-if audio.is_symlink() or not audio.is_dir():
+-    raise SystemExit(f"FAIL unsafe cleanup directory: {audio}")
+-with tsv.open(encoding="utf-8", newline="") as handle:
+-    expected = [row["id"] for row in csv.DictReader(handle, delimiter="\t")]
+-actual = {path.name for path in audio.iterdir()}
+-expected_names = {f"{audio_id}.flac" for audio_id in expected}
+-if actual != expected_names:
+-    raise SystemExit("FAIL cleanup manifest differs from exact expected-ID set")
+-for name in expected_names:
+-    path = audio / name
+-    info = path.lstat()
+-    if not stat.S_ISREG(info.st_mode) or info.st_uid != os.geteuid() or info.st_nlink != 1:
+-        raise SystemExit(f"FAIL unsafe cleanup file: {path}")
+-for name in expected_names:
+-    (audio / name).unlink()
+-audio.rmdir()
+-print("CLEANUP_OK exact_flacs=5521")
+-PY
+--- scripts/caption10s_pipeline/eval_musiccaps_mf25.sh
++++ scripts/eval/qwen_bucket_backfill/cfg3_fidelity8.sh
+@@ -1,8 +1,8 @@
+ #!/bin/bash
+-# Canonical MusicCaps 25-step eval for Caption 2.0 fair compare.
++# Private 054 recovery evaluator: exact MusicCaps 5521 report gate.
+ #
+-# Protocol (operator-authorized 2026-08-20):
+-#   MusicCaps 5521, MeanFlow, num_steps=25, cfg=0, seed=42,
++# Protocol (registered 054 evaluation):
++#   MusicCaps 5521, MeanFlow, num_steps=25, cfg=3 + fidelity8, seed=42,
+ #   t5_clap / text_c_dim=512, no_text_attention_mask, full_precision.
+ #   NoQ arms: pass --no_q
+ #   Q arms: pass --quality_level N (report at least q0 and q9)
+@@ -26,8 +26,8 @@
+ case "$LABEL" in
+   *"/"*|*".."*|*"_cfg4p5_"*) echo "FAIL unsafe or historical label: $LABEL" >&2; exit 2 ;;
+ esac
+-[[ "$LABEL" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*_mf25_cfg0_(noq|q[0-9]+)$ ]] || {
+-  echo "FAIL canonical label must end in _mf25_cfg0_noq or _mf25_cfg0_qN" >&2
++[[ "$LABEL" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*_mf25_cfg3_fidelity8_(noq|q[0-9]+)$ ]] || {
++  echo "FAIL canonical label must end in _mf25_cfg3_fidelity8_noq or _mf25_cfg3_fidelity8_qN" >&2
+   exit 2
+ }
+ 
+@@ -52,7 +52,7 @@
+ MEANAUDIO=/home/kojiek/MeanAudio
+ MUSICCAPS=/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv
+ EVALUATOR=/home/kojiek/research/meanaudio_eval/phase4_eval.py
+-RUNTIME_ROOT=/home/kojiek/cfg0_eval_runtime
++RUNTIME_ROOT=/home/kojiek/qwen_bucket_backfill_cfg3_fidelity8_runtime
+ OUTPUT_ROOT="$RUNTIME_ROOT/output"
+ METRICS_ROOT="$RUNTIME_ROOT/metrics"
+ REPORT_ROOT="$RUNTIME_ROOT/reports"
+@@ -60,7 +60,7 @@
+ METRICS="$METRICS_ROOT/$LABEL/metrics.txt"
+ REPORT="$REPORT_ROOT/${LABEL}_REPORT.json"
+ AUDIO="$OUT/audio"
+-STRICT_VALIDATOR="$MEANAUDIO/scripts/eval/validate_caption2p0_cfg0_report.py"
++STRICT_VALIDATOR="$MEANAUDIO/scripts/eval/qwen_bucket_backfill/validate_report.py"
+ PATH_VALIDATOR="$MEANAUDIO/scripts/eval/validate_cfg0_output_path.py"
+ 
+ [ -f "$CKPT" ] || { echo "FAIL missing ckpt $CKPT" >&2; exit 2; }
+@@ -77,6 +77,7 @@
+   /home/kojiek/MeanAudio/exps \
+   /home/kojiek/exps_nvme \
+   /mnt/HDD/kojiek/meanaudio_exps \
++  /mnt/HDD/kojiek/MeanAudio_exps \
+   /mnt/HDD/kojiek/MeanAudio_exps_hdd
+ do
+   [ -d "$_root" ] || continue
+@@ -123,7 +124,7 @@
+ sha = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+ p = json.loads(report.read_text())
+ expected = {
+-    "status": "passed", "label": label, "cfg_strength": 0,
++    "status": "passed", "label": label, "cfg_strength": 3, "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi", "negative_prompt_id": "fidelity8",
+     "num_steps": 25, "conditioning": conditioning,
+     "checkpoint_sha256": sha(ckpt), "tsv_sha256": sha(tsv),
+     "metrics_sha256": sha(metrics),
+@@ -154,7 +155,7 @@
+     --out "$OUT" --audio "$AUDIO" --metrics-dir "$(dirname "$METRICS")" --report "$REPORT"
+   python eval.py --variant meanaudio_s --model_path "$CKPT_REAL" \
+     --output "$AUDIO" --tsv "$MUSICCAPS" --use_meanflow \
+-    --num_steps 25 --cfg_strength 0 \
++    --num_steps 25 --cfg_strength 3 --negative_prompt "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi" \
+     --encoder_name t5_clap --text_c_dim 512 --seed 42 \
+     --no_text_attention_mask --full_precision \
+     "${COND_ARGS[@]}" \
+@@ -211,8 +212,8 @@
+     "status": "passed",
+     "label": label,
+     "completed_at": datetime.now(timezone.utc).isoformat(),
+-    "protocol": "MusicCaps 5521; MeanFlow 25; CFG 0; seed 42; NoMask; full precision",
+-    "cfg_strength": 0,
++    "protocol": "MusicCaps 5521; MeanFlow 25; CFG 3 + fidelity8; seed 42; NoMask; full precision",
++    "cfg_strength": 3, "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi", "negative_prompt_id": "fidelity8",
+     "num_steps": 25,
+     "seed": 42,
+     "conditioning": conditioning,
+@@ -238,29 +239,3 @@
+ 
+ python "$STRICT_VALIDATOR" --contract "$CFG0_CONTRACT" --arm "$CFG0_ARM" --report "$REPORT"
+ 
+-# Registered cleanup: only exact FLACs under this label's contained audio dir,
+-# and only after the bound final report exists.
+-[ -f "$REPORT" ] || { echo "FAIL refusing cleanup without report" >&2; exit 2; }
+-python - "$MUSICCAPS" "$AUDIO" <<'PY'
+-import csv, os, stat, sys
+-from pathlib import Path
+-
+-tsv, audio = map(Path, sys.argv[1:3])
+-if audio.is_symlink() or not audio.is_dir():
+-    raise SystemExit(f"FAIL unsafe cleanup directory: {audio}")
+-with tsv.open(encoding="utf-8", newline="") as handle:
+-    expected = [row["id"] for row in csv.DictReader(handle, delimiter="\t")]
+-actual = {path.name for path in audio.iterdir()}
+-expected_names = {f"{audio_id}.flac" for audio_id in expected}
+-if actual != expected_names:
+-    raise SystemExit("FAIL cleanup manifest differs from exact expected-ID set")
+-for name in expected_names:
+-    path = audio / name
+-    info = path.lstat()
+-    if not stat.S_ISREG(info.st_mode) or info.st_uid != os.geteuid() or info.st_nlink != 1:
+-        raise SystemExit(f"FAIL unsafe cleanup file: {path}")
+-for name in expected_names:
+-    (audio / name).unlink()
+-audio.rmdir()
+-print("CLEANUP_OK exact_flacs=5521")
+-PY
+--- scripts/eval/validate_caption2p0_cfg0_report.py
++++ scripts/eval/qwen_bucket_backfill/validate_report.py
+@@ -102,14 +102,16 @@
+     if actual_sha != expected_sha:
+         raise ValueError("registered input hash drift")
+     payload = json.loads(report_path.read_text())
+-    expected_metrics = Path(contract["runtime_storage"]["metrics_root"]) / cell["label"] / "metrics.txt"
++    expected_metrics = Path(cell.get("metrics_path") or str(Path(contract["runtime_storage"]["metrics_root"]) / cell["label"] / "metrics.txt"))
+     expected = {
+-        "status": "passed", "label": cell["label"], "protocol": PROTOCOL,
+-        "cfg_strength": 0, "num_steps": 25, "seed": 42,
++        "status": "passed", "label": cell["label"], "protocol": cell.get("protocol", PROTOCOL),
++        "cfg_strength": cell.get("cfg_strength", 0), "num_steps": 25, "seed": 42,
+         "conditioning": cell["conditioning"],
+         "checkpoint_sha256": expected_sha,
+         "tsv_sha256": protocol["tsv_sha256"],
+     }
++    if cell.get("cfg_strength") == 3:
++        expected.update(negative_prompt=cell["negative_prompt"], negative_prompt_id="fidelity8")
+     drift = {key: (payload.get(key), value) for key, value in expected.items() if payload.get(key) != value}
+     # Path-valued fields are compared by resolved location, not by string, so a
+     # report that recorded the real NVMe/HDD path still matches a contract that
+--- scripts/experiment_harness/loudness_aes_cfg3_20260911_guest.py
++++ scripts/experiment_harness/qwen_bucket_backfill_guest.py
+@@ -10,7 +10,7 @@
+ sys.path[:0] = ['/home/kojiek/gpu_queue', '/home/kojiek/MeanAudio/scripts/experiment_harness']
+ from lib_scheduler import PAUSE_EXIT, accept_guest, atomic_json, now, pid_start_time, read_json
+ from secondary_queue_controller import Controller
+-STATE = Path('/home/kojiek/logs/loudness_aes_cfg3_20260911_harn')
++STATE = Path('/home/kojiek/logs/qwen_bucket_backfill_recovery_harn')
+ INTERRUPTED = False
+ 
+ def handler(_sig, _frame):
+@@ -25,10 +25,13 @@
+             os.killpg(child.pid, signal.SIGKILL); child.wait()
+ 
+ def progress(c):
+-    root=Path(c['storage']['transient_root'])
+-    files=list(root.glob('*/*.flac'))
+-    progress_path=Path(c['storage']['path'])/'progress.json'
+-    return (sum(Path(r['path']).is_file() for r in c['reports']),len(files),max((p.stat().st_mtime_ns for p in files if p.exists()),default=0),progress_path.stat().st_mtime_ns if progress_path.exists() else 0)
++    files=[]
++    for root in c['runtime_roots']:
++        files.extend(Path(root).glob('output/phase8_qwen_bucket_quarter_*/audio/*.flac'))
++    # Quarantined partial outputs are immutable and not progress.
++    files=[p for p in files if '.partial-' not in str(p)]
++    phase=STATE/'phase.json'
++    return (sum(Path(r['path']).is_file() for r in c['reports']),len(files),max((p.stat().st_mtime_ns for p in files if p.exists()),default=0),phase.stat().st_mtime_ns if phase.exists() else 0)
+ 
+ def storage_state(c, free):
+     if free < c['storage']['hard_stop_free_bytes']: return 'hard_stop'
+@@ -67,30 +70,31 @@
+             if request:
+                 stop(child)
+                 resume=Path(c['resume']['autoresume'])
+-                atomic_json(resume,{'document_kind':'loudness_aes_resume_v1','written_at':now(),'progress':progress(c)})
++                atomic_json(resume,{'document_kind':'qwen_bucket_backfill_resume_v1','written_at':now(),'progress':progress(c)})
+                 atomic_json(control/'pause.ack.json',{'run_id':request['run_id'],'job_id':request['job_id'],'request_id':request['request_id'],'checkpoint':str(resume),'checkpoint_bytes':resume.stat().st_size,'iteration':progress(c)[0],'pid':os.getpid(),'start_time':pid_start_time(os.getpid())})
+-                ctl.terminal('paused','interrupted','interrupted','051 interrupted or paused; owned child stopped, verified per-item records and baseline audio retained; resume requires registered P2 seat.')
++                ctl.terminal('paused','interrupted','interrupted','054 interrupted or paused; owned child stopped, verified reports and partial audio retained; resume requires registered P2 seat.')
+                 return PAUSE_EXIT
+             if INTERRUPTED:
+-                stop(child);ctl.terminal('interrupted','interrupted','interrupted','051 interrupted or paused; owned child stopped, verified per-item records and baseline audio retained; resume requires registered P2 seat.');return 130
++                stop(child);ctl.terminal('interrupted','interrupted','interrupted','054 interrupted or paused; owned child stopped, verified reports and partial audio retained; resume requires registered P2 seat.');return 130
+             fs=os.statvfs(c['storage']['path']);free=fs.f_bavail*fs.f_frsize
+             state=storage_state(c,free)
+             atomic_json(STATE/'monitor.json',{'written_at':now(),'free_bytes':free,'storage':state,'phase':'evaluation' if child else 'preflight_or_storage_wait','progress':progress(c),'child_pid':child.pid if child else None})
+             if state=='hard_stop':
+                 stop(child);child=None;held=True
+-                incident('disk_hard_stop','held','051 storage hard stop; no evaluation child running. Poll capacity and resume the same registered cell; see monitor.json.')
++                incident('disk_hard_stop','held','054 storage hard stop; no evaluation child running. Poll capacity and resume the same registered cell; see monitor.json.')
+                 time.sleep(2);continue
+             if state=='warning':
+-                incident('disk_warning','start','051 storage advisory: warning floor crossed; above hard floor. Evaluation remains eligible; see monitor.json.')
++                incident('disk_warning','start','054 storage advisory: warning floor crossed; above hard floor. Evaluation remains eligible; see monitor.json.')
+             if held:
+-                incident('storage_recovered','start','051 storage hard floor cleared; repeat immutable preflight before resuming.');held=False
++                incident('storage_recovered','start','054 storage hard floor cleared; repeat immutable preflight before resuming.');held=False
+             if child is None:
+-                rc=subprocess.run(c['commands']['preflight']).returncode
++                from preflight_capture import run_preflight
++                rc=run_preflight(c['commands']['preflight'],STATE)
+                 if rc==75: time.sleep(2);continue
+                 if rc:
+-                    ctl.terminal('held','held','held',f'051 preflight invalid rc={rc}; no GPU child launched.',reason='preflight');return 2
+-                ctl.notify('preflight_pass','start','051 protocol, input identities, provenance, storage and HARN bundle checks passed.')
+-                ctl.pre_child_notifications('051 CFG3 fidelity8 loudness / AES experiment')
++                    ctl.terminal('held','held','held',f'054 preflight invalid rc={rc}; no GPU child launched.',reason='preflight');return 2
++                ctl.notify('preflight_pass','start','054 protocol, input identities, provenance, storage and HARN bundle checks passed.')
++                ctl.pre_child_notifications('054 Qwen bucket evaluation: 9 CFG0 historical-protocol cells + 5 CFG3 fidelity8 cells')
+                 child=subprocess.Popen(c['commands']['run'],start_new_session=True)
+                 ctl.record('evaluation_child_started',{'pid':child.pid,'start_time':pid_start_time(child.pid)})
+                 last=progress(c);changed=time.monotonic()
+@@ -99,23 +103,23 @@
+                 if rc==75: child=None;time.sleep(2);continue
+                 if rc:
+                     if rc in (-1,-2,-9,-15,129,130,137,143):
+-                        ctl.terminal('interrupted','interrupted','interrupted','051 interrupted or paused; owned child stopped, verified per-item records and baseline audio retained; resume requires registered P2 seat.',rc=rc);return rc
+-                    ctl.terminal('failed','failure','failure',f'051 evaluation/gate failed rc={rc}; no later arm promoted.',rc=rc);return rc
++                        ctl.terminal('interrupted','interrupted','interrupted','054 interrupted or paused; owned child stopped, verified reports and partial audio retained; resume requires registered P2 seat.',rc=rc);return rc
++                    ctl.terminal('failed','failure','failure',f'054 evaluation/gate failed rc={rc}; no later arm promoted.',rc=rc);return rc
+                 if subprocess.run(c['commands']['postflight']).returncode:
+-                    ctl.terminal('held','held','held','051 final reports or retained audio invalid.',reason='postflight');return 2
++                    ctl.terminal('held','held','held','054 final reports or retained audio invalid.',reason='postflight');return 2
+                 evidence=[{'path':r['path'],'sha256':hashlib.sha256(Path(r['path']).read_bytes()).hexdigest()} for r in c['reports']]
+                 evidence.append({'path':c['summary'],'sha256':hashlib.sha256(Path(c['summary']).read_bytes()).hexdigest()})
+-                ctl.terminal('completed','success','success','051 compute complete: 5521 canonical baseline and 22084 AES gain records, strata and bootstrap report validated. No automatic promotion.',evidence={'ema':c['completion_evidence']['ema'],'cfg0_report':c['completion_evidence']['cfg0_report'],'secondary_reports':evidence})
++                ctl.terminal('completed','success','success','054 compute complete: all 14 Qwen bucket reports validated; outer queue continues eligible successors.',evidence={'ema':c['completion_evidence']['ema'],'cfg0_report':c['completion_evidence']['cfg0_report'],'secondary_reports':evidence})
+                 return 0
+             current=progress(c)
+             if current!=last:last=current;changed=time.monotonic()
+             elif time.monotonic()-changed>c['watcher']['stall_seconds']:
+-                stop(child);ctl.terminal('held','held','held','051 stalled beyond registered 7200s threshold; child stopped, no automatic repair.',reason='stall');return 2
++                stop(child);ctl.terminal('held','held','held','054 stalled beyond registered 1800s threshold; child stopped, no automatic repair.',reason='stall');return 2
+             time.sleep(2)
+     except Exception as exc:
+         stop(child)
+         ctl.record('controller_incident', {'kind':type(exc).__name__, 'reason':str(exc)[:500]})
+-        try: ctl.terminal('held','held','held','051 notification or controller incident; no child remains active. See controller ledger.',reason=type(exc).__name__)
++        try: ctl.terminal('held','held','held','054 notification or controller incident; no child remains active. See controller ledger.',reason=type(exc).__name__)
+         except Exception: pass
+         return 2
+     finally:

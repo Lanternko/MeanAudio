@@ -1,0 +1,121 @@
+{
+  "experiment_id": "mf-legacydup-noq-quarter",
+  "run_id": "run-20260908-mf-legacydup-noq-quarter",
+  "created_at": "2026-09-07T22:31:05.765279+00:00",
+  "operator_instruction_sha256": "dfbcc21a89065877a5c33ac97dda3a3b0ed72f4b22858061874ee59694a1ff5d",
+  "authorization": "append quarter experiment; preserve exact legacy text; no automatic full promotion; structural deviations not yet approved",
+  "sources": {
+    "base_tsv": {
+      "path": "/home/kojiek/exps_nvme/mf_dedup/arm_inputs/mf_dedup_train.tsv",
+      "sha256": "d68a545840d63cc8a63c932f28c5b6e640c71244551a208c6172e95ae5463938"
+    },
+    "legacy_tsv": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/music_flamingo_slice10_100k_short_direct_train.tsv",
+      "sha256": "998f98aaacb640096a284b24f5e81322c8458b7f9419b9e319f56be32d623567"
+    },
+    "cache_list": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0"
+    },
+    "eval_tsv": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+      "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+    }
+  },
+  "selection": {
+    "base_rows": 251599,
+    "legacy_rows": 100000,
+    "duplicate_definition": "exact caption string count > 1 over the entire legacy 100K TSV; include every member",
+    "match": "remove exactly one final slot suffix from base IDs only; never strip legacy segment number",
+    "max_replacements": 100000,
+    "ordering": "base TSV order; first max_replacements eligible rows",
+    "unmatched": "retain base caption",
+    "text_transform": "none"
+  },
+  "training": {
+    "s1_iterations": 100000,
+    "s2_additional_iterations": 50000,
+    "batch_size": 8,
+    "learning_rate": 0.0001,
+    "seed": 14159265,
+    "lr_schedule_steps": [
+      999999,
+      999999
+    ],
+    "linear_warmup_steps": 1000,
+    "q_conditioning": false,
+    "text_attention_mask": false,
+    "require_text_overlay": true,
+    "audio_npz": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz"
+  },
+  "evaluation": {
+    "label": "mf_legacydup_noq_quarter_musiccaps_mf25_cfg3_fidelity8",
+    "rows": 5521,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "cfg_strength": 3,
+    "negative_prompt_id": "fidelity8",
+    "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+    "seed": 42,
+    "full_precision": true,
+    "text_attention_mask": false,
+    "no_q": true
+  },
+  "comparison": {
+    "primary": "mf_dedup_noq_quarter_mc_mf25_cfg3_neg",
+    "metrics": [
+      "clap_score",
+      "aes_CE",
+      "aes_CU",
+      "aes_PC",
+      "aes_PQ"
+    ],
+    "reference": [
+      0.2233,
+      6.8383,
+      7.4619,
+      4.8793,
+      7.3294
+    ],
+    "two_seed_noise_thresholds": [
+      0.0006,
+      0.592,
+      0.2106,
+      0.3768,
+      0.2832
+    ],
+    "interpretation": "report signed differences; thresholds are heuristic from another arm/two seeds, not statistical significance; no automatic winner or full promotion",
+    "confounds": [
+      "legacy wording",
+      "legacy truncation",
+      "duplicate frequency",
+      "inherited base defects"
+    ]
+  },
+  "queue": {
+    "role": "p2",
+    "name": "043_mf_legacydup_quarter.sh",
+    "ordering_dependencies": [
+      "042_mf_dedup_full.sh"
+    ],
+    "dependencies": [],
+    "previous_pending_order": [],
+    "insertion": "tail",
+    "prepared": false
+  },
+  "storage": {
+    "filesystem": "/home/kojiek",
+    "peak_additional_bytes": 110000000000,
+    "hard_floor_bytes": 53687091200,
+    "cleanup": []
+  },
+  "runtime_root": "/home/kojiek/mf_legacydup_quarter_runtime",
+  "state_machine": {
+    "registered": "build CPU-only candidate and full row-level gate",
+    "gate_pass": "require schema/provenance/cache/notification/resume acceptance before GPU launch",
+    "gate_fail": "persist exact defects and hold for operator; no text repair",
+    "gate_invalid": "persist missing evidence and hold; no launch",
+    "terminal": "notification then owned resource release and return to host queue"
+  },
+  "stop_behavior_evidence": "Historical generated-token stop evidence has not been located; not falsely treated as passed."
+}

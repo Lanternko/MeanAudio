@@ -1,0 +1,23 @@
+[
+  "null",
+  "duplicate_id",
+  "missing_extra_id",
+  "row_order",
+  "metadata_drift",
+  "cjk",
+  "turn_marker",
+  "degenerate_leadin",
+  "json_wrapper",
+  "character_run",
+  "markdown_wrapper",
+  "url",
+  "latex",
+  "multiline",
+  "repeated_leadin",
+  "bracket_wrapper",
+  "meta_disclaimer",
+  "question_terminal",
+  "no_terminal_punctuation",
+  "missing_terminal_punctuation",
+  "code"
+]

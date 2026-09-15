@@ -1,0 +1,117 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "48f17c0f0ea843b2fbda6cf95af873b2f69605ea2a706e4808bf977974a03bd4",
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "runtime_sha256": "a526ba88c6ecad91c41d43a878772905e27f26aa71aac4de4d3356443d49d0c7",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "eval_045",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/045_instrument_conflict_cfg3.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume_045",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/045_instrument_conflict_cfg3.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8.tsv",
+        "sha256": "9e090de139d65522b10c8c217a4af482cb81b8e166adc775ab45d62d59b8986e"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "instrument-conflict-cfg3-20260908",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 63687091200,
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908",
+      "peak_additional_bytes": 8000000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 6000000000,
+      "warning_floor_bytes": 80000000000
+    }
+  ],
+  "notification_events": [
+    "preflight-pass",
+    "start",
+    "disk-warning",
+    "disk-hard-stop",
+    "stall",
+    "interruption",
+    "terminal",
+    "queue-handoff"
+  ],
+  "phases": [
+    {
+      "action_id": "eval_045",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908.py",
+          "sha256": "ab98a11a59425b46c085f76f9d2c2e2bea1d20ea4b5d23cd552aa1b5433d6636"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption10s_multisent_noq_full_stage2_200000/phase8_qwen_caption10s_multisent_noq_full_stage2_200000_ema_final.pth",
+          "sha256": "7c01ca5475293363ad92065dc0a89fb8e398d9f789bdff20453e0a751a0cf7f2"
+        },
+        {
+          "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/fidelity8.tsv",
+          "sha256": "9e090de139d65522b10c8c217a4af482cb81b8e166adc775ab45d62d59b8986e"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/instrument_conflict_cfg3_20260908_contract.json",
+          "sha256": "dc2ad5db94716f414dc2a1147c08dac3641e902fdf6db330d7c805d4ce7333ff"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/nvme_experiment_artifacts/meanaudio/instrument_conflict_20260908/summary.json"
+      ],
+      "phase_id": "recovery-045",
+      "resume_action_id": "resume_045"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "run_id": "run-20260908-045-instrument-conflict-cfg3",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

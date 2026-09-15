@@ -1,0 +1,8 @@
+{
+  "fields": [
+    "id",
+    "caption"
+  ],
+  "id": "c2p0 clip_id with slot suffix",
+  "format": "UTF-8 TSV; exact unchanged captions; CSV quoting"
+}

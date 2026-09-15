@@ -1,0 +1,5 @@
+{
+  "event": "queue_registration",
+  "receipt": "/home/kojiek/gpu_queue/notification_receipts/qwen-bucket-quarter-eval-backfill/queue_registration.json",
+  "status": "delivered"
+}

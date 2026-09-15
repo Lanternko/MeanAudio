@@ -80,6 +80,8 @@ def main() -> int:
     ap.add_argument("--cache-list", type=Path, default=C2P0_CACHE_LIST)
     ap.add_argument("--audio-npz", type=Path, default=C2P0_AUDIO_NPZ)
     ap.add_argument("--out-dir", type=Path, default=OUT_DIR)
+    ap.add_argument("--out-name", default="mf_fullcov_train.tsv",
+                    help="training TSV basename; a repaired-corpus arm writes its own")
     ap.add_argument("--audit-n", type=int, default=300)
     ap.add_argument("--require-enforced", action="store_true",
                     help="reject clips whose caption never passed the 77-token window check")
@@ -138,7 +140,7 @@ def main() -> int:
         raise SystemExit(f"[FAIL] --require-enforced set but {len(not_enforced)} rows are best-effort")
 
     # -- emit the training TSV in cache-list order ---------------------------
-    train_tsv = out / "mf_fullcov_train.tsv"
+    train_tsv = out / args.out_name
     tmp = train_tsv.with_suffix(".tsv.tmp")
     with tmp.open("w", encoding="utf-8", newline="") as fh:
         w = csv.writer(fh, delimiter="\t", quoting=csv.QUOTE_MINIMAL,

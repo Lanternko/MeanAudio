@@ -1,0 +1,27 @@
+{
+  "bindings": {
+    "contract_raw_sha256": "172f026f0d1c3da508d1921a10e20eab314128f636240059eb7b5657e2364f71",
+    "preflight_report_raw_sha256": "5ec80f2b2a185093ca5808a238efd691d8581ae5fc651485f9520157db3043cf",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "document_kind": "event_ledger",
+  "events": [
+    {
+      "event_id": "contract-register",
+      "event_kind": "contract_registered",
+      "event_sha256": "c600fecc14fe4710106674e96a068e31e50ec99395c2fbb01c1a30a4763dd5d5",
+      "idempotency_key": "loudness-aes-cfg3-fidelity8-20260911:contract-register",
+      "notification_status": "not_applicable",
+      "occurred_at": "2026-09-11T02:58:27.662210+00:00",
+      "phase": null,
+      "previous_event_sha256": null,
+      "relates_to_event_id": null,
+      "sequence": 1,
+      "verdict": "none"
+    }
+  ],
+  "experiment_id": "loudness-aes-cfg3-fidelity8-20260911",
+  "run_id": "run-20260911-051-loudness-aes-cfg3-fidelity8",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

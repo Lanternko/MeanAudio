@@ -1,0 +1,113 @@
+{
+ "bindings": {
+  "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_dedup_full.sh",
+  "action_sha256": "5938ad105fc3ddd10aaed507417ef39e6cdc5e9458d70105e40845d31c55c414",
+  "decision_script": "/home/kojiek/MeanAudio/scripts/eval/decide_mf_full_arm.py",
+  "decision_script_sha256": "2ae47e579e4c4d2b7e6db1edde4ee9be9b38a172637246b6b22ade89f719adb2",
+  "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+  "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/042_mf_dedup_full.sh",
+  "launcher_sha256": "42660a9df41f494dc2a30edc8831d2fb0a124e93a47528da64120c7eec0de4bf",
+  "prep_script": "/home/kojiek/MeanAudio/scripts/preprocess/build_mf_fullcov_arm_inputs.py",
+  "prep_script_sha256": "a36d691c4f2754d847a479fd6201b7f9173579c1feeae26a7b069d56eb54223c",
+  "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_dedup_action.sh",
+  "shared_action_sha256": "183a80fc44500d6474553e73fa8e10c964b3de344899f7b2677c2d9a30914705"
+ },
+ "commands": {
+  "run": [
+   "/bin/bash",
+   "/home/kojiek/MeanAudio/scripts/training_pipelines/mf_dedup_full.sh"
+  ]
+ },
+ "completion_evidence": {
+  "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/mf_dedup_noq_full_musiccaps_mf25_cfg0_noq_REPORT.json",
+  "ema": "/home/kojiek/MeanAudio/exps/mf_dedup_noq_full_stage2_200000/mf_dedup_noq_full_stage2_200000_ema_final.pth"
+ },
+ "decision_rule": {
+  "cancelled_absolute_gate": "the sibling line's quarter CFG0 CLAP >= 0.1900 (cancelled 2026-09-07, see deviations)",
+  "comparator": "mf_fullcov quarter, identical except for the 27,264 regenerated duplicate captions",
+  "recorded_before_launch": true,
+  "selection": "comparative, not absolute: this arm runs only if decide_mf_full_arm.py names mf_dedup the winner"
+ },
+ "dependencies": [],
+ "deviations": [
+  {
+   "authorized_by": "Lanternko",
+   "cancelled": true,
+   "date": "2026-09-07",
+   "item": "the pre-registered absolute gate 'quarter CFG0 CLAP >= 0.1900 or the full arm self-aborts'",
+   "rationale": "The absolute gate asked whether MF is viable at all. The quarter numbers answered that (0.1892, 0.0008 under the bar, inside the plausible training-seed spread). The live question is which of two MF corpora deserves the ~19h, which is a comparison, not a threshold. Lanternko cancelled the absolute gate explicitly and delegated the choice: 'who is better on clap+aes runs, do not ask me'.",
+   "replaced_by": "scripts/eval/decide_mf_full_arm.py -- the full budget goes to whichever of mf_fullcov / mf_dedup wins on CLAP + AES across both eval cells",
+   "reporting_requirement": "any full-arm result must state that the original 0.1900 gate was cancelled by authorization on 2026-09-07 and that the arm was selected comparatively",
+   "scope": "041_mf_fullcov_full.sh and 042_mf_dedup_full.sh"
+  }
+ ],
+ "document_kind": "preregistered_experiment_contract",
+ "experiment_id": "mf-dedup-noq-full",
+ "fixed_protocol": {
+  "canonical_cell": {
+   "cfg_strength": 0,
+   "why": "required by harn_guest.py completion evidence and puts the arm on the canonical CFG0 table"
+  },
+  "conditioning": "no_q",
+  "mask": "NoMask",
+  "precision": "full",
+  "primary_cell": {
+   "cfg_strength": 3.0,
+   "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+   "why": "joins the arm-comparison table holding mf_fullcov 0.2172, c2p0 slot0 quarter 0.2248, paired59k mf 0.2221 and paired59k qwen 0.2294; NOT comparable to the canonical CFG0 table"
+  },
+  "rows": 5521,
+  "seed": 42,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv"
+ },
+ "hypothesis": {
+  "not_controlled": "nothing in the training recipe moves. Within the captioner call only --max-attempts moves, 5 -> 8, which raises the temperature ceiling from 1.5 to 2.1 for the regenerated rows. Those 27,264 rows are therefore drawn from a hotter sampler than the 224,335 rows around them; that inhomogeneity is confined to rows that were exact duplicates.",
+  "question": "Was the mf_fullcov deficit caused by caption duplication, or by the captioner?",
+  "what_moves": "27,264 of 251,599 captions (10.8% of rows) that were exact duplicates of another clip's caption. Corpus unique rate goes 0.8916 -> expected ~1.0, removing the 0.89 audit deviation the sibling arm had to carry."
+ },
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "042_mf_dedup_full.sh",
+ "queue_role": "p2",
+ "resume": {
+  "autoresume": "/home/kojiek/MeanAudio/exps/mf_dedup_noq_full_stage1_400000/mf_dedup_noq_full_stage1_400000_ckpt_last.pth",
+  "checkpoint": null,
+  "iteration": 0,
+  "kind": "from_scratch_with_autoresume",
+  "rng_restart_boundary": false
+ },
+ "run_id": "run-20260907-mf-dedup-noq-full",
+ "runtime_storage": {
+  "audio_npz_on": "/mnt/HDD (exFAT, read-only; shared with every c2p0 arm)",
+  "checkpoints_on": "nvme via exps -> exps_nvme (~28G across both stages)",
+  "hard_stop_free_bytes": 110000000000,
+  "text_overlay_on": "nvme (~76G, a second full overlay alongside mf_fullcov's)"
+ },
+ "scale": {
+  "batch_size": 8,
+  "budget_samples": 3200000,
+  "s1_iterations": 400000,
+  "s2_iterations": 200000
+ },
+ "schema_version": 1,
+ "sources": {
+  "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+  "cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+  "caption_jsonl": "/home/kojiek/eval_output/mf_recaption_dedup/caption.jsonl",
+  "caption_jsonl_note": "seeded with the 224,335 already-unique full-coverage captions; the 27,264 duplicates were regenerated with --max-attempts 8"
+ },
+ "training": {
+  "batch_size": 8,
+  "cache_list": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+  "learning_rate": "1e-4",
+  "npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+  "q_conditioning": false,
+  "require_text_overlay": true,
+  "seed": 14159265,
+  "text_attention_mask": false,
+  "text_overlay": "/home/kojiek/text_overlays/mf_dedup"
+ }
+}

@@ -90,7 +90,10 @@ EMA 為 09-13 12:42 那顆（mtime 未變；sha `02868ccb…`）。CFG0 report `
 **CFG0（preregistered primary）：平手。** CLAP +0.0061 = 1.45× floor，落在 0.2065–0.2233；而且在 slot0 兩個訓練 seed
 （0.2149 / 0.2191）的範圍附近。AES 四項差距都 < 1× floor。
 
-**CFG3+neg：CLAP 明確較差，AES 平手。** CLAP −0.0150，低於 slot0 兩個 seed（0.2605 / 0.2608）。同協定 CLAP floor 只有
+> ⚠️ **本段與下方「收線建議」已作廢**（2026-09-14）：−0.0150 是拿逐檔 CLAP 0.2455 去比 batch 32 的 0.2605，
+> 混用 scorer。batch 32 重算為 +0.0002，見下方「052 第二次執行」。
+
+~~**CFG3+neg：CLAP 明確較差，AES 平手。**~~ CLAP −0.0150，低於 slot0 兩個 seed（0.2605 / 0.2608）。同協定 CLAP floor 只有
 0.0003（僅 2 seed，可能低估），就算改用 CFG0 floor 0.0042 也是 3.6×。AES 各項以同協定 floor 計：CE 0.90×、CU 0.74×、
 PC 1.27×、PQ 0.94× —— 全部在雜訊內。
 
@@ -140,7 +143,103 @@ CLAP 0.2210 落在登記的平手帶 0.2065–0.2233 內。
 
 quarter 用 batch 32 重看也一樣：slot4 0.2374 vs slot0 0.2372（+0.0002），與逐檔的 +0.0037 同為平手。
 
+### ⚠️ 語料品質 caveat（2026-09-14 事後審計）
+
+對 `~/exps_nvme/slot4/arm_inputs/rewrites.jsonl` 做 slot0→slot4 逐列 diff：
+
+- 改寫列 21,644（8.6%）：`llm` 10,700、`lexicon` 10,934、`lexicon_from_original` 10。全語料被刪或改的字只佔 **2.40%**，
+  但在被改的列裡佔 **24.4%**（word-level 相似度中位數 0.81）。
+- **Qwen no-EOS trap 重演**：`rewrite_slot4_no_digits.py` 的 `model.generate` 沒傳 `eos_token_id`，輸出後面會接上
+  「下一輪對話」的垃圾文字（例如 "Given the current trend of incorporating artificial intelligence..."）。
+- **`fallback()` 拿最後一次 LLM 輸出做 lexicon strip，不是拿原句**（L196）→ 垃圾文字被保留下來，而數字直接刪掉會留下
+  "with a tempo of." 這種斷句。
+- 啟發式計數：注入殘留 llm 5.3% / lexicon 21.1%；斷句 lexicon 68.6%；合計有問題的列約 **8,848 = 改寫列的 40.9%，
+  全語料的 3.5%**。另外 LLM 也順手刪了不含數字的句子（36–44% 的無數字句消失，約 1/4 的列丟掉 production/mix 描述）。
+
+所以 slot4 **不是乾淨的「只拿掉數字」**，而是「拿掉數字＋3.5% 列被污染＋部分描述被刪」。平手的結論仍然成立（污染沒有
+造成可測的傷害），但不能據此宣稱「數字本身無影響」已被乾淨地測過。
+
 ### 結論
 
 **兩個尺度、兩個協定、共二十個比較，全部平手。** 把 slot0 裡 8.6% 帶數字的 caption 改寫成零數字，
 在 MusicCaps 上既沒幫助也沒害處 —— 與 quarter 結論一致，full 尺度沒有翻案。這條線收掉。
+
+---
+
+## slot4v2 — 修好改寫 bug 重產語料（2026-09-14 排入 055 quarter）
+
+> operator：「修好 rewrite bug 重產語料，排 quarter」。contract
+> `docs/experiments/caption2p0_slot4v2_no_digits_quarter_cfg0_contract.json`，queue seat
+> `055_c2p0_slot4v2_no_digits_quarter.sh`，wrapper `scripts/training_pipelines/caption2p0_slot4v2_quarter.sh`。
+
+`scripts/preprocess/rewrite_slot4v2_no_digits.py`（舊的 `rewrite_slot4_no_digits.py` 保留不動，050/052 的 contract 還 pin 著它）：
+
+| slot4 的缺陷 | v2 的修法 |
+|---|---|
+| `generate` 沒傳 `eos_token_id` → 後面接上下一輪對話 | 傳 `<\|im_end\|>` 當 eos／pad，首輪 greedy |
+| 整句 caption 丟給 LLM → 36–44% 無數字句被刪 | **句子層級**：只有含數字的句子送進 LLM，無數字句逐位元組複製（audit 會 assert） |
+| fallback 拿有垃圾的 LLM 輸出去剝數字 → 斷句 | fallback 只拿**原句**：先用 token 詞彙表，再整段刪掉含數字的子句；主子句本身就是數字才整句刪 |
+| 沒有品質閘門 | LLM 輸出要通過：無數字、單句、無對話／指令標記、不能新增斷句、無 `bpm` 字、4/4 不能變 four-on-the-floor、替換詞只能在原句有對應數字時出現（擋「in waltz time」這種幻覺）、最多 1 個新字、非數字相關的內容字**一個都不能少** |
+
+改寫完成後，Step 2 會再做一次 audit（無數字列逐位元組相同、無數字句都還在、無注入、無新斷句），不過就不訓練。
+訓練／評估協定與 050 完全相同；CFG3+neg 會多跑 `rescore_clap_batch32.py`，直接得到可以跟 slot0／slot4 的 batch 32 數字比較的 CLAP。
+
+判讀比照 050：slot0 quarter CFG0 CLAP 0.2029，≥ 0.2113 算贏、0.1945–0.2113 平手、< 0.1945 算輸；
+次要對照是 slot4 quarter（CFG0 0.2050、CFG3+neg b32 0.2374）。
+
+### slot4v2 語料完成＋QA（2026-09-14 21:13 CST 放進 p2 pending）
+
+`~/exps_nvme/slot4v2/arm_inputs/phase8_caption2p0_slot4v2_train.tsv`（251,599 列，數字列 0）。22,277 句含數字句的處理方式：
+
+| 方法 | 句數 | 說明 |
+|---|---|---|
+| `llm`（Omni-3B 首輪） | 12,905 | 只刪數字 |
+| `llm_restructure`（Omni-3B 重組） | 3,301 | 動詞只能由原句分詞變形（creating→creates） |
+| `llm_pass3`（Qwen2.5-7B-Instruct） | 2,218 | 3B 做不了的「數字嵌在文法裡」句型 |
+| `lexicon` / `lexicon_span` / `lexicon_clause` / `lexicon_prefix` | 961 / 100 / 2,187 / 25 | 對**原句**做決定性編輯 |
+| `llm_none` / `lexicon_drop` | 213 / 367 | 整句只有數字、或無法安全保留 → 刪句 |
+
+QA（`scripts/preprocess/qa_slot4v2_corpus.py --strict`，已加進 action Step 2）：數字、單位字、拼寫數字、對話殘留、斷句、重複字、
+小寫句首、`X-on-the-floor`、BPM 的 80s 被寫成年代、原句沒有的速度形容詞 → **全部 0**。改寫期間 QA 逐輪抓到並補成閘門的錯誤：
+`2/4`→"two-on-the-floor"、"seven-eighths"、"tempo in the eighties"、"117.9 bpm"→"moderate"（幻覺）、刪掉 80s／4/4／8-bit 帶的資訊、
+"a eighties"、在形容詞列表中間切逗號、`16-bit`→"vintage digital." 殘句、"mid-tempo tempo"。另人工分層抽樣 >200 句。
+被改的列裡 9.7% 的字被刪或改、逐字相似度中位數 0.941；全語料 0.95%（slot4 分別是 24.4%、0.81、2.40%）；仍有 93 列遺失 meter／decade 資訊（隨含數字子句一起刪掉），367 句整句刪除，列為已知限制。
+
+⚠️ 入座阻塞：arale Irodori-TTS（pid 1868671）目前 3,810 MiB > probe 門檻 3,072 MiB，p2 host 會靜默等待。
+
+## 055 slot4v2 quarter — 完成（2026-09-15 04:36 CST，rc=0，`status: completed`）
+
+S1 100k（loss NaN 0、grad_norm NaN 0）→ migrate → S2 50k（NaN 0，程序正常退出，無 052 式 teardown hang）→ eval。
+CFG0 report `passed`（5,521/5,521、16 kHz mono）；CFG3+neg 5,521 檔，batch-32 CLAP 已由 action 自動重算。
+
+**CFG0（preregistered primary）**
+
+| quarter CFG0 | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| **slot4v2（乾淨剝數字）** | **0.2004** | 6.0955 | 6.6823 | 5.0968 | 6.5178 |
+| slot4（污染語料） | 0.2050 | 6.1661 | 6.7525 | 5.0268 | 6.5832 |
+| slot0（comparator） | 0.2029 | — | — | — | — |
+
+vs slot0：CLAP −0.0025 = 0.6× floor，落在登記平手帶 0.1945–0.2113 → **平手**。
+vs slot4：CLAP −0.0046（1.1×）；AES CE 0.53× / CU 1.35× / PC 1.26× / PQ 1.25× —— 全部 < 2× floor。
+
+**CFG3+neg（secondary，CLAP 用 batch 32）**
+
+| quarter CFG3+neg | CLAP b32 | CLAP 逐檔 | CE | CU | PC | PQ |
+|---|---|---|---|---|---|---|
+| **slot4v2** | **0.2309** | 0.2206 | 6.7146 | 7.4070 | 4.8494 | 7.2998 |
+| slot4 | 0.2374 | 0.2285 | 6.8031 | 7.4767 | 4.7489 | 7.3663 |
+| slot0 | 0.2372 | 0.2248 | 6.6952 | 7.3871 | 4.6661 | 7.3101 |
+
+vs slot0：CLAP b32 −0.0063；AES CE 0.07× / CU 0.19× / PC 0.97× / PQ 0.07×（同協定 floor）。
+CLAP −0.0063 若除以 CFG3+neg CLAP floor 0.0003 是 21×，但那個 floor 是 **full 尺度、只有 2 個 seed** 量的（本檔先前已註記可能低估）；
+除以 CFG0 floor 0.0042 只有 1.5×。逐檔 CLAP 同方向（−0.0042）。
+
+**判讀（observation 層）：**
+- 預先登記的 primary（CFG0 CLAP）平手，AES 全在雜訊內 —— 乾淨剝數字在 canonical 協定下沒有可測效果，與 050／052 一致。
+- CFG3+neg 的 CLAP 比 slot0、slot4 都低約 0.006，是這條線唯一值得留意的訊號，方向是「略差」。但沒有 quarter 尺度的
+  CFG3+neg seed floor，不能判定超出雜訊；不寫成「有害」。
+- 污染語料（slot4）與乾淨語料（slot4v2）在 CFG0 差 0.0046（1.1×），不支持「slot4 的污染傷害了結果」這個說法。
+- 本實驗只能說：**移除 caption 裡的數字，在 MusicCaps 上沒有可測的幫助**。
+
+**建議**：不排 full。若要確認 CFG3+neg 那 −0.006，成本最低的是補一個 slot0 或 slot4v2 的 quarter 第二訓練 seed。

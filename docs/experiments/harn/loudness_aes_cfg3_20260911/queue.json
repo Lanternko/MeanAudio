@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "172f026f0d1c3da508d1921a10e20eab314128f636240059eb7b5657e2364f71",
+        "ledger_raw_sha256": "b1ea6f3ffa4e37e7fee62b4b00e85f2793b282211e6f6e25bc4e221f95b78b98",
+        "preflight_report_raw_sha256": "5ec80f2b2a185093ca5808a238efd691d8581ae5fc651485f9520157db3043cf",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "051-loudness-aes",
+      "experiment_id": "loudness-aes-cfg3-fidelity8-20260911",
+      "position": 1,
+      "run_id": "run-20260911-051-loudness-aes-cfg3-fidelity8",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-loudness-aes-051",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-09-11T02:58:27.662210+00:00"
+}

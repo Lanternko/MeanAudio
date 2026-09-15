@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "at": "2026-09-11T02:57:57.327836+00:00",
+  "gpu_used": false,
+  "free_bytes": 131192664064,
+  "tests": {
+    "loudness_pipeline": "20 synthetic source clips x4 gain conditions; float identity; signal math; statistical sign/bootstrap reproducibility; missing-only resume; stale source fail; supervisor branches passed",
+    "queue": "33 passed / 0 failed, both notifier routes mocked; 051 production rearm function tested",
+    "notification_receipts": "passed no-network receipt durability/security fixtures",
+    "secondary_queue_notifications": "passed",
+    "schema": "positive and adversarial raw-byte binding checks passed"
+  },
+  "test_source_sha256": {
+    "/home/kojiek/MeanAudio/scripts/tests/selftest_loudness_aes_cfg3.py": "c8e9e8ab58fcf28577f506cf66e4c3396c9ec8d4c8b046b5533c91c99aa50ca1",
+    "/home/kojiek/MeanAudio/scripts/tests/run_loudness_queue_acceptance.py": "6cbe341cc09812aaab342748e087af2912434106d89a97a4411b61cfbfa8e5dd",
+    "/home/kojiek/MeanAudio/scripts/tests/selftest_secondary_queue_notifications.py": "cfe65c83e99a50357ecca84b14476abc352b05cfcd9cdb755fe68db93d628449",
+    "/home/kojiek/MeanAudio/scripts/tests/selftest_experiment_harness_schemas.py": "9d85b5738d0ad55891763ce80ce739add13f2d4c608ec1e2c3da0274fd7363c7",
+    "/home/kojiek/gpu_queue/tests/test_lib_scheduler.py": "aa126c4502b4bcfe60bce760ef1ecd42edcf6e0873e730b3e7cf397a3325f72a",
+    "/home/kojiek/gpu_queue/tests/test_notification_receipts.py": "1e74a71128efff7fbc6429598ff111822d1569f2e4619d9e360da71970879b85",
+    "/home/kojiek/gpu_queue/tests/test_scheduler.sh": "e970f90c0578ed3d17bc59c6ad9004c4d10141c0763db535b66d1291cca92a45",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/loudness_aes_cfg3_20260911_guest.py": "6f13a954fb5dc3369972a9b1dd16281c6bcc3e8046d303f9f3532a08f0c23ee3",
+    "/home/kojiek/MeanAudio/scripts/eval/loudness_aes_cfg3_20260911.py": "4a00432f9a870e90f04700b255b31ae6786185caa7c58f925d43330e5157979b"
+  },
+  "known_legacy_fixture_issue": "Unadapted bare instantaneous guest can miss idle rearm. 051 explicitly rearms only after exact seat verification; adapted fixture uses production function. Initial legacy run sent 2 unintended idle notifications; registration event will correct. Shared live host unchanged.",
+  "notification_preflight": "secret file owner current user mode0600; helper no-network fixtures passed; actual registration delivery required separately before launch",
+  "live_host_pid": 2186967,
+  "queue_order_at_inspection": [
+    "049_c2p0_truerandom_qk10_quarter (running)",
+    "050_c2p0_slot4_no_digits_quarter (pending)"
+  ]
+}

@@ -1,0 +1,213 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "5409aeeaf17d20973426db253ee6af37721913af159030028b9f84972da3ba21",
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "runtime_sha256": "f15d22efddbf7c57c2b07c03743f6b6535e38364e26dbc90f946caa0a3c2a69e",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/054_qwen_bucket_quarter_eval_backfill.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/054_qwen_bucket_quarter_eval_backfill.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/qwen_bucket_backfill/run.py",
+        "--preflight"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/qwen_bucket_backfill/run.py",
+        "--postflight"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/qwen_bucket_quarter_eval_backfill_recovery_contract.json",
+        "sha256": "c47a8fc6d20795d9b865c8b84bcc0295f07eadbb556788e21de7840e2d55b555"
+      },
+      {
+        "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+        "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000_ema_final.pth",
+        "sha256": "d0c5b1d6268c14c85648586bcb01910afab2620b24584598addf70df69b8de4f"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/qwen_bucket_backfill_recovery_20260914/acceptance.json",
+        "sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/qwen_bucket_backfill_recovery_20260914/operator_approval.txt",
+        "sha256": "8e7eec063e9d0b1d31e98457cebd4ddf1d6e8c5c08f70b51c2937b467805e96e"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "qwen-bucket-quarter-eval-backfill",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/home/kojiek/cfg0_eval_runtime",
+      "peak_additional_bytes": 15400000000,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 25000000,
+      "warning_floor_bytes": 80530636800
+    }
+  ],
+  "notification_events": [
+    "queue_registration",
+    "queue_handoff",
+    "start",
+    "preflight_pass",
+    "success",
+    "failure",
+    "interrupted",
+    "held",
+    "disk_warning",
+    "disk_hard_stop",
+    "storage_recovered",
+    "cell_noq_cfg0_noq_preflight",
+    "cell_noq_cfg0_noq_passed",
+    "cell_k10_balanced_cfg0_q9_preflight",
+    "cell_k10_balanced_cfg0_q9_passed",
+    "cell_k10_balanced_cfg0_q0_preflight",
+    "cell_k10_balanced_cfg0_q0_passed",
+    "cell_k3_balanced_cfg0_q9_preflight",
+    "cell_k3_balanced_cfg0_q9_passed",
+    "cell_k3_balanced_cfg0_q0_preflight",
+    "cell_k3_balanced_cfg0_q0_passed",
+    "cell_k5_balanced_cfg0_q9_preflight",
+    "cell_k5_balanced_cfg0_q9_passed",
+    "cell_k5_balanced_cfg0_q0_preflight",
+    "cell_k5_balanced_cfg0_q0_passed",
+    "cell_k5_fixed_cfg0_q9_preflight",
+    "cell_k5_fixed_cfg0_q9_passed",
+    "cell_k5_fixed_cfg0_q0_preflight",
+    "cell_k5_fixed_cfg0_q0_passed",
+    "cell_noq_cfg3_fidelity8_noq_preflight",
+    "cell_noq_cfg3_fidelity8_noq_passed",
+    "cell_k10_balanced_cfg3_fidelity8_q9_preflight",
+    "cell_k10_balanced_cfg3_fidelity8_q9_passed",
+    "cell_k3_balanced_cfg3_fidelity8_q9_preflight",
+    "cell_k3_balanced_cfg3_fidelity8_q9_passed",
+    "cell_k5_balanced_cfg3_fidelity8_q9_preflight",
+    "cell_k5_balanced_cfg3_fidelity8_q9_passed",
+    "cell_k5_fixed_cfg3_fidelity8_q9_preflight",
+    "cell_k5_fixed_cfg3_fidelity8_q9_passed",
+    "recovery_validated"
+  ],
+  "phases": [
+    {
+      "action_id": "launch",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/qwen_bucket_backfill/run.py",
+          "sha256": "ed7fe3faf2d3048af6a172f0fb110e9fb79be9d0f576a2aef8a2353de38b6548"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/qwen_bucket_quarter_eval_backfill_recovery_contract.json",
+          "sha256": "c47a8fc6d20795d9b865c8b84bcc0295f07eadbb556788e21de7840e2d55b555"
+        },
+        {
+          "path": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+          "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000_ema_final.pth",
+          "sha256": "d0c5b1d6268c14c85648586bcb01910afab2620b24584598addf70df69b8de4f"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/qwen_bucket_backfill_recovery_20260914/acceptance.json",
+          "sha256": "7ff6e7722ca94b7c12303f7c61897ba94ae23dfc7e2e75c24f00d8519fef06ac"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/qwen_bucket_backfill_recovery_20260914/operator_approval.txt",
+          "sha256": "8e7eec063e9d0b1d31e98457cebd4ddf1d6e8c5c08f70b51c2937b467805e96e"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_noq_musiccaps_mf25_cfg0_noq_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg0_q9_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg0_q0_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k3_balanced_musiccaps_mf25_cfg0_q9_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k3_balanced_musiccaps_mf25_cfg0_q0_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_balanced_musiccaps_mf25_cfg0_q9_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_balanced_musiccaps_mf25_cfg0_q0_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_fixed_musiccaps_mf25_cfg0_q9_REPORT.json",
+        "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_fixed_musiccaps_mf25_cfg0_q0_REPORT.json",
+        "/home/kojiek/qwen_bucket_backfill_cfg3_fidelity8_runtime/reports/phase8_qwen_bucket_quarter_noq_musiccaps_mf25_cfg3_fidelity8_noq_REPORT.json",
+        "/home/kojiek/qwen_bucket_backfill_cfg3_fidelity8_runtime/reports/phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg3_fidelity8_q9_REPORT.json",
+        "/home/kojiek/qwen_bucket_backfill_cfg3_fidelity8_runtime/reports/phase8_qwen_bucket_quarter_k3_balanced_musiccaps_mf25_cfg3_fidelity8_q9_REPORT.json",
+        "/home/kojiek/qwen_bucket_backfill_cfg3_fidelity8_runtime/reports/phase8_qwen_bucket_quarter_k5_balanced_musiccaps_mf25_cfg3_fidelity8_q9_REPORT.json",
+        "/home/kojiek/qwen_bucket_backfill_cfg3_fidelity8_runtime/reports/phase8_qwen_bucket_quarter_k5_fixed_musiccaps_mf25_cfg3_fidelity8_q9_REPORT.json",
+        "/home/kojiek/logs/qwen_bucket_backfill_recovery_harn/summary.json"
+      ],
+      "phase_id": "qwen-bucket-14-cell-backfill",
+      "resume_action_id": "resume"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "run_id": "run-20260914-qwen-bucket-backfill-recovery1",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

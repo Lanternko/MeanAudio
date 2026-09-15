@@ -1,0 +1,46 @@
+{
+  "state": "resumed_validating",
+  "checked_at": 1789351735.0578856,
+  "seat": {
+    "control_dir": "/home/kojiek/gpu_queue/p2/control/054_qwen_bucket_quarter_eval_backfill-20260914T020808Z",
+    "job_id": "054_qwen_bucket_quarter_eval_backfill",
+    "phase": "running",
+    "pid": 1336604,
+    "role": "p2",
+    "run_id": "054_qwen_bucket_quarter_eval_backfill-20260914T020808Z",
+    "seated_at": "2026-09-14T02:08:09Z",
+    "start_time": "404669868"
+  },
+  "audio_count": 149,
+  "valid_new_audio_samples": [
+    {
+      "path": "/home/kojiek/cfg0_eval_runtime/output/phase8_qwen_bucket_quarter_noq_musiccaps_mf25_cfg0_noq/audio/-0Gj8-vB1q4_30.flac",
+      "sample_rate": 16000,
+      "frames": 159744,
+      "finite": true,
+      "sha256": "58bffdf040d0e1b3964de881b38cdf1f7481bc2529de565be2eb0db0df9f2a13"
+    },
+    {
+      "path": "/home/kojiek/cfg0_eval_runtime/output/phase8_qwen_bucket_quarter_noq_musiccaps_mf25_cfg0_noq/audio/-0SdAVK79lg_30.flac",
+      "sample_rate": 16000,
+      "frames": 159744,
+      "finite": true,
+      "sha256": "d36c97c10fa29a208e9accfb1522d61da63c43ca8034e6fe4e95a854f8892c4e"
+    },
+    {
+      "path": "/home/kojiek/cfg0_eval_runtime/output/phase8_qwen_bucket_quarter_noq_musiccaps_mf25_cfg0_noq/audio/-0vPFx-wRRI_30.flac",
+      "sample_rate": 16000,
+      "frames": 159744,
+      "finite": true,
+      "sha256": "b8c02077be0a2b5c35249e24bcb96239579937562d96315d674008cc3a1f04c5"
+    }
+  ],
+  "delivered_receipts": {
+    "queue_registration": "/home/kojiek/gpu_queue/notification_receipts/qwen-bucket-quarter-eval-backfill/queue_registration.json",
+    "queue_handoff": "/home/kojiek/gpu_queue/notification_receipts/qwen-bucket-quarter-eval-backfill/queue_handoff.json",
+    "start": "/home/kojiek/gpu_queue/notification_receipts/qwen-bucket-quarter-eval-backfill/start.json",
+    "preflight_pass": "/home/kojiek/gpu_queue/notification_receipts/qwen-bucket-quarter-eval-backfill/preflight_pass.json",
+    "cell_noq_cfg0_noq_preflight": "/home/kojiek/gpu_queue/notification_receipts/qwen-bucket-quarter-eval-backfill/cell_noq_cfg0_noq_preflight.json"
+  },
+  "scientific_completion": "pending full reports for all14 cells"
+}

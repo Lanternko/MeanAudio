@@ -63,6 +63,11 @@ S2_CKPT="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ckpt_last.pth"
 MIGRATE_SCRIPT="$WORK_DIR/migrate_stage1_to_stage2_ckpt.py"
 STAGE_SCRIPT="$WORK_DIR/set_training_stage.py"
 
+# Stage 2 patches mean_flow.py in place; contracts hash-pin the Stage 1 (HEAD) form.
+# Restore on every exit so a later pinned job is not held. Idempotent.
+restore_stage_1() { python "$STAGE_SCRIPT" --stage 1 >/dev/null 2>&1 || true; }
+trap restore_stage_1 EXIT
+
 # ── 共用訓練參數 ─────────────────────────────────────────────
 COMMON_ARGS=(
     batch_size=$BATCH_SIZE

@@ -1,0 +1,40 @@
+{
+  "document_kind": "event_ledger",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "mf-legacydup-noq-quarter",
+  "run_id": "run-20260908-mf-legacydup-noq-quarter",
+  "bindings": {
+    "contract_raw_sha256": "ae8e011de3bd7702e62f9391ae738edf23df687afae4c3ba5ffb1f4badbb3145",
+    "preflight_report_raw_sha256": "b21ca5cb623768225fc9565980f1827dbf8bfae5e11b13fe47f6874a5fafdccb",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "event_id": "registered",
+      "idempotency_key": "run-20260908-mf-legacydup-noq-quarter:registered",
+      "event_kind": "contract_registered",
+      "occurred_at": "2026-09-07T22:35:55Z",
+      "phase": null,
+      "verdict": "none",
+      "relates_to_event_id": null,
+      "notification_status": "not_applicable",
+      "previous_event_sha256": null,
+      "event_sha256": "4e26e2c2f7ecda87be88e102a62e035a2d1e22afcf98fa78b88220397b29a04c"
+    },
+    {
+      "sequence": 2,
+      "event_id": "corpus-gate",
+      "idempotency_key": "run-20260908-mf-legacydup-noq-quarter:corpus-gate",
+      "event_kind": "gate_result",
+      "occurred_at": "2026-09-07T22:35:55Z",
+      "phase": null,
+      "verdict": "fail",
+      "relates_to_event_id": null,
+      "notification_status": "delivered",
+      "previous_event_sha256": "4e26e2c2f7ecda87be88e102a62e035a2d1e22afcf98fa78b88220397b29a04c",
+      "event_sha256": "9577c3e34122d1ec8c53fcf3c9b923ad055b9ed5780edf786637a161c12326af"
+    }
+  ]
+}

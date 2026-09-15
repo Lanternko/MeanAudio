@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_experiment_contract",
+  "experiment_id": "qwen-bucket-quarter-eval-backfill",
+  "run_id": "run-20260914-qwen-bucket-quarter-eval-backfill",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "054_qwen_bucket_quarter_eval_backfill.sh",
+  "queue_role": "p2",
+  "ordering_dependencies": [
+    "053_tscore_beta_probe",
+    "052_c2p0_slot4_no_digits_full"
+  ],
+  "dependencies": [],
+  "deviations": [],
+  "hypothesis": {
+    "question": "On the single-caption Phase-8 Qwen corpus, does the number of q buckets (K=3/5/10 balanced) change MusicCaps quality relative to NoQ, and does a Q-trained model respond to its code at all (q9 vs q0)?",
+    "what_moves": "Only the q_level bucketing of the training TSV. All five EMAs share seed 14159265, batch 8, lr 1e-4, S1 100k + S2 50k, NoMask, multi_cap=false, the same 251,599 rows and cache list.",
+    "not_controlled": "K=5 fixed differs from K=5 balanced in bucket occupancy, so it is diagnostic only and not part of the K-resolution claim. K=2 balanced (historical Half-Q reuse) has no quarter EMA in this grid and is not evaluated.",
+    "provenance_caveat": "Training read text features from /mnt/HDD/kojiek/phase8_qwen_official_matched_npz, which was overwritten in place with Caption 2.0 on 2026-08-22. The July EMAs are valid, but the numbers cannot be re-trained from the current NPZ and must not be placed on the c2p0 table.",
+    "related_result": "048/049 on the rotating 013 true-random pool: Q ignored at both K, never beat NoQ, K=3 vs K=10 inseparable on both protocols."
+  },
+  "operator_instruction": {
+    "recorded_at": "2026-09-14",
+    "text": "Q bucket 補評估排在隊尾",
+    "resolved_choices": {
+      "arms": "all five existing S2 EMAs (noq, k3/k5/k10 balanced, k5 fixed)",
+      "cfg0_cells": "NoQ -> noq; each Q arm -> q9 primary + q0 response probe (the canonical harness requires both for Q arms)",
+      "cfg3neg_cells": "NoQ -> noq; each Q arm -> q9 only",
+      "queue_position": "tail, after 052"
+    }
+  },
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "tail, behind 052",
+    "scope": "evaluation only: 9 canonical CFG0 cells + 5 CFG3+neg cells; no training",
+    "valid": true
+  },
+  "fixed_protocol": {
+    "cfg_strength": 0,
+    "mask": "NoMask",
+    "precision": "full",
+    "rows": 5521,
+    "seed": 42,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+    "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "secondary_cell": {
+      "cfg_strength": 3.0,
+      "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+      "helpers": [
+        "/home/kojiek/MeanAudio/scripts/eval/mc_mf25_cfg3neg_eval.sh",
+        "/home/kojiek/MeanAudio/scripts/eval/mc_mf25_cfg3neg_eval_q.sh"
+      ]
+    }
+  },
+  "decision_rule": {
+    "recorded_before_launch": true,
+    "seed_floor": {
+      "CLAP": 0.0042,
+      "CE": 0.1343,
+      "CU": 0.052,
+      "PC": 0.0554,
+      "PQ": 0.0523
+    },
+    "response_probe": "A Q arm whose CFG0 q9 and q0 CLAP differ by less than 0.0084 (2x floor) ignored its code.",
+    "vs_noq": "Q arm q9 CLAP >= NoQ + 0.0084: Q helps; within +/-0.0084: tie; <= NoQ - 0.0084: Q hurts.",
+    "k_resolution": "K arms differ only if their q9 CLAP differ by more than 0.0084; balanced arms only.",
+    "protocols": "CFG0 and CFG3+neg are both reported; a claim needs the same sign on both (project_rotation_vs_single_slot_protocol_flip)."
+  },
+  "cells": [
+    {
+      "cell_id": "noq_cfg0_noq",
+      "label": "phase8_qwen_bucket_quarter_noq_musiccaps_mf25_cfg0_noq",
+      "conditioning": "no_q",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_noq_stage2_50000/phase8_qwen_bucket_quarter_noq_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "b1b6148dd4730886c6532afa58d4d34a3255e33f47c86ab314e0a7978412ab03",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_noq_musiccaps_mf25_cfg0_noq_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k10_balanced_cfg0_q9",
+      "label": "phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg0_q9",
+      "conditioning": "q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "d0c5b1d6268c14c85648586bcb01910afab2620b24584598addf70df69b8de4f",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg0_q9_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k10_balanced_cfg0_q0",
+      "label": "phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg0_q0",
+      "conditioning": "q0",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "d0c5b1d6268c14c85648586bcb01910afab2620b24584598addf70df69b8de4f",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg0_q0_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k3_balanced_cfg0_q9",
+      "label": "phase8_qwen_bucket_quarter_k3_balanced_musiccaps_mf25_cfg0_q9",
+      "conditioning": "q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k3_balanced_stage2_50000/phase8_qwen_bucket_quarter_k3_balanced_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "6877f34cb56d0a3efcc0dbf28b7afd114ab10b86135feed5b5403d891db6e81e",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k3_balanced_musiccaps_mf25_cfg0_q9_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k3_balanced_cfg0_q0",
+      "label": "phase8_qwen_bucket_quarter_k3_balanced_musiccaps_mf25_cfg0_q0",
+      "conditioning": "q0",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k3_balanced_stage2_50000/phase8_qwen_bucket_quarter_k3_balanced_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "6877f34cb56d0a3efcc0dbf28b7afd114ab10b86135feed5b5403d891db6e81e",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k3_balanced_musiccaps_mf25_cfg0_q0_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k5_balanced_cfg0_q9",
+      "label": "phase8_qwen_bucket_quarter_k5_balanced_musiccaps_mf25_cfg0_q9",
+      "conditioning": "q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k5_balanced_stage2_50000/phase8_qwen_bucket_quarter_k5_balanced_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "851ef55c5cd81ab3e03a94a4c95a1c37aee4e2c6d83b50ef142e74acd6d7e9c8",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_balanced_musiccaps_mf25_cfg0_q9_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k5_balanced_cfg0_q0",
+      "label": "phase8_qwen_bucket_quarter_k5_balanced_musiccaps_mf25_cfg0_q0",
+      "conditioning": "q0",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k5_balanced_stage2_50000/phase8_qwen_bucket_quarter_k5_balanced_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "851ef55c5cd81ab3e03a94a4c95a1c37aee4e2c6d83b50ef142e74acd6d7e9c8",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_balanced_musiccaps_mf25_cfg0_q0_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k5_fixed_cfg0_q9",
+      "label": "phase8_qwen_bucket_quarter_k5_fixed_musiccaps_mf25_cfg0_q9",
+      "conditioning": "q9",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k5_fixed_stage2_50000/phase8_qwen_bucket_quarter_k5_fixed_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "444b12832f3c4528f8c38c29b32a1595dd020b7472bee277698e5ee2964a1262",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_fixed_musiccaps_mf25_cfg0_q9_REPORT.json",
+      "trains_nothing": true
+    },
+    {
+      "cell_id": "k5_fixed_cfg0_q0",
+      "label": "phase8_qwen_bucket_quarter_k5_fixed_musiccaps_mf25_cfg0_q0",
+      "conditioning": "q0",
+      "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k5_fixed_stage2_50000/phase8_qwen_bucket_quarter_k5_fixed_stage2_50000_ema_final.pth",
+      "checkpoint_sha256": "444b12832f3c4528f8c38c29b32a1595dd020b7472bee277698e5ee2964a1262",
+      "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k5_fixed_musiccaps_mf25_cfg0_q0_REPORT.json",
+      "trains_nothing": true
+    }
+  ],
+  "resume": {
+    "kind": "eval_ema_checkpoint",
+    "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000_ema_final.pth",
+    "checkpoint_sha256": "d0c5b1d6268c14c85648586bcb01910afab2620b24584598addf70df69b8de4f",
+    "checkpoint_bytes": 482119248
+  },
+  "runtime_storage": {
+    "estimated_output_bytes": 15400000000,
+    "hard_stop_free_bytes": 8589934592,
+    "hard_stop_rationale": "each cell writes ~1.1 GB of FLAC; 8 GiB matches the 048/049 floor",
+    "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics"
+  },
+  "estimated_gpu_hours": 6.5,
+  "commands": {
+    "run": [
+      "/bin/bash",
+      "/home/kojiek/MeanAudio/scripts/training_pipelines/qwen_bucket_quarter_eval_backfill.sh"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/054_qwen_bucket_quarter_eval_backfill.sh",
+    "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+    "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+    "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/qwen_bucket_quarter_eval_backfill.sh",
+    "action_sha256": "e1a6e5fdae1b7a26d69db734dc23f816d9ef100c1393593118d4419b0faa760a",
+    "cfg0_eval": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/eval_musiccaps_mf25.sh",
+    "cfg0_eval_sha256": "d0dc18d040161afb24e1d98f0288f9db991dafaa83f3d35f73275fb357bdef35",
+    "cfg3neg_eval_sha256": "08d25fb8d5ceca85c36855fe8f029df524ff4c05701c922c057407b3a96b8fdc",
+    "cfg3neg_eval_q_sha256": "9925d1f3b46400b020ee008fd8c02ea4ce10180c2f1670dcb0204bf28cee48c1",
+    "launcher_sha256": "88acfe31af07474b749af1c3bd2070d7ce3ce689086371278a02491e623cd1c1"
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000/phase8_qwen_bucket_quarter_k10_balanced_stage2_50000_ema_final.pth",
+    "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_bucket_quarter_k10_balanced_musiccaps_mf25_cfg0_q9_REPORT.json"
+  }
+}

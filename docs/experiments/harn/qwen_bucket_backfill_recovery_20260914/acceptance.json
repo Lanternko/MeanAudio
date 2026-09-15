@@ -1,0 +1,81 @@
+{
+  "status": "passed",
+  "gpu_launched": false,
+  "tests": [
+    {
+      "command": "/home/kojiek/venvs/dac/bin/python scripts/tests/selftest_qwen_bucket_backfill.py",
+      "exit_code": 0,
+      "coverage": [
+        "protocol drift",
+        "report drift",
+        "14-cell argv/order",
+        "NoQ arm ID",
+        "partial quarantine/replay",
+        "notification hold",
+        "success",
+        "failure",
+        "exit137",
+        "interrupt",
+        "pause",
+        "invalid preflight",
+        "storage recovery"
+      ]
+    },
+    {
+      "command": "/home/kojiek/venvs/dac/bin/python scripts/tests/run_qwen_bucket_queue_acceptance.py",
+      "exit_code": 0,
+      "passed": 33,
+      "failed": 0,
+      "real_gpu_fixture": "skipped",
+      "fixture_root": "/tmp/tmp.Q6zo8hc5Sw"
+    },
+    {
+      "command": "/home/kojiek/venvs/dac/bin/python scripts/tests/selftest_secondary_queue_notifications.py",
+      "exit_code": 0,
+      "coverage": [
+        "receipt dedup",
+        "notifier failure",
+        "terminal receipt binding",
+        "predecessor receipts"
+      ]
+    },
+    {
+      "command": "bash -n private evaluator wrappers and candidate launcher",
+      "exit_code": 0
+    }
+  ],
+  "sources": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/tests/selftest_qwen_bucket_backfill.py",
+      "sha256": "c1aa41bbacad95c72de76b31405de846ec9cdb4872a10a4b84ea39b85f2c2ed6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/tests/run_qwen_bucket_queue_acceptance.py",
+      "sha256": "7cd4815e07dba486ae85e2784767b3995fe46aa2f938769b40aa2e28d338ae5c"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/tests/selftest_secondary_queue_notifications.py",
+      "sha256": "cfe65c83e99a50357ecca84b14476abc352b05cfcd9cdb755fe68db93d628449"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/qwen_bucket_backfill_guest.py",
+      "sha256": "f15d22efddbf7c57c2b07c03743f6b6535e38364e26dbc90f946caa0a3c2a69e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/qwen_bucket_backfill/run.py",
+      "sha256": "ed7fe3faf2d3048af6a172f0fb110e9fb79be9d0f576a2aef8a2353de38b6548"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/qwen_bucket_backfill/cfg0.sh",
+      "sha256": "65334c30af6316702a16a20544a41ca3c3b9f34c7f42432896a2e923d455be97"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/qwen_bucket_backfill/cfg3_fidelity8.sh",
+      "sha256": "a2094bba44360544dacb80ee70f2110b54049a385e058dd49699fcf35cefa3c7"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/qwen_bucket_backfill/validate_report.py",
+      "sha256": "0aea143e6c3af5ebb460e96eed885a189569e837ead31f327f7710c9cada0ec2"
+    }
+  ]
+}

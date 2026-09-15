@@ -1,0 +1,6 @@
+是的。將最多 100K 有重複的 caption 替換掉 251K 裡的 caption。
+排定一個實驗來做。
+
+然後目前的 full 是跑哪一個？MF1.0 還是 recaption？
+
+給我個 AB test 我看看能不能聽出這兩者在 quarter 的差異

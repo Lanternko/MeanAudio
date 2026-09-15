@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "no_gpu": true,
+  "current_test_log": "{\"status\": \"resource_wait\", \"free_bytes\": 0}\nPASS: fixed assignments, actual per-row generator loop, immutable report resume, storage pass/warn/retryable hold, paired contrast, blind-retention resume, human rating preservation\nPASS: actual supervisor success/failure/137/interruption/pause/preflight-invalid/storage-recovery/notification-pending branches; no GPU processes\n",
+  "current_test_log_sha256": "1b29e4f4235b1e2410bd0f7669449b16098b76d0ba2c6acad5e4e7566ec94c8c",
+  "shared_scheduler_acceptance": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/harn/vocal_negative_cfg3_20260908/acceptance.json",
+    "sha256": "b481235e9aca75850bbc6e2eae50001e57628211e689482f5733b1a613bd64c1",
+    "fixtures_passed": 33,
+    "fixtures_failed": 0,
+    "reuse_basis": "Exact current lib_scheduler.py/lib_host.sh hashes unchanged; passed isolated no-GPU scheduler fixtures from earlier in this task."
+  },
+  "notification_tests": "test_notification_receipts.py and selftest_secondary_queue_notifications.py passed in this registration",
+  "bindings": {
+    "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908.py": "ab98a11a59425b46c085f76f9d2c2e2bea1d20ea4b5d23cd552aa1b5433d6636",
+    "/home/kojiek/MeanAudio/scripts/eval/instrument_conflict_cfg3_20260908_generate.py": "be5daa61283a5b024a118acca6254ee8c359ff53790533c27a1b9afa02eb6bf6",
+    "/home/kojiek/MeanAudio/scripts/eval/validate_instrument_conflict_cfg3_20260908.py": "156b676572c0c1ea3fd2883ca72ab0598d14d7984e1ca225fd22b901395f9003",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/instrument_conflict_cfg3_20260908_guest.py": "a526ba88c6ecad91c41d43a878772905e27f26aa71aac4de4d3356443d49d0c7",
+    "/home/kojiek/MeanAudio/scripts/tests/selftest_instrument_conflict_cfg3.py": "6bdf1052a25507fe241afe6a3012374534ef8381bf75e54eabb6584da4b485b5",
+    "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "/home/kojiek/gpu_queue/lib_scheduler.py": "aeb8f7be524902e2ea8a6d65b44b02a8f2dc730e56cfd245939e185ce0b39387",
+    "/home/kojiek/gpu_queue/lib_host.sh": "1c487e3af6a1a8d2753edcae0975ba2ea7c3e1400967753353761dc7bbaf4c2f"
+  },
+  "limitations": [
+    "No real GPU launched.",
+    "Human listening ratings pending after compute completion."
+  ]
+}

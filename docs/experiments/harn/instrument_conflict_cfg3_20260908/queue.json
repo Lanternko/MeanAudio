@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "388ba080436e6bdfda93caab133f605f856aec78ea61ae76cd78b218f6fe251e",
+        "ledger_raw_sha256": "a55ba13830cf9df79dbec3bbe58e71218b3205f71d3dd11f32da56278e1ae0b2",
+        "preflight_report_raw_sha256": "7a2ae31b7fa12776f54f76590811db9d95186c35e889be8420ccbb22a63915ba",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "instrument-conflict-045",
+      "experiment_id": "instrument-conflict-cfg3-20260908",
+      "position": 1,
+      "run_id": "run-20260908-045-instrument-conflict-cfg3",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-instrument-conflict-045",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-09-07T23:03:10Z"
+}

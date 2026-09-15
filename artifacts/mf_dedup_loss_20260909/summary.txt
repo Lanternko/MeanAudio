@@ -1,0 +1,35 @@
+{'arm': 'quarter', 'stage': 1, 'start': 0, 'end': 25000, 'mean_loss': 0.9891370164328658, 'slope_per_25k': -0.002551669430426312}
+{'arm': 'quarter', 'stage': 1, 'start': 25000, 'end': 50000, 'mean_loss': 0.9882278724, 'slope_per_25k': -0.00033372725330897235}
+{'arm': 'quarter', 'stage': 1, 'start': 50000, 'end': 75000, 'mean_loss': 0.9880011754, 'slope_per_25k': -0.00015712749810973295}
+{'arm': 'quarter', 'stage': 1, 'start': 75000, 'end': 100000, 'mean_loss': 0.9878379702, 'slope_per_25k': -9.94085872341764e-05}
+{'arm': 'quarter', 'stage': 2, 'start': 0, 'end': 25000, 'mean_loss': 0.9871700032, 'slope_per_25k': -0.00041636891507489956}
+{'arm': 'quarter', 'stage': 2, 'start': 25000, 'end': 50000, 'mean_loss': 0.9870073864000001, 'slope_per_25k': -0.00010371176364666778}
+{'arm': 'full', 'stage': 1, 'start': 0, 'end': 25000, 'mean_loss': 0.989137092785571, 'slope_per_25k': -0.0025497507400340253}
+{'arm': 'full', 'stage': 1, 'start': 25000, 'end': 50000, 'mean_loss': 0.9882294060000001, 'slope_per_25k': -0.0003317975159897048}
+{'arm': 'full', 'stage': 1, 'start': 50000, 'end': 75000, 'mean_loss': 0.9880028906, 'slope_per_25k': -0.00015750280201090453}
+{'arm': 'full', 'stage': 1, 'start': 75000, 'end': 100000, 'mean_loss': 0.9878390236, 'slope_per_25k': -9.934643898576086e-05}
+{'arm': 'full', 'stage': 1, 'start': 100000, 'end': 125000, 'mean_loss': 0.9877363442, 'slope_per_25k': -0.0001316286873149106}
+{'arm': 'full', 'stage': 1, 'start': 125000, 'end': 150000, 'mean_loss': 0.9876655526, 'slope_per_25k': -9.364874659499683e-05}
+{'arm': 'full', 'stage': 1, 'start': 150000, 'end': 175000, 'mean_loss': 0.9875904388000001, 'slope_per_25k': -7.498752715020317e-05}
+{'arm': 'full', 'stage': 1, 'start': 175000, 'end': 200000, 'mean_loss': 0.9875372254, 'slope_per_25k': -5.778428473712501e-05}
+{'arm': 'full', 'stage': 1, 'start': 200000, 'end': 225000, 'mean_loss': 0.9875030057999999, 'slope_per_25k': -7.454805899219098e-05}
+{'arm': 'full', 'stage': 1, 'start': 225000, 'end': 250000, 'mean_loss': 0.9874666925999999, 'slope_per_25k': -0.00010389593318368309}
+{'arm': 'full', 'stage': 1, 'start': 250000, 'end': 275000, 'mean_loss': 0.987441503, 'slope_per_25k': -7.018072072219554e-06}
+{'arm': 'full', 'stage': 1, 'start': 275000, 'end': 300000, 'mean_loss': 0.9874010516, 'slope_per_25k': 5.183113532405416e-06}
+{'arm': 'full', 'stage': 1, 'start': 300000, 'end': 325000, 'mean_loss': 0.9873875486, 'slope_per_25k': -3.548688994748351e-05}
+{'arm': 'full', 'stage': 1, 'start': 325000, 'end': 350000, 'mean_loss': 0.9873550312, 'slope_per_25k': -1.4263386653467143e-05}
+{'arm': 'full', 'stage': 1, 'start': 350000, 'end': 375000, 'mean_loss': 0.9873226674, 'slope_per_25k': -1.5276745106875563e-05}
+{'arm': 'full', 'stage': 1, 'start': 375000, 'end': 400000, 'mean_loss': 0.9873118526000001, 'slope_per_25k': 2.2828514514036576e-05}
+{'arm': 'full', 'stage': 2, 'start': 0, 'end': 25000, 'mean_loss': 0.9867284237999999, 'slope_per_25k': -0.0003864580682330536}
+{'arm': 'full', 'stage': 2, 'start': 25000, 'end': 50000, 'mean_loss': 0.9866236968000001, 'slope_per_25k': -3.7658699434211135e-05}
+{'arm': 'full', 'stage': 2, 'start': 50000, 'end': 75000, 'mean_loss': 0.986609127, 'slope_per_25k': -1.3428636914455612e-05}
+{'arm': 'full', 'stage': 2, 'start': 75000, 'end': 100000, 'mean_loss': 0.9865683364, 'slope_per_25k': -2.4357764630970442e-05}
+{'arm': 'full', 'stage': 2, 'start': 100000, 'end': 125000, 'mean_loss': 0.9865495234, 'slope_per_25k': -1.2174084696390134e-05}
+{'arm': 'full', 'stage': 2, 'start': 125000, 'end': 150000, 'mean_loss': 0.9865438596000001, 'slope_per_25k': -4.9316362065550745e-05}
+{'arm': 'full', 'stage': 2, 'start': 150000, 'end': 175000, 'mean_loss': 0.9865135472, 'slope_per_25k': -5.212427249719165e-05}
+{'arm': 'full', 'stage': 2, 'start': 175000, 'end': 200000, 'mean_loss': 0.9865066854000001, 'slope_per_25k': -2.4816269665108207e-05}
+TAIL quarter 1 0.9878062790000002
+TAIL full 1 0.9873189675
+TAIL quarter 2 0.9869759914999999
+TAIL full 2 0.9864914854999999
+S1 shared prefix MAE 1.4339569784891469e-05
