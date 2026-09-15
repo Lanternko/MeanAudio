@@ -261,3 +261,14 @@ contradictions are KEEP) and **32B local model**.
   regenerated KEEP ≥ 0.98; base < 5 → INCONCLUSIVE. Also reports the local
   screen's recall on Luna flags. Projected ~US$0.65, cap US$2.
 - Chain: tmux `slot0_local_audit`, output `local_qwen32b_defA_v4/`, started 16:59.
+
+## PASS 後自動排 056 quarter（2026-09-15 17:19 設定）
+
+操作者指示：「完成並通過後 自動接上 quarter 訓練」。
+
+- gate：tmux `slot0clean_gate` → `scripts/runs/run_slot0clean_queue_after_pass.sh 771553`（PID gate，等 v4 chain 結束）。
+  log：`local_qwen32b_defA_v4/queue_after_pass.log`。
+- 只有 `spotcheck_report.json` verdict == `PASS` 才動作；INCONCLUSIVE / REPORT_TO_OPERATOR / INCOMPLETE / chain 失敗 → 什麼都不排，回報操作者。
+- PASS 後：`build_slot0clean_arm_inputs.py`（驗 corpus sha = 抽樣時的 sha、id 順序 = source 扣掉 unresolved、非重生列與 source 逐位元相同、pandas/csv 解析一致）→ 寫 contract `docs/experiments/caption2p0_slot0clean_defA_quarter_cfg0_contract.json` → `accept_guest` 乾跑 → 才把 launcher 放進 `p2/pending/056_c2p0_slot0clean_defA_quarter.sh`。
+- 訓練：`caption2p0_slot0clean_action.sh quarter`，配方與 055 slot4v2 完全相同（S1 100k + S2 50k、seed 14159265、NoQ、cap_index_fixed=0、require_text_overlay），只換語料；unresolved 列從 TSV 與 cache list 同步排除（deviation D1）。
+- 判讀：CFG0 CLAP 對 c2p0 slot0 quarter 0.2029，±0.0084（2× seed floor）內算平手。只動約 0.2% 的列，**平手是預期結果**，不能據此說污染無害。
