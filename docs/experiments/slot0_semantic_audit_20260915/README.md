@@ -282,3 +282,7 @@ contradictions are KEEP) and **32B local model**.
   - 殘留 5 列全是本機漏抓的原句：1 列明確（"This audio does not contain any audible music."），4 列是邊界尾句（"limited information on the mix"、"genre cannot be definitively identified without more information"、"scene is set in a spacious studio"、"reminiscent of a retro album cover"）。
   - 本機在 S 中標 35 列、Luna 認為有問題的 12 列 → 以 Luna 為準的精確度約 34%。
 - gate 依規則停止，未建 arm inputs、未放 launcher。
+
+## 操作者放行，056 已排（2026-09-16 00:43）
+
+使用者選「1，排 056」：接受 REPORT_TO_OPERATOR（residual 5 vs 上限 4）。build/action 加上 `--operator-override`，manifest 保留真實 verdict 並記錄放行文字；contract deviation `D2-spotcheck-not-pass-operator-accepted`。語料 251,599 列、1,499 列換成重生版本、unresolved 0（cache list 與原檔相同）。launcher `p2/pending/056_c2p0_slot0clean_defA_quarter.sh`，accept_guest 乾跑 ok。

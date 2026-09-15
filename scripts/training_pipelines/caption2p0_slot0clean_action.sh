@@ -5,7 +5,8 @@
 # rows (metatext, prompt echo, requests/refusals, model commentary, unrelated text,
 # bare no-music, format wrappers, non-English) were flagged by a local Qwen2.5-32B-AWQ
 # screen, regenerated from audio with Qwen2.5-Omni-3B + the original prompt until the
-# screen accepted them (max 6 attempts), and a paired Luna spot check returned PASS.
+# screen accepted them (max 6 attempts), and a paired Luna spot check returned PASS
+# (or the operator explicitly accepted a non-PASS verdict; recorded in the manifest).
 # Rows still failing after 6 attempts are EXCLUDED (TSV and cache list filtered together).
 # Built by scripts/preprocess/build_slot0clean_arm_inputs.py; see
 # docs/experiments/slot0_semantic_audit_20260915/README.md.
@@ -80,7 +81,8 @@ import pandas as pd
 csv.field_size_limit(10**9)
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 m = json.load(open("$MANIFEST"))
-assert m["status"] == "arm_inputs_ready" and m["spotcheck"]["verdict"] == "PASS", "[FAIL] manifest not PASS"
+assert m["status"] == "arm_inputs_ready", "[FAIL] manifest not ready"
+assert m["spotcheck"]["verdict"] == "PASS" or (m.get("operator_override") or {}).get("text"), "[FAIL] not PASS and no operator override"
 assert sha("$TRAIN_TSV") == m["train_tsv_sha256"], "[FAIL] train tsv drift"
 assert sha("$CACHE_LIST") == m["cache_list_sha256"], "[FAIL] cache list drift"
 rows = list(csv.DictReader(open("$TRAIN_TSV", newline=""), delimiter="\t"))
@@ -90,7 +92,7 @@ df = pd.read_csv("$TRAIN_TSV", sep="\t").to_dict("records")
 bad = sum(1 for d, r in zip(df, rows) if str(d["caption"]) != r["caption"] or str(d["id"]) != r["id"])
 assert len(df) == len(rows) and not bad, f"[FAIL] pandas/csv parity broken ({bad})"
 print(f"  rows={len(rows)} changed={m['changed_rows']} unresolved_excluded={len(m['unresolved_excluded'])}",
-      "spotcheck", json.dumps(m["spotcheck"]))
+      "spotcheck", json.dumps(m["spotcheck"]), "override", json.dumps(m.get("operator_override")))
 PYEOF
 log "[Step 2] inputs verified"
 

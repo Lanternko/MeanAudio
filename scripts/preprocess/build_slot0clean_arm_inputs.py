@@ -46,11 +46,15 @@ def main() -> int:
     ap.add_argument("--regen-dir", type=Path, required=True)
     ap.add_argument("--spotcheck-dir", type=Path, required=True)
     ap.add_argument("--out-dir", type=Path, required=True)
+    ap.add_argument("--operator-override", default=None,
+                    help="operator decision text; required to build when the verdict is not PASS")
     args = ap.parse_args()
 
     report = json.loads((args.spotcheck_dir / "spotcheck_report.json").read_text())
-    if report["verdict"] != "PASS":
-        raise SystemExit(f"[FAIL] spot check verdict {report['verdict']} != PASS")
+    if report["verdict"] != "PASS" and not args.operator_override:
+        raise SystemExit(f"[FAIL] spot check verdict {report['verdict']} != PASS (no operator override)")
+    if report["verdict"] in ("INCOMPLETE",):
+        raise SystemExit("[FAIL] spot check incomplete; override not allowed")
     sample = json.loads((args.spotcheck_dir / "sample.json").read_text())
     corpus_path = args.regen_dir / "slot0_regen_candidate_corpus.tsv"
     corpus_sha = sha256(corpus_path)
@@ -119,6 +123,8 @@ def main() -> int:
                       "n": report["paired"]["n"],
                       "regenerated_keep_rate": report["regenerated"]["keep_rate"]},
         "regen_summary": summary,
+        "operator_override": ({"verdict": report["verdict"], "text": args.operator_override}
+                              if report["verdict"] != "PASS" else None),
     }
     (args.out_dir / "manifest.json").write_text(json.dumps(manifest, indent=1) + "\n")
     print(json.dumps({k: manifest[k] for k in ("rows", "changed_rows", "train_tsv_sha256", "cache_list_sha256")}))
