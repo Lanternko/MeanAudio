@@ -229,3 +229,35 @@ Operator set the flow to save API cost:
 The 5,000-row K sample and human pack from v2 were dropped per operator.
 Chain: tmux `slot0_local_audit` restarted 13:42 with v3 script; offline tests of
 loop replay/assembly/unresolved exclusion and spot-check dry run passed.
+
+### v4 (2026-09-15 17:00) — definition A + Qwen2.5-32B-Instruct-AWQ; supersedes v3
+
+Why v3 was stopped (16:24, before any full chunk): Qwen2.5-7B passed the
+operational check (98.4% agreement) but caught **4/28** Luna-flagged rows in
+full_v1 and 45% of heldout_v3 problems; misses were mostly metatext. The v3
+spot check (KEEP rate ≥ 0.98 on 500 rows) could not have detected this: at a
+~0.2–0.5% base rate a screen with zero recall still scores ~99.6%.
+
+Operator decisions: **definition A** (flag contamination only: metatext,
+instruction/prompt echo, requests/refusals, model commentary, unrelated
+content, bare no-music, format wrappers, non-English; grammar slips and
+contradictions are KEEP) and **32B local model**.
+
+- `slot0_contamination_a.py`: binary KEEP/FLAG + category, shared by local screen
+  and Luna. Of Luna's 28 full_v1 non-KEEP rows, 11 are A-contamination
+  (hand-classified, listed in `build_slot0_defA_probe.py`).
+- Probe v1 (dev, 442 rows: relabeled fixtures, Luna real 11 flag / 17 hard keep,
+  300 random Luna-KEEP, 55 pattern-anchored "The caption … is:" / "The caption
+  should" rows). First 32B prompt: recall 1.0 but **29% false flags** (read "The
+  audio features …" as metatext). Prompt fixed (metatext = text referring to
+  itself), then held-out **probe v2** (555 rows, seed 20260916, no v1 overlap):
+  recall 1.0 (55/55), false flags 0/500; v1 also recall 1.0 / 0 false flags.
+  Limitation: v2 positives are pattern-anchored (easy); subtle metatext recall
+  is only evidenced on the dev set.
+- vLLM needs `VLLM_USE_FLASHINFER_SAMPLER=0` on this host (no nvcc; FlashInfer
+  sampler JIT crashes warmup). ~12 rows/s → full screen ≈ 5.8 h.
+- Spot check redesigned as paired: 6,000 random ids, Luna-A reviews original and
+  cleaned captions; PASS iff base ≥ 5, residual ≤ max(1, ⌊0.25·base⌋) and
+  regenerated KEEP ≥ 0.98; base < 5 → INCONCLUSIVE. Also reports the local
+  screen's recall on Luna flags. Projected ~US$0.65, cap US$2.
+- Chain: tmux `slot0_local_audit`, output `local_qwen32b_defA_v4/`, started 16:59.
