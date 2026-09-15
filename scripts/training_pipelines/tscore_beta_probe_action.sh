@@ -125,9 +125,12 @@ for SEED in "${SEEDS[@]}"; do
 
     for SPLIT in mc500 val100; do
       case "$SPLIT" in
-        mc500)  TSV="$INPUTS/musiccaps_head500.tsv"; WANT=500 ;;
-        val100) TSV="$INPUTS/val_scored.tsv";        WANT=100 ;;
+        mc500)  TSV="$INPUTS/musiccaps_head500.tsv" ;;
+        val100) TSV="$INPUTS/val_scored.tsv" ;;
       esac
+      # Count records the way eval.py parses them: musiccaps_test.tsv has quoted captions with
+      # embedded newlines, so `head -n 501` yields 499 records, not 500 (053 died on this, rc=4).
+      WANT=$("$PY" -c 'import csv,sys; print(sum(1 for _ in csv.DictReader(open(sys.argv[1], newline=""), delimiter="\t")))' "$TSV")
       OUT="$ART/eval/$EXP/$SPLIT/audio"
       METRICS="$ART/metrics/${EXP}_${SPLIT}/metrics.txt"
       if [ -f "$METRICS" ]; then continue; fi

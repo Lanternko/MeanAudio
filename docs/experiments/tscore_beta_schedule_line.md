@@ -77,3 +77,9 @@ quarter 協定（S1 100k / S2 50k），c2p0 slot0 NoQ，PE-AV S 需補算 251,59
 | B4（選配） | S1 加 REPA（目標 PE-AV audio embedding；`extracted_audio.py` 已有 `repa_npz_dir` 殘留介面） |
 
 判讀：CFG0 與 CFG3+neg 兩個協定都報；效果 ≥ 2× 同協定訓練 seed floor；主張「分數資訊有用」須 B1 > B0 **且** B1 > B3。
+
+## 執行紀錄
+
+- 2026-09-13T16:14Z 第一次就座；base seed 14159265 訓練完成（fm_mse argmin 17k = 0.8131，final_val 0.8150），MC500 生成後 rc=4。
+  原因：action 寫死 `WANT=500`，但 `head -n 501 musiccaps_test.tsv` 只有 **499 筆**（有 caption 帶引號內換行）。生成本身完整。
+- 2026-09-15 修正：WANT 改用 `csv.DictReader` 計數（與 eval.py 同一個 parser）；沿用 499 筆 TSV（`mc500` 名稱保留），已完成的 base arm 由 skip 邏輯沿用。contract 更新 `action_sha256`，並加上 `requeue_2026_09_15` 欄位；已重新排進 p2。
