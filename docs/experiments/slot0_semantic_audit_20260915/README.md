@@ -272,3 +272,13 @@ contradictions are KEEP) and **32B local model**.
 - PASS 後：`build_slot0clean_arm_inputs.py`（驗 corpus sha = 抽樣時的 sha、id 順序 = source 扣掉 unresolved、非重生列與 source 逐位元相同、pandas/csv 解析一致）→ 寫 contract `docs/experiments/caption2p0_slot0clean_defA_quarter_cfg0_contract.json` → `accept_guest` 乾跑 → 才把 launcher 放進 `p2/pending/056_c2p0_slot0clean_defA_quarter.sh`。
 - 訓練：`caption2p0_slot0clean_action.sh quarter`，配方與 055 slot4v2 完全相同（S1 100k + S2 50k、seed 14159265、NoQ、cap_index_fixed=0、require_text_overlay），只換語料；unresolved 列從 TSV 與 cache list 同步排除（deviation D1）。
 - 判讀：CFG0 CLAP 對 c2p0 slot0 quarter 0.2029，±0.0084（2× seed floor）內算平手。只動約 0.2% 的列，**平手是預期結果**，不能據此說污染無害。
+
+## v4 結果（2026-09-15 23:22）：REPORT_TO_OPERATOR，056 未排
+
+- 本機 32B 全量：FLAG 1,492 + quarantine 7 = 1,499 列（0.60%）；抽看估計約一半是誤標（metatext 誤判 "The music features ..." 開頭）。
+- 重生：1,499/1,499 被本機接受（attempt 1: 1,490、attempt 2: 9），unresolved 0，語料仍 251,599 列。
+- Luna paired 抽查（US$0.546，882 batch 無失敗）：base 17/6000（0.28%，CI 0.17–0.45%）→ residual 5/6000（0.08%，CI 0.03–0.19%）；規則上限 floor(0.25×17)=4，差 1 列不過。
+  - 本機召回（以 Luna 為準）12/17 = 0.71；被抓到的 12 列清洗後 0 殘留；重生 500 列 Luna KEEP 100%；probe 一致率 1.00。
+  - 殘留 5 列全是本機漏抓的原句：1 列明確（"This audio does not contain any audible music."），4 列是邊界尾句（"limited information on the mix"、"genre cannot be definitively identified without more information"、"scene is set in a spacious studio"、"reminiscent of a retro album cover"）。
+  - 本機在 S 中標 35 列、Luna 認為有問題的 12 列 → 以 Luna 為準的精確度約 34%。
+- gate 依規則停止，未建 arm inputs、未放 launcher。
