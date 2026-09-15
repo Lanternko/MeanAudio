@@ -286,3 +286,17 @@ contradictions are KEEP) and **32B local model**.
 ## 操作者放行，056 已排（2026-09-16 00:43）
 
 使用者選「1，排 056」：接受 REPORT_TO_OPERATOR（residual 5 vs 上限 4）。build/action 加上 `--operator-override`，manifest 保留真實 verdict 並記錄放行文字；contract deviation `D2-spotcheck-not-pass-operator-accepted`。語料 251,599 列、1,499 列換成重生版本、unresolved 0（cache list 與原檔相同）。launcher `p2/pending/056_c2p0_slot0clean_defA_quarter.sh`，accept_guest 乾跑 ok。
+
+## 056 停止 → 057 slot0nm（污染＋數字＋調性＋拍號）（2026-09-16 01:13 排入）
+
+使用者：「BPM 一定不準…MusicLLM 沒有能力偵測 BPM…詳細數字也要去除，會污染訓練」；範圍選「數字＋調性＋拍號」，056 停掉直接換新 arm。
+
+- 056 於 Stage 1 it ~2,050 停止（p2/failed，操作者指示，非 bug）。
+- 語料：`rewrite_slot0nm_no_measurements.py`（Qwen2.5-32B-AWQ，逐句、hard gate、無量測的句子逐位元保留）。
+  - 基底：未重生列用 slot4v2（數字已去、QA 過），重生的 1,499 列用重生版本。
+  - 移除：數字/BPM/Hz/dB、調性/調式/和弦性質（key of X、in A minor、minor key、major chords）、拍號（time signature、common/waltz time）。保留：fast/slow 等定性速度詞、four-on-the-floor、年代詞。
+  - 14,265 個不重複量測句：LLM 12,890、LLM 判整句無內容 591、正則裁切 323、逗號子句刪除 93、整句刪除 391。1 列所有句子都是量測 → 排除。
+  - 修過的誤判：`piano keys` / `keys of the piano`、`a major role`（音名改大小寫敏感）、「The chord progression is primarily.」類副詞殘句。
+- 結果：251,598 列，與原 slot0 不同 29,956 列（11.9%），全語料 MEASURE 殘留 0。
+- 057：`caption2p0_slot0nm_action.sh quarter`，配方同 055；contract 記 D1（污染抽查未過、操作者放行）、D2（排除 1 列）、D3（056 停止，沒有「只清污染」的對照）。
+- 判讀限制：兩個改動綁在一起；MusicCaps CLAP 不量 tempo/key/meter 遵循度，不能用來證明數字有害或無害。
