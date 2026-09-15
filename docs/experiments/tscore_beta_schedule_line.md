@@ -89,3 +89,27 @@ quarter 協定（S1 100k / S2 50k），c2p0 slot0 NoQ，PE-AV S 需補算 251,59
 - 2026-09-13T16:14Z 第一次就座；base seed 14159265 訓練完成（fm_mse argmin 17k = 0.8131，final_val 0.8150），MC500 生成後 rc=4。
   原因：action 寫死 `WANT=500`，但 `head -n 501 musiccaps_test.tsv` 只有 **499 筆**（有 caption 帶引號內換行）。生成本身完整。
 - 2026-09-15 修正：WANT 改用 `csv.DictReader` 計數（與 eval.py 同一個 parser）；沿用 499 筆 TSV（`mc500` 名稱保留），已完成的 base arm 由 skip 邏輯沿用。contract 更新 `action_sha256`，並加上 `requeue_2026_09_15` 欄位；已重新排進 p2。
+- 2026-09-15T08:17Z **完成，rc=0**。產物 `~/nvme_experiment_artifacts/meanaudio/tscore_beta_probe_20260913/summary.json`。
+
+## 階段 A 結果（2026-09-15）— **收線**
+
+主指標 final_val（held-out `fm_mse` 最後 4 次 val 平均，越低越好）。Seed floor = |base A − base B| = **0.00042**，門檻 2× = 0.00085。
+
+| arm | seed 14159265 | seed 27182818 | 平均 t_mean（末段） |
+|---|---|---|---|
+| base | 0.81503 | 0.81461 | ~0.53 |
+| λ0.2 | 0.81559 | 0.81677 | ~0.55 |
+| λ1.0 | 0.82154 | 0.82369 | ~0.61 |
+| λ1.0 shuffled-S | 0.82604 | 0.82158 | ~0.61 |
+
+| 規則 | 結果 |
+|---|---|
+| R1 base overfit | ✗ argmin 17.0k / 18.5k（>15k），overfit_gap 0.0019 / 0.0007；2k rows × 20k iter（80 epoch）在本 S1 沒有論文所述 ~7.5k 起 overfit |
+| R2 正則化 | ✗ **兩個 λ 都顯著變差**：λ0.2 平均 −0.0014（3.2× floor），λ1.0 平均 −0.0078（18.4× floor），兩 seed 同向 |
+| R3 分數資訊 | ✗ 真實 − 打亂：seed A 真實較好 0.0045，seed B 打亂較好 0.0021；方向不一致 |
+
+Per-t：λ1.0 的損失集中在低噪聲端（t=0.1：base 1.127/1.133 → λ1.0 1.164/1.168），高噪聲端 t=0.9 沒有對應收益（0.710/0.713 → 0.710/0.721）。即把 t 往高噪聲推只是把低 t 的訓練量拿走。
+
+次要指標（MC 前 499 筆 + val100，CFG0，不 gate）：CLAP/AES 對 base 的差兩 seed 方向多半相反、量級 ≤0.01 CLAP / ≤0.35 AES，無一致訊號。
+
+**判讀**：論文 (ii) Beta timestep schedule 在我們的 S1（MeanFlow runner、c2p0 slot0 2k 子集）不成立——無 overfit 可正則、傾斜本身有害、逐列 PE-AV 分數無穩定資訊。依 preregistered 規則不開階段 B。限制：只測 2k/20k 小規模機制探針與 held-out velocity MSE；未測 full-scale 生成品質。
