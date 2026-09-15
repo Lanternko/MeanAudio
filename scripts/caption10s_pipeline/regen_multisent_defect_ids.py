@@ -114,12 +114,15 @@ def main() -> int:
         still = []
         for i in range(0, len(pending), args.batch_size):
             chunk = pending[i:i + args.batch_size]
-            caps = caption_batch(
+            caps, truncs = caption_batch(
                 model, processor,
                 [meta[c][0] for c in chunk], [meta[c][1] for c in chunk],
-                seed, args.max_new_tokens,
+                seed, args.max_new_tokens, return_truncation=True,
             )
-            for cid, raw in zip(chunk, caps):
+            for cid, raw, trunc in zip(chunk, caps, truncs):
+                if trunc:  # cut at max_new_tokens: never accept, retry with next seed
+                    still.append(cid)
+                    continue
                 cap = first_entity_line(raw)
                 if classify(cap):
                     still.append(cid)

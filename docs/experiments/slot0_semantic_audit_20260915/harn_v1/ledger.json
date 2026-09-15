@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "slot0-semantic-audit-20260915",
+  "run_id": "slot0-semantic-audit-20260915-full-v1",
+  "document_kind": "event_ledger",
+  "bindings": {
+    "contract_raw_sha256": "3c0696b7d0cc836634490e8a98a28813157aebcc6ce334e2e15c774a804254c7",
+    "preflight_report_raw_sha256": "9346f77aef74520c31f418d4484eaf97d86492bc034a76a2486f25f296dbf4be",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "event_id": "registered",
+      "idempotency_key": "slot0-semantic-audit-20260915-full-v1:registered",
+      "event_kind": "contract_registered",
+      "occurred_at": "2026-09-15T04:13:04Z",
+      "phase": null,
+      "verdict": "none",
+      "relates_to_event_id": null,
+      "notification_status": "not_applicable",
+      "previous_event_sha256": null,
+      "event_sha256": "f04089580623009c4256beab7b7c8cb0a390bac5f79ebe66e8fc37314d1d41de"
+    },
+    {
+      "sequence": 2,
+      "event_id": "admission-preflight-evidence",
+      "idempotency_key": "slot0-semantic-audit-20260915-full-v1:admission-preflight-evidence",
+      "event_kind": "preflight_passed",
+      "occurred_at": "2026-09-15T04:13:48.412807Z",
+      "phase": "audit-only",
+      "verdict": "pass",
+      "relates_to_event_id": null,
+      "notification_status": "not_applicable",
+      "previous_event_sha256": "f04089580623009c4256beab7b7c8cb0a390bac5f79ebe66e8fc37314d1d41de",
+      "event_sha256": "2e1c67569fc788c6c8a588b8d31cf5cf77a71f3b6eb151c8f2b63db2fbb9de19"
+    },
+    {
+      "sequence": 3,
+      "event_id": "cpu-ownership-evidence",
+      "idempotency_key": "slot0-semantic-audit-20260915-full-v1:cpu-ownership-evidence",
+      "event_kind": "resources_acquired",
+      "occurred_at": "2026-09-15T04:13:48.412807Z",
+      "phase": "audit-only",
+      "verdict": "none",
+      "relates_to_event_id": null,
+      "notification_status": "not_applicable",
+      "previous_event_sha256": "2e1c67569fc788c6c8a588b8d31cf5cf77a71f3b6eb151c8f2b63db2fbb9de19",
+      "event_sha256": "117a1ec715d4c3c3c4edabfabe7a5ec3fc3164f15d59b9ab1dd8542187c6e2b7"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "status": "passed",
+  "tests": [
+    {
+      "test": "test_slot0_semantic_audit.py",
+      "returncode": 0,
+      "output_sha256": "cf8d3a2572a7898fcf32a4c2dd1445509b3d59e66061853243c4627f80695068"
+    },
+    {
+      "test": "test_slot0_audit_controller.py",
+      "returncode": 0,
+      "output_sha256": "973ebaf7a0a4b9fc26a66eab13e6b733ba81c41dfad1c5cf109e147ef5201097"
+    }
+  ],
+  "scope": "API controller; GPU regeneration/encoding not launched by this contract"
+}

@@ -1,0 +1,12 @@
+{
+  "status": "passed",
+  "gate_scope": "read_only_audit_admission",
+  "source": {
+    "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+    "sha256": "eaa35ada59a598f3e86b7d3b37409636cb74d7e5bbfa76a981b3aff83197e90e"
+  },
+  "rows_checked": 251599,
+  "schema_and_ID_failures": 0,
+  "generated_corpus_cleanliness": "unknown_pending_full_semantic_audit",
+  "training_or_encoding_authorized": false
+}

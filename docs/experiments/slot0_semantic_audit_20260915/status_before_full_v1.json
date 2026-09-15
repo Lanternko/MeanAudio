@@ -1,0 +1,33 @@
+{
+  "status": "held_for_semantic_scope_resolution",
+  "full_corpus_audit_started": false,
+  "cleaned_corpus_released": false,
+  "source_modified": false,
+  "model": "gpt-5.6-luna",
+  "development_calibration": {
+    "v1": "failed: 2 label mismatches of 36",
+    "v2": "held: edit boundary validation failure after 24 rows",
+    "v3": "passed 36/36"
+  },
+  "heldout": {
+    "rows": 35,
+    "label_matches": 34,
+    "unresolved": [
+      "57_17957_segment_2_0"
+    ],
+    "report": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/heldout_v1/calibration_report.json"
+  },
+  "pending_definition": "Whether a bare assertion that the input is not music is an acceptable retained caption, or requires same-prompt audio recaptioning. No row is dropped or recaptioned automatically.",
+  "next_safe_action": "Resolve semantic definition, freeze production contract and HARN acceptance, then audit every slot0 row; retain unresolved rows in quarantine with original IDs.",
+  "observed_usage_lower_bound": {
+    "prompt_tokens": 12638,
+    "completion_tokens": 5517
+  },
+  "usage_note": "One v2 response failed local validation before receipt persistence was implemented; these counts exclude that response.",
+  "implementation": {
+    "path": "/home/kojiek/MeanAudio/scripts/preprocess/slot0_semantic_audit.py",
+    "sha256": "44f3c81f5f6c30df34b5edc9178a0610025bec4880589527438d3fe10a10eb1f"
+  },
+  "unit_tests": "8 passed",
+  "notification": "delivered: slot0-semantic-audit-20260915:calibration:semantic-definition-hold"
+}

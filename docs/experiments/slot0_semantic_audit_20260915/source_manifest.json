@@ -1,0 +1,13 @@
+{
+  "source": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+  "sha256": "eaa35ada59a598f3e86b7d3b37409636cb74d7e5bbfa76a981b3aff83197e90e",
+  "rows": 251599,
+  "unique_ids": 251599,
+  "unique_captions": 251599,
+  "characters": 83390065,
+  "scope": "all slot0 rows, no regex candidate filter",
+  "policy": "preserve numbers and original wording; semantic contamination audit; exact suffix trim only; unresolved rows block release",
+  "status": "preparing_calibration",
+  "full_corpus_gate": "not_run",
+  "source_modified": false
+}

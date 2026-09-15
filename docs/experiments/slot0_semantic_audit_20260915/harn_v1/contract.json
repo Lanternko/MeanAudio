@@ -1,0 +1,133 @@
+{
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "slot0-semantic-audit-20260915",
+  "run_id": "slot0-semantic-audit-20260915-full-v1",
+  "document_kind": "experiment_contract",
+  "bindings": {
+    "policy_bundle_sha256": "07f0304f9e42abe7525e285d2e344a44ce587e4ad7a18c1d026d4867ca9eaba4",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+    "runtime_sha256": "238257fe4e7c2f6411a27078c89371613d0dcfd2db14f40bb4933dc2369881e6",
+    "command_set_sha256": "173ea4230778a00007e246236e5e6f3299a6c4aef2285d79075b6abf8a1d8d9a"
+  },
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "corpus": {
+    "kind": "generated",
+    "corpus_artifact": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+      "sha256": "eaa35ada59a598f3e86b7d3b37409636cb74d7e5bbfa76a981b3aff83197e90e"
+    },
+    "corpus_schema_sha256": "e7efa42b24977d6a49e5f270a15c03edf041856804a6e955776648f609df2c0f",
+    "classifier_version": "slot0-semantic-v5-audit-admission-only",
+    "defect_taxonomy_sha256": "2fe51c1da4a470cdf74801eaa716a4744d60404f61d290bba6033a400a69c952",
+    "stop_behavior_test_id": "api-finish-reason-stop",
+    "full_gate_report": {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/source_admission_gate_v1.json",
+      "sha256": "621e62f1171d31f5ee60f8bd8f87520d6a5bff49a3709ef2293b5e7341ecaaf6"
+    },
+    "downstream_bindings": {
+      "tsv_manifest_sha256": "582f1b62d2a45717b1f464a6b3fed3f6f1eb74519ccb5fe6d3e1aafd36471cf7",
+      "feature_cache_report_sha256": "582f1b62d2a45717b1f464a6b3fed3f6f1eb74519ccb5fe6d3e1aafd36471cf7"
+    },
+    "required_gate_points": [
+      "launch",
+      "pre_training",
+      "post_change"
+    ]
+  },
+  "repair": {
+    "enabled": false
+  },
+  "phases": [
+    {
+      "phase_id": "audit-only",
+      "action_id": "audit",
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/full_v1_contract.json",
+          "sha256": "1deec9150cb5b38648d760b6f164445a5f0c17adf302dec03415ca991d32e800"
+        },
+        {
+          "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+          "sha256": "eaa35ada59a598f3e86b7d3b37409636cb74d7e5bbfa76a981b3aff83197e90e"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1/full_gate_report.json",
+        "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1/quarantine.jsonl"
+      ],
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/preprocess/slot0_audit_controller.py",
+          "sha256": "238257fe4e7c2f6411a27078c89371613d0dcfd2db14f40bb4933dc2369881e6"
+        }
+      ],
+      "resume_action_id": "resume-audit"
+    }
+  ],
+  "filesystems": [
+    {
+      "path": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1",
+      "hard_floor_bytes": 53687091200,
+      "warning_floor_bytes": 85899345920,
+      "peak_additional_bytes": 3221225472,
+      "transient_bytes": 1073741824,
+      "recovery_reserve_bytes": 53687091200
+    }
+  ],
+  "commands": [
+    {
+      "action_id": "audit",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/kojiek/MeanAudio/scripts/preprocess/slot0_audit_supervisor.py",
+        "--contract",
+        "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/full_v1_contract.json",
+        "--key-file",
+        "/home/kojiek/.config/meanaudio/luna_api_key"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "action_id": "resume-audit",
+      "argv": [
+        "/usr/bin/python3",
+        "/home/kojiek/MeanAudio/scripts/preprocess/slot0_audit_supervisor.py",
+        "--contract",
+        "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/full_v1_contract.json",
+        "--key-file",
+        "/home/kojiek/.config/meanaudio/luna_api_key"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  ],
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "acceptance",
+    "generated_corpus_full_gate"
+  ],
+  "notification_events": [
+    "preflight-pass",
+    "start",
+    "disk-warning",
+    "disk-hard-stop",
+    "stall",
+    "audit-terminal",
+    "supervisor-terminal"
+  ]
+}

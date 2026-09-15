@@ -20,6 +20,8 @@ import torch
 from tqdm import tqdm
 
 MODEL_ID = "Qwen/Qwen2.5-Omni-3B"
+# The only snapshot ever cached on this machine (2026-09-15); pinned for reproducibility.
+MODEL_REVISION = "f75b40e3da2003cdd6e1829b1f420ca70797c34e"
 SR = 16000
 WINDOW_SEC = 10.0
 WINDOW_SAMPLES = int(SR * WINDOW_SEC)
@@ -169,9 +171,10 @@ def load_model():
     )
 
     print(f"Loading {MODEL_ID}...", flush=True)
-    processor = AutoProcessor.from_pretrained(MODEL_ID, trust_remote_code=True)
+    processor = AutoProcessor.from_pretrained(MODEL_ID, revision=MODEL_REVISION, trust_remote_code=True)
     model = Qwen2_5OmniThinkerForConditionalGeneration.from_pretrained(
         MODEL_ID,
+        revision=MODEL_REVISION,
         dtype=torch.float16,
         attn_implementation="sdpa",
         device_map={"": 0},
@@ -185,7 +188,8 @@ def load_model():
 
 @torch.inference_mode()
 def caption_batch(model, processor, paths, crops, seed: int, max_new_tokens: int,
-                  temperature: float = 0.8, prompt: str | None = None):
+                  temperature: float = 0.8, prompt: str | None = None,
+                  return_truncation: bool = False):
     torch.manual_seed(seed)
     random.seed(seed)
     np.random.seed(seed)
@@ -230,12 +234,15 @@ def caption_batch(model, processor, paths, crops, seed: int, max_new_tokens: int
     # Truncate at the first stop id. batch_decode(skip_special_tokens=True) DELETES
     # <|im_end|> rather than cutting there, which is what glued caption + next-turn
     # junk together across a newline in the pre-fix corpus.
-    captions = []
+    # A row with no stop id ran into max_new_tokens (or ended on a stop string);
+    # its text may be cut mid-sentence, so callers can reject it instead of accepting it.
+    captions, truncated = [], []
     for row in generated_ids.tolist():
         stop = next((j for j, t in enumerate(row) if t in (eos_id, pad_id)), None)
         real = row if stop is None else row[:stop]
         captions.append(tok.decode(real, skip_special_tokens=True).strip())
-    return captions
+        truncated.append(stop is None and len(row) >= max_new_tokens)
+    return (captions, truncated) if return_truncation else captions
 
 
 def main():
@@ -355,6 +362,7 @@ def main():
                     max_new_tokens=args.max_new_tokens,
                     temperature=args.temperature,
                     prompt=args.prompt,
+                    return_truncation=True,
                 )
             except Exception as e:
                 for cid, path in valid_meta:
@@ -373,7 +381,14 @@ def main():
                     n_err += 1
                 continue
 
-            for (cid, path), raw in zip(valid_meta, raws):
+            raws, truncs = raws
+            for (cid, path), raw, trunc in zip(valid_meta, raws, truncs):
+                if trunc:
+                    fout.write(json.dumps({"id": cid, "caption": None, "caption_raw": raw,
+                                           "error": "hit_max_new_tokens", "window_sec": WINDOW_SEC,
+                                           "variant": args.variant}, ensure_ascii=False) + "\n")
+                    n_err += 1
+                    continue
                 cap, leaked = clean_caption(raw)
                 if leaked:
                     n_leak += 1

@@ -1,0 +1,31 @@
+{
+  "status": "full_api_audit_running",
+  "updated_at": "2026-09-15T04:17:20.975987+00:00",
+  "source_rows": 251599,
+  "audited_rows_at_snapshot": 1768,
+  "live_state": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1/state.json",
+  "controller_db": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1/state.sqlite",
+  "supervisor": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1/supervisor.json",
+  "tmux_session": "slot0-semantic-audit",
+  "definition_resolved": "bare no-music without concrete sound -> INVALID; concrete sound/silence -> KEEP",
+  "calibration_v4": "39/39 pass",
+  "heldout_v2": "47/48; meta-preface miss, retained as failed report",
+  "calibration_v5": "40/40 pass",
+  "heldout_v3": "28/28 pass; fresh random and real stress cases",
+  "acceptance": "22 local tests passed; registration and running HARN snapshots validated",
+  "workers": 4,
+  "batch_size": 8,
+  "max_cost_usd": 75,
+  "source_modified": false,
+  "gpu_used": false,
+  "cleaned_corpus_released": false,
+  "independent_review_sample": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1/real_data_review_sample.json",
+  "remaining": [
+    "full audit and trim verification",
+    "ambiguous request reconciliation if any",
+    "REVIEW adjudication and INVALID original-prompt audio regeneration",
+    "independent real-data miss-rate review",
+    "final corpus and feature provenance gates before downstream use"
+  ],
+  "key_in_child_environment": false
+}

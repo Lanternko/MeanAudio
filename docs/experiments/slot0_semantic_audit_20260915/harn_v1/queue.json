@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "queue_id": "slot0-api-only",
+  "updated_at": "2026-09-15T04:13:04Z",
+  "entries": [
+    {
+      "entry_id": "api-audit",
+      "position": 1,
+      "experiment_id": "slot0-semantic-audit-20260915",
+      "run_id": "slot0-semantic-audit-20260915-full-v1",
+      "status": "ready",
+      "dependencies": [],
+      "assigned_resource": null,
+      "terminal_notification_status": "not_applicable",
+      "bindings": {
+        "contract_raw_sha256": "3c0696b7d0cc836634490e8a98a28813157aebcc6ce334e2e15c774a804254c7",
+        "preflight_report_raw_sha256": "9346f77aef74520c31f418d4484eaf97d86492bc034a76a2486f25f296dbf4be",
+        "ledger_raw_sha256": "2d84f3d3bebaac316b2d2a5d3bcc92cb17cff71a54daadca6fbfd5d72ff8a9db",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      }
+    }
+  ]
+}

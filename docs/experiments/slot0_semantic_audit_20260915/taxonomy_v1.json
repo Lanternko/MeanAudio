@@ -1,0 +1,14 @@
+{
+  "semantic": [
+    "KEEP",
+    "TRIM_SUFFIX",
+    "REVIEW",
+    "INVALID"
+  ],
+  "bare_no_music": "INVALID",
+  "concrete_sounds_and_silence": "KEEP",
+  "numeric_music_facts": "KEEP",
+  "meta_preface": "REVIEW",
+  "unresolved": "quarantine, never silently drop",
+  "release": "all IDs resolved plus independent real-data review; no zero-error claim"
+}

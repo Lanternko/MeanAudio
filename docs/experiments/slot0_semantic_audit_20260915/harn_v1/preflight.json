@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "slot0-semantic-audit-20260915",
+  "run_id": "slot0-semantic-audit-20260915-full-v1",
+  "document_kind": "preflight_report",
+  "contract_raw_sha256": "3c0696b7d0cc836634490e8a98a28813157aebcc6ce334e2e15c774a804254c7",
+  "approval_evidence": {
+    "evidence_id": "slot0-operator-20260915",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console",
+    "channel_record_id": "codex-slot0-semantic-audit-20260915",
+    "channel_record_sha256": "5113d2545504f139b869f800f96ddb06ee3fc6cefda4e0bdba07ae04421bb9fd",
+    "approver_id": "responsible-operator",
+    "issued_at": "2026-09-15T04:13:04Z",
+    "expires_at": "2026-09-22T04:13:04Z",
+    "experiment_id": "slot0-semantic-audit-20260915",
+    "run_id": "slot0-semantic-audit-20260915-full-v1",
+    "bindings": {
+      "contract_raw_sha256": "3c0696b7d0cc836634490e8a98a28813157aebcc6ce334e2e15c774a804254c7",
+      "policy_bundle_sha256": "07f0304f9e42abe7525e285d2e344a44ce587e4ad7a18c1d026d4867ca9eaba4",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+      "runtime_sha256": "238257fe4e7c2f6411a27078c89371613d0dcfd2db14f40bb4933dc2369881e6",
+      "command_set_sha256": "173ea4230778a00007e246236e5e6f3299a6c4aef2285d79075b6abf8a1d8d9a",
+      "repair_envelope_sha256": null
+    }
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "verdict": "pass",
+      "observed_at": "2026-09-15T04:13:04Z",
+      "valid_until": "2026-09-22T04:13:04Z",
+      "evidence_sha256": "1deec9150cb5b38648d760b6f164445a5f0c17adf302dec03415ca991d32e800"
+    },
+    {
+      "check_id": "provenance",
+      "verdict": "pass",
+      "observed_at": "2026-09-15T04:13:04Z",
+      "valid_until": "2026-09-22T04:13:04Z",
+      "evidence_sha256": "1deec9150cb5b38648d760b6f164445a5f0c17adf302dec03415ca991d32e800"
+    },
+    {
+      "check_id": "storage",
+      "verdict": "pass",
+      "observed_at": "2026-09-15T04:13:04Z",
+      "valid_until": "2026-09-22T04:13:04Z",
+      "evidence_sha256": "1deec9150cb5b38648d760b6f164445a5f0c17adf302dec03415ca991d32e800"
+    },
+    {
+      "check_id": "notification",
+      "verdict": "pass",
+      "observed_at": "2026-09-15T04:13:04Z",
+      "valid_until": "2026-09-22T04:13:04Z",
+      "evidence_sha256": "1deec9150cb5b38648d760b6f164445a5f0c17adf302dec03415ca991d32e800"
+    },
+    {
+      "check_id": "acceptance",
+      "verdict": "pass",
+      "observed_at": "2026-09-15T04:13:04Z",
+      "valid_until": "2026-09-22T04:13:04Z",
+      "evidence_sha256": "48493d73b02c21b9129fbc2dc6a8ab8f91bae3087bf3e037936d4ab4647a5a92"
+    },
+    {
+      "check_id": "generated_corpus_full_gate",
+      "verdict": "pass",
+      "observed_at": "2026-09-15T04:13:04Z",
+      "valid_until": "2026-09-22T04:13:04Z",
+      "evidence_sha256": "1deec9150cb5b38648d760b6f164445a5f0c17adf302dec03415ca991d32e800"
+    }
+  ],
+  "storage": [
+    {
+      "path": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1",
+      "measured_at": "2026-09-15T04:13:04Z",
+      "free_bytes": 185053691904,
+      "hard_floor_bytes": 53687091200,
+      "peak_additional_bytes": 3221225472,
+      "transient_bytes": 1073741824,
+      "recovery_reserve_bytes": 53687091200,
+      "verdict": "pass"
+    }
+  ],
+  "derived_verdict": "pass",
+  "created_at": "2026-09-15T04:13:04Z"
+}

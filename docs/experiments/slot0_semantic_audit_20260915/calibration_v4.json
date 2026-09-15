@@ -1,0 +1,322 @@
+[
+  {
+    "id": "keep_00",
+    "caption": "A piano plays.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_01",
+    "caption": "The track runs at 120 BPM in 4/4 time.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_02",
+    "caption": "The 808 bass and 80s synthesizers give the song a retro feel.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_03",
+    "caption": "The singer asks \"What is your opinion?\" in the chorus.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_04",
+    "caption": "The music evokes a group of friends adventuring through the Amazon rainforest.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_05",
+    "caption": "This would suit a quiet evening with friends.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_06",
+    "caption": "The instrument used here is a synthesizer.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_07",
+    "caption": "The vocals repeat the words \"please let me know\" over soft guitar.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_08",
+    "caption": "A brass band plays a political protest song.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_09",
+    "caption": "The recording contains speech rather than music.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_10",
+    "caption": "This sounds like jazz, although the recording is muffled.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "keep_11",
+    "caption": "The piano answers the guitar with a short melodic phrase.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_00",
+    "caption": "The description is missing, so please provide a music clip for analysis.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_01",
+    "caption": "The provided audio is not a music clip. Please provide the correct file or describe the audio in detail if you have any other questions.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_02",
+    "caption": "The description of the music in 2-5 sentences.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_03",
+    "caption": "The description of the music.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_04",
+    "caption": "Write a Python program to find all the factors of a given number.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_05",
+    "caption": "I need the actual recording before I can describe its sound.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_06",
+    "caption": "Tell me whether this answer meets your needs.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "invalid_07",
+    "caption": "No audio was attached to this request.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_00",
+    "caption": "Here is your requested caption: A piano plays softly.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_01",
+    "caption": "A piano plays. Please provide another clip. A guitar joins the melody.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_02",
+    "caption": "The music has a tempo of.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_03",
+    "caption": "The music features a violin, and please tell me if you want changes, over quiet drums.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_04",
+    "caption": "A piano plays softly, and I hope this description meets your needs.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_05",
+    "caption": "Assistant: A piano plays softly.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_06",
+    "caption": "```A piano plays softly.```",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "review_07",
+    "caption": "A piano plays softly. The text above should remain unchanged. A flute enters.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_00",
+    "caption": "A piano plays softly over a steady drum beat. What is your opinion on the current political climate in your country?",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_01",
+    "caption": "A piano plays softly over a steady drum beat. Please provide another clip for analysis.",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_02",
+    "caption": "A piano plays softly over a steady drum beat. The movie follows friends exploring the Amazon rainforest.",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_03",
+    "caption": "A piano plays softly over a steady drum beat. Write a Python program to find the factors of a number.",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_04",
+    "caption": "A piano plays softly over a steady drum beat. I hope this answers your question.",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_05",
+    "caption": "A piano plays softly over a steady drum beat. Given the current trend of artificial intelligence, businesses should invest in automation.",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_06",
+    "caption": "A piano plays softly over a steady drum beat. Your next task is to describe an image of a cat.",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "trim_07",
+    "caption": "A piano plays softly over a steady drum beat. We can proceed once you upload the required file.",
+    "expected_decisions": [
+      "TRIM_SUFFIX"
+    ],
+    "expected_retained": "A piano plays softly over a steady drum beat.",
+    "origin": "hand_labeled_adversarial_fixture"
+  },
+  {
+    "id": "bare_no_music",
+    "caption": "The provided audio is not a music clip. Please provide another file.",
+    "expected_decisions": [
+      "INVALID"
+    ],
+    "origin": "operator_resolved_definition"
+  },
+  {
+    "id": "concrete_no_music",
+    "caption": "This is not music but the steady rumble of an idling car engine.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "operator_resolved_definition"
+  },
+  {
+    "id": "silence",
+    "caption": "The clip is completely silent.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "operator_resolved_definition"
+  }
+]

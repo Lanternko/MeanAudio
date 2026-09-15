@@ -1,0 +1,123 @@
+{
+  "experiment_id": "slot0-semantic-audit-20260915",
+  "run_id": "slot0-semantic-audit-20260915-full-v1",
+  "model": "gpt-5.6-luna",
+  "prompt_sha256": "4d8d356c8af482e77947b81a85f9a7241ccba69228479b7c90fc666596bdbc76",
+  "source": {
+    "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+    "sha256": "eaa35ada59a598f3e86b7d3b37409636cb74d7e5bbfa76a981b3aff83197e90e",
+    "rows": 251599
+  },
+  "output_dir": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1",
+  "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/harn_v1",
+  "approval": {
+    "scope": "full_slot0_semantic_audit_exact_prefix_and_quarantine",
+    "record": {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/operator_scope_v1.txt",
+      "sha256": "5113d2545504f139b869f800f96ddb06ee3fc6cefda4e0bdba07ae04421bb9fd"
+    }
+  },
+  "immutable_artifacts": [
+    {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+      "sha256": "eaa35ada59a598f3e86b7d3b37409636cb74d7e5bbfa76a981b3aff83197e90e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/operator_scope_v1.txt",
+      "sha256": "5113d2545504f139b869f800f96ddb06ee3fc6cefda4e0bdba07ae04421bb9fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/taxonomy_v1.json",
+      "sha256": "2fe51c1da4a470cdf74801eaa716a4744d60404f61d290bba6033a400a69c952"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/slot0_semantic_audit_20260915/acceptance_v1.json",
+      "sha256": "48493d73b02c21b9129fbc2dc6a8ab8f91bae3087bf3e037936d4ab4647a5a92"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/preprocess/slot0_semantic_audit.py",
+      "sha256": "772b7fa28cc7d065072bce6e4002bb65733598f8e36e8af4e0b7335f5dd3c08f"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/preprocess/slot0_audit_controller.py",
+      "sha256": "238257fe4e7c2f6411a27078c89371613d0dcfd2db14f40bb4933dc2369881e6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/preprocess/slot0_audit_supervisor.py",
+      "sha256": "5d393fb7a7f7a122cf98a514daf7eb5c1484003629e42e09143602edc8c0f039"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/repair_multisent_first_entity_line.py",
+      "sha256": "a1c89ab106600eebce44d5b3f7ef8e8ce60bd31218b2ad24c4f4247cdbb5d9e0"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+    },
+    {
+      "path": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/calibration_v5/calibration_report.json",
+      "sha256": "e856a682147bf607e4aac2d9cf8a70e87f1d83727730312e1ab44f4677fe8661"
+    },
+    {
+      "path": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/heldout_v3/calibration_report.json",
+      "sha256": "689823b04bf57798aed849f631caa4b6ef3712ad28868a023ff106986ba227be"
+    }
+  ],
+  "quality_gate_reports": [
+    "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/calibration_v5/calibration_report.json",
+    "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/heldout_v3/calibration_report.json"
+  ],
+  "batch_size": 8,
+  "workers": 4,
+  "min_request_interval_seconds": 0.5,
+  "max_429_attempts": 4,
+  "independent_review_sample_rows": 3000,
+  "independent_review_seed": 2026091604,
+  "max_api_posts": 65000,
+  "max_wall_seconds": 172800,
+  "max_cost_usd": 75,
+  "pricing": {
+    "input_per_million": 0.2,
+    "output_per_million": 1.2,
+    "source": "https://developers.openai.com/api/docs/models/gpt-5.6-luna",
+    "accounting": "conservative uncached input plus reservations; not billing reconciliation"
+  },
+  "storage": {
+    "hard_floor_bytes": 53687091200,
+    "warning_floor_bytes": 85899345920,
+    "peak_additional_bytes": 3221225472,
+    "transient_bytes": 1073741824,
+    "recovery_reserve_bytes": 53687091200
+  },
+  "watcher": {
+    "stall_seconds": 600,
+    "poll_seconds": 10,
+    "healthy_model_calls": 0
+  },
+  "phases": [
+    "audit_all_rows",
+    "independent_trim_check",
+    "export_full_coverage_and_quarantine"
+  ],
+  "failure_policy": {
+    "429": "bounded backoff; persisted attempts",
+    "timeout_or_5xx": "recover receipt or query stored metadata; otherwise isolate and continue",
+    "empty_lookup": "not proof of zero charge; no blind repost",
+    "401_403_404": "credential/model hold"
+  },
+  "release_rule": "No training TSV released by auditor. All unresolved rows and independent miss-rate review remain release blockers.",
+  "regeneration_handoff": {
+    "ids": "/home/kojiek/exps_nvme/slot0_semantic_audit_20260915/full_v1/regeneration_requests.tsv",
+    "source": "original audio first 10 seconds",
+    "captioner": "Qwen/Qwen2.5-Omni-3B",
+    "prompt_source": "/home/kojiek/MeanAudio/scripts/caption10s_pipeline/gen_qwen_caption_10s_multisent.py",
+    "prompt_change_allowed": false,
+    "max_attempts": 6,
+    "selection": "first candidate passing structure and semantic review",
+    "resource_state": "requires registered GPU seat after audit targets are known; no competing launch"
+  }
+}

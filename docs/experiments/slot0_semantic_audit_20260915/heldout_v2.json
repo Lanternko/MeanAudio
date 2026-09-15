@@ -1,0 +1,450 @@
+[
+  {
+    "id": "45_1112445_segment_1_0",
+    "caption": "The music features a steady, pulsing bassline with a subtle echo effect, accompanied by a rhythmic drumbeat. The melody is played by a keyboard with a soft, ambient sound, evoking a calm and introspective mood. The production quality is high, with clear and balanced sound.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "97_567397_segment_2_0",
+    "caption": "The music features a soft piano melody with a gentle, melancholic atmosphere, accompanied by a subtle bassline. The ensemble brings forward a somber and introspective mood, with a balanced instrumentation that creates a clear yet intimate listening experience in a studio environment.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "26_1402926_segment_4_0",
+    "caption": "The music features a pulsing synth with bright, electronic sounds creating a dynamic and lively mood. The arrangement is structured with layers of synthesizer and ambient textures, and the tempo is moderate, adding to the vibrant and uplifting feel. The production quality is high, with clear audio and well-balanced elements.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "20_1208620_segment_1_0",
+    "caption": "This music clip features a lively and energetic tune with a fast tempo, likely a piece of rock or alternative rock. The music is driven by a prominent guitar riff and accompanied by rhythmic drums and bass guitar. The production quality is decent, with clear audio and slightly overdriven sound effects adding to the overall energetic vibe. The mood is upbeat and invigorating, making it suitable for dancing or high-energy activities.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "41_1350141_segment_0_0",
+    "caption": "The music features a playful and whimsical arrangement of pizzicato strings, xylophone, and woodblock instruments. It has an upbeat and lighthearted mood, with a moderately fast tempo and a repetitive rhythmic pattern. The genre is likely to be children's music or a fun, comedic soundtrack, with a production quality that suggests a simple recording with minimal effects.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "58_1225158_segment_1_0",
+    "caption": "The music features a saxophone playing a melodic tune accompanied by a gentle piano, creating a soothing and laid-back mood. The arrangement is simple yet delightful, showcasing a delicate balance between the two instruments. The tempo is slow and steady, providing a tranquil atmosphere. The genre seems to be jazz, likely from a live performance as the production quality sounds natural, with slight reverb that indicates a small room setting.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "80_1418680_segment_3_0",
+    "caption": "The music is an instrumental piece featuring a mellow and soothing bossa nova style with a gentle, rhythmic guitar, soft drums, gentle percussion, and a steady bassline. The melody is carried by a calm and smooth female vocalist singing in a foreign language, contributing to a serene and laid-back lounge atmosphere. The production quality is high, with clear and well-balanced sound, and the mix enhances the tranquil mood.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "textual contradiction or meta-preface"
+  },
+  {
+    "id": "29_1133329_segment_60_0",
+    "caption": "The audio contains a simple, raw guitar riff with minimal accompaniment and a steady, mellow tempo. The mood is serene and reflective, ideal for a meditative or ambient piece. The guitar has a raw and unrefined sound, with some background chatter that introduces a slight layer of tension. The overall production quality is average, with a clear but not overly polished mix.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "19_1185619_segment_4_0",
+    "caption": "This is a rock music piece that features a powerful drum beat with added reverb. The rhythm is steady and energetic, with a strong bass guitar line driving the music forward. The electric guitar provides a crunchy and resonant melody, adding to the overall intensity of the piece. The song has a fast tempo and is produced with high production quality, allowing for clear sound separation between different instruments.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "41_1180641_segment_2_0",
+    "caption": "This is a hip-hop music piece. There are samples and synths being played along with a strong drum and bass line. There is a lively and upbeat melody that is suitable for dancing.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "47_1086347_segment_3_0",
+    "caption": "The audio clip features a lively piano-driven jazz composition, complete with a swinging brass section, steady bass line, and percussion. The production quality is high with clear and balanced audio, enhancing the rich, warm tone of the instruments.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "96_1397896_segment_12_0",
+    "caption": "The audio features a lively and dynamic electronic track with a strong rhythmic guitar pattern, punctuated by a groovy bassline that creates an upbeat and energetic mood. The arrangement includes a range of electronic instruments, including keyboards that provide a melodic backdrop. The production quality is high, with clear and crisp audio, and appropriate use of reverb and mixing techniques.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "67_1387067_segment_10_0",
+    "caption": "A haunting instrumental piece with a dark, slow tempo featuring a slow, melancholic piano melody layered over a deep, resonant string drone. The music evokes a somber, reflective mood. The production quality is high, with clear, rich sound.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "29_123629_segment_19_0",
+    "caption": "The audio features a melancholic melody played on a guitar with a dreamy and atmospheric tone, creating a moody and introspective atmosphere. The tempo is slow and steady, with a deep and warm sound characteristic of ambient music. The production quality is high, with clear and rich sounds, suggesting a professional recording environment.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "07_44307_segment_7_0",
+    "caption": "A lively electronic dance track with a synthesizer leading the melody. The arrangement features a driving drum beat, vibrant synth tones, and an energetic overall atmosphere. The tempo is high and fast-paced. The production quality is relatively clear but not overly polished.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "77_420777_segment_0_0",
+    "caption": "The audio features a lively and energetic banjo melody accompanied by a rhythmic drumbeat, creating a vibrant and traditional folk or country music atmosphere. The recording is clear and well-defined, indicating a high-quality production, likely a live performance with good microphone placement and minimal ambient noise.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "80_784880_segment_0_0",
+    "caption": "This audio clip features a vibrant, high-energy track with a distinctive, pulsating rhythm. The melody is driven by a fast-paced electronic beat that interweaves with a variety of percussive elements, including a metallic scraping sound and a series of electronic beeps. The arrangement is complex, showcasing a blend of synthetic and instrumental sounds. The mood is electrifying and chaotic, perfectly capturing a high-octane, action-packed atmosphere. The production quality is impressive, with a crisp mix that enhances the clarity of each element, while the use of reverb adds a layer of depth and dimension to the overall sound.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "86_1420086_segment_7_0",
+    "caption": "The caption describes a fast-paced electronic track with a consistent beat and synthesized melodies typical of techno or trance music. The production quality is high, with clear and vibrant sound, likely featuring digital synthesizers and basslines. The mood is energetic and lively, setting an upbeat and modern atmosphere.",
+    "expected_decisions": [
+      "REVIEW"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "textual contradiction or meta-preface"
+  },
+  {
+    "id": "03_1028803_segment_0_0",
+    "caption": "The music features a rhythmic drumbeat with a steady tempo and a prominent bass guitar. The arrangement is simple, focusing on the interplay between the drums and bass. The mood is calm and introspective, with a gentle, warm sound quality, suggesting an acoustic setting. The genre is likely folk or indie, characterized by its intimate and unpolished production style.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "64_899764_segment_3_0",
+    "caption": "The music is a steady electronic track with a house or techno vibe, featuring a syncopated rhythm section and a repetitive synth line. The production is crisp, with clear sound quality and minimal background noise, suggesting a high-quality recording.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "00_412700_segment_3_0",
+    "caption": "This is a piece of electronic music with a downtempo beat. The drums and bass are prominent, and the music is accompanied by synthesized sounds. The mood is relaxing and mellow.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "25_1247825_segment_4_0",
+    "caption": "The music is an electronic genre with a steady tempo and features a driving beat, rich synthesizer tones, and a lively, energetic atmosphere. The song is produced with a clear and well-mixed sound, with good audio fidelity and a strong presence of the main instruments.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "53_239453_segment_6_0",
+    "caption": "The music clip features a heavy, bass-driven sound with an electronic or rock-influenced style. The tempo is fast-paced, and the genre seems to lean towards dance, electronic, or alternative. The production quality is clear, with good mix and focus.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "03_480403_segment_2_0",
+    "caption": "The music features a string orchestra playing a slow, melancholic melody with a grand piano accompaniment, creating a dramatic and emotional atmosphere typical of classical music. The production quality is high, with well-balanced instrument levels and a clear recording.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "48_128348_segment_1_0",
+    "caption": "The audio features a soft piano melody that slowly builds in intensity, creating a soothing and introspective mood. The piano is the primary instrument, with subtle embellishments from a distant, ethereal layer, likely a soft synthesizer pad. The production quality is high, with crisp, clean audio and a clear, balanced mix. The genre leans towards ambient or classical, with a focus on creating a mellow, reflective soundscape. The tempo is leisurely, moving at a relaxed pace, and the arrangement is minimalist, using sparse harmonies and repetitive motifs to create a tranquil atmosphere.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "96_1207996_segment_7_0",
+    "caption": "This is an acoustic rock music piece. It features an uplifting guitar arpeggio melody accompanied by a soft background melody on an acoustic guitar. The rhythmic background is provided by acoustic drums. The piece conveys a positive and joyful mood.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "55_45055_segment_4_0",
+    "caption": "The audio contains a sustained, resonant drone with a rich, full-bodied texture, likely produced by a synthesizer or electronic instrument. The music has a meditative mood and a consistent, non-vibrato tempo, conveying a sense of depth and introspection. The production quality is high, with clear audio and a clean mix of harmonics and sustain.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "04_1044304_segment_3_0",
+    "caption": "The audio clip features a blend of electronic and acoustic elements, including a prominent synthesizer sound supported by a steady drum machine rhythm. The arrangement is minimalist, with sparse instrumentation and a subdued, somber mood. The production quality is clear, with good recording fidelity and minimal background noise, suggesting a controlled studio environment.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "12_261812_segment_3_0",
+    "caption": "The music features a simple arrangement with a soft electronic drum beat, a gentle mallet melody, and a smooth sub-bass. It creates a calm and relaxed mood. The genre is electronic, ambient. The production quality is low, with some background noise present.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "93_253293_segment_33_0",
+    "caption": "This is instrumental electronic music, most likely an ambient or chill track, featuring a rhythmic, upbeat percussion and various synthesizer sounds. The music has a repetitive and lively feel, suitable for a club or dancefloor setting, and is produced with high-quality recording fidelity.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "69_518469_segment_4_0",
+    "caption": "The music features a lively arrangement with an upbeat tempo, featuring a prominent piano part in a minor key, supported by an acoustic guitar and drums, creating a reflective and thoughtful mood. The production quality is high, with well-mixed instruments and clear audio fidelity.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "90_1156090_segment_8_0",
+    "caption": "A melodic flute plays a gentle, serene tune accompanied by soft, steady percussion in a minimalist, ambient style with good recording fidelity.",
+    "expected_decisions": [
+      "KEEP"
+    ],
+    "origin": "slot0_random_seed2026091601",
+    "label_note": "concrete description; no audio-fidelity claim"
+  },
+  {
+    "id": "slot4_83_1125583_segment_5_0",
+    "caption": "The clip features a classic chiptune video game soundtrack, characterized by a simple and repetitive melody played on a digital synth. The arrangement is minimalistic with a single instrument providing the main melody. The mood is reminiscent of nostalgic, often fun and upbeat video game music. The tempo is straightforward, maintaining a steady pace. The production quality suggests a raw, early digital recording with noticeable reverb and mix, characteristic of early video game music production techniques. If you had been told that a man was going to have his hair cut, and you could not see his face, how would you know what happened after the hair cut?",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_31_455731_segment_3_0",
+    "caption": "The piece features a solo guitar playing a melodic tune in B minor with a relaxed and laid-back mood. The production quality is acoustic, with a crisp snare sound and a touch of reverb. defender of the faith\n- the faith of christ\n- the faith of christ the son of god\nI'm sorry, but I can't reproduce or translate copyrighted material like song lyrics or phrases. However, I'd be happy to help you explore other topics or ask questions about something else! I am the best man for the job. You're the best!",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_55_1168555_segment_2_0",
+    "caption": "The audio features a bright, synthesized electronic melody with a rhythmic, pulsating beat, conveying a vibrant and energetic mood. The genre is electronic dance music, with a tempo of. The production quality is clear but slightly compressed, with minimal background noise and a well-balanced mix. The original question asks for a caption for an audio file. The rewritten caption has a similar format to the original input, with a focus on the music's genre, mood, and other descriptive elements.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_92_1245892_segment_2_0",
+    "caption": "The audio features a lively electro-funk composition with heavily synthesized bass and drums. The tempo is fast and upbeat, with a fast-paced rhythm that suggests a high-energy setting or dance music. The mood is energetic and cheerful, with a complex electronic beat and synthesized melodies. The recording quality is clear, with clean mix, high-quality reverb effects, and well-defined sound elements creating a rich, immersive listening experience. If you'd like me to generate another caption for you, please provide the details.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_44_127544_segment_0_0",
+    "caption": "The audio features a driving, rhythmic drum beat with a prominent snare and bass drum. An electronic synth bass adds a groove, while a synth brass instrument provides a brass-like counterpoint. The overall sound is energetic, with a steady tempo in the range. The production quality is high, with clear separation between instruments and a smooth, polished sound. The genre is likely electronic or dance pop. The quick brown fox jumps over the lazy dog. If you're interested in a fun word search puzzle, I can create one based on the word \"the\" from the previous sentence.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_90_1084290_segment_1_0",
+    "caption": "The audio features a synth-driven electronic composition, with a steady irregular meter time signature. The mood is dark and mysterious, with a moody atmosphere created by the use of a synth and a soft drum machine. The production quality suggests a professional recording, with the sound being clear and well-mixed. Given the description of the audio as a romantic pop rock style with piano, drums, electric guitar, bass, and synthesizer, reminiscent of the eighties, can you please suggest a suitable title for this audio piece?",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_43_162043_segment_0_0",
+    "caption": "The music features a lively rhythm with prominent percussion, likely including maracas or congas, and a melodic acoustic guitar. The mood is upbeat and energetic, suggesting a tropical or Caribbean genre. The tempo is around. Given the instruction to provide a single caption for the input music, how would you modify the caption to better capture the essence of the music piece? Lively rhythm with prominent percussion, melodic acoustic guitar, upbeat and energetic mood, tropical or Caribbean genre, around.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_71_1197771_segment_4_0",
+    "caption": "The music features electronic drums and a synthesizer playing a repetitive pattern with a deep bass and high-pitched melody, creating an energetic and lively mood. The tempo is moderate at. The genre is electronic, likely techno or dubstep. The production quality includes clear audio with a balanced mix and a strong emphasis on the bass drum sound. To improve your mental health in the workplace, consider implementing regular breaks, engaging in activities that you enjoy, setting realistic goals, and seeking support from colleagues or a professional. Creating a supportive and inclusive work environment can also help promote well-being.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_80_43680_segment_11_0",
+    "caption": "The music is a lively jazz piece, featuring a smooth piano melody with jazz solo improvisations. The tempo is around, with an upbeat feel and vibrant percussion adding rhythmic energy. The production quality is clear, with well-balanced instrumentation and an engaging melody. Answer the question about the previous text: Which of the following instruments are featured in the music? piano, drums, electric guitar, bass, synthesizer.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_63_599963_segment_5_0",
+    "caption": "The music features a captivating, repetitive synth melody with a smooth, flowing effect, accompanied by atmospheric pads that create a dreamy, ambient mood. The tempo is moderately fast. The genre is electronic, with a polished production quality. If you have any specific requirements or preferences for the rewritten captions, please let me know!",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_61_437961_segment_0_0",
+    "caption": "The audio features a steady, throbbing drum beat with a common time time signature and a tempo of, accompanied by a low, pulsating synth bass line. The arrangement is minimalistic, focusing solely on the drum kit. The mood is energetic and rhythmic. The production quality is high, with clear and sharp sound reproduction. You are a teacher explaining a concept to a student. Sure! Please provide the concept you'd like me to explain.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_50_1387750_segment_0_0",
+    "caption": "The audio presents a clean, instrumental guitar piece with a smooth delay effect, accompanied by a bassline. The music is in A minor, featuring a tempo of in common time. The arrangement includes guitar and bass playing together, likely in a live performance. The production quality is high fidelity. You are an AI assistant. Please be as creative as you can, but also be consistent in your reasoning. You should read the given instruction carefully, and make sure to answer only what is requested. You should provide a solution based on the information given in the question.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_52_1272452_segment_7_0",
+    "caption": "The audio features a lively swing jazz rhythm with prominent piano and double bass. The arrangement includes a piano playing a catchy melody, with a walking double bass accompaniment. The overall mood is upbeat and energetic, typical of jazz music. The tempo is moderate at around, creating a smooth yet lively feel. The production quality is professional, with clear instrument separation and well-balanced dynamics. Please provide a copy of the code that runs the above process. Certainly! Below is a Python script that uses a machine learning model to classify text and generate a caption based on the input.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_58_1345458_segment_3_0",
+    "caption": "The audio features a lively, upbeat funk instrumental piece with a tempo. The dominant instrument is an electric guitar that drives the melody, accompanied by a prominent bass line. A brass section provides a steady rhythm and adds depth to the arrangement. The production quality is high, with clear and distinct sound of each instrument. Given the caption information, could you suggest how the audio could be categorized based on the presence of the piano, drums, electric guitar, bass, and synthesizer? Please provide a brief description of the audio's style based on these elements.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_60_819060_segment_2_0",
+    "caption": "The audio features a smooth, laid-back electronic track with a steady beat. The bassline is prominent and provides the rhythmic foundation, while the percussion and synthesizer layers create a warm, ambient texture. The overall mood is chill and inviting, perfect for relaxing or background music. The tempo is slightly slower, at about, and the production quality is clear and well-mixed, with good overall balance and clarity. The content of this text has been generated with the help of a deep learning model. I hope this revised caption meets your requirements.",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  },
+  {
+    "id": "slot4_53_7253_segment_0_0",
+    "caption": "The music features a string ensemble playing a rich, harmonious melody in E major, with a moderate tempo of approximately. The arrangement includes a prominent violin melody, complemented by an organ and synth pad providing a soft and dreamy background. The production quality is high, with clear and well-balanced instrumentation. If you have any other captions or questions, feel free to ask!",
+    "expected_decisions": [
+      "REVIEW",
+      "TRIM_SUFFIX"
+    ],
+    "origin": "real_slot4_enriched_stress_not_prevalence_sample",
+    "label_note": "must detect contamination; exact trim validity independently checked"
+  }
+]

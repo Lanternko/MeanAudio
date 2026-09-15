@@ -1,0 +1,4 @@
+{
+  "status": "not_applicable",
+  "reason": "audit-only phase creates no feature cache or training TSV; downstream phases require new provenance gates"
+}
