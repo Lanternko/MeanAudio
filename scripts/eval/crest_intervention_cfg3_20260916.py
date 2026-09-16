@@ -214,6 +214,22 @@ def signal_stats(x, met):
     }
 
 
+def content_digest(p):
+    """Hash the decoded samples, not the file.
+
+    libsndfile stamps a PEAK chunk containing a Unix timestamp into float WAV headers,
+    so the file bytes differ on every write even for identical audio. Hashing the
+    decoded float32 samples makes the manifest stable across rebuilds and makes the
+    integrity check test the audio rather than the time of day.
+    """
+    import soundfile as sf
+    x, sr = sf.read(p, dtype='float32')
+    h = hashlib.sha256()
+    h.update(str(sr).encode())
+    h.update(np.ascontiguousarray(x).tobytes())
+    return h.hexdigest()
+
+
 def read_audio(p):
     import soundfile as sf
     x, sr = sf.read(p, dtype='float32')
@@ -291,7 +307,7 @@ def transform_clip(job):
         tmp = path.with_name('.' + path.name + '.tmp')
         sf.write(tmp, y.astype(np.float32), SR, format='WAV', subtype='FLOAT')
         os.replace(tmp, path)
-        stats['sha256'] = digest(path)
+        stats['content_sha256'] = content_digest(path)
         result['arms'][name] = stats
     screen = (base['lufs'] < t['min_baseline_lufs'] or base['silence_fraction'] > t['max_silence_fraction'])
     result['pretreatment_screen_fail'] = bool(screen)
@@ -336,7 +352,7 @@ def transform(c):
         raise ValueError('transform ID mismatch')
     atomic(out(c) / 'transform_manifest.json', {
         'contract_sha256': binding(),
-        'arm_sha256': {a: {i: checked(dest / (i + '.json'), c)['arms'][a]['sha256'] for i in sorted(ids)}
+        'arm_sha256': {a: {i: checked(dest / (i + '.json'), c)['arms'][a]['content_sha256'] for i in sorted(ids)}
                        for a in arms(c)}})
     print(f'transform complete: {len(ids)} clips', flush=True)
 
@@ -371,7 +387,7 @@ def score_arm(c, arm):
         paths = []
         for r in batch:
             p = audio / (r.id + '.wav')
-            if digest(p) != manifest['arm_sha256'][arm][r.id]:
+            if content_digest(p) != manifest['arm_sha256'][arm][r.id]:
                 raise ValueError('arm audio drift: ' + r.id)
             paths.append(p)
         for r, p, v in zip(batch, paths, _aes_batch(predictor, paths)):

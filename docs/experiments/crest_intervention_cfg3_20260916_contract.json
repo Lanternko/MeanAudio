@@ -28,7 +28,7 @@
   "approval_required": true,
   "bindings": {
     "action": "/home/kojiek/MeanAudio/scripts/eval/crest_intervention_cfg3_20260916.py",
-    "action_sha256": "bb35fd66513c6b0ea2767c8511826954553ddde10604f2d1606062bb58f47b2f",
+    "action_sha256": "f571a873f471c66781fe926fbfeb77299a506e1f85578779530c8164419d1847",
     "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/crest_intervention_cfg3_20260916_guest.py",
     "harn_sha256": "552cc11a82d196b7210ff96ec2bcc3c6bbfbcda2a8074f2a1af301e1e72ed26c",
     "launcher": "/home/kojiek/gpu_queue/p2/pending/061_crest_intervention_cfg3.sh",
@@ -159,6 +159,7 @@
         "role": "largest crest increase reachable under the modulation cap; supplies dose spread"
       }
     },
+    "audio_hashing": "Manifest hashes cover the decoded float32 samples plus the sample rate, not the file bytes: libsndfile stamps a PEAK chunk carrying a Unix timestamp into float WAV headers, so identical audio hashes differently on every write. Content hashing makes a delete-and-rebuild verifiable against the previous manifest.",
     "description": "Smooth time-varying gain only: an attack/release envelope follower feeding a one-pole-smoothed dB curve. No per-sample nonlinearity, so no harmonic distortion. Ratios are grid-searched under a gain-modulation cap because crest is not monotone in the ratio and heavy processing pushes crest back up in both directions; the cap keeps every arm a mild transform so the contrast is about crest, not severity.",
     "fast_constants": {
       "attack_s": 0.001,
