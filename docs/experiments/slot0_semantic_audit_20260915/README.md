@@ -300,3 +300,47 @@ contradictions are KEEP) and **32B local model**.
 - 結果：251,598 列，與原 slot0 不同 29,956 列（11.9%），全語料 MEASURE 殘留 0。
 - 057：`caption2p0_slot0nm_action.sh quarter`，配方同 055；contract 記 D1（污染抽查未過、操作者放行）、D2（排除 1 列）、D3（056 停止，沒有「只清污染」的對照）。
 - 判讀限制：兩個改動綁在一起；MusicCaps CLAP 不量 tempo/key/meter 遵循度，不能用來證明數字有害或無害。
+
+## 057 slot0nm quarter — 完成（2026-09-16 00:34 CST，`status: completed`）
+
+S1 100k（loss 0.988）→ migrate → S2 50k → eval。CFG0 report `passed`（5,521/5,521、16 kHz mono、
+checkpoint sha `0f33f4d3…`）；CFG3+neg 5,521 檔，batch-32 CLAP 由 action 自動重算。
+
+**CFG0（preregistered primary）**
+
+| quarter CFG0 | CLAP | CE | CU | PC | PQ |
+|---|---|---|---|---|---|
+| **057 slot0nm（去污染＋去量測）** | **0.2060** | 6.1891 | 6.7038 | 5.1011 | 6.5672 |
+| 055 slot4v2（只去數字） | 0.2004 | 6.0955 | 6.6823 | 5.0968 | 6.5178 |
+| 052 slot4（污染語料、去數字） | 0.2050 | 6.1661 | 6.7525 | 5.0268 | 6.5832 |
+| slot0（comparator） | 0.2029 | — | — | — | — |
+
+vs slot0：CLAP +0.0031 = **0.74× seed floor**（floor 0.0042），落在登記平手帶 0.1945–0.2113 → **平手**。
+
+**CFG3+neg（secondary，CLAP 用 batch 32）**
+
+| quarter CFG3+neg | CLAP b32 | CLAP 逐檔 | CE | CU | PC | PQ |
+|---|---|---|---|---|---|---|
+| **057 slot0nm** | **0.2417** | 0.2314 | 6.8336 | 7.5070 | 4.7384 | 7.4360 |
+| 055 slot4v2 | 0.2309 | 0.2206 | 6.7146 | 7.4070 | 4.8494 | 7.2998 |
+| 052 slot4 | 0.2374 | 0.2285 | 6.8031 | 7.4767 | 4.7489 | 7.3663 |
+| slot0 | 0.2372 | 0.2248 | 6.6952 | 7.3871 | 4.6661 | 7.3101 |
+
+vs slot0：CLAP b32 +0.0045、逐檔 +0.0066；CE +0.1384、CU +0.1199、PQ +0.1259、PC +0.0723。
+057 在六格裡有五格是四個 arm 中最高（PC 輸 slot4v2），且是唯一同時勝過 slot0 與 slot4v2 的 arm。
+
+**判讀（observation 層）：**
+- Primary（CFG0 CLAP）平手。CFG3+neg 全面偏正，但 CFG3+neg 的訓練 seed floor 是 **full 尺度、只有 2 個 seed**
+  量的（先前已註記可能低估）；以 CFG0 floor 的 2 倍粗估（CLAP ≈0.008、CE ≈0.27、CU/PQ ≈0.10–0.16），上面的差距
+  全部落在底線附近或以下。**不能宣稱贏。**
+- slot4v2（只去數字）在 CFG3+neg 是四個 arm 最低，057 高出 +0.0108。兩者語料差別＝污染修復＋去調性/拍號。
+  方向有趣，但同樣受限於底線不明，只能當觀察。
+- 兩個改動（去污染、去量測）綁在一起，056 在 it ~2,050 被停，**沒有「只清污染」的對照**。
+- MusicCaps CLAP 不量 tempo/key/meter 遵循度：本實驗不能證明移除量測有害或有益，只能說在 MusicCaps 上沒有可測損失。
+
+**命名**：語料/實驗 ID 一律 `slot0nm`，表格顯示名「slot0nm（去污染＋去量測）」。不要叫 `slot5`（會被誤認為另一個
+原始 caption slot），也不要叫「完全乾淨版」（污染抽查仍有 5/6000 殘留，且排除了 1 列）。
+
+**若要把 CFG3+neg 那個正差變成可宣稱的結果**：需要 quarter 尺度、同協定的成對多 seed
+（slot0 與 slot0nm 各 3 個新訓練 seed，共 6 次 quarter，每次約 7 h），逐對算 Δ；且兩 arm 應使用**相同的
+251,598 個 id**（057 少一列會改變 sampler 順序），必須另立 contract，不可回頭改 057。

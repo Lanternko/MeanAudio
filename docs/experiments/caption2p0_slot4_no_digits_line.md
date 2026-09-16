@@ -243,3 +243,9 @@ CLAP −0.0063 若除以 CFG3+neg CLAP floor 0.0003 是 21×，但那個 floor �
 - 本實驗只能說：**移除 caption 裡的數字，在 MusicCaps 上沒有可測的幫助**。
 
 **建議**：不排 full。若要確認 CFG3+neg 那 −0.006，成本最低的是補一個 slot0 或 slot4v2 的 quarter 第二訓練 seed。
+
+## 後續：057 slot0nm（去污染＋去量測）
+
+slot4v2 的語料再往前一步——除了數字，還移除調性/調式/和弦性質與拍號，並套用 slot0 污染清洗的 1,499 列重生版本。
+quarter CFG0 CLAP **0.2060**（vs slot0 0.2029，0.74× floor，平手）；CFG3+neg b32 **0.2417**（vs slot4v2 0.2309）。
+完整數字、判讀與命名規則見 `docs/experiments/slot0_semantic_audit_20260915/README.md`「057 slot0nm quarter」。
