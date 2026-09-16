@@ -48,3 +48,38 @@ cd /home/kojiek/MeanAudio && /home/kojiek/venvs/dac/bin/python scripts/eval/vali
 要確認重建與前一次一致，重建前先留一份 `transform_manifest.json`，重建後比對 `arm_sha256`：
 兩份應該完全相同（27,605 個 entry）。不同就代表 contract 或程式碼在中間被動過，
 此時 record 會因 `contract_sha256` 不符而被拒絕，不會靜默混用。
+
+---
+
+## 排序：059 之後、060 之前（2026-09-16 操作者要求）
+
+`p2_host.sh` 的 `next_pending` 就是對 `pending/` 做 `LC_ALL=C sort` 取第一個，純字典序。
+`QUEUE.md` 規定插隊要**丟一支 `001_`–`009_` 的新腳本**，不要把後面的 job 重新編號。
+
+現在就改名會連 059 一起插過去，跟要求相反。所以掛了一支 watcher
+（`scripts/runs/crest061_cutin_watcher.sh`，tmux session `crest061_cutin`，log 在
+`~/logs/crest061_cutin_watcher.log`）：**等 059 離開 `pending/`（＝已入座）之後**，
+才把 `061_crest_intervention_cfg3.sh` 改名為 `005_crest_intervention_cfg3.sh`。
+那時 pending 只剩 060 和 005，於是 059 跑完換 061，再換 060。
+
+改名是安全的，檔名沒有任何東西綁定：
+- `accept_guest` 只雜湊**腳本內容**（內容不含自己的檔名），不比對路徑
+- contract 是從腳本裡的 `# GPU_QUEUE_CONTRACT=` 註解找的，與路徑無關
+- 已實測：同一支腳本在 `005_` 與 `061_` 兩個名字下 `accept_guest` 都回 `(True, 'ok')`
+
+contract 裡的 `queue_name` 與 `bindings.launcher` 已經預先寫成 `005_...`，
+所以改名後這兩個欄位才是正確的；檔案在 watcher 觸發前仍叫 `061_`。
+
+**要取消插隊**：`tmux kill-session -t crest061_cutin`。若已經改名，改回去即可：
+`mv /home/kojiek/gpu_queue/p2/pending/005_crest_intervention_cfg3.sh /home/kojiek/gpu_queue/p2/pending/061_crest_intervention_cfg3.sh`
+
+## 順帶修掉的 acceptance bug
+
+061 原本宣告 `resume.kind = "per_item_idempotent"`，但 `_accept_resume_checkpoint` 的
+cold-start 白名單只認 `from_scratch_with_autoresume` + `iteration == 0`，其餘一律
+`resume checkpoint binding required` → 排到就被丟進 `held/`。**兩個檔名都會中**，與插隊無關。
+
+同一個閘還有第二個陷阱：cold-start 分支若發現 `autoresume` 指的檔案已存在就拒絕。
+原本 guest 在 pause 時會寫進那個路徑，等於被 P1 搶佔一次之後 061 就永遠不可能再被接受。
+現在 `autoresume` 留空（這個 job 本來就沒有 checkpoint，續跑靠逐檔 record），
+pause 進度改寫到 `pause_progress`，沒有任何 acceptance 閘會讀它。

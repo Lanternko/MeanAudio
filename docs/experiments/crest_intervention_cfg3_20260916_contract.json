@@ -30,8 +30,8 @@
     "action": "/home/kojiek/MeanAudio/scripts/eval/crest_intervention_cfg3_20260916.py",
     "action_sha256": "f571a873f471c66781fe926fbfeb77299a506e1f85578779530c8164419d1847",
     "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/crest_intervention_cfg3_20260916_guest.py",
-    "harn_sha256": "552cc11a82d196b7210ff96ec2bcc3c6bbfbcda2a8074f2a1af301e1e72ed26c",
-    "launcher": "/home/kojiek/gpu_queue/p2/pending/061_crest_intervention_cfg3.sh",
+    "harn_sha256": "325d5962befc19cb42d4627a1ef1cbf7c5d69258737bb97e5c0b6cdd222643e4",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/005_crest_intervention_cfg3.sh",
     "launcher_sha256": "5ed0a34a17247968836502cd2eb8cbaa6aedceadbcfa35898e3ab07557d72e64",
     "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_crest_intervention_cfg3_20260916.py",
     "preflight_sha256": "2ecc01db57785a08317e4109bff9cdd4b91d1ddd765008dfada4445f6639cfe8"
@@ -82,7 +82,8 @@
     "steps": 25
   },
   "question": "Does the 051 descriptive crest<->PQ association survive a within-clip intervention that moves crest while holding integrated loudness fixed?",
-  "queue_name": "061_crest_intervention_cfg3.sh",
+  "queue_name": "005_crest_intervention_cfg3.sh",
+  "queue_placement": "Registered at the tail as 061. Operator asked on 2026-09-16 for it to run after 059 and before 060, so it is renamed to the documented 001-009 cut-in band once 059 has taken the seat - per QUEUE.md, cut in with a 00X name rather than renumbering later jobs. Nothing binds to the filename: accept_guest hashes the script content and the contract is found from the comment inside it.",
   "queue_role": "p2",
   "reports": [
     {
@@ -104,9 +105,12 @@
   },
   "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/crest_intervention_cfg3_20260916_results.md",
   "resume": {
-    "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916/resume_progress.json",
-    "behavior": "Every transform and AES record is an atomic contract-bound per-clip JSON verified against the source hash; a restart re-does only missing clips.",
-    "kind": "per_item_idempotent"
+    "autoresume": "",
+    "behavior": "There is no resume checkpoint and none is ever written: every transform and AES record is an atomic contract-bound per-clip JSON verified against the contract sha and the source audio hash, so a restart re-does only the missing clips. autoresume is deliberately empty - pointing it at a file the guest writes on pause would make the cold-start gate reject every later seat, since that gate refuses a cold-start contract whose autoresume artifact already exists. Pause progress is written to pause_progress instead, which no acceptance gate reads.",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916/pause_progress.json"
   },
   "run_id": "run-20260916-061-crest-intervention-cfg3-fidelity8",
   "schema_version": 1,

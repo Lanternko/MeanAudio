@@ -77,7 +77,7 @@ def main():
             request = read_json(control / 'pause.request.json') if control.is_dir() else None
             if request:
                 stop(child)
-                resume = Path(c['resume']['autoresume'])
+                resume = Path(c['resume']['pause_progress'])
                 atomic_json(resume, {'document_kind': 'crest_intervention_resume_v1',
                                      'written_at': now(), 'progress': progress(c)})
                 atomic_json(control / 'pause.ack.json', {
