@@ -36,6 +36,7 @@
 | **MF 全覆蓋線**（038/039 queue job、判讀規則、early-kill gate） | `docs/experiments/mf_full_coverage_line.md` |
 | **跨 captioner rotation 線**（046/047、slot0/slot1/MF vs 全 Qwen random） | `docs/experiments/mixcap_01m_line.md` |
 | **c2p0 slot4 剝數字線**（050、slot0 有數字的 caption 改寫到零數字） | `docs/experiments/caption2p0_slot4_no_digits_line.md` |
+| **crest 介入線**（061、固定 LUFS 移動 crest，檢定 051 的 +0.44 crest↔PQ 關聯是否因果） | `docs/experiments/crest_intervention_cfg3_20260916.md` |
 | **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |
 | **Q 解析度 × caption rotation 線**（048/049、013 true-random × K=3/K=10 balanced） | `docs/experiments/c2p0_truerandom_q_granularity_line.md` |
 | Qwen collapse 10-model audit | `docs/experiments/history/phase8/qwen_collapse_audit_10model.md` |

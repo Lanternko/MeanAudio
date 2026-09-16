@@ -1,0 +1,194 @@
+{
+  "aes_snapshot": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+  "analysis": {
+    "association_pq_per_db": 0.0634,
+    "association_source": "051 summary.json crest_db Q5-Q1: PQ +0.4396 over a 6.929 dB crest gap; OLS slope over the same clips is +0.0525 per dB",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260916,
+    "causal_fraction_threshold": 0.5,
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "decision_rule": {
+      "slope_ci_excludes_zero_and_at_least_half_association": "crest is a causal lever on PQ; training toward crest would hack AES, and any PQ comparison whose arms differ in crest must be re-read",
+      "slope_ci_excludes_zero_but_far_below_association": "partial; the association is mostly confounded",
+      "slope_ci_includes_zero": "the association is not reproduced by intervention; crest is a proxy - do not train toward it, find the underlying factor"
+    },
+    "exclusion_rule": "A clip is dropped from the analysis, in all arms together, if (a) its baseline integrated loudness is below min_baseline_lufs or its silence fraction exceeds max_silence_fraction (pre-treatment screen), or (b) any arm could not be held at the target loudness or breached the peak ceiling. Near-silent clips cannot be held at a fixed gated loudness because expansion pushes their quiet majority under the gate. Both counts are reported; exclusion is at clip level so the paired design is intact.",
+    "low_modulation_db": 3.0,
+    "min_eligible_rows": 5400,
+    "prespecified_limits": "Attenuation-and-expansion only at one checkpoint and one generation seed; a CI covering zero is insufficient evidence, not equivalence; AES is not a human quality judgment.",
+    "primary_arm": "up",
+    "primary_endpoint": "pooled paired dose-response slope dPQ per dB achieved crest delta, all intervention arms vs ref, n=5521 clips x 4 arms",
+    "reference_arm": "ref",
+    "secondary": "per-arm paired AES deltas and per-arm dose-response slopes for CE/CU/PC; up vs rand at matched achieved crest delta; robustness slope restricted to clips under low_modulation_db",
+    "why_not_nominal_target": "A nominal +3 dB contrast was dropped after the pilot: the reachable crest change is clip-dependent, and forcing the target drove gain modulation to 18-21 dB RMS and centroid to 0.82 on clips that still did not move, which would have measured processing severity instead of crest."
+  },
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/crest_intervention_cfg3_20260916.py",
+    "action_sha256": "bb35fd66513c6b0ea2767c8511826954553ddde10604f2d1606062bb58f47b2f",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/crest_intervention_cfg3_20260916_guest.py",
+    "harn_sha256": "552cc11a82d196b7210ff96ec2bcc3c6bbfbcda2a8074f2a1af301e1e72ed26c",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/061_crest_intervention_cfg3.sh",
+    "launcher_sha256": "5ed0a34a17247968836502cd2eb8cbaa6aedceadbcfa35898e3ab07557d72e64",
+    "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_crest_intervention_cfg3_20260916.py",
+    "preflight_sha256": "2ecc01db57785a08317e4109bff9cdd4b91d1ddd765008dfada4445f6639cfe8"
+  },
+  "commands": {
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/crest_intervention_cfg3_20260916.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_crest_intervention_cfg3_20260916.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/crest_intervention_cfg3_20260916.py"
+    ]
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0_noq_full_stage2_200000/phase8_qwen_caption2p0_slot0_noq_full_stage2_200000_ema_final.pth",
+    "note": "Eval-only job: this contract's guest writes its own terminal evidence and never claims a training artifact."
+  },
+  "dependencies": [],
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/crest_intervention_cfg3_20260916.md",
+  "design_document_sha256": "6f3fa10d9f7c602f2b5582627fb739e3da52cdd701596e8186b869556d68c00d",
+  "document_kind": "preregistered_crest_intervention_contract",
+  "experiment_id": "crest-intervention-cfg3-fidelity8-20260916",
+  "git_revision": "b64db07637c89c0e617e665db9b09fe05b3fb700",
+  "label": "c2p0_slot0_musiccaps5521_mf25_cfg3_fidelity8_seed42_nomask_fp32_crest_intervention",
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator": "responsible_operator",
+    "scope": "Operator asked for the fixed-LUFS crest post-processing intervention and chose queue tail placement as 061.",
+    "trusted_channel": "operator_console"
+  },
+  "protocol": {
+    "aes_conditions": 27605,
+    "cfg_strength": 3,
+    "classification": "post_hoc_signal_intervention_on_retained_baseline_audio",
+    "dataset": "MusicCaps",
+    "generation": "none; reuses the 051 hash-verified baseline FLAC",
+    "negative_key": "fidelity8",
+    "rows": 5521,
+    "scoring_batch_size": 16,
+    "solver": "MeanFlow",
+    "steps": 25
+  },
+  "question": "Does the 051 descriptive crest<->PQ association survive a within-clip intervention that moves crest while holding integrated loudness fixed?",
+  "queue_name": "061_crest_intervention_cfg3.sh",
+  "queue_role": "p2",
+  "reports": [
+    {
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916/summary.json"
+    }
+  ],
+  "resource_budget": {
+    "aes_clip_conditions": 27605,
+    "estimated_gpu_hours_range": [
+      0.7,
+      1.2
+    ],
+    "generated_clips": 0,
+    "gpu": "P2 assigned GPU0 only",
+    "writable_filesystems": [
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916",
+      "/home/kojiek/logs"
+    ]
+  },
+  "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/crest_intervention_cfg3_20260916_results.md",
+  "resume": {
+    "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916/resume_progress.json",
+    "behavior": "Every transform and AES record is an atomic contract-bound per-clip JSON verified against the source hash; a restart re-does only missing clips.",
+    "kind": "per_item_idempotent"
+  },
+  "run_id": "run-20260916-061-crest-intervention-cfg3-fidelity8",
+  "schema_version": 1,
+  "source_audio_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/_audio/baseline",
+  "source_experiment": "loudness-aes-cfg3-fidelity8-20260911",
+  "source_manifest": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/audio_manifest.json",
+  "storage": {
+    "audio_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916/arms",
+    "estimated_peak_additional_bytes": 10000000000,
+    "hard_stop_free_bytes": 20000000000,
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916",
+    "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916/arms",
+    "warning_free_bytes": 40000000000
+  },
+  "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/crest_intervention_cfg3_20260916/summary.json",
+  "transform": {
+    "arms": {
+      "down": {
+        "constants": "fast",
+        "kind": "search_crest",
+        "objective": "min",
+        "ratio_hi": 1.0,
+        "ratio_lo": 0.15,
+        "role": "largest crest reduction reachable under the cap; selected by achieved minimum because the ratio-to-crest map is non-monotone"
+      },
+      "rand": {
+        "kind": "shifted_envelope",
+        "role": "the up gain envelope circularly shifted: modulation depth matched, decorrelated from musical structure. Not a null-crest placebo - random slow modulation raises crest by itself, which is the point: it separates crest-as-a-number from structure-following expansion.",
+        "source_arm": "up"
+      },
+      "ref": {
+        "kind": "reference",
+        "role": "pure scalar gain to base LUFS + pad; paired reference for every contrast"
+      },
+      "up": {
+        "constants": "slow",
+        "kind": "search_crest",
+        "objective": "target",
+        "ratio_hi": 8.0,
+        "ratio_lo": 1.0,
+        "role": "structure-following expansion aiming at +3 dB crest; achieved delta is the dose, the target is not a claim",
+        "target_delta_db": 3.0
+      },
+      "upmax": {
+        "constants": "slow",
+        "kind": "search_crest",
+        "objective": "max",
+        "ratio_hi": 8.0,
+        "ratio_lo": 1.0,
+        "role": "largest crest increase reachable under the modulation cap; supplies dose spread"
+      }
+    },
+    "description": "Smooth time-varying gain only: an attack/release envelope follower feeding a one-pole-smoothed dB curve. No per-sample nonlinearity, so no harmonic distortion. Ratios are grid-searched under a gain-modulation cap because crest is not monotone in the ratio and heavy processing pushes crest back up in both directions; the cap keeps every arm a mild transform so the contrast is about crest, not severity.",
+    "fast_constants": {
+      "attack_s": 0.001,
+      "release_s": 0.05,
+      "smooth_s": 0.005
+    },
+    "gain_clamp_db": 12.0,
+    "gain_mod_max_db": 6.0,
+    "grid_points": 24,
+    "lufs_normalisation": "Iterated: gated loudness is not exactly scalar-equivariant, so the normaliser re-measures until the residual is within 0.01 LU.",
+    "lufs_tolerance": 0.05,
+    "max_silence_fraction": 0.4,
+    "min_baseline_lufs": -40.0,
+    "pad_db": -6.0,
+    "pad_policy": "pad_db is the nominal attenuation applied to every arm of a clip. Clips whose loudest arm would breach peak_ceiling_dbfs get extra attenuation applied to ALL their arms, recorded as pad_db_effective. The pad is constant within a clip, so it cancels in the paired contrasts.",
+    "peak_ceiling_dbfs": -0.1,
+    "peak_headroom_margin_db": 0.5,
+    "reachability": "Achieved crest change is clip-dependent and bounded: clips whose baseline crest is already high cannot be expanded further under the cap. This is a property of the signal, recorded per clip, not a failure to be tuned away.",
+    "shift_seed_namespace": "crest-intervention-20260916:",
+    "slow_constants": {
+      "attack_s": 0.01,
+      "release_s": 0.15,
+      "smooth_s": 0.03
+    },
+    "workers": 8
+  },
+  "tsv": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+  "watcher": {
+    "automatic_repair": false,
+    "poll_seconds": 2,
+    "stall_seconds": 5400
+  }
+}
