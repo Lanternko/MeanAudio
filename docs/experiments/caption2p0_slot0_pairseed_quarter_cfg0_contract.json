@@ -1,0 +1,188 @@
+{
+ "schema_version": 1,
+ "document_kind": "preregistered_experiment_contract",
+ "experiment_id": "caption2p0-slot0-noq-quarter-s27182818",
+ "run_id": "run-20260916-caption2p0-slot0-noq-quarter-s27182818",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "058_c2p0_slot0_pairseed_quarter.sh",
+ "queue_role": "p2",
+ "ordering_dependencies": [],
+ "dependencies": [],
+ "deviations": [
+  {
+   "id": "D1-contamination-spotcheck-not-pass-operator-accepted",
+   "text": "The definition-A contamination cleanup underneath the slot0nm corpus had spot-check verdict REPORT_TO_OPERATOR (base 17, residual 5 of 6000); operator accepted 2026-09-16."
+  },
+  {
+   "id": "D2-rows-excluded",
+   "text": "1 row excluded from BOTH arms (251598 of 251599); the control was rebuilt on the slot0nm id set so the pair shares one sampler permutation. The historic slot0 number (CFG0 CLAP 0.2029) was trained on all 251599 rows and is NOT the paired control."
+  },
+  {
+   "id": "D3-056-stopped",
+   "text": "056 (slot0clean, measurements kept) was stopped at Stage 1 it ~2,050; no contamination-only arm exists, so contamination cleanup and measurement removal stay bundled in slot0nm."
+  },
+  {
+   "id": "D4-single-pair",
+   "text": "One seed pair only (operator chose 'one seed pair then full'). A single paired delta is a reproducibility check, not a significance test; no p-value, CI or 'win' may be claimed from n=1 pair."
+  }
+ ],
+ "hypothesis": {
+  "question": "At one matched training seed and one id set, how large is delta = slot0nm - slot0 on MusicCaps CFG0 and CFG3+neg?",
+  "why_now": "057 (slot0nm quarter, seed 14159265) tied slot0 on the preregistered CFG0 primary (+0.0031 = 0.74x seed floor) and was positive on every CFG3+neg cell (+0.0045 batch-32 CLAP), but the CFG3+neg training-seed floor was measured at full scale with only 2 seeds and is likely underestimated, and the slot0 comparator was trained on a different row set.",
+  "what_moves": "29956 of 251599 rows differ between the two arms.",
+  "not_controlled": "Contamination cleanup and measurement removal are bundled.",
+  "eval_caveat": "MusicCaps CLAP does not measure tempo/key/meter adherence; these arms cannot show the fabricated measurements were harmful or harmless for those attributes.",
+  "seed_floor_caveat": "CFG0 floor CLAP 0.0042 (2x = 0.0084). No quarter-scale CFG3+neg floor exists; do not divide CFG3+neg margins by the full-scale 2-seed floor."
+ },
+ "operator_instruction": {
+  "recorded_at": "2026-09-16",
+  "text": "跑一個 seed pair 然後 full",
+  "resolved_choices": {
+   "pair": "slot0 and slot0nm, quarter, training seed 27182818, identical 251,598 ids",
+   "full": "slot0nm full at the canonical seed 14159265; queued up front, not gated",
+   "recipe": "identical to 055/057 except corpus and seed"
+  }
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "quarter-scale training + CFG3+neg (batch-32 CLAP rescore) and CFG0 eval",
+  "valid": true
+ },
+ "selection": {
+  "slot": "slot0",
+  "parent_slot": "c2p0_slot0"
+ },
+ "sources": {
+  "parent_tsv": {
+   "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_caption10s_multisent_train.tsv",
+   "sha256": "eaa35ada59a598f3e86b7d3b37409636cb74d7e5bbfa76a981b3aff83197e90e",
+   "rows": 251599
+  },
+  "train_tsv": {
+   "path": "/home/kojiek/exps_nvme/slot0_rowmatched/arm_inputs/phase8_caption2p0_slot0_rowmatched_train.tsv",
+   "sha256": "c007627b6a8e8c1512251b1db794894b48d4547e038cf942d3a5ff94b60ffd2d",
+   "rows": 251598
+  },
+  "cache_list": {
+   "path": "/home/kojiek/exps_nvme/slot0_rowmatched/arm_inputs/cache_train.txt",
+   "sha256": "fe4ee8c9f43591505ef48690b9cc6dbc8505b2662a5acf96bba6638760af1711",
+   "rows": 251598,
+   "filtered_from": "/mnt/HDD/kojiek/phase4_jamendo_data/phase8_qwen_official_matched_npz_cache_train.txt",
+   "filtered_from_sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0"
+  },
+  "arm_manifest": {
+   "path": "/home/kojiek/exps_nvme/slot0_rowmatched/arm_inputs/manifest.json",
+   "sha256": "f609aeeaa210f5afed65719ea33a82989412de1ddc91c8f8dcde8fd6cb4efec0"
+  },
+  "paired_arm_manifest": {
+   "path": "/home/kojiek/exps_nvme/slot0nm/arm_inputs/manifest.json",
+   "sha256": "1a6e7ac779363e437ab7a70ae4bc92d11b1cbbff3d316ac01375c0ae202b0ec3"
+  },
+  "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+  "text_overlay_dir": "/home/kojiek/text_overlays/true_random",
+  "base_overlay": "/home/kojiek/text_overlays/true_random",
+  "shared_npz_mutation_prohibited": true
+ },
+ "training": {
+  "scale": "quarter",
+  "stage1_final_iteration": 100000,
+  "stage2_additional_iterations": 50000,
+  "final_iteration": 150000,
+  "seed": 27182818,
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "q_conditioning": false,
+  "multi_cap": false,
+  "cap_index_fixed": 0,
+  "require_text_overlay": true,
+  "use_text_attention_mask": false
+ },
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+  "rows": 5521,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "seed": 42,
+  "mask": "NoMask",
+  "precision": "full",
+  "canonical_cell": {
+   "cfg_strength": 0
+  },
+  "secondary_cell": {
+   "cfg_strength": 3.0,
+   "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi"
+  }
+ },
+ "decision_rule": {
+  "primary": "delta = slot0nm(059) - slot0(058) on CFG0 CLAP at seed 27182818",
+  "secondary": "delta on CFG3+neg batch-32 CLAP and the four AES metrics",
+  "recorded_before_launch": true,
+  "rule": "Report the paired delta with the 057 delta beside it. Consistent sign and magnitude across the two = reproducible; sign flip or a magnitude inside the CFG0 floor = not reproducible. Neither outcome licenses a significance claim from n=1 pair; a claim needs >=3 pairs.",
+  "seed_floor": {
+   "CLAP": 0.0042,
+   "CE": 0.1343,
+   "CU": 0.052,
+   "PC": 0.0554,
+   "PQ": 0.0523
+  }
+ },
+ "cells": [
+  {
+   "cell_id": "canonical_noq",
+   "label": "phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_musiccaps_mf25_cfg0_noq",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage2_50000/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage2_50000_ema_final.pth",
+   "checkpoint_sha256": "pending_runtime_output",
+   "report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_musiccaps_mf25_cfg0_noq_REPORT.json"
+  },
+  {
+   "cell_id": "cfg3_neg",
+   "label": "phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage2_50000/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage2_50000_ema_final.pth",
+   "clap_batch32": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_mc_mf25_cfg3_neg/clap_batch32.json"
+  }
+ ],
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage1_100000/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage1_100000_ckpt_last.pth"
+ },
+ "runtime_storage": {
+  "hard_stop_free_bytes": 30000000000,
+  "metrics_root": "/home/kojiek/cfg0_eval_runtime/metrics"
+ },
+ "commands": {
+  "run": [
+   "/bin/bash",
+   "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_pairseed_slot0_quarter.sh"
+  ]
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/058_c2p0_slot0_pairseed_quarter.sh",
+  "launcher_sha256": "cfa85580d1566c4385edbf851be158f3936d511b69074eca2f98d1bf0a101809",
+  "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+  "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+  "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_pairseed_slot0_quarter.sh",
+  "action_sha256": "5bd1ad7574288e33719cf5af55748c76212adaefbe80e56ad55ff1bc2d137473",
+  "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_pairseed_action.sh",
+  "shared_action_sha256": "7e0cfd0755a4f6a6693ceb050d892a1de1a45b7f6435d531c6cdd99bf88532ed",
+  "rewrite_script": "/home/kojiek/MeanAudio/scripts/preprocess/rewrite_slot0nm_no_measurements.py",
+  "rewrite_script_sha256": "43ee97f9c669650c20417e92b864cf8ef1217197ae6cc69aa322d175c28a5b26",
+  "build_script": "/home/kojiek/MeanAudio/scripts/preprocess/build_slot0_rowmatched_arm_inputs.py",
+  "build_script_sha256": "f49d1fe61b39a3b743275f983127bfc9364fc8fee12226fa250782550f557cd5",
+  "overlay_script": "/home/kojiek/MeanAudio/scripts/preprocess/patch_stacked_overlay_slot0.py",
+  "overlay_script_sha256": "7a812508eae894aef1efa39a31c859dcb0bb19e2006a05a822f4922880a9e7ac",
+  "rescore_script": "/home/kojiek/MeanAudio/scripts/eval/rescore_clap_batch32.py",
+  "rescore_script_sha256": "1de23a5424b79c770046be7b70f1139b9b4c51fc8dc607507bdc204a7a7aa1ea"
+ },
+ "completion_evidence": {
+  "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage2_50000/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_stage2_50000_ema_final.pth",
+  "cfg0_report": "/home/kojiek/cfg0_eval_runtime/reports/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_musiccaps_mf25_cfg0_noq_REPORT.json"
+ }
+}
