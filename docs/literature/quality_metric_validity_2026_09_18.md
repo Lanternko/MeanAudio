@@ -239,6 +239,20 @@ clip duration 在 TTS-HP 有幫助，在 SpeechJudge 卻是反向的（那邊較
   → 這證明 PQ **對介入敏感**
 - 但這不保證 PQ 能在兩個都正常的 arm 之間排出對應人類偏好的順序
 
+### 9.4 [RF-Limits] 的 −23 LUFS 前處理，正好對照出 AES 的缺口
+
+[RF-Limits] 把**所有音訊先 normalize 到 −23 LUFS 才評分**，明說是「讓音量無法驅動結果」✅。
+我們用的 `audiobox_aesthetics==0.0.4` **完全沒有響度／峰值正規化**（`normalize: False`，
+原始絕對振幅直接進 WavLM conv feature extractor），見
+`memory/reference_aes_no_loudness_norm_16khz.md`（source-code 驗證）。
+
+這給了我們一個可引用的對照：**同期的評估文獻已把響度正規化當成基本衛生條件，而 AES 官方實作沒有做。**⚪
+搭配 051 量到的「同一檔案 −6 dB → PQ +0.097」，這條論述是完整的（機制 + 實測 + 同期慣例）。
+
+注意：[RF-Limits] 的 controlled intervention（Table III）測的是語音指標，**不包含 AES**，
+所以 `reference_aes_no_loudness_norm_16khz.md` 裡「截至 2026-09-18 沒有論文對 AES 做
+同一音訊只改增益／crest 的介入測試」這句仍然成立，051/061 補的空白沒有被搶走。⚪
+
 ## 10. 不可以引用的
 
 ### 10.1 不能把 [SongEval] 的 0.63 搬來質疑我們自己的 PQ
