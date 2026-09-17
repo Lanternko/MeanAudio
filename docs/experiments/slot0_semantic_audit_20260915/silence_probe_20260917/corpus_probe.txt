@@ -1,0 +1,104 @@
+rows 251598 changed 29956 11.9%
+
+## all  n=251598  changed 11.9%  words 52.1->51.4
+   bpm/數字速度                   7.2% ->   0.0%
+   拍號                         1.8% ->   0.0%
+   數字                         8.6% ->   0.0%
+   tempo 字                   57.8% ->  55.0%
+   fast/slow/moderate        63.3% ->  63.3%
+   rhythm/groove             41.1% ->  41.1%
+   eighth/sixteenth/quarter   0.0% ->   0.0%
+   key/調性                     4.7% ->   0.1%
+
+## mentions drum/percussion  n=120362  changed 11.3%  words 52.4->51.8
+   bpm/數字速度                   7.9% ->   0.0%
+   拍號                         2.0% ->   0.0%
+   數字                         9.5% ->   0.0%
+   tempo 字                   48.0% ->  44.9%
+   fast/slow/moderate        59.5% ->  59.5%
+   rhythm/groove             52.9% ->  52.8%
+   eighth/sixteenth/quarter   0.0% ->   0.0%
+   key/調性                     2.7% ->   0.1%
+
+## drum-only (no melodic words)  n=3962  changed 9.9%  words 51.4->50.9
+   bpm/數字速度                   7.1% ->   0.0%
+   拍號                         1.6% ->   0.0%
+   數字                         8.4% ->   0.0%
+   tempo 字                   61.5% ->  59.1%
+   fast/slow/moderate        60.3% ->  60.3%
+   rhythm/groove             60.9% ->  60.7%
+   eighth/sixteenth/quarter   0.0% ->   0.0%
+   key/調性                     1.5% ->   0.0%
+
+## mentions count/counting  n=2700  changed 12.7%  words 54.7->53.9
+   bpm/數字速度                   8.6% ->   0.0%
+   拍號                         2.0% ->   0.0%
+   數字                         9.8% ->   0.0%
+   tempo 字                   64.6% ->  60.1%
+   fast/slow/moderate        72.5% ->  72.7%
+   rhythm/groove             48.0% ->  47.9%
+   eighth/sixteenth/quarter   0.1% ->   0.1%
+   key/調性                     5.1% ->   0.1%
+
+## mentions speech/spoken/talk  n=223  changed 10.8%  words 64.6->63.3
+   bpm/數字速度                   4.9% ->   0.0%
+   拍號                         1.8% ->   0.0%
+   數字                         5.4% ->   0.0%
+   tempo 字                   61.0% ->  57.0%
+   fast/slow/moderate        57.0% ->  57.0%
+   rhythm/groove             40.8% ->  41.3%
+   eighth/sixteenth/quarter   0.0% ->   0.0%
+   key/調性                     7.2% ->   0.4%
+
+## didgeridoo  n=34  changed 0.0%  words 64.3->64.3
+   bpm/數字速度                   0.0% ->   0.0%
+   拍號                         0.0% ->   0.0%
+   數字                         0.0% ->   0.0%
+   tempo 字                   61.8% ->  61.8%
+   fast/slow/moderate        70.6% ->  70.6%
+   rhythm/groove             41.2% ->  41.2%
+   eighth/sixteenth/quarter   0.0% ->   0.0%
+   key/調性                     0.0% ->   0.0%
+
+drum-only changed rows 391 mean words lost 5.4  median 5.0
+all changed rows mean words lost 5.8
+
+=== drum-only changed examples ===
+- 85_315685_segment_0_0 
+  BEFORE: The music is an instrumental rock piece with a steady, driving drumbeat at a tempo of 125.38 bpm. It has a rock genre feel, with a consistent and energetic rhythm that suggests a fast-paced track. The production quality is excellent, with clear and balanced sound, reverb applied on the musical elements, and a well-mixed track that showcases the instruments without any noticeable noise or distortion. 
+  AFTER : The music is an instrumental rock piece with a steady, driving drumbeat. It has a rock genre feel, with a consistent and energetic rhythm that suggests a fast-paced track. The production quality is excellent, with clear and balanced sound, reverb applied on the musical elements, and a well-mixed track that showcases the instruments without any noticeable noise or distortion.
+- 09_1288109_segment_2_0 
+  BEFORE: This audio features a lively dance track with a strong electronic beat. The song has a consistent tempo of 126 BPM, maintaining a steady, repetitive rhythm. The genre is electronic dance music (EDM), commonly characterized by its energetic and repetitive structure. The music production quality is quite good, with clear instrumentation and good mix. Background noise is minimal, suggesting that the recording fidelity is high. 
+  AFTER : This audio features a lively dance track with a strong electronic beat. The song has a consistent tempo, maintaining a steady, repetitive rhythm. The genre is electronic dance music (EDM), commonly characterized by its energetic and repetitive structure. The music production quality is quite good, with clear instrumentation and good mix. Background noise is minimal, suggesting that the recording fidelity is high.
+- 02_1165502_segment_0_0 
+  BEFORE: The music features a repetitive drum pattern typical of electronic or techno genres, with a steady, driving rhythm. The sound is produced with a consistent tempo, likely at around 100 BPM, with a focus on the kick, snare, and hi-hat, creating a syncopated beat. The production quality suggests it is an example of a digital composition, with the mix likely being clean and well-tuned, with a focus on clarity and a punchy, uncluttered sound. The mood is energetic and propels listeners forward with a sense of anticipation and forward momentum. 
+  AFTER : The music features a repetitive drum pattern typical of electronic or techno genres, with a steady, driving rhythm. The sound is produced with a consistent tempo, with a focus on the kick, snare, and hi-hat, creating a syncopated beat. The production quality suggests it is an example of a digital composition, with the mix likely being clean and well-tuned, with a focus on clarity and a punchy, uncluttered sound. The mood is energetic and propels listeners forward with a sense of anticipation and forward momentum.
+- 50_1339250_segment_0_0 
+  BEFORE: This music clip features a consistent drumbeat with a repeating pattern accompanied by a bright, metallic sound that serves as a percussive accent. The arrangement is rhythmic and minimalist, creating a focused and energetic mood. The tempo is steady at 102.5 BPM, and the genre appears to be electronic with a strong emphasis on rhythm and minimalistic elements. The production quality is clear, with a well-defined mix that highlights the drum and metallic sounds without significant reverb or distortion. 
+  AFTER : This music clip features a consistent drumbeat with a repeating pattern accompanied by a bright, metallic sound that serves as a percussive accent. The arrangement is rhythmic and minimalist, creating a focused and energetic mood. The tempo is steady and the genre appears to be electronic with a strong emphasis on rhythm and minimalistic elements. The production quality is clear, with a well-defined mix that highlights the drum and metallic sounds without significant reverb or distortion.
+- 29_1392629_segment_0_0 
+  BEFORE: The audio features a soft pop song with a simple arrangement. The drum beat is prominent, with a consistent tempo of about 86 BPM. The mood of the song is casual and laid-back. The music production quality is average, with some background noise and reverb applied to the instruments. 
+  AFTER : The audio features a soft pop song with a simple arrangement. The drum beat is prominent, with a consistent tempo. The mood of the song is casual and laid-back. The music production quality is average, with some background noise and reverb applied to the instruments.
+- 27_1058327_segment_1_0 
+  BEFORE: The audio features a drum kit featuring a swing beat in 4/4 time signature, with a strong emphasis on the snare drum and ride cymbal. The music has a lively, upbeat tempo with a jazz-funk flavor. The arrangement is sophisticated, with intricate drumming patterns that suggest a skilled drummer. The production quality is clear and professional, with a high-quality mix that enables the listener to hear the individual components of the drum kit clearly. 
+  AFTER : The audio features a drum kit featuring a swing beat, with a strong emphasis on the snare drum and ride cymbal. The music has a lively, upbeat tempo with a jazz-funk flavor. The arrangement is sophisticated, with intricate drumming patterns that suggest a skilled drummer. The production quality is clear and professional, with a high-quality mix that enables the listener to hear the individual components of the drum kit clearly.
+- 05_259405_segment_0_0 
+  BEFORE: The audio features a techno-electronic composition with a glitchy sound effect that transitions into a rhythmic electronic beat. The mood is futuristic and energetic, with a tempo of 139.4 BPM and a 4/4 time signature. The genre is electronic with elements of house music. The production quality is professional, with a clear and well-balanced mix and good sound fidelity. 
+  AFTER : The audio features a techno-electronic composition with a glitchy sound effect that transitions into a rhythmic electronic beat. The mood is futuristic and energetic. The genre is electronic with elements of house music. The production quality is professional, with a clear and well-balanced mix and good sound fidelity.
+- 63_1287663_segment_6_0 
+  BEFORE: The audio features a fast-paced, layered electronic composition with a strong beat and complex textures. The mood is intense and high-energy, characteristic of techno or dubstep music. The tempo is very fast at 139.5 BPM, and the production quality suggests a focus on sharp, clear sound despite the fast pace. 
+  AFTER : The audio features a fast-paced, layered electronic composition with a strong beat and complex textures. The mood is intense and high-energy, characteristic of techno or dubstep music. The tempo is very fast, and the production quality suggests a focus on sharp, clear sound despite the fast pace.
+
+=== count changed examples ===
+- 00_1045700_segment_4_0 
+  BEFORE: The music features a solo acoustic guitar playing a light, upbeat melody in D major with a tempo of 136.49 BPM. The genre is likely folk or country, with a relaxed and positive mood. The production quality is clear with minimal background noise, suggesting a high-quality recording. 
+  AFTER : The music features a solo acoustic guitar playing a light, upbeat melody. The genre is likely folk or country, with a relaxed and positive mood. The production quality is clear with minimal background noise, suggesting a high-quality recording.
+- 00_1066800_segment_0_0 
+  BEFORE: The audio features an electric guitar playing a melodic tune in the key of G major with a tempo of 164.61 bpm. The music is in a major key and the genre is country, with a production quality that ensures clear and crisp sound, including prominent reverb. 
+  AFTER : The audio features an electric guitar playing a melodic tune. The music is the genre is country, with a production quality that ensures clear and crisp sound, including prominent reverb.
+- 00_1159700_segment_2_0 
+  BEFORE: The music features a prominent harmonica melody accompanied by rhythmic tapping and percussion elements. The genre appears to be folk or country. The tempo is moderate, around 125 BPM. The composition is arranged in a simple yet engaging manner, with a focus on the harmonica. The production quality suggests an amateur recording in a home studio, with good clarity and a straightforward sound mix. The overall mood is lively and energetic. 
+  AFTER : The music features a prominent harmonica melody accompanied by rhythmic tapping and percussion elements. The genre appears to be folk or country. The tempo is moderate. The composition is arranged in a simple yet engaging manner, with a focus on the harmonica. The production quality suggests an amateur recording in a home studio, with good clarity and a straightforward sound mix. The overall mood is lively and energetic.
+- 00_1288500_segment_0_0 
+  BEFORE: This music clip features a prominent electric guitar playing a solo melody, accompanied by a simple piano counterpoint in the background. The arrangement is minimalistic, creating a dreamy and introspective mood. The tempo is slow with a 4/4 time signature, reflecting a somber and reflective genre. The production quality appears to be high, with clear audio and minimal distortion, suggesting a well-engineered recording. 
+  AFTER : This music clip features a prominent electric guitar playing a solo melody, accompanied by a simple piano counterpoint in the background. The arrangement is minimalistic, creating a dreamy and introspective mood. The tempo is slow, reflecting a somber and reflective genre. The production quality appears to be high, with clear audio and minimal distortion, suggesting a well-engineered recording.
