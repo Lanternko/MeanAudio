@@ -249,3 +249,15 @@ CLAP −0.0063 若除以 CFG3+neg CLAP floor 0.0003 是 21×，但那個 floor �
 slot4v2 的語料再往前一步——除了數字，還移除調性/調式/和弦性質與拍號，並套用 slot0 污染清洗的 1,499 列重生版本。
 quarter CFG0 CLAP **0.2060**（vs slot0 0.2029，0.74× floor，平手）；CFG3+neg b32 **0.2417**（vs slot4v2 0.2309）。
 完整數字、判讀與命名規則見 `docs/experiments/slot0_semantic_audit_20260915/README.md`「057 slot0nm quarter」。
+
+## 2026-09-17 磁碟清理：兩個 overlay 已刪
+
+`~/text_overlays/slot4`（21G）與 `~/text_overlays/slot4v2`（21G）在 2026-09-17 的 NVMe 清理中刪除（NVMe 當時只剩 30G）。
+理由：這條線已收線，slot4 的污染語料由 slot4v2 取代、slot4v2 的目的又被 057 slot0nm 涵蓋，且 p1/p2 的 held/pending/running 都沒有引用。
+
+**還留著的**：語料 TSV 與 arm inputs（`~/exps_nvme/slot4/arm_inputs/` 102M、`~/exps_nvme/slot4v2/arm_inputs/` 174M）、
+四個 slot4 run（已搬到 `/mnt/HDD/kojiek/meanaudio_exps/`，`exps_nvme/` 留 symlink，`ema_final` / `ckpt_last` 都在）、
+slot4v2 quarter 兩個 run（仍在 NVMe）、兩邊的 metrics 與 CFG0 REPORT、slot4v2 quarter 的 eval 音檔。
+
+**要重跑的成本**：得先用 arm_inputs 的 TSV 重編 T5/CLAP overlay（每份 ~21G、數小時 GPU），而且當時 HDD/NVMe 都很緊。
+紀錄見 memory `project_disk_cleanup_2026_09_17.md`。

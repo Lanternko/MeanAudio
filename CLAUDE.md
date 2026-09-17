@@ -35,7 +35,7 @@
 | Music Flamingo caption ablations（A1–A6 結果） | `docs/experiments/results/phase8/music_flamingo_ablation_todo.md` |
 | **MF 全覆蓋線**（038/039 queue job、判讀規則、early-kill gate） | `docs/experiments/mf_full_coverage_line.md` |
 | **跨 captioner rotation 線**（046/047、slot0/slot1/MF vs 全 Qwen random） | `docs/experiments/mixcap_01m_line.md` |
-| **c2p0 slot4 剝數字線**（050、slot0 有數字的 caption 改寫到零數字） | `docs/experiments/caption2p0_slot4_no_digits_line.md` |
+| **c2p0 slot4 / slot4v2 剝數字線**（050/055，**已收線**：剝數字在 MusicCaps 沒有可測幫助；被 057 slot0nm 取代。2026-09-17 兩個 overlay 已刪、run 搬 HDD，語料 TSV 仍在 `~/exps_nvme/slot4{,v2}/arm_inputs/`，要重跑須先重編 overlay） | `docs/experiments/caption2p0_slot4_no_digits_line.md` |
 | **crest 介入線**（061、固定 LUFS 移動 crest，檢定 051 的 +0.44 crest↔PQ 關聯是否因果） | `docs/experiments/crest_intervention_cfg3_20260916.md` |
 | **crest 介入結果**（061 收線：主斜率反號但為處理劣化污染；crest 不可當訓練目標） | `docs/experiments/results/crest_intervention_cfg3_20260916_results.md` |
 | **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |
