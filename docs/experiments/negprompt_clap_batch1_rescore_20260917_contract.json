@@ -1,0 +1,112 @@
+{
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/negprompt_clap_batch1_rescore_20260917.py",
+    "action_sha256": "80a4ad1f688412bee5cb77c9edf6e98c91e3148d0963f6d146c4080e37427fc9",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/negprompt_clap_batch1_rescore_20260917_guest.py",
+    "harn_sha256": "0e5cd5bc974da9749ae448294e921d91a6b6e081951170ba7f4197953ac2d186",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/062_negprompt_clap_batch1_rescore.sh",
+    "launcher_sha256": "391468b0ae8ee01b47269494c56b65550a5476462b41ecfbc3d487e77bf9a4ee",
+    "library": "/home/kojiek/MeanAudio/scripts/eval/rescore_clap_batch1.py",
+    "library_sha256": "a370c5e69864fc93b20afa5998e86a8b1e89dcbc5903062cf399e784384d9f75",
+    "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_negprompt_clap_batch1_rescore_20260917.py",
+    "preflight_sha256": "b7b764fb32a635ffd829dbf29db284a7bbdf6ad7a53659c845e61ed5fabc7378"
+  },
+  "commands": {
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/negprompt_clap_batch1_rescore_20260917.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_negprompt_clap_batch1_rescore_20260917.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/negprompt_clap_batch1_rescore_20260917.py"
+    ]
+  },
+  "completion_evidence": {
+    "note": "Eval-only job: the guest writes its own terminal evidence and never claims a training artifact. The p2 host files a completed eval-only job under held/ (no CFG0 report), as with 061."
+  },
+  "dependencies": [],
+  "document_kind": "eval_only_clap_batch1_rescore_contract",
+  "experiment_id": "negprompt-clap-batch1-rescore-20260917",
+  "git_revision": "792be8d4bc98744e95377361942298e635bc8b90",
+  "label": "negprompt_tables_musiccaps5521_mf25_cfg0_and_cfg3_fidelity8_seed42_nomask_fp32_clap_batch1",
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator": "responsible_operator",
+    "scope": "Operator approved re-scoring the core negprompt tables (novocal_reeval CFG0 + negprompt_reeval_cfg3.0) with batch-1 CLAP as a P2 queue job.",
+    "trusted_channel": "operator_console"
+  },
+  "protocol": {
+    "clap": "laion_clap HTSAT-base, batch 1 (= phase4_eval.compute_clap_score)",
+    "dataset": "MusicCaps",
+    "faithfulness_gate": "AES on a fixed 64-clip sample must reproduce the stored per-clip CE/CU/PC/PQ within 1e-3, else the arm fails and nothing is written",
+    "families": {
+      "cfg0": {
+        "arms": 12,
+        "cfg_strength": 0.0,
+        "negative_prompt": null,
+        "source": "novocal_reeval"
+      },
+      "cfg3neg": {
+        "arms": 14,
+        "cfg_strength": 3.0,
+        "negative_prompt": "fidelity8",
+        "source": "negprompt_reeval_cfg3.0"
+      }
+    },
+    "mask": "NoMask",
+    "precision": "fp32",
+    "rows": 5521,
+    "seed": 42,
+    "solver": "MeanFlow",
+    "steps": 25
+  },
+  "question": "What are the per-file (batch 1, phase4_eval-scale) CLAP scores of the 12 CFG0 and 14 CFG3+neg arms whose tables were scored with batch-32 CLAP and whose audio was deleted?",
+  "queue_name": "062_negprompt_clap_batch1_rescore.sh",
+  "queue_placement": "Operator asked on 2026-09-17 to queue the core rescore after the running 060; normal band, next number after 061.",
+  "queue_role": "p2",
+  "reports": [
+    {
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_clap_batch1_rescore_20260917/summary.json"
+    }
+  ],
+  "resource_budget": {
+    "estimated_gpu_hours_range": [
+      6.0,
+      9.0
+    ],
+    "generated_clips": 143546,
+    "gpu": "P2 assigned GPU0 only",
+    "writable_filesystems": [
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_clap_batch1_rescore_20260917",
+      "/home/kojiek/logs"
+    ]
+  },
+  "resume": {
+    "autoresume": "",
+    "behavior": "No checkpoint: each arm writes one atomic result JSON and a restart skips finished arms; a partial audio dir is regenerated deterministically (seed 42). autoresume is empty so the cold-start gate never refuses a later seat.",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_clap_batch1_rescore_20260917/pause_progress.json"
+  },
+  "run_id": "run-20260917-062-negprompt-clap-batch1-rescore",
+  "schema_version": 1,
+  "storage": {
+    "estimated_peak_additional_bytes": 1500000000,
+    "hard_stop_free_bytes": 15000000000,
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_clap_batch1_rescore_20260917",
+    "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_clap_batch1_rescore_20260917/_audio"
+  },
+  "watcher": {
+    "automatic_repair": false,
+    "poll_seconds": 2,
+    "stall_seconds": 5400
+  }
+}
