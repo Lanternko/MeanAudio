@@ -37,6 +37,7 @@
 | **跨 captioner rotation 線**（046/047、slot0/slot1/MF vs 全 Qwen random） | `docs/experiments/mixcap_01m_line.md` |
 | **c2p0 slot4 剝數字線**（050、slot0 有數字的 caption 改寫到零數字） | `docs/experiments/caption2p0_slot4_no_digits_line.md` |
 | **crest 介入線**（061、固定 LUFS 移動 crest，檢定 051 的 +0.44 crest↔PQ 關聯是否因果） | `docs/experiments/crest_intervention_cfg3_20260916.md` |
+| **crest 介入結果**（061 收線：主斜率反號但為處理劣化污染；crest 不可當訓練目標） | `docs/experiments/results/crest_intervention_cfg3_20260916_results.md` |
 | **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |
 | **Q 解析度 × caption rotation 線**（048/049、013 true-random × K=3/K=10 balanced） | `docs/experiments/c2p0_truerandom_q_granularity_line.md` |
 | Qwen collapse 10-model audit | `docs/experiments/history/phase8/qwen_collapse_audit_10model.md` |
@@ -52,6 +53,7 @@
 | Phase 4→8 完整對比表（歷史） | `docs/experiments/history/phase4-phase8/Phase4_to_Phase8_Complete_Summary.md` |
 | 文獻啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |
 | **Negative prompting / prompt engineering 文獻定位**（QA-MDT、NAG/VSF、APG、Open Prompt Challenge） | `docs/literature/negative_prompting_and_prompt_engineering_2026_09_04.md` |
+| **品質／美學指標效度文獻定位**（SongEval + RF-Limits；PC 相關性最低 0.408、乾淨音訊上指標塌到 chance、crest-as-reward 崩潰、可抄的 protocol） | `docs/literature/quality_metric_validity_2026_09_18.md` |
 | 早期累積實驗數字（→ 改查 `best_results.md`） | `EXPERIMENT_LOG.md` |
 
 ---
