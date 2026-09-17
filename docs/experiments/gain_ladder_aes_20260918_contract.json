@@ -1,0 +1,204 @@
+{
+  "aes_snapshot": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+  "analysis": {
+    "above_baseline_reference_arm": "z0",
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260918,
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "decision_rule": {
+      "all_steps_null": "the 051 effect does not extend to this range; re-examine before interpreting",
+      "every_step_non_negative": "direction reversed versus 051; unregistered, treat as exploratory",
+      "every_step_non_positive": "loudness is a monotone lever: amplification lowers PQ across the registered range, so arms must be loudness-matched before any PQ comparison",
+      "internal_validity_gate": "m3/m6/m9 against z0 must reproduce the 051 deltas within replication_tolerance. Same audio and same scorer, so a miss means a bug in this run and the shape verdict must not be read.",
+      "otherwise": "non-monotone and unclassified; exploratory",
+      "positive_then_negative": "interior optimum: PQ partly measures distance from a preferred absolute level, and that level is reported"
+    },
+    "exclusion_rule": "A clip is dropped from the ladder analysis, in all arms together, only if its waveform is degenerate (zero peak or zero RMS); zero such clips are expected. Insufficient headroom is an ARM-level exclusion that removes the clip from p6 alone and leaves the ladder design intact.",
+    "min_eligible_rows": 5500,
+    "multiple_comparisons": "Pointwise intervals. No global significance, equivalence or automatic promotion claim.",
+    "prespecified_limits": "One checkpoint and one generation seed, range limited to -18..+6 dB. p6 is a headroom-selected subset, not a random one, so its contrast carries selection bias and is reported as a within-subset result. A CI covering zero is insufficient evidence, not equivalence. AES is not a human quality judgment.",
+    "primary_endpoint": "pooled paired slope dPQ per dB of amplification from the quietest rung (m18), over the ladder arms, n=5521 clips x 6 contrasts",
+    "reference_arm": "m18",
+    "replication_reference_arm": "z0",
+    "replication_targets": {
+      "m3": 0.0515,
+      "m6": 0.0974,
+      "m9": 0.1356
+    },
+    "replication_tolerance": 0.015,
+    "secondary": "CE/CU/PC/CLAP ladders and slopes; p6 against z0 on the headroom subset; per-arm LUFS/peak/RMS/crest/clipped_fraction covariates, where crest must be bit-identical across arms as a built-in correctness check of the transform",
+    "shape_endpoint": "adjacent-rung paired PQ deltas; a step counts as null when its CI covers zero or |mean| < step_null_tolerance",
+    "slope_051_pq_per_db": -0.0155,
+    "step_null_tolerance": 0.005
+  },
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/gain_ladder_aes_20260918.py",
+    "action_sha256": "74f2013e15f70fb127b4062784368363526b62f99a72e62986385669b1e64aa9",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/gain_ladder_aes_20260918_guest.py",
+    "harn_sha256": "a2c02347a22f07278bad77b492fd52531c5eb8b581dedb0cb22698cf3da6a551",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/003_gain_ladder_aes.sh",
+    "launcher_sha256": "05fa8c96c024f12e792ff73523d535bdb64e1c9cf1c4271fd80f8c048330517e",
+    "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_gain_ladder_aes_20260918.py",
+    "preflight_sha256": "d248481170f653895248347456f8c6493a663ec0edf8c5ce81d0f8271dde2652"
+  },
+  "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+  "commands": {
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/gain_ladder_aes_20260918.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_gain_ladder_aes_20260918.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/gain_ladder_aes_20260918.py"
+    ]
+  },
+  "completion_evidence": {
+    "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0_noq_full_stage2_200000/phase8_qwen_caption2p0_slot0_noq_full_stage2_200000_ema_final.pth",
+    "note": "Eval-only job: the guest writes its own terminal evidence and never claims a training artifact. lib_scheduler.harn_completed_evidence_ok demands an EMA plus a matching CFG0 report under accept mode, which an eval-only job can never produce, so the queue will classify this as held even on a clean rc=0 - expected, not a failure (061 hit the same gate). Success is terminal.json status=completed plus the summary.json sha256."
+  },
+  "dependencies": [],
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/gain_ladder_aes_20260918.md",
+  "design_document_sha256": "482c1e1a97a8ba7e0c15fdbf57c5088909bcee3a3d2603d2e701aa0ab98fd21a",
+  "document_kind": "preregistered_absolute_level_ladder_contract",
+  "experiment_id": "gain-ladder-aes-cfg3-fidelity8-20260918",
+  "git_revision": "7736200fadc6b99460502501049da2f782f4c742",
+  "label": "c2p0_slot0_musiccaps5521_mf25_cfg3_fidelity8_seed42_nomask_fp32_gain_ladder",
+  "ladder": {
+    "arms": {
+      "m12": {
+        "gain_db": -12,
+        "kind": "scalar_gain",
+        "role": "ladder rung"
+      },
+      "m15": {
+        "gain_db": -15,
+        "kind": "scalar_gain",
+        "role": "ladder rung"
+      },
+      "m18": {
+        "gain_db": -18,
+        "kind": "scalar_gain",
+        "role": "reference rung: the quietest level, so every ladder contrast is an amplification"
+      },
+      "m3": {
+        "gain_db": -3,
+        "kind": "scalar_gain",
+        "role": "ladder rung; corresponds to the 051 -3 dB arm read against z0"
+      },
+      "m6": {
+        "gain_db": -6,
+        "kind": "scalar_gain",
+        "role": "ladder rung; corresponds to the 051 -6 dB arm read against z0"
+      },
+      "m9": {
+        "gain_db": -9,
+        "kind": "scalar_gain",
+        "role": "ladder rung; corresponds to the 051 -9 dB arm read against z0"
+      },
+      "p6": {
+        "gain_db": 6,
+        "kind": "scalar_gain",
+        "role": "secondary subset arm above the original level; admitted only where the source peak leaves enough headroom that the amplified peak still clears the ceiling, so amplification is never measured through clipping"
+      },
+      "z0": {
+        "gain_db": 0,
+        "kind": "scalar_gain",
+        "role": "the original file level; the 051 baseline rung and the replication reference"
+      }
+    },
+    "audio_lifetime": "Arm audio is transient: rendered in scoring batches, hash-recorded, scored, then deleted. A scalar arm is exactly rebuildable from the source plus gain_db, and the per-item content sha256 lets a rebuild be checked against this run.",
+    "description": "Pure scalar gain: one multiplication per arm, no time-varying processing and no per-sample nonlinearity. Crest is invariant under a scalar, so this moves absolute level and nothing else - the complement of 061, which moved crest at fixed loudness.",
+    "no_clipping_by_construction": "The ladder tops out at the original file level, so no ladder arm can exceed the source peak. Only the p6 arm amplifies past it, and it is gated per clip on measured headroom.",
+    "peak_ceiling_dbfs": -0.1,
+    "peak_headroom_margin_db": 0.5,
+    "write_format": "float32 WAV at 16 kHz, so attenuation introduces no new quantisation noise on top of the PCM_16 source."
+  },
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator": "responsible_operator",
+    "scope": "Operator asked on 2026-09-18 for an amplification-direction AES experiment and for it to cut in ahead of the queued jobs.",
+    "trusted_channel": "operator_console"
+  },
+  "ordering_dependencies": [],
+  "protocol": {
+    "cfg_strength": 3,
+    "clap_batch_size": 1,
+    "clap_caveat": "CLAP is scored on the retained 16 kHz baseline audio, as 051 did for its own baseline CLAP. Only its response to gain is read; absolute CLAP is not comparable to the canonical 48 kHz tables.",
+    "classification": "post_hoc_scalar_gain_intervention_on_retained_baseline_audio",
+    "dataset": "MusicCaps",
+    "generation": "none; reuses the 051 hash-verified baseline FLAC",
+    "metrics": [
+      "AES_CE",
+      "AES_CU",
+      "AES_PC",
+      "AES_PQ",
+      "CLAP"
+    ],
+    "negative_key": "fidelity8",
+    "rows": 5521,
+    "scored_conditions": 44168,
+    "scoring_batch_size": 16,
+    "solver": "MeanFlow",
+    "steps": 25
+  },
+  "question": "Does the 051 attenuation effect extend into the amplification direction, and is the AES response to absolute level monotone or an inverted U with an interior optimum?",
+  "queue_name": "003_gain_ladder_aes.sh",
+  "queue_placement": "Cut-in band per QUEUE.md: a 001-009 name takes the next seat without renumbering 062. Registered as experiment 063; the queue filename is only a sort key and nothing binds to it.",
+  "queue_role": "p2",
+  "reports": [
+    {
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918/summary.json"
+    }
+  ],
+  "resource_budget": {
+    "estimated_gpu_hours_range": [
+      2.5,
+      6.0
+    ],
+    "generated_clips": 0,
+    "gpu": "P2 assigned GPU0 only",
+    "scored_conditions": 44168,
+    "writable_filesystems": [
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918",
+      "/home/kojiek/logs"
+    ]
+  },
+  "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/gain_ladder_aes_20260918_results.md",
+  "resume": {
+    "autoresume": "",
+    "behavior": "There is no resume checkpoint and none is ever written: every scored item is an atomic contract-bound per-clip JSON verified against the contract sha and the source audio hash, so a restart re-renders and re-scores only the missing items. autoresume is deliberately empty - pointing it at a file the guest writes on pause would make the cold-start acceptance gate reject every later seat. Pause progress goes to pause_progress, which no acceptance gate reads.",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918/pause_progress.json"
+  },
+  "run_id": "run-20260918-063-gain-ladder-aes-cfg3-fidelity8",
+  "schema_version": 1,
+  "source_audio_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/_audio/baseline",
+  "source_experiment": "loudness-aes-cfg3-fidelity8-20260911",
+  "source_manifest": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/audio_manifest.json",
+  "storage": {
+    "estimated_peak_additional_bytes": 2000000000,
+    "hard_stop_free_bytes": 20000000000,
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918",
+    "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918/_render",
+    "warning_free_bytes": 40000000000
+  },
+  "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918/summary.json",
+  "tsv": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+  "watcher": {
+    "automatic_repair": false,
+    "poll_seconds": 2,
+    "stall_seconds": 5400
+  }
+}

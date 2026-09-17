@@ -1,0 +1,119 @@
+# 063 預註冊：絕對響度階梯（放大方向）（MusicCaps 5521, MF25, CFG3, fidelity8）
+
+2026-09-18 設計。結果寫在 `docs/experiments/results/gain_ladder_aes_20260918_results.md`，
+**本檔被 063 contract 以 sha256 釘住，定案後不要改**。
+
+## 問題
+
+051（`loudness_aes_cfg3_20260911`）只測了**衰減**方向（0 / −3 / −6 / −9 dB），
+發現同一個檔案越安靜 PQ 越高：−6 dB → **PQ +0.0974** [+0.0945, +0.1003]，
+斜率約 **+0.0155 PQ / dB 衰減**。機制已確認：`audiobox_aesthetics==0.0.4` 的前處理只有
+resample 到 16 kHz + 轉 mono，沒有任何響度正規化，且 checkpoint config 把 WavLM 的
+waveform layer_norm 關掉（`"normalize": False`），所以原始絕對振幅直接進 conv feature extractor
+（見 `docs/metrics/audiobox_aesthetics.md`「已知限制」）。
+
+四個點無法分辨兩個假說：
+
+| 假說 | 預測 |
+|---|---|
+| **單調** —— AES 偏好安靜 | 整條階梯上，每往上放大一階 PQ 都下降 |
+| **倒 U** —— 有個最佳絕對振幅 | 階梯內部有極大值；我們的生成音檔落在偏大聲那側 |
+
+倒 U 不是憑空猜測：051 的**自然響度**關聯本身就是倒 U（第 2、3 組 PQ 最高，兩端都低），
+但那是跨片段的觀察資料，不能推論到同片段介入。
+
+決策相關性：若單調，響度就是雙向都免費的 lever，任何 arm 間 PQ 比較都必須先鎖響度；
+若是倒 U，PQ 有一部分在量「離某個偏好振幅多遠」，而那個偏好振幅是可以報出來的具體數字。
+
+## 為什麼要用階梯而不是直接放大
+
+生成音檔幾乎都貼著滿刻度：peak 中位數 **−0.89 dBFS**，有 3 dB 以上餘裕的只有 18.4%、
+6 dB 以上只有 5.7%。直接放大會讓多數片段削波，量到的會是削波失真的扣分而不是振幅效應
+——與 061 踩到的「處理劣化蓋掉訊號」同一個結構的錯誤。
+
+解法：**把參考點下移**。階梯從 −18 dB 走到原始振幅，參考 arm 是最安靜那一階，
+所以**每一個對照都是放大**，而且因為天花板就是原始檔案，全程不可能削波。
+
+## 材料
+
+**不生成任何音訊。** 直接重用 051 保留的 5,521 個 baseline FLAC（16 kHz mono PCM_16），
+以其 `audio_manifest.json` 的 sha256 逐檔驗證。checkpoint、solver、steps、cfg、negative prompt、
+generation seed 全部繼承 051，因此與 051 和 061 的數字直接可比。
+
+## 變換
+
+**純量增益，一個 arm 一次乘法。** 沒有時變處理、沒有逐樣本非線性。
+crest 在純量下不變（peak 與 RMS 同步縮放），所以這支實驗只動絕對振幅、其他什麼都不動
+—— 剛好與 061（只動 crest、鎖住響度）互補。
+
+寫成 float32 WAV，不重新量化，所以不引入新的量化雜訊；音訊是**暫存**的，
+評分完即刪，因為純量 arm 由來源檔加 `gain_db` 可精確重建，但每筆仍記錄 content sha256，
+重建後可與本次比對。
+
+| arm | 絕對位階（相對原始檔） | 角色 |
+|---|---:|---|
+| `m18` | −18 dB | **參考 arm**，所有階梯對照都是從這裡往上放大 |
+| `m15` | −15 dB | |
+| `m12` | −12 dB | |
+| `m9` | −9 dB | 對應 051 的 −9 dB（051 以原始檔為基準） |
+| `m6` | −6 dB | 對應 051 的 −6 dB |
+| `m3` | −3 dB | 對應 051 的 −3 dB |
+| `z0` | 0 dB | 原始檔案位階；051 的基準點 |
+| `p6` | +6 dB | **次要、子集 arm**：真正超過原始振幅。只收 peak 餘裕足夠、放大後仍不破 −0.1 dBFS 的片段（預估 ~300 筆），逐片段記錄，不合格者只退出這一個 arm |
+
+8 arm × 5,521 = **44,168 筆評分條件**（AES 四指標 + CLAP）。
+
+## 指標
+
+AES 四項照舊。**另外加測 CLAP**，因為 CLAP 是本專案的主指標而它的增益敏感度從未被量過。
+CLAP 一律**逐檔**評分（batch size 會位移 CLAP 分數並翻動排名，見
+`memory/reference_clap_batch_size_sensitivity.md`）。
+
+⚠️ **CLAP 絕對值不可與既有 48 kHz 表格對照**：這裡是在保留下來的 16 kHz baseline 音訊上評分
+（051 自己的 baseline CLAP 也是如此），所以只讀它對增益的**反應**，不讀絕對水準。
+
+## Primary endpoint 與判讀規則
+
+**Primary**：階梯各 arm 對 `m18` 的配對 **dPQ / dB 放大量**合併斜率（過原點），
+bootstrap seed 20260918、10,000 次、pointwise 95% CI，over clips。
+對照錨點：051 的衰減側斜率 +0.0155 PQ/dB 衰減，等價於 **−0.0155 PQ/dB 放大**。
+
+形狀判定走**相鄰階對照**（每一階 = 往上放大 3 dB 的配對 delta），CI 跨零或
+|mean| < `step_null_tolerance` 記為 0：
+
+| 形狀 | 判讀 |
+|---|---|
+| 每階皆 ≤ 0 且至少一階顯著負 | **單調：越安靜分數越高** → 響度是雙向免費 lever，所有 arm 間 PQ 比較必須先鎖響度 |
+| 先正後負（內部極大） | **倒 U**：PQ 有一部分在量「離偏好振幅多遠」，報出該振幅 |
+| 全部 CI 跨零 | 051 的效應不延伸到此範圍 → **先重新檢查再解讀** |
+| 每階皆 ≥ 0 | 方向與 051 相反，未預註冊 → 探索性 |
+| 其他 | 非單調、未分類 → 探索性 |
+
+**內部有效性閘門（先於形狀判讀）**：`m3`/`m6`/`m9` 對 `z0` 的配對 PQ delta 必須重現 051 的
++0.0515 / +0.0974 / +0.1356，容許 ±0.015。**同一批音訊、同一個 scorer，重現不了就是本次有 bug**
+（見 `memory/feedback_suspect_bug_before_explaining.md`），此時不得讀形狀結論。
+
+**Secondary**：CE / CU / PC / CLAP 的同樣階梯與斜率；`p6` 對 `z0` 的子集配對 delta
+（回答「超過原始振幅會不會繼續掉」）；各 arm 的 LUFS / peak / crest / clipped_fraction 共變量
+（crest 應在所有 arm 逐位元相同，這是變換正確性的內建檢查）。
+
+## 排除規則
+
+片段層級：波形退化（peak = 0 或 RMS = 0）者整片段排除，預期 0 筆。
+合格列數低於 5,500 則 postflight 失敗。`p6` 的餘裕不足是 **arm 層級**排除，
+只退出該 arm，不影響階梯的配對設計。
+
+## 限制（預先聲明）
+
+單一 checkpoint、單一 generation seed，沿用 051 的 baseline 音訊未重新生成。
+範圍限於 −18 dB 到 +6 dB，不可外推。`p6` 是餘裕足夠的片段子集，**不是隨機子集**，
+因此它與階梯的對照帶選擇偏誤，只能寫成該子集內的結果。
+CLAP 在 16 kHz 音訊上評分，絕對值不可跨表比較。
+CI 跨零是證據不足，不是等效（未設等效界值）。AES 不是人類品質判斷。
+
+## 排程備註
+
+Queue 分類會把本 job 標成 `held` —— 這是預期的，不是失敗。
+`lib_scheduler.harn_completed_evidence_ok` 在 accept mode 下要求 `evidence.ema` 加一份
+對得上的 CFG0 report，eval-only job 永遠交不出來（061 已踩過）。
+成功的證據是 `terminal.json` 的 `status: completed` 加 `summary.json` 的 sha256。
