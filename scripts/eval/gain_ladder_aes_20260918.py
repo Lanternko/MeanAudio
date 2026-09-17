@@ -222,8 +222,14 @@ def score_arm(c, arm):
             ok, why = eligible_for(c, arm, base)
             y = render(x, gain_db)
             stats = signal_stats(y, met)
-            if stats['peak_dbfs'] is not None and stats['peak_dbfs'] > c['ladder']['peak_ceiling_dbfs'] and ok:
-                raise ValueError(f'{r.id}: admissible arm breached the peak ceiling')
+            # A scalar moves the peak by exactly the gain: that is the correctness check
+            # every arm must pass. The absolute ceiling only constrains arms that amplify
+            # past the source, because two of the 5,521 sources are themselves above it
+            # (max -0.073 dBFS) and re-encoding an unamplified source cannot clip.
+            if abs((stats['peak_dbfs'] - base['peak_dbfs']) - gain_db) > 1e-6:
+                raise ValueError(f'{r.id}: scalar gain did not move the peak by {gain_db:+g} dB')
+            if gain_db > 0 and ok and stats['peak_dbfs'] > c['ladder']['peak_ceiling_dbfs']:
+                raise ValueError(f'{r.id}: admissible amplifying arm breached the peak ceiling')
             path = scratch / (r.id + '.wav')
             sf.write(path, y.astype(np.float32), SR, format='WAV', subtype='FLOAT')
             staged.append((r, path, base, stats, ok, why, content_digest_array(y)))

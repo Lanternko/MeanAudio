@@ -37,7 +37,7 @@
   "approval_required": true,
   "bindings": {
     "action": "/home/kojiek/MeanAudio/scripts/eval/gain_ladder_aes_20260918.py",
-    "action_sha256": "74f2013e15f70fb127b4062784368363526b62f99a72e62986385669b1e64aa9",
+    "action_sha256": "70f5a2e64c6d0dce1f45f05b8f239b39bbc094df67b924f46cdae82b04e4ea8e",
     "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/gain_ladder_aes_20260918_guest.py",
     "harn_sha256": "a2c02347a22f07278bad77b492fd52531c5eb8b581dedb0cb22698cf3da6a551",
     "launcher": "/home/kojiek/gpu_queue/p2/pending/003_gain_ladder_aes.sh",
@@ -119,6 +119,7 @@
     "description": "Pure scalar gain: one multiplication per arm, no time-varying processing and no per-sample nonlinearity. Crest is invariant under a scalar, so this moves absolute level and nothing else - the complement of 061, which moved crest at fixed loudness.",
     "no_clipping_by_construction": "The ladder tops out at the original file level, so no ladder arm can exceed the source peak. Only the p6 arm amplifies past it, and it is gated per clip on measured headroom.",
     "peak_ceiling_dbfs": -0.1,
+    "peak_ceiling_scope": "The absolute ceiling constrains only arms that amplify past the source. Two of the 5,521 sources are themselves above it (max -0.073 dBFS), and re-encoding an unamplified source cannot clip. Every arm instead asserts that the peak moved by exactly gain_db, which is the real correctness check for a scalar.",
     "peak_headroom_margin_db": 0.5,
     "write_format": "float32 WAV at 16 kHz, so attenuation introduces no new quantisation noise on top of the PCM_16 source."
   },
