@@ -12,6 +12,11 @@ the *same limited waveform* scaled back to the source clip's integrated LUFS. Th
   Xm - z0 : limiter processing effect at matched loudness
 and the two parts sum exactly to the total.
 
+Limiter (2026-09-18 revision): x42 dpl.lv2's Peaklim (Fons Adriaensen's DPL) in
+true-peak mode, via the vendored offline CLI in external_limiters. The in-house
+limiter below (`limit`) was the first choice; it is kept as one of the 064b robustness
+limiters, and its partial run is in *_superseded_ownlimiter.
+
 Arm families
   L<g>  fixed pre-gain +g dB into the limiter (every clip pushed by the same amount)
   T<n>  per-clip gain toward integrated -n LUFS, then limited; iterated so the limited
@@ -47,9 +52,10 @@ CFG = {
     'out': '/home/kojiek/nvme_experiment_artifacts/meanaudio/limiter_loudness_aes_20260918',
     'rows': 5521,
     'batch': 16,
-    'limiter': {'ceiling_dbfs': -1.0,  # applied to the true-peak envelope
-                'lookahead_ms': 5.0, 'release_ms': 50.0},
-    'true_peak_max_dbtp': -0.5,
+    'limiter': {'name': 'x42-dpl Peaklim, true-peak mode', 'ceiling_dbfs': -1.0, 'release_s': 0.05},
+    # dpl's 4x TP filter is designed for 44.1/48 kHz; at 16 kHz it was measured up to +0.44 dBTP
+    'true_peak_max_dbtp': 1.0,
+    'own_limiter': {'ceiling_dbfs': -1.0, 'lookahead_ms': 5.0, 'release_ms': 50.0},
     'target_tolerance_lu': 0.1,
     'target_max_iter': 8,
     'target_max_gain_db': 24.0,
@@ -133,37 +139,65 @@ def tp_envelope(y):
     return np.maximum(np.abs(y), np.maximum(w, prev))
 
 
+def apply_limiter(y):
+    import external_limiters as E
+    lim = CFG['limiter']
+    return E.dpl(y, lim['ceiling_dbfs'])
+
+
+def reduction(pre, post):
+    """Gain reduction in dB where the input has signal (|pre| above -60 dBFS)."""
+    m = np.abs(pre) > 1e-3
+    if not m.any():
+        return {'gr_max_db': 0.0, 'gr_mean_db': 0.0}
+    gr = -20 * np.log10(np.clip(np.abs(post[m]) / np.abs(pre[m]), 1e-6, None))
+    return {'gr_max_db': float(np.percentile(gr, 99.9)), 'gr_mean_db': float(gr.mean())}
+
+
 def true_peak_dbfs(x):
     from scipy.signal import resample_poly
     tp = float(np.max(np.abs(resample_poly(x, 4, 1))))
     return 20 * math.log10(tp) if tp > 0 else None
 
 
+def hit_target(limiter, x, met, src_lufs, target):
+    """Pre-gain that puts the limited output on `target` LUFS, by bisection.
+
+    Output LUFS is monotone in pre-gain but its slope collapses under heavy limiting,
+    so a fixed-point update (pre += target - out) overshoots and cycles. At
+    pre = target - src the limiter can only remove loudness, so that is a lower
+    bracket; the cap is the upper one. A clip that cannot reach the target even at the
+    cap is kept at the cap and flagged.
+    """
+    tol = CFG['target_tolerance_lu']
+    lo, hi = target - src_lufs, CFG['target_max_gain_db']
+    if lo >= hi:
+        y = limiter(x * 10 ** (hi / 20))
+        return y, hi, abs(lufs(met, y) - target) <= tol
+    y_hi = limiter(x * 10 ** (hi / 20))
+    if lufs(met, y_hi) < target - tol:
+        return y_hi, hi, False
+    for _ in range(40):
+        mid = (lo + hi) / 2
+        y = limiter(x * 10 ** (mid / 20))
+        lv = lufs(met, y)
+        if abs(lv - target) <= tol:
+            return y, mid, True
+        lo, hi = (mid, hi) if lv < target else (lo, mid)
+    return y, mid, False
+
+
 def render_clip(x, met, src_lufs):
     """All arms for one clip. Returns {arm: (waveform, info)}."""
-    lim = CFG['limiter']
     out = {'z0': (x, {'pre_gain_db': 0.0})}
     for g in FIXED:
-        y, gain = limit(x * 10 ** (g / 20), **lim)
-        out[f'L{g}'] = (y, {'pre_gain_db': float(g), 'gr_max_db': float(-20 * np.log10(gain.min())),
-                            'gr_mean_db': float(-20 * np.log10(gain).mean())})
+        y = apply_limiter(x * 10 ** (g / 20))
+        out[f'L{g}'] = (y, {'pre_gain_db': float(g), **reduction(x * 10 ** (g / 20), y)})
     for t in TARGETS:
         target = -float(t)
-        pre = target - src_lufs
-        hit = False
-        for _ in range(CFG['target_max_iter']):
-            pre = min(pre, CFG['target_max_gain_db'])
-            y, gain = limit(x * 10 ** (pre / 20), **lim)
-            l = lufs(met, y)
-            if abs(l - target) <= CFG['target_tolerance_lu']:
-                hit = True
-                break
-            if pre >= CFG['target_max_gain_db'] and l < target:
-                break
-            pre += target - l
+        y, pre, hit = hit_target(apply_limiter, x, met, src_lufs, target)
         out[f'T{t}'] = (y, {'pre_gain_db': float(pre), 'target_lufs': target, 'target_hit': hit,
-                            'gr_max_db': float(-20 * np.log10(gain.min())),
-                            'gr_mean_db': float(-20 * np.log10(gain).mean())})
+                            **reduction(x * 10 ** (pre / 20), y)})
     for name in [f'L{g}' for g in FIXED] + [f'T{t}' for t in TARGETS]:
         y, info = out[name]
         # Scalar moves LUFS 1:1 except where the -70 LUFS absolute gate admits or drops
@@ -224,7 +258,7 @@ def score_all():
                 # Limited arms must sit under the ceiling. Twins are the same waveform at the
                 # source loudness, so they only have to stay out of clipping.
                 limited = arm != 'z0' and not arm.endswith('m')
-                if limited and (st['peak_dbfs'] > ceil + 1e-6 or st['true_peak_dbfs'] > CFG['true_peak_max_dbtp']):
+                if limited and (st['peak_dbfs'] > ceil + 0.01 or st['true_peak_dbfs'] > CFG['true_peak_max_dbtp']):
                     raise ValueError(f'{r.id}/{arm}: peak above ceiling')
                 if arm.endswith('m') and st['peak_dbfs'] >= 0:
                     raise ValueError(f'{r.id}/{arm}: loudness-matched twin clips')

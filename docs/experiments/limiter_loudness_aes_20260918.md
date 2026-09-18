@@ -33,11 +33,16 @@ limiter 會改變波形（crest 下降），這正是 061 踩過的「處理劣�
 | `T16` `T14` `T12` | 逐片段增益朝 integrated −16/−14/−12 LUFS → limiter，迭代到 limited 後落在目標 ±0.1 LU（前級上限 +24 dB；比目標大聲的片段會被**衰減**） |
 | `L*m` `T*m` | 上述各 arm 的響度對齊雙胞胎（±0.05 LU） |
 
-**Limiter**：lookahead 5 ms、release 50 ms、ceiling **−1 dBTP**。偵測走 4× 過取樣的 true-peak 包絡
-（只看 sample peak 時 inter-sample peak 會到 +0.5 dBTP，而 CLAP 會重取樣到 48 kHz）。
-增益曲線 = 前向 min filter（lookahead 窗）→ 指數 release → 同長度 box average；
-每個樣本的增益 ≤ 該樣本所需增益，所以 ceiling 在構造上不會被超過。
-斷言：limited arm sample peak ≤ −1 dBFS 且 true peak ≤ −0.5 dBTP；雙胞胎 sample peak < 0 dBFS。
+**Limiter（2026-09-18 修訂，使用者決定）**：**x42-dpl**（dpl.lv2 的 Peaklim，Fons Adriaensen 的 DPL 演算法），
+true-peak 模式、ceiling −1 dBTP、release 50 ms、內建 lookahead 1.2 ms；vendored 於
+`scripts/eval/third_party/x42_dpl/`，包成離線 CLI。選它是因為它是查證中最公認的開源 true-peak limiter、可引用。
+其 4× true-peak 濾波器為 44.1/48 kHz 設計，在 16 kHz 實測 true peak 最高約 +0.2～+0.44 dBTP（sample peak 精準 −1.00 dBFS）。
+斷言：limited arm sample peak ≤ −0.99 dBFS、true peak ≤ +1.0 dBTP；雙胞胎 sample peak < 0 dBFS。
+T 系列前級增益改用**二分搜尋**（dpl 重度 limiting 下 LUFS 對增益的斜率崩掉，定點迭代會震盪）；
+推到 +24 dB 仍達不到目標的片段保留在上限並標 `target_hit=false`。
+
+最初版本用自製 lookahead limiter（5 ms / 50 ms、true-peak 包絡），跑了 370 片段後改換 dpl；
+部分結果移到 `limiter_loudness_aes_20260918_superseded_ownlimiter/`，自製 limiter 改當 064b 的穩健性對照之一。
 float32 WAV、16 kHz、暫存（評分完即刪，記錄 content sha256）。
 
 ## 指標與閘門
@@ -60,21 +65,21 @@ AES 四軸（batch 16，同 063）＋ CLAP（逐檔，見 `reference_clap_batch_
 
 ## 限制
 
-單一 checkpoint、單一 generation seed，沿用 051 baseline 音檔。單一 limiter 設定（5/50 ms），
-不代表所有 limiter／mastering chain。T 系列對極安靜片段可能碰到 +24 dB 上限而未達目標，
+單一 checkpoint、單一 generation seed，沿用 051 baseline 音檔。主 limiter 單一設定（dpl, 50 ms release），
+不代表所有 limiter／mastering chain（見 064b）。T 系列對極安靜片段可能碰到 +24 dB 上限而未達目標，
 命中率會回報。AES 與 CLAP 都不是人類判斷。
 
 ## 064b 穩健性（2026-09-18 追加，使用者要求確認實作是否算真正的 limiter）
 
 腳本 `scripts/eval/limiter_robustness_aes_20260918.py`，產物 `.../limiter_robustness_aes_20260918/`。
-同一設計換成三個開源 limiter，只跑 L6 與 T14（各含響度對齊雙胞胎），外加 ffmpeg loudnorm：
+主 run 改用 dpl 後，064b 換成另外三個 limiter，只跑 L6 與 T14（各含響度對齊雙胞胎），外加 ffmpeg loudnorm：
 
 | limiter | 來源 | 偵測 |
 |---|---|---|
-| `dpl` | x42 dpl.lv2 的 Peaklim（Fons Adriaensen DPL），vendored 於 `scripts/eval/third_party/x42_dpl`，編成離線 CLI | true-peak 模式（在 16 kHz 實測仍可到 +0.44 dBTP，濾波器為 44.1/48k 設計） |
+| `own` | 064 最初的自製 lookahead limiter（5 ms / 50 ms，4× true-peak 包絡） | true-peak |
 | `alimiter` | ffmpeg 6.1.1，`level=0:latency=1`（預設值會把輸出拉回 0 dBFS 並位移 attack 時間） | sample-peak |
 | `hyrax` | Matchering 2.0.6 的 brickwall limiter（只 vendor limiter 本體） | sample-peak |
 | `loudnorm` | ffmpeg EBU R128，I=−14、TP=−1、LRA=50 | AGC + true-peak limiter（**不是**純 limiter；會把太大聲的片段往下拉） |
 
-判讀：三個 limiter 與 064 自製版的 processing 部分若同號，064 的結論可寫；不同號則只能寫成「取決於 limiter 實作」。
+判讀：三個 limiter 與 064 的 dpl 的 processing 部分若同號，064 的結論可寫；不同號則只能寫成「取決於 limiter 實作」。
 `z0` 必須與 064 逐片段相同。

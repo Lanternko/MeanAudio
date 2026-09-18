@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 """064b: does 064's limiter-processing effect survive a change of limiter?
 
-064 uses a small in-house lookahead limiter. Its level/processing split is only
-publishable if established limiters give the same sign. Same design, same 051 audio:
+064 uses x42-dpl (Adriaensen DPL, true-peak). Its level/processing split is only
+publishable if other limiters give the same sign: the in-house lookahead limiter that
+064 started with, ffmpeg alimiter and Matchering's Hyrax (both sample-peak). Same design, same 051 audio:
 for each external limiter k, a fixed +6 dB arm (L6_k) and a -14 LUFS target arm
 (T14_k), each with a twin scaled back to the source LUFS; plus ffmpeg loudnorm to
 -14 LUFS (AGC + true-peak limiter, the everyday normalisation pipeline) and its twin.
 
-064's own L6/T14 records are read from the 064 run and compared per clip; z0 is
+064's dpl L6/T14 records are read from the 064 run and compared per clip; z0 is
 re-scored here and must equal both 063 and 064.
 """
 from __future__ import annotations
@@ -30,15 +31,21 @@ CFG.update({
     'experiment': '064b limiter robustness',
     'out': '/home/kojiek/nvme_experiment_artifacts/meanaudio/limiter_robustness_aes_20260918',
     'main_064_items': M.CFG['out'] + '/items',
-    'external': ['dpl', 'alimiter', 'hyrax'],
+    'external': ['own', 'alimiter', 'hyrax'],
     'ceiling_db': -1.0,
     'fixed_gain_db': 6.0,
     'target_lufs': -14.0,
     'loudnorm': {'I': -14.0, 'TP': -1.0, 'LRA': 50},
 })
 # sample-peak limiters are allowed their inter-sample overs; that is how they ship
-TP_LIMIT = {'dpl': 1.0,  # its 4x TP filter is designed for 44.1/48 kHz; measured +0.44 dBTP at 16 kHz
-            'alimiter': 3.0, 'hyrax': 3.0, 'loudnorm': -0.5}
+TP_LIMIT = {'own': -0.5, 'alimiter': 3.0, 'hyrax': 3.0, 'loudnorm': -0.5}
+
+
+def own(y, ceiling_db):
+    return M.limit(y, **{**M.CFG['own_limiter'], 'ceiling_dbfs': ceiling_db})[0]
+
+
+LIMITERS = {**E.LIMITERS, 'own': own}
 
 
 def arm_list():
@@ -59,26 +66,14 @@ def twin(met, y, src_lufs):
 
 
 def to_target(f, x, met, src_lufs):
-    target = CFG['target_lufs']
-    pre = target - src_lufs
-    hit = False
-    for _ in range(CFG['target_max_iter']):
-        pre = min(pre, CFG['target_max_gain_db'])
-        y = f(x * 10 ** (pre / 20), CFG['ceiling_db'])
-        lv = lufs(met, y)
-        if abs(lv - target) <= CFG['target_tolerance_lu']:
-            hit = True
-            break
-        if pre >= CFG['target_max_gain_db'] and lv < target:
-            break
-        pre += target - lv
+    y, pre, hit = M.hit_target(lambda v: f(v, CFG['ceiling_db']), x, met, src_lufs, CFG['target_lufs'])
     return y, {'pre_gain_db': float(pre), 'target_hit': hit}
 
 
 def render_clip(x, met, src_lufs):
     out = {'z0': (x, {})}
     for k in CFG['external']:
-        f = E.LIMITERS[k]
+        f = LIMITERS[k]
         g = CFG['fixed_gain_db']
         out[f'L6_{k}'] = (f(x * 10 ** (g / 20), CFG['ceiling_db']), {'pre_gain_db': g, 'limiter': k})
         y, info = to_target(f, x, met, src_lufs)
@@ -174,7 +169,7 @@ def analyze():
     gate = {'max_abs_diff_vs_064_z0': worst, 'pass': worst <= CFG['replication_tolerance']}
 
     # (limiter, family) -> (source, arm, twin)
-    cells = {('own', 'L6'): (main, 'L6', 'L6m'), ('own', 'T14'): (main, 'T14', 'T14m')}
+    cells = {('dpl', 'L6'): (main, 'L6', 'L6m'), ('dpl', 'T14'): (main, 'T14', 'T14m')}
     for k in CFG['external']:
         cells[(k, 'L6')] = (rows, f'L6_{k}', f'L6_{k}m')
         cells[(k, 'T14')] = (rows, f'T14_{k}', f'T14_{k}m')
