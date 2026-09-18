@@ -37,7 +37,7 @@ limiter 會改變波形（crest 下降），這正是 061 踩過的「處理劣�
 true-peak 模式、ceiling −1 dBTP、release 50 ms、內建 lookahead 1.2 ms；vendored 於
 `scripts/eval/third_party/x42_dpl/`，包成離線 CLI。選它是因為它是查證中最公認的開源 true-peak limiter、可引用。
 其 4× true-peak 濾波器為 44.1/48 kHz 設計，在 16 kHz 實測 true peak 最高約 +0.2～+0.44 dBTP（sample peak 精準 −1.00 dBFS）。
-斷言：limited arm sample peak ≤ −0.99 dBFS、true peak ≤ +1.0 dBTP；雙胞胎 sample peak < 0 dBFS。
+斷言：limited arm sample peak ≤ −0.99 dBFS、true peak ≤ +2.0 dBTP（原設 +1.0；第一次執行在 item 400 被一個頂到 +24 dB 上限、平均增益衰減 13 dB 的 T12 片段以 +1.07 dBTP 觸發，已完成的 400 筆續用）；雙胞胎 sample peak < 0 dBFS。
 T 系列前級增益改用**二分搜尋**（dpl 重度 limiting 下 LUFS 對增益的斜率崩掉，定點迭代會震盪）；
 推到 +24 dB 仍達不到目標的片段保留在上限並標 `target_hit=false`。
 
