@@ -253,28 +253,30 @@ cd ~/MeanAudio && source ~/venvs/dac/bin/activate && bash train_pipeline.sh
 
 ### 指令
 
-```bash
-# 生成音訊
-python eval.py --variant meanaudio_s \
-    --model_path exps/EXP/EXP_ema_final.pth \
-    --output eval_output/EXP_jamendo/audio \
-    --tsv <TSV> --use_meanflow --num_steps 1 \
-    --encoder_name t5_clap --text_c_dim 512 \
-    --cfg_strength 0.5 --full_precision \
-    {--quality_level N | --no_q}
+**標準 eval（2026-09-18 定）**：MusicCaps 5521 / MeanFlow 25 步 / seed 42 / fp32 / NoMask，**每個 checkpoint 跑兩格：CFG0 與 CFG3+neg**（cfg 3.0 + 固定 fidelity8 負向 prompt）。一支 wrapper 跑完兩格：
 
-# 計算 metrics（CLAP batch 1 + AES + level；--fad 預設關閉；--tsv 必填）
-python scripts/eval/eval_metrics.py \
-    --gen_dir eval_output/EXP_musiccaps/audio \
-    --tsv /mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv \
-    --exp_name EXP
+```bash
+bash scripts/eval/mc_mf25_eval.sh <EXP> exps/<EXP>/<EXP>_ema_final.pth {--no_q | --quality_level N}
+#   [--mask]            模型是開 text mask 訓練的才加（label 加 _mask）
+#   [--gen_tsv PATH]    prefix 訓練（P8 V4）用 prefixed TSV 生成；CLAP 一律對原始 caption 算
+#   [cfg0] [cfg3neg]    只跑其中一格
+# Q 模型至少報 q9 與 q0（各跑一次 wrapper）
 ```
 
-結果：`eval_output/metrics/EXP/{metrics.txt, metrics.json, per_clip.tsv}`。缺檔或評分失敗會直接失敗（`--allow_missing` 才放行）。
+輸出：`~/eval_output_nvme/<EXP>_mc_mf25_{cfg0,cfg3_neg}[_qN]/`（`audio/`、`<label>/{metrics.txt,metrics.json,per_clip.tsv}`、`<label>_REPORT.json`）。有 REPORT 就跳過；沒有 REPORT 的殘缺目錄會**整格重跑**，因為 `eval.py` 整個 run 只 seed 一次 RNG，且跳過已存在檔案時不抽 noise，補齊的 clip 會跟一次跑完的不同。生成旗標與舊的 `caption10s_pipeline/eval_musiccaps_mf25.sh`（CFG0）/ `mc_mf25_cfg3neg_eval{,_q}.sh`（CFG3+neg）相同，已驗證音檔逐樣本一致；舊 wrapper 被 contract 綁 sha，凍結不改。
 
-**CLAP 一律逐檔（batch 1）**（2026-09-18 定）：laion_clap 在 batch > 8 時 padding 不同，b32 比逐檔高 +0.004～+0.025 且會翻排名（062）。`eval_metrics.py` 沒有 batch 參數；新 sweep 要算 CLAP 就 `from eval_metrics import score_clap`，不要自己寫 batch 迴圈。舊的 `~/research/meanaudio_eval/phase4_eval.py` 凍結不改（歷史 contract 綁 sha；CLAP 本來就是逐檔，兩者逐位一致）；`negprompt_reeval_full_arms.py`、`novocal_reeval_full_arms.py`、`negprompt_ablation_matrix.py`、`attm_protocol_eval.py` 是 b32 的歷史 driver，只用來重現舊表。完整數字見 `docs/experiments/best_results.md`。
+只算 metrics（音檔已存在）：
 
-主觀評估五首 prompt 見 `docs/eval/subjective_prompts.md`（25 steps + **cfg 0.5**）。**不要用 cfg ≥ 2.0** — 在非 null Q + 高能量 prompt 會觸發波形飽和（crest < 2.0，2026-04-21 於 subjective_ab v3 踩坑，mc18_abl_A–J 證實，york135 指出）。
+```bash
+python scripts/eval/eval_metrics.py --gen_dir <DIR>/audio \
+    --tsv /mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv --exp_name <LABEL> --out_dir <DIR>
+```
+
+`eval_metrics.py` = CLAP batch 1 + AES + level（LUFS / RMS / crest / 靜音 < −45 dBFS）＋選用 `--fad`；`--tsv` 必填、缺檔或評分失敗直接失敗（`--allow_missing` 才放行）。跨 arm 比較 AES/CLAP 前先看 `level_lufs_mean` 與 `level_silent_n`。完整數字見 `docs/experiments/best_results.md`。
+
+**CLAP 一律逐檔（batch 1）**（2026-09-18 定）：laion_clap 在 batch > 8 時 padding 不同，b32 比逐檔高 +0.004～+0.025 且會翻排名（062）。`eval_metrics.py` 沒有 batch 參數；新 sweep 要算 CLAP 就 `from eval_metrics import score_clap`，不要自己寫 batch 迴圈。舊的 `~/research/meanaudio_eval/phase4_eval.py` 凍結不改（歷史 contract 綁 sha；CLAP 本來就是逐檔，兩者逐位一致）；`negprompt_reeval_full_arms.py`、`novocal_reeval_full_arms.py`、`negprompt_ablation_matrix.py`、`attm_protocol_eval.py` 是 b32 的歷史 driver，只用來重現舊表。
+
+主觀評估五首 prompt 見 `docs/eval/subjective_prompts.md`（25 steps + **cfg 0.5**）。主觀試聽／`infer.py` **沒有負向 prompt 時不要用 cfg ≥ 2.0** — 在非 null Q + 高能量 prompt 會觸發波形飽和（crest < 2.0，2026-04-21 於 subjective_ab v3 踩坑，mc18_abl_A–J 證實，york135 指出）。標準 eval 的 CFG3+neg 格是 negprompt 消融定的 cfg 3.0，飽和用 metrics 的 `level_clipped_n` / `level_crest_mean` 監看。
 
 `infer.py` **沒有 `--no_q`** — NoQ 模型用 `--quality_level 10`（null token workaround）。
 

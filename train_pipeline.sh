@@ -38,6 +38,15 @@ S2_ITERATIONS=200000              # Stage 2 總 micro-steps
 LEARNING_RATE=1e-4                # 初始學習率（Stage 1 & 2 共用）
 
 USE_Q_CONDITIONING=false          # P8 V4: false → consistency 訊號走 text prefix，不走 q_embed
+TEXT_ATTENTION_MASK=false         # 現行協定 NoMask：訓練與 eval 一致（train 預設是 True，必須明寫）
+
+TRAIN_TSV="phase8_v4_train.tsv"   # 相對 DATA_DIR
+NPZ_DIR="$HOME/research/meanaudio_training/npz_phase8v4"
+
+# ── Eval（MusicCaps MF25 × {CFG0, CFG3+neg}，見 scripts/eval/mc_mf25_eval.sh）──
+EVAL_GEN_TSV="phase8_v4_musiccaps_test.tsv"  # 生成用 TSV（相對 DATA_DIR）；一般實驗用 musiccaps_test.tsv，
+                                             # 只有 prefix 訓練（P8 V4）要用 prefixed 版；CLAP 一律對原始 caption 算
+EVAL_Q_LEVELS="9 0"               # 只在 USE_Q_CONDITIONING=true 時使用；NoQ 一律 --no_q
 
 # ── LR 衰減點（Stage 2 專用）────────────────────────────────
 # 自動計算：Stage 2 有效 macro-steps = S2_ITERATIONS / ACCUM_STEPS
@@ -79,14 +88,15 @@ COMMON_ARGS=(
     +use_rope=False
     +use_wandb=False
     "+use_q_conditioning=$USE_Q_CONDITIONING"
+    "+use_text_attention_mask=$TEXT_ATTENTION_MASK"
     val_interval=999999
     eval_interval=999999
     save_eval_interval=999999
-    "data.AudioCaps_npz.tsv=$DATA_DIR/phase8_v4_train.tsv"
+    "data.AudioCaps_npz.tsv=$DATA_DIR/$TRAIN_TSV"
     "data.AudioCaps_val_npz.tsv=$DATA_DIR/phase4_val.tsv"
     "+data.AudioCaps_npz.gt_cache=$DATA_DIR/npz_cache_train.txt"
     "+data.AudioCaps_val_npz.gt_cache=$DATA_DIR/npz_cache_val.txt"
-    "++data.AudioCaps_npz.npz_dir=$HOME/research/meanaudio_training/npz_phase8v4"
+    "++data.AudioCaps_npz.npz_dir=$NPZ_DIR"
 )
 
 # ============================================================
@@ -169,114 +179,26 @@ torchrun --standalone --nproc_per_node=1 train.py \
 echo "[Stage 2] 訓練完成"
 
 # ============================================================
-# Eval：Stage 2 最終結果（Jamendo test set，q=6 + native_q）
+# Eval：Stage 2 最終結果 — MusicCaps 5521 / MF25 / seed 42 / fp32，
+#       兩格 CFG0 與 CFG3+neg（fidelity8），CLAP batch 1（eval_metrics.py）
+#       Jamendo 只在要跟 Phase 4-8 舊數字對照時另外跑
 # ============================================================
 
 S2_EMA="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
-# CLAP batch 1 + AES + level；舊 ~/research/meanaudio_eval/phase4_eval.py 凍結（歷史 contract 綁 sha）
-EVAL_SCRIPT="$WORK_DIR/scripts/eval/eval_metrics.py"
-TSV_FIXED="$DATA_DIR/phase4_test.tsv"
-TSV_NATIVE="$DATA_DIR/phase6_test.tsv"
-
-# use_q_conditioning=false の場合は --no_q フラグを付ける（untrained q_embed を使わせない）
-NO_Q_FLAG=""
-if [ "$USE_Q_CONDITIONING" = "false" ]; then
-    NO_Q_FLAG="--no_q"
-    echo "[Eval] USE_Q_CONDITIONING=false → --no_q を使用（null token q=10）"
-fi
+EVAL_WRAPPER="$WORK_DIR/scripts/eval/mc_mf25_eval.sh"
+EVAL_ARGS=(--gen_tsv "$DATA_DIR/$EVAL_GEN_TSV")
+if [ "$TEXT_ATTENTION_MASK" = "true" ]; then EVAL_ARGS+=(--mask); fi
 
 if [ "$USE_Q_CONDITIONING" = "false" ]; then
-    # q conditioning なし → q sweep 不要
-    # P8 V4: 兩 benchmark eval（10-exp 標準）
-    #   - MusicCaps n=5521（primary, ISMIR 黃金標準）
-    #   - Jamendo seed=42 random 2048（secondary, 跨 benchmark）
-    # 重要：eval.py 用 prefixed TSV（model expects prefix）；
-    # eval_metrics.py 用 ORIGINAL unprefixed TSV（CLAP 比較自然語意，不含控制 token）
-
-    # ── Eval 1: MusicCaps (primary) ─────────────────────────
-    EVAL_OUT_MC="$WORK_DIR/eval_output/${EXP_S2}_no_q_musiccaps"
-    echo "[Eval S2 / MusicCaps] gen → $EVAL_OUT_MC"
-    python eval.py \
-        --variant "meanaudio_s" \
-        --model_path "$S2_EMA" \
-        --output "$EVAL_OUT_MC/audio" \
-        --tsv "$DATA_DIR/phase8_v4_musiccaps_test.tsv" \
-        --use_meanflow --num_steps 1 \
-        --encoder_name t5_clap --text_c_dim 512 \
-        --cfg_strength 0.5 $NO_Q_FLAG \
-        --full_precision \
-        2>&1 | tee "$LOG_DIR/${EXP_S2}_no_q_musiccaps_eval.log"
-
-    python "$EVAL_SCRIPT" \
-        --gen_dir "$EVAL_OUT_MC/audio" \
-        --tsv "$DATA_DIR/musiccaps_test.tsv" \
-        --exp_name "${EXP_S2}_no_q_musiccaps" \
-        --num_samples 5521 \
-        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_no_q_musiccaps_eval.log"
-
-    # ── Eval 2: Jamendo seed=42 2048 (secondary) ────────────
-    EVAL_OUT_JM="$WORK_DIR/eval_output/${EXP_S2}_no_q_jamendo_seed42_2048"
-    echo "[Eval S2 / Jamendo seed42_2048] gen → $EVAL_OUT_JM"
-    python eval.py \
-        --variant "meanaudio_s" \
-        --model_path "$S2_EMA" \
-        --output "$EVAL_OUT_JM/audio" \
-        --tsv "$DATA_DIR/phase8_v4_jamendo_seed42_2048.tsv" \
-        --use_meanflow --num_steps 1 \
-        --encoder_name t5_clap --text_c_dim 512 \
-        --cfg_strength 0.5 $NO_Q_FLAG \
-        --full_precision \
-        2>&1 | tee "$LOG_DIR/${EXP_S2}_no_q_jamendo_eval.log"
-
-    python "$EVAL_SCRIPT" \
-        --gen_dir "$EVAL_OUT_JM/audio" \
-        --tsv "$DATA_DIR/phase4_test_seed42_2048.tsv" \
-        --exp_name "${EXP_S2}_no_q_jamendo_seed42_2048" \
-        --num_samples 2048 \
-        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_no_q_jamendo_eval.log"
+    echo "[Eval S2] NoQ → --no_q（null token q=10）"
+    bash "$EVAL_WRAPPER" "$EXP_S2" "$S2_EMA" --no_q "${EVAL_ARGS[@]}" \
+        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_eval.log"
 else
-    for Q in 6 9; do
-        EVAL_OUT="$WORK_DIR/eval_output/${EXP_S2}_q${Q}_jamendo"
-        echo "[Eval S2] 生成音訊 q=${Q}：$EVAL_OUT"
-        python eval.py \
-            --variant "meanaudio_s" \
-            --model_path "$S2_EMA" \
-            --output "$EVAL_OUT/audio" \
-            --tsv "$TSV_FIXED" \
-            --use_meanflow --num_steps 1 \
-            --encoder_name t5_clap --text_c_dim 512 \
-            --cfg_strength 0.5 --quality_level $Q \
-            --full_precision \
-            2>&1 | tee "$LOG_DIR/${EXP_S2}_q${Q}_eval.log"
-
-        python "$EVAL_SCRIPT" \
-            --gen_dir "$EVAL_OUT/audio" \
-            --tsv "$TSV_FIXED" \
-            --exp_name "${EXP_S2}_q${Q}" \
-            --num_samples 2048 \
-            2>&1 | tee -a "$LOG_DIR/${EXP_S2}_q${Q}_eval.log"
+    for Q in $EVAL_Q_LEVELS; do
+        echo "[Eval S2] Q-trained → --quality_level $Q"
+        bash "$EVAL_WRAPPER" "$EXP_S2" "$S2_EMA" --quality_level "$Q" "${EVAL_ARGS[@]}" \
+            2>&1 | tee -a "$LOG_DIR/${EXP_S2}_eval.log"
     done
-
-    # native_q
-    EVAL_OUT_NQ="$WORK_DIR/eval_output/${EXP_S2}_native_q_jamendo"
-    echo "[Eval S2] 生成音訊 native_q：$EVAL_OUT_NQ"
-    python eval.py \
-        --variant "meanaudio_s" \
-        --model_path "$S2_EMA" \
-        --output "$EVAL_OUT_NQ/audio" \
-        --tsv "$TSV_NATIVE" \
-        --use_meanflow --num_steps 1 \
-        --encoder_name t5_clap --text_c_dim 512 \
-        --cfg_strength 0.5 \
-        --full_precision \
-        2>&1 | tee "$LOG_DIR/${EXP_S2}_native_q_eval.log"
-
-    python "$EVAL_SCRIPT" \
-        --gen_dir "$EVAL_OUT_NQ/audio" \
-        --tsv "$TSV_FIXED" \
-        --exp_name "${EXP_S2}_native_q" \
-        --num_samples 2048 \
-        2>&1 | tee -a "$LOG_DIR/${EXP_S2}_native_q_eval.log"
 fi
 
 # ============================================================
@@ -287,6 +209,5 @@ echo "======================================================"
 echo "  Phase 訓練 + Eval 完成"
 echo "  S1 EMA    : exps/$EXP_S1/${EXP_S1}_ema_final.pth"
 echo "  S2 EMA    : exps/$EXP_S2/${EXP_S2}_ema_final.pth"
-echo "  S1 Metrics: eval_output/${EXP_S1}_q9/"
-echo "  S2 Metrics: eval_output/${EXP_S2}_q9/"
+echo "  Metrics   : ~/eval_output_nvme/${EXP_S2}_mc_mf25_{cfg0,cfg3_neg}*/"
 echo "======================================================"
