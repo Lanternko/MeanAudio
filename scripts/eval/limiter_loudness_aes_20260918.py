@@ -232,14 +232,13 @@ def score_all():
                 sf.write(p, y.astype(np.float32), SR, format='WAV', subtype='FLOAT')
                 per[arm] = {'path': p, 'signal': st, 'info': info, 'content_sha256': content_digest_array(y)}
             staged.append((r, base, per))
-        paths = [s[2][a]['path'] for s in staged for a in arms]
-        aes = _aes_batch(predictor, paths)
-        k = 0
-        for r, base, per in staged:
+        # One AES call per arm over the same 16 clips: this is exactly 063's grouping, so
+        # z0 can be compared to 063 per clip.
+        aes = {a: _aes_batch(predictor, [s[2][a]['path'] for s in staged]) for a in arms}
+        for j, (r, base, per) in enumerate(staged):
             rowv = {'id': r.id, 'source_sha256': hashes[r.id], 'baseline': base, 'arms': {}}
             for a in arms:
-                v = aes[k]
-                k += 1
+                v = aes[a][j]
                 if set(v) != set(AXES) or not all(math.isfinite(float(v[q])) for q in AXES):
                     raise ValueError('invalid AES ' + r.id + a)
                 cl = float(_clap_batch(clap, [per[a]['path']], [r.caption])[0])

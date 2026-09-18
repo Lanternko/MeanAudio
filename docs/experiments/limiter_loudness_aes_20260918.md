@@ -63,3 +63,18 @@ AES 四軸（batch 16，同 063）＋ CLAP（逐檔，見 `reference_clap_batch_
 單一 checkpoint、單一 generation seed，沿用 051 baseline 音檔。單一 limiter 設定（5/50 ms），
 不代表所有 limiter／mastering chain。T 系列對極安靜片段可能碰到 +24 dB 上限而未達目標，
 命中率會回報。AES 與 CLAP 都不是人類判斷。
+
+## 064b 穩健性（2026-09-18 追加，使用者要求確認實作是否算真正的 limiter）
+
+腳本 `scripts/eval/limiter_robustness_aes_20260918.py`，產物 `.../limiter_robustness_aes_20260918/`。
+同一設計換成三個開源 limiter，只跑 L6 與 T14（各含響度對齊雙胞胎），外加 ffmpeg loudnorm：
+
+| limiter | 來源 | 偵測 |
+|---|---|---|
+| `dpl` | x42 dpl.lv2 的 Peaklim（Fons Adriaensen DPL），vendored 於 `scripts/eval/third_party/x42_dpl`，編成離線 CLI | true-peak 模式（在 16 kHz 實測仍可到 +0.44 dBTP，濾波器為 44.1/48k 設計） |
+| `alimiter` | ffmpeg 6.1.1，`level=0:latency=1`（預設值會把輸出拉回 0 dBFS 並位移 attack 時間） | sample-peak |
+| `hyrax` | Matchering 2.0.6 的 brickwall limiter（只 vendor limiter 本體） | sample-peak |
+| `loudnorm` | ffmpeg EBU R128，I=−14、TP=−1、LRA=50 | AGC + true-peak limiter（**不是**純 limiter；會把太大聲的片段往下拉） |
+
+判讀：三個 limiter 與 064 自製版的 processing 部分若同號，064 的結論可寫；不同號則只能寫成「取決於 limiter 實作」。
+`z0` 必須與 064 逐片段相同。
