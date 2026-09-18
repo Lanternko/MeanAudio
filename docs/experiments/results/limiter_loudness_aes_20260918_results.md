@@ -41,7 +41,7 @@ bootstrap seed 20260918、10,000 次、pointwise 95% CI。064b（換 limiter 的
 
 ## 判讀
 
-1. **Primary（T14，−14 LUFS 串流標準）：用 limiter 變大聲讓 PQ 掉 0.220，一半來自響度、一半來自 limiter 處理。**
+1. **Primary（T14，−14 LUFS 串流標準）：用 limiter 變大聲讓 PQ 掉 0.220，在 dpl 下一半來自響度、一半來自 limiter 處理（處理部分的比例是 dpl 特有，見 064b）。**
    PQ、CU、CE、CLAP 全部下降；只有 PC 上升（+0.067）。→ 「用 limiter 提升 LUFS」在本專案主指標上**不是免費提升，是全面扣分**（PC 除外）。
 2. **響度部分與 063 同向**：PQ 每 LU −0.021～−0.029，比 063 原檔附近（約 −0.017/dB）稍陡；
    063 的「越大聲 PQ 越低」在原檔以上、limited 波形上繼續成立。
