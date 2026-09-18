@@ -140,7 +140,7 @@ MeanAudio/
    - **預設：MusicCaps**（ISMIR 黃金標準，2026-04-19 定為主要 benchmark）：`/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv`（5,527 筆，~11 min eval）
      - 理由：ISMIR benchmark 發表用；無 data leakage（訓練 Jamendo、eval MusicCaps）；16x 比 Jamendo 快
    - **次要：Jamendo** 歷史比較：`phase4_test.tsv`（90,063 筆，~3.1 hr eval）— 只在需要跟 Phase 4-8 舊數字對照時才跑
-   - **快速 sanity**：`eval.py` **無** `--num_samples` 參數；要做 2048 筆小 subset sanity 須先 `head -n 2049 <TSV> > <TSV>_2048.tsv` 切檔再傳 `--tsv`。`phase4_eval.py` 的 `--num_samples` 只控制 metric 計算樣本數（FAD），不影響生成數量
+   - **快速 sanity**：`eval.py` **無** `--num_samples` 參數；要做 2048 筆小 subset sanity 須先 `head -n 2049 <TSV> > <TSV>_2048.tsv` 切檔再傳 `--tsv`。`eval_metrics.py`（與舊 `phase4_eval.py`）的 `--num_samples` 只控制 FAD 抽樣數，不影響生成數量；要小量 smoke test 用 `--limit N`
 5. **Caption-source 換訓練時**：必須有 same-distribution eval；跨 style 結果只能寫 generalization，不是 conditioning test
 
 ---
@@ -263,13 +263,16 @@ python eval.py --variant meanaudio_s \
     --cfg_strength 0.5 --full_precision \
     {--quality_level N | --no_q}
 
-# 計算 metrics（AES 預設開啟，--fad 預設關閉）
-python ~/research/meanaudio_eval/phase4_eval.py \
-    --gen_dir eval_output/EXP_jamendo/audio \
-    --exp_name EXP --num_samples 2048
+# 計算 metrics（CLAP batch 1 + AES + level；--fad 預設關閉；--tsv 必填）
+python scripts/eval/eval_metrics.py \
+    --gen_dir eval_output/EXP_musiccaps/audio \
+    --tsv /mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv \
+    --exp_name EXP
 ```
 
-結果：`eval_output/metrics/EXP/metrics.txt`。完整數字見 `docs/experiments/best_results.md`。
+結果：`eval_output/metrics/EXP/{metrics.txt, metrics.json, per_clip.tsv}`。缺檔或評分失敗會直接失敗（`--allow_missing` 才放行）。
+
+**CLAP 一律逐檔（batch 1）**（2026-09-18 定）：laion_clap 在 batch > 8 時 padding 不同，b32 比逐檔高 +0.004～+0.025 且會翻排名（062）。`eval_metrics.py` 沒有 batch 參數；新 sweep 要算 CLAP 就 `from eval_metrics import score_clap`，不要自己寫 batch 迴圈。舊的 `~/research/meanaudio_eval/phase4_eval.py` 凍結不改（歷史 contract 綁 sha；CLAP 本來就是逐檔，兩者逐位一致）；`negprompt_reeval_full_arms.py`、`novocal_reeval_full_arms.py`、`negprompt_ablation_matrix.py`、`attm_protocol_eval.py` 是 b32 的歷史 driver，只用來重現舊表。完整數字見 `docs/experiments/best_results.md`。
 
 主觀評估五首 prompt 見 `docs/eval/subjective_prompts.md`（25 steps + **cfg 0.5**）。**不要用 cfg ≥ 2.0** — 在非 null Q + 高能量 prompt 會觸發波形飽和（crest < 2.0，2026-04-21 於 subjective_ab v3 踩坑，mc18_abl_A–J 證實，york135 指出）。
 

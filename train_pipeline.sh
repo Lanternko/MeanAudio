@@ -173,7 +173,8 @@ echo "[Stage 2] 訓練完成"
 # ============================================================
 
 S2_EMA="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
-EVAL_SCRIPT="$HOME/research/meanaudio_eval/phase4_eval.py"
+# CLAP batch 1 + AES + level；舊 ~/research/meanaudio_eval/phase4_eval.py 凍結（歷史 contract 綁 sha）
+EVAL_SCRIPT="$WORK_DIR/scripts/eval/eval_metrics.py"
 TSV_FIXED="$DATA_DIR/phase4_test.tsv"
 TSV_NATIVE="$DATA_DIR/phase6_test.tsv"
 
@@ -190,7 +191,7 @@ if [ "$USE_Q_CONDITIONING" = "false" ]; then
     #   - MusicCaps n=5521（primary, ISMIR 黃金標準）
     #   - Jamendo seed=42 random 2048（secondary, 跨 benchmark）
     # 重要：eval.py 用 prefixed TSV（model expects prefix）；
-    # phase4_eval.py 用 ORIGINAL unprefixed TSV（CLAP 比較自然語意，不含控制 token）
+    # eval_metrics.py 用 ORIGINAL unprefixed TSV（CLAP 比較自然語意，不含控制 token）
 
     # ── Eval 1: MusicCaps (primary) ─────────────────────────
     EVAL_OUT_MC="$WORK_DIR/eval_output/${EXP_S2}_no_q_musiccaps"
@@ -250,6 +251,7 @@ else
 
         python "$EVAL_SCRIPT" \
             --gen_dir "$EVAL_OUT/audio" \
+            --tsv "$TSV_FIXED" \
             --exp_name "${EXP_S2}_q${Q}" \
             --num_samples 2048 \
             2>&1 | tee -a "$LOG_DIR/${EXP_S2}_q${Q}_eval.log"
@@ -271,6 +273,7 @@ else
 
     python "$EVAL_SCRIPT" \
         --gen_dir "$EVAL_OUT_NQ/audio" \
+        --tsv "$TSV_FIXED" \
         --exp_name "${EXP_S2}_native_q" \
         --num_samples 2048 \
         2>&1 | tee -a "$LOG_DIR/${EXP_S2}_native_q_eval.log"

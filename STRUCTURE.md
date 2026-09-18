@@ -77,7 +77,8 @@ MeanAudio/
 | `/mnt/HDD/kojiek/MeanAudio_eval_output/` | generated audio (linked as `eval_output/`) |
 | `/mnt/HDD/kojiek/MeanAudio_eval_output_OLD/` | archived old eval outputs (52 GB, moved 2026-05-16) |
 | `/mnt/HDD/kojiek/phase4_jamendo_data/` | training TSVs and NPZ（部分 LP-MC 檔有 `_QUARANTINED_*` prefix） |
-| `/home/kojiek/research/meanaudio_eval/phase4_eval.py` | CLAP/AES/PE-AV metric script |
+| `scripts/eval/eval_metrics.py` | **canonical** CLAP（batch 1）/AES/level metric script |
+| `/home/kojiek/research/meanaudio_eval/phase4_eval.py` | legacy metric script（凍結，歷史 contract 綁 sha；數字與 eval_metrics 逐位一致） |
 | `/home/kojiek/research/meanaudio_training/` | NPZ writers, multi-cap tools, EXP scripts |
 | `~/venvs/dac/` | primary Python env |
 | `~/venvs/music_flamingo/` | Music Flamingo captioning env |

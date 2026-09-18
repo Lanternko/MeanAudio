@@ -67,7 +67,9 @@ Root orchestration for paper baseline: `../run_phase8_bugfix_full.sh`（re-extra
 
 ### `eval/` — eval batch scripts
 
-Multi-q sweeps, baseline reruns, Music Flamingo prompt-style evals. Each calls `python eval.py` then `~/research/meanaudio_eval/phase4_eval.py` (and often PE-AV).
+**Canonical metrics: `eval_metrics.py`**（2026-09-18 起）— CLAP 逐檔（batch 1）+ AES + level（LUFS / RMS / crest / 靜音 < −45 dBFS）＋選用 FAD；`--tsv` 必填、缺檔即失敗、輸出 `metrics.txt`（舊格式）+ `metrics.json`（provenance）+ `per_clip.tsv`。在 slot0nm quarter CFG3+neg 上與 `phase4_eval.py` 逐位一致。新 sweep 要 CLAP 請 import `score_clap`，不要自己寫 batch 迴圈。
+
+Legacy：下列批次腳本各自呼叫 `python eval.py` 再呼叫凍結的 `~/research/meanaudio_eval/phase4_eval.py`（CLAP 同樣是逐檔，數字可比）。**b32 CLAP 的歷史 driver**（只用來重現舊表，不要拿來算新數字）：`negprompt_reeval_full_arms.py`、`novocal_reeval_full_arms.py`、`negprompt_ablation_matrix.py`、`rescore_clap_batch32.py`、`../attm/attm_protocol_eval.py`、`paired_clap_bootstrap_phase8_fixedq_attm.py`、`../analysis/phase8_q_clap_bootstrap.py`（後兩者 `--batch-size` 預設 32，被歷史 contract 綁住未改；新用法請傳 `--batch-size 1`）。
 
 | Script | Purpose |
 |--------|---------|

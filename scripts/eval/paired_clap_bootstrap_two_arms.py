@@ -52,7 +52,8 @@ def main() -> None:
     parser.add_argument("--gate-delta", type=float, default=None,
                         help="preregistered a-minus-b threshold to report against")
     parser.add_argument("--seed", type=int, default=20260810)
-    parser.add_argument("--batch-size", type=int, default=32)
+    # batch 1 is the project CLAP standard (batched laion_clap scores sit higher, 062)
+    parser.add_argument("--batch-size", type=int, default=1)
     parser.add_argument("--device", default=None, help="cuda|cpu; default auto")
     args = parser.parse_args()
 
