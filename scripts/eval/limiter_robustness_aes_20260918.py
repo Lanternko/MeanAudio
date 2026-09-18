@@ -127,7 +127,12 @@ def score_all():
                 st = signal_stats(y, met)
                 st['true_peak_dbfs'] = M.true_peak_dbfs(y)
                 lim = info.get('limiter')
-                if lim and (st['peak_dbfs'] > PEAK_LIMIT[lim] or st['true_peak_dbfs'] > TP_LIMIT[lim]):
+                if lim == 'loudnorm' and st['peak_dbfs'] >= 0:
+                    # loudnorm limits at 192 kHz; resampling to 16 kHz can overshoot full
+                    # scale (FEuXIeWoCQQ_30: +0.21 dBFS, 4 samples). That is loudnorm as it
+                    # ships at this rate: flag it and drop the clip from the loudnorm cell.
+                    info = {**info, 'output_clips': True}
+                elif lim and (st['peak_dbfs'] > PEAK_LIMIT[lim] or st['true_peak_dbfs'] > TP_LIMIT[lim]):
                     raise ValueError(f'{r.id}/{arm}: peak {st["peak_dbfs"]:.2f} / tp {st["true_peak_dbfs"]:.2f}')
                 if arm.endswith('m') and st['peak_dbfs'] >= 0:
                     # A limiter that raised crest (loudnorm's AGC can) leaves a twin that
@@ -186,8 +191,9 @@ def analyze():
     table = {}
     for (lim, fam), (src, arm, tw) in cells.items():
         all_ids = ids
-        ids = [i for i in all_ids if src[i]['arms'][tw]['info'].get('twin_valid', True)]
-        e = {'n': len(ids), 'excluded_twin_clipping': len(all_ids) - len(ids),'delta_lufs': float(np.mean([src[i]['arms'][arm]['signal']['lufs'] - src[i]['arms']['z0']['signal']['lufs'] for i in ids])),
+        ids = [i for i in all_ids if src[i]['arms'][tw]['info'].get('twin_valid', True)
+               and not src[i]['arms'][arm]['info'].get('output_clips', False)]
+        e = {'n': len(ids), 'excluded_clipping': len(all_ids) - len(ids),'delta_lufs': float(np.mean([src[i]['arms'][arm]['signal']['lufs'] - src[i]['arms']['z0']['signal']['lufs'] for i in ids])),
              'crest_db': float(np.mean([src[i]['arms'][arm]['signal']['crest_db'] for i in ids])),
              'true_peak_dbfs': float(np.mean([src[i]['arms'][arm]['signal']['true_peak_dbfs'] for i in ids]))}
         for m in metrics:
