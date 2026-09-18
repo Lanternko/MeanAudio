@@ -39,6 +39,7 @@
 | **crest 介入線**（061、固定 LUFS 移動 crest，檢定 051 的 +0.44 crest↔PQ 關聯是否因果） | `docs/experiments/crest_intervention_cfg3_20260916.md` |
 | **crest 介入結果**（061 收線：主斜率反號但為處理劣化污染；crest 不可當訓練目標） | `docs/experiments/results/crest_intervention_cfg3_20260916_results.md` |
 | **絕對響度階梯線**（063、純量增益 −18→0 dB 階梯＋+6 dB 餘裕子集，檢定 051 的響度效應是單調還是倒 U；只有 p6 真的比原檔大聲） | `docs/experiments/gain_ladder_aes_20260918.md` |
+| **絕對響度階梯結果**（063 收線：PQ/CU 越小聲越高、CE/PC 頂點 −6～−3 dB、**CLAP 越大聲越高** → arm 間 PQ/CLAP 比較都要先鎖響度） | `docs/experiments/results/gain_ladder_aes_20260918_results.md` |
 | **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |
 | **Q 解析度 × caption rotation 線**（048/049、013 true-random × K=3/K=10 balanced） | `docs/experiments/c2p0_truerandom_q_granularity_line.md` |
 | Qwen collapse 10-model audit | `docs/experiments/history/phase8/qwen_collapse_audit_10model.md` |
