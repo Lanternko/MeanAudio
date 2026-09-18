@@ -2,17 +2,20 @@
 """063: absolute-level ladder on the 051 canonical baseline audio.
 
 051 measured attenuation only (0/-3/-6/-9 dB) and found PQ rising as the file gets
-quieter. That leaves the amplification direction and the shape of the curve untested:
-a monotone preference for quiet and an inverted-U with an interior optimum both fit
-those four points. This walks a 3 dB ladder from -18 dB up to the original level, so
-every step from the reference IS an amplification, and asks where PQ peaks.
+quieter. Those four points cannot tell a monotone preference for quiet from an
+inverted-U with an interior optimum. This walks a 3 dB ladder from -18 dB up to the
+original level and asks where PQ peaks. AES is deterministic, so a ladder step read
+upward is the same pair as 051 read downward with the sign flipped: the ladder adds
+range below -9 dB, not a new direction. The only above-original evidence is p6.
 
 Pure scalar gain: one multiplication per arm, no time-varying processing, no
 per-sample nonlinearity. Crest is invariant under a scalar (peak and RMS scale
 together), so unlike 061 this moves absolute level and nothing else.
 
-Amplification never breaches full scale because the ladder tops out at the original
-file. One secondary arm goes above it, restricted to clips with real headroom.
+No ladder arm can clip because the ladder tops out at the original file. Louder than
+the original is not cleanly reachable for most clips (they sit within 1 dB of full
+scale, and clipping or limiting would change the waveform), so the one arm above it,
+p6, is restricted to clips with real headroom and is a selected subset.
 
 Reuses the 051 hash-verified baseline FLAC; generates no audio from a checkpoint.
 """
@@ -351,7 +354,8 @@ def analyze(c, scores):
                      'rule': a['exclusion_rule']},
         'arm_deltas': {}, 'arm_levels': {}, 'adjacent_steps': {}, 'covariates': {},
         'inference': 'Paired within-clip deltas against the quietest rung; pointwise 95% bootstrap '
-                     'CI over clips. Every contrast against the reference is an AMPLIFICATION. '
+                     'CI over clips. The quietest rung is a bookkeeping zero: every per-rung score is the same '
+                     'whatever the reference, and only p6 lies above the original level. '
                      'Absolute CLAP here is not comparable to the canonical 48 kHz tables: it is '
                      'scored on the retained 16 kHz baseline audio, so only its response to gain is read.'}
 
@@ -471,8 +475,9 @@ def report(c):
     plt.close(fig)
 
     md = ['# 063 absolute-level ladder — MusicCaps5521 (051 baseline audio)', '',
-          'Pure scalar gain; the reference is the quietest rung, so every contrast is an '
-          'amplification. Crest is invariant under a scalar.', '',
+          'Pure scalar gain; the quietest rung is only the zero of the deltas (the per-rung scores do '
+          'not depend on it). Only p6 lies above the original level, on a headroom-selected subset. '
+          'Crest is invariant under a scalar.', '',
           '| arm | level dB | PQ delta vs ref | CE delta | CU delta | PC delta | CLAP delta |',
           '|---|---:|---:|---:|---:|---:|---:|']
     for arm in sorted(arms(c), key=lambda n: arms(c)[n]['gain_db']):

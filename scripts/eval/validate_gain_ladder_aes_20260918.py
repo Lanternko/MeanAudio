@@ -52,7 +52,7 @@ def main() -> int:
         if arm not in ladder:
             problems.append(f'replication target {arm} is not a ladder arm')
     if ladder and a['reference_arm'] != ladder[0]:
-        problems.append('reference arm must be the quietest rung so every contrast is an amplification')
+        problems.append('reference arm must be the quietest rung (the registered zero of the deltas)')
     if len(set(arms(c)[n]['gain_db'] for n in names)) != len(names):
         problems.append('duplicate gain_db among arms')
     if any(arms(c)[n]['gain_db'] > 0 for n in ladder):

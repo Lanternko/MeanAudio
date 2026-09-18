@@ -37,13 +37,13 @@
   "approval_required": true,
   "bindings": {
     "action": "/home/kojiek/MeanAudio/scripts/eval/gain_ladder_aes_20260918.py",
-    "action_sha256": "70f5a2e64c6d0dce1f45f05b8f239b39bbc094df67b924f46cdae82b04e4ea8e",
+    "action_sha256": "facdc129703bd56f466e9a5c6f1b3b22cf5390d1a78004375e2d8d78ad47ae39",
     "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/gain_ladder_aes_20260918_guest.py",
     "harn_sha256": "a2c02347a22f07278bad77b492fd52531c5eb8b581dedb0cb22698cf3da6a551",
     "launcher": "/home/kojiek/gpu_queue/p2/pending/003_gain_ladder_aes.sh",
     "launcher_sha256": "05fa8c96c024f12e792ff73523d535bdb64e1c9cf1c4271fd80f8c048330517e",
     "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_gain_ladder_aes_20260918.py",
-    "preflight_sha256": "d248481170f653895248347456f8c6493a663ec0edf8c5ce81d0f8271dde2652"
+    "preflight_sha256": "9fc92df85aaffb477948104db7b512211fcd14018785319eea9cc28b2ddc5215"
   },
   "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
   "commands": {
@@ -67,7 +67,7 @@
   },
   "dependencies": [],
   "design_document": "/home/kojiek/MeanAudio/docs/experiments/gain_ladder_aes_20260918.md",
-  "design_document_sha256": "482c1e1a97a8ba7e0c15fdbf57c5088909bcee3a3d2603d2e701aa0ab98fd21a",
+  "design_document_sha256": "f7520e2e155fc1f816d89ec2b20ae517073a1b3d6a9c8e90b894168eb1a0a22f",
   "document_kind": "preregistered_absolute_level_ladder_contract",
   "experiment_id": "gain-ladder-aes-cfg3-fidelity8-20260918",
   "git_revision": "7736200fadc6b99460502501049da2f782f4c742",
@@ -87,7 +87,7 @@
       "m18": {
         "gain_db": -18,
         "kind": "scalar_gain",
-        "role": "reference rung: the quietest level, so every ladder contrast is an amplification"
+        "role": "reference rung: the registered zero of the deltas; per-rung scores do not depend on which rung is the zero"
       },
       "m3": {
         "gain_db": -3,
@@ -152,7 +152,7 @@
     "solver": "MeanFlow",
     "steps": 25
   },
-  "question": "Does the 051 attenuation effect extend into the amplification direction, and is the AES response to absolute level monotone or an inverted U with an interior optimum?",
+  "question": "Is the AES response to absolute level, within the range reachable without clipping (-18 dB to the original), monotone or an inverted U with an interior optimum; where does the original output sit on that curve; and, on the headroom subset only (p6), does PQ keep falling above the original level?",
   "queue_name": "003_gain_ladder_aes.sh",
   "queue_placement": "Cut-in band per QUEUE.md: a 001-009 name takes the next seat without renumbering 062. Registered as experiment 063; the queue filename is only a sort key and nothing binds to it.",
   "queue_role": "p2",
@@ -201,5 +201,6 @@
     "automatic_repair": false,
     "poll_seconds": 2,
     "stall_seconds": 5400
-  }
+  },
+  "scope_note": "AES is deterministic, so an upward ladder step is the same pair as a downward 051 step with the sign flipped: the ladder extends range, it does not test a new direction. Louder than the original is cleanly reachable only on the p6 headroom subset; clipping, limiting or out-of-range float were rejected (2026-09-18)."
 }
