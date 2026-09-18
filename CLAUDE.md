@@ -42,7 +42,7 @@
 | **絕對響度階梯結果**（063 收線：PQ/CU 越小聲越高、CE/PC 頂點 −6～−3 dB、**CLAP 越大聲越高** → arm 間 PQ/CLAP 比較都要先鎖響度） | `docs/experiments/results/gain_ladder_aes_20260918_results.md` |
 | **底線階梯線**（065、純量衰減到 −120 dB＋x42-dpl 向下 limiting，F/Q 雙模式拆開評分器／PCM_16 格式／LUFS 門檻三種底線；pilot：PQ 頂點約 −21 dB，063 的單調只在 −18～0 成立） | `docs/experiments/floor_ladder_aes_20260918.md` |
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
-| **limiter 響度提升結果**（064：T14 PQ −0.220，一半響度一半處理；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
+| **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
 | **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |
 | **Q 解析度 × caption rotation 線**（048/049、013 true-random × K=3/K=10 balanced） | `docs/experiments/c2p0_truerandom_q_granularity_line.md` |
 | Qwen collapse 10-model audit | `docs/experiments/history/phase8/qwen_collapse_audit_10model.md` |

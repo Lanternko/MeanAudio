@@ -3,7 +3,7 @@
 2026-09-18 20:37 完成主 run。設計見 `docs/experiments/limiter_loudness_aes_20260918.md`。
 產物：`/home/kojiek/nvme_experiment_artifacts/meanaudio/limiter_loudness_aes_20260918/`
 （`summary.json` sha256 `2cc67c691fc9…`、`per_clip.csv`）。15 arm × 5,521 = 82,815 筆評分條件，排除 0 筆；
-bootstrap seed 20260918、10,000 次、pointwise 95% CI。064b（換 limiter 的穩健性）結果待補於下方。
+bootstrap seed 20260918、10,000 次、pointwise 95% CI。064b（換 limiter 的穩健性）見文末：**方向穩健，處理部分的大小不穩健**。
 
 ## 重現閘門：通過
 
@@ -63,8 +63,42 @@ bootstrap seed 20260918、10,000 次、pointwise 95% CI。064b（換 limiter 的
 
 單一 checkpoint、單一 generation seed，沿用 051 baseline 音檔。主 limiter 是 x42-dpl 的單一設定（release 50 ms），
 在 16 kHz 下 true peak 最高 +1.07 dBTP（只發生在頂到 +24 dB 上限的片段）。T 系列未命中的片段在分析中照常計入（保留在上限的輸出）。
-處理效果是否依 limiter 實作而異，見 064b。AES 與 CLAP 都不是人類判斷。
+處理效果的**大小**依 limiter 實作而異（064b：差 12 倍），方向穩健。AES 與 CLAP 都不是人類判斷。
 
-## 064b：換 limiter 的穩健性
+## 064b：換 limiter 的穩健性（2026-09-19 00:10 完成）
 
-（執行中，完成後補。）
+產物：`/home/kojiek/nvme_experiment_artifacts/meanaudio/limiter_robustness_aes_20260918/`（`summary.json` sha256 `4006768412de…`）。
+15 arm × 5,521。`z0` 與 064 逐片段差值 0（閘門通過）。loudnorm 有 8 個片段因 192k→16k 重取樣過衝超過 0 dBFS，從該格排除（n = 5,513）；其餘各格 0 排除。
+
+**T14（目標 −14 LUFS，各 limiter ΔLUFS 都約 +4.3～+4.7）**
+
+| limiter | crest | PQ total | PQ level | **PQ proc** | CU proc | CE proc | PC proc | CLAP total | CLAP proc |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| dpl（主） | 12.17 | −0.220 | −0.110 | **−0.110** | −0.068 | −0.050 | +0.088 | −0.0100 | −0.0068 |
+| loudnorm（兩段式） | 12.64 | −0.218 | −0.105 | **−0.113** | −0.071 | −0.049 | +0.056 | −0.0085 | −0.0059 |
+| own | 12.11 | −0.158 | −0.106 | **−0.052** | −0.021 | −0.014 | +0.073 | −0.0079 | −0.0048 |
+| alimiter | 12.11 | −0.142 | −0.105 | **−0.038** | −0.011 | −0.009 | +0.063 | −0.0072 | −0.0037 |
+| hyrax | 12.11 | −0.112 | −0.103 | **−0.009** | **+0.004** | **+0.004** | +0.039 | −0.0078 | −0.0037 |
+
+**L6（固定 +6 dB）** 同序：PQ proc dpl −0.093 / own −0.069 / alimiter −0.065 / hyrax −0.024；PQ level 四者都在 −0.089～−0.093。
+
+所有列出的值 CI 皆不跨零（完整區間見 summary.json）。
+
+### 判讀
+
+1. **響度部分與 limiter 無關，完全穩健。** 五種 limiter 的 PQ level 都在 −0.103～−0.110（T14）、−0.089～−0.093（L6）；
+   CLAP level 都是負的（−0.0026～−0.0041）。「原檔以上再變大聲，PQ 與 CLAP 都下降」不是 dpl 特有。
+2. **總效果方向穩健**：PQ、CU、CE、CLAP 的 total 在所有 limiter 下都是負，PC 都是正。
+   → 064 的主結論「用 limiter 提升 LUFS 不是免費提升」**對 limiter 選擇穩健**。
+3. **處理部分的方向穩健、大小不穩健。** PQ proc 全為負，但量級差 12 倍（hyrax −0.009 到 loudnorm −0.113）；
+   CU/CE proc 在 hyrax 下甚至翻正（+0.004）。CLAP proc 全為負、PC proc 全為正。
+   → 「limiter 處理本身會扣 PQ」可寫，但扣多少取決於實作；**064 主表裡「一半響度一半處理」的比例是 dpl 特有的**，不可推廣。
+4. **處理懲罰的大小對應 release 設計而非 crest。** T14 各 limiter 的 crest 幾乎相同（12.1～12.6 dB），PQ proc 卻差 12 倍。
+   懲罰最小的 hyrax release 3 s（增益變化慢，接近靜態增益）；dpl 的 lookahead 只有 1.2 ms、release 50 ms，懲罰最大。
+   這是機制推測，未做 release 掃描驗證。這也再次說明 **crest 不能代表 limiting 的聽感劣化**（與 061 同向）。
+5. **業界實際流程（loudnorm 正規化到 −14）與 dpl 幾乎一樣差**：PQ total −0.218 vs −0.220。
+
+### 對既有結論的修正
+
+- 064 主結論（limiter 推響度讓 PQ/CU/CE/CLAP 下降、PC 上升）**維持**。
+- 「一半來自響度、一半來自處理」**改寫為**：響度部分約 −0.10 PQ（穩健）；處理部分 −0.01～−0.11 PQ，依 limiter 而定。
