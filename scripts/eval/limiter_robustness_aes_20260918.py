@@ -130,7 +130,10 @@ def score_all():
                 if lim and (st['peak_dbfs'] > PEAK_LIMIT[lim] or st['true_peak_dbfs'] > TP_LIMIT[lim]):
                     raise ValueError(f'{r.id}/{arm}: peak {st["peak_dbfs"]:.2f} / tp {st["true_peak_dbfs"]:.2f}')
                 if arm.endswith('m') and st['peak_dbfs'] >= 0:
-                    raise ValueError(f'{r.id}/{arm}: loudness-matched twin clips')
+                    # A limiter that raised crest (loudnorm's AGC can) leaves a twin that
+                    # would need >0 dBFS to reach the source LUFS. Score it, but drop the
+                    # clip from that cell in analysis rather than measure out-of-range audio.
+                    info = {**info, 'twin_valid': False}
                 p = scratch / f'{r.id}__{arm}.wav'
                 sf.write(p, y.astype(np.float32), SR, format='WAV', subtype='FLOAT')
                 per[arm] = {'path': p, 'signal': st, 'info': info, 'content_sha256': content_digest_array(y)}
@@ -182,7 +185,9 @@ def analyze():
 
     table = {}
     for (lim, fam), (src, arm, tw) in cells.items():
-        e = {'delta_lufs': float(np.mean([src[i]['arms'][arm]['signal']['lufs'] - src[i]['arms']['z0']['signal']['lufs'] for i in ids])),
+        all_ids = ids
+        ids = [i for i in all_ids if src[i]['arms'][tw]['info'].get('twin_valid', True)]
+        e = {'n': len(ids), 'excluded_twin_clipping': len(all_ids) - len(ids),'delta_lufs': float(np.mean([src[i]['arms'][arm]['signal']['lufs'] - src[i]['arms']['z0']['signal']['lufs'] for i in ids])),
              'crest_db': float(np.mean([src[i]['arms'][arm]['signal']['crest_db'] for i in ids])),
              'true_peak_dbfs': float(np.mean([src[i]['arms'][arm]['signal']['true_peak_dbfs'] for i in ids]))}
         for m in metrics:
@@ -190,6 +195,7 @@ def analyze():
                     'level': mean_ci([val(src, i, arm, m) - val(src, i, tw, m) for i in ids], rng, reps),
                     'processing': mean_ci([val(src, i, tw, m) - val(src, i, 'z0', m) for i in ids], rng, reps)}
         table[f'{fam}/{lim}'] = e
+        ids = all_ids
 
     def sign(c):
         lo, hi = c['ci95']

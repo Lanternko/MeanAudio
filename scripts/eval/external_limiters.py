@@ -53,8 +53,25 @@ def alimiter(x, ceiling_db=-1.0):
 
 
 def loudnorm(x, target_lufs=-14.0, tp_db=-1.0):
-    # LRA is set wide so the AGC is not also asked to compress the loudness range.
-    y = _ffmpeg(x, f'loudnorm=I={target_lufs:g}:TP={tp_db:g}:LRA=50,aresample={SR}')
+    """Two-pass loudnorm, the documented file workflow.
+
+    Pass 1 measures; pass 2 feeds the measurements back with linear=true, so a clip
+    that can reach the target within the TP ceiling gets one static gain. loudnorm
+    itself falls back to its dynamic AGC + limiter when it cannot. Single-pass
+    (dynamic from the start) is the live-stream mode and misbehaves on 10 s clips:
+    it pulled a clip already at -14.0 LUFS down to -17.2.
+    LRA is set wide so the AGC is not also asked to compress the loudness range.
+    """
+    import json
+    base = f'loudnorm=I={target_lufs:g}:TP={tp_db:g}:LRA=50'
+    cmd = ['ffmpeg', '-hide_banner', '-nostats', '-f', 'f32le', '-ar', str(SR), '-ac', '1', '-i', 'pipe:0',
+           '-af', base + ':print_format=json', '-f', 'null', '-']
+    r = subprocess.run(cmd, input=np.asarray(x, dtype='<f4').tobytes(), capture_output=True, check=True)
+    err = r.stderr.decode()
+    m = json.loads(err[err.rindex('{'):err.rindex('}') + 1])
+    af = (f"{base}:measured_I={m['input_i']}:measured_TP={m['input_tp']}:measured_LRA={m['input_lra']}"
+          f":measured_thresh={m['input_thresh']}:offset={m['target_offset']}:linear=true,aresample={SR}")
+    y = _ffmpeg(x, af)
     return y[:len(x)] if len(y) >= len(x) else np.concatenate([y, np.zeros(len(x) - len(y))])
 
 

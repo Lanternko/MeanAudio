@@ -79,7 +79,7 @@ AES 四軸（batch 16，同 063）＋ CLAP（逐檔，見 `reference_clap_batch_
 | `own` | 064 最初的自製 lookahead limiter（5 ms / 50 ms，4× true-peak 包絡） | true-peak |
 | `alimiter` | ffmpeg 6.1.1，`level=0:latency=1`（預設值會把輸出拉回 0 dBFS 並位移 attack 時間） | sample-peak |
 | `hyrax` | Matchering 2.0.6 的 brickwall limiter（只 vendor limiter 本體） | sample-peak |
-| `loudnorm` | ffmpeg EBU R128，I=−14、TP=−1、LRA=50 | AGC + true-peak limiter（**不是**純 limiter；會把太大聲的片段往下拉） |
+| `loudnorm` | ffmpeg EBU R128，I=−14、TP=−1、LRA=50，**兩段式**（量測 → `linear=true`；單段式是直播模式，曾把已在 −14.0 的片段拉到 −17.2，故棄用）| AGC + true-peak limiter（**不是**純 limiter；會把太大聲的片段往下拉） |
 
 判讀：三個 limiter 與 064 的 dpl 的 processing 部分若同號，064 的結論可寫；不同號則只能寫成「取決於 limiter 實作」。
 `z0` 必須與 064 逐片段相同。
