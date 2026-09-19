@@ -41,6 +41,7 @@
 | **絕對響度階梯線**（063、純量增益 −18→0 dB 階梯＋+6 dB 餘裕子集，檢定 051 的響度效應是單調還是倒 U；只有 p6 真的比原檔大聲） | `docs/experiments/gain_ladder_aes_20260918.md` |
 | **絕對響度階梯結果**（063 收線：PQ/CU 越小聲越高、CE/PC 頂點 −6～−3 dB、**CLAP 越大聲越高** → arm 間 PQ/CLAP 比較都要先鎖響度） | `docs/experiments/results/gain_ladder_aes_20260918_results.md` |
 | **底線階梯線**（065、純量衰減到 −120 dB＋x42-dpl 向下 limiting，F/Q 雙模式拆開評分器／PCM_16 格式／LUFS 門檻三種底線；pilot：PQ 頂點約 −21 dB，063 的單調只在 −18～0 成立） | `docs/experiments/floor_ladder_aes_20260918.md` |
+| **底線階梯結果**（065 收線：PQ/CU 頂點 −21 dB、CE/PC/CLAP 原音量最高；評分器底線 AES ≈−96～−108、CLAP ≈−120；PCM_16 格式損傷 PQ 從 −42 dB、CLAP 從 −66 dB；limiter 向下壓同響度 PQ −0.57～−0.07，躲底線不划算；canonical CLAP 的 −0.006 偏移只在接近滿刻度存在） | `docs/experiments/results/floor_ladder_aes_20260918_results.md` |
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
 | **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
 | **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |

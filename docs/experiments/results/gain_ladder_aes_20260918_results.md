@@ -96,4 +96,4 @@ AES 與 CLAP 都不是人類判斷。
 
 > **2026-09-18 範圍補註（065 pilot，32 片段）**：往 −18 dB 以下延伸後，PQ 在 −18～−24 dB 附近到頂、之後下降，
 > 約 −108 dB 收斂到靜音分數。所以上面「PQ/CU 單調、沒有倒 U」只在 −18～0 dB 成立，全範圍其實是倒 U，
-> 頂點遠低於任何實際輸出音量。全量結果見 065（`docs/experiments/floor_ladder_aes_20260918.md`）。
+> 頂點遠低於任何實際輸出音量。全量結果見 065（`docs/experiments/results/floor_ladder_aes_20260918_results.md`）：5,521 片段確認 PQ/CU 頂點在 −21 dB（bootstrap 峰值 100%／98% 落在 m21），所以單調範圍是 −21～0 dB。
