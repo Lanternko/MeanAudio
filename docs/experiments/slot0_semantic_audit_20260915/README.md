@@ -492,7 +492,7 @@ CFG3+neg 會放大這個效應。這個效應在兩個 seed 上都重現，但�
 
 ## slot0nmv2：用更強的本地 LLM 重做去量測（2026-09-19）
 
-使用者要求「用更強的本地 LLM 再做清洗，不要把之前 80s 年代的錯誤復現」。語料在 `~/exps_nvme/slot0nmv2/full/`，腳本 `scripts/preprocess/rewrite_slot0nmv2_measurements.py`（寫手）、`review_slot0nmv2.py`（獨立審查）。**尚未建 arm_inputs、未排訓練。**
+使用者要求「用更強的本地 LLM 再做清洗，不要把之前 80s 年代的錯誤復現」。語料在 `~/exps_nvme/slot0nmv2/full/`，腳本 `scripts/preprocess/rewrite_slot0nmv2_measurements.py`（寫手）、`review_slot0nmv2.py`（獨立審查）。（2026-09-20 已建 arm_inputs 並排 3 seed 成對 quarter，見下節。）
 
 **和 slot0nm 的差別**
 
@@ -530,3 +530,14 @@ CFG3+neg 會放大這個效應。這個效應在兩個 seed 上都重現，但�
 - 限制：兩個 LLM 都不是真值；文字審查量不到 caption 是否和音訊相符；重組模式有少量屬性位移（「steady 4/4 time signature」→「a steady melody」）沒被抓到。
 
 人工對照樣本：`~/exps_nvme/slot0nmv2/full/sample_100_changed_rows.md`。
+
+## slot0nmv2 vs slot0clean：3 seed 成對 quarter（queue 066–071，2026-09-20 排入）
+
+使用者：「製作 3 個 seed 的 quarter ablation」。
+
+- **對照**：slot0clean（slot0nmv2 的底），兩臂只差去量測。不用原始 slot0，因為那會把污染清洗也綁進來（057–059 的問題）。
+- **同 id**：兩臂都是 slot0clean 減掉 slot0nmv2 排除的 3 列，共 251,596 列，cache list 相同。`scripts/preprocess/build_slot0nmv2_pair_arm_inputs.py` 建兩臂 inputs，會擋：量測殘留、保護詞逐列不一致、非 caption 欄位被改、pandas/csv 讀法不一致。
+- **overlay**：`~/text_overlays/slot0nmv2`（hardlink true_random，重編 28,703 列）；對照直接用 `text_overlays/slot0clean`。
+- **配方**：與 057/058/059 相同（quarter：S1 100k + S2 50k、batch 8、lr 1e-4、NoQ、NoMask、`cap_index_fixed=0`、`require_text_overlay=true`），只換語料、seed，eval 改走 `scripts/eval/mc_mf25_eval.sh`（CFG0 + CFG3+neg，CLAP batch 1）。
+- **Seeds / 排程**：14159265（066 clean / 067 nmv2）、27182818（068 / 069）、16180339（070 / 071）。每 job 約 7 h。
+- **預登記判讀**（contract `docs/experiments/caption2p0_{slot0clean,slot0nmv2}_nmv2pair_quarter_s*_contract.json`）：報 3 個逐 seed Δ（nmv2 − clean）、平均與 t 95% CI（df=2）。CFG0 CLAP 的 CI 下界 > −0.0084（2× CFG0 floor）→ 非劣性；CI 不含 0 且 3 個同號才能說增益。n=3 的 CI 很寬，沒有結論就照實寫沒有結論，不寫成平手。跨 arm 看 AES/CLAP 時要附 `level_lufs_mean` 與 `level_silent_n`（slot0nm 在 CFG3+neg 有靜音模式）。
