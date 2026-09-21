@@ -42,7 +42,8 @@
 | **絕對響度階梯結果**（063 收線：PQ/CU 越小聲越高、CE/PC 頂點 −6～−3 dB、**CLAP 越大聲越高** → arm 間 PQ/CLAP 比較都要先鎖響度） | `docs/experiments/results/gain_ladder_aes_20260918_results.md` |
 | **底線階梯線**（065、純量衰減到 −120 dB＋x42-dpl 向下 limiting，F/Q 雙模式拆開評分器／PCM_16 格式／LUFS 門檻三種底線；pilot：PQ 頂點約 −21 dB，063 的單調只在 −18～0 成立） | `docs/experiments/floor_ladder_aes_20260918.md` |
 | **底線階梯結果**（065 收線：PQ/CU 頂點 −21 dB、CE/PC/CLAP 原音量最高；評分器底線 AES ≈−96～−108、CLAP ≈−120；PCM_16 格式損傷 PQ 從 −42 dB、CLAP 從 −66 dB；limiter 向下壓同響度 PQ −0.57～−0.07，躲底線不划算；canonical CLAP 的 −0.006 偏移只在接近滿刻度存在） | `docs/experiments/results/floor_ladder_aes_20260918_results.md` |
-| **淺層向下 limiting 線**（072、−18～0 dB 補 064／065 之間的空白，四個 AES 軸一起；primary=處理代價 `D<g>m − z0` 如何從零長到 065 的 −0.77 飽和） | `docs/experiments/shallow_limit_ladder_aes_20260922.md` |
+| **淺層向下 limiting 線**（072、−18～0 dB 補 064／065 之間的空白，四個 AES 軸一起） | `docs/experiments/shallow_limit_ladder_aes_20260922.md` |
+| **淺層向下 limiting 結果**（072 收線：最輕一檔就要 8.4 dB GR、付 −0.24 PQ，輕度 limiting 無免費區間；代價在 GR 25 dB 已達飽和 94%；CU/CE/PC 首次讀出；GR < 8.4 dB 量不到） | `docs/experiments/results/shallow_limit_ladder_aes_20260922_results.md` |
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
 | **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
 | **guidance 幾何線**（073、ADG 範數保持／APG 正交投影取代樸素 CFG 外插；推論期不重訓，primary=純 CFG cfg4.5 的浪費能否換成 PQ，響度閘門必跑） | `docs/experiments/guidance_geometry_adg_apg_20260922.md` |
