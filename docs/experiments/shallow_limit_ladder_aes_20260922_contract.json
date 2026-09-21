@@ -70,7 +70,8 @@
   "design_document_sha256": "631e1f6cb840b4b541df3efff0452aa7e2c4089f410b7217751f9091240041e2",
   "document_kind": "preregistered_shallow_downward_limiting_ladder_contract",
   "experiment_id": "shallow-limit-ladder-aes-cfg3-fidelity8-20260922",
-  "git_revision": "a91301076a3517a7a7ef806c941dac3c8994e0ac",
+  "git_revision": "5d59bcc",
+  "git_revision_note": "The commit that introduced the bound scripts. The contract itself is committed one step later, which cannot be self-referential; the exact file contents are pinned by the bindings sha256, not by this field.",
   "label": "c2p0_slot0_musiccaps5521_mf25_cfg3_fidelity8_seed42_nomask_fp32_shallow_limit_ladder",
   "ladder": {
     "audio_lifetime": "Arm audio is transient: rendered in scoring batches, hash-recorded, scored, then deleted. Each item JSON carries the per-condition content sha256 so a rebuild can be checked against this run.",
