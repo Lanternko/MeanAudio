@@ -1,0 +1,244 @@
+{
+  "aes_snapshot": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+  "analysis": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260922,
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "covariates": [
+      "level_lufs_mean",
+      "level_rms_mean",
+      "level_crest_mean",
+      "level_crest_min",
+      "level_silent_n"
+    ],
+    "decision_rule": {
+      "adg_and_apg_disagree": "report separately with their LUFS deltas; no pooled claim",
+      "all_ci_cover_zero": "insufficient evidence, not equivalence",
+      "crest_up_but_pq_and_clap_flat": "geometry changed the waveform shape and neither metric can see it; crest is not a target (061 settled that crest cannot be used as a training objective)",
+      "fad_improves_while_clap_falls": "a move along the trade-off, not a free lunch; same wording as project_negprompt_hurts_fad_2026_09_04",
+      "pq_up_but_gone_after_loudness_match": "report as a level effect, not a quality improvement; read it against the 063 shape",
+      "pq_up_crest_up_clap_flat_survives_loudness_match": "supports norm amplification as the main cause of high-guidance distortion, and shows the stabilising role of negative text can be replaced by geometry"
+    },
+    "early_kill": {
+      "clap_floor": -0.005,
+      "crest": 0.5,
+      "pq": 0.28
+    },
+    "early_kill_rule": "Stage B is launched only if at least one pilot geometry cell has paired dCLAP >= -0.005 against its in-run vanilla partner AND either paired dPQ >= +0.28 (twice the 0.142 full-run inference-seed PQ noise floor) or paired dcrest_mean >= +0.5 with crest_min not falling. Otherwise the run completes as completed_null_at_pilot and no full-scale cell is generated.",
+    "loudness_gate_lu": 0.5,
+    "loudness_gate_rule": "ADG changes output amplitude by construction. 063 and 065 established that PQ and CU rise as level falls while CLAP rises as level rises, so an unmatched delta cannot distinguish a quality change from a level change. Any cell whose paired mean LUFS differs from its vanilla partner by more than 0.5 LU must also be read after per-clip loudness matching: every geometry clip is scaled to its paired vanilla clip's LUFS and rescored. Clips whose matching gain would clip above 0.999 peak are excluded and counted, not silently rescaled. The postflight refuses a summary where a tripped gate has no matched read.",
+    "multiple_comparisons": "Pointwise 95% bootstrap intervals over paired per-clip deltas. No global significance, no equivalence claim, no automatic promotion. A CI covering zero is insufficient evidence, not equivalence.",
+    "prespecified_limits": "One checkpoint, one dataset, one generation seed (42). The full-run inference-seed noise floor is PQ 0.142 / CE 0.296 / CLAP 0.0003, so small CLAP effects are readable and small PQ effects are not. ADG here is the minimal practical core of the paper (magnitude constraint, angle preserved), not the full algorithm, so a null must be written as 'norm preservation did not help in this setting', never as 'ADG does not work on audio'. CLAP and AES are not human judgments; a positive Stage B result requires the five fixed subjective prompts before any external claim. MeanFlow 25 steps is a few-step regime and NAG/VSF report that the negative branch behaves differently there, so nothing here extrapolates to many-step flow matching.",
+    "primary_endpoint": "N0 family (pure CFG against the stored null) at cfg 4.5: paired dPQ, dcrest_mean, dcrest_min and dCLAP of each geometry cell against the in-run vanilla cell. Registered prediction if norm amplification is the cause of high-guidance distortion: PQ rises, crest recovers, CLAP roughly flat.",
+    "secondary_endpoint": "N8 family (fidelity8): whether geometry removes the PQ turn-down between cfg 3.0 and 4.5 that vanilla shows (7.6495 -> 7.6071 on the 1024 subset, b32 CLAP) while CLAP keeps rising (0.2598 -> 0.2627).",
+    "selection_rule": "For each negative family and each of ADG/APG, the pilot cell with the largest paired dPQ subject to dCLAP >= -0.005 is promoted to Stage B, ties broken by dcrest_mean. If no cell in a group clears the CLAP floor, the group's best dPQ is promoted anyway so that the null is measured at full scale rather than assumed.",
+    "silence_flag_ratio": 2.0,
+    "silence_flag_rule": "level_silent_n more than 2x the vanilla partner's is flagged. Average parity can hide a degradation mode; project_slot0nm_silence_mode is the precedent.",
+    "tertiary_endpoint": "FAD (n=2048, MusicCaps official reference audio, seed 42) on every Stage B cell. The negative-prompt line's only negative entry is FAD +0.0458; whether geometry recovers any of it while holding CLAP is a result this line cannot otherwise obtain."
+  },
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/guidance_geometry_adg_apg_20260922.py",
+    "action_sha256": "3a0bb4ff1ec7021855052dc698ef43ac0a416886f558247d40effb65f5888e15",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/guidance_geometry_adg_apg_20260922_guest.py",
+    "harn_sha256": "9c2e7971701e05ac01187511d3a9752c096a8d8639127cd9baf25395726d9994",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/073_guidance_geometry_adg_apg.sh",
+    "launcher_sha256": "922a00e44103669fc983e72fb2269fbf1deac6b5899d8774980557640dda0e02",
+    "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_guidance_geometry_adg_apg_20260922.py",
+    "preflight_sha256": "c6abc332c4c2d446f62a4dfe5daf493fe1ee56de47a8a1ae0379978a15bde1f0"
+  },
+  "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+  "commands": {
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/guidance_geometry_adg_apg_20260922.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_guidance_geometry_adg_apg_20260922.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/guidance_geometry_adg_apg_20260922.py"
+    ]
+  },
+  "completion_evidence": {
+    "note": "Eval-only job: the guest writes its own terminal evidence (evidence.eval_only true) and never claims a training artifact. Per QUEUE.md the terminal's evidence.reports paths must equal this contract's reports paths with matching sha256."
+  },
+  "dependencies": [],
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/guidance_geometry_adg_apg_20260922.md",
+  "design_document_sha256": "f12b12a3e8610608de27fc0039d49d3c4a73a66d77c4283a85007706f219de5c",
+  "document_kind": "preregistered_guidance_geometry_contract",
+  "experiment_id": "guidance-geometry-adg-apg-20260922",
+  "gates": {
+    "equivalence_numeric": {
+      "note": "gamma=0 and eta=1 are algebraically vanilla but evaluated in a different float order, so bit-exactness is neither expected nor required. Checked on 8 synthetic clips in preflight and 32 in the run.",
+      "tolerance_relative": 1e-05
+    },
+    "replication_bit_exact": {
+      "cell": "G0__N8__cfg3.0__vanilla",
+      "note": "The unpatched vanilla path regenerates the canonical c2p0_slot0 CFG3+fidelity8 audio at 5521 rows and every per-clip sha256 must equal the 051 manifest. This is the only hard gate that can catch a broken harness, and it must run at full scale: eval.py seeds one RNG for the whole run, so a subset draws different noise and cannot be compared bit for bit.",
+      "reference_manifest": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/audio_manifest.json",
+      "tolerated_mismatches": 0
+    }
+  },
+  "geometry": {
+    "adg_form": "v <- v * ((1-gamma) + gamma*||ref||/||v||); ref is A unless the cell says B; axis 'global' is per sample over all elements, 'frame' is per latent frame",
+    "apg_form": "d_par = (d.Ahat)Ahat, d_perp = d - d_par, v = A + (cfg-1)*(d_perp + eta*d_par); the paper's rescale and momentum terms are switched off",
+    "definitions": {
+      "adg_g0.5": {
+        "axis": "global",
+        "gamma": 0.5,
+        "kind": "adg",
+        "ref": "A"
+      },
+      "adg_g1.0": {
+        "axis": "global",
+        "gamma": 1.0,
+        "kind": "adg",
+        "ref": "A"
+      },
+      "adg_g1.0_frame": {
+        "axis": "frame",
+        "gamma": 1.0,
+        "kind": "adg",
+        "ref": "A"
+      },
+      "adg_g1.0_refB": {
+        "axis": "global",
+        "gamma": 1.0,
+        "kind": "adg",
+        "ref": "B"
+      },
+      "apg_e0.0": {
+        "axis": "global",
+        "eta": 0.0,
+        "kind": "apg"
+      },
+      "apg_e0.25": {
+        "axis": "global",
+        "eta": 0.25,
+        "kind": "apg"
+      },
+      "apg_e0.5": {
+        "axis": "global",
+        "eta": 0.5,
+        "kind": "apg"
+      },
+      "vanilla": {
+        "kind": "vanilla"
+      }
+    },
+    "fidelity_note": "The ADG cells implement the practical core of arXiv:2506.11039 (constrain the magnitude change, keep the angle), not the complete algorithm. Results are to be written as norm-preserving guidance, ADG-style.",
+    "implementation": "MeanAudio.ode_wrapper is monkeypatched in the action process; eval.py then runs verbatim through runpy.run_path. networks.py and eval.py are never edited - the first is forbidden by CLAUDE.md NEVER, the second is pinned by historical contracts.",
+    "vanilla_form": "v = cfg*A + (1-cfg)*B, equivalently A + (cfg-1)*(A-B), with A the conditional branch and B the negative or stored-null branch"
+  },
+  "git_revision": "94081a2",
+  "git_revision_note": "The commit holding the bound scripts and design document. The contract is committed one step later and cannot reference itself; exact file contents are pinned by the sha256 fields, not by this field.",
+  "immutable": {
+    "eval_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339",
+    "networks_sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69",
+    "note": "Preflight refuses to start if either file changed since this contract was pinned. The experiment's whole claim to comparability with existing arms rests on the generation path being the published one."
+  },
+  "label": "c2p0_slot0_musiccaps_mf25_seed42_nomask_fp32_guidance_geometry_adg_apg",
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator": "responsible_operator",
+    "scope": "Operator asked on 2026-09-22 for the ADG/APG guidance-geometry line to be written up, scripted and queued as 073 in p2.",
+    "trusted_channel": "operator_console"
+  },
+  "ordering_dependencies": [],
+  "protocol": {
+    "aes_batch_size": 32,
+    "cfg_points": [
+      3.0,
+      4.5
+    ],
+    "checkpoint_exp_id": "phase8_qwen_caption10s_multisent_noq_full_stage2_200000",
+    "clap_batch_size": 1,
+    "dataset": "MusicCaps",
+    "full_cells": 11,
+    "metrics": [
+      "CLAP",
+      "AES_CE",
+      "AES_CU",
+      "AES_PC",
+      "AES_PQ",
+      "level",
+      "FAD (Stage B only)"
+    ],
+    "negative_families": {
+      "N0": "stored null (no --negative_prompt); pure CFG",
+      "N8": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi"
+    },
+    "pilot_cells": 19,
+    "pilot_rows": 1024,
+    "pilot_tsv": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_ablation/musiccaps_subset1024.tsv",
+    "pilot_tsv_note": "The same seeded subset the 36-cell negative-prompt ablation used (seed 20260830), so pilot cells sit on the published subset. Its audio was deleted, so no cross-run bit-exact check is available there; all pilot comparisons are within-run and paired.",
+    "rows": 5521,
+    "seed": 42,
+    "solver": "MeanFlow",
+    "steps": 25,
+    "text_attention_mask": false
+  },
+  "question": "Naive CFG extrapolation rotates the prediction toward the prompt and lengthens it at the same time, and on this model pure CFG buys CLAP while returning nothing on PQ and collapsing crest_min to 1.85 at cfg 4.5. Does replacing the extrapolation with a norm-preserving (ADG-style) or orthogonal-projection (APG) update convert that wasted headroom into quality, recover crest, and give back part of the FAD that the negative prompt costs?",
+  "queue_name": "073_guidance_geometry_adg_apg.sh",
+  "queue_placement": "Normal band per QUEUE.md; 072 is the current p2 seat, so 073 is the next free name. Nothing binds to the filename.",
+  "queue_role": "p2",
+  "reports": [
+    {
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/guidance_geometry_adg_apg_20260922/summary.json"
+    }
+  ],
+  "resource_budget": {
+    "estimated_gpu_hours_note": "Gate cell about 45 min, 18 pilot cells about 2.7 h. Stage B adds about 8.3 h plus FAD, and only runs if the early-kill gate is cleared.",
+    "estimated_gpu_hours_range": [
+      3.0,
+      12.0
+    ],
+    "generated_clips": 23953,
+    "generated_clips_if_stage_b": 84684,
+    "gpu": "P2 assigned GPU0 only",
+    "writable_filesystems": [
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/guidance_geometry_adg_apg_20260922",
+      "/home/kojiek/logs"
+    ]
+  },
+  "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/guidance_geometry_adg_apg_20260922_results.md",
+  "resume": {
+    "autoresume": "",
+    "behavior": "No resume checkpoint is written. Each cell is an atomic JSON, so a restart re-runs only the cells without one. A cell whose audio directory exists but whose JSON does not is regenerated from scratch, never topped up, because eval.py seeds one RNG per run and skips existing clips without drawing noise. autoresume is deliberately empty so the cold-start acceptance gate is not poisoned for later seats.",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/guidance_geometry_adg_apg_20260922/pause_progress.json"
+  },
+  "reuses": {
+    "baseline_manifest": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/audio_manifest.json",
+    "baseline_manifest_note": "Per-clip sha256 of the 051 hash-verified c2p0_slot0 CFG3+fidelity8 audio; used as the bit-exact replication reference for the unpatched vanilla path.",
+    "pilot_subset": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_ablation/musiccaps_subset1024.tsv",
+    "scoring": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+    "scoring_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+  },
+  "run_id": "run-20260922-073-guidance-geometry-adg-apg",
+  "schema_version": 1,
+  "scope_note": "Inference-only. Nothing is retrained and no corpus is rebuilt. The single checkpoint, dataset, sampler, step count and seed are all the published ones; the only thing that changes is how the two model evaluations are combined into one step.",
+  "storage": {
+    "estimated_peak_additional_bytes": 20000000000,
+    "hard_stop_free_bytes": 20000000000,
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/guidance_geometry_adg_apg_20260922",
+    "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/guidance_geometry_adg_apg_20260922/_audio",
+    "warning_free_bytes": 40000000000
+  },
+  "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/guidance_geometry_adg_apg_20260922/summary.json",
+  "watcher": {
+    "automatic_repair": false,
+    "poll_seconds": 2,
+    "stall_seconds": 14400
+  }
+}
