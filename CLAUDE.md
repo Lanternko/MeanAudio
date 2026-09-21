@@ -45,6 +45,7 @@
 | **淺層向下 limiting 線**（072、−18～0 dB 補 064／065 之間的空白，四個 AES 軸一起；primary=處理代價 `D<g>m − z0` 如何從零長到 065 的 −0.77 飽和） | `docs/experiments/shallow_limit_ladder_aes_20260922.md` |
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
 | **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
+| **guidance 幾何線**（073、ADG 範數保持／APG 正交投影取代樸素 CFG 外插；推論期不重訓，primary=純 CFG cfg4.5 的浪費能否換成 PQ，響度閘門必跑） | `docs/experiments/guidance_geometry_adg_apg_20260922.md` |
 | **caption 內容編輯線收線**（2026-09-22：剝數字／去量測／rotation 四類干預在 MusicCaps 全測不出；只有換整個 captioner 動得了 CLAP。含「收線不等於證明」與重啟條件） | `docs/experiments/caption_content_editing_line_retired.md` |
 | **slot0nmv2 3-seed 成對 quarter 結果**（066–071 收線：去量測在 MusicCaps CLAP/AES 兩格都無可測效果；CFG0 CLAP CI 下界 −0.0097 未過預登錄非劣性界 −0.0084 → 報 inconclusive；nmv2 一致 crest 較高、略小聲、靜音略多） | `docs/experiments/results/phase8/nmv2pair_three_seed_results.md` |
 | **Score-aware Beta timestep 線**（053、arXiv 2606.07387 復現；2026-09-15 收線：base 不 overfit、λ 越大越差、shuffled-S 不一致） | `docs/experiments/tscore_beta_schedule_line.md` |
