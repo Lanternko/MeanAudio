@@ -38,9 +38,13 @@
   "approval_required": true,
   "bindings": {
     "action": "/home/kojiek/MeanAudio/scripts/eval/micro_limit_ladder_aes_20260922.py",
+    "action_sha256": "be10eef2705963b5297d3cc0d816aa8c3ee0b642e59cfcf639348acc84517646",
     "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/micro_limit_ladder_aes_20260922_guest.py",
+    "harn_sha256": "ea8d37dc8284e0193123fe9f9f2f1f79eca7a1de83a50c10b07302ae41ee6c18",
     "launcher": "/home/kojiek/gpu_queue/p2/pending/074_micro_limit_ladder_aes.sh",
-    "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_micro_limit_ladder_aes_20260922.py"
+    "launcher_sha256": "0e886a8f41d41588fd714a64033f5d307d19932aba2869dbc3c32bd4019c6ec5",
+    "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_micro_limit_ladder_aes_20260922.py",
+    "preflight_sha256": "012bf956adff3917610f77a9ab636669bf932a9e0c3b4bc3d08d8153b878d692"
   },
   "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
   "commands": {
@@ -63,8 +67,10 @@
   },
   "dependencies": [],
   "design_document": "/home/kojiek/MeanAudio/docs/experiments/micro_limit_ladder_aes_20260922.md",
+  "design_document_sha256": "78e2fc34d428bc5ecb29c1143cafb3887d7169c6b06201217bd99d8f33a2d4c7",
   "document_kind": "preregistered_micro_downward_limiting_ladder_contract",
   "experiment_id": "micro-limit-ladder-aes-cfg3-fidelity8-20260922",
+  "git_revision": "a14d5c3",
   "git_revision_note": "The commit that introduced the bound scripts. The contract itself is committed one step later, which cannot be self-referential; the exact file contents are pinned by the bindings sha256, not by this field.",
   "label": "c2p0_slot0_musiccaps5521_mf25_cfg3_fidelity8_seed42_nomask_fp32_micro_limit_ladder",
   "ladder": {
@@ -170,6 +176,7 @@
   "reuses": {
     "cross_check_run": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shallow_limit_ladder_aes_20260922",
     "machinery": "/home/kojiek/MeanAudio/scripts/eval/floor_ladder_aes_20260918.py",
+    "machinery_sha256": "786ba793ea0f68110327dfe6cc18d7b930ca03fd7934183ca0857ab015b9b24f",
     "note": "065's plan/render/score/analyze imported unchanged (through the same wrapper pattern as 072); this contract changes only ladder_db, limit_db and the output root, so the new rungs are directly comparable to the published 065/072 tables rather than a parallel measurement.",
     "replication_items_063": "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918/items"
   },
