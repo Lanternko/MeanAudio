@@ -60,12 +60,15 @@
 | Phase 9.5 完整總結（歷史；multi-cap 結果已失效） | `docs/experiments/history/phase9/phase9_5_summary.md` |
 | 訓練 / Eval 時間估算 | `docs/experiments/training_time_estimates.md` |
 | ISMIR 2026 reviews + correctness plan | `docs/reviews/ismir2026-487-promptcc/` |
+| **新方向盤點**（CFG normalize 順序／caption 合寫／enc-dec／雜訊負樣本四條線與優先序） | `docs/meetings/2026-09-22_new_directions_cfg_encdec_noise.md` |
 | 教授討論紀錄（Lane A/B/C、data leakage） | `docs/meetings/` |
 | Meta Audiobox Aesthetics 指標細節 | `docs/metrics/audiobox_aesthetics.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
 | Phase 4→8 完整對比表（歷史） | `docs/experiments/history/phase4-phase8/Phase4_to_Phase8_Complete_Summary.md` |
 | 文獻啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |
 | **Negative prompting / prompt engineering 文獻定位**（QA-MDT、NAG/VSF、APG、Open Prompt Challenge） | `docs/literature/negative_prompting_and_prompt_engineering_2026_09_04.md` |
+| **D1 缺陷方向 probe 結果**（缺陷 prompt 推不進參考臂定義的缺陷區；波形簽名對不上、沒音樂時模型以靜音逃逸 → 負向 prompt 的上界被訓練分布釘死。**CLAP 的缺陷 caption 分數被純靜音刷過真削波／真低通，不可當缺陷驗收指標**） | `docs/experiments/results/d1_defect_direction_probe_20260922_results.md` |
+| **負樣本進訓練的文獻定位**（四家族：推論期負向 prompt／訓練期品質條件 QA-MDT／偏好對 DPO Tango2·MusicRL／負向分支換成模型 NPO·autoguidance；與 CFG 的關係；三個可行動選項） | `docs/literature/negative_samples_in_training_and_cfg_2026_09_22.md` |
 | **品質／美學指標效度文獻定位**（SongEval + RF-Limits；PC 相關性最低 0.408、乾淨音訊上指標塌到 chance、crest-as-reward 崩潰、可抄的 protocol） | `docs/literature/quality_metric_validity_2026_09_18.md` |
 | 早期累積實驗數字（→ 改查 `best_results.md`） | `EXPERIMENT_LOG.md` |
 
