@@ -111,3 +111,7 @@ CI 跨零是證據不足不是等效。AES 與 CLAP 都不是人類判斷。
 `GR < 8.4 dB 未量` 這一項由 **074**（`docs/experiments/micro_limit_ladder_aes_20260922.md`）接手：
 L\* 階距改成 0.5～3 dB，GR 被動落在 3.2～8.7 dB，把 z0 到 −3 dB 這段補上。
 072 的 D3 是 074 的逐片段複製閘門。
+
+**074 已完成**（2026-09-22）：GR 3.15～8.40 dB 補上，D3 對本實驗逐位元複製（音訊與分數皆 0.0）。
+結論更新為「代價從零連續長出、邊際代價隨 GR 遞增，但 GR 3.15 dB 已扣 −0.027 PQ，無免費區間」；
+未量區間縮到 GR < 3.15 dB。見 `docs/experiments/results/micro_limit_ladder_aes_20260922_results.md`。
