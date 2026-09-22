@@ -1,0 +1,196 @@
+{
+  "aes_snapshot": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+  "analysis": {
+    "bootstrap_replicates": 10000,
+    "bootstrap_seed": 20260918,
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "cross_check_rule": "D3, m3 (both modes) and D3m (F) are checked against 072 per clip in two layers. Audio: content_sha256 must be bit-identical, zero mismatches tolerated - the pre-gain bisection and the render are deterministic given the source, so this is what catches a wrong arm or a wrong limiter. Verified ahead of queueing on a 24-clip plan-only pilot (2026-09-22): every D3 pre_gain_db, lstar, gr_max_db and effective_ceiling_dbfs identical to 072's plan. Scores: max |diff| <= 5e-3 AES / 1e-3 CLAP, because score_all calls AES once per condition over the clips still to do, so the batch grouping and hence padding depend on how many clips remain; a resumed run drifts about 1e-3 AES. 5e-3 is two orders of magnitude below any effect this experiment reads.",
+    "cross_check_rung_db": 3,
+    "cross_check_tolerance": {
+      "aes": 0.005,
+      "audio_mismatch_n": 0,
+      "clap": 0.001
+    },
+    "decision_rule": {
+      "axes_disagree": "report per axis in the known 064/065/072 pattern (PC is the one axis that prefers limiting); no pooled claim",
+      "cost_already_material_at_D0_5": "even 3 dB of gain reduction costs PQ; any free interval lies below that and is still unmeasured here",
+      "cost_starts_at_zero_and_deepens_monotonically": "the processing cost is gain-reduction driven and grows continuously from zero; report the largest gain reduction at which it is still unmeasurable",
+      "non_monotone": "unregistered; exploratory only, and report the gain-reduction versus cost scatter"
+    },
+    "exclusion_rule": "A clip is dropped from all arms together only if its waveform is degenerate (zero peak or zero RMS); zero such clips are expected.",
+    "min_eligible_rows": 5500,
+    "multiple_comparisons": "Pointwise intervals. No global significance, equivalence or automatic promotion claim.",
+    "not_applicable_outputs": {
+      "floors": "scorer floor is below -96 dB and the format floor starts at -42 dB; this ladder stops at -3, so the floors block is meaningless here and is registered as not to be read.",
+      "shape_float": "the ladder is truncated at -3 dB (plus a single -18 rung that exists only for the 063 replication gate), so its argmax sits on an edge rung by construction. Peak locations were settled by 063 and 065 and are not re-asked."
+    },
+    "prespecified_confound": "limiter_minus_scalar at matched L* is a difference between two already-degraded arms. In this shallow range the scalar control is barely degraded (m0.5 is 0.5 dB of attenuation), so the confound is smaller than in 072/065, but the processing cost is still read only from the primary endpoint.",
+    "prespecified_limits": "One checkpoint, one generation seed, one limiter. 064b showed the size of the processing cost varies 12x across limiter implementations, so absolute costs here hold for x42-dpl only. Reachability is bounded from below: an L* target under 0.5 dB is comparable to the bisection's 0.05 LU tolerance, so gain reduction below about 3 dB cannot be built by this design either. If every CI covers zero the claim is 'unmeasured below 3.2 dB of gain reduction', never 'a free interval exists'. AES has no loudness normalisation and is band-limited at 16 kHz, so absolute values are not comparable across papers. A CI covering zero is insufficient evidence, not equivalence. AES and CLAP are not human judgments. If this run is preempted and resumed, AES carries about 1e-3 of batch-composition drift.",
+    "primary_endpoint": "processing cost at the original level: D<g>m - z0 on PQ (F mode), g in [0.5,1,1.5,2,2.5,3], paired over 5521 clips. Both sides sit at the source loudness, so the only difference is whether the limiter ran. 072 measured -0.2365 PQ at its shallowest rung (g=3, gain reduction 8.40 dB); this run samples gain reduction 3.2-8.7 dB, the range 072 could not build, and asks whether the cost really grows continuously out of zero and at what gain reduction it first becomes measurable.",
+    "replication_tolerance": 0.005,
+    "scorer_batch_composition_sensitivity": "AES scores depend on the composition of the batch of 16 clips they are scored in, at the 1e-3 level. Same family as the CLAP batch-size sensitivity that made CLAP per-file, two orders of magnitude smaller. Cross-run comparison of absolute AES values requires the same batch grouping; all contrasts in this experiment are within-clip and unaffected.",
+    "secondary": "limiter_minus_scalar_F and _Q for all four AES axes and CLAP at every rung; per-arm L*/LUFS/peak/crest/zero_fraction covariates; gr_max_db, effective_ceiling_dbfs and a PER-RUNG hit rate for each limited arm (the smallest targets are the ones at risk of being unreachable, so the overall hit-rate gate is supplemented by per_rung_hit; a rung below 99% is unreadable on its own without invalidating the others).",
+    "step_null_tolerance": 0.005
+  },
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/micro_limit_ladder_aes_20260922.py",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/micro_limit_ladder_aes_20260922_guest.py",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/074_micro_limit_ladder_aes.sh",
+    "preflight": "/home/kojiek/MeanAudio/scripts/eval/validate_micro_limit_ladder_aes_20260922.py"
+  },
+  "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+  "commands": {
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/micro_limit_ladder_aes_20260922.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/validate_micro_limit_ladder_aes_20260922.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/micro_limit_ladder_aes_20260922.py"
+    ]
+  },
+  "completion_evidence": {
+    "note": "Eval-only job: the guest writes its own terminal evidence (evidence.eval_only true) and never claims a training artifact. Per QUEUE.md the terminal's evidence.reports paths must equal this contract's reports paths with matching sha256. Success is terminal.json status=completed plus that sha256."
+  },
+  "dependencies": [],
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/micro_limit_ladder_aes_20260922.md",
+  "document_kind": "preregistered_micro_downward_limiting_ladder_contract",
+  "experiment_id": "micro-limit-ladder-aes-cfg3-fidelity8-20260922",
+  "git_revision_note": "The commit that introduced the bound scripts. The contract itself is committed one step later, which cannot be self-referential; the exact file contents are pinned by the bindings sha256, not by this field.",
+  "label": "c2p0_slot0_musiccaps5521_mf25_cfg3_fidelity8_seed42_nomask_fp32_micro_limit_ladder",
+  "ladder": {
+    "audio_lifetime": "Arm audio is transient: rendered in scoring batches, hash-recorded, scored, then deleted. Each item JSON carries the per-condition content sha256 so a rebuild can be checked against this run.",
+    "description": "D<g> is x42-dpl driven with a bisected pre-gain G so that L* falls by exactly g dB, i.e. limiting at an effective ceiling of -1-G dBFS. m<g> is the same clip scalar-attenuated by g dB, so D<g> - m<g> is limiter vs scalar at equal loudness. D<g>m is the limited waveform scaled back to the source L*, so D<g>m - z0 is the processing cost at the original level.",
+    "limited_rungs_db": [
+      0.5,
+      1,
+      1.5,
+      2,
+      2.5,
+      3
+    ],
+    "limiter": {
+      "ceiling_dbtp": -1.0,
+      "impl": "x42-dpl (external_limiters.dpl)",
+      "release_ms": 50
+    },
+    "modes": {
+      "F": "float32 WAV; level effect alone",
+      "Q": "PCM_16 as eval.py writes it; level plus format floor. Registered here for continuity with the published 065 table; the format floor itself starts at -42 dB and is out of range."
+    },
+    "reachability": "At pre-gain 0 the limiter sits at a -1 dBTP ceiling and these clips peak below it, so the L* drop goes to zero with the pre-gain and every target in (0,3] is bracketed. A clip whose source already peaks above -1 dBTP cannot reach the smallest targets; such clips are reported as misses, never clamped. Pilot: all six rungs hit 1.00 on 24 clips, max L* error 0.050 LU.",
+    "rung_choice": "Rungs are spaced on L* (the axis the published curve is plotted on) rather than on gain reduction, so they land exactly in the visible gap between z0 and -3 dB, and because the L*-matched scalar twin is what makes the level/processing decomposition exact. Gain reduction is sampled as a consequence: a 24-clip plan-only pilot measured mean gr_max 3.17 dB at D0.5 rising to 8.69 dB at D3, covering the 0-8.4 dB range 072 could not reach.",
+    "scalar_rungs_db": [
+      0,
+      0.5,
+      1,
+      1.5,
+      2,
+      2.5,
+      3,
+      18
+    ],
+    "twin_tolerance_lu": 0.05
+  },
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator": "responsible_operator",
+    "scope": "Operator asked on 2026-09-22 to connect the limiter curve to the original level after 072 showed its shallowest reachable rung still sits 3 dB short.",
+    "trusted_channel": "operator_console"
+  },
+  "ordering_dependencies": [],
+  "protocol": {
+    "cfg_strength": 3,
+    "clap_batch_size": 1,
+    "clap_caveat": "CLAP F is the float path and CLAP Q the canonical filelist path, as in 065. Absolute CLAP is not comparable to the canonical 48 kHz tables; only its response to the intervention is read.",
+    "classification": "post_hoc_downward_limiting_intervention_on_retained_baseline_audio",
+    "conditions_per_clip": 35,
+    "dataset": "MusicCaps",
+    "generation": "none; reuses the 051 hash-verified baseline FLAC",
+    "metrics": [
+      "AES_CE",
+      "AES_CU",
+      "AES_PC",
+      "AES_PQ",
+      "CLAP"
+    ],
+    "negative_key": "fidelity8",
+    "rows": 5521,
+    "scored_conditions": 193235,
+    "scoring_batch_size": 16,
+    "solver": "MeanFlow",
+    "steps": 25
+  },
+  "question": "Between the original level and -3 dB - the last gap in the limiter curve, and the gain-reduction range (below 8.4 dB) that 072 could not build - does the processing cost of downward limiting grow continuously out of zero, and at what gain reduction does it first become measurable on each AES axis?",
+  "queue_name": "074_micro_limit_ladder_aes.sh",
+  "queue_placement": "Normal band per QUEUE.md; 073 is the guidance-geometry seat, so 074 is the next free name. Nothing binds to the filename.",
+  "queue_role": "p2",
+  "reports": [
+    {
+      "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/micro_limit_ladder_aes_20260922/summary.json"
+    }
+  ],
+  "resource_budget": {
+    "estimated_cpu_plan_hours_range": [
+      0.5,
+      3.0
+    ],
+    "estimated_gpu_hours_note": "072 measured 68 clips/min at 33 conditions on an otherwise idle GPU0, finishing 5521 clips in about 1.5 h; this run has 35 conditions. The range allows for sharing GPU0.",
+    "estimated_gpu_hours_range": [
+      1.0,
+      4.0
+    ],
+    "generated_clips": 0,
+    "gpu": "P2 assigned GPU0 only",
+    "scored_conditions": 193235,
+    "writable_filesystems": [
+      "/home/kojiek/nvme_experiment_artifacts/meanaudio/micro_limit_ladder_aes_20260922",
+      "/home/kojiek/logs"
+    ]
+  },
+  "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/micro_limit_ladder_aes_20260922_results.md",
+  "resume": {
+    "autoresume": "",
+    "behavior": "No resume checkpoint is ever written. Planning and scoring are both atomic per-clip JSON, so a restart re-plans and re-scores only the missing clips. autoresume is deliberately empty: pointing it at a file the guest writes on pause would make the cold-start acceptance gate reject every later seat. Pause progress goes to pause_progress, which no acceptance gate reads.",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/micro_limit_ladder_aes_20260922/pause_progress.json"
+  },
+  "reuses": {
+    "cross_check_run": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shallow_limit_ladder_aes_20260922",
+    "machinery": "/home/kojiek/MeanAudio/scripts/eval/floor_ladder_aes_20260918.py",
+    "note": "065's plan/render/score/analyze imported unchanged (through the same wrapper pattern as 072); this contract changes only ladder_db, limit_db and the output root, so the new rungs are directly comparable to the published 065/072 tables rather than a parallel measurement.",
+    "replication_items_063": "/home/kojiek/nvme_experiment_artifacts/meanaudio/gain_ladder_aes_20260918/items"
+  },
+  "run_id": "run-20260922-074-micro-limit-ladder-aes",
+  "schema_version": 1,
+  "scope_note": "This run measures the last gap in an existing curve, not a new direction: the limiter, the source audio and the scorer are all unchanged. What is new is the sub-3 dB L* range, which is the only way to sample gain reduction below 8.4 dB while keeping the L*-matched twin intact.",
+  "source_audio_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/_audio/baseline",
+  "source_experiment": "loudness-aes-cfg3-fidelity8-20260911",
+  "source_manifest": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/audio_manifest.json",
+  "storage": {
+    "estimated_peak_additional_bytes": 3000000000,
+    "hard_stop_free_bytes": 20000000000,
+    "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/micro_limit_ladder_aes_20260922",
+    "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/micro_limit_ladder_aes_20260922/_render",
+    "warning_free_bytes": 40000000000
+  },
+  "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/micro_limit_ladder_aes_20260922/summary.json",
+  "tsv": "/home/kojiek/nvme_experiment_artifacts/meanaudio/loudness_aes_cfg3_20260911/musiccaps5521_cfg3_fidelity8.tsv",
+  "watcher": {
+    "automatic_repair": false,
+    "poll_seconds": 2,
+    "stall_seconds": 14400
+  }
+}
