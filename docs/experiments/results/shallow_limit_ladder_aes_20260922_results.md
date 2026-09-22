@@ -105,3 +105,9 @@ AES 差到 9.3e-4，CLAP 差 0（CLAP 已逐檔）。機制是 `score_all` 把 A
 GR < 8.4 dB 未量（見上）。`summary.json` 的 `floors` 與 `shape_float` 在這個範圍沒有意義，
 預註冊已登記為不可讀。AES 無響度正規化、16 kHz 截頻，絕對值不可跨論文比較。
 CI 跨零是證據不足不是等效。AES 與 CLAP 都不是人類判斷。
+
+## 後續：074
+
+`GR < 8.4 dB 未量` 這一項由 **074**（`docs/experiments/micro_limit_ladder_aes_20260922.md`）接手：
+L\* 階距改成 0.5～3 dB，GR 被動落在 3.2～8.7 dB，把 z0 到 −3 dB 這段補上。
+072 的 D3 是 074 的逐片段複製閘門。
