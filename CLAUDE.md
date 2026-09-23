@@ -48,6 +48,8 @@
 | **微幅向下 limiting 結果**（074 收線：GR 3.15 dB 就付 −0.027 PQ，四個 AES 軸 CI 都不跨零；邊際代價隨 GR 遞增 → 代價曲線是 S 形、從零連續長出但無免費區間；CLAP 要 GR 4.6 dB 才可測；曲線已從 −84 dB 接到 +6.8 LU；GR < 3.15 dB 造不出來） | `docs/experiments/results/micro_limit_ladder_aes_20260922_results.md` |
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
 | **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
+| **D2 雜訊負樣本訓練線**（075、25k 程式化劣化列（noise/clip/lowpass/bitcrush/crackle，LUFS 對齊）加進 066 語料；lab（caption 點名缺陷）vs unlab（不點名）vs control066；操弄檢查用 D1 probe 的波形簽名不用 CLAP；主端點 negprompt 增益 ΔPQ 差 ≥ 0.19） | `docs/experiments/d2_defect_negsample_075_20260923.md` |
+| **guidance 幾何：先 normalize 再減（073 延伸，已收線）**（純 CFG 上是 no-op；fidelity8 上**拆掉了 negative 分支的範數煞車** → 大聲 1.69 LU、crest 崩 1.02、PQ/PC 降，響度對齊後仍在；early-kill 未過，不進全量） | `docs/experiments/results/guidance_geometry_prenorm_20260923_results.md` |
 | **guidance 幾何線**（073、ADG 範數保持／APG 正交投影取代樸素 CFG 外插；推論期不重訓，primary=純 CFG cfg4.5 的浪費能否換成 PQ，響度閘門必跑） | `docs/experiments/guidance_geometry_adg_apg_20260922.md` |
 | **caption 內容編輯線收線**（2026-09-22：剝數字／去量測／rotation 四類干預在 MusicCaps 全測不出；只有換整個 captioner 動得了 CLAP。含「收線不等於證明」與重啟條件） | `docs/experiments/caption_content_editing_line_retired.md` |
 | **slot0nmv2 3-seed 成對 quarter 結果**（066–071 收線：去量測在 MusicCaps CLAP/AES 兩格都無可測效果；CFG0 CLAP CI 下界 −0.0097 未過預登錄非劣性界 −0.0084 → 報 inconclusive；nmv2 一致 crest 較高、略小聲、靜音略多） | `docs/experiments/results/phase8/nmv2pair_three_seed_results.md` |
@@ -207,6 +209,20 @@ MeanAudio/
 4. 啟動時**留紀錄**（跑什麼、為什麼現在跑、checkpoint 點、被插隊時的停機點），不默默開
 
 **流程**：自動啟動前先逐項檢查這 4 個 guardrail，檢查通過才動。
+
+### 走 queue 還是直接跑（2026-09-23 定）
+
+Discord 通知只由 `~/gpu_queue` 的 host 發（seat／done／failed／idle）。直接用 tmux＋自己握 `gpu0.lock` 跑的 job **完全沒有通知**，也沒有 contract 檢查與 done/held 分類（2026-09-22 的 D1 probe、prenorm pilot、075 chain 都因此靜默）。
+
+- **預期 > 30 分鐘的 job（訓練、全量 eval）→ 一律走 queue**（`p2/pending/NNN_*.sh` ＋ contract）。
+- **短 probe／pilot 可直接跑，但腳本開頭必須掛通知 trap**：
+  ```bash
+  set -eo pipefail
+  source "$HOME/MeanAudio/scripts/notify_lib.sh"
+  notify_on_exit "<exp_name>" "$LOG"   # 立刻發 start，結束時依 exit code 發 success/failure/interrupted
+  ```
+- 已在跑、沒掛 trap 的直接 job：用 `scripts/notify_when_pid_exits.sh <pid> <exp> <log> <done_marker> [start_epoch]` 補 watcher（bash 啟動時已緩衝整支腳本，改原腳本無效）。
+- 直接跑的理由要寫進實驗 doc（為什麼不走 queue）。
 
 ---
 
