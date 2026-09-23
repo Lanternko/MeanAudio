@@ -72,6 +72,7 @@
 | **Negative prompting / prompt engineering 文獻定位**（QA-MDT、NAG/VSF、APG、Open Prompt Challenge） | `docs/literature/negative_prompting_and_prompt_engineering_2026_09_04.md` |
 | **D1 缺陷方向 probe 結果**（缺陷 prompt 推不進參考臂定義的缺陷區；波形簽名對不上、沒音樂時模型以靜音逃逸 → 負向 prompt 的上界被訓練分布釘死。**CLAP 的缺陷 caption 分數被純靜音刷過真削波／真低通，不可當缺陷驗收指標**） | `docs/experiments/results/d1_defect_direction_probe_20260922_results.md` |
 | **L1 響度詞 probe 結果**（2026-09-23 收線：響度是文字可達方向，loud−quiet CFG3 撐開 4.4～5.7 LU（語料 5.5 LU）且 crest 同向；"loud" 扣 PQ −0.39～−0.74 對齊響度後仍在 → 處理代價不是音量；"quiet" 的 PQ 效果兩 ckpt 不一致） | `docs/experiments/results/l1_loudness_word_probe_20260923_results.md` |
+| **B 線 Qwen＋MF 合寫 pilot**（2026-09-23 未過閘：7B 合寫 caption 的音訊 CLAP 對齊 −0.009 vs Qwen 單獨（CI 不跨零），不開訓練；串接 +0.003 是截斷假象） | `docs/experiments/results/bfuse_caption_merge_pilot_20260923_results.md` |
 | **負樣本進訓練的文獻定位**（四家族：推論期負向 prompt／訓練期品質條件 QA-MDT／偏好對 DPO Tango2·MusicRL／負向分支換成模型 NPO·autoguidance；與 CFG 的關係；三個可行動選項） | `docs/literature/negative_samples_in_training_and_cfg_2026_09_22.md` |
 | **品質／美學指標效度文獻定位**（SongEval + RF-Limits；PC 相關性最低 0.408、乾淨音訊上指標塌到 chance、crest-as-reward 崩潰、可抄的 protocol） | `docs/literature/quality_metric_validity_2026_09_18.md` |
 | 早期累積實驗數字（→ 改查 `best_results.md`） | `EXPERIMENT_LOG.md` |
