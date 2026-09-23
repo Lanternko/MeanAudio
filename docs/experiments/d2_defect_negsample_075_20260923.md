@@ -2,7 +2,7 @@
 
 2026-09-23 設計並啟動。方向來源：`docs/meetings/2026-09-22_new_directions_cfg_encdec_noise.md` D 線
 （「negative sample：給很多雜訊音檔，然後 caption 叫做雜訊」）。
-結果將寫在 `docs/experiments/results/d2_defect_negsample_075_results.md`。
+**已收線（2026-09-23）** → `results/d2_defect_negsample_075_results.md`：E2 反向不過（lab−unlab −0.365 PQ）、E1 只有雜訊族、E3 lab 過。
 
 ## 為什麼是這一條、為什麼是現在
 

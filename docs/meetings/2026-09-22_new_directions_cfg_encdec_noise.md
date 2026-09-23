@@ -137,7 +137,7 @@ low quality 的音檔有沒有共性
 | ~~2~~ | ~~**A** 073 補「先 normalize 再減」格~~ | ~~推論期~~ | ✅ 2026-09-23 收線（`results/guidance_geometry_prenorm_20260923_results.md`） |
 | 3 | **D0** low-quality 共性盤點 | 零 GPU | D2 的前置，且可獨立成 caveat |
 | 4 | **B-合寫** token 長度／截斷預檢 | 零 GPU | 通不過就不用進 GPU |
-| 5 | **D2** 雜訊負樣本訓練 | 重訓＋重編 latent（實測僅 ~1.3 GB latent） | 🟢 **075 2026-09-23 啟動**（`../experiments/d2_defect_negsample_075_20260923.md`）；D0 仍未做（零 GPU，可平行） |
+| 5 | **D2** 雜訊負樣本訓練 | 重訓＋重編 latent（實測僅 ~1.3 GB latent） | ✅ **075 2026-09-23 收線**：點名缺陷讓 negprompt 增益縮 0.37 PQ（`../experiments/results/d2_defect_negsample_075_results.md`）；D0 仍未做（零 GPU，可平行） |
 | 6 | **C** enc/dec 替換 | 全量重編 latent，磁碟卡死 | 要先解決「用什麼指標宣稱勝負」 |
 
 ---

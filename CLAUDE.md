@@ -49,6 +49,7 @@
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
 | **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
 | **D2 雜訊負樣本訓練線**（075、25k 程式化劣化列（noise/clip/lowpass/bitcrush/crackle，LUFS 對齊）加進 066 語料；lab（caption 點名缺陷）vs unlab（不點名）vs control066；操弄檢查用 D1 probe 的波形簽名不用 CLAP；主端點 negprompt 增益 ΔPQ 差 ≥ 0.19） | `docs/experiments/d2_defect_negsample_075_20260923.md` |
+| **D2 雜訊負樣本結果**（075 收線：標籤讓 fidelity8 negprompt 增益**變小**，lab−unlab −0.365 PQ @−30 LUFS（反向、1.9× 門檻）；E1 只在雜訊族建立文字可達方向（static flatness +0.25）；E3 lab 過、unlab CFG0 CLAP 邊界；壞音訊＋點名在 negprompt 協定下淨負） | `docs/experiments/results/d2_defect_negsample_075_results.md` |
 | **guidance 幾何：先 normalize 再減（073 延伸，已收線）**（純 CFG 上是 no-op；fidelity8 上**拆掉了 negative 分支的範數煞車** → 大聲 1.69 LU、crest 崩 1.02、PQ/PC 降，響度對齊後仍在；early-kill 未過，不進全量） | `docs/experiments/results/guidance_geometry_prenorm_20260923_results.md` |
 | **guidance 幾何線**（073、ADG 範數保持／APG 正交投影取代樸素 CFG 外插；推論期不重訓，primary=純 CFG cfg4.5 的浪費能否換成 PQ，響度閘門必跑） | `docs/experiments/guidance_geometry_adg_apg_20260922.md` |
 | **caption 內容編輯線收線**（2026-09-22：剝數字／去量測／rotation 四類干預在 MusicCaps 全測不出；只有換整個 captioner 動得了 CLAP。含「收線不等於證明」與重啟條件） | `docs/experiments/caption_content_editing_line_retired.md` |
