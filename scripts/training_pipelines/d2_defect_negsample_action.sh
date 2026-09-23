@@ -27,7 +27,7 @@ trap restore_stage_1 EXIT
 export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 
 ARM="${1:?arm}"
-SEED=14159265
+SEED="${D2_SEED:-14159265}"
 S1_UPDATES=100000; S2_ADD=50000; CKPT_NEED=30000000000
 ROOT="${D2_ROOT:-$HOME/exps_nvme/defect_negsample}"
 case "$ARM" in
