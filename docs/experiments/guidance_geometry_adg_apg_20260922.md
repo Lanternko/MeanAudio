@@ -56,6 +56,12 @@ negative 槽有沒有文字，而在於外插把向量拉長了**；幾何修正
 
 本實驗做 ADG 與 APG 兩者，ADG 排前面（診斷更貼 crest 崩塌）。
 
+> **延伸（2026-09-23）**：方向備忘裡的第三種順序「**先 normalize 再減**」本預註冊未涵蓋
+> （ADG 縮的是合成後的向量、APG 沿 `A` 拆，兩者都移不掉兩個分支之間的純幅度差）。
+> 已另跑並收線，沿用本檔的 checkpoint／協定／driver、vanilla 對照讀本實驗的 cell cache：
+> `results/guidance_geometry_prenorm_20260923_results.md`。結論：純 CFG 上 no-op；
+> fidelity8 上拆掉了 negative 分支的範數煞車（crest −1.02、LUFS +1.69），early-kill 未過。
+
 ## 基準 arm 與既有錨點
 
 固定 checkpoint：`phase8_qwen_caption10s_multisent_noq_full_stage2_200000`
