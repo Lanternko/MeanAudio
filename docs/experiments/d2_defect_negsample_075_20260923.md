@@ -131,3 +131,5 @@ CFG0 下 lab / unlab vs control：CLAP 下降 ≤ 0.004（2 × 0.0020）、PQ �
 - 預估：build ~15 min ＋ 每臂 S1 3.1 h ＋ S2 1.7 h ＋ eval ~50 min ＋ D1 probe ×3 ~40 min ≈ **12.5 h**
 - 可恢復：S1/S2 每 10k 存 ckpt，action 自帶 resume；chain 重跑會跳過已完成的 build／EMA／REPORT。
 - GPU queue：p1/p2 pending 皆空，啟動時 `gpu0.lock` 空閒；chain 全程持鎖。
+- **偏離 queue 政策**：chain 直接跑沒走 queue，也沒掛通知 → 啟動時 Discord 沒收到任何訊息。2026-09-23 補掛 watcher
+  （tmux `notifywatch_075`，`scripts/notify_when_pid_exits.sh`，以 `[DONE] 075 chain` 判定成敗，log `~/logs/075_notify_watch.log`）。
