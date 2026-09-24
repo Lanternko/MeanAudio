@@ -12,7 +12,6 @@ MeanAudio/
 ├── set_training_stage.py             # patch runner to FluxAudio (S1) or MeanAudio (S2)
 ├── migrate_stage1_to_stage2_ckpt.py  # S1→S2 ckpt converter (needs ckpt_last.pth, not ema_final.pth)
 ├── train_pipeline.sh                 # CANONICAL two-stage pipeline (S1 → migrate → S2 → eval)
-├── run_phase8_bugfix_full.sh         # orchestration: clean text re-extract → P8 NoQ bug-free retrain
 │
 ├── CLAUDE.md                         # MUST READ — onboarding, NEVER list, q-flag rule, GPU policy
 ├── README.md / LICENSE / pyproject.toml
@@ -47,9 +46,18 @@ MeanAudio/
 │   ├── preprocess/                   # caption sampling, MF prep, text re-extraction, A/B norm
 │   ├── analysis/                     # subjective AES/CLAP scorers, slice CLAP, probe results
 │   ├── legacy/                       # superseded but kept-for-reference (babysit, audit)
-│   ├── runs/                         # disposable run_*.sh (gitignored)
+│   ├── runs/                         # disposable run_*.sh (gitignored; root one-offs moved to runs/root_oneoffs_2026-07_09/)
 │   ├── flowmatching/, meanflow/      # minimal demo runners
 │   └── train_mini.sh, extract_audio_latents.sh
+│
+├── research/                         # moved in from ~/research/meanaudio_* on 2026-09-24 (old paths are symlinks)
+│   ├── training/                     # NPZ writers, multi-cap tools, EXP-A~H scripts, caption10s_pipeline
+│   │                                 #   npz_phase7_clean/ npz_phase8v4/ outputs/ are data (gitignored, DO NOT delete)
+│   └── eval/                         # phase4_eval.py (frozen, sha-bound), peav_eval.py, RTF benchmarks
+├── runtime/                          # closed runtime dirs moved in (gitignored): mf_legacydup_quarter_runtime, eval_tsvs_p100
+├── smoke_data/                       # small smoke/probe TSVs (merged with ~/smoke_data, now a symlink here)
+├── deliverables/                     # listening packs / zips (gitignored)
+├── workspace/                        # symlink index to live data outside the repo (gitignored) — see table below
 │
 ├── training/                         # training-related utilities (kept from upstream)
 ├── av-benchmark → .external/av-benchmark
@@ -61,27 +69,35 @@ MeanAudio/
 │   ├── generated-output/             # old local output/ WAV samples
 │   └── wandb-offline/                # old local W&B offline runs
 ├── .external/                        # hidden external checkouts
-│   └── av-benchmark/                 # AV evaluation toolkit (gitignored)
-├── .side_projects/                   # hidden non-MeanAudio side projects
+│   ├── av-benchmark/                 # AV evaluation toolkit (gitignored)
+│   ├── audio-ab-test/                # GitHub Pages blind A/B test (own repo; ~/audio-ab-test is a symlink)
+│   └── ICME26-ATTM-GC-FluxAudio/     # ATTM challenge reference repo (~/reference-repos/... is a symlink)
 │
 ├── exps/ → /home/kojiek/exps_nvme    # symlink — all checkpoints on NVMe
 ├── eval_output/ → /mnt/HDD/...       # symlink — generated audio outputs on HDD
 └── weights/                          # CLAP/T5/model weights (mostly gitignored)
 ```
 
-## External paths (not in repo)
+## Data outside the repo（`workspace/` 有同名 symlink）
 
-| Path | Contents |
-|------|----------|
-| `~/exps_nvme/` | training checkpoints (linked as `exps/`) |
-| `/mnt/HDD/kojiek/MeanAudio_eval_output/` | generated audio (linked as `eval_output/`) |
-| `/mnt/HDD/kojiek/MeanAudio_eval_output_OLD/` | archived old eval outputs (52 GB, moved 2026-05-16) |
-| `/mnt/HDD/kojiek/phase4_jamendo_data/` | training TSVs and NPZ（部分 LP-MC 檔有 `_QUARANTINED_*` prefix） |
-| `scripts/eval/eval_metrics.py` | **canonical** CLAP（batch 1）/AES/level metric script |
-| `/home/kojiek/research/meanaudio_eval/phase4_eval.py` | legacy metric script（凍結，歷史 contract 綁 sha；數字與 eval_metrics 逐位一致） |
-| `/home/kojiek/research/meanaudio_training/` | NPZ writers, multi-cap tools, EXP scripts |
-| `~/venvs/dac/` | primary Python env |
-| `~/venvs/music_flamingo/` | Music Flamingo captioning env |
+這些目錄被 queue contract／腳本用絕對路徑大量引用（部分驗證閘會比對字串路徑），**原地保留不搬**，只從 `workspace/` 提供入口。
+
+| `workspace/` 入口 | 實際路徑 | 內容 |
+|------|------|------|
+| `exps_nvme`（另有 `exps/`） | `~/exps_nvme/` | 訓練 checkpoint（NVMe 工作區） |
+| `hdd_exps` | `/mnt/HDD/kojiek/meanaudio_exps` | checkpoint 歸檔區（exps_nvme symlink 目標，不可刪） |
+| `eval_output_nvme` | `~/eval_output_nvme/` | 標準 eval（`mc_mf25_eval.sh`）輸出 |
+| `eval_output_home` | `~/eval_output/` | MF recaption 輸出（實體目錄，不是 symlink） |
+| `hdd_eval_output`（另有 `eval_output/`） | `/mnt/HDD/kojiek/MeanAudio_eval_output` | 舊 eval 音檔 |
+| `text_overlays` | `~/text_overlays/` | caption arm 的 T5/CLAP overlay（hardlink 共用） |
+| `logs` | `~/logs/` | 訓練／queue log |
+| `gpu_queue` | `~/gpu_queue/` | p1/p2 queue、contracts、notifier |
+| `nvme_experiment_artifacts` | `~/nvme_experiment_artifacts/meanaudio/` | 各 sweep／ladder／probe 的輸出 |
+| `cfg0_eval_runtime` | `~/cfg0_eval_runtime/` | CFG0 harness 的 bindings／reports |
+| `qwen_bucket_backfill_cfg3_fidelity8_runtime` | `~/qwen_bucket_backfill_cfg3_fidelity8_runtime/` | 054 backfill runtime |
+| `hdd_jamendo_data` | `/mnt/HDD/kojiek/phase4_jamendo_data/` | 訓練／eval TSV 與 NPZ |
+
+其他：`scripts/eval/eval_metrics.py` 是 **canonical** metric script；`research/eval/phase4_eval.py` 是凍結的舊版（歷史 contract 以 `/home/kojiek/research/meanaudio_eval/phase4_eval.py` 綁 sha，該路徑現為 symlink）。環境：`~/venvs/dac/`（主要）、`~/venvs/music_flamingo/`。
 
 ## Conventions
 

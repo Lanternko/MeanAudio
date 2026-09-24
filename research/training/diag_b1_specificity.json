@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Qwen mean-of-5",
+    "n": 2048,
+    "self_sim_mean": 0.3562,
+    "self_sim_median": 0.3613,
+    "mean_other_mean": 0.1669,
+    "max_other_mean": 0.478,
+    "discrim_mean": 0.1893,
+    "discrim_max": -0.1218,
+    "recall@1": 0.0303,
+    "recall@10": 0.1475
+  },
+  {
+    "name": "Qwen slot 0",
+    "n": 2048,
+    "self_sim_mean": 0.3108,
+    "self_sim_median": 0.3173,
+    "mean_other_mean": 0.1301,
+    "max_other_mean": 0.4635,
+    "discrim_mean": 0.1807,
+    "discrim_max": -0.1527,
+    "recall@1": 0.021,
+    "recall@10": 0.1255
+  },
+  {
+    "name": "LP-MC random 1-of-4",
+    "n": 2048,
+    "self_sim_mean": 0.2489,
+    "self_sim_median": 0.2567,
+    "mean_other_mean": 0.1207,
+    "max_other_mean": 0.4471,
+    "discrim_mean": 0.1282,
+    "discrim_max": -0.1982,
+    "recall@1": 0.0068,
+    "recall@10": 0.0581
+  }
+]

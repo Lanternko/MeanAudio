@@ -1,0 +1,175 @@
+{
+  "b3_tsv_align": {
+    "qwen_singlecap_bc_train.tsv": {
+      "n_checked": 30,
+      "n_match_one_of_5": 30,
+      "match_rate": 1.0,
+      "mismatch_examples": []
+    },
+    "phase9_5_train.tsv": {
+      "n_checked": 30,
+      "n_match_one_of_5": 30,
+      "match_rate": 1.0,
+      "mismatch_examples": []
+    }
+  },
+  "b4_token_trunc": {
+    "lpmc": {
+      "n": 5000,
+      "mean": 62.4,
+      "median": 62.0,
+      "p90": 86.0,
+      "p95": 93.0,
+      "p99": 105.0,
+      "max": 123,
+      "frac_gt_77": 0.1974,
+      "frac_gt_64": 0.442
+    },
+    "qwen_per_slot": [
+      {
+        "n": 1000,
+        "mean": 31.0,
+        "median": 31.0,
+        "p90": 42.0,
+        "p95": 47.0,
+        "p99": 54.0,
+        "max": 71,
+        "frac_gt_77": 0.0,
+        "frac_gt_64": 0.002
+      },
+      {
+        "n": 1000,
+        "mean": 31.8,
+        "median": 31.0,
+        "p90": 42.0,
+        "p95": 46.0,
+        "p99": 54.0,
+        "max": 66,
+        "frac_gt_77": 0.0,
+        "frac_gt_64": 0.001
+      },
+      {
+        "n": 1000,
+        "mean": 39.2,
+        "median": 37.0,
+        "p90": 51.0,
+        "p95": 57.0,
+        "p99": 69.0,
+        "max": 80,
+        "frac_gt_77": 0.002,
+        "frac_gt_64": 0.022
+      },
+      {
+        "n": 1000,
+        "mean": 38.8,
+        "median": 39.0,
+        "p90": 55.0,
+        "p95": 59.0,
+        "p99": 70.0,
+        "max": 102,
+        "frac_gt_77": 0.003,
+        "frac_gt_64": 0.023
+      },
+      {
+        "n": 1000,
+        "mean": 30.1,
+        "median": 30.0,
+        "p90": 40.0,
+        "p95": 43.0,
+        "p99": 50.0,
+        "max": 62,
+        "frac_gt_77": 0.0,
+        "frac_gt_64": 0.0
+      }
+    ],
+    "qwen_all": {
+      "n": 5000,
+      "mean": 34.2,
+      "median": 33.0,
+      "p90": 48.0,
+      "p95": 53.0,
+      "p99": 64.0,
+      "max": 102,
+      "frac_gt_77": 0.001,
+      "frac_gt_64": 0.0096
+    }
+  },
+  "b2_npz_verify": {
+    "samples": [
+      {
+        "idx": 167621,
+        "id": "93_755593_segment_3",
+        "tsv_caption_head": "The piece has a jazzy mood, featuring a saxophone solo and piano accompaniment, ",
+        "qwen_slot": 3,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 29184,
+        "id": "89_810889_segment_4",
+        "tsv_caption_head": "This piece is a synth pop electronic music track in C major, with a lively, upbe",
+        "qwen_slot": 3,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 6556,
+        "id": "27_1393827_segment_1",
+        "tsv_caption_head": "The music combines lively synthesizer melodies, rhythmic drum loops, and smooth ",
+        "qwen_slot": 4,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 194393,
+        "id": "19_1077719_segment_3",
+        "tsv_caption_head": "This piece is a classical harp solo, featuring a delicate and serene mood, playe",
+        "qwen_slot": 3,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 72097,
+        "id": "78_1385978_segment_14",
+        "tsv_caption_head": "This music features a string section, a choir, and a powerful drum beat, and is ",
+        "qwen_slot": 1,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 64196,
+        "id": "50_1369650_segment_3",
+        "tsv_caption_head": "A smooth jazz piece with a piano and bass duet, evoking a luxurious and sophisti",
+        "qwen_slot": 1,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 58513,
+        "id": "27_1348927_segment_6",
+        "tsv_caption_head": "The music features rhythmic guitar chords and a smooth keyboard melody, creating",
+        "qwen_slot": 1,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 36579,
+        "id": "50_1100250_segment_0",
+        "tsv_caption_head": "A lively bossa nova track featuring marimba, piano, guitar, bass guitar, and per",
+        "qwen_slot": 1,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 193061,
+        "id": "20_1074820_segment_0",
+        "tsv_caption_head": "In this music, I hear a reggae-inspired track with a prominent piano melody, acc",
+        "qwen_slot": 4,
+        "cached_vs_fresh_cos": 1.0
+      },
+      {
+        "idx": 26868,
+        "id": "90_580690_segment_3",
+        "tsv_caption_head": "The clip features a fast-paced instrumental piece that has a punk rock mood and ",
+        "qwen_slot": 0,
+        "cached_vs_fresh_cos": 1.0
+      }
+    ],
+    "note": "cached_vs_fresh CLAP cosine; 1.0 = identical",
+    "cos_mean": 1.0,
+    "cos_min": 1.0,
+    "n_below_999": 0
+  }
+}

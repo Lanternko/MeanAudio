@@ -1,0 +1,218 @@
+{
+  "P8_healthy_LPMC": [
+    {
+      "block_idx": 0,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.639871,
+      "std_a2t_mass": 0.366045,
+      "avg_a2t_norm_entropy": 0.562776,
+      "avg_top1_text_mass": 0.23054
+    },
+    {
+      "block_idx": 1,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.204672,
+      "std_a2t_mass": 0.195357,
+      "avg_a2t_norm_entropy": 0.985027,
+      "avg_top1_text_mass": 0.004212
+    },
+    {
+      "block_idx": 2,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.071742,
+      "std_a2t_mass": 0.063539,
+      "avg_a2t_norm_entropy": 0.997316,
+      "avg_top1_text_mass": 0.001243
+    },
+    {
+      "block_idx": 3,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.06737,
+      "std_a2t_mass": 0.060624,
+      "avg_a2t_norm_entropy": 0.998439,
+      "avg_top1_text_mass": 0.001156
+    }
+  ],
+  "EXP_A_LPMC_stripped": [
+    {
+      "block_idx": 0,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.963286,
+      "std_a2t_mass": 0.098007,
+      "avg_a2t_norm_entropy": 0.400662,
+      "avg_top1_text_mass": 0.400447
+    },
+    {
+      "block_idx": 1,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.137488,
+      "std_a2t_mass": 0.119535,
+      "avg_a2t_norm_entropy": 0.991857,
+      "avg_top1_text_mass": 0.00227
+    },
+    {
+      "block_idx": 2,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.086877,
+      "std_a2t_mass": 0.069452,
+      "avg_a2t_norm_entropy": 0.99978,
+      "avg_top1_text_mass": 0.001216
+    },
+    {
+      "block_idx": 3,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.054429,
+      "std_a2t_mass": 0.068997,
+      "avg_a2t_norm_entropy": 0.999503,
+      "avg_top1_text_mass": 0.000772
+    }
+  ],
+  "EXP_B_Qwen_slot0": [
+    {
+      "block_idx": 0,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.970062,
+      "std_a2t_mass": 0.096972,
+      "avg_a2t_norm_entropy": 0.818324,
+      "avg_top1_text_mass": 0.057719
+    },
+    {
+      "block_idx": 1,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.158549,
+      "std_a2t_mass": 0.153518,
+      "avg_a2t_norm_entropy": 0.999996,
+      "avg_top1_text_mass": 0.002077
+    },
+    {
+      "block_idx": 2,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.103255,
+      "std_a2t_mass": 0.090016,
+      "avg_a2t_norm_entropy": 0.999998,
+      "avg_top1_text_mass": 0.00135
+    },
+    {
+      "block_idx": 3,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.046869,
+      "std_a2t_mass": 0.131193,
+      "avg_a2t_norm_entropy": 0.999997,
+      "avg_top1_text_mass": 0.000615
+    }
+  ],
+  "EXP_C_Qwen_boilerplate": [
+    {
+      "block_idx": 0,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.999956,
+      "std_a2t_mass": 0.002383,
+      "avg_a2t_norm_entropy": 0.235342,
+      "avg_top1_text_mass": 0.481321
+    },
+    {
+      "block_idx": 1,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.21109,
+      "std_a2t_mass": 0.230904,
+      "avg_a2t_norm_entropy": 0.999996,
+      "avg_top1_text_mass": 0.002761
+    },
+    {
+      "block_idx": 2,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.062958,
+      "std_a2t_mass": 0.082729,
+      "avg_a2t_norm_entropy": 0.99996,
+      "avg_top1_text_mass": 0.000844
+    },
+    {
+      "block_idx": 3,
+      "shape": [
+        8,
+        7,
+        389,
+        389
+      ],
+      "avg_a2t_mass": 0.05636,
+      "std_a2t_mass": 0.074598,
+      "avg_a2t_norm_entropy": 0.999991,
+      "avg_top1_text_mass": 0.000745
+    }
+  ]
+}

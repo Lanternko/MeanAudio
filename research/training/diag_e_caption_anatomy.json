@@ -1,0 +1,803 @@
+{
+  "e1_word_freq": {
+    "n_sample_lpmc": 25000,
+    "n_sample_qwen": 25000,
+    "lpmc": {
+      "top_unigram": [
+        [
+          "a",
+          81536
+        ],
+        [
+          "the",
+          68191
+        ],
+        [
+          "is",
+          46141
+        ],
+        [
+          "and",
+          36445
+        ],
+        [
+          "this",
+          28848
+        ],
+        [
+          "in",
+          23483
+        ],
+        [
+          "playing",
+          22557
+        ],
+        [
+          "song",
+          22500
+        ],
+        [
+          "of",
+          22262
+        ],
+        [
+          "melody",
+          18662
+        ],
+        [
+          "bass",
+          14323
+        ],
+        [
+          "recording",
+          13990
+        ],
+        [
+          "it",
+          13543
+        ],
+        [
+          "synth",
+          13452
+        ],
+        [
+          "with",
+          12939
+        ],
+        [
+          "features",
+          12661
+        ],
+        [
+          "quality",
+          11806
+        ],
+        [
+          "sounds",
+          11510
+        ],
+        [
+          "an",
+          11266
+        ],
+        [
+          "guitar",
+          11153
+        ],
+        [
+          "low",
+          10939
+        ],
+        [
+          "be",
+          10677
+        ],
+        [
+          "piece",
+          10073
+        ],
+        [
+          "groovy",
+          9844
+        ],
+        [
+          "music",
+          9242
+        ],
+        [
+          "that",
+          7963
+        ],
+        [
+          "consists",
+          7910
+        ],
+        [
+          "played",
+          7762
+        ],
+        [
+          "there",
+          7739
+        ],
+        [
+          "kick",
+          7319
+        ]
+      ],
+      "top_bigram": [
+        [
+          "of a",
+          12912
+        ],
+        [
+          "in the",
+          11213
+        ],
+        [
+          "features a",
+          11015
+        ],
+        [
+          "playing a",
+          10396
+        ],
+        [
+          "low quality",
+          10202
+        ],
+        [
+          "the low",
+          10160
+        ],
+        [
+          "it sounds",
+          10155
+        ],
+        [
+          "recording features",
+          10095
+        ],
+        [
+          "this song",
+          10043
+        ],
+        [
+          "quality recording",
+          10042
+        ],
+        [
+          "is a",
+          9640
+        ],
+        [
+          "with a",
+          9131
+        ],
+        [
+          "consists of",
+          7813
+        ],
+        [
+          "this is",
+          6651
+        ],
+        [
+          "is playing",
+          5842
+        ],
+        [
+          "that consists",
+          5805
+        ],
+        [
+          "in a",
+          5765
+        ],
+        [
+          "song that",
+          5194
+        ],
+        [
+          "there is",
+          5170
+        ],
+        [
+          "is an",
+          5156
+        ],
+        [
+          "be playing",
+          5013
+        ],
+        [
+          "music is",
+          4805
+        ],
+        [
+          "groovy bass",
+          4667
+        ],
+        [
+          "the background",
+          4505
+        ],
+        [
+          "a synth",
+          4480
+        ],
+        [
+          "this piece",
+          4467
+        ],
+        [
+          "hi hats",
+          4252
+        ],
+        [
+          "song is",
+          4238
+        ],
+        [
+          "playing in",
+          4136
+        ],
+        [
+          "shimmering hi",
+          4117
+        ]
+      ],
+      "top_trigram": [
+        [
+          "the low quality",
+          10102
+        ],
+        [
+          "low quality recording",
+          10042
+        ],
+        [
+          "quality recording features",
+          10034
+        ],
+        [
+          "recording features a",
+          8798
+        ],
+        [
+          "that consists of",
+          5731
+        ],
+        [
+          "song that consists",
+          5098
+        ],
+        [
+          "consists of a",
+          5037
+        ],
+        [
+          "in the background",
+          4447
+        ],
+        [
+          "there is a",
+          4209
+        ],
+        [
+          "shimmering hi hats",
+          4117
+        ],
+        [
+          "may be playing",
+          4003
+        ],
+        [
+          "song may be",
+          3941
+        ],
+        [
+          "this song may",
+          3919
+        ],
+        [
+          "is playing a",
+          3697
+        ],
+        [
+          "piece could be",
+          3530
+        ],
+        [
+          "this piece could",
+          3524
+        ],
+        [
+          "the song is",
+          3455
+        ],
+        [
+          "the atmosphere is",
+          3323
+        ],
+        [
+          "the tempo is",
+          3235
+        ],
+        [
+          "this is a",
+          3184
+        ],
+        [
+          "the soundtrack of",
+          3182
+        ],
+        [
+          "in the soundtrack",
+          3142
+        ],
+        [
+          "soundtrack of a",
+          3124
+        ],
+        [
+          "is an instrumental",
+          3056
+        ],
+        [
+          "instrumental the tempo",
+          2988
+        ],
+        [
+          "be used in",
+          2943
+        ],
+        [
+          "used in the",
+          2938
+        ],
+        [
+          "melody it sounds",
+          2913
+        ],
+        [
+          "the recording is",
+          2910
+        ],
+        [
+          "could be used",
+          2887
+        ]
+      ],
+      "vocab_size_unigram": 3993,
+      "vocab_size_bigram": 35162
+    },
+    "qwen": {
+      "top_unigram": [
+        [
+          "a",
+          56504
+        ],
+        [
+          "and",
+          36912
+        ],
+        [
+          "the",
+          16674
+        ],
+        [
+          "with",
+          15770
+        ],
+        [
+          "of",
+          13287
+        ],
+        [
+          "this",
+          11764
+        ],
+        [
+          "music",
+          10729
+        ],
+        [
+          "piece",
+          10705
+        ],
+        [
+          "is",
+          10471
+        ],
+        [
+          "an",
+          10088
+        ],
+        [
+          "mood",
+          8450
+        ],
+        [
+          "guitar",
+          7646
+        ],
+        [
+          "electronic",
+          7476
+        ],
+        [
+          "features",
+          6662
+        ],
+        [
+          "creating",
+          6365
+        ],
+        [
+          "featuring",
+          6182
+        ],
+        [
+          "atmosphere",
+          6127
+        ],
+        [
+          "track",
+          5877
+        ],
+        [
+          "tempo",
+          5665
+        ],
+        [
+          "in",
+          5458
+        ],
+        [
+          "by",
+          5213
+        ],
+        [
+          "lively",
+          5183
+        ],
+        [
+          "piano",
+          4601
+        ],
+        [
+          "bass",
+          4472
+        ],
+        [
+          "melody",
+          3996
+        ],
+        [
+          "drums",
+          3837
+        ],
+        [
+          "energetic",
+          3735
+        ],
+        [
+          "synthesizer",
+          3611
+        ],
+        [
+          "that",
+          3516
+        ],
+        [
+          "drum",
+          3390
+        ]
+      ],
+      "top_bigram": [
+        [
+          "with a",
+          10711
+        ],
+        [
+          "is a",
+          5798
+        ],
+        [
+          "features a",
+          5295
+        ],
+        [
+          "and a",
+          4992
+        ],
+        [
+          "creating a",
+          4622
+        ],
+        [
+          "the music",
+          4596
+        ],
+        [
+          "music features",
+          3714
+        ],
+        [
+          "piece is",
+          3647
+        ],
+        [
+          "a lively",
+          3590
+        ],
+        [
+          "this piece",
+          3254
+        ],
+        [
+          "featuring a",
+          2849
+        ],
+        [
+          "track with",
+          2707
+        ],
+        [
+          "this is",
+          2703
+        ],
+        [
+          "characterized by",
+          2695
+        ],
+        [
+          "this music",
+          2483
+        ],
+        [
+          "the piece",
+          2457
+        ],
+        [
+          "by a",
+          2252
+        ],
+        [
+          "mood featuring",
+          2110
+        ],
+        [
+          "electric guitar",
+          2060
+        ],
+        [
+          "tempo of",
+          1926
+        ],
+        [
+          "in a",
+          1872
+        ],
+        [
+          "guitar and",
+          1810
+        ],
+        [
+          "is an",
+          1805
+        ],
+        [
+          "creating an",
+          1739
+        ],
+        [
+          "music is",
+          1726
+        ],
+        [
+          "a tempo",
+          1707
+        ],
+        [
+          "blend of",
+          1644
+        ],
+        [
+          "an energetic",
+          1606
+        ],
+        [
+          "and drums",
+          1541
+        ],
+        [
+          "piece with",
+          1511
+        ]
+      ],
+      "top_trigram": [
+        [
+          "music features a",
+          3067
+        ],
+        [
+          "the music features",
+          2485
+        ],
+        [
+          "piece is a",
+          2298
+        ],
+        [
+          "track with a",
+          1944
+        ],
+        [
+          "this is a",
+          1923
+        ],
+        [
+          "the piece is",
+          1868
+        ],
+        [
+          "a tempo of",
+          1633
+        ],
+        [
+          "the music is",
+          1422
+        ],
+        [
+          "this piece is",
+          1411
+        ],
+        [
+          "music is a",
+          1152
+        ],
+        [
+          "this music features",
+          1124
+        ],
+        [
+          "piece with a",
+          1093
+        ],
+        [
+          "characterized by a",
+          1064
+        ],
+        [
+          "a lively and",
+          1042
+        ],
+        [
+          "characterized by its",
+          946
+        ],
+        [
+          "a slow tempo",
+          870
+        ],
+        [
+          "an energetic and",
+          841
+        ],
+        [
+          "with a tempo",
+          820
+        ],
+        [
+          "a fast tempo",
+          793
+        ],
+        [
+          "piece features a",
+          772
+        ],
+        [
+          "this is an",
+          763
+        ],
+        [
+          "is a lively",
+          746
+        ],
+        [
+          "accompanied by a",
+          698
+        ],
+        [
+          "a blend of",
+          674
+        ],
+        [
+          "a sense of",
+          663
+        ],
+        [
+          "piece is an",
+          645
+        ],
+        [
+          "mood featuring a",
+          645
+        ],
+        [
+          "of this piece",
+          633
+        ],
+        [
+          "attributes of this",
+          621
+        ],
+        [
+          "creating an energetic",
+          614
+        ]
+      ],
+      "vocab_size_unigram": 4955,
+      "vocab_size_bigram": 50291
+    },
+    "top50_trigram_coverage": {
+      "lpmc": 0.995,
+      "qwen": 0.769
+    }
+  },
+  "e2_multicap_diversity": {
+    "n_pairs": 50000,
+    "mean_jaccard_4gram": 0.1064,
+    "median": 0.0972,
+    "p25": 0.0654,
+    "p75": 0.1372,
+    "frac_above_0_5": 0.0001,
+    "frac_above_0_3": 0.0061
+  },
+  "e3_duplicates": {
+    "lpmc": {
+      "total": 251599,
+      "unique": 240027,
+      "unique_rate": 0.954
+    },
+    "qwen_per_slot": [
+      {
+        "slot": 0,
+        "total": 251599,
+        "unique": 251418,
+        "unique_rate": 0.9993
+      },
+      {
+        "slot": 1,
+        "total": 251599,
+        "unique": 251559,
+        "unique_rate": 0.9998
+      },
+      {
+        "slot": 2,
+        "total": 251599,
+        "unique": 251588,
+        "unique_rate": 1.0
+      },
+      {
+        "slot": 3,
+        "total": 251599,
+        "unique": 251065,
+        "unique_rate": 0.9979
+      },
+      {
+        "slot": 4,
+        "total": 251599,
+        "unique": 251510,
+        "unique_rate": 0.9996
+      }
+    ],
+    "qwen_all": {
+      "total": 1257995,
+      "unique": 1257056,
+      "unique_rate": 0.9993
+    }
+  }
+}

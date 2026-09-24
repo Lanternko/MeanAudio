@@ -1,0 +1,53 @@
+{
+  "sanity": [
+    {
+      "name": "P8_S2_reference",
+      "cond_mag": 6.9243,
+      "text_mag": 160.6595
+    },
+    {
+      "name": "EXP_A_S2_orig",
+      "cond_mag": 0.1364,
+      "text_mag": 5.8377
+    },
+    {
+      "name": "EXP_A_S2_p8proj",
+      "cond_mag": 6.9243,
+      "text_mag": 160.6595
+    },
+    {
+      "name": "EXP_B_S2_orig",
+      "cond_mag": 0.1046,
+      "text_mag": 2.256
+    },
+    {
+      "name": "EXP_B_S2_p8proj",
+      "cond_mag": 6.9243,
+      "text_mag": 160.6595
+    },
+    {
+      "name": "EXP_C_S2_orig",
+      "cond_mag": 0.0702,
+      "text_mag": 0.267
+    },
+    {
+      "name": "EXP_C_S2_p8proj",
+      "cond_mag": 6.9243,
+      "text_mag": 160.6595
+    }
+  ],
+  "patched_paths": [
+    [
+      "EXP_A_LPMCstripped",
+      "/home/kojiek/MeanAudio/exps/exp_a_p8proj_transplant/exp_a_p8proj_transplant_ema_final.pth"
+    ],
+    [
+      "EXP_B_Qwen_slot0",
+      "/home/kojiek/MeanAudio/exps/exp_b_p8proj_transplant/exp_b_p8proj_transplant_ema_final.pth"
+    ],
+    [
+      "EXP_C_Qwen_boilerplate",
+      "/home/kojiek/MeanAudio/exps/exp_c_p8proj_transplant/exp_c_p8proj_transplant_ema_final.pth"
+    ]
+  ]
+}

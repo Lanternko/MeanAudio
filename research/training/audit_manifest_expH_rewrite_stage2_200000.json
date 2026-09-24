@@ -1,0 +1,63 @@
+{
+  "exp": "expH_rewrite_stage2_200000",
+  "checks": {
+    "tsv": {
+      "path": "/home/kojiek/eval_tsvs_p100/expH_rewrite_train.tsv",
+      "sha256": "c0648bcd7141c753d037b36b77cf3eee8b1ba2375ce024863f8fac72d9970539",
+      "n_rows": 251599
+    },
+    "cache": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/npz_cache_train.txt",
+      "sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0",
+      "n_lines": 251599
+    },
+    "npz_manifest": {
+      "n": 251599,
+      "hash": "1e97e5bd7ae8c6c65479c8ac220998975396b2d0d11dfc03c1dd34f45c7d849b",
+      "first": "/home/kojiek/exps_nvme/npz_expH_rewrite/1000.npz",
+      "last": "/home/kojiek/exps_nvme/npz_expH_rewrite/99999.npz"
+    },
+    "checkpoint": {
+      "path": "/home/kojiek/MeanAudio/exps/expH_rewrite_stage2_200000/expH_rewrite_stage2_200000_ema_final.pth",
+      "sha256": "d344970a237713756880f24b1dde3b96429c25eee51d332c1131f507064a0175",
+      "size_mb": 482.1
+    },
+    "hydra_s1": {
+      "model": "fluxaudio_s",
+      "use_q_conditioning": false,
+      "tsv": "/home/kojiek/eval_tsvs_p100/expH_rewrite_train.tsv",
+      "npz_dir": "/home/kojiek/exps_nvme/npz_expH_rewrite",
+      "text_encoder_name": "t5_clap",
+      "exp_id": "expH_rewrite_stage1_400000",
+      "num_iterations": 400000
+    },
+    "hydra_s2": {
+      "model": "meanaudio_s",
+      "use_q_conditioning": false,
+      "tsv": "/home/kojiek/eval_tsvs_p100/expH_rewrite_train.tsv",
+      "npz_dir": "/home/kojiek/exps_nvme/npz_expH_rewrite",
+      "text_encoder_name": "t5_clap",
+      "exp_id": "expH_rewrite_stage2_200000",
+      "num_iterations": 600000
+    },
+    "eval_args": {
+      "status": "SKIP"
+    },
+    "clap_spot": {
+      "status": "PASS",
+      "n": 1000,
+      "mean_cos": 1.0000000361204147,
+      "min_cos": 1.0,
+      "n_bad": 0,
+      "bad_examples": [],
+      "npz_mapping": "gt_cache"
+    },
+    "eval_audio": {
+      "count": 5521,
+      "zero_size": 0,
+      "zero_examples": []
+    }
+  },
+  "issues": [],
+  "verdict": "PASS"
+}

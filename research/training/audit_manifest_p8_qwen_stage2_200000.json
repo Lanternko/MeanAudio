@@ -1,0 +1,61 @@
+{
+  "exp": "p8_qwen_stage2_200000",
+  "checks": {
+    "tsv": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/qwen_singlecap_random_train.tsv",
+      "sha256": "1635623b9bd318e6c632c8ccec3c17e23897a0a1ef17d401f15e0d3bbb78e8c9",
+      "n_rows": 251599
+    },
+    "cache": {
+      "status": "SKIP",
+      "reason": "not provided"
+    },
+    "npz_manifest": {
+      "status": "SKIP",
+      "reason": "deleted post-training (/home/kojiek/phase9_5_random_singlecap_npz)",
+      "note": "check slice_random.log / audit_expH_npz_text_features.py for historical evidence"
+    },
+    "checkpoint": {
+      "path": "/home/kojiek/MeanAudio/exps/p8_qwen_stage2_200000/p8_qwen_stage2_200000_ema_final.pth",
+      "sha256": "7a94714f1900e38b2630a42c53390e34adec4b5e25a22e3e67d01c9f248298bb",
+      "size_mb": 482.1
+    },
+    "hydra_s1": {
+      "model": "fluxaudio_s",
+      "use_q_conditioning": false,
+      "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/qwen_singlecap_random_train.tsv",
+      "npz_dir": "/home/kojiek/phase9_5_random_singlecap_npz",
+      "text_encoder_name": "t5_clap",
+      "exp_id": "p8_qwen_stage1_400000",
+      "num_iterations": 400000
+    },
+    "hydra_s2": {
+      "model": "meanaudio_s",
+      "use_q_conditioning": false,
+      "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/qwen_singlecap_random_train.tsv",
+      "npz_dir": "/home/kojiek/phase9_5_random_singlecap_npz",
+      "text_encoder_name": "t5_clap",
+      "exp_id": "p8_qwen_stage2_200000",
+      "num_iterations": 600000
+    },
+    "eval_args": {
+      "variant": "meanaudio_s",
+      "cfg_strength": "0.5",
+      "num_steps": "1",
+      "no_q": "True",
+      "model_path": "/home/kojiek/MeanAudio/exps/p8_qwen_stage2_200000/p8_qwen_stage2_200000_ema_final.pth",
+      "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv"
+    },
+    "clap_spot": {
+      "status": "SKIP",
+      "reason": "--skip_clap"
+    },
+    "eval_audio": {
+      "count": 5521,
+      "zero_size": 0,
+      "zero_examples": []
+    }
+  },
+  "issues": [],
+  "verdict": "PASS"
+}

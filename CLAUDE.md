@@ -116,7 +116,7 @@ Music Flamingo captioning 另用 `~/venvs/music_flamingo/`（見 memory `referen
 
 ## 目錄結構
 
-完整 repo 地圖見 `STRUCTURE.md`；scripts/ 子目錄索引見 `scripts/README.md`。
+完整 repo 地圖（含 repo 外資料目錄為何不搬）見 `STRUCTURE.md`；scripts/ 子目錄索引見 `scripts/README.md`。
 
 ```
 MeanAudio/
@@ -126,11 +126,13 @@ MeanAudio/
 ├── set_training_stage.py            # 切 Stage 1/2（patch runner）
 ├── migrate_stage1_to_stage2_ckpt.py # S1→S2 ckpt 轉換（吃 ckpt_last.pth，不是 ema_final.pth）
 ├── scripts/                         # 所有 helper（training_pipelines/, eval/, preprocess/, analysis/, legacy/, runs/）
+├── research/{training,eval}/        # 2026-09-24 從 ~/research/meanaudio_* 收進來（舊路徑留 symlink；npz_*/outputs 是資料，gitignored）
+├── runtime/ smoke_data/ deliverables/  # 已結束的 runtime、smoke TSV、試聽包（gitignored）
+├── workspace/                       # repo 外活資料的 symlink 入口（exps_nvme、eval_output_nvme、text_overlays、logs、gpu_queue…；gitignored）
 ├── config/ sets/ data/ training/    # configs、latent stats、symlinks、訓練工具
 ├── av-benchmark -> .external/av-benchmark
 ├── .archive/                        # 隱藏歷史/次要資料
-├── .external/                       # 隱藏外部 checkout：av-benchmark/
-├── .side_projects/                  # 非 MeanAudio 主線的 side projects
+├── .external/                       # 隱藏外部 checkout：av-benchmark/、audio-ab-test/、ICME26-ATTM-GC-FluxAudio/
 └── docs/                            # experiments/ meetings/ eval/ metrics/ literature/ reviews/
 ```
 
@@ -146,10 +148,10 @@ MeanAudio/
 
 > **違反任何一項都可能燒掉數小時 GPU 時間。**
 
-1. **腳本推 GitHub**：`~/research` 下所有會用到的腳本先 `git add && commit && push`
+1. **腳本推 GitHub**：會用到的腳本（含 `research/training/`、`research/eval/`，2026-09-24 起由本 repo 管理）先 `git add && commit && push`
 2. **Caption 多樣性 sanity check**（唯一率 < 90% 停止訓練）：
    ```bash
-   cd ~/research/meanaudio_training && python sanity_check_50.py
+   cd ~/MeanAudio/research/training && python sanity_check_50.py
    ```
 3. **Multi-cap / NPZ pairing audit**（若涉及 multi-caption cache）：
    - 必須走 `npz_cache_train.txt` mapping，**禁止** row-index → `i.npz`
@@ -307,7 +309,7 @@ python scripts/eval/eval_metrics.py --gen_dir <DIR>/audio \
 
 `eval_metrics.py` = CLAP batch 1 + AES + level（LUFS / RMS / crest / 靜音 < −45 dBFS）＋選用 `--fad`；`--tsv` 必填、缺檔或評分失敗直接失敗（`--allow_missing` 才放行）。跨 arm 比較 AES/CLAP 前先看 `level_lufs_mean` 與 `level_silent_n`。完整數字見 `docs/experiments/best_results.md`。
 
-**CLAP 一律逐檔（batch 1）**（2026-09-18 定）：laion_clap 在 batch > 8 時 padding 不同，b32 比逐檔高 +0.004～+0.025 且會翻排名（062）。`eval_metrics.py` 沒有 batch 參數；新 sweep 要算 CLAP 就 `from eval_metrics import score_clap`，不要自己寫 batch 迴圈。舊的 `~/research/meanaudio_eval/phase4_eval.py` 凍結不改（歷史 contract 綁 sha；CLAP 本來就是逐檔，兩者逐位一致）；`negprompt_reeval_full_arms.py`、`novocal_reeval_full_arms.py`、`negprompt_ablation_matrix.py`、`attm_protocol_eval.py` 是 b32 的歷史 driver，只用來重現舊表。
+**CLAP 一律逐檔（batch 1）**（2026-09-18 定）：laion_clap 在 batch > 8 時 padding 不同，b32 比逐檔高 +0.004～+0.025 且會翻排名（062）。`eval_metrics.py` 沒有 batch 參數；新 sweep 要算 CLAP 就 `from eval_metrics import score_clap`，不要自己寫 batch 迴圈。舊的 `research/eval/phase4_eval.py`（舊路徑 `~/research/meanaudio_eval/` 是 symlink）凍結不改（歷史 contract 綁 sha；CLAP 本來就是逐檔，兩者逐位一致）；`negprompt_reeval_full_arms.py`、`novocal_reeval_full_arms.py`、`negprompt_ablation_matrix.py`、`attm_protocol_eval.py` 是 b32 的歷史 driver，只用來重現舊表。
 
 主觀評估五首 prompt 見 `docs/eval/subjective_prompts.md`（25 steps + **cfg 0.5**）。主觀試聽／`infer.py` **沒有負向 prompt 時不要用 cfg ≥ 2.0** — 在非 null Q + 高能量 prompt 會觸發波形飽和（crest < 2.0，2026-04-21 於 subjective_ab v3 踩坑，mc18_abl_A–J 證實，york135 指出）。標準 eval 的 CFG3+neg 格是 negprompt 消融定的 cfg 3.0，飽和用 metrics 的 `level_clipped_n` / `level_crest_mean` 監看。
 

@@ -1,0 +1,80 @@
+{
+  "created_at": "2026-05-04T09:48:43",
+  "phase": "phase9_5",
+  "description": "P9.5 V1/V2 training data manifest (Qwen2.5-Omni 5 task captions)",
+  "sources": {
+    "merged_jsonl": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase9_omni_captions.jsonl",
+      "sha256": "97af5126606e4cfd55733d0fa9dfd86016cc4cd7b805fffd290901634799ce99",
+      "rows": 251599,
+      "size_bytes": 190086866
+    },
+    "train_tsv_v1": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase9_5_train.tsv",
+      "sha256": "1cbd6d2c1079f86aa568704b1b3a0ec940bc6ff9dc52440bae4d1d5631a820a5",
+      "rows": 251599,
+      "size_bytes": 36842249,
+      "note": "V1 dummy (slot 0 caption + dummy q=5); will be overwritten by V2 q_levels script"
+    },
+    "reference_tsv": {
+      "path": "/mnt/HDD/kojiek/phase4_jamendo_data/phase7_v1_train.tsv",
+      "rows": 251599,
+      "first_1000_id_hash": "d8807e58dc7f3569c7bbd0efd936ded099fe9725936c430636c8c116e440eb1d",
+      "note": "phase7_v1_train.tsv \u2014 drives clip ordering across all phases"
+    }
+  },
+  "npz_dir": {
+    "path": "/home/kojiek/phase9_5_multicap_npz",
+    "file_count": 251599,
+    "size_mode_bytes_to_count": {
+      "1638140": 251599
+    },
+    "expected_per_clip": {
+      "mean": "(312, 20)",
+      "std": "(312, 20)",
+      "text_features": "(5, 77, 1024)",
+      "text_features_c": "(5, 512)"
+    }
+  },
+  "validations": {
+    "sanity_qwen_jsonl": {
+      "log": "~/logs/(no log saved, ran interactively)",
+      "result": "PASS",
+      "checks": [
+        "251,599 TSV rows match Qwen JSONL rows",
+        "5 captions per row, no null/empty",
+        "TSV id order matches phase7_v1_train.tsv exactly",
+        "200-sample uniqueness rate 100%, no caption collapse"
+      ]
+    },
+    "npz_full_deep_validate": {
+      "log": "~/logs/p9_5_npz_deep_validate.log",
+      "result": "PASS",
+      "wall_time_min": 14,
+      "checks": [
+        "251,599 NPZ count matches TSV",
+        "All files exactly 1,638,140 bytes",
+        "251,599 deep checks: keys + shapes correct"
+      ]
+    },
+    "post_npz_sanity_50": {
+      "log": "~/logs/p9_5_npz_post.log",
+      "result": "PASS",
+      "checks": [
+        "50/50 random NPZs: shape (5,77,1024)/(5,512)",
+        "CLAP text-c pairwise mean_sim mean=0.644 (healthy diversity)",
+        "50/50 clips have 5 distinct caption embeddings"
+      ]
+    }
+  },
+  "caveats_for_consumers": [
+    "P9.5 is a task-framed Qwen multi-cap variant, NOT a captioner-only control.",
+    "q_level in phase9_5_train.tsv is V1 dummy (q=5 for all rows). V2 must",
+    "regenerate phase9_5_v2_train.tsv via gen_phase9_5_q_levels.py (Qwen-local",
+    "percentile bins). q=N is captioner-LOCAL; do NOT directly compare to LP-MC q=N."
+  ],
+  "commits": {
+    "meanaudio_repo": "d45c90e0990adda26c7b1dd1528c9fca59d4fb40",
+    "mir_ssh_repo": "903a55df2f71184f490c7ab61ea0951495edb528"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "f1_clap_offdiag": {
+    "qwen_slot0_offdiag": 0.3948,
+    "qwen_meanof5_offdiag": 0.6049,
+    "lpmc_offdiag": 0.2994
+  },
+  "f2_t5_offdiag": {
+    "qwen_slot0_offdiag": 0.7699,
+    "qwen_meanof5_offdiag": 0.9176,
+    "lpmc_offdiag": 0.7849
+  },
+  "b25_t5_npz_verify": {
+    "samples": [
+      {
+        "idx": 167621,
+        "id": "93_755593_segment_3",
+        "cap_head": "The piece has a jazzy mood, featuring a saxophone solo and p",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      },
+      {
+        "idx": 29184,
+        "id": "89_810889_segment_4",
+        "cap_head": "This piece is a synth pop electronic music track in C major,",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      },
+      {
+        "idx": 6556,
+        "id": "27_1393827_segment_1",
+        "cap_head": "The music combines lively synthesizer melodies, rhythmic dru",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      },
+      {
+        "idx": 194393,
+        "id": "19_1077719_segment_3",
+        "cap_head": "This piece is a classical harp solo, featuring a delicate an",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      },
+      {
+        "idx": 72097,
+        "id": "78_1385978_segment_14",
+        "cap_head": "This music features a string section, a choir, and a powerfu",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      },
+      {
+        "idx": 64196,
+        "id": "50_1369650_segment_3",
+        "cap_head": "A smooth jazz piece with a piano and bass duet, evoking a lu",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      },
+      {
+        "idx": 58513,
+        "id": "27_1348927_segment_6",
+        "cap_head": "The music features rhythmic guitar chords and a smooth keybo",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      },
+      {
+        "idx": 36579,
+        "id": "50_1100250_segment_0",
+        "cap_head": "A lively bossa nova track featuring marimba, piano, guitar, ",
+        "pool_cos": 1.0,
+        "frame_cos_mean": 1.0,
+        "frame_cos_min": 1.0
+      }
+    ],
+    "pool_cos_mean": 1.0,
+    "pool_cos_min": 1.0,
+    "n_below_999": 0
+  }
+}

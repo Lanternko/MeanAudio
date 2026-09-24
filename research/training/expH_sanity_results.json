@@ -1,0 +1,932 @@
+{
+  "meta": {
+    "rewrite_tsv": "/home/kojiek/eval_tsvs_p100/expH_rewrite_10k_sanity.tsv",
+    "n_rewrites": 10000,
+    "seed": 42
+  },
+  "gate": {
+    "clap_diag_ge_0.20": true,
+    "trigram_coverage_ge_50pct": false,
+    "GATE_PASS": false
+  },
+  "rewrite": {
+    "text_stats": {
+      "n": 10000,
+      "length_mean": 37.2022,
+      "length_median": 36.0,
+      "length_p10": 28.0,
+      "length_p90": 48.0,
+      "acoustic_kw_frac": 0.9951,
+      "unigram_entropy": 6.926837781900534,
+      "bigram_entropy": 10.197329629596132,
+      "top50_trigrams": [
+        [
+          "there is a",
+          5520
+        ],
+        [
+          "the atmosphere is",
+          4599
+        ],
+        [
+          "this is a",
+          4526
+        ],
+        [
+          "low quality recording",
+          4083
+        ],
+        [
+          "the low quality",
+          4073
+        ],
+        [
+          "quality recording features",
+          4073
+        ],
+        [
+          "piece there is",
+          3783
+        ],
+        [
+          "recording features a",
+          3081
+        ],
+        [
+          "shimmering hi hats",
+          2811
+        ],
+        [
+          "the recording is",
+          1783
+        ],
+        [
+          "and in mono",
+          1748
+        ],
+        [
+          "noisy and in",
+          1739
+        ],
+        [
+          "is noisy and",
+          1709
+        ],
+        [
+          "recording is noisy",
+          1707
+        ],
+        [
+          "track with a",
+          1676
+        ],
+        [
+          "hi hats and",
+          1672
+        ],
+        [
+          "piece with a",
+          1642
+        ],
+        [
+          "it sounds energetic",
+          1512
+        ],
+        [
+          "sounds energetic and",
+          1510
+        ],
+        [
+          "hats and a",
+          1481
+        ],
+        [
+          "and a groovy",
+          1432
+        ],
+        [
+          "this is an",
+          1429
+        ],
+        [
+          "a groovy bass",
+          1369
+        ],
+        [
+          "groovy bass line",
+          1330
+        ],
+        [
+          "accompanied by a",
+          1323
+        ],
+        [
+          "kick and snare",
+          1278
+        ],
+        [
+          "melody with a",
+          1260
+        ],
+        [
+          "melody accompanied by",
+          1221
+        ],
+        [
+          "punchy kick and",
+          1163
+        ],
+        [
+          "punchy kick drum",
+          1160
+        ],
+        [
+          "a fast paced",
+          1130
+        ],
+        [
+          "hits shimmering hi",
+          1123
+        ],
+        [
+          "synth bass line",
+          1076
+        ],
+        [
+          "and snare hits",
+          1043
+        ],
+        [
+          "kick drum hits",
+          998
+        ],
+        [
+          "recording features an",
+          997
+        ],
+        [
+          "and shimmering hi",
+          947
+        ],
+        [
+          "distorted electric guitar",
+          908
+        ],
+        [
+          "bass line and",
+          876
+        ],
+        [
+          "line it sounds",
+          851
+        ],
+        [
+          "bass line it",
+          838
+        ],
+        [
+          "it sounds lively",
+          836
+        ],
+        [
+          "sounds lively and",
+          832
+        ],
+        [
+          "bass line the",
+          773
+        ],
+        [
+          "is energetic and",
+          686
+        ],
+        [
+          "drum hits shimmering",
+          654
+        ],
+        [
+          "is a smooth",
+          649
+        ],
+        [
+          "a distorted electric",
+          640
+        ],
+        [
+          "a groovy synth",
+          634
+        ],
+        [
+          "atmosphere is energetic",
+          634
+        ]
+      ],
+      "top50_bigrams": [
+        [
+          "is a",
+          10149
+        ],
+        [
+          "it sounds",
+          8178
+        ],
+        [
+          "with a",
+          6908
+        ],
+        [
+          "this is",
+          5956
+        ],
+        [
+          "there is",
+          5718
+        ],
+        [
+          "atmosphere is",
+          4696
+        ],
+        [
+          "and a",
+          4687
+        ],
+        [
+          "the atmosphere",
+          4606
+        ],
+        [
+          "low quality",
+          4086
+        ],
+        [
+          "quality recording",
+          4084
+        ],
+        [
+          "recording features",
+          4084
+        ],
+        [
+          "the low",
+          4074
+        ],
+        [
+          "piece there",
+          3870
+        ],
+        [
+          "bass line",
+          3365
+        ],
+        [
+          "features a",
+          3185
+        ],
+        [
+          "hi hats",
+          2888
+        ],
+        [
+          "shimmering hi",
+          2861
+        ],
+        [
+          "a groovy",
+          2617
+        ],
+        [
+          "punchy kick",
+          2445
+        ],
+        [
+          "energetic and",
+          2257
+        ]
+      ],
+      "uniq_unigrams": 2759,
+      "uniq_bigrams": 23349,
+      "uniq_trigrams": 62085
+    },
+    "lp_mc_opening_frac": 0.9988,
+    "trigram_overlap_vs_lpmc": 0.3,
+    "clap_diagonal": {
+      "n": 2048,
+      "missing_audio": 0,
+      "diag_mean": 0.3058391548470354,
+      "diag_std": 0.09274557752097777,
+      "diag_p10": 0.1788675904273987,
+      "diag_p90": 0.4146401613950729,
+      "frac_below_0.1": 0.02392578125
+    }
+  },
+  "qwen_slot0_baseline": {
+    "text_stats": {
+      "n": 10000,
+      "length_mean": 20.2012,
+      "length_median": 20.0,
+      "length_p10": 13.0,
+      "length_p90": 27.0,
+      "acoustic_kw_frac": 0.8555,
+      "unigram_entropy": 7.095174096090189,
+      "bigram_entropy": 11.154203498334985,
+      "top50_trigrams": [
+        [
+          "this is a",
+          1868
+        ],
+        [
+          "track with a",
+          1224
+        ],
+        [
+          "a fast paced",
+          877
+        ],
+        [
+          "piece with a",
+          835
+        ],
+        [
+          "a tempo of",
+          775
+        ],
+        [
+          "this is an",
+          750
+        ],
+        [
+          "a slow tempo",
+          739
+        ],
+        [
+          "a fast tempo",
+          686
+        ],
+        [
+          "music features a",
+          595
+        ],
+        [
+          "with a tempo",
+          551
+        ],
+        [
+          "is a fast",
+          521
+        ],
+        [
+          "tempo and a",
+          477
+        ],
+        [
+          "with a fast",
+          457
+        ],
+        [
+          "with a slow",
+          404
+        ],
+        [
+          "accompanied by a",
+          378
+        ],
+        [
+          "music piece with",
+          370
+        ],
+        [
+          "track features a",
+          355
+        ],
+        [
+          "the music features",
+          344
+        ],
+        [
+          "tempo of bpm",
+          341
+        ],
+        [
+          "the audio features",
+          341
+        ],
+        [
+          "an energetic and",
+          339
+        ],
+        [
+          "a lively and",
+          335
+        ],
+        [
+          "is a slow",
+          323
+        ],
+        [
+          "music is a",
+          315
+        ],
+        [
+          "audio features a",
+          313
+        ],
+        [
+          "piece features a",
+          291
+        ],
+        [
+          "track featuring a",
+          283
+        ],
+        [
+          "is an electronic",
+          277
+        ],
+        [
+          "electric guitar and",
+          272
+        ],
+        [
+          "electronic track with",
+          271
+        ],
+        [
+          "fast tempo and",
+          268
+        ],
+        [
+          "the music is",
+          268
+        ],
+        [
+          "with a steady",
+          266
+        ],
+        [
+          "melody accompanied by",
+          264
+        ],
+        [
+          "music with a",
+          264
+        ],
+        [
+          "piece of music",
+          264
+        ],
+        [
+          "slow tempo and",
+          262
+        ],
+        [
+          "creating an energetic",
+          262
+        ],
+        [
+          "music track with",
+          258
+        ],
+        [
+          "electronic music piece",
+          256
+        ],
+        [
+          "a moderate tempo",
+          252
+        ],
+        [
+          "is an instrumental",
+          251
+        ],
+        [
+          "techno track with",
+          245
+        ],
+        [
+          "and energetic mood",
+          239
+        ],
+        [
+          "a slow paced",
+          236
+        ],
+        [
+          "this music features",
+          236
+        ],
+        [
+          "mood with a",
+          231
+        ],
+        [
+          "fast paced electronic",
+          230
+        ],
+        [
+          "the audio contains",
+          225
+        ],
+        [
+          "minor with a",
+          222
+        ]
+      ],
+      "top50_bigrams": [
+        [
+          "with a",
+          5227
+        ],
+        [
+          "and a",
+          2787
+        ],
+        [
+          "this is",
+          2640
+        ],
+        [
+          "is a",
+          2627
+        ],
+        [
+          "creating a",
+          1915
+        ],
+        [
+          "features a",
+          1845
+        ],
+        [
+          "track with",
+          1796
+        ],
+        [
+          "featuring a",
+          1747
+        ],
+        [
+          "a fast",
+          1652
+        ],
+        [
+          "a lively",
+          1292
+        ],
+        [
+          "a slow",
+          1263
+        ],
+        [
+          "piece with",
+          1142
+        ],
+        [
+          "fast paced",
+          983
+        ],
+        [
+          "electric guitar",
+          969
+        ],
+        [
+          "is an",
+          957
+        ],
+        [
+          "music piece",
+          920
+        ],
+        [
+          "tempo of",
+          889
+        ],
+        [
+          "tempo and",
+          848
+        ],
+        [
+          "guitar and",
+          843
+        ],
+        [
+          "in the",
+          822
+        ]
+      ],
+      "uniq_unigrams": 2397,
+      "uniq_bigrams": 22750,
+      "uniq_trigrams": 60216
+    },
+    "lp_mc_opening_frac": 0.2647,
+    "trigram_overlap_vs_lpmc": 0.06,
+    "clap_diagonal": {
+      "n": 2048,
+      "missing_audio": 0,
+      "diag_mean": 0.3084420863824562,
+      "diag_std": 0.08825160563947786,
+      "diag_p10": 0.18942161202430727,
+      "diag_p90": 0.4162492573261261,
+      "frac_below_0.1": 0.01904296875
+    }
+  },
+  "lpmc_reference": {
+    "text_stats": {
+      "n": 10000,
+      "length_mean": 42.2917,
+      "length_median": 39.0,
+      "length_p10": 26.0,
+      "length_p90": 63.0,
+      "acoustic_kw_frac": 0.9473,
+      "unigram_entropy": 7.318897617247617,
+      "bigram_entropy": 10.5686102909504,
+      "top50_trigrams": [
+        [
+          "the low quality",
+          4118
+        ],
+        [
+          "low quality recording",
+          4098
+        ],
+        [
+          "quality recording features",
+          4091
+        ],
+        [
+          "recording features a",
+          3578
+        ],
+        [
+          "that consists of",
+          2356
+        ],
+        [
+          "song that consists",
+          2087
+        ],
+        [
+          "consists of a",
+          2022
+        ],
+        [
+          "in the background",
+          1726
+        ],
+        [
+          "there is a",
+          1668
+        ],
+        [
+          "shimmering hi hats",
+          1617
+        ],
+        [
+          "may be playing",
+          1589
+        ],
+        [
+          "song may be",
+          1562
+        ],
+        [
+          "this song may",
+          1552
+        ],
+        [
+          "is playing a",
+          1487
+        ],
+        [
+          "piece could be",
+          1375
+        ],
+        [
+          "the song is",
+          1375
+        ],
+        [
+          "this piece could",
+          1370
+        ],
+        [
+          "the tempo is",
+          1354
+        ],
+        [
+          "the atmosphere is",
+          1261
+        ],
+        [
+          "instrumental the tempo",
+          1259
+        ],
+        [
+          "this is a",
+          1252
+        ],
+        [
+          "the recording is",
+          1221
+        ],
+        [
+          "the soundtrack of",
+          1218
+        ],
+        [
+          "is an instrumental",
+          1209
+        ],
+        [
+          "in the soundtrack",
+          1204
+        ],
+        [
+          "soundtrack of a",
+          1194
+        ],
+        [
+          "this music is",
+          1185
+        ],
+        [
+          "melody it sounds",
+          1148
+        ],
+        [
+          "be used in",
+          1118
+        ],
+        [
+          "used in the",
+          1118
+        ],
+        [
+          "recording is noisy",
+          1095
+        ],
+        [
+          "could be used",
+          1083
+        ],
+        [
+          "be playing in",
+          1017
+        ],
+        [
+          "piece there is",
+          1011
+        ],
+        [
+          "this audio contains",
+          977
+        ],
+        [
+          "it sounds energetic",
+          939
+        ],
+        [
+          "kick and snare",
+          924
+        ],
+        [
+          "music piece there",
+          920
+        ],
+        [
+          "punchy kick and",
+          901
+        ],
+        [
+          "and snare hits",
+          895
+        ],
+        [
+          "playing in the",
+          861
+        ],
+        [
+          "the music is",
+          835
+        ],
+        [
+          "playing a simple",
+          803
+        ],
+        [
+          "electric guitar melody",
+          788
+        ],
+        [
+          "a live performance",
+          751
+        ],
+        [
+          "an instrumental the",
+          743
+        ],
+        [
+          "the background the",
+          739
+        ],
+        [
+          "live performance of",
+          735
+        ],
+        [
+          "can be played",
+          733
+        ],
+        [
+          "on the floor",
+          728
+        ]
+      ],
+      "top50_bigrams": [
+        [
+          "of a",
+          5078
+        ],
+        [
+          "features a",
+          4407
+        ],
+        [
+          "in the",
+          4344
+        ],
+        [
+          "low quality",
+          4174
+        ],
+        [
+          "the low",
+          4141
+        ],
+        [
+          "playing a",
+          4138
+        ],
+        [
+          "recording features",
+          4126
+        ],
+        [
+          "quality recording",
+          4099
+        ],
+        [
+          "it sounds",
+          4098
+        ],
+        [
+          "this song",
+          3873
+        ],
+        [
+          "is a",
+          3848
+        ],
+        [
+          "with a",
+          3675
+        ],
+        [
+          "consists of",
+          3151
+        ],
+        [
+          "this is",
+          2582
+        ],
+        [
+          "that consists",
+          2383
+        ],
+        [
+          "is playing",
+          2375
+        ],
+        [
+          "in a",
+          2241
+        ],
+        [
+          "song that",
+          2132
+        ],
+        [
+          "music is",
+          2023
+        ],
+        [
+          "there is",
+          2006
+        ]
+      ],
+      "uniq_unigrams": 2771,
+      "uniq_bigrams": 21540,
+      "uniq_trigrams": 54589
+    },
+    "lp_mc_opening_frac": 0.6807
+  }
+}

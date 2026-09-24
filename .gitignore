@@ -198,3 +198,18 @@ smoke_data/
 !ab-listening-test/build/
 !ab-listening-test/public/audio/
 !ab-listening-test/public/audio/**/*.flac
+
+# research/ (moved in from ~/research/meanaudio_{training,eval} on 2026-09-24)
+research/training/npz*/
+research/training/outputs/
+research/training/mtg_splits/
+research/eval/output/
+research/eval/bagpipe_analysis/bagpipe_analysis_results/
+research/**/*.jsonl
+research/**/*.raw.npz
+
+# Relocated runtime dirs and local deliverables (data, not source)
+runtime/
+research/training/qwen_singlecap_selections.json
+.archive/legacy/research_training_phase1_3/
+.archive/legacy/worktree_leftovers_20260924/
