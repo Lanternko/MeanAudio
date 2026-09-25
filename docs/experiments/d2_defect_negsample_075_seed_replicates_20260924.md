@@ -25,3 +25,7 @@
 2. **E3 CFG0 非劣性**（對 control 同 seed）：CLAP 界 −0.004（075 原界）、PQ 界 −0.155。
    lab「打平」＝ CI 下界 > 界；unlab「有掉」＝ 3 個 seed 皆 < 0 且 CI 上界 < 0。
 3. **不宣稱**：CI 跨零者寫 inconclusive，不寫打平；n=3 的 CI 很寬，這是預期。
+
+## 結果（2026-09-26）
+
+見 `results/d2_defect_negsample_075_results.md`〈3-seed 複製〉：E2 lab−unlab −0.580 [−1.070, −0.091]（對齊）→ 反向成立；lab−control inconclusive；E3 lab 打平（CLAP 對齊後下界貼界）、unlab CLAP inconclusive、PQ 對齊後有掉 −0.065。
