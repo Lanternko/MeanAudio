@@ -42,7 +42,7 @@
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
 | **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
 | **D2 雜訊負樣本訓練線**（075、25k 程式化劣化列（noise/clip/lowpass/bitcrush/crackle，LUFS 對齊）加進 066 語料；lab（caption 點名缺陷）vs unlab（不點名）vs control066；操弄檢查用 D1 probe 的波形簽名不用 CLAP；主端點 negprompt 增益 ΔPQ 差 ≥ 0.19） | `docs/experiments/d2_defect_negsample_075_20260923.md` |
-| **D2 雜訊負樣本結果**（075 收線，2026-09-26 補到 3 seed：標籤讓 fidelity8 negprompt 增益**變小**，lab−unlab 對齊後 −0.37／−0.62／−0.75 PQ（平均 −0.58，三 seed 同號、反向成立；lab 臂增益本身 seed 極不穩 0.62→0.07）；E1 只在雜訊族建立文字可達方向（static flatness +0.25）；E3 lab 過、unlab CFG0 CLAP 邊界；壞音訊＋點名在 negprompt 協定下淨負；分支幾何 probe：lab 的 ‖A−B‖ 反而最大（0.15 vs 0.11–0.12），推力大小不解釋增益，是方向問題） | `docs/experiments/results/d2_defect_negsample_075_results.md` |
+| **D2 雜訊負樣本結果**（075 收線，2026-09-26 補到 3 seed：標籤讓 fidelity8 negprompt 增益**變小**，lab−unlab 對齊後 −0.37／−0.62／−0.75 PQ（平均 −0.58，三 seed 同號、反向成立；lab 臂增益本身 seed 極不穩 0.62→0.07）；E1 只在雜訊族建立文字可達方向（static flatness +0.25）；E3 lab 過、unlab CFG0 CLAP 邊界；壞音訊＋點名在 negprompt 協定下淨負；分支幾何 probe：lab 的 ‖A−B‖ 反而最大（0.15 vs 0.11–0.12），推力大小不解釋增益；缺陷方向投影：fidelity8 推力也**沒有推離程式化缺陷**（cos≈0），lab 的缺陷句有學到但 fidelity8 沒叫用 → 機制在幾何層面仍未解） | `docs/experiments/results/d2_defect_negsample_075_results.md` |
 | **guidance 幾何：先 normalize 再減（073 延伸，已收線）**（純 CFG 上是 no-op；fidelity8 上**拆掉了 negative 分支的範數煞車** → 大聲 1.69 LU、crest 崩 1.02、PQ/PC 降，響度對齊後仍在；early-kill 未過，不進全量） | `docs/experiments/results/guidance_geometry_prenorm_20260923_results.md` |
 | **guidance 幾何線**（073、ADG 範數保持／APG 正交投影取代樸素 CFG 外插；推論期不重訓，primary=純 CFG cfg4.5 的浪費能否換成 PQ，響度閘門必跑） | `docs/experiments/guidance_geometry_adg_apg_20260922.md` |
 | **caption 內容編輯線收線**（2026-09-22：剝數字／去量測／rotation 四類干預在 MusicCaps 全測不出；只有換整個 captioner 動得了 CLAP。含「收線不等於證明」與重啟條件） | `docs/experiments/caption_content_editing_line_retired.md` |
@@ -66,6 +66,7 @@
 | **D1 缺陷方向 probe 結果**（缺陷 prompt 推不進參考臂定義的缺陷區；波形簽名對不上、沒音樂時模型以靜音逃逸 → 負向 prompt 的上界被訓練分布釘死。**CLAP 的缺陷 caption 分數被純靜音刷過真削波／真低通，不可當缺陷驗收指標**） | `docs/experiments/results/d1_defect_direction_probe_20260922_results.md` |
 | **L1 響度詞 probe 結果**（2026-09-23 收線：響度是文字可達方向，loud−quiet CFG3 撐開 4.4～5.7 LU（語料 5.5 LU）且 crest 同向；"loud" 扣 PQ −0.39～−0.74 對齊響度後仍在 → 處理代價不是音量；"quiet" 的 PQ 效果兩 ckpt 不一致） | `docs/experiments/results/l1_loudness_word_probe_20260923_results.md` |
 | **B 線 Qwen＋MF 合寫 pilot**（2026-09-23 未過閘：7B 合寫 caption 的音訊 CLAP 對齊 −0.009 vs Qwen 單獨（CI 不跨零），不開訓練；串接 +0.003 是截斷假象） | `docs/experiments/results/bfuse_caption_merge_pilot_20260923_results.md` |
+| **負向 prompt 與語料平均的距離 vs ΔPQ**（2026-09-26：「越像訓練 caption 平均增益越大」不成立；T5 相關是 prompt 長度假象；唯一訊號是越像 eval 音樂內容描述增益越小，ρ −0.64，控制長度後 −0.48） | `docs/experiments/results/negprompt_corpus_mean_distance_20260926_results.md` |
 | **負樣本進訓練的文獻定位**（四家族：推論期負向 prompt／訓練期品質條件 QA-MDT／偏好對 DPO Tango2·MusicRL／負向分支換成模型 NPO·autoguidance；與 CFG 的關係；三個可行動選項） | `docs/literature/negative_samples_in_training_and_cfg_2026_09_22.md` |
 | **品質／美學指標效度文獻定位**（SongEval + RF-Limits；PC 相關性最低 0.408、乾淨音訊上指標塌到 chance、crest-as-reward 崩潰、可抄的 protocol） | `docs/literature/quality_metric_validity_2026_09_18.md` |
 | 早期累積實驗數字（→ 改查 `best_results.md`） | `EXPERIMENT_LOG.md` |
