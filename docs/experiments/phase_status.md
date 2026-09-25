@@ -763,8 +763,8 @@ q=9 比其他 q 高 2-5×，與 P8 bug 確認（null 訓在 q[9]）完全吻合�
 | `phase8_legacy_repro` | **✅ 完成（2026-07-19）** MusicCaps CLAP **0.1684**（CE 5.36 / PQ 6.49；q=9 + NoMask eval）。vs 歷史 q=9 條件 0.1907 delta −0.022（audit ±0.03 內；量級=S1-effective-q penalty ~0.02）。⚠️ 首次 eval 誤用 `--no_q` 得 0.0134（Q-trained 模型的 q=10=uncond 記號）— pipeline/audit 已修，見 forensics addendum | catalog-matched + **Q=true** + NoMask |
 | `phase8_catalog_matched_noq` medium gate | **✅ PASSED（2026-07-19）** `p8_catalog_noq_gate`：100+100+64；S1=`fluxaudio_s` / S2=`meanaudio_s`；`use_q=false` + NoMask；eval `'no_q': True`；short-run CLAP −0.0352（**wiring only**，非收斂指標） | 同 n4096 smoke + **Q=false**；只驗 wiring |
 | `phase8_catalog_matched_noq` full | **✅ 完成（2026-07-20）** S1 400k + S2 累計 600k；MusicCaps 5,521/5,521，CLAP **0.1888** / CE 5.7252 / CU 6.4241 / PC 4.8893 / PQ 6.4174；final audit PASSED。單次 AMP grad NaN 為已恢復 overflow，未造成 checkpoint corruption | 同 full cache + **Q=false** + NoMask |
-| `phase8_catalog_matched_s2_realq` | **🟢 RUNNING（2026-07-20 12:19 起）** 共用 clean-NoQ S1 400k，只訓 S2 200k with real per-row Q；MusicCaps q9 primary + q6 secondary；tmux `p8_s2_q_ablation` | 相較 0.1888，只新增 S2 real-Q |
-| `phase8_catalog_matched_s2_shuffledq` | **⏳ QUEUED** Real-Q final contract 通過後自動接續；seed 424242 只打亂 Q，Q histogram 與所有 audio/text pairing 不變 | Real-Q 的 information control；區分真 Q signal 與額外 embedding/regime token |
+| `phase8_catalog_matched_s2_realq` | **✅ 完成（2026-07-22）** 共用 clean-NoQ S1 400k + S2 200k real per-row Q；MusicCaps q9 **0.1426** / q6 0.1641；100k residual FT q9 0.1823（paired CI vs NoQ [−0.0076, −0.0053]）→ 不勝 NoQ 0.1888。見 `history/phase8/phase8_post_legacy_comparison_2026_07_22.md` | 相較 0.1888，只新增 S2 real-Q |
+| `phase8_catalog_matched_s2_shuffledq` | **✅ 完成（2026-07-22）** seed 424242 只打亂 Q；MusicCaps q9 **0.1591** / q6 0.1692；100k FT q9 0.1848 → shuffled ≥ aligned，**Q information 貢獻不成立** | Real-Q 的 information control；區分真 Q signal 與額外 embedding/regime token |
 
 **Gate 假陽性修復（2026-07-19）**：首跑 audit 誤查 hydra `training_stage`（此 key 不存在；stage 由 `set_training_stage.py` 切 runner，config 上的 durable signal 是 `model`）。已改為驗 `model ∈ {fluxaudio_s, meanaudio_s}` + `no_q=True` eval log；既有 gate 產物 re-audit → PASSED → scheduler 開 full。
 
@@ -1094,7 +1094,7 @@ script 的 resume 邏輯靜默續訓）。理由：這個 full 仍然只跑 59,6
 caption 補到完整覆蓋，再決定要在多大的語料上跑 full。沉沒成本 38 分鐘。
 Script 與 prune 工具保留（commit `9eaafd9`），語料擴充後可直接重用。
 
-### MF full-coverage recaption（2026-09-06 01:16 起，🟢 RUNNING）
+### MF full-coverage recaption（2026-09-06 起，✅ 已完成；下游 038/039 結果見 `mf_full_coverage_line.md`）
 
 把 MF caption 從 59,614 補到 **c2p0 全量 251,599**，消掉覆蓋率不對稱 —— MF 59,614
 vs Qwen 251,599 是覆蓋率差距不是 caption 品質差距，加再多訓練預算都補不回來。

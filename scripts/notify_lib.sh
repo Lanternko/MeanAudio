@@ -7,6 +7,10 @@
 #   notify_on_exit "075_d2_chain" "$LOG"      # sends start now, success/failure on exit
 #
 # Notifier failures are logged to stderr and never kill the job.
+#
+# The queue host's "gpu-queue-idle" message fires once per empty-queue period, so a direct
+# run that ends while the queue is already empty would leave the GPU idle silently. The exit
+# message therefore says whether the GPU is now idle (no queued jobs, no other compute process).
 
 NOTIFY_PY="${NOTIFY_PY:-$HOME/venvs/dac/bin/python}"
 NOTIFY_SCRIPT="${NOTIFY_SCRIPT:-$HOME/MeanAudio/scripts/notify_experiment_webhook.py}"
@@ -29,13 +33,33 @@ notify_on_exit() {  # notify_on_exit <experiment> [log]
   trap 'exit 143' TERM
 }
 
-_notify_exit_handler() {
-  local rc="$1"
-  if [ "$rc" -eq 0 ]; then
-    notify_send success "$_NOTIFY_EXP" "direct run finished" "$_NOTIFY_LOG" "$rc" "$_NOTIFY_T0"
-  elif [ "$rc" -eq 130 ] || [ "$rc" -eq 143 ]; then
-    notify_send interrupted "$_NOTIFY_EXP" "direct run interrupted by signal" "$_NOTIFY_LOG" "$rc" "$_NOTIFY_T0"
+_notify_gpu_state() {  # one-line GPU/queue status for the exit message
+  local q="${GPU_QUEUE_ROOT:-$HOME/gpu_queue}" queued=0 procs
+  if LC_ALL=C find "$q"/p1/pending "$q"/p1/running "$q"/p2/pending "$q"/p2/running \
+      -maxdepth 1 -name '*.sh' -type f -print -quit 2>/dev/null | grep -q .; then
+    queued=1
+  fi
+  # Resident services (e.g. the arale-persona-bot TTS server, ~1.2 GB) are not experiments;
+  # only count compute processes above NOTIFY_GPU_BUSY_MIB.
+  procs=$(nvidia-smi --query-compute-apps=used_memory --format=csv,noheader,nounits 2>/dev/null \
+    | awk -v t="${NOTIFY_GPU_BUSY_MIB:-4096}" '$1+0 > t {n++} END {print n+0}')
+  if [ "$queued" -eq 0 ] && [ "${procs:-0}" -eq 0 ]; then
+    echo "GPU now IDLE: queue empty, no compute process"
+  elif [ "$queued" -eq 1 ]; then
+    echo "queue has pending/running jobs"
   else
-    notify_send failure "$_NOTIFY_EXP" "direct run exited rc=$rc" "$_NOTIFY_LOG" "$rc" "$_NOTIFY_T0"
+    echo "queue empty, ${procs} other GPU job(s) > ${NOTIFY_GPU_BUSY_MIB:-4096} MiB still running"
+  fi
+}
+
+_notify_exit_handler() {
+  local rc="$1" gpu
+  gpu="$(_notify_gpu_state)"
+  if [ "$rc" -eq 0 ]; then
+    notify_send success "$_NOTIFY_EXP" "direct run finished; $gpu" "$_NOTIFY_LOG" "$rc" "$_NOTIFY_T0"
+  elif [ "$rc" -eq 130 ] || [ "$rc" -eq 143 ]; then
+    notify_send interrupted "$_NOTIFY_EXP" "direct run interrupted by signal; $gpu" "$_NOTIFY_LOG" "$rc" "$_NOTIFY_T0"
+  else
+    notify_send failure "$_NOTIFY_EXP" "direct run exited rc=$rc; $gpu" "$_NOTIFY_LOG" "$rc" "$_NOTIFY_T0"
   fi
 }

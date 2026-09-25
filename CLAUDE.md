@@ -6,17 +6,10 @@
 - **Stage 1**：FluxAudio（Flow Matching，單向 ODE）
 - **Stage 2**：MeanAudio（Mean Flow，更快推理）
 
-**目前重心**（2026-07-20）：
-1. **P8 legacy repro 完成** — MusicCaps CLAP **0.1684**（`--quality_level 9` + NoMask；對照歷史 q=9 條件 0.1907，delta −0.022 在 audit ±0.03 內，量級符合 S1-effective-q-training penalty ~0.02）。首次 pipeline eval 誤用 `--no_q` 得 0.0134（Q-trained 模型 + q=10=uncond 記號 → unconditional 模式），已修：pipeline 從 `USE_Q_CONDITIONING` 推導 eval 旗標、audit 目標改 0.1907、無效產物存 `*_noq_invalid`。詳見 forensics addendum（`docs/experiments/history/phase8/phase8_baseline_forensics_2026_07_17.md`）+ memory `project_legacy_repro_noq_eval_trap_2026_07_18.md`
-2. **✅ `phase8_catalog_matched_noq` clean full 完成** — S1/S2 NoQ + NoMask + `--no_q`，MusicCaps **CLAP 0.1888**（CE 5.7252 / CU 6.4241 / PC 4.8893 / PQ 6.4174）；5,521/5,521 audio、final contract audit PASSED。訓練中唯一一次 AMP grad NaN 已恢復，ckpt/EMA 無 corruption；舊 Grok job `019f798b2408` 已取消。
-3. **🟢 Phase8 clean S2-only Q 因果對照 RUNNING**（tmux `p8_s2_q_ablation`，2026-07-20 12:19 起）
-   - 共用上述 clean-NoQ S1 400k；依序跑 `phase8_catalog_matched_s2_realq` → `phase8_catalog_matched_s2_shuffledq`，各自 S2 追加 200k。
-   - Real-Q 用原始 per-row `q_level`；Shuffled-Q 只用 seed 424242 打亂 Q（資料順序、id/caption、NPZ/cache、Q histogram 不變）。MusicCaps q9 primary、q6 secondary。
-   - 目的：Real-Q 必須同時超過 NoQ 0.1888 與 Shuffled-Q 才支持 Q information 有貢獻；q9 ≥0.1998 才達歷史最佳門檻。
-   - Grok durable 5m watcher job `019f7dc10ba5`；任何停止須取得 Codex SOL `stop_authorized=true`，Grok 不可自行停止或修改 live run。Handoff：`docs/experiments/archive/ops/phase8_s2_q_ablation_grok_handoff_2026_07_20.md`。
-4. **Phase 9 multi-cap clean rebuild**（P0，disk-blocked）— 需 ~413G，HDD 僅 ~314G free；tooling 已修好，等空間後再 encode
-5. **Music Flamingo caption ablations** A1–A6 已完成（見 `docs/experiments/results/phase8/music_flamingo_ablation_todo.md`）
-6. **Qwen collapse diagnostic** EXP-A~H 完成；**ISMIR 2026 paper 487** reviews 已歸檔
+**目前重心**：即時狀態只記在 `docs/experiments/phase_status.md`（本檔不重複，避免兩邊漂移）。本檔只留跨月不變的結論：
+- **Q pathway 在乾淨 code 下沒有淨貢獻**：matched NoQ（`phase8_catalog_matched_noq`）MusicCaps CLAP 0.1888；S2-only real-Q 與 100k residual FT 都不勝 NoQ，且 shuffled-Q ≥ aligned-Q（`docs/experiments/history/phase8/phase8_post_legacy_comparison_2026_07_22.md`）。
+- **Bug-era 復現要翻譯旗標語義**：P8 legacy repro 是 Q-trained，eval 用 `--quality_level 9`（CLAP 0.1684）；`--no_q` 會切到 unconditional（0.0134）。見 memory `project_legacy_repro_noq_eval_trap_2026_07_18.md`。
+- **Phase 9 multi-cap clean rebuild**（P0，disk-blocked）；tooling 已修好，開跑前先 `df -h /mnt/HDD`。
 
 **目前最佳（paper primary）**：`LP-Rnd-Q`（Phase 7 V1，`JamendoFull-Random-MeanSim-Q`）— Jamendo + MusicCaps 跨 benchmark 最穩。歷史 10-exp 定稿見 `docs/experiments/results/benchmarks/ten_exp_full_benchmark.md`。
 
@@ -49,7 +42,7 @@
 | **limiter 響度提升線**（064、x42-dpl 把 LUFS 推高＋響度對齊雙胞胎拆 level/processing；064b 換 own/alimiter/hyrax/loudnorm 驗穩健性） | `docs/experiments/limiter_loudness_aes_20260918.md` |
 | **limiter 響度提升結果**（064：T14 PQ −0.220；PQ/CU/CE/CLAP 全降、只有 PC 升 → limiter 提升 LUFS 不是免費提升。064b：方向對 5 種 limiter 穩健，響度部分 ≈ −0.10 PQ 穩健，處理部分依 limiter 差 12 倍） | `docs/experiments/results/limiter_loudness_aes_20260918_results.md` |
 | **D2 雜訊負樣本訓練線**（075、25k 程式化劣化列（noise/clip/lowpass/bitcrush/crackle，LUFS 對齊）加進 066 語料；lab（caption 點名缺陷）vs unlab（不點名）vs control066；操弄檢查用 D1 probe 的波形簽名不用 CLAP；主端點 negprompt 增益 ΔPQ 差 ≥ 0.19） | `docs/experiments/d2_defect_negsample_075_20260923.md` |
-| **D2 雜訊負樣本結果**（075 收線：標籤讓 fidelity8 negprompt 增益**變小**，lab−unlab −0.365 PQ @−30 LUFS（反向、1.9× 門檻）；E1 只在雜訊族建立文字可達方向（static flatness +0.25）；E3 lab 過、unlab CFG0 CLAP 邊界；壞音訊＋點名在 negprompt 協定下淨負） | `docs/experiments/results/d2_defect_negsample_075_results.md` |
+| **D2 雜訊負樣本結果**（075 收線，2026-09-26 補到 3 seed：標籤讓 fidelity8 negprompt 增益**變小**，lab−unlab 對齊後 −0.37／−0.62／−0.75 PQ（平均 −0.58，三 seed 同號、反向成立；lab 臂增益本身 seed 極不穩 0.62→0.07）；E1 只在雜訊族建立文字可達方向（static flatness +0.25）；E3 lab 過、unlab CFG0 CLAP 邊界；壞音訊＋點名在 negprompt 協定下淨負） | `docs/experiments/results/d2_defect_negsample_075_results.md` |
 | **guidance 幾何：先 normalize 再減（073 延伸，已收線）**（純 CFG 上是 no-op；fidelity8 上**拆掉了 negative 分支的範數煞車** → 大聲 1.69 LU、crest 崩 1.02、PQ/PC 降，響度對齊後仍在；early-kill 未過，不進全量） | `docs/experiments/results/guidance_geometry_prenorm_20260923_results.md` |
 | **guidance 幾何線**（073、ADG 範數保持／APG 正交投影取代樸素 CFG 外插；推論期不重訓，primary=純 CFG cfg4.5 的浪費能否換成 PQ，響度閘門必跑） | `docs/experiments/guidance_geometry_adg_apg_20260922.md` |
 | **caption 內容編輯線收線**（2026-09-22：剝數字／去量測／rotation 四類干預在 MusicCaps 全測不出；只有換整個 captioner 動得了 CLAP。含「收線不等於證明」與重啟條件） | `docs/experiments/caption_content_editing_line_retired.md` |
@@ -194,8 +187,6 @@ MeanAudio/
    - Gen 完：`ls <output>/audio | wc -l` 接近預期數、抽一個 `soxi` 看長度/取樣率正常、檔案 size > 0
    - Metrics 完：`cat metrics.txt` 無 NaN、數字在合理範圍（CLAP 0.05~0.25、CE 5~8、PQ 5~8）
    - 發現異常 → 先懷疑 bug（見 `memory/feedback_suspect_bug_before_explaining.md`）
-
-5. **禁止「啟動後就當完成」** — 沒排 monitoring 等於沒做這份工作。
 
 ---
 

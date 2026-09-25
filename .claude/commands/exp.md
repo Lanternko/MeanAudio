@@ -13,7 +13,7 @@ Steps to follow:
 
 2. Stage only the relevant source code files — never stage:
    - exps/, eval_output/, *.pth, *.npz, *.flac
-   - *.bak, *.backup, fix_*.py, phase*/
+   - *.bak, *.backup, fix_*.py, run_*.sh (temporary scripts), top-level phase*/ output dirs
    - Any binary or large files
 
    Typically stage from:
@@ -25,6 +25,8 @@ Steps to follow:
    - train_pipeline.sh, set_training_stage.py
    - migrate_*.py
    - .gitignore, config/
+   - scripts/, research/training/, research/eval/ (scripts used by an experiment must be pushed before it runs)
+   - docs/ (experiment docs, contracts, results)
 
 3. Build the commit message in this format:
    ```
