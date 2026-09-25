@@ -10,10 +10,12 @@
 #
 # The queue host's "gpu-queue-idle" message fires once per empty-queue period, so a direct
 # run that ends while the queue is already empty would leave the GPU idle silently. The exit
-# message therefore says whether the GPU is now idle (no queued jobs, no other compute process).
+# message therefore says whether the GPU is now idle, and when it is, a separate IDLE message
+# goes out through the same queue-status notifier the host uses.
 
 NOTIFY_PY="${NOTIFY_PY:-$HOME/venvs/dac/bin/python}"
 NOTIFY_SCRIPT="${NOTIFY_SCRIPT:-$HOME/MeanAudio/scripts/notify_experiment_webhook.py}"
+NOTIFY_QUEUE_STATUS="${NOTIFY_QUEUE_STATUS:-$HOME/MeanAudio/scripts/notify_queue_status_webhook.py}"
 
 notify_send() {  # notify_send <status> <experiment> <summary> [log] [exit_code] [started_epoch]
   local args=(--status "$1" --experiment "$2" --summary "$3")
@@ -44,7 +46,7 @@ _notify_gpu_state() {  # one-line GPU/queue status for the exit message
   procs=$(nvidia-smi --query-compute-apps=used_memory --format=csv,noheader,nounits 2>/dev/null \
     | awk -v t="${NOTIFY_GPU_BUSY_MIB:-4096}" '$1+0 > t {n++} END {print n+0}')
   if [ "$queued" -eq 0 ] && [ "${procs:-0}" -eq 0 ]; then
-    echo "GPU now IDLE: queue empty, no compute process"
+    echo "GPU now IDLE: queue empty, no other GPU job"
   elif [ "$queued" -eq 1 ]; then
     echo "queue has pending/running jobs"
   else
@@ -62,4 +64,10 @@ _notify_exit_handler() {
   else
     notify_send failure "$_NOTIFY_EXP" "direct run exited rc=$rc; $gpu" "$_NOTIFY_LOG" "$rc" "$_NOTIFY_T0"
   fi
+  case "$gpu" in
+    "GPU now IDLE"*)
+      "$NOTIFY_PY" "$NOTIFY_QUEUE_STATUS" --status idle --experiment gpu-idle \
+        --summary "direct run $_NOTIFY_EXP ended; p1/p2 queue empty, no other GPU job" --exit-code 0 >&2 \
+        || echo "[notify_lib] NOTIFY_FAIL gpu-idle" >&2 ;;
+  esac
 }
