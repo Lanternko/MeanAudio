@@ -1,0 +1,187 @@
+{
+ "aes_snapshot": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6",
+ "analysis": {
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20260926,
+  "ci_percentiles": [
+   2.5,
+   97.5
+  ],
+  "clap_floor": -0.005,
+  "decision_rule": {
+   "ag_between_0_and_gneg": "Partial replacement.",
+   "ag_ci_covers_zero_or_negative": "No help in this setting; never written as \"autoguidance does not work on audio\".",
+   "ag_ge_gneg": "On this model a model-based negative branch can replace the text negative prompt.",
+   "combo_ci_lower_gt_0": "The AG term is additive to fidelity8.",
+   "s1_bad_models": "Exploratory only: the difference term also carries the S1/S2 objective mismatch.",
+   "unmatched_and_lvl30_disagree": "Report as a level effect, not a quality effect (063/065 shape)."
+  },
+  "multiple_comparisons": "Pointwise 95% bootstrap CIs over paired per-clip deltas; no global significance, no equivalence claim. A CI covering zero is insufficient evidence, not equivalence.",
+  "prespecified_limits": "One corpus, one checkpoint family (nmv2pair quarter), one generation seed (42); pilot selection on one training seed. Only the \"trained shorter\" axis of Karras-style bad models is used (same size EMA snapshots), close to the final (110k/130k vs 150k); a null does not extrapolate to the original method. CLAP/AES are not human judgments; MeanFlow 25 steps is a few-step regime.",
+  "primary_endpoint": "Selected pure cell vs stock cfg0 on the same MusicCaps rows: paired dPQ after -30 LUFS matching, read against the text-negative gain G_neg (stock cfg3_neg - stock cfg0, lvl30) on the same clips.",
+  "secondary_endpoint": "Selected combo cell vs stock cfg3_neg: paired lvl30 dPQ (is the AG term additive to the fidelity8 negative prompt?).",
+  "selection_rule": "Pure: the pilot cell with the largest lvl30 dPQ vs stock cfg0 subject to dCLAP >= -0.005. Combo: largest lvl30 dPQ vs stock cfg3_neg subject to the same floor. If no cell clears the floor, the best dPQ is promoted anyway so the null is measured on three seeds rather than assumed.",
+  "silence_flag_rule": "silent_n more than 2x the stock reference on the same clips is flagged (project_slot0nm_silence_mode precedent).",
+  "stage_c_rule": "A selected cell is generated at 5521 rows on s14159265 only if its lvl30 dPQ CI lower bound is > 0 against its reference on all 3 training seeds and its dCLAP >= -0.005 on all 3."
+ },
+ "approval_required": true,
+ "bindings": {
+  "action": "/home/kojiek/MeanAudio/scripts/eval/autoguidance_ema_snapshot_20260926.py",
+  "action_sha256": "e1c4c5ee4b2a23ab6889099163070c189f1220acd3ffdc6d2791a5950f1fc3ef",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/autoguidance_ema_snapshot_20260926_guest.py",
+  "harn_sha256": "4e3f8e3cf5558a06145983bab3516fd2d6c54039d52238088a95899c89aa827c",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/080_autoguidance_ema_snapshot.sh",
+  "launcher_sha256": "fb52a45733e853ab495244eb3dc41460f676de03583b187d19493df9db9c1ba5",
+  "preflight": "/home/kojiek/MeanAudio/scripts/eval/autoguidance_ema_snapshot_20260926.py",
+  "preflight_sha256": "e1c4c5ee4b2a23ab6889099163070c189f1220acd3ffdc6d2791a5950f1fc3ef"
+ },
+ "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+ "commands": {
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/autoguidance_ema_snapshot_20260926.py",
+   "--validate-only"
+  ],
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/autoguidance_ema_snapshot_20260926.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/autoguidance_ema_snapshot_20260926.py"
+  ]
+ },
+ "completion_evidence": {
+  "note": "Eval-only job: the guest writes its own terminal evidence (evidence.eval_only true) and never claims a training artifact. Per QUEUE.md the terminal's evidence.reports paths must equal this contract's reports paths with matching sha256."
+ },
+ "dependencies": [],
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/autoguidance_ema_snapshot_20260926.md",
+ "design_document_sha256": "51f8ca7bf6452fee1beab22a5bb59cc1d078bae364d9ad50f77e1235e64d9fed",
+ "document_kind": "preregistered_autoguidance_contract",
+ "experiment_id": "autoguidance-ema-snapshot-20260926",
+ "gates": {
+  "replication_bit_exact": {
+   "cells": [
+    "s14159265__self__w2.0__pure__n256 vs stock cfg0",
+    "s14159265__self__w2.0__combo__n256 vs stock cfg3_neg"
+   ],
+   "note": "ema_final loaded through the bad-model loader makes A - A_bad exactly zero; both cells must equal the stock audio (int16) clip for clip. Valid on a 256-row prefix because eval.py seeds one RNG per run (verified by d2_075_segment_cfg).",
+   "tolerated_mismatches": 0
+  }
+ },
+ "git_revision": "15ba055",
+ "git_revision_note": "The commit holding the bound scripts and design document. The contract is committed one step later and cannot reference itself; exact file contents are pinned by the sha256 fields, not by this field.",
+ "immutable": {
+  "eval_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339",
+  "networks_sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69",
+  "note": "The action pins eval.py, networks.py, mean_flow.py, eval_metrics.py, level_match_rescore.py and the 073 harness module by sha256 and its preflight refuses to start on any change."
+ },
+ "label": "nmv2pair_quarter_musiccaps_mf25_seed42_nomask_fp32_autoguidance_ema_snapshot",
+ "launch_allowed": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "operator": "responsible_operator",
+  "scope": "Operator asked on 2026-09-26 for the autoguidance (earlier EMA snapshot as negative branch) line to be queued in p2 as option 1.",
+  "trusted_channel": "operator_console"
+ },
+ "ordering_dependencies": [],
+ "protocol": {
+  "bad_models": {
+   "s1_100k": "stage1_100000/ema_ckpts/0.100000.pt (FluxAudio, exploratory)",
+   "s1_30k": "stage1_100000/ema_ckpts/0.30000.pt (FluxAudio, exploratory)",
+   "s2_110k": "stage2_50000/ema_ckpts/0.110000.pt (MeanAudio)",
+   "s2_130k": "stage2_50000/ema_ckpts/0.130000.pt (MeanAudio)"
+  },
+  "cfg_neg": 3.0,
+  "checkpoint_exp_ids": [
+   "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_stage2_50000",
+   "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_stage2_50000",
+   "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_stage2_50000"
+  ],
+  "clap_batch_size": 1,
+  "combo_bad": [
+   "s2_110k",
+   "s1_100k"
+  ],
+  "combo_weight": 2.0,
+  "dataset": "MusicCaps",
+  "level_match_lufs": -30.0,
+  "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+  "pilot_cells": 14,
+  "q": "no_q (null token 10)",
+  "references": "stock ~/eval_output_nvme/<exp>_mc_mf25_{cfg0,cfg3_neg} and their _lvl30 rescoring (d2_075_lvl30/)",
+  "rows": {
+   "gate": 256,
+   "pilot": 1024,
+   "stage_b": 1024,
+   "stage_c": 5521
+  },
+  "seed": 42,
+  "solver": "MeanFlow",
+  "stage_b_cells": 4,
+  "stage_c_cells_max": 2,
+  "steps": 25,
+  "text_attention_mask": false,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "weights": [
+   1.5,
+   2.0,
+   3.0
+  ]
+ },
+ "question": "Can a negative branch with no text at all - an earlier EMA snapshot of the same run, fed the same prompt (autoguidance) - reach the PQ gain of the fidelity8 negative prompt, and does it add on top of it?",
+ "queue_name": "080_autoguidance_ema_snapshot.sh",
+ "queue_placement": "Normal band per QUEUE.md; 079 is the last used name. Nothing binds to the filename.",
+ "queue_role": "p2",
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoguidance_ema_snapshot_20260926/summary.json"
+  }
+ ],
+ "resource_budget": {
+  "estimated_gpu_hours_note": "Gate 2x256 rows, pilot 14x1024, Stage B 4x1024, Stage C at most 2x5521; each cell also runs eval_metrics twice (unmatched + lvl30).",
+  "estimated_gpu_hours_range": [
+   3.0,
+   4.5
+  ],
+  "generated_clips": 18944,
+  "generated_clips_if_stage_c": 29986,
+  "gpu": "P2 assigned GPU0 only",
+  "writable_filesystems": [
+   "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoguidance_ema_snapshot_20260926",
+   "/home/kojiek/logs"
+  ]
+ },
+ "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/autoguidance_ema_snapshot_20260926_results.md",
+ "resume": {
+  "autoresume": "",
+  "behavior": "Each cell is an atomic JSON; a restart re-runs only cells without one. A cell whose audio exists without its JSON is regenerated from scratch (the harness deletes the directory first), never topped up, because eval.py seeds one RNG per run.",
+  "checkpoint": null,
+  "iteration": 0,
+  "kind": "from_scratch_with_autoresume",
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoguidance_ema_snapshot_20260926/pause_progress.json"
+ },
+ "reuses": {
+  "level_match": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+  "level_match_sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714",
+  "scoring": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "scoring_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "run_id": "run-20260926-080-autoguidance-ema-snapshot",
+ "schema_version": 1,
+ "scope_note": "Inference-only. Nothing is retrained. Checkpoints, dataset, sampler, steps and seed are the standard eval ones; only the negative branch of each ODE step changes.",
+ "storage": {
+  "estimated_peak_additional_bytes": 7000000000,
+  "hard_stop_free_bytes": 10000000000,
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoguidance_ema_snapshot_20260926",
+  "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoguidance_ema_snapshot_20260926/cells",
+  "warning_free_bytes": 20000000000
+ },
+ "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoguidance_ema_snapshot_20260926/summary.json",
+ "watcher": {
+  "automatic_repair": false,
+  "poll_seconds": 2,
+  "stall_seconds": 14400
+ }
+}
