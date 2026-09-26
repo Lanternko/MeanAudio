@@ -156,7 +156,7 @@ MeanAudio/
    - **預設：MusicCaps**（ISMIR 黃金標準，2026-04-19 定為主要 benchmark）：`/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv`（5,527 筆，~11 min eval）
      - 理由：ISMIR benchmark 發表用；無 data leakage（訓練 Jamendo、eval MusicCaps）；16x 比 Jamendo 快
    - **次要：Jamendo** 歷史比較：`phase4_test.tsv`（90,063 筆，~3.1 hr eval）— 只在需要跟 Phase 4-8 舊數字對照時才跑
-   - **快速 sanity**：`eval.py` **無** `--num_samples` 參數；要做 2048 筆小 subset sanity 須先 `head -n 2049 <TSV> > <TSV>_2048.tsv` 切檔再傳 `--tsv`。`eval_metrics.py`（與舊 `phase4_eval.py`）的 `--num_samples` 只控制 FAD 抽樣數，不影響生成數量；要小量 smoke test 用 `--limit N`
+   - **快速 sanity**：`eval.py` **無** `--num_samples` 參數；要做 2048 筆小 subset sanity 須先切出前 2048 筆再傳 `--tsv`：**按 csv record 切，不要 `head -n 2049`**（MusicCaps TSV 有 5 條 caption 在引號內跨行，按行切會少筆；見 080 action 的 `write_subset_tsv`）。`eval_metrics.py`（與舊 `phase4_eval.py`）的 `--num_samples` 只控制 FAD 抽樣數，不影響生成數量；要小量 smoke test 用 `--limit N`
 5. **Caption-source 換訓練時**：必須有 same-distribution eval；跨 style 結果只能寫 generalization，不是 conditioning test
 
 ---
