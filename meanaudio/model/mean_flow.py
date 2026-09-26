@@ -138,7 +138,10 @@ class MeanFlow():
             text_attention_mask_undrop: torch.Tensor = None,
             q: torch.Tensor = None,
             t_score: torch.Tensor = None,
-            t_score_beta_lambda: float = 0.0):
+            t_score_beta_lambda: float = 0.0,
+            guide_text_f: torch.Tensor = None,
+            guide_text_f_c: torch.Tensor = None,
+            guide_t_min: float = 0.0):
 
         batch_size = x0.shape[0]
         device = x0.device
@@ -158,6 +161,14 @@ class MeanFlow():
         if self.w is not None:
             u_text_f = empty_string_feat.expand(batch_size, -1, -1)
             u_text_f_c = empty_string_feat_c.expand(batch_size, -1)
+            if guide_text_f is not None:
+                # 084 NegMF: the guidance branch of the CFG target reads a fixed negative prompt
+                # instead of the empty string, for samples with t > guide_t_min (t=1 is noise).
+                if text_attention_mask is not None:
+                    raise ValueError('guide_text_f is only implemented for NoMask training')
+                sel = t > guide_t_min
+                u_text_f = torch.where(sel[:, None, None], guide_text_f.expand(batch_size, -1, -1), u_text_f)
+                u_text_f_c = torch.where(sel[:, None], guide_text_f_c.expand(batch_size, -1), u_text_f_c)
             empty_text_attention_mask = torch.ones_like(text_attention_mask, dtype=torch.bool) \
                 if text_attention_mask is not None else None
             if text_attention_mask_undrop is None:

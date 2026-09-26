@@ -113,6 +113,21 @@ class RunnerMeanFlow:
             self.val_fn = torch.compile(self.val_fn)
 
         self.mf = MeanFlow()
+
+        # 084 NegMF: optional fixed negative prompt for the guidance branch of the CFG target (off by default)
+        self.mf_guide_text_f = None
+        self.mf_guide_text_f_c = None
+        self.mf_guide_t_min = float(cfg.get('mf_guide_t_min', 0.0))
+        if cfg.get('mf_guide_t5', None):
+            if cfg['text_encoder_name'] != 't5_clap':
+                raise NotImplementedError('mf_guide_t5 is only implemented for t5_clap')
+            self.mf_guide_text_f = torch.load(cfg.mf_guide_t5, weights_only=True).float().cuda()
+            self.mf_guide_text_f_c = torch.load(cfg.mf_guide_clap_c, weights_only=True).float().cuda()
+            if self.mf_guide_text_f.shape != (1,) + tuple(empty_string_feat.shape) or \
+                    self.mf_guide_text_f_c.shape != (1,) + tuple(empty_string_feat_c.shape):
+                raise ValueError(f'guide feature shapes {tuple(self.mf_guide_text_f.shape)}, '
+                                 f'{tuple(self.mf_guide_text_f_c.shape)} do not match the empty string features')
+            log.info(f'MeanFlow CFG target guidance branch uses {cfg.mf_guide_t5} for t > {self.mf_guide_t_min}')
         
         # ema profile
         if for_training and cfg.ema.enable and local_rank == 0:
@@ -284,7 +299,10 @@ class RunnerMeanFlow:
                                   text_attention_mask_undrop=text_attention_mask_undrop,
                                   q=q,
                                   t_score=t_score,
-                                  t_score_beta_lambda=float(self.cfg.get('t_score_beta_lambda', 0.0)))
+                                  t_score_beta_lambda=float(self.cfg.get('t_score_beta_lambda', 0.0)),
+                                  guide_text_f=self.mf_guide_text_f,
+                                  guide_text_f_c=self.mf_guide_text_f_c,
+                                  guide_t_min=self.mf_guide_t_min)
         mean_loss = loss.mean()
         return x1, loss, mean_loss, t, r
 

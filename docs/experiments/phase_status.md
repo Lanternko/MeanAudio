@@ -6,6 +6,16 @@
 
 ---
 
+## 2026-09-27 進行中／待放行
+
+| 線 | 狀態 | 文件 |
+|---|---|---|
+| 081–083 真品質標籤前綴（quarter × 3 seed） | 082 在跑（eval 中）；081、083 在 p2 pending | `quality_label_prefix_081_20260926.md` |
+| **084／085 NegMF**（MeanFlow CFG 訓練目標的 ∅ 分支換成 fidelity8；N100 全 t、Nhi 只 t>2/3；S2-only 從 nmv2pair control 的 S1 ckpt_last 分支） | **設計完成、閘門 G0b／G1a–G1e 全過、未排隊**。contract `awaiting_operator`，launcher 在 `harn/negmf_084/queue/`；放行步驟見設計 §9。control 三個 S1 `ckpt_last` 在收線前不可刪 | `negprompt_distill_meanflow_084_20260927.md` |
+| 073 guidance 幾何 | 收線（結果 2026-09-27 補寫） | `results/guidance_geometry_adg_apg_20260922_results.md` |
+
+---
+
 ## 4-token paper-facing 命名（2026-05-08 統一）
 
 ```
