@@ -1,0 +1,145 @@
+{
+ "schema_version": 1,
+ "document_kind": "preregistered_experiment_contract",
+ "experiment_id": "quality-label-081-noq-quarter-s27182818",
+ "run_id": "run-20260926-qlabel-081-s27182818",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "083_quality_label_quarter_s27182818.sh",
+ "queue_role": "p2",
+ "ordering_dependencies": [],
+ "dependencies": [],
+ "deviations": [],
+ "hypothesis": {
+  "question": "081: does training with real AES-PQ quality prefixes (bottom 20% 'Low quality recording.', top 20% 'High quality recording.') make the short negative prompt 'Low quality recording.' raise level-matched PQ more than on the unlabeled control (E1 DiD >= 0.19)?",
+  "prereg": "docs/experiments/quality_label_prefix_081_20260926.md"
+ },
+ "operator_instruction": {
+  "recorded_at": "2026-09-26",
+  "text": "新排候選 2 當 081；確保 081 沒有 bug 然後安排"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "arm-input build (first seed), quarter training, 5 arm + 3 control MusicCaps eval cells with -30 LUFS rescore",
+  "valid": true
+ },
+ "training": {
+  "scale": "quarter",
+  "stage1_final_iteration": 100000,
+  "stage2_additional_iterations": 50000,
+  "final_iteration": 150000,
+  "seed": 27182818,
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "q_conditioning": false,
+  "multi_cap": false,
+  "cap_index_fixed": 0,
+  "require_text_overlay": true,
+  "use_text_attention_mask": false,
+  "corpus": "slot0clean_nmv2matched + quality prefixes (bottom/top 20% by AES PQ)",
+  "control": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818"
+ },
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "rows": 5521,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "seed": 42,
+  "mask": "NoMask",
+  "precision": "full",
+  "clap": "batch 1 (eval_metrics.py), against the plain caption",
+  "canonical_cell": {
+   "cfg_strength": 0
+  },
+  "secondary_cell": {
+   "cfg_strength": 3.0,
+   "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi"
+  },
+  "extra_cells": {
+   "cfg3_lqneg": {
+    "cfg_strength": 3.0,
+    "negative_prompt": "Low quality recording."
+   },
+   "hqpos_cfg0": {
+    "cfg_strength": 0,
+    "prompt_prefix": "High quality recording. "
+   },
+   "hqpos_cfg3_lqneg": {
+    "cfg_strength": 3.0,
+    "prompt_prefix": "High quality recording. ",
+    "negative_prompt": "Low quality recording."
+   }
+  },
+  "level_match": "-30 LUFS (level_match_rescore.py); audio deleted after scoring"
+ },
+ "cells": [
+  {
+   "cell_id": "canonical_noq",
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000_ema_final.pth",
+   "checkpoint_sha256": "pending_runtime_output",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json"
+  },
+  {
+   "cell_id": "cfg3_neg",
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000_ema_final.pth",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json"
+  },
+  {
+   "cell_id": "cfg3_lqneg",
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000_ema_final.pth",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_REPORT.json"
+  }
+ ],
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage1_100000/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage1_100000_ckpt_last.pth"
+ },
+ "runtime_storage": {
+  "hard_stop_free_bytes": 13000000000,
+  "metrics_root": "/home/kojiek/eval_output_nvme"
+ },
+ "commands": {
+  "run": [
+   "/bin/bash",
+   "/home/kojiek/MeanAudio/scripts/training_pipelines/quality_label_081_s27182818.sh"
+  ]
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/083_quality_label_quarter_s27182818.sh",
+  "launcher_sha256": "eb0c15d881f91b5004babe9fa6fcc3993b3822787d561c60d9b3966c2695fa82",
+  "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+  "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+  "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/quality_label_081_s27182818.sh",
+  "action_sha256": "c22dfab49ae3d248adc1458ce8ff342449da530456b5fce3df8e25b7527c2241",
+  "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/quality_label_081_action.sh",
+  "shared_action_sha256": "1133d26428bbbf2433d7049de6562979dc0ce95bd9f2b6ed0fd52ef4bfa104bc",
+  "builder": "/home/kojiek/MeanAudio/scripts/preprocess/build_quality_label_081_arm_inputs.py",
+  "builder_sha256": "710d1c5cf3a3134b7c7be9a6c937d570aa1bab5d28f4411729e8706af9ac0af0",
+  "hq_tsv_builder": "/home/kojiek/MeanAudio/scripts/preprocess/build_hq_prefix_musiccaps_tsv.py",
+  "hq_tsv_builder_sha256": "1fcfb794cf5d98fabf52b1f7bdad023862f8b0f5379a2564f014d0fc4cc1dcc4",
+  "eval_wrapper": "/home/kojiek/MeanAudio/scripts/eval/mc_mf25_eval.sh",
+  "eval_wrapper_sha256": "e1e3013b3d18ce6d5204e60c688c13201f965c03127bcd6b3a6bb84b3508dc5e",
+  "negvariant_eval_wrapper": "/home/kojiek/MeanAudio/scripts/eval/mc_mf25_negvariant_eval.sh",
+  "negvariant_eval_wrapper_sha256": "04d6b684c5e60f331356be0b5055f977525dcdfe7fcab00bdfd478eee8becc63",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "level_match_rescore": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+  "level_match_rescore_sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714",
+  "analysis": "/home/kojiek/MeanAudio/scripts/analysis/quality_label_081_analysis.py",
+  "analysis_sha256": "f124d314703ad45c17671b70527b95603b0dfa647dda929c643f4ca651bd117f"
+ },
+ "completion_evidence": {
+  "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000_ema_final.pth",
+  "cfg0_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json"
+ }
+}
