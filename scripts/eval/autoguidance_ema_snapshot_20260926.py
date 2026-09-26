@@ -141,6 +141,34 @@ def smoke_tsv(rows):
     return OUT / f'_smoke_{rows}.tsv'
 
 
+def write_subset_tsv(rows):
+    """First `rows` RECORDS of the MusicCaps TSV, raw text kept.
+
+    G.generate(limit=) slices physical lines, but five captions span two lines
+    inside quotes (the first at line 463), so 1024 lines hold only 1023 records.
+    A record ends on a line where the running count of '"' is even ("" escapes
+    keep parity). For rows <= 461 the output is byte-identical to the old slice.
+    """
+    lines = Path(G.MC_TSV).read_text(encoding='utf-8').splitlines(True)
+    out, buf, n = [lines[0]], [], 0
+    for line in lines[1:]:
+        buf.append(line)
+        if ''.join(buf).count('"') % 2 == 0:
+            out += buf
+            buf, n = [], n + 1
+            if n == rows:
+                break
+    if n != rows:
+        raise SystemExit(f'[FAIL] subset TSV: {n} records, expected {rows}')
+    path = smoke_tsv(rows)
+    path.write_text(''.join(out), encoding='utf-8')
+    with open(path, encoding='utf-8', newline='') as f:
+        got = [r['id'] for r in csv.DictReader(f, delimiter='\t')]
+    if len(got) != rows or len(set(got)) != rows:
+        raise SystemExit(f'[FAIL] subset TSV parses to {len(got)} rows ({len(set(got))} unique)')
+    return path
+
+
 # ── model patching ───────────────────────────────────────
 def load_bad(good, bad, seed):
     """Build the bad network and load a snapshot with an explicit key-set check.
@@ -239,7 +267,7 @@ def generate(c):
     MeanAudio.ode_wrapper = make_wrapper(c)
     try:
         G.generate({'name': 'audio', 'family': 'N8', 'cfg': CFG_NEG, 'geometry': 'vanilla',
-                    'tsv': str(G.MC_TSV), 'stage': 'diag'}, limit=c['rows'])
+                    'tsv': str(write_subset_tsv(c['rows'])), 'stage': 'diag'})
     finally:
         MeanAudio.ode_wrapper = original
         cls.preprocess_conditions = orig_pp

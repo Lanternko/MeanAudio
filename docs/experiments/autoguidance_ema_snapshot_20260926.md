@@ -67,6 +67,10 @@ A = 最終 checkpoint（ema_final）的條件預測；A_bad = 同一個 run 較�
 - CLAP／AES 不是人耳判斷；正面結果要先過五首固定主觀 prompt 才能對外。
 - MeanFlow 25 步屬少步數區間，結論不外推到多步 flow matching。
 
+## 修正紀錄
+
+- **2026-09-26 第一次上座失敗**：gate 已過（0/256），pilot 第一格 1023 首 ≠ 1024。MusicCaps TSV 有 5 條 caption 在引號內跨兩行（第一條在第 463 行），073 harness 的 `G.generate(limit=)` 按實體行切，1025 行只有 1023 筆。改由 action 的 `write_subset_tsv` 按 record 切（引號奇偶判斷）再交給 `G.generate`；已驗證 8／256／1024／5521 列逐筆等於全量 TSV 的前 N 筆，256 列與 gate 用的檔逐位元相同 → gate 結果仍有效。contract 只更新 action／preflight sha，設計與判讀不變。073 harness 綁在歷史 contract 上不改；該 bug 只影響 limit > 461 的呼叫。
+
 ## 資源
 
 - GPU：約 3–4.5 小時（gate 2×256 列、pilot 14×1024、Stage B 4×1024，Stage C 最多 2×5521）。
