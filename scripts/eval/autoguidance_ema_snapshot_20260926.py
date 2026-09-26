@@ -300,6 +300,10 @@ def score(c):
     return un, next(lvl.glob('*/per_clip.tsv'))
 
 
+def fnum(x):
+    return float(x) if x != '' else float('nan')
+
+
 def boot(x, rng):
     x = np.asarray(x, dtype=np.float64)
     b = rng.choice(x, (BOOT_N, len(x))).mean(1)
@@ -322,7 +326,8 @@ def contrasts(c, un_path, lvl_path):
             blk[m] = boot([float(un[i][m]) - float(s_un[i][m]) for i in ids], rng)
             blk[f'{m}_lvl30'] = boot([float(lv[i][m]) - float(s_lv[i][m]) for i in ids], rng)
         for m in ('lufs', 'crest'):
-            v = [float(un[i][m]) - float(s_un[i][m]) for i in ids]
+            # a fully silent clip has no finite loudness and an empty lufs field
+            v = [fnum(un[i][m]) - fnum(s_un[i][m]) for i in ids]
             blk[m] = float(np.nanmean(v))
         blk['silent_n'] = int(sum(int(un[i]['silent']) for i in ids))
         blk['silent_n_stock'] = int(sum(int(s_un[i]['silent']) for i in ids))

@@ -27,13 +27,13 @@
  "approval_required": true,
  "bindings": {
   "action": "/home/kojiek/MeanAudio/scripts/eval/autoguidance_ema_snapshot_20260926.py",
-  "action_sha256": "0c7d81e9f6cdef9f77160e450b67a289f351834ffcbd5674a26040b6a280f1e0",
+  "action_sha256": "cf7a4fd382f4b174afbf8b33792236ab02876981612e8303a661cc94c63cfaf7",
   "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/autoguidance_ema_snapshot_20260926_guest.py",
   "harn_sha256": "4e3f8e3cf5558a06145983bab3516fd2d6c54039d52238088a95899c89aa827c",
   "launcher": "/home/kojiek/gpu_queue/p2/pending/080_autoguidance_ema_snapshot.sh",
   "launcher_sha256": "fb52a45733e853ab495244eb3dc41460f676de03583b187d19493df9db9c1ba5",
   "preflight": "/home/kojiek/MeanAudio/scripts/eval/autoguidance_ema_snapshot_20260926.py",
-  "preflight_sha256": "0c7d81e9f6cdef9f77160e450b67a289f351834ffcbd5674a26040b6a280f1e0"
+  "preflight_sha256": "cf7a4fd382f4b174afbf8b33792236ab02876981612e8303a661cc94c63cfaf7"
  },
  "clap_checkpoint": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
  "commands": {
@@ -57,7 +57,7 @@
  },
  "dependencies": [],
  "design_document": "/home/kojiek/MeanAudio/docs/experiments/autoguidance_ema_snapshot_20260926.md",
- "design_document_sha256": "51f8ca7bf6452fee1beab22a5bb59cc1d078bae364d9ad50f77e1235e64d9fed",
+ "design_document_sha256": "42a948dc975a16d7532a70cdb8076fe06b31359547f482f7e16d8d77cdec4be0",
  "document_kind": "preregistered_autoguidance_contract",
  "experiment_id": "autoguidance-ema-snapshot-20260926",
  "gates": {
