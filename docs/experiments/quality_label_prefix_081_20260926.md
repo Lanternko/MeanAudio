@@ -55,8 +55,13 @@ PQ 一律用 lvl30、逐 clip 配對；3 seed 先逐 clip 平均再 clip bootstr
 3. **MusicCaps caption 本身常寫 "low quality"**（如 "The audio quality is poor"）。arm 在 cfg0 下可能因此對這類 eval prompt 生成更差的音訊——E5 與 CLAP 會量到，但解讀要分開。
 4. **T5 截斷**：加前綴後超過 77 token 的列比例上升（smoke 400 列：44% → 56%），截掉的是 caption 尾端。這是前綴法本身的代價，不另修。
 5. **冷 HDD overlay 讀取**：40% 前綴列的 overlay 在 HDD（exFAT），隨機讀未量測。訓練 it/s 要和 control 比，明顯變慢要記錄（不影響正確性）。
-6. **磁碟**：開跑時 NVMe 約 27 GB、HDD 約 103 GB。overlay 約 32 GB 寫 HDD；每個 seed 的 S1 / S2 run（瘦身後各約 5 GB）train 完就搬 HDD；Step 0 要求 NVMe ≥ 20 GB（S1 已完成則 13 GB）。
+6. **磁碟**：開跑時 NVMe 約 27 GB、HDD 約 103 GB。overlay 資料約 32 GB，但 HDD 是 exFAT（約 1 MB cluster），~320 KB 的 npz 每檔實佔 ~985 KB，**實際吃掉 99 GB**，HDD 只剩約 4 GB → 後續 run 目錄無法搬 HDD（`archive_dir` 只警告、留在 NVMe）；每個 seed 的 S1 / S2 run（瘦身後各約 5 GB）train 完就搬 HDD；Step 0 要求 NVMe ≥ 20 GB（S1 已完成則 13 GB）。
 7. 單一語料、quarter 預算、單一生成 seed；結論不外推到 full budget。
+
+## 修正紀錄
+
+- **2026-09-26 081 第一次上座被 systemd-oomd 殺掉**：19:39 本地時間（11:39Z），整個 `gpu-p2-host.service` 因機器記憶體壓力（62 GB RAM、swap 滿、多使用者）被 oomd 回收，單元峰值 53.3 GB；081 當時在 S1 it 2350、尚無 checkpoint。host 重啟後 `recover_or_block` 把 081 歸 held（incident `recover-081_quality_label_quarter_s14159265.20260926T113922Z.txt`），082 自動上座且正常。不是程式 bug，設計與 contract 不變。處置（2026-09-27）：殘留 S1 目錄（1 MB、無 ckpt）改名 `~/exps_nvme/_aborted_oomd_20260926_qlabel_s14159265_stage1`，081 從 held 移回 pending；依檔名順序 082 → 081 → 083，分析仍在 083 結尾自動跑。
+- **2026-09-27 NVMe 餘量**：082 跑到 S1 75k 時 NVMe 只剩 12 GB（HDD 滿，run 無法歸檔）。刪除 69 個已有 ema_final 的收線 run 的 shadow checkpoint（81 GB，清單 `~/logs/shadow_cleanup_20260927.txt`）→ 88 GB。
 
 ## 流程與資源
 
