@@ -178,6 +178,14 @@ control 要補的格（action 會跳過已存在的）：兩格 FAD（s14159265 
 - 為什麼不直接排：這份工作的目標是「設計」；081／083 已經在 p2 pending，GPU 沒有 idle；
   而且 084 跟 081–083 共用 NVMe 空間，排在它們後面最安全。
 
+### 9.1 放行紀錄（2026-09-28）
+
+- operator：「放行 084，排進 queue」→ 084（N100）與 085（Nhi）兩個 Stage A arm 一起放行。
+- 偏離：staged contract 漏了 `resume.checkpoint_sha256`（`accept_guest` 對非空 resume checkpoint 必須驗 hash），
+  放行時補上 control S1 `ckpt_last` 的 sha（`db3a6081…`，2,403,806,639 bytes），記在 contract `deviations`。
+- 084 於 16:23 上位；dataloader 快轉約 14 分鐘（與 control 相同）；it 100000／100050 loss 0.99430／0.99358，
+  control 同位置 0.99430／0.99357；guide log 行 `for t > 0.0` 在。
+
 ## 10. 可寫層級（預先劃好）
 
 | 若結果成立可寫 | 高可信推論 | 不能這樣寫 |
