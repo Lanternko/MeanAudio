@@ -3,14 +3,19 @@
  "document_kind": "preregistered_experiment_contract",
  "experiment_id": "negmf-084-nhi-noq-quarter-s14159265",
  "run_id": "run-20260927-negmf-085-nhi-s14159265",
- "status": "awaiting_operator",
- "launch_allowed": false,
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
  "priority": "P2",
  "queue_name": "085_negmf_nhi_quarter_s14159265.sh",
  "queue_role": "p2",
  "ordering_dependencies": [],
  "dependencies": [],
- "deviations": [],
+ "deviations": [
+  {
+   "recorded_at": "2026-09-28",
+   "text": "resume.checkpoint_sha256/bytes added at launch: the staged contract omitted them and accept_guest requires a hash for a non-null resume checkpoint"
+  }
+ ],
  "hypothesis": {
   "question": "084 NegMF (nhi): replacing the empty-string text in the unconditional branch of the MeanFlow CFG training target with the fidelity8 negative prompt (for t > 0.6667) raises level-matched PQ at inference CFG0 over the nmv2pair control (E1 >= +0.31, CI low > 0) with CLAP non-inferior (CI low > -0.008) and no silence escape.",
   "prereg": "docs/experiments/negprompt_distill_meanflow_084_20260927.md",
@@ -18,14 +23,17 @@
  },
  "operator_instruction": {
   "recorded_at": "2026-09-27",
-  "text": "/goal 根據本週的實驗結果，尋找相關的文獻資料，詳細閱讀後，決定下個實驗方向，並設計實驗內容（設計任務；未授權排入 queue）"
+  "text": "/goal 根據本週的實驗結果，尋找相關的文獻資料，詳細閱讀後，決定下個實驗方向，並設計實驗內容（設計任務；未授權排入 queue）",
+  "launch": {
+   "recorded_at": "2026-09-28",
+   "text": "放行 084，排進 queue"
+  }
  },
  "launch_authorization": {
-  "gpu_launch_allowed": false,
-  "queue_position": "staged (docs/experiments/harn/negmf_084/queue/)",
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
   "scope": "S2-only branch from the control S1 ckpt_last (50k), MusicCaps MF25 cfg0 + cfg3_neg + FAD, 1-NFE cfg0, -30 LUFS rescore; same cells for the control where missing",
-  "valid": false,
-  "to_authorize": "set status=authorized_p2_pending, launch_allowed=true, launch_authorization.gpu_launch_allowed/valid=true, then cp the launcher to ~/gpu_queue/p2/pending/"
+  "valid": true
  },
  "training": {
   "scale": "quarter",
@@ -112,7 +120,9 @@
   "kind": "stage2_branch_with_autoresume",
   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_stage1_100000/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_stage1_100000_ckpt_last.pth",
   "iteration": 100000,
-  "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_stage2_50000/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_stage2_50000_ckpt_last.pth"
+  "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_stage2_50000/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_stage2_50000_ckpt_last.pth",
+  "checkpoint_sha256": "db3a6081dc018bc6a090eefc90f77fc6e96e509a574b8f13d2351a6352bcccc4",
+  "checkpoint_bytes": 2403806639
  },
  "runtime_storage": {
   "hard_stop_free_bytes": 13000000000,
