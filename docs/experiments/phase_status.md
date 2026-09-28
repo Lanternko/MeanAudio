@@ -12,7 +12,7 @@
 |---|---|---|
 | 081–083 真品質標籤前綴（quarter × 3 seed） | **2026-09-28 三 seed 完成**：E1（LQ 負向）差中差 +1.061 PQ、E3（HQ 正向、CFG0）+0.824，皆過門檻且 3 seed 同號；arm HQ＋LQ 比 fidelity8 +0.37、CLAP 不降；stock CFG0 −0.15。標籤洩漏未排除 → 待主觀試聽＋FAD（音檔需重生） | `results/quality_label_prefix_081_results.md` |
 | **084／085 NegMF**（MeanFlow CFG 訓練目標的 ∅ 分支換成 fidelity8；N100 全 t、Nhi 只 t>2/3；S2-only 從 nmv2pair control 的 S1 ckpt_last 分支） | **2026-09-28 放行**：084（N100）16:23 上位、S2 從 it 100000 起跑（guide log 行在、it 100050 loss 0.99358 vs control 0.99357、0.49 s/it）；085（Nhi）在 p2 pending 接在後面。control 三個 S1 `ckpt_last` 在收線前不可刪 | `negprompt_distill_meanflow_084_20260927.md` |
-| **086 短負向 2×2 probe**（checkpoint × 措辭：081 control 的 `Low quality recording.` ≈0 vs 09-03 c2p0_slot0 `low quality, noisy` +0.97；subset1024、11 格、lvl30） | **2026-09-28 排入 p2 `002_`**：084 結束後、085 之前上位；預估 1～1.3 h，只做推論 | `shortneg_2x2_probe_20260928.md` |
+| **086 短負向 2×2 probe**（checkpoint × 措辭：081 control 的 `Low quality recording.` ≈0 vs 09-03 c2p0_slot0 `low quality, noisy` +0.97；subset1024、11 格、lvl30） | **收線 2026-09-28**：主因是措辭。`Low quality recording.` 兩 ckpt 都最弱（A +0.04 lvl30，比無關文字 +0.52 還低），A 用 `low quality, noisy` 有 +0.59；checkpoint 次要（B−A +0.27～+0.38）；09-03 對照點逐位重現 | `shortneg_2x2_probe_20260928.md`、`results/shortneg_2x2_probe_20260928_results.md` |
 | 073 guidance 幾何 | 收線（結果 2026-09-27 補寫） | `results/guidance_geometry_adg_apg_20260922_results.md` |
 
 ---
