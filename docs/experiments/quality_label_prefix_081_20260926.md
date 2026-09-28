@@ -1,5 +1,7 @@
 # 081 真品質標籤前綴重訓（QA-MDT 式；2026-09-26）
 
+> **結果（2026-09-28）**：E1、E3 皆過，見 `results/quality_label_prefix_081_results.md`。
+
 ## 問題
 
 negprompt 線到目前的結論是：fidelity8 負向 prompt 的 PQ 增益（≈ +0.83，lvl30）來自「負向槽裡的保真度領域文字」，
