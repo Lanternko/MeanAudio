@@ -164,6 +164,7 @@ control 要補的格（action 會跳過已存在的）：兩格 FAD（s14159265 
 
 - 優先級 **P2**（探索、可恢復：S2 每 10k 存 ckpt，action 可從 `ckpt_last` 續跑）。
 - 編號：084 = N100 s14159265、085 = Nhi s14159265（Stage A）。Stage B 的編號在 A 收線後才分配。
+- Stage B（2026-09-29 使用者「排 Stage B，只做 N100」）：087 = N100 s16180339、088 = N100 s27182818。Nhi 不複製（Stage A 顯示區間限制沒省 FAD）。contract 在 `harn/negmf_084/`，control S1 `ckpt_last` sha 已綁（8d46b6fe…／a51b12bf…）。
 - queue 檔與 contract 在 `docs/experiments/harn/negmf_084/`，contract `status: awaiting_operator`、`launch_allowed: false`。
   **放行方式**（operator 決定後）：把 contract 的 `status` 改成 `authorized_p2_pending`、`launch_allowed` 與
   `launch_authorization.gpu_launch_allowed／valid` 改成 true，再把 `queue/084_*.sh`、`queue/085_*.sh` 複製進
