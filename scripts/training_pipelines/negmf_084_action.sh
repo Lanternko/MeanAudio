@@ -2,9 +2,11 @@
 # 084 NegMF arm, one training seed (prereg docs/experiments/negprompt_distill_meanflow_084_20260927.md).
 #
 # The guidance branch of the MeanFlow CFG training target (mean_flow.py loss(): the u_t term,
-# normally the fixed null features) reads the fidelity8 negative prompt instead:
-#   n100  every sample             (++mf_guide_t_min=0.0)
-#   nhi   only samples with t > 2/3 (++mf_guide_t_min=0.6667; t=1 is noise)
+# normally the fixed null features) reads a fixed guide prompt instead:
+#   n100    fidelity8, every sample             (++mf_guide_t_min=0.0)
+#   nhi     fidelity8, only samples with t > 2/3 (++mf_guide_t_min=0.6667; t=1 is noise)
+#   rev100  Stage C: the 08-31 'reversed' text (high quality recording, clean, ...), every sample
+#           -- does any non-null guide text do it, or only negative text?
 # S2-only branch: migrate the nmv2pair slot0clean control's own S1 ckpt_last and train 50k S2
 # with the control's exact recipe and seed (caption2p0_nmv2pair_action.sh slot0clean), so the
 # data order is shared and the target is the only difference.
@@ -18,8 +20,9 @@
 #            control: 1-NFE cfg0 (stock cells already exist)
 #      every cell: FAD (mf25 cells; before its audio is deleted), -30 LUFS rescore, then audio deleted.
 #      Control stock cells: FAD only if missing, then their audio is deleted (lvl30 already exists).
+#      rev100 only: control CFG3 with the reversed text as inference-time negative (cfg3_revneg).
 #
-# Usage: NEGMF_ARM=n100|nhi NEGMF_SEED=<seed> negmf_084_action.sh
+# Usage: NEGMF_ARM=n100|nhi|rev100 NEGMF_SEED=<seed> negmf_084_action.sh
 set -euo pipefail
 
 WORK_DIR="$HOME/MeanAudio"
@@ -37,14 +40,19 @@ export CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES:-0}"
 ARM="${NEGMF_ARM:?NEGMF_ARM}"
 SEED="${NEGMF_SEED:?NEGMF_SEED}"
 case "$ARM" in
-  n100) T_MIN=0.0 ;;
-  nhi)  T_MIN=0.6667 ;;
-  *) echo "[FAIL] NEGMF_ARM must be n100 or nhi" >&2; exit 2 ;;
+  n100)   T_MIN=0.0;    GUIDE_NAME=fidelity8 ;;
+  nhi)    T_MIN=0.6667; GUIDE_NAME=fidelity8 ;;
+  rev100) T_MIN=0.0;    GUIDE_NAME=reversed ;;
+  *) echo "[FAIL] NEGMF_ARM must be n100, nhi or rev100" >&2; exit 2 ;;
+esac
+case "$GUIDE_NAME" in
+  fidelity8) GUIDE_TEXT="low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi" ;;
+  reversed)  GUIDE_TEXT="high quality recording, clean, professional, pristine, hi-fi" ;;
 esac
 S1_UPDATES=100000; S2_ADD=50000; FINAL_IT=$((S1_UPDATES + S2_ADD)); LR=1e-4; BATCH=8
 GUIDE_DIR="$WORK_DIR/weights/negmf_084"
-GUIDE_T5="$GUIDE_DIR/fidelity8_t5.pth"; GUIDE_CLAP="$GUIDE_DIR/fidelity8_clap_c.pth"
-GUIDE_MANIFEST="$GUIDE_DIR/fidelity8_manifest.json"
+GUIDE_T5="$GUIDE_DIR/${GUIDE_NAME}_t5.pth"; GUIDE_CLAP="$GUIDE_DIR/${GUIDE_NAME}_clap_c.pth"
+GUIDE_MANIFEST="$GUIDE_DIR/${GUIDE_NAME}_manifest.json"
 INPUTS="$HOME/exps_nvme/slot0clean_nmv2matched/arm_inputs"
 TRAIN_TSV="$INPUTS/phase8_caption2p0_slot0clean_nmv2matched_train.tsv"
 CACHE_LIST="$INPUTS/cache_train.txt"; MANIFEST="$INPUTS/manifest.json"
@@ -70,7 +78,7 @@ thin_ema(){
 }
 drop_shadows(){ rm -f -- "$1"/*_ckpt_shadow.pth "$1"/*_shadow.pth; }
 
-log "[Step 0] 084 NegMF arm=$ARM (t > $T_MIN) seed=$SEED ($EXP_PREFIX)"
+log "[Step 0] 084 NegMF arm=$ARM guide=$GUIDE_NAME (t > $T_MIN) seed=$SEED ($EXP_PREFIX)"
 if [ ! -f "$S2_EMA" ]; then NEED=13000000000; else NEED=5000000000; fi
 if [ "$(free_b "$HOME")" -lt "$NEED" ]; then
   log "[FAIL] NVMe free $(( $(free_b "$HOME") / 1000000000 ))G < $((NEED / 1000000000))G"; exit 3
@@ -82,14 +90,14 @@ for C in cfg0 cfg3_neg; do
   ls "$d"_lvl30/*/per_clip.tsv >/dev/null 2>&1 || ls "$EVAL_ROOT/d2_075_lvl30/${CTRL_PREFIX}_mc_mf25_${C}_lvl30"/*/per_clip.tsv >/dev/null 2>&1 \
     || { log "[FAIL] control lvl30 metrics missing for $C"; exit 2; }
 done
-GUIDE_T5="$GUIDE_T5" GUIDE_CLAP="$GUIDE_CLAP" GUIDE_MANIFEST="$GUIDE_MANIFEST" TRAIN_TSV="$TRAIN_TSV" \
+GUIDE_T5="$GUIDE_T5" GUIDE_CLAP="$GUIDE_CLAP" GUIDE_MANIFEST="$GUIDE_MANIFEST" GUIDE_TEXT="$GUIDE_TEXT" TRAIN_TSV="$TRAIN_TSV" \
 CACHE_LIST="$CACHE_LIST" MANIFEST="$MANIFEST" "$PY" - <<'PYEOF'
 import hashlib, json, os
 E = os.environ
 sha = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
 g = json.load(open(E["GUIDE_MANIFEST"]))
 assert g["G0b_training_vs_inference_path"]["pass"], "[FAIL] guide G0b did not pass"
-assert g["text"] == "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi", "[FAIL] guide text"
+assert g["text"] == E["GUIDE_TEXT"], "[FAIL] guide text"
 assert sha(E["GUIDE_T5"]) == g["t5_sha256"], "[FAIL] guide t5 drift"
 assert sha(E["GUIDE_CLAP"]) == g["clap_sha256"], "[FAIL] guide clap drift"
 m = json.load(open(E["MANIFEST"]))
@@ -189,6 +197,13 @@ for C in cfg0 cfg3_neg; do
 done
 bash scripts/eval/mc_nfe1_cfg0_eval.sh "$CTRL_PREFIX" "$CTRL_EMA" --no_q 2>&1 | tee -a "$STATE/eval.log"
 finish_cell "${CTRL_PREFIX}_mc_nfe1_cfg0"
+if [ "$ARM" = rev100 ]; then
+  # Stage C reference: the same reversed text as an inference-time negative on the control,
+  # so the training-time ratio E1(rev100)/E1(n100) can be read against G_rev/G_neg on the same checkpoint.
+  bash scripts/eval/mc_mf25_negvariant_eval.sh "$CTRL_PREFIX" "$CTRL_EMA" --no_q --neg "$GUIDE_TEXT" --tag revneg \
+    2>&1 | tee -a "$STATE/eval.log"
+  finish_cell "${CTRL_PREFIX}_mc_mf25_cfg3_revneg"
+fi
 
 "$PY" scripts/analysis/negmf_084_analysis.py 2>&1 | tee -a "$STATE/eval.log" || log "[WARN] analysis failed (cells are complete)"
 log "[DONE] $EXP_PREFIX"

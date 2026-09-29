@@ -1236,5 +1236,108 @@
    14159265
   ],
   "silence_escape": []
+ },
+ "rev100": {
+  "cells_missing": {
+   "14159265": [
+    "arm:cfg0:lvl30",
+    "arm:cfg0:raw",
+    "arm:neg:lvl30",
+    "arm:neg:raw",
+    "arm:nfe1:lvl30",
+    "arm:nfe1:raw"
+   ],
+   "16180339": [
+    "arm:cfg0:lvl30",
+    "arm:cfg0:raw",
+    "arm:neg:lvl30",
+    "arm:neg:raw",
+    "arm:nfe1:lvl30",
+    "arm:nfe1:raw"
+   ],
+   "27182818": [
+    "arm:cfg0:lvl30",
+    "arm:cfg0:raw",
+    "arm:neg:lvl30",
+    "arm:neg:raw",
+    "arm:nfe1:lvl30",
+    "arm:nfe1:raw"
+   ]
+  },
+  "contrasts": {
+   "E1_cfg0_arm_vs_ctrl": {},
+   "E3_arm_cfg0_vs_ctrl_cfg3neg": {},
+   "E4_cfg3neg_arm_vs_ctrl": {},
+   "E5_nfe1_arm_vs_ctrl": {},
+   "ref_arm_G_neg": {},
+   "ref_ctrl_G_neg": {}
+  },
+  "fad": {
+   "ctrl_cfg0_s14159265": 3.8136688080780843,
+   "ctrl_cfg0_s16180339": 3.934120893623149,
+   "ctrl_cfg0_s27182818": 3.8187091097290633,
+   "ctrl_neg_s14159265": 5.233076230735151,
+   "ctrl_neg_s16180339": 6.358967192074196,
+   "ctrl_neg_s27182818": 6.677610144304261
+  },
+  "level": {
+   "ctrl_cfg0_s14159265": {
+    "crest_mean": 6.439446655619838,
+    "lufs_mean": -19.004045884150496,
+    "peak_ge_0999_n": 0,
+    "silent_n": 52
+   },
+   "ctrl_cfg0_s16180339": {
+    "crest_mean": 6.5945137985282685,
+    "lufs_mean": -19.339265966260093,
+    "peak_ge_0999_n": 0,
+    "silent_n": 39
+   },
+   "ctrl_cfg0_s27182818": {
+    "crest_mean": 6.577650809672436,
+    "lufs_mean": -18.75729940454311,
+    "peak_ge_0999_n": 0,
+    "silent_n": 39
+   },
+   "ctrl_neg_s14159265": {
+    "crest_mean": 5.878255634071415,
+    "lufs_mean": -16.32025344412033,
+    "peak_ge_0999_n": 0,
+    "silent_n": 67
+   },
+   "ctrl_neg_s16180339": {
+    "crest_mean": 5.839811886115084,
+    "lufs_mean": -16.44039708287808,
+    "peak_ge_0999_n": 0,
+    "silent_n": 49
+   },
+   "ctrl_neg_s27182818": {
+    "crest_mean": 7.513664989245332,
+    "lufs_mean": -20.13472392643214,
+    "peak_ge_0999_n": 0,
+    "silent_n": 115
+   },
+   "ctrl_nfe1_s14159265": {
+    "crest_mean": 6.733811237307409,
+    "lufs_mean": -18.936429865011878,
+    "peak_ge_0999_n": 0,
+    "silent_n": 6
+   },
+   "ctrl_nfe1_s16180339": {
+    "crest_mean": 7.194545426017519,
+    "lufs_mean": -19.677776014444976,
+    "peak_ge_0999_n": 0,
+    "silent_n": 8
+   },
+   "ctrl_nfe1_s27182818": {
+    "crest_mean": 6.956117729801388,
+    "lufs_mean": -18.89078663877122,
+    "peak_ge_0999_n": 0,
+    "silent_n": 7
+   }
+  },
+  "loudness_gate_pass": true,
+  "seeds_with_arm_cfg0": [],
+  "silence_escape": []
  }
 }

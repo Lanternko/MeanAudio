@@ -135,7 +135,7 @@
 - 仍然**不可寫**「不需要推論期負向 prompt」或「品質提升」：PQ 與 fidelity8 同一把尺，FAD 反向，試聽還沒做。
 - Nhi 沒複製，只能寫單 seed。
 
-### 下一步（未排隊）
+### 下一步
 
 - 試聽五首盲聽包，看 PQ 與 FAD 在耳朵上站哪一邊。
-- Stage C（reversed 文字放 guidance 分支，分辨「fidelity8 文字」與「任何非 null 文字」）：照設計 Stage B 過了才排，等使用者決定。
+- **Stage C 已排（2026-09-29）**：p2 092／093／094 = rev100 × 3 seed（reversed 文字放 guidance 分支），control 多一格 `cfg3_revneg`。判讀規則預先登記在設計 doc §6.1；因為 reversed 與 fidelity8 的 T5 cos 0.814，結論最多只能寫到「fidelity 領域文字」，不能寫「任何非 null 文字」。

@@ -143,6 +143,33 @@ PQ 端點一律用 **−30 LUFS 對齊後**（lvl30）的分數；CLAP 用原始
 
 最壞浪費：每個 arm 約 3.5 小時（S2 2h16m ＋ eval）。
 
+### 6.1 Stage C 預註冊（2026-09-29，使用者「排 Stage C」）
+
+- **Arm `rev100`**：guidance 分支改用 08-31 消融的 `reversed` 文字 `high quality recording, clean, professional, pristine, hi-fi`（逐字同 `negprompt_ablation_matrix.py`），`t_min=0.0`，其餘與 N100 完全相同（同 control S1 分支、同 seed、同 recipe）。三個 seed 都跑（14159265／16180339／27182818），因為主讀數是和 N100 的差，N100 已經有三 seed。
+- **特徵**：`weights/negmf_084/reversed_{t5,clap_c}.pth`，同一支 builder 產生（G0b 通過：16 token，valid-token min cos 0.99999976、CLAP cos 1.0）。這次在 CPU 上建（089 正佔 GPU），fidelity8 當時在 cuda 上建；兩者都是單一文字的決定性前向，裝置差只會造成約 1e-6 的浮點誤差。
+- **Control 多跑一格 `cfg3_revneg`**：同一個 control checkpoint，CFG 3 加上 reversed 當推論期負向。這樣推論期比例 R_inf 和訓練期比例 R_train 就在同一批 checkpoint 上讀，不必借用 08-31 在別的 checkpoint 上量到的 51%。
+
+端點（lvl30 PQ，clip 配對，三 seed 合併，bootstrap 10,000；分析腳本 `stage_c()` 用自己的 RNG，n100/nhi 的既有數字不受影響）：
+
+| 讀數 | 定義 |
+|---|---|
+| E1(rev100) | rev100@CFG0 − ctrl@CFG0 |
+| C1（極性部分） | n100@CFG0 − rev100@CFG0 |
+| G_rev | ctrl@CFG3 revneg − ctrl@CFG0 |
+| R_train／R_inf | E1(rev100)/E1(n100)，對照 G_rev/G_neg |
+| 其他 | E2 CLAP、E3–E5、FAD、靜音閘門同 §5 |
+
+判讀（先後順序套用，寫進 `stage_c()` 的 `verdict`）：
+
+| 結果 | 寫法 |
+|---|---|
+| E1(rev100) 的 CI 上界 < 0 | 訓練期極性有作用、方向和推論期相反：reversed 放 guidance 分支會把模型推離高品質 |
+| E1(rev100) < 0.155（1× seed 底線）或 CI 下界 ≤ 0 | **只有負向文字才行**：寫進權重的增益需要負向語意 |
+| E1(rev100) ≥ 0.31 且 C1 的 CI 下界 ≤ 0 | **任何 fidelity 領域文字都行**：沒有極性成分，和 08-31「增益來自領域詞彙」一致 |
+| 其他 | 兩者都有：領域詞彙＋極性，拿 R_train 對 R_inf 看訓練期是否複製推論期的結構 |
+
+限制：reversed 和 fidelity8 的 T5 masked-mean cosine 是 0.814（09-03），兩段文字並不正交，所以「任何文字都行」只能寫成「任何 fidelity 領域文字都行」；要回答真正的「任何非空文字」得另開 `irrelevant` arm（本次不排）。
+
 ## 7. Eval 格（每個 arm × seed）
 
 1. `mc_mf25_eval.sh <arm> <ema> --no_q` → CFG0、CFG3+neg
@@ -165,6 +192,7 @@ control 要補的格（action 會跳過已存在的）：兩格 FAD（s14159265 
 - 優先級 **P2**（探索、可恢復：S2 每 10k 存 ckpt，action 可從 `ckpt_last` 續跑）。
 - 編號：084 = N100 s14159265、085 = Nhi s14159265（Stage A）。Stage B 的編號在 A 收線後才分配。
 - Stage B（2026-09-29 使用者「排 Stage B，只做 N100」）：087 = N100 s16180339、088 = N100 s27182818。Nhi 不複製（Stage A 顯示區間限制沒省 FAD）。contract 在 `harn/negmf_084/`，control S1 `ckpt_last` sha 已綁（8d46b6fe…／a51b12bf…）。
+- Stage C（2026-09-29 使用者「排 Stage C」）：092／093／094 = rev100 × s14159265／s16180339／s27182818，排在 089–091 後面。contract 綁的是新的 shared action sha（加了 `rev100` arm 與 control `cfg3_revneg` 格）和 reversed 特徵的 sha；087／088 的 contract 仍綁舊 sha，但兩者都已完成。
 - queue 檔與 contract 在 `docs/experiments/harn/negmf_084/`，contract `status: awaiting_operator`、`launch_allowed: false`。
   **放行方式**（operator 決定後）：把 contract 的 `status` 改成 `authorized_p2_pending`、`launch_allowed` 與
   `launch_authorization.gpu_launch_allowed／valid` 改成 true，再把 `queue/084_*.sh`、`queue/085_*.sh` 複製進

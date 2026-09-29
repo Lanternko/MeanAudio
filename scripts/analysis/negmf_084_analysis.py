@@ -16,6 +16,12 @@ differences; clip bootstrap 10000, seed 20260927):
   E4          arm cfg3_neg - ctrl cfg3_neg      (stacking; watch crest / clipped / LUFS)
   E5          arm nfe1 - ctrl nfe1              (1-step, no inference-time guidance)
 Loudness gate: any arm cell with silent_n > 2x the matching control cell -> fail (silence escape).
+
+Stage C (section 6.1; arm rev100 = the 08-31 'reversed' text in the guidance branch), own RNG so
+the n100/nhi numbers do not move when rev100 cells appear:
+  C1          n100 cfg0 - rev100 cfg0, PQ lvl30   the polarity part of the trained-in gain
+  G_rev       ctrl cfg3_revneg - ctrl cfg0          the same reversed text as an inference-time negative
+  R_train = E1(rev100) / E1(n100)  vs  R_inf = G_rev / G_neg   (same control checkpoints)
 Missing seeds or cells are listed and skipped; nothing here decides launch.
 """
 import csv
@@ -28,7 +34,7 @@ EV = Path.home() / 'eval_output_nvme'
 LVL_STOCK = EV / 'd2_075_lvl30'
 OUT = Path.home() / 'MeanAudio/docs/experiments/results/negmf_084_summary.json'
 SEEDS = (14159265, 16180339, 27182818)
-ARMS = ('n100', 'nhi')
+ARMS = ('n100', 'nhi', 'rev100')
 ARM = 'phase8_qwen_caption2p0_slot0clean_negmf{}_noq_quarter_s{}'
 CTRL = 'phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s{}'
 CELLS = {'cfg0': '{}_mc_mf25_cfg0', 'neg': '{}_mc_mf25_cfg3_neg', 'nfe1': '{}_mc_nfe1_cfg0'}
@@ -43,6 +49,8 @@ CONTRASTS = {
     'ref_arm_G_neg': [(1, 'arm', 'neg'), (-1, 'arm', 'cfg0')],
 }
 E1_THRESH, CLAP_NI = 0.31, -0.008
+SEED_FLOOR = 0.155
+REVNEG = '{}_mc_mf25_cfg3_revneg'
 METRICS = (('PQ', True, 'PQ_lvl30'), ('PQ', False, 'PQ_raw'), ('clap', False, 'CLAP_raw'),
            ('clap', True, 'CLAP_lvl30'), ('lufs', False, 'LUFS_raw'), ('crest', False, 'crest_raw'))
 
@@ -165,12 +173,79 @@ def summarize_arm(arm, rng):
     return res
 
 
+def lvl30(label):
+    for root in (EV, LVL_STOCK):
+        p = root / f'{label}_lvl30' / f'{label}_lvl30' / 'per_clip.tsv'
+        if p.exists():
+            return read(p)
+    return None
+
+
+def pooled_diff(pairs, metric, rng):
+    """pairs: {seed: (plus_cells, minus_cells)} -> pooled clip-paired mean diff with CI."""
+    per_seed, stack = {}, []
+    for s, (a, b) in pairs.items():
+        if a is None or b is None:
+            continue
+        ids = sorted(set(a) & set(b))
+        x = dict(zip(ids, [num(a[i][metric]) - num(b[i][metric]) for i in ids]))
+        per_seed[s] = float(np.nanmean(list(x.values())))
+        stack.append(x)
+    if not stack:
+        return None
+    common = sorted(set.intersection(*(set(m) for m in stack)))
+    mean, bounds, n = ci(np.array([np.mean([m[i] for m in stack]) for i in common]), rng)
+    return {'mean': mean, 'ci95': bounds, 'n_clips': n, 'n_seeds': len(stack), 'per_seed': per_seed}
+
+
+def stage_c(res):
+    """Section 6.1 readout; returns None until a rev100 cfg0 cell exists."""
+    rng = np.random.default_rng(RNG_SEED + 3)
+    cfg0 = lambda arm, s: lvl30(CELLS['cfg0'].format(ARM.format(arm, s)))
+    if not any(cfg0('rev100', s) for s in SEEDS):
+        return None
+    out = {}
+    for metric, tag in (('PQ', 'PQ_lvl30'), ('clap', 'CLAP_lvl30')):
+        out[f'C1_n100_minus_rev100_{tag}'] = pooled_diff(
+            {s: (cfg0('n100', s), cfg0('rev100', s)) for s in SEEDS}, metric, rng)
+        out[f'G_rev_ctrl_{tag}'] = pooled_diff(
+            {s: (lvl30(REVNEG.format(CTRL.format(s))), lvl30(CELLS['cfg0'].format(CTRL.format(s))))
+             for s in SEEDS}, metric, rng)
+    e1 = {a: res[a]['contrasts']['E1_cfg0_arm_vs_ctrl'].get('PQ_lvl30') for a in ('n100', 'rev100')}
+    g_neg = res['n100']['contrasts']['ref_ctrl_G_neg'].get('PQ_lvl30')
+    g_rev = out['G_rev_ctrl_PQ_lvl30']
+    if e1['n100'] and e1['rev100']:
+        out['R_train'] = e1['rev100']['mean'] / e1['n100']['mean']
+    if g_neg and g_rev:
+        out['R_inf'] = g_rev['mean'] / g_neg['mean']
+    r, c1 = e1['rev100'], out['C1_n100_minus_rev100_PQ_lvl30']
+    if r and c1 and r['n_seeds'] == 3:
+        if r['ci95'][1] < 0:
+            v = 'reversed_hurts: polarity acts in training (opposite sign)'
+        elif r['mean'] < SEED_FLOOR or r['ci95'][0] <= 0:
+            v = 'negative_only: trained-in gain needs negative text'
+        elif r['mean'] >= E1_THRESH and c1['ci95'][0] <= 0:
+            v = 'any_fidelity_text: no polarity part'
+        else:
+            v = 'partial: both a domain-vocabulary and a polarity part; read R_train vs R_inf'
+        out['verdict'] = v
+    return out
+
+
 def main():
     rng = np.random.default_rng(RNG_SEED)
     res = {a: summarize_arm(a, rng) for a in ARMS}
+    sc = stage_c(res)
+    if sc is not None:
+        res['stage_c'] = sc
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(res, indent=1, sort_keys=True) + '\n')
     for arm, r in res.items():
+        if arm == 'stage_c':
+            print('== stage C  ' + '  '.join(
+                f'{k}={v["mean"]:+.3f} [{v["ci95"][0]:+.3f},{v["ci95"][1]:+.3f}]' if isinstance(v, dict)
+                else f'{k}={v:+.2f}' if isinstance(v, float) else f'{k}={v}' for k, v in r.items() if v is not None))
+            continue
         print(f'== {arm}  seeds={r["seeds_with_arm_cfg0"]}  loudness_gate_pass={r["loudness_gate_pass"]} {r["silence_escape"]}')
         for name, rec in r['contrasts'].items():
             p, c = rec.get('PQ_lvl30'), rec.get('CLAP_raw')
