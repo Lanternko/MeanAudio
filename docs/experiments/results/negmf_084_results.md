@@ -1,4 +1,6 @@
-# 084／085 NegMF 負向蒸餾 Stage A 結果（2026-09-29）
+# 084／085 NegMF 負向蒸餾 Stage A＋B 結果（2026-09-29）
+
+> **Stage B（N100 × 3 seed）已過，見文末〈Stage B〉一節。** 以下 Stage A 各節保留單 seed 原文。
 
 - 設計：`../negprompt_distill_meanflow_084_20260927.md`
 - 原始數字：`negmf_084_summary.json`（`scripts/analysis/negmf_084_analysis.py`，085 結尾自動跑，2026-09-29 01:11 本地時間）
@@ -72,18 +74,68 @@
 
 ## 限制
 
-1. **單一訓練 seed**，Stage B 未跑。訓練 seed 的 PQ 底線約 0.155，E1 是它的 6 倍，但 FAD 沒有 seed 底線可比。
+1. ~~單一訓練 seed~~（Stage B 已補到 3 seed，見文末；Nhi 仍是單 seed）。訓練 seed 的 PQ 底線約 0.155，E1 是它的 6 倍，但 FAD 沒有 seed 底線可比。
 2. **fidelity8 是依 AES PQ 選出來的**，E1 與它同一把尺，CLAP 是唯一獨立讀數。尚未試聽。
 3. FAD 只有單值、抽樣 2048，無 CI。
 4. arm 與 control 的差異只有 S2 的 CFG 目標，S1 完全相同，所以沒有額外的訓練預算混淆。
 
-## 下一步（未排隊）
+## 下一步（Stage A 當時）
 
-- **Stage B**：N100 × seed {16180339, 27182818}。建議只做 N100：PQ 較高、FAD 較好，而 Nhi 沒有顯示出區間的好處。每個 arm 約 3.5 小時。
-- **五首固定 prompt 試聽**：N100 CFG0 vs control CFG0 vs control CFG3+neg，看 PQ 與 FAD 的衝突在耳朵上站哪一邊。
+- ~~Stage B~~：已跑完（087／088），見下。
+- 五首固定 prompt 試聽：盲聽包已做好（`deliverables/negmf_084_listening_20260929/`，`scripts/eval/negmf_084_listening_pack.py`），**尚未試聽**。
 - Stage C（reversed 文字放 guidance 分支）照設計要等 Stage B 過了才排。
 
 ## Checkpoint
 
 - `~/exps_nvme/phase8_qwen_caption2p0_slot0clean_negmf{n100,nhi}_noq_quarter_s14159265_stage2_50000/`（S2 ema_final）。
-- control 三個 seed 的 S1 `ckpt_last`，在 Stage B 收線前仍不可刪。
+- control 三個 seed 的 S1 `ckpt_last`：Stage B 已收，但 Stage C 若要排仍需要，先別刪。
+
+## Stage B（2026-09-29，N100 × seed 16180339／27182818）
+
+- queue：087（s16180339）、088（s27182818）皆 `completed`；兩者 S2 log 無 `loss:nan`，guide 行 `for t > 0.0` 都在。
+- 分析重跑 `scripts/analysis/negmf_084_analysis.py`：`pass_stageA` 與 `pass_stageB` 皆為 true，loudness gate 通過，`silence_escape` 為空。
+
+### 端點（arm − control，lvl30 PQ，三 seed 合併，bootstrap CI）
+
+| 端點 | 合併 | CI | s14159265 | s16180339 | s27182818 |
+|---|---:|---|---:|---:|---:|
+| **E1** CFG0 arm vs ctrl | **+0.948** | [+0.931, +0.964] | +0.974 | +0.942 | +0.928 |
+| E5 1-NFE arm vs ctrl | +0.955 | [+0.939, +0.970] | +0.947 | +0.996 | +0.922 |
+| E3 arm CFG0 vs ctrl CFG3+neg | +0.111 | [+0.098, +0.124] | +0.146 | +0.088 | +0.099 |
+| E4 CFG3+neg arm vs ctrl | +0.331 | [+0.318, +0.343] | +0.335 | +0.279 | +0.377 |
+| 參考：ctrl 推論期負向增益 | +0.837 | [+0.818, +0.855] | +0.828 | +0.854 | +0.828 |
+| 參考：arm 推論期負向增益 | +0.219 | [+0.209, +0.230] | +0.190 | +0.191 | +0.277 |
+
+- E1 三 seed 都 > 0，合併 +0.948，是門檻 +0.31 的 3 倍；R = 1.13（超過 control 自己推論期負向的增益）。
+- E2 CLAP（raw）+0.0090 [+0.0075, +0.0107]：非劣性過，這次 CI 下界也 > 0（`E2_clap_independent_support` true）。
+- E3：N100 CFG0 在 PQ 上還比 control CFG3+neg 高 +0.11，但 CLAP 低 −0.021。
+- arm 上再加推論期負向，只多 +0.22 PQ，表示增益大部分已經收進權重。
+
+### FAD（2048 抽樣，單值）
+
+| | s14159265 | s16180339 | s27182818 |
+|---|---:|---:|---:|
+| ctrl CFG0 | 3.81 | 3.93 | 3.82 |
+| ctrl CFG3+neg | 5.23 | 6.36 | 6.68 |
+| **N100 CFG0** | **6.16** | **6.71** | **6.90** |
+| N100 CFG3+neg | 7.12 | 8.27 | 8.60 |
+
+- N100 CFG0 的 FAD 三 seed 都比 ctrl CFG0 高 2.3～3.1，也都比同 seed 的 ctrl CFG3+neg 差（差距 +0.2～+0.9）。**FAD 代價跨 seed 穩健**，不是 seed 14159265 的個案。
+
+### 響度與靜音（CFG0）
+
+- LUFS：arm −18.1／−17.9／−19.1，ctrl −19.0／−19.3／−18.8，差 +0.69 LU（per-seed +0.93／+1.46／−0.32）。
+- 靜音 clip：arm 15／10／15，ctrl 52／39／39，**三 seed 都比 control 少**，沒有靜音逃逸。
+- crest：arm 6.10／6.04／6.73，ctrl 6.44／6.59／6.58。
+
+### 可寫層級
+
+- **3 seed 成立**：S2 CFG 訓練目標的 ∅ 分支換成 fidelity8，可以在 CFG0 與 1-NFE 拿到比推論期負向還大的 AES PQ 增益，且 CLAP 不降、靜音變少。
+- **同樣 3 seed 成立**：FAD 變差，而且比推論期負向還差。
+- 仍然**不可寫**「不需要推論期負向 prompt」或「品質提升」：PQ 與 fidelity8 同一把尺，FAD 反向，試聽還沒做。
+- Nhi 沒複製，只能寫單 seed。
+
+### 下一步（未排隊）
+
+- 試聽五首盲聽包，看 PQ 與 FAD 在耳朵上站哪一邊。
+- Stage C（reversed 文字放 guidance 分支，分辨「fidelity8 文字」與「任何非 null 文字」）：照設計 Stage B 過了才排，等使用者決定。
