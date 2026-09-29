@@ -309,6 +309,8 @@ bash scripts/eval/mc_mf25_eval.sh <EXP> exps/<EXP>/<EXP>_ema_final.pth {--no_q |
 
 輸出：`~/eval_output_nvme/<EXP>_mc_mf25_{cfg0,cfg3_neg}[_qN]/`（`audio/`、`<label>/{metrics.txt,metrics.json,per_clip.tsv}`、`<label>_REPORT.json`）。有 REPORT 就跳過；沒有 REPORT 的殘缺目錄會**整格重跑**，因為 `eval.py` 整個 run 只 seed 一次 RNG，且跳過已存在檔案時不抽 noise，補齊的 clip 會跟一次跑完的不同。生成旗標與舊的 `caption10s_pipeline/eval_musiccaps_mf25.sh`（CFG0）/ `mc_mf25_cfg3neg_eval{,_q}.sh`（CFG3+neg）相同，已驗證音檔逐樣本一致；舊 wrapper 被 contract 綁 sha，凍結不改。
 
+**MIR 讀數（2026-09-30 起加進標準 eval）**：新工作改用 `scripts/eval/mc_mf25_eval_mir.sh`（參數與 `mc_mf25_eval.sh` 完全相同；先跑它，再對每格跑 `mir_metrics.py`，CPU 約 10 分鐘／格），`train_pipeline.sh` 已切換。多寫 `<label>/mir_metrics.{json,txt}`、`mir_per_clip.tsv`：`mir_pulse_clarity`↑、`mir_ibi_cv`↓、`mir_key_cnn_conf`↑、`mir_chroma_entropy`↓（定義與效度見 MusicEval 增量效度結果；只當 AES 的對照讀數，未驗證能分辨同架構 arm）。`mc_mf25_eval.sh`／`eval_metrics.py` 被 089–094 contract 綁 sha，**不改**；queue job 產出的格事後補：`~/venvs/dac/bin/python scripts/eval/mir_metrics.py --cell <cell dir>`（有 `mir_metrics.json` 就跳過）。需要 `~/venvs/madmom`（py3.9）與 `~/venvs/mir`（librosa 1.0）。
+
 只算 metrics（音檔已存在）：
 
 ```bash

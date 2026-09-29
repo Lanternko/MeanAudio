@@ -120,7 +120,7 @@
 - 不能寫：「MIR 能分辨同架構 arm 的細微差異」（沒測）。
 - 不能寫：探索段的 arm 比較是證據（無人類分數、未預登錄）。
 
-## 下一步（未排）
+## 下一步
 
-- 在標準 eval 加 `pulse_clarity`、`ibi_cv`、`key_cnn_conf`、`chroma_entropy` 四個讀數（純 CPU；madmom 較慢，要先量時間），當 AES 的對照讀數而不是主指標。
+- ~~在標準 eval 加四個讀數~~ 已完成（2026-09-30）：`scripts/eval/mc_mf25_eval_mir.sh`／`mir_metrics.py`，CPU 約 10 分鐘／格；nmv2 CFG3+neg 全量 pulse_clarity 0.408、ibi_cv 0.050、key_cnn_conf 0.635、chroma_entropy 0.913，與 1,000 prompt 子集一致。
 - 若要用在 arm 比較：需要同架構 arm 的人類評分（盲聽包）才能驗證系統內解析度。

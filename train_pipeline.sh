@@ -43,7 +43,7 @@ TEXT_ATTENTION_MASK=false         # 現行協定 NoMask：訓練與 eval 一致�
 TRAIN_TSV="phase8_v4_train.tsv"   # 相對 DATA_DIR
 NPZ_DIR="$HOME/research/meanaudio_training/npz_phase8v4"
 
-# ── Eval（MusicCaps MF25 × {CFG0, CFG3+neg}，見 scripts/eval/mc_mf25_eval.sh）──
+# ── Eval（MusicCaps MF25 × {CFG0, CFG3+neg} ＋ MIR 讀數，見 scripts/eval/mc_mf25_eval_mir.sh）──
 EVAL_GEN_TSV="phase8_v4_musiccaps_test.tsv"  # 生成用 TSV（相對 DATA_DIR）；一般實驗用 musiccaps_test.tsv，
                                              # 只有 prefix 訓練（P8 V4）要用 prefixed 版；CLAP 一律對原始 caption 算
 EVAL_Q_LEVELS="9 0"               # 只在 USE_Q_CONDITIONING=true 時使用；NoQ 一律 --no_q
@@ -185,7 +185,7 @@ echo "[Stage 2] 訓練完成"
 # ============================================================
 
 S2_EMA="$WORK_DIR/exps/$EXP_S2/${EXP_S2}_ema_final.pth"
-EVAL_WRAPPER="$WORK_DIR/scripts/eval/mc_mf25_eval.sh"
+EVAL_WRAPPER="$WORK_DIR/scripts/eval/mc_mf25_eval_mir.sh"
 EVAL_ARGS=(--gen_tsv "$DATA_DIR/$EVAL_GEN_TSV")
 if [ "$TEXT_ATTENTION_MASK" = "true" ]; then EVAL_ARGS+=(--mask); fi
 
