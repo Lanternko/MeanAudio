@@ -85,6 +85,10 @@ repo 只釋出**評估集**，每筆都有 **10 位**標註者的四軸原始分
 - **AES 高估 16 kHz 的擴散系統**：audioldm2 的 PQ 人類 5.57、AES 7.03，被排成生成系統第一（推論原因：16 kHz 截頻，見下方限制 2）。MeanAudio 也是 16 kHz → 我們的 AES 分數不可跟 32k／44.1k 的外部模型比
 - 頻寬 probe（2026-09-30，`docs/experiments/results/aes_bandwidth_probe_pam_20260930_results.md`）：把 musicgen／real 低通到 8 kHz，AES PQ 只變 −0.02（前提成立）；但在寬頻系統內部，人類−AES 殘差**不會**隨高頻比例上升（PQ r −0.10，CI 跨零）→ 「高估是頻寬造成」降級為未證實，也可能是 AES 看不出擴散／vocoder 瑕疵。實務結論不變
 
+**生成音樂第二份資料（2026-09-30，MusicEval 2,748 首、31 個 TTM 系統、全 16 kHz、5 位專家 OVL，`docs/experiments/results/mir_incremental_validity_musiceval_20260930_results.md`）**：
+- 對 OVL：PQ r 0.63、CE 0.66、CU 0.66、PC 0.07；系統內 PQ 0.43、CE 0.48（人類 r 上限 0.91）
+- 12 個 MIR 拍點／調性特徵加進 AES 後 ridge ΔR² +0.09（prompt CV）／+0.10（留一系統），配對勝負 +2～3 點 → AES 漏掉節奏／調性清晰度；但拍點類只在系統之間有訊號，系統內只剩調性類，系統排名沒變好
+
 ---
 
 ## 已知限制（2026-09-18 於 source code 驗證）

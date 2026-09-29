@@ -73,6 +73,8 @@
 | **AES vs 人類評分（PAM 生成音樂 400 首）**（2026-09-29：生成音訊 PQ r 掉到 0.55、CE 0.69 最好；同 prompt 成對勝負 PQ 0.67／CE 0.73；**人類差 < 0.5 的配對 PQ 一致率 0.46＝擲硬幣**；AES 高估 16 kHz 擴散系統（audioldm2 PQ +1.46）→ 我們（16k）的 AES 不可跟外部 32k 模型比） | `docs/experiments/results/aes_human_corr_pam_20260929_results.md` |
 | **真實 MusicCaps 參考音檔標準指標**（2026-09-30：全量 5131 首 AES PQ 6.90、CLAP 0.299；AES-natural 522 首只有 5.45 是刻意偏低的子集；逐首配對下 081 HQ+LQ PQ 8.00、87% prompt 勝過真實錄音，CFG0 control 6.43 仍輸 → 超車全發生在 PQ 導向手法之後；CLAP 仍排真實第一） | `docs/experiments/results/musiccaps_reference_real_metrics_20260930_results.md` |
 | **生成 PQ 為何高過原音（AES 稽核）**（2026-09-30：「原音 7.53」是 Jamendo 訓練語料（7.55），MusicCaps 原音 6.90；VAE＋BigVGAN 重建天花板 7.06（lvl30 7.33），CFG0 6.35 在天花板下；超車主要是 MusicCaps 業餘／現場錄音（原音最好 40% 生成仍輸）；**081 在乾淨 caption 上仍勝原音 +1.10、高過未經 VAE 的訓練語料 → 指標被優化**；真實錄音上 AES−人類殘差對 tempo／重心／高頻 ≈0，無曲風／節奏偏好證據） | `docs/experiments/results/aes_gen_exceeds_ref_audit_20260930_results.md` |
+| **MIR 指標增量效度線**（MusicEval 25 系統×100 prompt 專家 OVL；12 個 madmom／essentia 拍點＋調性特徵加進 AES4，prompt 分組 CV＋留一系統，預登錄門檻） | `docs/experiments/mir_incremental_validity_musiceval_20260930.md` |
+| **MIR 指標增量效度結果**（2026-09-30：門檻全過，ridge ΔR² +0.088（prompt）／+0.103（留一系統）、配對勝負 +2～3 點、PAM 同號複製；**但拍點類訊號在系統之間、系統內跨零**，系統內只剩調性類；HGB 版 AES 增量縮到 +0.021；系統排名 Spearman Δ 跨零；探索：nmv2 CFG3+neg AES PQ 勝真實 60% 但 pulse_clarity 只勝 19%） | `docs/experiments/results/mir_incremental_validity_musiceval_20260930_results.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
 | Phase 4→8 完整對比表（歷史） | `docs/experiments/history/phase4-phase8/Phase4_to_Phase8_Complete_Summary.md` |
 | 文獻啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |

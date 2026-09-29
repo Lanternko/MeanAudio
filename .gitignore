@@ -216,3 +216,4 @@ research/training/qwen_singlecap_selections.json
 
 # PAM human_eval audio (zenodo 10737388, 1.2 GB)
 research/eval/pam_human_eval/
+research/eval/musiceval
