@@ -68,7 +68,8 @@
 | ISMIR 2026 reviews + correctness plan | `docs/reviews/ismir2026-487-promptcc/` |
 | **新方向盤點**（CFG normalize 順序／caption 合寫／enc-dec／雜訊負樣本四條線與優先序） | `docs/meetings/2026-09-22_new_directions_cfg_encdec_noise.md` |
 | 教授討論紀錄（Lane A/B/C、data leakage） | `docs/meetings/` |
-| Meta Audiobox Aesthetics 指標細節 | `docs/metrics/audiobox_aesthetics.md` |
+| Meta Audiobox Aesthetics 指標細節（含訓練資料、公開人類評分） | `docs/metrics/audiobox_aesthetics.md` |
+| **AES vs 人類評分（MusicCaps 522 首）**（2026-09-29：PQ r 0.84／CE 0.77，高於單一標註者；−23 LUFS 正規化沒幫助；人類 PQ 本身與原始 LUFS −0.27；人類 PQ ≥ 7 區段 r 只剩 0.49 → 不證明能區分 arm 差異） | `docs/experiments/results/aes_human_corr_musiccaps_20260929_results.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
 | Phase 4→8 完整對比表（歷史） | `docs/experiments/history/phase4-phase8/Phase4_to_Phase8_Complete_Summary.md` |
 | 文獻啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |
