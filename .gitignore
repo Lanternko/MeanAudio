@@ -213,3 +213,6 @@ runtime/
 research/training/qwen_singlecap_selections.json
 .archive/legacy/research_training_phase1_3/
 .archive/legacy/worktree_leftovers_20260924/
+
+# PAM human_eval audio (zenodo 10737388, 1.2 GB)
+research/eval/pam_human_eval/
