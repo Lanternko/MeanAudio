@@ -83,6 +83,7 @@ repo 只釋出**評估集**，每筆都有 **10 位**標註者的四軸原始分
 - PQ r 掉到 0.55（單一標註者 0.47、人類上限 0.79）；CE 0.69 最好
 - 同一 prompt 的成對勝負一致率：PQ 0.67、CE 0.73（人類兩半之間 0.74／0.76）。**人類差 < 0.5 的配對，PQ 一致率 0.46，等於擲硬幣**
 - **AES 高估 16 kHz 的擴散系統**：audioldm2 的 PQ 人類 5.57、AES 7.03，被排成生成系統第一（推論原因：16 kHz 截頻，見下方限制 2）。MeanAudio 也是 16 kHz → 我們的 AES 分數不可跟 32k／44.1k 的外部模型比
+- 頻寬 probe（2026-09-30，`docs/experiments/results/aes_bandwidth_probe_pam_20260930_results.md`）：把 musicgen／real 低通到 8 kHz，AES PQ 只變 −0.02（前提成立）；但在寬頻系統內部，人類−AES 殘差**不會**隨高頻比例上升（PQ r −0.10，CI 跨零）→ 「高估是頻寬造成」降級為未證實，也可能是 AES 看不出擴散／vocoder 瑕疵。實務結論不變
 
 ---
 
@@ -113,6 +114,7 @@ repo 只釋出**評估集**，每筆都有 **10 位**標註者的四軸原始分
 `infer.py:85` `sample_rate: int = 16000  # const`。我們的輸入是 48 kHz（見
 `memory/reference_clap_scoring_input_contract.md`），等於高頻三分之二在評分前就被丟掉。
 用一個聽不到 8 kHz 以上的模型判斷 music production quality，是 PQ 這個指標的結構性弱點。
+2026-09-30 低通 probe 實測：寬頻音訊低通到 8 kHz，AES 四軸平均只變 ±0.02。
 
 ### 3. 感受野 10 秒
 

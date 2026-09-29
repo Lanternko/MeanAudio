@@ -80,6 +80,7 @@
 | **B 線 Qwen＋MF 合寫 pilot**（2026-09-23 未過閘：7B 合寫 caption 的音訊 CLAP 對齊 −0.009 vs Qwen 單獨（CI 不跨零），不開訓練；串接 +0.003 是截斷假象） | `docs/experiments/results/bfuse_caption_merge_pilot_20260923_results.md` |
 | **負向 prompt 與語料平均的距離 vs ΔPQ**（2026-09-26：「越像訓練 caption 平均增益越大」不成立；T5 相關是 prompt 長度假象；唯一訊號是越像 eval 音樂內容描述增益越小，ρ −0.64，控制長度後 −0.48） | `docs/experiments/results/negprompt_corpus_mean_distance_20260926_results.md` |
 | **負樣本進訓練的文獻定位**（四家族：推論期負向 prompt／訓練期品質條件 QA-MDT／偏好對 DPO Tango2·MusicRL／負向分支換成模型 NPO·autoguidance；與 CFG 的關係；三個可行動選項） | `docs/literature/negative_samples_in_training_and_cfg_2026_09_22.md` |
+| **AES 16 kHz 偏誤頻寬 probe**（2026-09-30：低通 8 kHz 後 AES 幾乎不變（前提成立），但寬頻系統內人類−AES 殘差不隨高頻上升 → 16k 系統被高估的原因未證實是頻寬；可能是擴散／vocoder 瑕疵） | `docs/experiments/results/aes_bandwidth_probe_pam_20260930_results.md` |
 | **品質／美學指標效度文獻定位**（SongEval + RF-Limits；PC 相關性最低 0.408、乾淨音訊上指標塌到 chance、crest-as-reward 崩潰、可抄的 protocol） | `docs/literature/quality_metric_validity_2026_09_18.md` |
 | 早期累積實驗數字（→ 改查 `best_results.md`） | `EXPERIMENT_LOG.md` |
 
