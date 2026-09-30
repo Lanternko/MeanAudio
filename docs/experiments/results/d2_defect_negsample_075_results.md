@@ -276,3 +276,20 @@ t 從 1 走到 0：**hi** = t > 2/3（前 9 步）、**mid** = 1/3 < t ≤ 2/3�
 3. **對「為什麼 lab 增益變小」的更新**：不是推力小（分支幾何已排除）、不是推的方向對著程式化缺陷（投影已排除），而是 **(a) 早段推力的 PQ 效率較低** 加上 **(b) 晚段推力方向變成扣分**。(b) 是 lab 獨有、unlab 沒有，所以是「缺陷被點名」造成的，不是「看過壞音訊」造成的。晚段主要動細節紋理；一個合理但**未驗證**的說法是：lab 學會把 hiss／crackle 等細節缺陷綁在 fidelity8 的字面上，晚段 B 因此帶了「高頻細節」，CFG 把高頻細節一起推掉。
 4. **實用副產品**：對一般模型（unlab／control），CFG 只套前 9 步即可拿回 ≈95% 的 PQ 增益，負向分支的額外計算從 25 次降到 9 次。尚未驗證 CLAP 與其他 AES 軸、也只測 256 clip × 1 個生成 seed，不能直接換成標準協定。
 5. 限制：256 clip；只量 PQ（lvl30），CLAP／CE／CU／PC 未讀；段界是固定三等分，沒有掃切點；mid 段沒報 CI（和 hi／lo 同量級、全部 > 0）。
+
+## MIR 讀數補算（2026-09-30，事後描述，未預登錄）
+
+用標準 eval 的四個 MIR 讀數（`scripts/eval/mir_metrics.py --cell`）補算 075 兩臂與 nmv2pair control 的 3 seed × 2 格（5,521 首；音檔都已存在）。定義與效度見 `mir_incremental_validity_musiceval_20260930_results.md`。
+
+negprompt 增益（CFG3+neg − CFG0，逐 clip 配對平均）：
+
+| seed | pulse_clarity lab / unlab / control | lab−unlab [clip bootstrap CI] | ibi_cv lab−unlab |
+|---|---|---|---|
+| 14159265 | −0.012 / +0.048 / +0.020 | **−0.060** [−0.065, −0.056] | +0.0011 |
+| 16180339 | −0.034 / +0.033 / +0.043 | **−0.067** [−0.072, −0.062] | +0.0029 |
+| 27182818 | −0.047 / +0.025 / +0.020 | **−0.072** [−0.077, −0.068] | +0.0017 |
+
+- **lab 是唯一加負向 prompt 後拍點清晰度下降的 arm**，3 seed 都降；unlab／control 3 seed 都升。lab−unlab 差中差 −0.060～−0.072，三 seed 同號，大小約為 arm 間 seed SD（0.01～0.02）的 3～5 倍；拍間距（ibi_cv）也是 lab 變得比較不穩（3 seed 同號、量很小）。
+- 調性類（key_cnn_conf、chroma_entropy）的 lab−unlab 逐 seed 翻號 → 沒有差別。
+- 方向與主結果一致（lab 的 fidelity8 PQ 增益較小），也與分段 CFG 的「lab 晚段 CFG 扣分」相容，但 MIR 沒有照段拆，不能說扣分落在哪一段。
+- 限制：clip bootstrap CI 只反映同一 seed 內的生成變異，推論單位是 seed（n=3）；MusicEval 上拍點類特徵的訊號只在**系統之間**，同架構 arm 間的差異能不能被人聽出來沒有驗證。

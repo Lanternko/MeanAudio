@@ -123,4 +123,24 @@
 ## 下一步
 
 - ~~在標準 eval 加四個讀數~~ 已完成（2026-09-30）：`scripts/eval/mc_mf25_eval_mir.sh`／`mir_metrics.py`，CPU 約 10 分鐘／格；nmv2 CFG3+neg 全量 pulse_clarity 0.408、ibi_cv 0.050、key_cnn_conf 0.635、chroma_entropy 0.913，與 1,000 prompt 子集一致。
+- ~~補算近期格子~~ 已完成（見上「補算」段）。
 - 若要用在 arm 比較：需要同架構 arm 的人類評分（盲聽包）才能驗證系統內解析度。
+
+## 補算：近期 arm＋真實 MusicCaps 全量（2026-09-30）
+
+`mir_metrics.py --cell` 補了 nmv2pair、075 defectlab／defectunlab 各 3 seed × CFG0／CFG3+neg，以及真實 MusicCaps 參考音檔（5,131 首；參考音檔本來就是 16 kHz 單聲道，跟生成音檔同取樣率）。3 seed 平均 ± SD：
+
+| arm | 格 | pulse_clarity ↑ | ibi_cv ↓ | key_cnn_conf ↑ | chroma_entropy ↓ | pulse_clarity 勝真實 |
+|---|---|---|---|---|---|---|
+| **真實 MusicCaps** | — | **0.614** | **0.030** | 0.618 | 0.902 | — |
+| nmv2pair（control） | CFG0 | 0.389 ± 0.009 | 0.047 | 0.578 ± 0.012 | 0.931 | 0.19 |
+| | CFG3+neg | 0.416 ± 0.021 | 0.050 | 0.645 ± 0.028 | 0.905 | 0.21 |
+| 075 defectunlab | CFG0 | 0.395 ± 0.003 | 0.046 | 0.575 ± 0.010 | 0.936 | 0.20 |
+| | CFG3+neg | 0.430 ± 0.011 | 0.049 | 0.621 ± 0.019 | 0.913 | 0.23 |
+| 075 defectlab | CFG0 | 0.407 ± 0.012 | 0.046 | 0.590 ± 0.012 | 0.934 | 0.21 |
+| | CFG3+neg | 0.376 ± 0.016 | 0.051 | 0.630 ± 0.015 | 0.912 | 0.18 |
+
+- 全量上 1,000 prompt 探索的結論成立：所有 arm 的拍點清晰度都遠低於真實錄音（勝率 18～23%），拍間距較不穩；負向 prompt 只把 pulse_clarity 推高 +0.03 左右，同時讓 ibi_cv 略升。
+- 調性類在 CFG3+neg 上追平或超過真實（key_cnn_conf 0.62～0.65 vs 0.618、chroma_entropy 0.905～0.913 vs 0.902）。
+- 075 defectlab 是唯一負向 prompt 讓拍點清晰度下降的 arm（3 seed 同號，細節見 `d2_defect_negsample_075_results.md` 文末）。
+- 只描述，不當證據（同架構 arm 的人類解析度未驗證）。
