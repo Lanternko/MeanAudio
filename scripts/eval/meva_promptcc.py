@@ -61,9 +61,31 @@ def score(rows, binding):
 
 def preflight():
     c = json.loads((ROOT/'docs/experiments/meva_095_contract.json').read_text())
+    from datetime import datetime, timezone
+    bundle=Path(c['harn_bundle'])
+    schema=json.loads((bundle/'contract.json').read_text())
+    contract_path=ROOT/'docs/experiments/meva_095_contract.json'
+    expected=next(a['sha256'] for a in schema['corpus']['source_artifacts'] if a['path']==str(contract_path))
+    if sha(contract_path)!=expected:
+        raise ValueError('Runtime contract no longer matches approved schema bundle')
+    approval=json.loads((bundle/'preflight.json').read_text())['approval_evidence']
+    if datetime.now(timezone.utc)>datetime.fromisoformat(approval['expires_at']):
+        raise ValueError('Approval expired')
+    webhook=Path('/home/kojiek/.config/meanaudio/discord_webhook_url')
+    stat=webhook.stat()
+    if stat.st_uid!=os.geteuid() or stat.st_mode & 0o777 != 0o600:
+        raise ValueError('Notification file ownership/mode invalid')
     for item in c['raw_bindings']:
         if sha(item['path']) != item['sha256']:
             raise ValueError('Raw binding mismatch: '+item['path'])
+    from importlib.metadata import version
+    for package, expected in c['package_versions'].items():
+        if version(package) != expected:
+            raise ValueError('Dependency drift: '+package)
+    lock=json.loads(LOCK.read_text())
+    for item in lock['files']:
+        if sha(item['path']) != item['sha256']:
+            raise ValueError('Model/runtime dependency binding mismatch: '+item['path'])
     if sha(MANIFEST) != c['manifest_sha256']:
         raise ValueError('Manifest changed')
     if os.statvfs(RUNTIME).f_bavail * os.statvfs(RUNTIME).f_frsize < 50*(1<<30):
@@ -126,6 +148,9 @@ def summarize(rows, binding):
            'delta_rho_simultaneous_ci':ci.T.tolist(),
            'same_prompt_pair_agreement':{name:agreement(x) for name,x in [('meva',m),('aes_pq',pq),('aes_ce',ce)]},
            'external_gate':bool((ci[0]>0).all() and (point[0]-point[1:]>=.05).all() and rho_ci[0]>=.60),
+           'within_system_spearman':{system:float(spearmanr(m[indices],h[indices]).statistic)
+              for system in sorted({r['system'] for r,v in pairs})
+              for indices in [[i for i,(r,v) in enumerate(pairs) if r['system']==system]]},
            'adoption':'requires PromptCC human blind evaluation even if external gate passes'}
     atomic_secure_json(RUNTIME/'summary.json',report)
     return report
@@ -136,11 +161,31 @@ def main():
     p.add_argument('--limit',type=int);p.add_argument('--dataset',choices=['pam','all'],default='all')
     a=p.parse_args()
     if a.preflight: return preflight()
+    if 'GPU_QUEUE_CONTRACT' in os.environ or a.validate_only:
+        rc=preflight()
+        if rc:return rc
     binding=sha(LOCK)
     rows=json.loads(MANIFEST.read_text())
     if a.dataset=='pam':rows=[r for r in rows if r['set']=='pam']
     if a.limit:rows=rows[:a.limit]
-    if not a.validate_only: score(rows,binding)
+    import torch
+    torch.set_num_threads(4)
+    if not a.validate_only:
+        pam=[r for r in rows if r['set']=='pam']
+        if pam:
+            score(pam,binding)
+            external=summarize(pam,binding)
+            atomic_secure_json(RUNTIME/'pam_validation.json',external)
+            if 'GPU_QUEUE_CONTRACT' in os.environ:
+                from meva_095_events import notify
+                c=json.loads(Path(os.environ['GPU_QUEUE_CONTRACT']).read_text())
+                verdict='pass' if external['external']['external_gate'] else 'fail'
+                notify(c,Path(os.environ['GPU_QUEUE_JOB_SCRIPT']),'external-pam-gate',
+                       'success' if verdict=='pass' else 'failure',
+                       'MEva095 external PAM gate '+verdict.upper()+
+                       '; report='+str(RUNTIME/'pam_validation.json')+
+                       '; next=authorized historical shadow rescore; AES retained.', verdict=verdict)
+        score(rows,binding)
     report=summarize(rows,binding)
     print(json.dumps({'n':report['n_scored'],'external':report['external']},indent=2),flush=True)
     return 0

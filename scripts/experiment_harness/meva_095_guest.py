@@ -17,6 +17,7 @@ from pathlib import Path
 sys.path[:0] = ['/home/kojiek/gpu_queue', '/home/kojiek/MeanAudio/scripts/experiment_harness']
 from lib_scheduler import PAUSE_EXIT, accept_guest, atomic_json, now, pid_start_time, read_json
 from preflight_capture import run_preflight
+from meva_095_events import append, notify
 
 INTERRUPTED = False
 
@@ -37,8 +38,23 @@ def stop(child):
 
 
 def terminal(script, status, **extra):
+    contract_path = Path(os.environ['GPU_QUEUE_CONTRACT'])
+    c = json.loads(contract_path.read_text())
+    event, notify_status = {'completed': ('success', 'success'), 'failed': ('failure', 'failure'),
+      'held': ('held', 'held'), 'paused': ('interrupted', 'interrupted'),
+      'interrupted': ('interrupted', 'interrupted')}[status]
+    kind = {'completed': 'experiment_completed', 'failed': 'experiment_failed',
+            'interrupted': 'experiment_interrupted'}.get(status, 'queue_hold')
+    # A preflight hold has no lifecycle start, so never fabricate a terminal lifecycle.
+    ledger = read_json(Path(c['harn_bundle']) / 'ledger.json') or {}
+    if not any(e.get('event_kind') == 'experiment_started' for e in ledger.get('events', [])):
+        kind = 'queue_hold'
+    receipt = notify(c, script, event, notify_status,
+                     'MEva095 terminal '+status+'; reason='+str(extra.get('reason', extra.get('rc', 'none'))),
+                     kind=kind, verdict='none', released=True)
+    append(c, 'queue-state-'+status, 'queue_hold', state=status if status in ['held','completed','failed','interrupted'] else 'held') if kind == 'queue_hold' else None
     atomic_json(script.with_name(script.stem + '.terminal.json'),
-                {'status': status, 'written_at': now(), **extra})
+                {'status': status, 'written_at': now(), 'notification_receipt': receipt, **extra})
 
 
 def progress(c):
@@ -48,12 +64,14 @@ def progress(c):
 
 
 def notify_gate(c, script, event, status, summary):
-    from notification_receipts import deliver_required
-    cfg = c['notification_receipts']
-    return deliver_required(contract_path=Path(os.environ['GPU_QUEUE_CONTRACT']),
-        launcher_path=script, event=event, status=status, summary=summary,
-        idempotency_key=c['experiment_id']+':'+event, notifier=Path(cfg['notifier']),
-        root=Path(cfg['root']))
+    return notify(c, script, event, status, summary,
+                  kind='disk_warning' if event=='storage-warning' else 'gate_result',
+                  verdict='none' if event=='storage-warning' else 'pass')
+
+
+def rearm_queue_idle(root=None):
+    root=Path(root or os.environ.get('GPU_QUEUE_ROOT','/home/kojiek/gpu_queue'))
+    (root/'watcher_state'/'queue_idle_notified').unlink(missing_ok=True)
 
 
 def main():
@@ -77,11 +95,24 @@ def main():
         terminal(script, 'held', reason='exact P2 process ownership required')
         raise SystemExit('HOLD: exact P2 process ownership required')
 
+    rearm_queue_idle()
     control = Path(os.environ.get('P2_CONTROL_DIR') or '')
     child = None
+    budget_path = Path(c['storage']['path']) / 'active_budget.json'
+    active_seconds = float((read_json(budget_path) or {}).get('seconds', 0))
+    budget_tick = time.monotonic()
     last, changed = None, time.monotonic()
     try:
         while True:
+            tick = time.monotonic()
+            if child is not None:
+                active_seconds += tick - budget_tick
+                atomic_json(budget_path, {'seconds': active_seconds, 'written_at': now()})
+            budget_tick = tick
+            if active_seconds > c.get('resource_budget', {}).get('max_active_seconds', 86400):
+                stop(child)
+                terminal(script, 'held', reason='registered 24-hour active compute budget exhausted')
+                return 2
             request = read_json(control / 'pause.request.json') if control.is_dir() else None
             if request:
                 stop(child)
@@ -109,6 +140,9 @@ def main():
                     return 2
                 notify_gate(c, script, 'preflight-pass', 'success',
                             'MEva095 preflight PASS: bound inputs/runtime and storage. Next: shadow scoring.')
+                append(c, 'preflight-passed', 'preflight_passed', verdict='pass')
+                append(c, 'resources-acquired', 'resources_acquired')
+                append(c, 'experiment-started', 'experiment_started', state='active')
                 child = subprocess.Popen(c['commands']['run'], start_new_session=True)
                 last, changed = progress(c), time.monotonic()
             rc = child.poll()

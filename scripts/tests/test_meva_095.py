@@ -22,7 +22,7 @@ def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, in
         c={'storage':{'path':str(root),'hard_stop_free_bytes':50<<30,'warning_free_bytes':80<<30},
            'commands':{'run':['dummy'],'preflight':['pre'],'postflight':['post']},
            'watcher':{'stall_seconds':3600},'resume':{'pause_progress':str(root/'resume.json')},
-           'reports':[{'path':str(report)}]}
+           'reports':[{'path':str(report)}], 'harn_bundle':str(root)}
         contract.write_text(json.dumps(c))
         seat={'pid':os.getpid(),'start_time':pid_start_time(os.getpid()),'job_id':script.stem,'run_id':'run-test'}
         calls=[]
@@ -37,6 +37,7 @@ def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, in
         def notify(*a,**k):
             calls.append('notify')
             if notify_fail:raise RuntimeError('notifier unavailable')
+            return {'path':'mock','event':'mock','status':'mock'}
         class FS: f_bavail=1 if disk else 100*(1<<30);f_frsize=1
         env={'GPU_QUEUE_JOB_SCRIPT':str(script),'GPU_QUEUE_CONTRACT':str(contract),
              'P2_CONTROL_DIR':str(control),'P2_RUN_ID':'run-test'}
@@ -44,6 +45,8 @@ def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, in
              patch.object(guest,'accept_guest',return_value=(True,'ok')),patch.object(guest,'notify_gate',notify),\
              patch.object(guest,'run_preflight',return_value=preflight),patch.object(guest.subprocess,'Popen',spawn),\
              patch.object(guest.subprocess,'run',return_value=type('RC',(),{'returncode':postflight})()),\
+             patch.object(guest,'notify',return_value={'path':'mock','event':'mock','status':'mock'}),\
+             patch.object(guest,'append'),patch.object(guest,'rearm_queue_idle'),\
              patch.object(guest,'stop'),patch.object(guest.os,'statvfs',return_value=FS()):
             guest.INTERRUPTED=interrupt
             rc=guest.main()
