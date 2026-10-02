@@ -1,0 +1,66 @@
+{
+  "created_at": "2026-10-02T18:45:51.320026+00:00",
+  "queue": "33 isolated fixtures; both notifier routes mocked",
+  "real_gpu_smoke": {
+    "cuda": "12.8",
+    "gpu": "NVIDIA GeForce RTX 5090",
+    "n_real_audio": 3,
+    "official_parity": "batch1 native short features + same exact upstream f03 architecture",
+    "peak_allocated_bytes": 1857777664,
+    "results": [
+      {
+        "frames": 250,
+        "key": "audioldm2__-T4GeTHKtJQ",
+        "meva_raw": 1.2483599185943604,
+        "parity_abs": 0.0,
+        "repeat_abs": 0.0,
+        "score_seconds": 0.6213990682736039
+      },
+      {
+        "frames": 250,
+        "key": "musicgen_large__-T4GeTHKtJQ",
+        "meva_raw": 3.1098179817199707,
+        "parity_abs": 0.0,
+        "repeat_abs": 0.0,
+        "score_seconds": 0.03883333317935467
+      },
+      {
+        "frames": 250,
+        "key": "musicgen_melody__-T4GeTHKtJQ",
+        "meva_raw": 2.9507668018341064,
+        "parity_abs": 0.0,
+        "repeat_abs": 0.0,
+        "score_seconds": 0.035173301585018635
+      }
+    ],
+    "runtime_source_sha256": "3b509279b3e086a69395c2357883554f5a66f9d9c59f327219b9a76692b4fc2b",
+    "scope": "numerical adapter smoke, not human validity or original torch2.1 cross-hardware parity",
+    "status": "passed",
+    "torch": "2.11.0.dev20260127+cu128",
+    "total_seconds": 6.915558178909123
+  },
+  "receipts": "no-network unit tests passed",
+  "source_sha256": {
+    "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py": "44803bec6194cd56777e5ccdfd5bf95bd9c4d9e58342a0c580d6a9b9e3da30cf",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_guest.py": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e",
+    "/home/kojiek/MeanAudio/scripts/tests/run_loudness_queue_acceptance.py": "6cbe341cc09812aaab342748e087af2912434106d89a97a4411b61cfbfa8e5dd",
+    "/home/kojiek/MeanAudio/scripts/tests/test_meva_095.py": "a5e7ec17ee2bff9a94ffb415c9e5ec612f4771ae542db3a82b2e1624419ea321",
+    "/home/kojiek/gpu_queue/tests/test_lib_scheduler.py": "c5c47ebe50f872f6941471b6da25e32c43f81b36acffdc0cc44915c491113254",
+    "/home/kojiek/gpu_queue/tests/test_notification_receipts.py": "1e74a71128efff7fbc6429598ff111822d1569f2e4619d9e360da71970879b85"
+  },
+  "status": "passed",
+  "tests": {
+    "disk_hard_stop": "pass",
+    "exit137": "pass",
+    "failure": "pass",
+    "nonfinite_rejected": "pass",
+    "notification_failure": "pass",
+    "pause": "pass",
+    "postflight_invalid": "pass",
+    "preflight_invalid": "pass",
+    "resume_binding": "pass",
+    "signal": "pass",
+    "stale_model_rejected": "pass",
+    "success": "pass"
+  }
+}

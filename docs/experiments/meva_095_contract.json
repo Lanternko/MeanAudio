@@ -1,0 +1,339 @@
+{
+  "approval_record": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt",
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
+    "action_sha256": "44803bec6194cd56777e5ccdfd5bf95bd9c4d9e58342a0c580d6a9b9e3da30cf",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_guest.py",
+    "harn_sha256": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/097_meva_promptcc_shadow.sh",
+    "launcher_sha256": "8321c8046436acbd136cf77b771ffff91ba25c7d7fa68e33675adfc564746451"
+  },
+  "commands": {
+    "postflight": [
+      "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py"
+    ]
+  },
+  "completion_evidence": {
+    "eval_only": true,
+    "method": "postflight verifies every manifest row and raw bindings",
+    "n_expected": 99878
+  },
+  "dependencies": [],
+  "document_kind": "eval_only_meva_shadow_contract",
+  "experiment_id": "meva095-shadow-20261003",
+  "git_revision": "0e4fa633ed4871ad669ea22c6b871fc57c655cbf",
+  "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095",
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator": "responsible_operator",
+    "scope": "User requested experiment design and formal deployment in MeanAudio; shadow rescoring existing audio only",
+    "trusted_channel": "operator_console"
+  },
+  "manifest": "/home/kojiek/MeanAudio/runtime/meva_20261003/manifest.json",
+  "manifest_sha256": "f6ffc3ea19b0da4f027c81acca787a8d4ba5c6baf1b25e5526600c53715ee778",
+  "model_binding": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da",
+  "n_expected": 99878,
+  "notification_receipts": {
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts"
+  },
+  "notifications": [
+    "registration",
+    "start",
+    "preflight-pass",
+    "external-pam-gate",
+    "postflight-pass",
+    "terminal",
+    "pause",
+    "handoff",
+    "storage-warning",
+    "hard-stop",
+    "stall",
+    "gpu-idle"
+  ],
+  "package_versions": {
+    "audiocraft": "1.3.0",
+    "huggingface-hub": "0.36.0",
+    "numpy": "2.3.0",
+    "sae-lens": "5.3.2",
+    "safetensors": "0.7.0",
+    "scipy": "1.16.3",
+    "soundfile": "0.13.1",
+    "tokenizers": "0.19.1",
+    "torch": "2.11.0.dev20260127+cu128",
+    "torchaudio": "2.11.0.dev20260127+cu128",
+    "torchvision": "0.25.0.dev20260127+cu128",
+    "transformer-lens": "2.11.0",
+    "transformers": "4.41.2",
+    "xformers": "0.0.34"
+  },
+  "protocol": {
+    "bootstrap_repeats": 2000,
+    "bootstrap_seed": 20261003,
+    "candidate": "pooled-small-f03-hook11-4096",
+    "external_gate": "simultaneous rho delta CI>0; delta>=.05 both PQ/CE; rho CI lower>=.60",
+    "failed_gate_action": "continue authorized shadow rescore; no replacement of AES",
+    "history": "preserve all source CFG and negative-prompt protocol labels; source manifest bound",
+    "mode": "shadow",
+    "new_generation": false,
+    "primary_external": "PAM 400 generated;100 real separately"
+  },
+  "question": "Does fixed pooled-small-f03 generalize to PAM human OVL, and how does it rank retained PromptCC outputs?",
+  "queue_name": "097_meva_promptcc_shadow.sh",
+  "queue_placement": "append after existing AES095/AES096; preserve all pending/running/held entries",
+  "queue_role": "p2",
+  "raw_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
+      "sha256": "44803bec6194cd56777e5ccdfd5bf95bd9c4d9e58342a0c580d6a9b9e3da30cf"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_guest.py",
+      "sha256": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_runtime.py",
+      "sha256": "3b509279b3e086a69395c2357883554f5a66f9d9c59f327219b9a76692b4fc2b"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_events.py",
+      "sha256": "fbcad346914d5778fa981d9f019aaf9b012570b39cf60287cfb142a4d16c4b54"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/preflight_capture.py",
+      "sha256": "374ad713b1886b5e778fcd5449f0a8c5c03f230f9be3487f9e1c8998c2c6cb75"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_model_lock.json",
+      "sha256": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/coverage.json",
+      "sha256": "97d653b10f45229699e64b2358a96f115d76e5a3db35e1da7afb1f702005fe6c"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/research/eval/output/aes_human_corr_pam/per_clip.tsv",
+      "sha256": "c4432e484e05f87d9516eaa180bc20a490a8b34ba89a985256bb329ba879beba"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt",
+      "sha256": "ee529270b371a57d1a01cf14d1e067f1a302f3a0ea525d362aa9f2364f9e0f3c"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/requirements.resolved.txt",
+      "sha256": "57e2d7e90fc8f17856eb33310c1fd78d040788f4f3b794e5792afb35fde99e72"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_20261003.md",
+      "sha256": "91a2e68481f545032f464bbea41ff749cbb9f2a1c892bc1144af326e1e27b018"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+      "sha256": "aa9bb2f98714446319cf3eb4221be857283c3cfdfe4d71967ab0ec32bbca3603"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "66b5e0f8c52bc0c9a1e7c1d9828b39aa8256b9e62154b6f237a1b2566c6eb327"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "e757ff8fb8dff777af8d6cde2ccb3afd4af681187c1e48a3050ac8ad8f6c5d39"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "a91591db587acf5fee339d8d04ac6410585735c66a4c90a6ae59aa015eb7643d"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+      "sha256": "e1cedea3a63d9a4349c7cf66ba9850da5a738031718c8b62587aa51fa599bf0c"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "108288bfd1b55133487c9d24ba4f66a404ed5b2ee9636bf0fd45ae5485169506"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "eb7b6d8cd4074bb7b295ed9d964ca20f09a4873ac38a1268b4970e6194a5a421"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "073451762e569f65a9468f294edb6520e7a25236d84c76db4dc6fe1150ce0bf3"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+      "sha256": "7398ba3d22eeaecc4b8f9f7fcdd95de06f1e31619a77fd43e8f5d791debe77a5"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "54b8010fdd1f302205e7a12fe1cb10fc6f8f4e92b8cd0de6d178ffe98856cdbd"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "9e3d058b701992f7a76bd8a1d0363ac6a0534163a8751be75caf621fd78a0ad8"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "5709181d497bb3704533a527fd1bc00c06c18b1724972942955e63ab6bc92fec"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+      "sha256": "b7e342b4d239f8888a23b9c957e6bee317c78ab87f17b2a443c841e81031e098"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "7d14268f0579ceb29eafa284f14779c630c38aadc6147c0cfc4987ef540f3f27"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "aae7f116ff133c895a970947222f5e16926374351fb1bee8c12df5d298f2c9cc"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "88a288f6745b4b26630f618e10d4dc2d5249530f9fe6baac2e8524c081505882"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+      "sha256": "2a715e0bc5fe7e18ac63d62aa83714f15c0541f1cbbdb7a47fdf1207f414e480"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "0d74590c232176bc6286c20930a19bf7beaaf8814bfb229296294e43fbaca461"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "0ac5ff3c3fbc71e851ca51ef801d79cb83f35ef484bd7832f81574171394376d"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "bc73154e7ecb0a1f0a72344f86ff1e16c4eadaf9f1f82caf28f5160482027d8c"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+      "sha256": "0d09940a42884143147c6ac9175b24aad102f8c9bf525323c12b576ffd17598a"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "b7a6f278b535e308d5f8cac340de3d61a1b18abc240691ea344d91394de79734"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "a1a6896842057b2e75fd616540d8fb5767e28fb75b9dd1efd44eaaa7029d7887"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "2649448c0121268d5ecddb9b78357ff3ae8a18e2fd8d19c9b0157acd898e86e8"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+      "sha256": "f52c3805c4cad32a65f66da291e8ab5226186d0877b8762fc0f47067c33aa8fc"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "a12e9fe501cb580b2566cfeb72059b4321374882d52cfd6894f2aca6d0a454d2"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "463508e377efceacce7a99e4cec72371dc71c50b5fb06c0f3dacdf2127305720"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "c641056da91133df64334fd05b2dd073fca2afb667f8ef706f11b4ef8c75318b"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+      "sha256": "98996ada54e2d0341152136a09385056f8fee38951732dac345bf6d86ebd827a"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "826de89e945dd79ef3738f3608648d22b3e1bedeb4b9dbf540f844fce5f5412f"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "1e65831d45604a1e26034817aac4a436ee110237f0541e6ac3c6319a7382e03c"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "4a85d3213e01ba82705e4074f0772da007c17b7318be48b0983f7f7f20b037b4"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+      "sha256": "92eab8f79c7acea68092818cbf690f59cfde556e09b3d8cad9eac2ea422373d0"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+      "sha256": "f34a83ecf034bc8fe57064fc367b099a508c6ccb075b2ad330c3cc1792cb5133"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+      "sha256": "539ea98ebb2cda71f164d85f9a2a029a6a86af3f793a2d44e820d1d18ac833cb"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+      "sha256": "66824f9c28790b525f51f99da8977b95d8cc4969d373a99301bd257fd0809945"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+    }
+  ],
+  "reports": [
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/summary.json"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/coverage.json"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/pam_validation.json"
+    }
+  ],
+  "resource_budget": {
+    "additional_disk_bytes": 12884901888,
+    "gpu": 0,
+    "max_active_seconds": 86400,
+    "peak_vram_bytes": 8589934592
+  },
+  "resume": {
+    "autoresume": "",
+    "behavior": "atomic per-clip cache bound to input/model hashes; no duplicate completed score",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/home/kojiek/MeanAudio/runtime/meva_20261003/pause_progress.json"
+  },
+  "run_id": "run-20261003-095",
+  "schema_version": 1,
+  "storage": {
+    "cleanup": "none; audio and checkpoints immutable",
+    "estimated_peak_additional_bytes": 12884901888,
+    "hard_stop_free_bytes": 53687091200,
+    "path": "/home/kojiek/MeanAudio/runtime/meva_20261003",
+    "warning_free_bytes": 85899345920
+  },
+  "watcher": {
+    "automatic_repair": false,
+    "poll_seconds": 2,
+    "stall_seconds": 1800
+  }
+}

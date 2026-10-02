@@ -1,0 +1,35 @@
+diff --git a/scripts/features/extract_sae_features.py b/scripts/features/extract_sae_features.py
+index bbd4845..8b03451 100644
+--- a/scripts/features/extract_sae_features.py
++++ b/scripts/features/extract_sae_features.py
+@@ -74,7 +74,7 @@ def main() -> int:
+             f"Missing SAE checkpoint files in {checkpoint_dir}: {missing}. "
+             "Run: bash phase7_release/scripts/run/setup_sae_musicdiscovery.sh"
+         )
+-    output_dir = sae_cfg.get("output_dir", features/sae")
++    output_dir = sae_cfg.get("output_dir", "features/sae")
+     output_dir = output_dir if os.path.isabs(output_dir) else os.path.join(project_root, output_dir)
+ 
+     if known.gpu_ids:
+diff --git a/scripts/features/extract_sae_features_musicdiscovery.py b/scripts/features/extract_sae_features_musicdiscovery.py
+index 0318e8d..6597500 100644
+--- a/scripts/features/extract_sae_features_musicdiscovery.py
++++ b/scripts/features/extract_sae_features_musicdiscovery.py
+@@ -423,7 +423,7 @@ def main():
+             print(f"[{args.split}] Using CSV from runtime config: {csv_path}")
+ 
+     if csv_path is None:
+-        manifests_dir = os.path.join(project_root, data_cfg.get("manifests_dir", data/manifests"))
++        manifests_dir = os.path.join(project_root, data_cfg.get("manifests_dir", "data/manifests"))
+         dataset_name = data_cfg.get("dataset_name", "musiceval")
+         csv_name = f"{dataset_name}_{splits_label}_{args.split}.csv"
+         candidates = [
+@@ -458,7 +458,7 @@ def main():
+         dataset_name = data_cfg.get("dataset_name", "musiceval")
+         out_dir = os.path.join(
+             project_root,
+-            sae_cfg.get("output_dir", outputs/full/features/sae"),
++            sae_cfg.get("output_dir", "outputs/full/features/sae"),
+             dataset_name,
+             splits_label,
+         )

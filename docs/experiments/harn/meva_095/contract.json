@@ -1,0 +1,181 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "a3cec02a3e333e2d543aebf9244295812310d4e8dfb546d7724dc2d171536f4b",
+    "policy_bundle_sha256": "684472fe16ba465487e1ccfa8e2ce307c56800a11b73d354d22e7fd1db1c3e7a",
+    "runtime_sha256": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/097_meva_promptcc_shadow.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/097_meva_promptcc_shadow.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
+        "--preflight"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
+        "--validate-only"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_contract.json",
+        "sha256": "d588b8d0444b8ccf956baee862fdd5a3088f2b0139b18682986a3f1fdf4f5396"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/manifest.json",
+        "sha256": "f6ffc3ea19b0da4f027c81acca787a8d4ba5c6baf1b25e5526600c53715ee778"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/coverage.json",
+        "sha256": "97d653b10f45229699e64b2358a96f115d76e5a3db35e1da7afb1f702005fe6c"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/acceptance.json",
+        "sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt",
+        "sha256": "ee529270b371a57d1a01cf14d1e067f1a302f3a0ea525d362aa9f2364f9e0f3c"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_model_lock.json",
+        "sha256": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "meva095-shadow-20261003",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003",
+      "peak_additional_bytes": 12884901888,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 104857600,
+      "warning_floor_bytes": 85899345920
+    }
+  ],
+  "notification_events": [
+    "registration",
+    "start",
+    "preflight-pass",
+    "external-pam-gate",
+    "postflight-pass",
+    "terminal",
+    "pause",
+    "handoff",
+    "storage-warning",
+    "hard-stop",
+    "stall",
+    "gpu-idle"
+  ],
+  "phases": [
+    {
+      "action_id": "launch",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
+          "sha256": "44803bec6194cd56777e5ccdfd5bf95bd9c4d9e58342a0c580d6a9b9e3da30cf"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_contract.json",
+          "sha256": "d588b8d0444b8ccf956baee862fdd5a3088f2b0139b18682986a3f1fdf4f5396"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/manifest.json",
+          "sha256": "f6ffc3ea19b0da4f027c81acca787a8d4ba5c6baf1b25e5526600c53715ee778"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/coverage.json",
+          "sha256": "97d653b10f45229699e64b2358a96f115d76e5a3db35e1da7afb1f702005fe6c"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/acceptance.json",
+          "sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt",
+          "sha256": "ee529270b371a57d1a01cf14d1e067f1a302f3a0ea525d362aa9f2364f9e0f3c"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_model_lock.json",
+          "sha256": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/summary.json",
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/coverage.json",
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/pam_validation.json"
+      ],
+      "phase_id": "external-validity-and-shadow-rescore",
+      "resume_action_id": "resume"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "run_id": "run-20261003-095",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}
