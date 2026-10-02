@@ -3,18 +3,18 @@
     "approver_id": "responsible-operator",
     "bindings": {
       "command_set_sha256": "a3cec02a3e333e2d543aebf9244295812310d4e8dfb546d7724dc2d171536f4b",
-      "contract_raw_sha256": "9b021a5cbd48e6e77e340e21a19951afb68385fc4664886f0cb5aaaef9ee9dca",
+      "contract_raw_sha256": "4e50853e88d155de4420528cbf3100b8e211c3dd9db078bc0f7ba755356ba140",
       "policy_bundle_sha256": "684472fe16ba465487e1ccfa8e2ce307c56800a11b73d354d22e7fd1db1c3e7a",
       "repair_envelope_sha256": null,
-      "runtime_sha256": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e",
+      "runtime_sha256": "c3049ff05f94e0d3c1d39f62ecd2d1ae9e0b7cfc88416fb8ac5359f2da527142",
       "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
     },
     "channel_record_id": "codex-meva095-20261003",
     "channel_record_sha256": "ee529270b371a57d1a01cf14d1e067f1a302f3a0ea525d362aa9f2364f9e0f3c",
     "evidence_id": "approval-meva095-20261003",
     "experiment_id": "meva095-shadow-20261003",
-    "expires_at": "2026-10-09T18:45:51.320037+00:00",
-    "issued_at": "2026-10-02T18:45:51.320026+00:00",
+    "expires_at": "2026-10-09T18:49:54.423453+00:00",
+    "issued_at": "2026-10-02T18:49:54.423443+00:00",
     "run_id": "run-20261003-095",
     "source_kind": "trusted_operator_record",
     "trusted_channel": "operator_console"
@@ -22,56 +22,56 @@
   "checks": [
     {
       "check_id": "policy",
-      "evidence_sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a",
-      "observed_at": "2026-10-02T18:45:51.320026+00:00",
-      "valid_until": "2026-10-09T18:45:51.320037+00:00",
+      "evidence_sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8",
+      "observed_at": "2026-10-02T18:49:54.423443+00:00",
+      "valid_until": "2026-10-09T18:49:54.423453+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "provenance",
-      "evidence_sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a",
-      "observed_at": "2026-10-02T18:45:51.320026+00:00",
-      "valid_until": "2026-10-09T18:45:51.320037+00:00",
+      "evidence_sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8",
+      "observed_at": "2026-10-02T18:49:54.423443+00:00",
+      "valid_until": "2026-10-09T18:49:54.423453+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "storage",
-      "evidence_sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a",
-      "observed_at": "2026-10-02T18:45:51.320026+00:00",
-      "valid_until": "2026-10-09T18:45:51.320037+00:00",
+      "evidence_sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8",
+      "observed_at": "2026-10-02T18:49:54.423443+00:00",
+      "valid_until": "2026-10-09T18:49:54.423453+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "notification",
-      "evidence_sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a",
-      "observed_at": "2026-10-02T18:45:51.320026+00:00",
-      "valid_until": "2026-10-09T18:45:51.320037+00:00",
+      "evidence_sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8",
+      "observed_at": "2026-10-02T18:49:54.423443+00:00",
+      "valid_until": "2026-10-09T18:49:54.423453+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "queue",
-      "evidence_sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a",
-      "observed_at": "2026-10-02T18:45:51.320026+00:00",
-      "valid_until": "2026-10-09T18:45:51.320037+00:00",
+      "evidence_sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8",
+      "observed_at": "2026-10-02T18:49:54.423443+00:00",
+      "valid_until": "2026-10-09T18:49:54.423453+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "watcher",
-      "evidence_sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a",
-      "observed_at": "2026-10-02T18:45:51.320026+00:00",
-      "valid_until": "2026-10-09T18:45:51.320037+00:00",
+      "evidence_sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8",
+      "observed_at": "2026-10-02T18:49:54.423443+00:00",
+      "valid_until": "2026-10-09T18:49:54.423453+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "acceptance",
-      "evidence_sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a",
-      "observed_at": "2026-10-02T18:45:51.320026+00:00",
-      "valid_until": "2026-10-09T18:45:51.320037+00:00",
+      "evidence_sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8",
+      "observed_at": "2026-10-02T18:49:54.423443+00:00",
+      "valid_until": "2026-10-09T18:49:54.423453+00:00",
       "verdict": "pass"
     }
   ],
-  "contract_raw_sha256": "9b021a5cbd48e6e77e340e21a19951afb68385fc4664886f0cb5aaaef9ee9dca",
-  "created_at": "2026-10-02T18:45:51.320026+00:00",
+  "contract_raw_sha256": "4e50853e88d155de4420528cbf3100b8e211c3dd9db078bc0f7ba755356ba140",
+  "created_at": "2026-10-02T18:49:54.423443+00:00",
   "derived_verdict": "pass",
   "document_kind": "preflight_report",
   "experiment_id": "meva095-shadow-20261003",
@@ -80,9 +80,9 @@
   "schema_version": "1.0.0",
   "storage": [
     {
-      "free_bytes": 301391720448,
+      "free_bytes": 301381292032,
       "hard_floor_bytes": 53687091200,
-      "measured_at": "2026-10-02T18:45:51.320026+00:00",
+      "measured_at": "2026-10-02T18:49:54.423443+00:00",
       "path": "/home/kojiek/MeanAudio/runtime/meva_20261003",
       "peak_additional_bytes": 12884901888,
       "recovery_reserve_bytes": 53687091200,

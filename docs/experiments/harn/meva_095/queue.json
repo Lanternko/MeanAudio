@@ -4,9 +4,9 @@
     {
       "assigned_resource": null,
       "bindings": {
-        "contract_raw_sha256": "9b021a5cbd48e6e77e340e21a19951afb68385fc4664886f0cb5aaaef9ee9dca",
-        "ledger_raw_sha256": "7641d816837533e52ff77e389f2835b54090e338a949ce68e42f1f86a7e24467",
-        "preflight_report_raw_sha256": "4863916a408ea1232b96cefe099630545333e554f60e265caef83a4d6a12bed6",
+        "contract_raw_sha256": "4e50853e88d155de4420528cbf3100b8e211c3dd9db078bc0f7ba755356ba140",
+        "ledger_raw_sha256": "68d20ea468577a0a78f6117c38fbdc606936926f142a0e61fbb56539d9f85a0c",
+        "preflight_report_raw_sha256": "14f3d761cd7a0549cbef77800cdc62ada97d20bb9884843cc28a3cc79d2f5814",
         "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
       },
       "dependencies": [],
@@ -21,5 +21,5 @@
   "queue_id": "p2-meva097",
   "schema_bundle_id": "harn-schema-v1",
   "schema_version": "1.0.0",
-  "updated_at": "2026-10-02T18:45:51.320026+00:00"
+  "updated_at": "2026-10-02T18:49:54.423443+00:00"
 }

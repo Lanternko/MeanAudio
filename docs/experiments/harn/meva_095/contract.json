@@ -9,7 +9,7 @@
   "bindings": {
     "command_set_sha256": "a3cec02a3e333e2d543aebf9244295812310d4e8dfb546d7724dc2d171536f4b",
     "policy_bundle_sha256": "684472fe16ba465487e1ccfa8e2ce307c56800a11b73d354d22e7fd1db1c3e7a",
-    "runtime_sha256": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e",
+    "runtime_sha256": "c3049ff05f94e0d3c1d39f62ecd2d1ae9e0b7cfc88416fb8ac5359f2da527142",
     "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
   },
   "commands": [
@@ -69,7 +69,7 @@
     "source_artifacts": [
       {
         "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_contract.json",
-        "sha256": "d588b8d0444b8ccf956baee862fdd5a3088f2b0139b18682986a3f1fdf4f5396"
+        "sha256": "181767e3e9763c70b34a9aea005e9f6fc310493ffcad20d728b4d611e62550d4"
       },
       {
         "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/manifest.json",
@@ -81,7 +81,7 @@
       },
       {
         "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/acceptance.json",
-        "sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a"
+        "sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8"
       },
       {
         "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt",
@@ -131,7 +131,7 @@
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_contract.json",
-          "sha256": "d588b8d0444b8ccf956baee862fdd5a3088f2b0139b18682986a3f1fdf4f5396"
+          "sha256": "181767e3e9763c70b34a9aea005e9f6fc310493ffcad20d728b4d611e62550d4"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/manifest.json",
@@ -143,7 +143,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/acceptance.json",
-          "sha256": "199233327b6ec70e0f9cb0ca7ee79dcfc76d18ae69162d677883b5163370cd0a"
+          "sha256": "1992e14855017332a1fcaf47855f86a0193b08c584e03b6478e1d19f6a4bc9b8"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt",

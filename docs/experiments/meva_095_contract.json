@@ -5,7 +5,7 @@
     "action": "/home/kojiek/MeanAudio/scripts/eval/meva_promptcc.py",
     "action_sha256": "44803bec6194cd56777e5ccdfd5bf95bd9c4d9e58342a0c580d6a9b9e3da30cf",
     "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_guest.py",
-    "harn_sha256": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e",
+    "harn_sha256": "c3049ff05f94e0d3c1d39f62ecd2d1ae9e0b7cfc88416fb8ac5359f2da527142",
     "launcher": "/home/kojiek/gpu_queue/p2/pending/097_meva_promptcc_shadow.sh",
     "launcher_sha256": "8321c8046436acbd136cf77b771ffff91ba25c7d7fa68e33675adfc564746451"
   },
@@ -33,7 +33,7 @@
   "dependencies": [],
   "document_kind": "eval_only_meva_shadow_contract",
   "experiment_id": "meva095-shadow-20261003",
-  "git_revision": "0e4fa633ed4871ad669ea22c6b871fc57c655cbf",
+  "git_revision": "46827abb446684a70858202b0ee361ab14738ecb",
   "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095",
   "launch_allowed": true,
   "launch_authorization": {
@@ -106,7 +106,7 @@
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_guest.py",
-      "sha256": "0ccd0fc3ce68745d049706d88bc567af1228e8848e825da9a1fd9f5165e8205e"
+      "sha256": "c3049ff05f94e0d3c1d39f62ecd2d1ae9e0b7cfc88416fb8ac5359f2da527142"
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/eval/meva_runtime.py",
@@ -114,7 +114,7 @@
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_events.py",
-      "sha256": "fbcad346914d5778fa981d9f019aaf9b012570b39cf60287cfb142a4d16c4b54"
+      "sha256": "ba10cdb711a978476a3ba2c5fd154e8cdfc5083b2023d9294371129534b1d59f"
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/preflight_capture.py",
