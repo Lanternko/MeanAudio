@@ -1,0 +1,33 @@
+{
+  "after": {
+    "pending": [
+      "096_aes-negmf-other-source-20261003.sh",
+      "097_meva_promptcc_shadow.sh"
+    ],
+    "running": [
+      "095_aes-negmf-formal-recovery-20261003.sh"
+    ]
+  },
+  "before": {
+    "pending": [
+      "096_aes-negmf-other-source-20261003.sh"
+    ],
+    "running": [
+      "095_aes-negmf-formal-recovery-20261003.sh"
+    ]
+  },
+  "contract_path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_contract.json",
+  "contract_sha256": "181767e3e9763c70b34a9aea005e9f6fc310493ffcad20d728b4d611e62550d4",
+  "launch_eligible": true,
+  "operation": "append_tail",
+  "operator_record": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt",
+  "receipt": {
+    "event": "registration",
+    "path": "/home/kojiek/gpu_queue/notification_receipts/meva095-shadow-20261003/registration.json",
+    "status": "success"
+  },
+  "source": "/home/kojiek/MeanAudio/runtime/meva_20261003/097_meva_promptcc_shadow.sh",
+  "status": "registered",
+  "target": "/home/kojiek/gpu_queue/p2/pending/097_meva_promptcc_shadow.sh",
+  "written_at": "2026-10-02T18:50:59Z"
+}

@@ -18,6 +18,32 @@
       "relates_to_event_id": null,
       "sequence": 1,
       "verdict": "none"
+    },
+    {
+      "event_id": "registration",
+      "event_kind": "gate_result",
+      "event_sha256": "6bf0653fc6ee2d16ba02753e74bd66dc852eb00e30cc593e5e8e68f53ffe1386",
+      "idempotency_key": "meva095-shadow-20261003:registration",
+      "notification_status": "pending",
+      "occurred_at": "2026-10-02T18:50:59Z",
+      "phase": "shadow-evaluation",
+      "previous_event_sha256": "cdd1699a896100b7ab9380ab8703abcecfab9648c39195018203a26a62bf8c7a",
+      "relates_to_event_id": null,
+      "sequence": 2,
+      "verdict": "pass"
+    },
+    {
+      "event_id": "registration-notification-delivered",
+      "event_kind": "notification_delivery",
+      "event_sha256": "637050b9c50de568a38b242dc544026ddacea64e2f795fd18c5f9e018f112bc3",
+      "idempotency_key": "meva095-shadow-20261003:registration-notification-delivered",
+      "notification_status": "delivered",
+      "occurred_at": "2026-10-02T18:50:59Z",
+      "phase": "shadow-evaluation",
+      "previous_event_sha256": "6bf0653fc6ee2d16ba02753e74bd66dc852eb00e30cc593e5e8e68f53ffe1386",
+      "relates_to_event_id": "registration",
+      "sequence": 3,
+      "verdict": "none"
     }
   ],
   "experiment_id": "meva095-shadow-20261003",
