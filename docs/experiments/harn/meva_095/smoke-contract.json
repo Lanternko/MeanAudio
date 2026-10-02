@@ -1,0 +1,16 @@
+{
+  "experiment_id": "meva095-smoke-20261003",
+  "kind": "secondary-runtime-parity-pilot",
+  "generation": false,
+  "inputs": "first sorted clip from each of first three generated PAM systems, frozen manifest",
+  "candidate": "pooled-small-f03",
+  "parity_abs_max": 0.0001,
+  "repeat_abs_max": 0.0001,
+  "gpu": 0,
+  "resource_owner": "nonblocking gpu0.lock; abort if queue work or foreign compute above queue threshold",
+  "maximum_duration_seconds": 1800,
+  "phases": ["imports and strict load", "real audio adapter vs official extraction", "repeatability", "atomic smoke report"],
+  "branches": {"pass": "prepare long-run registration", "fail": "repair isolated runtime; no full rescore", "invalid": "hold before full rescore"},
+  "notifications": "notify_lib start and terminal trap",
+  "approval_record": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_095/operator_request.txt"
+}

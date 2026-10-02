@@ -1,0 +1,99 @@
+{
+  "candidate": "pooled/small/f03_sae_only_cnn_clean_best.pth",
+  "checkpoint_revision": "c536169ac98b16449f3aa3be6355bf5620c1466b",
+  "files": [
+    {
+      "path": "/home/kojiek/MeanAudio/.external/MEva/lib/repro/audio_window.py",
+      "sha256": "b30a50be5b994654f24c05b4f2a82336160fcd31a0eb10d248bf1474461ea086"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/.external/MEva/training/hybrid/train_cnn.py",
+      "sha256": "1bc6446b4f5bdfbded238cb40df3f93685d216c9efc8653f100e6c57ccd8d09d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/.external/musicdiscovery/sae_components/musicgen_hooked.py",
+      "sha256": "13c12cdb4bcdad5f3e571f6b32a019dbbf07c41eed08f7f0fc174fb28c1b4694"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--bert-base-uncased/blobs/45a2321a7ecfdaaf60a6c1fd7f5463994cc8907d",
+      "sha256": "7160e1553ad2ca51d8c1cb066be533db31826e12d173824c1bb0cb1a4f187d20"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--bert-base-uncased/blobs/949a6f013d67eb8a5b4b5b46026217b888021b88",
+      "sha256": "ce64fce797c24f68df90b40a3f74f579b336a493db14bd583fd520ea0d8c9a98"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--bert-base-uncased/blobs/e5c73d8a50df1f56fb5b0b8002d7cf4010afdccb",
+      "sha256": "a025160ef0431f1a392f6f050c1310f4c5d9fb6f275932dbccba73c4d214bf10"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--roberta-base/blobs/8db5e7ac5bfc9ec8b613b776009300fe3685d957",
+      "sha256": "ef0185e2aae6e06c5f105a285006952c340e20c7dbf43c86ec82601b13fc45e9"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--roberta-base/blobs/ad0bcbeb288f0d1373d88e0762e66357f55b8311",
+      "sha256": "847bbeab6174d66a88898f729d52fa8d355fafe1bea101cf960dd404581df70e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--roberta-base/blobs/34ddbd64a4cd3f2d9d8a9120d3662d0bf91baead",
+      "sha256": "994f46754c5bf4014f1aa92d34b1374319c3a6b3f702105cd5b742beaecd18ce"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--roberta-base/blobs/5606f48548d99a9829d10a96cd364b816b02cd21",
+      "sha256": "9e7f63c2d15d666b52e21d250d2e513b87c9b713cfa6987a82ed89e5e6e50655"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--t5-base/blobs/c360f5f4046ca9d7f2ea7d098126ecabc596fbe5",
+      "sha256": "46dd7cb62d29c81fb551e0ef1ea274c24a46ba441eeb948897706252933df033"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--t5-base/blobs/ab97165968edc4aacd30554d18d7beca7f18b3a83e1a47abbad29792d984651f",
+      "sha256": "ab97165968edc4aacd30554d18d7beca7f18b3a83e1a47abbad29792d984651f"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--t5-base/blobs/4e28ff6ebdf584f5372d9de68867399142435d9a",
+      "sha256": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--t5-base/blobs/41911369be79611d82d152725113e66206bd7b79",
+      "sha256": "d2acde0d8d71dd30a711834b07781b9c89feaac33fd332f60507699282740066"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/models/musicgen/compression_state_dict.bin",
+      "sha256": "37d256b525d4117f8bbf790ab448a8e9f4746cd401900fe1ae72e154b1513a30"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/models/musicgen/state_dict.bin",
+      "sha256": "830fe5771e2835cbd305f3ffdda22d3ff38718fbbe8274bd19dc203265de7244"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/models/pooled/small/f03_sae_only_cnn_clean_best.pth",
+      "sha256": "6cc618e4a68066ca20e070b105afa09e35abec1d46ad45b4677f7503ebdbf459"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/models/sae/cfg.json",
+      "sha256": "f2227b7881723eb599d71a299679d16dd6723afc8d32ce084b05370bd8fd9f97"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/models/sae/sae_weights.safetensors",
+      "sha256": "f331d4317967dfa24af84cc46d4b562db46167e57016f1e0fc168d4678603069"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/meva_20261003/models/sae/sparsity.safetensors",
+      "sha256": "0eade8fd99cf703e628b2cbeef4081b7d3dc4d28835fd74734ff4e1315c26057"
+    }
+  ],
+  "hook": "hook_layers.11",
+  "meva_revision": "93fdc17fd324b5a7ba8ad56292aa77538f7717c2",
+  "musicdiscovery_revision": "a378cbb264f409c5b79413e78e7f2f10f19a45dc",
+  "musicgen_revision": "4c8334b02c6ec4e8664a91979669a501ec497792",
+  "precision": "MusicGen native fp16 autocast; SAE/CNN fp32; torch attention backend",
+  "sae": "sae-4_k_32_11/facebook/musicgen-small",
+  "sae_dim": 4096,
+  "score_scale": "raw pretrained output; no clipping, rescaling or label fitting",
+  "t5": {
+    "repo": "t5-base",
+    "revision": "a9723ea7f1b39c1eae772870f3b547bf6ef7e6c1",
+    "snapshot": "/home/kojiek/MeanAudio/runtime/meva_20261003/hf-cache/hub/models--t5-base/snapshots/a9723ea7f1b39c1eae772870f3b547bf6ef7e6c1"
+  }
+}

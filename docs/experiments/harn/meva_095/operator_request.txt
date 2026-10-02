@@ -1,0 +1,4 @@
+Authenticated source: current Codex chat, operator console, 2026-10-03 Asia/Taipei.
+User: 設計實驗 並按照正式的架設步驟上線
+User correction: 嗯？你自己在 MeanAudio 專案裡面找啊？你 work 錯資料夾了
+Scope: locate existing PromptCC results in MeanAudio, design and deploy MEva shadow evaluation using existing formal runtime/queue. No authorization to change prior scientific contracts, kill unrelated services, delete audio or automatically replace AES.
