@@ -41,5 +41,5 @@ def notify(contract, script, event, status, summary, kind='gate_result', verdict
         append(contract,event+'-notification-failed','notification_delivery',relation=event,notification='failed')
         raise
     append(contract,event+'-notification-delivered','notification_delivery',relation=event,notification='delivered',
-           state={'experiment_completed':'completed','experiment_failed':'failed','experiment_interrupted':'interrupted'}.get(kind))
+           state={'experiment_started':'active','experiment_completed':'completed','experiment_failed':'failed','experiment_interrupted':'interrupted'}.get(kind))
     return {'path':str(path),'event':event,'status':status}

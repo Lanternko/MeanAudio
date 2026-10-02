@@ -142,7 +142,9 @@ def main():
                             'MEva095 preflight PASS: bound inputs/runtime and storage. Next: shadow scoring.')
                 append(c, 'preflight-passed', 'preflight_passed', verdict='pass')
                 append(c, 'resources-acquired', 'resources_acquired')
-                append(c, 'experiment-started', 'experiment_started', state='active')
+                notify(c, script, 'start', 'start',
+                       'MEva095 scoring child launch: exact P2 seat and raw-hash preflight verified; shadow mode.',
+                       kind='experiment_started', verdict='none')
                 child = subprocess.Popen(c['commands']['run'], start_new_session=True)
                 last, changed = progress(c), time.monotonic()
             rc = child.poll()
