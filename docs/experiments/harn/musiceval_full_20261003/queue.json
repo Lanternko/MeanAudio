@@ -5,7 +5,7 @@
       "assigned_resource": null,
       "bindings": {
         "contract_raw_sha256": "693d10e11845c02aaa1a531c09bcf417f183fff1cda31b7f49230a56b2f49554",
-        "ledger_raw_sha256": "113b986e2541a5ba2df5c78ec7a748588e96507e0ed59039e796fbea1e52cce7",
+        "ledger_raw_sha256": "a5f32640305b77f7c898e0c029f24eda9962abfa41d948e551ca243020fdf32c",
         "preflight_report_raw_sha256": "89bec3f513d34c1e4278c620d78ca872ffa4d10a730d822ae97481db2cde9c37",
         "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
       },
@@ -14,12 +14,12 @@
       "experiment_id": "musiceval-full-20261003",
       "position": 1,
       "run_id": "run-20261003-musiceval100",
-      "status": "ready",
-      "terminal_notification_status": "not_applicable"
+      "status": "completed",
+      "terminal_notification_status": "delivered"
     }
   ],
   "queue_id": "p2-musiceval100",
   "schema_bundle_id": "harn-schema-v1",
   "schema_version": "1.0.0",
-  "updated_at": "2026-10-03T12:55:46.160142+00:00"
+  "updated_at": "2026-10-03T13:02:37Z"
 }

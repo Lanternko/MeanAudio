@@ -1,0 +1,248 @@
+{
+  "aes_replaced": false,
+  "aes_source": "existing full-corpus frozen raw AES scores; no retraining or calibration",
+  "bootstrap": {
+    "repeats": 2000,
+    "seed": 20261003,
+    "unit": "prompt"
+  },
+  "caveat": "AES S013_P013 used first90s; MEva uses full349s. Report excluding this clip separately.",
+  "exclude_aes_90s_exception": {
+    "CE": {
+      "alignment_pearson": 0.5024873742792838,
+      "max": 8.4314,
+      "mean": 6.303179286494358,
+      "min": 1.805,
+      "n": 2747,
+      "pearson": 0.6595088367516843,
+      "spearman": 0.6824094026071911,
+      "std": 1.3541865211737452,
+      "system_mean_spearman": 0.9129032258064517,
+      "within_system_pearson": 0.483597866395795
+    },
+    "CU": {
+      "alignment_pearson": 0.49688118874034576,
+      "max": 8.4741,
+      "mean": 6.870624099017109,
+      "min": 2.3365,
+      "n": 2747,
+      "pearson": 0.6601174475809464,
+      "spearman": 0.6920820033659949,
+      "std": 1.2087973832120202,
+      "system_mean_spearman": 0.878225806451613,
+      "within_system_pearson": 0.48451704671301915
+    },
+    "MEva": {
+      "alignment_pearson": 0.7887635098935439,
+      "max": 5.140655517578125,
+      "mean": 3.332186602834445,
+      "min": 1.0419127941131592,
+      "n": 2747,
+      "pearson": 0.8620070940298793,
+      "spearman": 0.864761030336596,
+      "std": 0.717854264035665,
+      "system_mean_spearman": 0.9786290322580646,
+      "within_system_pearson": 0.7080540887422339
+    },
+    "PQ": {
+      "alignment_pearson": 0.4235311362745667,
+      "max": 8.6187,
+      "mean": 6.999803749544958,
+      "min": 3.4128,
+      "n": 2747,
+      "pearson": 0.625147712314683,
+      "spearman": 0.6562631598381264,
+      "std": 1.0136606686451481,
+      "system_mean_spearman": 0.8399193548387098,
+      "within_system_pearson": 0.43173484939661133
+    }
+  },
+  "full": {
+    "CE": {
+      "alignment_pearson": 0.502647539883589,
+      "max": 8.4314,
+      "mean": 6.303584024745271,
+      "min": 1.805,
+      "n": 2748,
+      "pearson": 0.6595897108562105,
+      "pearson_ci95": [
+        0.6338764075103874,
+        0.6836811492039596
+      ],
+      "spearman": 0.682500134657246,
+      "spearman_ci95": [
+        0.6573853325522282,
+        0.7058027609670579
+      ],
+      "std": 1.3541062732306424,
+      "system_mean_spearman": 0.9076612903225807,
+      "within_system_pearson": 0.484072752300221
+    },
+    "CU": {
+      "alignment_pearson": 0.49711333164079113,
+      "max": 8.4741,
+      "mean": 6.871113755458515,
+      "min": 2.3365,
+      "n": 2748,
+      "pearson": 0.6602148595154131,
+      "pearson_ci95": [
+        0.6339768487691143,
+        0.6849885646120135
+      ],
+      "spearman": 0.6921533779666792,
+      "spearman_ci95": [
+        0.667870460393868,
+        0.7147954509047884
+      ],
+      "std": 1.2088498727588184,
+      "system_mean_spearman": 0.875,
+      "within_system_pearson": 0.4850225251853723
+    },
+    "MEva": {
+      "alignment_pearson": 0.7888406572900831,
+      "max": 5.140655517578125,
+      "mean": 3.332433142603051,
+      "min": 1.0419127941131592,
+      "n": 2748,
+      "pearson": 0.8620413541151599,
+      "pearson_ci95": [
+        0.8492764671819364,
+        0.8745634760457666
+      ],
+      "spearman": 0.8647820601548685,
+      "spearman_ci95": [
+        0.8519491167850115,
+        0.8772189772046189
+      ],
+      "std": 0.7178399463642291,
+      "system_mean_spearman": 0.9806451612903228,
+      "within_system_pearson": 0.7081320238541283
+    },
+    "PQ": {
+      "alignment_pearson": 0.4238189565221869,
+      "max": 8.6187,
+      "mean": 7.00024847161572,
+      "min": 3.4128,
+      "n": 2748,
+      "pearson": 0.625259415685209,
+      "pearson_ci95": [
+        0.5995642749244345,
+        0.6497303260293343
+      ],
+      "spearman": 0.6564053858505637,
+      "spearman_ci95": [
+        0.6322844899651845,
+        0.6791688302599459
+      ],
+      "std": 1.0137442159466086,
+      "system_mean_spearman": 0.8395161290322581,
+      "within_system_pearson": 0.4323442396732538
+    }
+  },
+  "manifest_sha256": "d7c3bacf151f9b6585f1c3f08c6c646c6653e38c4805af71232fe4e12e4e5666",
+  "meva_minus_aes": {
+    "CE": {
+      "delta_spearman": 0.18228192549762245,
+      "simultaneous_ci95": [
+        0.1541471297481348,
+        0.21261280636913993
+      ]
+    },
+    "CU": {
+      "delta_spearman": 0.17262868218818928,
+      "simultaneous_ci95": [
+        0.14760158509673385,
+        0.19897052215901873
+      ]
+    },
+    "PQ": {
+      "delta_spearman": 0.20837667430430473,
+      "simultaneous_ci95": [
+        0.18391620500621542,
+        0.2345532259613192
+      ]
+    }
+  },
+  "model_binding": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da",
+  "n_scored": 2748,
+  "n_systems": 31,
+  "same_prompt_pairs_shared_2500": {
+    "CE": {
+      "agreement": 0.7695592091276309,
+      "human_ties_excluded": 1778,
+      "model_ties_half_credit": true,
+      "n_pairs": 28222
+    },
+    "CU": {
+      "agreement": 0.7691162922542697,
+      "human_ties_excluded": 1778,
+      "model_ties_half_credit": true,
+      "n_pairs": 28222
+    },
+    "MEva": {
+      "agreement": 0.8676210048898023,
+      "human_ties_excluded": 1778,
+      "model_ties_half_credit": true,
+      "n_pairs": 28222
+    },
+    "PQ": {
+      "agreement": 0.7554213025299412,
+      "human_ties_excluded": 1778,
+      "model_ties_half_credit": true,
+      "n_pairs": 28222
+    }
+  },
+  "scope": "full MusicEval descriptive in-domain; not official held-out or external validity",
+  "shared_2500": {
+    "CE": {
+      "alignment_pearson": 0.5217649222819871,
+      "max": 8.4314,
+      "mean": 6.30816508,
+      "min": 1.805,
+      "n": 2500,
+      "pearson": 0.6685700788746622,
+      "spearman": 0.6936378378406861,
+      "std": 1.3570930791425448,
+      "system_mean_spearman": 0.9184615384615386,
+      "within_system_pearson": 0.4739832933635354
+    },
+    "CU": {
+      "alignment_pearson": 0.5295457053471954,
+      "max": 8.4741,
+      "mean": 6.8905482000000005,
+      "min": 2.6102,
+      "n": 2500,
+      "pearson": 0.6828025092459119,
+      "spearman": 0.7080193370133038,
+      "std": 1.1885481837236387,
+      "system_mean_spearman": 0.9046153846153847,
+      "within_system_pearson": 0.4810171928088062
+    },
+    "MEva": {
+      "alignment_pearson": 0.7890742636250687,
+      "max": 5.063772201538086,
+      "mean": 3.2926471684455874,
+      "min": 1.0419127941131592,
+      "n": 2500,
+      "pearson": 0.8670028094812008,
+      "spearman": 0.871890139271767,
+      "std": 0.7299568945956403,
+      "system_mean_spearman": 0.9907692307692307,
+      "within_system_pearson": 0.7116038388741911
+    },
+    "PQ": {
+      "alignment_pearson": 0.4602866508611103,
+      "max": 8.6187,
+      "mean": 7.0300344400000006,
+      "min": 3.4128,
+      "n": 2500,
+      "pearson": 0.6535392546532989,
+      "spearman": 0.6753590901133917,
+      "std": 0.9861622444293263,
+      "system_mean_spearman": 0.86,
+      "within_system_pearson": 0.4208486028149438
+    }
+  },
+  "status": "completed",
+  "training_overlap": "MusicEval belongs to MEva training benchmarks; per-clip overlap unknown"
+}

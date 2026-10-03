@@ -1,0 +1,43 @@
+{
+  "all_MEva_cache_and_hash_bindings_match": true,
+  "diagnostic100_max_score_difference": 4.440892098500626e-16,
+  "independent_metrics": {
+    "CE": {
+      "pair_agreement": 0.7695592091276309,
+      "pair_count": 28222,
+      "pair_hits": 21718.5,
+      "pearson": 0.6595897108562104,
+      "spearman": 0.682500134657246,
+      "within_system_pearson": 0.4840727523002211
+    },
+    "CU": {
+      "pair_agreement": 0.7691162922542697,
+      "pair_count": 28222,
+      "pair_hits": 21706.0,
+      "pearson": 0.6602148595154128,
+      "spearman": 0.6921533779666792,
+      "within_system_pearson": 0.48502252518537264
+    },
+    "MEva": {
+      "pair_agreement": 0.8676210048898023,
+      "pair_count": 28222,
+      "pair_hits": 24486.0,
+      "pearson": 0.8620413541151593,
+      "spearman": 0.8647820601548685,
+      "within_system_pearson": 0.7081320238541283
+    },
+    "PQ": {
+      "pair_agreement": 0.7554213025299412,
+      "pair_count": 28222,
+      "pair_hits": 21319.5,
+      "pearson": 0.6252594156852087,
+      "spearman": 0.6564053858505636,
+      "within_system_pearson": 0.4323442396732539
+    }
+  },
+  "ledger_metadata_repair": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/ledger_metadata_repair.json",
+  "n_unique": 2748,
+  "original_human_labels_and_AES_exact": true,
+  "status": "passed",
+  "terminal_report_hashes_match": true
+}

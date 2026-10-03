@@ -1,0 +1,14 @@
+{
+  "before": {
+    "pending": [],
+    "running": []
+  },
+  "operation": "append_tail",
+  "receipt": {
+    "event": "registration",
+    "path": "/home/kojiek/gpu_queue/notification_receipts/musiceval-full-20261003/registration.json",
+    "status": "start"
+  },
+  "status": "registered",
+  "target": "/home/kojiek/gpu_queue/p2/pending/100_musiceval_full_20261003.sh"
+}
