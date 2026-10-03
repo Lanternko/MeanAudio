@@ -3,7 +3,7 @@
   "approval_required": true,
   "bindings": {
     "action": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-    "action_sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af",
+    "action_sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e",
     "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_expansion_20261004_guest.py",
     "harn_sha256": "0810a17b17b65ab5fd80e19943b8fc051c808bf793ed35d5f802c279996c671a",
     "launcher": "/home/kojiek/gpu_queue/p2/pending/103_meva_expansion_20261004.sh",
@@ -285,7 +285,7 @@
     "torchaudio": "2.11.0.dev20260127+cu128",
     "transformers": "4.57.3"
   },
-  "git_revision": "460317b238a82ef76bedeff85de23e39a732aed0",
+  "git_revision": "eb9fe16333ba2e9847965ed9e3b4bb77dde9950d",
   "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004",
   "launch_allowed": true,
   "launch_authorization": {
@@ -334,7 +334,8 @@
     "phase-generate-mf100k_noq_stage2_100000",
     "phase-generate-lpmc10k_noq_fast_stage2_50000",
     "phase-generate-lpmc100k_noq_stage2_100000",
-    "phase-score-generated"
+    "phase-score-generated",
+    "registration-r1"
   ],
   "package_versions": {
     "audiocraft": "1.3.0",
@@ -408,6 +409,9 @@
       "resume": "deterministic rebuild"
     }
   ],
+  "prelaunch_change": "Before first GPU launch, generation progress now requires audio-count or log-byte growth; add silent-generation stall and supervisor stall/budget fixtures. All scientific inputs, comparisons, hyperparameters and queue position remain identical.",
+  "prelaunch_revision": 1,
+  "previous_contract_sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282",
   "protocol": {
     "bootstrap_repeats": 2000,
     "bootstrap_seed": 20261004,
@@ -804,7 +808,7 @@
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-      "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+      "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/eval/meva_runtime.py",
@@ -836,7 +840,7 @@
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/tests/test_meva_expansion_20261004.py",
-      "sha256": "358d20c069401989e60cae82223d360593e14146226750521b1b67d6d1d54271"
+      "sha256": "e1e13b7a22662a4ad7866e51479792fcc4f6384432f9bffad84da2e18c3fe323"
     },
     {
       "path": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot0nm_action.sh",

@@ -69,7 +69,7 @@
     "source_artifacts": [
       {
         "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-        "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+        "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
       },
       {
         "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -81,7 +81,7 @@
       },
       {
         "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-        "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+        "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
       },
       {
         "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",
@@ -117,7 +117,8 @@
     "phase-generate-mf100k_noq_stage2_100000",
     "phase-generate-lpmc10k_noq_fast_stage2_50000",
     "phase-generate-lpmc100k_noq_stage2_100000",
-    "phase-score-generated"
+    "phase-score-generated",
+    "registration-r1"
   ],
   "phases": [
     {
@@ -125,13 +126,13 @@
       "completion_evidence": [
         {
           "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-          "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+          "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
         }
       ],
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-          "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+          "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -143,7 +144,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-          "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+          "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",
@@ -162,13 +163,13 @@
       "completion_evidence": [
         {
           "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-          "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+          "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
         }
       ],
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-          "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+          "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -180,7 +181,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-          "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+          "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",
@@ -199,13 +200,13 @@
       "completion_evidence": [
         {
           "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-          "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+          "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
         }
       ],
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-          "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+          "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -217,7 +218,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-          "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+          "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",
@@ -236,13 +237,13 @@
       "completion_evidence": [
         {
           "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-          "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+          "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
         }
       ],
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-          "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+          "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -254,7 +255,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-          "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+          "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",
@@ -273,13 +274,13 @@
       "completion_evidence": [
         {
           "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-          "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+          "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
         }
       ],
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-          "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+          "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -291,7 +292,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-          "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+          "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",
@@ -310,13 +311,13 @@
       "completion_evidence": [
         {
           "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-          "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+          "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
         }
       ],
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-          "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+          "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -328,7 +329,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-          "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+          "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",
@@ -346,13 +347,13 @@
       "completion_evidence": [
         {
           "path": "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py",
-          "sha256": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af"
+          "sha256": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e"
         }
       ],
       "input_artifacts": [
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/meva_expansion_20261004_contract.json",
-          "sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282"
+          "sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6"
         },
         {
           "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004/manifest.json",
@@ -364,7 +365,7 @@
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/acceptance.json",
-          "sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60"
+          "sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23"
         },
         {
           "path": "/home/kojiek/MeanAudio/docs/experiments/harn/meva_expansion_20261004/operator_request.txt",

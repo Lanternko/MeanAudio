@@ -3,7 +3,7 @@
     "approver_id": "responsible-operator",
     "bindings": {
       "command_set_sha256": "14835f2ca21935afa5d6d1ffb30179bd9bc22df06b6a7e0c84b6ecb9ba4ec8da",
-      "contract_raw_sha256": "3eea57bc5e3088a1878d353ff2332da93d0dc03af95c81c4fe59bf4970528bd1",
+      "contract_raw_sha256": "15694961d6e63df70eea6cbba66696c6b90b5bbf21715d2f7a77fcde2cb416a9",
       "policy_bundle_sha256": "684472fe16ba465487e1ccfa8e2ce307c56800a11b73d354d22e7fd1db1c3e7a",
       "repair_envelope_sha256": null,
       "runtime_sha256": "0810a17b17b65ab5fd80e19943b8fc051c808bf793ed35d5f802c279996c671a",
@@ -13,8 +13,8 @@
     "channel_record_sha256": "8a26f8ca289e6301ca281c37e762e07af91103f9fd3a4f01aa5a439374eb0996",
     "evidence_id": "approval-meva103-20261004",
     "experiment_id": "meva-expansion-20261004",
-    "expires_at": "2026-10-10T20:43:44.505470+00:00",
-    "issued_at": "2026-10-03T20:43:44.505458+00:00",
+    "expires_at": "2026-10-10T20:52:07.545783+00:00",
+    "issued_at": "2026-10-03T20:52:07.545763+00:00",
     "run_id": "run-20261004-meva103",
     "source_kind": "trusted_operator_record",
     "trusted_channel": "operator_console"
@@ -22,56 +22,56 @@
   "checks": [
     {
       "check_id": "policy",
-      "evidence_sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60",
-      "observed_at": "2026-10-03T20:43:44.505458+00:00",
-      "valid_until": "2026-10-10T20:43:44.505470+00:00",
+      "evidence_sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23",
+      "observed_at": "2026-10-03T20:52:07.545763+00:00",
+      "valid_until": "2026-10-10T20:52:07.545783+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "provenance",
-      "evidence_sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60",
-      "observed_at": "2026-10-03T20:43:44.505458+00:00",
-      "valid_until": "2026-10-10T20:43:44.505470+00:00",
+      "evidence_sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23",
+      "observed_at": "2026-10-03T20:52:07.545763+00:00",
+      "valid_until": "2026-10-10T20:52:07.545783+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "storage",
-      "evidence_sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60",
-      "observed_at": "2026-10-03T20:43:44.505458+00:00",
-      "valid_until": "2026-10-10T20:43:44.505470+00:00",
+      "evidence_sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23",
+      "observed_at": "2026-10-03T20:52:07.545763+00:00",
+      "valid_until": "2026-10-10T20:52:07.545783+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "notification",
-      "evidence_sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60",
-      "observed_at": "2026-10-03T20:43:44.505458+00:00",
-      "valid_until": "2026-10-10T20:43:44.505470+00:00",
+      "evidence_sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23",
+      "observed_at": "2026-10-03T20:52:07.545763+00:00",
+      "valid_until": "2026-10-10T20:52:07.545783+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "queue",
-      "evidence_sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60",
-      "observed_at": "2026-10-03T20:43:44.505458+00:00",
-      "valid_until": "2026-10-10T20:43:44.505470+00:00",
+      "evidence_sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23",
+      "observed_at": "2026-10-03T20:52:07.545763+00:00",
+      "valid_until": "2026-10-10T20:52:07.545783+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "watcher",
-      "evidence_sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60",
-      "observed_at": "2026-10-03T20:43:44.505458+00:00",
-      "valid_until": "2026-10-10T20:43:44.505470+00:00",
+      "evidence_sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23",
+      "observed_at": "2026-10-03T20:52:07.545763+00:00",
+      "valid_until": "2026-10-10T20:52:07.545783+00:00",
       "verdict": "pass"
     },
     {
       "check_id": "acceptance",
-      "evidence_sha256": "13a2d79630a9faf42a113fd835fbe97e70721857502b6c10525d662e5d1bdc60",
-      "observed_at": "2026-10-03T20:43:44.505458+00:00",
-      "valid_until": "2026-10-10T20:43:44.505470+00:00",
+      "evidence_sha256": "70253f5c538f81cb7c60f0ebc880b30d0297bedbab26ac2cbc16e240f5b78a23",
+      "observed_at": "2026-10-03T20:52:07.545763+00:00",
+      "valid_until": "2026-10-10T20:52:07.545783+00:00",
       "verdict": "pass"
     }
   ],
-  "contract_raw_sha256": "3eea57bc5e3088a1878d353ff2332da93d0dc03af95c81c4fe59bf4970528bd1",
-  "created_at": "2026-10-03T20:43:44.505458+00:00",
+  "contract_raw_sha256": "15694961d6e63df70eea6cbba66696c6b90b5bbf21715d2f7a77fcde2cb416a9",
+  "created_at": "2026-10-03T20:52:07.545763+00:00",
   "derived_verdict": "pass",
   "document_kind": "preflight_report",
   "experiment_id": "meva-expansion-20261004",
@@ -80,9 +80,9 @@
   "schema_version": "1.0.0",
   "storage": [
     {
-      "free_bytes": 285365309440,
+      "free_bytes": 285344235520,
       "hard_floor_bytes": 53687091200,
-      "measured_at": "2026-10-03T20:43:44.505458+00:00",
+      "measured_at": "2026-10-03T20:52:07.545763+00:00",
       "path": "/home/kojiek/MeanAudio/runtime/meva_expansion_20261004",
       "peak_additional_bytes": 21474836480,
       "recovery_reserve_bytes": 53687091200,

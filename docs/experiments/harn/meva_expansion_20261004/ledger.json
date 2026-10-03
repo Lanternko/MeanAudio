@@ -1,7 +1,7 @@
 {
   "bindings": {
-    "contract_raw_sha256": "3eea57bc5e3088a1878d353ff2332da93d0dc03af95c81c4fe59bf4970528bd1",
-    "preflight_report_raw_sha256": "5a76ee1b04d0263f51ff3e55db70cc1d6ca3a1952d1e09cead807e186e4ebde9",
+    "contract_raw_sha256": "15694961d6e63df70eea6cbba66696c6b90b5bbf21715d2f7a77fcde2cb416a9",
+    "preflight_report_raw_sha256": "c1f43e2188b1d9d88293b7ef97cae90b7f42ecd95c3ccbd454207adf9df91628",
     "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
   },
   "document_kind": "event_ledger",
@@ -9,10 +9,10 @@
     {
       "event_id": "contract-register",
       "event_kind": "contract_registered",
-      "event_sha256": "a64bac928f31ac2634512c6367b4f83815ee6a3978c69bb1dbd8ff13f5f42381",
+      "event_sha256": "ca277f91b46171ba5984745a9ee07099a532fce0e9df1a975db9e429aed4800b",
       "idempotency_key": "meva-expansion-20261004:contract-register",
       "notification_status": "not_applicable",
-      "occurred_at": "2026-10-03T20:43:44.505458+00:00",
+      "occurred_at": "2026-10-03T20:52:07.545763+00:00",
       "phase": null,
       "previous_event_sha256": null,
       "relates_to_event_id": null,

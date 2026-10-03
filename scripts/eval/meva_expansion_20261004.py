@@ -118,9 +118,14 @@ def generate(c):
         log=RUN/(g['experiment']+'_generation.log')
         with log.open('a') as f:
             p=subprocess.Popen(g['command'],cwd=ROOT,env=env,stdout=f,stderr=subprocess.STDOUT)
+            last_activity=None
             try:
                 while p.poll() is None:
-                    progress(len(rows),'generate',g['experiment']+':'+str(len(list((out/'audio').glob('*.flac')))))
+                    count=len(list((out/'audio').glob('*.flac')))
+                    activity=(count,*(q.stat().st_size if q.exists() else 0 for q in [log,out/'gen.log',out/'metrics.log']))
+                    if activity!=last_activity:
+                        progress(len(rows),'generate',g['experiment']+':'+str(count))
+                        last_activity=activity
                     time.sleep(10)
                 assert p.returncode==0,'Generation/evaluation failed: '+str(log)
             finally:

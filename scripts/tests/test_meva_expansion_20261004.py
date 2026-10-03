@@ -6,12 +6,13 @@ import sys
 import tempfile
 from pathlib import Path
 from unittest.mock import patch
+from contextlib import nullcontext
 ROOT=Path(__file__).resolve().parents[2]
 sys.path[:0]=[str(ROOT/'scripts/eval'),str(ROOT/'scripts/experiment_harness'),'/home/kojiek/gpu_queue']
 import meva_expansion_20261004 as batch
 from lib_scheduler import pid_start_time
 
-def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, interrupt=False, notify_fail=False):
+def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, interrupt=False, notify_fail=False, stall=False, budget=False):
     spec=importlib.util.spec_from_file_location('guest',ROOT/'scripts/experiment_harness/meva_expansion_20261004_guest.py')
     guest=importlib.util.module_from_spec(spec);spec.loader.exec_module(guest)
     with tempfile.TemporaryDirectory() as temp:
@@ -21,7 +22,8 @@ def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, in
         contract=root/'contract.json'
         c={'storage':{'path':str(root),'hard_stop_free_bytes':50<<30,'warning_free_bytes':80<<30},
            'commands':{'run':['dummy'],'preflight':['pre'],'postflight':['post']},
-           'watcher':{'stall_seconds':3600},'resume':{'pause_progress':str(root/'resume.json')},
+           'watcher':{'stall_seconds':1 if stall else 3600},'resume':{'pause_progress':str(root/'resume.json')},
+           'resource_budget':{'max_active_seconds':1 if budget else 172800},
            'reports':[{'path':str(report)}], 'harn_bundle':str(root)}
         contract.write_text(json.dumps(c))
         seat={'pid':os.getpid(),'start_time':pid_start_time(os.getpid()),'job_id':script.stem,'run_id':'run-test'}
@@ -32,7 +34,7 @@ def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, in
             return json.loads(path.read_text()) if path.exists() else None
         class Child:
             pid=12345
-            def poll(self):return None if disk else status
+            def poll(self):return None if disk or stall or budget else status
         def spawn(*a,**k):calls.append('spawn');return Child()
         def notify(*a,**k):
             calls.append('notify')
@@ -41,7 +43,8 @@ def guest_fixture(status, preflight=0, postflight=0, pause=False, disk=False, in
         class FS: f_bavail=1 if disk else 100*(1<<30);f_frsize=1
         env={'GPU_QUEUE_JOB_SCRIPT':str(script),'GPU_QUEUE_CONTRACT':str(contract),
              'P2_CONTROL_DIR':str(control),'P2_RUN_ID':'run-test'}
-        with patch.dict(os.environ,env),patch.object(guest.signal,'signal'),patch.object(guest,'read_json',read),\
+        clock_patch=patch.object(guest.time,'monotonic',side_effect=iter(range(0,100000,10))) if stall or budget else nullcontext()
+        with clock_patch,patch.object(guest.time,'sleep'),patch.dict(os.environ,env),patch.object(guest.signal,'signal'),patch.object(guest,'read_json',read),\
              patch.object(guest,'accept_guest',return_value=(True,'ok')),patch.object(guest,'notify_gate',notify),\
              patch.object(guest,'run_preflight',return_value=preflight),patch.object(guest.subprocess,'Popen',spawn),\
              patch.object(guest.subprocess,'run',return_value=type('RC',(),{'returncode':postflight})()),\
@@ -60,7 +63,9 @@ for label,kwargs,expected in [
     ('postflight_invalid',{'status':0,'postflight':2},'held'),
     ('pause',{'status':0,'pause':True},'paused'),('signal',{'status':0,'interrupt':True},'interrupted'),
     ('disk_hard_stop',{'status':0,'disk':True},'held'),
-    ('notification_failure',{'status':0,'notify_fail':True},'held')]:
+    ('notification_failure',{'status':0,'notify_fail':True},'held'),
+    ('stalled_phase',{'status':0,'stall':True},'held'),
+    ('active_budget_exhausted',{'status':0,'budget':True},'held')]:
     rc,terminal,calls=guest_fixture(**kwargs)
     assert terminal['status']==expected,(label,terminal)
     if label in ['preflight_invalid','notification_failure']:assert 'spawn' not in calls
@@ -92,6 +97,17 @@ with tempfile.TemporaryDirectory() as temp:
             try:batch.generate(c)
             except AssertionError:results[label]='pass'
             else:raise AssertionError(label+' accepted')
+    class Stalled:
+        returncode=0
+        def __init__(self):self.polls=iter([None,None,0])
+        def poll(self):return next(self.polls,0)
+    with patch.object(batch.subprocess,'Popen',return_value=Stalled()),patch.object(batch,'phase_gate'),\
+         patch.object(batch.time,'sleep'),patch.object(batch,'progress') as marker:
+        try:batch.generate(c)
+        except AssertionError:pass  # fixture REPORT still has intentionally wrong TSV
+        else:raise AssertionError('invalid report accepted')
+        assert marker.call_count==1,'A silent/stalled subprocess must not fabricate progress'
+        results['generation_stall_no_false_progress']='pass'
     bound=batch.RUN/'bound';bound.write_text('changed')
     with patch.object(batch,'notify') as notifier:
         try:batch.phase_gate({'raw_bindings':[{'path':str(bound),'sha256':'wrong'}]},'fixture')

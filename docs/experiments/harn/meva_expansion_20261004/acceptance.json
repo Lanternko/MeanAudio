@@ -49,10 +49,12 @@
     "tolerance": 3.0617578125e-05
   },
   "fixtures": {
+    "active_budget_exhausted": "pass",
     "disk_hard_stop": "pass",
     "exit137": "pass",
     "expected_winner_can_lose": "pass",
     "failure": "pass",
+    "generation_stall_no_false_progress": "pass",
     "nonfinite": "pass",
     "notification_failure": "pass",
     "paired_ties_half": "pass",
@@ -65,6 +67,7 @@
     "signal": "pass",
     "stale_audio": "pass",
     "stale_model": "pass",
+    "stalled_phase": "pass",
     "success": "pass",
     "wrong_CFG": "pass",
     "wrong_TSV": "pass",
@@ -74,9 +77,9 @@
   },
   "inherited_adapter_smoke": "/home/kojiek/MeanAudio/runtime/meva_20261003/smoke.json",
   "source_sha256": {
-    "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af",
+    "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py": "91c6602dba6eedf4d884abd83f0931d6bdd2631a6893bcdedc4adc182d80413e",
     "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_expansion_20261004_guest.py": "0810a17b17b65ab5fd80e19943b8fc051c808bf793ed35d5f802c279996c671a",
-    "/home/kojiek/MeanAudio/scripts/tests/test_meva_expansion_20261004.py": "358d20c069401989e60cae82223d360593e14146226750521b1b67d6d1d54271"
+    "/home/kojiek/MeanAudio/scripts/tests/test_meva_expansion_20261004.py": "e1e13b7a22662a4ad7866e51479792fcc4f6384432f9bffad84da2e18c3fe323"
   },
   "status": "passed"
 }
