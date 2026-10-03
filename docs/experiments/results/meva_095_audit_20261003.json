@@ -1,0 +1,104 @@
+{
+  "recalculation": {
+    "n": 400,
+    "n_prompts": 100,
+    "join_validated_all500_against_original_pam_csv": true,
+    "aes_columns_verified_raw_not_human_scores": true,
+    "metrics": {
+      "meva_raw": {
+        "spearman": 0.014727098057791904,
+        "pearson": 0.0351784328719505,
+        "pair_agreement": 0.4956521739130435,
+        "pair_count": 575,
+        "pair_hit_equivalents": 285.0,
+        "all500_pearson": 0.13777516920227942
+      },
+      "aes_pq": {
+        "spearman": 0.44747503430277114,
+        "pearson": 0.4603255567173131,
+        "pair_agreement": 0.6034782608695652,
+        "pair_count": 575,
+        "pair_hit_equivalents": 347.0,
+        "all500_pearson": 0.46355739099935106
+      },
+      "aes_ce": {
+        "spearman": 0.565665090237045,
+        "pearson": 0.568801671429304,
+        "pair_agreement": 0.7043478260869566,
+        "pair_count": 575,
+        "pair_hit_equivalents": 405.0,
+        "all500_pearson": 0.5282276381217144
+      }
+    }
+  },
+  "fresh_gpu": {
+    "aes_fresh": {
+      "PQ": {
+        "max_abs_cached_difference": 0.0034972091674800865,
+        "pearson400": 0.46032975415276123,
+        "spearman400": 0.44754624027553824,
+        "pearson500": 0.4635636988872438
+      },
+      "CE": {
+        "max_abs_cached_difference": 0.002504647827148432,
+        "pearson400": 0.5687958345180284,
+        "spearman400": 0.5656918052902261,
+        "pearson500": 0.5282237082170622
+      }
+    },
+    "meva_fresh": {
+      "max_abs_cached_difference": 0.0,
+      "pearson400": 0.0351784328719505,
+      "spearman400": 0.014727098057791904
+    },
+    "official_extractor_parity": [
+      {
+        "key": "audioldm2__-T4GeTHKtJQ",
+        "adapter": 1.2483599185943604,
+        "upstream": 1.2483599185943604,
+        "difference": 0.0
+      },
+      {
+        "key": "musicgen_large__-T4GeTHKtJQ",
+        "adapter": 3.1098179817199707,
+        "upstream": 3.1098179817199707,
+        "difference": 0.0
+      },
+      {
+        "key": "musicgen_melody__-T4GeTHKtJQ",
+        "adapter": 2.9507668018341064,
+        "upstream": 2.9507668018341064,
+        "difference": 0.0
+      },
+      {
+        "key": "musicldm__-T4GeTHKtJQ",
+        "adapter": 2.76686692237854,
+        "upstream": 2.76686692237854,
+        "difference": 0.0
+      },
+      {
+        "key": "real__-T4GeTHKtJQ",
+        "adapter": 3.6841189861297607,
+        "upstream": 3.6841189861297607,
+        "difference": 0.0
+      }
+    ],
+    "positive_control": {
+      "scope": "random100 MusicEval <=30s, diagnostic only, not original held-out split; labels may overlap checkpoint training",
+      "n": 100,
+      "pearson": 0.8502080611792601,
+      "spearman": 0.8404553942486732,
+      "ovl_range": [
+        1.6,
+        5.0
+      ]
+    }
+  },
+  "scope": "validation of fixed pooled/small f03 checkpoint; no retraining, model selection or replacement of original experiment scores",
+  "implementation_sha256": "3b509279b3e086a69395c2357883554f5a66f9d9c59f327219b9a76692b4fc2b",
+  "audit_script_sha256": {
+    "fresh_aes.py": "5e085fbbd2c2d01e580e7c2ce575162418856dd28bac3e0201210f7b11ffc3ac",
+    "fresh_gpu.py": "e9885181d0fd1c55de62f0b3e547436c762b5e8b96a0a5eba2ed44cb658d51c1",
+    "recalculate.py": "58c56bcbf8903561813e471af3908c036695aed8e5abd908c3d42b77df742e82"
+  }
+}
