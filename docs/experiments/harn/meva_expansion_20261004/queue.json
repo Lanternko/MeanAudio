@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "3eea57bc5e3088a1878d353ff2332da93d0dc03af95c81c4fe59bf4970528bd1",
+        "ledger_raw_sha256": "1bf39d3e39b21f7c57688d6f2ddbef064cdd12cb75e1e5a3494aa06df4dd43ac",
+        "preflight_report_raw_sha256": "5a76ee1b04d0263f51ff3e55db70cc1d6ca3a1952d1e09cead807e186e4ebde9",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "103-meva-expansion",
+      "experiment_id": "meva-expansion-20261004",
+      "position": 1,
+      "run_id": "run-20261004-meva103",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-meva103",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-10-03T20:43:44.505458+00:00"
+}

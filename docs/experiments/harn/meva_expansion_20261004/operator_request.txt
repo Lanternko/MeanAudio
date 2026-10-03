@@ -1,0 +1,4 @@
+2026-10-04 responsible operator via Codex conversation:
+有沒有更多資訊，像是同一個方法，但是訓練步數不同的，例如 Quarter 對上 Four，然後我們的不同實驗，都給 MEVA 測一下。最好是測那些很明確一定有輸贏的，像是資料機越多通常就越好嘛。那 MEVA 最好就一定要判他贏。
+Clarification: Quarter 對 full 資料量.
+Scope: fixed MEva comparisons, retained outputs plus fresh canonical evaluation of four existing10k/100k checkpoints. No retraining, evaluator fitting, forced winner, queue reordering or AES replacement.

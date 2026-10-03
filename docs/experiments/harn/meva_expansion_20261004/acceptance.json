@@ -1,0 +1,82 @@
+{
+  "checkpoint_audit": {
+    "models": [
+      {
+        "checkpoint_sha256": "5cc4a1f3d3968a64d77fc775620c3f5b125e3407eed25935283470ebece78d70",
+        "experiment": "mf10k_noq_fast_stage2_50000",
+        "extra_compat_keys": [],
+        "missing_compat_keys": [],
+        "status": "passed",
+        "tensor_count": 203
+      },
+      {
+        "checkpoint_sha256": "9d1d45f38f2c36743bb2030fe3d7786a1840a0271ddd788193fe66bd7c1dc583",
+        "experiment": "mf100k_noq_stage2_100000",
+        "extra_compat_keys": [],
+        "missing_compat_keys": [],
+        "status": "passed",
+        "tensor_count": 203
+      },
+      {
+        "checkpoint_sha256": "550290c1d927cba969999d6850f2afc4553b1608b0dc58ebc2ce0b52da87eb18",
+        "experiment": "lpmc10k_noq_fast_stage2_50000",
+        "extra_compat_keys": [],
+        "missing_compat_keys": [],
+        "status": "passed",
+        "tensor_count": 203
+      },
+      {
+        "checkpoint_sha256": "82e0fc4534dd70a7787f128fbf5fffe646f67f150c1da573e01908f956830233",
+        "experiment": "lpmc100k_noq_stage2_100000",
+        "extra_compat_keys": [],
+        "missing_compat_keys": [],
+        "status": "passed",
+        "tensor_count": 203
+      }
+    ],
+    "network_sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69",
+    "status": "passed"
+  },
+  "d1_audit": {
+    "generator_sha256": "037e7436b535e4b31e25d4f5f4b0f755d13e8509afdde5104477e105621ec45a",
+    "manifest_sha256": "a3414ac8d34903a0c040f52e1b05558717643dc5b2bef9c6eff71b841216499c",
+    "max_pcm_error": 1.52587890625e-05,
+    "max_source_lufs_error": 0.0004995736125827932,
+    "n_degradations": 1728,
+    "n_sources": 192,
+    "rng_seed": 42,
+    "status": "passed",
+    "tolerance": 3.0617578125e-05
+  },
+  "fixtures": {
+    "disk_hard_stop": "pass",
+    "exit137": "pass",
+    "expected_winner_can_lose": "pass",
+    "failure": "pass",
+    "nonfinite": "pass",
+    "notification_failure": "pass",
+    "paired_ties_half": "pass",
+    "pause": "pass",
+    "phase_input_drift": "pass",
+    "phase_storage_stop": "pass",
+    "postflight_generated_drift": "pass",
+    "postflight_invalid": "pass",
+    "preflight_invalid": "pass",
+    "signal": "pass",
+    "stale_audio": "pass",
+    "stale_model": "pass",
+    "success": "pass",
+    "wrong_CFG": "pass",
+    "wrong_TSV": "pass",
+    "wrong_mask": "pass",
+    "wrong_negative": "pass",
+    "wrong_seed": "pass"
+  },
+  "inherited_adapter_smoke": "/home/kojiek/MeanAudio/runtime/meva_20261003/smoke.json",
+  "source_sha256": {
+    "/home/kojiek/MeanAudio/scripts/eval/meva_expansion_20261004.py": "b9ce97d960158a8610ab8ba540fb86256cabe573e0a6a975135b75c41f91c0af",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_expansion_20261004_guest.py": "0810a17b17b65ab5fd80e19943b8fc051c808bf793ed35d5f802c279996c671a",
+    "/home/kojiek/MeanAudio/scripts/tests/test_meva_expansion_20261004.py": "358d20c069401989e60cae82223d360593e14146226750521b1b67d6d1d54271"
+  },
+  "status": "passed"
+}
