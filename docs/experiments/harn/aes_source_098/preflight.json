@@ -1,0 +1,113 @@
+{
+  "document_kind": "preflight_report",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "aes-negmf-other-source-envfix-20261003",
+  "run_id": "run-20261003-98",
+  "contract_raw_sha256": "81f2f53e2700cbcae69bf1e254e5e0e308111cea11de408c8f0896b90c570e0e",
+  "approval_evidence": {
+    "evidence_id": "repair-20261003-98",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console",
+    "channel_record_id": "codex-current-user-repair",
+    "channel_record_sha256": "f8ae27c595e7272d95528c2fea8cff2b834f759c90b1fede7fd91b790c99588a",
+    "approver_id": "responsible-operator",
+    "issued_at": "2026-10-03T06:42:36.041170+00:00",
+    "expires_at": "2026-10-10T06:42:36.041180+00:00",
+    "experiment_id": "aes-negmf-other-source-envfix-20261003",
+    "run_id": "run-20261003-98",
+    "bindings": {
+      "contract_raw_sha256": "81f2f53e2700cbcae69bf1e254e5e0e308111cea11de408c8f0896b90c570e0e",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+      "runtime_sha256": "a9bfbdc4e08f0592136130d61aab617ec84d671bbd34392e4a3a4edca427565e",
+      "repair_envelope_sha256": null,
+      "command_set_sha256": "bf704550c38a406f1c615782ea2ce838dd32c027fc8ef2ea158f43d16a6dbc89"
+    }
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T06:42:36.041170+00:00",
+      "valid_until": "2026-10-10T06:42:36.041180+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "provenance",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T06:42:36.041170+00:00",
+      "valid_until": "2026-10-10T06:42:36.041180+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "storage",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T06:42:36.041170+00:00",
+      "valid_until": "2026-10-10T06:42:36.041180+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "notification",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T06:42:36.041170+00:00",
+      "valid_until": "2026-10-10T06:42:36.041180+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "queue",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T06:42:36.041170+00:00",
+      "valid_until": "2026-10-10T06:42:36.041180+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "watcher",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T06:42:36.041170+00:00",
+      "valid_until": "2026-10-10T06:42:36.041180+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "acceptance",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T06:42:36.041170+00:00",
+      "valid_until": "2026-10-10T06:42:36.041180+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    }
+  ],
+  "storage": [
+    {
+      "path": "/home/kojiek/MeanAudio",
+      "hard_floor_bytes": 80000000000,
+      "peak_additional_bytes": 7000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000,
+      "measured_at": "2026-10-03T06:42:36.041170+00:00",
+      "free_bytes": 300118532096,
+      "verdict": "pass"
+    },
+    {
+      "path": "/home/kojiek/logs",
+      "hard_floor_bytes": 80000000000,
+      "peak_additional_bytes": 7000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000,
+      "measured_at": "2026-10-03T06:42:36.041170+00:00",
+      "free_bytes": 300118532096,
+      "verdict": "pass"
+    },
+    {
+      "path": "/home/kojiek/gpu_queue/notification_receipts",
+      "hard_floor_bytes": 80000000000,
+      "peak_additional_bytes": 7000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000,
+      "measured_at": "2026-10-03T06:42:36.041170+00:00",
+      "free_bytes": 300118532096,
+      "verdict": "pass"
+    }
+  ],
+  "derived_verdict": "pass",
+  "created_at": "2026-10-03T06:42:36.041170+00:00"
+}

@@ -1,0 +1,217 @@
+{
+  "document_kind": "experiment_contract",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "aes-negmf-other-source-envfix-20261003",
+  "run_id": "run-20261003-98",
+  "bindings": {
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+    "runtime_sha256": "a9bfbdc4e08f0592136130d61aab617ec84d671bbd34392e4a3a4edca427565e",
+    "command_set_sha256": "bf704550c38a406f1c615782ea2ce838dd32c027fc8ef2ea158f43d16a6dbc89"
+  },
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-other-source-envfix-20261003_contract.json",
+        "sha256": "9fdcb3eac261de0b869abb54f8a8b00bee43e755d5cf6314c828a33f2a5f212f"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/musiccaps_test.tsv",
+        "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/contract.json",
+        "sha256": "09ac213c6aa1ebec4f85b727cd7e47edd30eadf1c48199290ca113e409ff20ce"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/raw_audit.json",
+        "sha256": "708be86bb41c2b713219b412b057387a6bde6c2bc1445eb0b789943ab5e97656"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/AUDIT.json",
+        "sha256": "49859faf1b73f9006302ea2d43a4ecc87a959ea786a135afe7e5bb1e7cef340d"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/acceptance.json",
+        "sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_source_098/operator_request.txt",
+        "sha256": "f8ae27c595e7272d95528c2fea8cff2b834f759c90b1fede7fd91b790c99588a"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-other-source-20261003_contract.json",
+        "sha256": "96debb80a8c66f61740b3ef407a61fadc3dd14eb3f19a042dd57fd728e5d2669"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight.py",
+        "sha256": "9721f5990cc1e2c8a7b680deebbd85fb22802600b3aa2d1c702faa320c4c4c47"
+      }
+    ]
+  },
+  "repair": {
+    "enabled": false
+  },
+  "phases": [
+    {
+      "phase_id": "verified-source-evaluation",
+      "action_id": "launch",
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-other-source-envfix-20261003_contract.json",
+          "sha256": "9fdcb3eac261de0b869abb54f8a8b00bee43e755d5cf6314c828a33f2a5f212f"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/musiccaps_test.tsv",
+          "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/contract.json",
+          "sha256": "09ac213c6aa1ebec4f85b727cd7e47edd30eadf1c48199290ca113e409ff20ce"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/raw_audit.json",
+          "sha256": "708be86bb41c2b713219b412b057387a6bde6c2bc1445eb0b789943ab5e97656"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/AUDIT.json",
+          "sha256": "49859faf1b73f9006302ea2d43a4ecc87a959ea786a135afe7e5bb1e7cef340d"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/acceptance.json",
+          "sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_source_098/operator_request.txt",
+          "sha256": "f8ae27c595e7272d95528c2fea8cff2b834f759c90b1fede7fd91b790c99588a"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-other-source-20261003_contract.json",
+          "sha256": "96debb80a8c66f61740b3ef407a61fadc3dd14eb3f19a042dd57fd728e5d2669"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight.py",
+          "sha256": "9721f5990cc1e2c8a7b680deebbd85fb22802600b3aa2d1c702faa320c4c4c47"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/source098/summary.json"
+      ],
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/postflight.py",
+          "sha256": "96b78703608088b2cb9046a79f50556a7ac532e4ff76066830506fc1a395e4c7"
+        }
+      ],
+      "resume_action_id": "resume"
+    }
+  ],
+  "filesystems": [
+    {
+      "path": "/home/kojiek/MeanAudio",
+      "hard_floor_bytes": 80000000000,
+      "warning_floor_bytes": 120000000000,
+      "peak_additional_bytes": 7000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000
+    },
+    {
+      "path": "/home/kojiek/logs",
+      "hard_floor_bytes": 80000000000,
+      "warning_floor_bytes": 120000000000,
+      "peak_additional_bytes": 7000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000
+    },
+    {
+      "path": "/home/kojiek/gpu_queue/notification_receipts",
+      "hard_floor_bytes": 80000000000,
+      "warning_floor_bytes": 120000000000,
+      "peak_additional_bytes": 7000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000
+    }
+  ],
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/scripts/queue_candidates/098_aes-negmf-other-source-envfix-20261003.sh"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/scripts/queue_candidates/098_aes-negmf-other-source-envfix-20261003.sh"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight.py"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/postflight.py"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  ],
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "notification_events": [
+    "queue_registration",
+    "start",
+    "queue_handoff",
+    "preflight_pass",
+    "phase_start",
+    "gate_pass_fail_invalid",
+    "terminal_success_failure_interruption",
+    "unexpected_gpu_idle",
+    "disk_warning",
+    "disk_hard_stop",
+    "storage_recovered",
+    "stall"
+  ]
+}

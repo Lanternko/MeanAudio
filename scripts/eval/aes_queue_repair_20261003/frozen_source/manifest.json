@@ -1,0 +1,112 @@
+[
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/publish.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/publish.py",
+    "sha256": "aeef35a3bf57dcc88edac24c139f0e3c353db9eb8460e5b9aa4bb6aae492b2df"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/source_study.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/source_study.py",
+    "sha256": "4e9f43fd2715e4bb2784ec4acb46a36261eee38b3afbf8a2aff78e1c677c5d30"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/register.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/register.py",
+    "sha256": "cc3fd30ffa358a75bc81d2ab8f1b7cd2f650bd05826a947e86950530776cbbb2"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/guest.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/guest.py",
+    "sha256": "a9bfbdc4e08f0592136130d61aab617ec84d671bbd34392e4a3a4edca427565e"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/postflight.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/postflight.py",
+    "sha256": "96b78703608088b2cb9046a79f50556a7ac532e4ff76066830506fc1a395e4c7"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/common.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/common.py",
+    "sha256": "f24c86496cbfa00837e8508dd48533b675c310b385f4aa37ca5ab9b90fd0f0c5"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/audit.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/audit.py",
+    "sha256": "f4d08b6ee8bbb022f23aa2c8b5e73893e9ef3f4c733f2b8b36ec304751e098da"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/queue_acceptance.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/queue_acceptance.py",
+    "sha256": "c7640115dde13f1cb97de04c7f22cb57c00f861b821c9417731cf687453e62ca"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/preflight.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/preflight.py",
+    "sha256": "c9006669eed405aaa87e35462c87b1fd49c507c0197fe8195f5c8330d41ac87d"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/acceptance.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/acceptance.py",
+    "sha256": "7621e88cfdfca4b04ecc1fff93f70d9fd3bd4d4e76d1cb7ee800382e22e7375d"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/resume.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-formal-20261003/resume.py",
+    "sha256": "0bb48ecd4aa7cfe3339e58f2078fed79d73bb3f6484dd04661b0ae4553b37227"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/smoke_launcher.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/smoke_launcher.py",
+    "sha256": "89d69c07e8d1d0a4f72954f62d75200e5dc22b67aa862683e8b27b0ee5b3653c"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/raw_audit.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/raw_audit.py",
+    "sha256": "a60e8e76a7a56569c64fffaf0fd9ac258b6949580d09b0a3426f4c1e4275099e"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/analyze.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/analyze.py",
+    "sha256": "b2878121ddc57988396b72e1afc40bd8c702530de6f6ca76fa5e16c1e06fc5e9"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/probe.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/probe.py",
+    "sha256": "9df3d57f7d0481596a26a0bd78561e5a0d33fdf5b18acee76f677e61b73f2588"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/monitor.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/monitor.py",
+    "sha256": "869db3bc3991bd21fba27f9abc215609fd7215e706af10d42cb1e77b124bc66b"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/generate.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/generate.py",
+    "sha256": "3f9a06057920199feb3e2c35adcb4d81db090aa18fb561679f777573ed0c0e17"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/controller.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/controller.py",
+    "sha256": "7740c4bf86b0fa8f23422f57612a22d0484facd38c99c6e269cddc00d447a658"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/prepare_listening.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/prepare_listening.py",
+    "sha256": "52be2a1df57bad22f1660ffeee4a49a95fda93cde603afd72e2d7d72233b0501"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/validate_prior_failures.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/validate_prior_failures.py",
+    "sha256": "37a5b50aa4b3c37c32e5e229b03565e110d57ba31fb2ad8ebb7129cd7b7bdb83"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/metrics.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/metrics.py",
+    "sha256": "bfd3a3fcbda83e03df51b14748804896b0b0fdf729890a1e0bb1b222932dc3e1"
+  },
+  {
+    "original": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/controller.v1.py",
+    "snapshot": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/frozen_source/aes-followup-20261002/controller.v1.py",
+    "sha256": "58e0a340140b80f3938a6eb4404bd149c10951ebe224ac649c8c90fb2c405919"
+  }
+]
