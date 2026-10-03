@@ -1,0 +1,199 @@
+{
+  "approval_record": "/home/kojiek/MeanAudio/docs/experiments/harn/musiceval_full_20261003/operator_request.txt",
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py",
+    "action_sha256": "604d57f9005b3fee138c43de937ef346e82fe7c94623452666e2e1edb2f8a4fe",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/musiceval_full_20261003_guest.py",
+    "harn_sha256": "9adb45860fe96684ffc8811f8e140726a33be830ce48ea27c956d289bed6a148",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/100_musiceval_full_20261003.sh",
+    "launcher_sha256": "3272531fcb250c526c708d60bf2f484f5186a6e792621a206275e94696528d84"
+  },
+  "commands": {
+    "postflight": [
+      "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py"
+    ]
+  },
+  "completion_evidence": {
+    "eval_only": true,
+    "method": "all unique input-bound finite scores plus deterministic full report",
+    "n_expected": 2748
+  },
+  "dependencies": [],
+  "document_kind": "eval_only_musiceval_full_contract",
+  "experiment_id": "musiceval-full-20261003",
+  "git_revision": "3db508c1d9ec5b374fbfd18cc9e899b2c22a5b85",
+  "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/musiceval_full_20261003",
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator": "responsible_operator",
+    "scope": "User explicitly requested full PQ/CE/CU/MEva MusicEval scoring; existing audio only",
+    "trusted_channel": "operator_console"
+  },
+  "manifest": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/manifest.json",
+  "manifest_sha256": "d7c3bacf151f9b6585f1c3f08c6c646c6653e38c4805af71232fe4e12e4e5666",
+  "model_binding": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da",
+  "n_expected": 2748,
+  "notification_receipts": {
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts"
+  },
+  "notifications": [
+    "registration",
+    "start",
+    "preflight-pass",
+    "postflight-pass",
+    "terminal",
+    "pause",
+    "handoff",
+    "storage-warning",
+    "hard-stop",
+    "stall",
+    "gpu-idle"
+  ],
+  "package_versions": {
+    "audiocraft": "1.3.0",
+    "huggingface-hub": "0.36.0",
+    "numpy": "2.3.0",
+    "sae-lens": "5.3.2",
+    "safetensors": "0.7.0",
+    "scipy": "1.16.3",
+    "soundfile": "0.13.1",
+    "tokenizers": "0.19.1",
+    "torch": "2.11.0.dev20260127+cu128",
+    "torchaudio": "2.11.0.dev20260127+cu128",
+    "torchvision": "0.25.0.dev20260127+cu128",
+    "transformer-lens": "2.11.0",
+    "transformers": "4.41.2",
+    "xformers": "0.0.34"
+  },
+  "protocol": {
+    "aes": "reuse full frozen raw predictions, S013_P013 first90s exception",
+    "bootstrap_repeats": 2000,
+    "bootstrap_seed": 20261003,
+    "candidate": "pooled-small-f03-hook11-4096",
+    "gate": "coverage/hash/finite checks only; no model adoption or accuracy threshold",
+    "labels": "original five-rater mean musical impression; alignment secondary",
+    "meva": "all native clips, fixed checkpoint; no training or calibration",
+    "mode": "in-domain descriptive",
+    "new_generation": false,
+    "pair_subset": "shared2500,25systems,100prompts; human ties excluded, model ties half",
+    "sensitivity": "exclude S013_P013 from both models"
+  },
+  "question": "Full MusicEval human MI correlations and same-prompt comparisons for AES PQ/CE/CU and fixed pooled-small-f03 MEva",
+  "queue_name": "100_musiceval_full_20261003.sh",
+  "queue_placement": "append_tail; preserve pending/running/held entries",
+  "queue_role": "p2",
+  "raw_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py",
+      "sha256": "604d57f9005b3fee138c43de937ef346e82fe7c94623452666e2e1edb2f8a4fe"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/musiceval_full_20261003_guest.py",
+      "sha256": "9adb45860fe96684ffc8811f8e140726a33be830ce48ea27c956d289bed6a148"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_runtime.py",
+      "sha256": "3b509279b3e086a69395c2357883554f5a66f9d9c59f327219b9a76692b4fc2b"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_095_events.py",
+      "sha256": "ba10cdb711a978476a3ba2c5fd154e8cdfc5083b2023d9294371129534b1d59f"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/preflight_capture.py",
+      "sha256": "374ad713b1886b5e778fcd5449f0a8c5c03f230f9be3487f9e1c8998c2c6cb75"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/meva_095_model_lock.json",
+      "sha256": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/harn/musiceval_full_20261003/operator_request.txt",
+      "sha256": "7b465527834bc64be32705c4208011821febc79264abb7a8ec60f809262e7679"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/research/eval/musiceval/sets/total_mos_list.txt",
+      "sha256": "1689eaefe5820733535a51555ed65533a6c17beeb3bc1985b069950eebfbfa10"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/research/eval/output/musiceval_mir/musiceval_aes.tsv",
+      "sha256": "248938f77c0db40c488679cf78123960b7372a501e8a8579d91ec5d18bbbc55b"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/manifest.json",
+      "sha256": "d7c3bacf151f9b6585f1c3f08c6c646c6653e38c4805af71232fe4e12e4e5666"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/research/eval/musiceval_mir_incremental.py",
+      "sha256": "5d20d4c534466dd10cf144b14f953eaf019ba3b394cf0227e2ebba05b4034a20"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+    }
+  ],
+  "reports": [
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/results/musiceval_full_20261003.json"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/results/musiceval_full_20261003.md"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/per_clip.tsv"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/per_system.tsv"
+    }
+  ],
+  "resource_budget": {
+    "additional_disk_bytes": 1073741824,
+    "gpu": 0,
+    "max_active_seconds": 43200,
+    "peak_vram_bytes": 8589934592
+  },
+  "resume": {
+    "autoresume": "",
+    "behavior": "atomic per-clip cache bound to input/model hashes; no duplicate completed score",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/pause_progress.json"
+  },
+  "run_id": "run-20261003-musiceval100",
+  "schema_version": 1,
+  "storage": {
+    "cleanup": "none; audio and checkpoints immutable",
+    "estimated_peak_additional_bytes": 1073741824,
+    "hard_stop_free_bytes": 53687091200,
+    "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003",
+    "warning_free_bytes": 85899345920
+  },
+  "watcher": {
+    "automatic_repair": false,
+    "poll_seconds": 2,
+    "stall_seconds": 1800
+  }
+}

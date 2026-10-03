@@ -1,0 +1,181 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "e7da03780c749b0f565abf8aacb26e6eaef5ff6d7bf9e51a319fe8e83952fb6e",
+    "policy_bundle_sha256": "684472fe16ba465487e1ccfa8e2ce307c56800a11b73d354d22e7fd1db1c3e7a",
+    "runtime_sha256": "9adb45860fe96684ffc8811f8e140726a33be830ce48ea27c956d289bed6a148",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/100_musiceval_full_20261003.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/100_musiceval_full_20261003.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py",
+        "--preflight"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py",
+        "--validate-only"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/musiceval_full_20261003_contract.json",
+        "sha256": "8a46adad43b540808b49f8865096c86f431bfff6ccba407f501dd2e7f0875f12"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/manifest.json",
+        "sha256": "d7c3bacf151f9b6585f1c3f08c6c646c6653e38c4805af71232fe4e12e4e5666"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/musiceval_full_20261003/acceptance.json",
+        "sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/musiceval_full_20261003/operator_request.txt",
+        "sha256": "7b465527834bc64be32705c4208011821febc79264abb7a8ec60f809262e7679"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/research/eval/output/musiceval_mir/musiceval_aes.tsv",
+        "sha256": "248938f77c0db40c488679cf78123960b7372a501e8a8579d91ec5d18bbbc55b"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/research/eval/musiceval/sets/total_mos_list.txt",
+        "sha256": "1689eaefe5820733535a51555ed65533a6c17beeb3bc1985b069950eebfbfa10"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "musiceval-full-20261003",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003",
+      "peak_additional_bytes": 1073741824,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 104857600,
+      "warning_floor_bytes": 85899345920
+    }
+  ],
+  "notification_events": [
+    "registration",
+    "start",
+    "preflight-pass",
+    "postflight-pass",
+    "terminal",
+    "pause",
+    "handoff",
+    "storage-warning",
+    "hard-stop",
+    "stall",
+    "gpu-idle"
+  ],
+  "phases": [
+    {
+      "action_id": "launch",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py",
+          "sha256": "604d57f9005b3fee138c43de937ef346e82fe7c94623452666e2e1edb2f8a4fe"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/musiceval_full_20261003_contract.json",
+          "sha256": "8a46adad43b540808b49f8865096c86f431bfff6ccba407f501dd2e7f0875f12"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/manifest.json",
+          "sha256": "d7c3bacf151f9b6585f1c3f08c6c646c6653e38c4805af71232fe4e12e4e5666"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/musiceval_full_20261003/acceptance.json",
+          "sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/musiceval_full_20261003/operator_request.txt",
+          "sha256": "7b465527834bc64be32705c4208011821febc79264abb7a8ec60f809262e7679"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/research/eval/output/musiceval_mir/musiceval_aes.tsv",
+          "sha256": "248938f77c0db40c488679cf78123960b7372a501e8a8579d91ec5d18bbbc55b"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/research/eval/musiceval/sets/total_mos_list.txt",
+          "sha256": "1689eaefe5820733535a51555ed65533a6c17beeb3bc1985b069950eebfbfa10"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/MeanAudio/docs/experiments/results/musiceval_full_20261003.json",
+        "/home/kojiek/MeanAudio/docs/experiments/results/musiceval_full_20261003.md",
+        "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/per_clip.tsv",
+        "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003/per_system.tsv"
+      ],
+      "phase_id": "full-musiceval-comparison",
+      "resume_action_id": "resume"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "run_id": "run-20261003-musiceval100",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,93 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "e7da03780c749b0f565abf8aacb26e6eaef5ff6d7bf9e51a319fe8e83952fb6e",
+      "contract_raw_sha256": "693d10e11845c02aaa1a531c09bcf417f183fff1cda31b7f49230a56b2f49554",
+      "policy_bundle_sha256": "684472fe16ba465487e1ccfa8e2ce307c56800a11b73d354d22e7fd1db1c3e7a",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "9adb45860fe96684ffc8811f8e140726a33be830ce48ea27c956d289bed6a148",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-musiceval100-20261003",
+    "channel_record_sha256": "7b465527834bc64be32705c4208011821febc79264abb7a8ec60f809262e7679",
+    "evidence_id": "approval-musiceval100-20261003",
+    "experiment_id": "musiceval-full-20261003",
+    "expires_at": "2026-10-10T12:55:46.160159+00:00",
+    "issued_at": "2026-10-03T12:55:46.160142+00:00",
+    "run_id": "run-20261003-musiceval100",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db",
+      "observed_at": "2026-10-03T12:55:46.160142+00:00",
+      "valid_until": "2026-10-10T12:55:46.160159+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db",
+      "observed_at": "2026-10-03T12:55:46.160142+00:00",
+      "valid_until": "2026-10-10T12:55:46.160159+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db",
+      "observed_at": "2026-10-03T12:55:46.160142+00:00",
+      "valid_until": "2026-10-10T12:55:46.160159+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "notification",
+      "evidence_sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db",
+      "observed_at": "2026-10-03T12:55:46.160142+00:00",
+      "valid_until": "2026-10-10T12:55:46.160159+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db",
+      "observed_at": "2026-10-03T12:55:46.160142+00:00",
+      "valid_until": "2026-10-10T12:55:46.160159+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db",
+      "observed_at": "2026-10-03T12:55:46.160142+00:00",
+      "valid_until": "2026-10-10T12:55:46.160159+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "531f8cdca8b508ff3a4c540507389755bf632bc93f1a45e88e96384d39bc04db",
+      "observed_at": "2026-10-03T12:55:46.160142+00:00",
+      "valid_until": "2026-10-10T12:55:46.160159+00:00",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "693d10e11845c02aaa1a531c09bcf417f183fff1cda31b7f49230a56b2f49554",
+  "created_at": "2026-10-03T12:55:46.160142+00:00",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "musiceval-full-20261003",
+  "run_id": "run-20261003-musiceval100",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 287314079744,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-03T12:55:46.160142+00:00",
+      "path": "/home/kojiek/MeanAudio/runtime/musiceval_full_20261003",
+      "peak_additional_bytes": 1073741824,
+      "recovery_reserve_bytes": 53687091200,
+      "transient_bytes": 104857600,
+      "verdict": "pass"
+    }
+  ]
+}

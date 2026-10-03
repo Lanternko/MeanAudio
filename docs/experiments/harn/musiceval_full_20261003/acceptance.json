@@ -1,0 +1,22 @@
+{
+  "fixtures": {
+    "disk_hard_stop": "pass",
+    "exit137": "pass",
+    "failure": "pass",
+    "notification_failure": "pass",
+    "pause": "pass",
+    "postflight_invalid": "pass",
+    "preflight_invalid": "pass",
+    "signal": "pass",
+    "success": "pass"
+  },
+  "inherited_gpu_smoke": "/home/kojiek/MeanAudio/runtime/meva_20261003/smoke.json",
+  "inherited_queue_acceptance": "/home/kojiek/MeanAudio/runtime/meva_20261003/acceptance-fixtures.json",
+  "note": "Unchanged queue host/events and inference adapter; new supervisor fixtures rerun with injected failures.",
+  "source_sha256": {
+    "/home/kojiek/MeanAudio/scripts/eval/musiceval_full_20261003.py": "604d57f9005b3fee138c43de937ef346e82fe7c94623452666e2e1edb2f8a4fe",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/musiceval_full_20261003_guest.py": "9adb45860fe96684ffc8811f8e140726a33be830ce48ea27c956d289bed6a148",
+    "/home/kojiek/MeanAudio/scripts/tests/test_musiceval_full_20261003.py": "ea7616f68bd04f14def3cc89a68f271fd3f9cf3b8811b707206fcf8c66d65e0e"
+  },
+  "status": "passed"
+}
