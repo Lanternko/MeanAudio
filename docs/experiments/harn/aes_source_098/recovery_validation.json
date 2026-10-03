@@ -1,0 +1,38 @@
+{
+  "status": "dependency_incident_recovered_experiment_still_running",
+  "seat": {
+    "control_dir": "/home/kojiek/gpu_queue/p2/control/098_aes-negmf-other-source-envfix-20261003-20261003T064402Z",
+    "job_id": "098_aes-negmf-other-source-envfix-20261003",
+    "phase": "running",
+    "pid": 508643,
+    "role": "p2",
+    "run_id": "098_aes-negmf-other-source-envfix-20261003-20261003T064402Z",
+    "seated_at": "2026-10-03T06:44:03Z",
+    "start_time": "570485320"
+  },
+  "progress": {
+    "cell": "control_s14159265_mf25_cfg3_fidelity8",
+    "completed": 65,
+    "total": 5009,
+    "new_scores": 2600,
+    "reused": 0,
+    "elapsed_seconds": 52.48351915087551
+  },
+  "cache": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/source098/cells/control_s14159265_mf25_cfg3_fidelity8/scores.jsonl",
+  "n_complete_records_observed": 2873,
+  "n_valid_records_observed": 2873,
+  "fresh_scores": true,
+  "science_fields_unchanged": [
+    "protocol",
+    "cells",
+    "analysis_ids",
+    "primary_cases",
+    "n_cases",
+    "analysis",
+    "demucs_model_repo",
+    "tsv"
+  ],
+  "required_start_notifications_delivered": true,
+  "failed_095": "normalization revision awaits explicit scientific approval",
+  "cache_observed_prefix_sha256": "e51b9af8355a351a4bc9d4842d0f5a6cd69d4904eb77d3a47411ef952ba7a24c"
+}

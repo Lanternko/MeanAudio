@@ -1,0 +1,10 @@
+{
+  "after_pending": [
+    "098_aes-negmf-other-source-envfix-20261003.sh"
+  ],
+  "before_pending": [],
+  "contract_sha256": "9fdcb3eac261de0b869abb54f8a8b00bee43e755d5cf6314c828a33f2a5f212f",
+  "launcher_sha256": "65bfdecb994334ae9e39ec98380411f0e4c34ada9da6736d55f4d1d1ce6f2e7f",
+  "receipt": "/home/kojiek/gpu_queue/notification_receipts/aes-negmf-other-source-envfix-20261003/queue_registration.json",
+  "receipt_sha256": "914d736539a2c7b0a7297a000195b7f285d10ca2fb70cd7194f154e11317ac1e"
+}
