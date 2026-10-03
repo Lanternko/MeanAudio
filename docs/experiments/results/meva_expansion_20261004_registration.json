@@ -1,0 +1,43 @@
+{
+  "contract_sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6",
+  "correction": {
+    "change": "Before first GPU launch, generation progress now requires audio-count or log-byte growth; add silent-generation stall and supervisor stall/budget fixtures. All scientific inputs, comparisons, hyperparameters and queue position remain identical.",
+    "contract_sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6",
+    "first_gpu_launch_occurred": false,
+    "fixtures_passed": 25,
+    "preserved_queue_position": 103,
+    "previous_contract_sha256": "130e143f3620f1e81f0869473e0d93ef6623d3c240111d500c062c67230ba282",
+    "status": "prelaunch_revision_validated"
+  },
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/103_meva_expansion_20261004.sh",
+  "launcher_sha256": "65b933d52b2963db10839a9c2496d051cc9f17d5413979bb23dc95b27fe88fa0",
+  "notification_receipt": {
+    "event": "registration-r1",
+    "path": "/home/kojiek/gpu_queue/notification_receipts/meva-expansion-20261004/registration-r1.json",
+    "status": "start"
+  },
+  "placement": "append-tail; existing order preserved",
+  "prelaunch_revision": 1,
+  "prelaunch_verification": {
+    "contract_sha256": "9cfe6236e90ad2fe5ae556ebddce37c7d09df5c9b2369d998a308308327fe7a6",
+    "fixtures_passed": 25,
+    "free_bytes": 285335236608,
+    "n_retained_audio_hashed": 184113,
+    "runtime_preflight_exit_code": 0,
+    "schema_validator_exit_code": 0,
+    "source_commit": "061897c8421f4b7678033ea5861e921b9e522dae",
+    "status": "passed",
+    "verified_at": "2026-10-03T20:55:06Z"
+  },
+  "previous_order": {
+    "pending": [
+      "102_aes-negmf-corrected-source-20261003.sh"
+    ],
+    "running": [
+      "101_aes-negmf-corrected-recovery-20261003.sh"
+    ]
+  },
+  "registered_at": "2026-10-03T20:55:07Z",
+  "source_commit": "061897c8421f4b7678033ea5861e921b9e522dae",
+  "status": "registered_waiting"
+}

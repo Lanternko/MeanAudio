@@ -18,6 +18,32 @@
       "relates_to_event_id": null,
       "sequence": 1,
       "verdict": "none"
+    },
+    {
+      "event_id": "registration-r1",
+      "event_kind": "contract_registered",
+      "event_sha256": "54180d5877844598fbf21fb2ae1226594cf09523c1405ce8c19e81d37f543c6c",
+      "idempotency_key": "meva-expansion-20261004:registration-r1",
+      "notification_status": "pending",
+      "occurred_at": "2026-10-03T20:55:06Z",
+      "phase": "shadow-evaluation",
+      "previous_event_sha256": "ca277f91b46171ba5984745a9ee07099a532fce0e9df1a975db9e429aed4800b",
+      "relates_to_event_id": null,
+      "sequence": 2,
+      "verdict": "none"
+    },
+    {
+      "event_id": "registration-r1-notification-delivered",
+      "event_kind": "notification_delivery",
+      "event_sha256": "cd68fe0461cbb119ae02cdaffaff0244aab6c1fc080c65415294ad887375ae3d",
+      "idempotency_key": "meva-expansion-20261004:registration-r1-notification-delivered",
+      "notification_status": "delivered",
+      "occurred_at": "2026-10-03T20:55:07Z",
+      "phase": "shadow-evaluation",
+      "previous_event_sha256": "54180d5877844598fbf21fb2ae1226594cf09523c1405ce8c19e81d37f543c6c",
+      "relates_to_event_id": "registration-r1",
+      "sequence": 3,
+      "verdict": "none"
     }
   ],
   "experiment_id": "meva-expansion-20261004",
