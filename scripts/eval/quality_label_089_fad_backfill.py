@@ -74,12 +74,17 @@ def fad_metrics(label, suffix):
     return json.loads(p.read_text()) if p.is_file() else None
 
 
+def fad_of(m):
+    """eval_metrics.py writes the score under metrics.fad, not at the top level."""
+    return None if not m else (m.get('metrics') or {}).get('fad')
+
+
 def cell_done(label, suffix):
     ident = EVAL_ROOT / f'{label}{suffix}' / 'identity.json'
     m = fad_metrics(label, suffix)
     if not ident.is_file() or not m:
         return False
-    fad = m.get('fad')
+    fad = fad_of(m)
     return json.loads(ident.read_text()).get('passed') is True and \
         isinstance(fad, (int, float)) and math.isfinite(fad) and fad > 0
 
@@ -158,7 +163,7 @@ def run_cell(label, suffix):
                         '--fad', '--ref_dir', str(FAD_REF), '--fad_num_samples', '2048'],
                        cwd=REPO, stdout=g, stderr=subprocess.STDOUT, check=True)
     m = fad_metrics(label, suffix)
-    fad = (m or {}).get('fad')
+    fad = fad_of(m)
     if not isinstance(fad, (int, float)) or not math.isfinite(fad) or fad <= 0:
         raise RuntimeError(f'{label}: FAD invalid ({fad})')
     ident = identity(label, suffix)
@@ -170,8 +175,8 @@ def run_cell(label, suffix):
 
 
 def summarize():
-    old_fad = (fad_metrics(REPRO, '_fad') or {}).get('fad')
-    new_fad = (fad_metrics(REPRO, '_fadrepro') or {}).get('fad')
+    old_fad = fad_of(fad_metrics(REPRO, '_fad'))
+    new_fad = fad_of(fad_metrics(REPRO, '_fadrepro'))
     repro = {'label': REPRO, 'fad_original': old_fad, 'fad_regenerated': new_fad,
              'abs_diff': None if old_fad is None or new_fad is None else abs(old_fad - new_fad)}
     table = {}
@@ -179,7 +184,7 @@ def summarize():
         for role, prefix, names in (('arm', ARM, ARM_CELLS), ('control', CTRL, ARM_CELLS)):
             for c in names:
                 m = fad_metrics(f'{prefix.format(seed=s)}_{c}', '_fad')
-                table.setdefault(c, {}).setdefault(role, {})[s] = None if m is None else m.get('fad')
+                table.setdefault(c, {}).setdefault(role, {})[s] = fad_of(m)
     for c, roles in table.items():
         a, k = roles.get('arm', {}), roles.get('control', {})
         diffs = [a[s] - k[s] for s in SEEDS if a.get(s) is not None and k.get(s) is not None]
@@ -210,7 +215,7 @@ def preflight():
             errs.append(f'{label}: {e}')
     for s in SEEDS:
         for c in CTRL_OLD:
-            if not fad_metrics(f'{CTRL.format(seed=s)}_{c}', '_fad'):
+            if fad_of(fad_metrics(f'{CTRL.format(seed=s)}_{c}', '_fad')) is None:
                 errs.append(f'control FAD missing for s{s} {c}')
     for e in errs:
         log(f'PREFLIGHT FAIL {e}')
