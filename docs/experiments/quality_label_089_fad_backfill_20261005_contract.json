@@ -1,0 +1,191 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_fad_backfill_contract",
+ "experiment_id": "quality-label-089-fad-backfill-20261005",
+ "git_revision": "082123f46983d1e5b690539aecf2d595f7f2c5a9",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "104_quality_label_089_fad_backfill.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-05",
+  "text": "先補 FAD"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "Regenerate the deleted audio of 15 089 arm cells + 9 control extra cells + 1 control cfg0 reproduction cell (identical eval.py flags), FAD only, delete audio. No training."
+ },
+ "question": "089 FAD: does the PE-AV quality-label arm pay a FAD cost vs the nmv2pair control on each eval cell, as 081/084 did? Fills the missing FAD the 089 results doc needs before any external claim.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/quality_label_peav_089_20260929.md",
+ "fixed_protocol": {
+  "generation": "identical to the original cell (gen.log Eval args), MusicCaps 5521, MeanFlow 25, seed 42, fp32, NoMask; only --output changes",
+  "fad": "eval_metrics.py --skip_clap --skip_aes --fad --ref_dir /mnt/HDD/kojiek/musiccaps_reference --fad_num_samples 2048 (VGGish 16 kHz, random.seed(42) subset)",
+  "identity_gate": "per-clip |dpeak|<=0.0001 and |dLUFS|<=0.01 vs stored per_clip.tsv on >= 0.999 of 5521 clips, else the cell fails",
+  "reproduction_gate": "regenerated control s14159265 cfg0 FAD within 1e-3 of the existing 084 value, checked before any other cell",
+  "audio_lifetime": "deleted after each cell passes"
+ },
+ "analysis": {
+  "primary": "arm minus control FAD per cell, per seed, and 3-seed mean; descriptive only, no threshold was preregistered for 089 FAD",
+  "reference": "081 and 084 both reported FAD worse in the PQ-oriented arm; 084 N100 cfg0 3.81->6.16"
+ },
+ "cells": [
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+   "suffix": "_fadrepro"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  }
+ ],
+ "storage": {
+  "eval_root": "/home/kojiek/eval_output_nvme",
+  "path": "/home/kojiek/eval_output_nvme/quality_label_089_fad_backfill",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/quality_label_089_fad_backfill/pause_progress.json",
+  "note": "queue kind is from_scratch_with_autoresume (cold start); the action itself restarts at cell level: cells with identity.json+finite FAD are skipped, a partial cell is wiped and regenerated from scratch",
+  "autoresume": "/home/kojiek/eval_output_nvme/quality_label_089_fad_backfill/pause_progress.json"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/quality_label_089_fad_backfill.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/quality_label_089_fad_backfill.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/quality_label_089_fad_backfill.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/quality_label_089_fad_backfill/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/104_quality_label_089_fad_backfill.sh",
+  "launcher_sha256": "06fab25fcabb043746e46d7a8a44782e542f0b90ad3ef2d9661c3c82eb73a395",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/quality_label_089_fad_backfill_guest.py",
+  "harn_sha256": "a0553894644805f80dfc34ae8b258b426023a212f28152cfbe4dcaa34963d6ab",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/quality_label_089_fad_backfill.py",
+  "action_sha256": "144bfbeac9808ee91034992b71fdb8f1fb4e0e6e5e840b19bbd69b0302466eb7",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "eval_py": "/home/kojiek/MeanAudio/eval.py",
+  "eval_py_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339"
+ }
+}
