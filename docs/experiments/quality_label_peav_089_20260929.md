@@ -63,3 +63,17 @@ cfg0、cfg3_neg（fidelity8）、cfg3_lqneg、hqpos cfg0、hqpos cfg3_lqneg；�
 - builder `all`：window 閘 32/32 陣列相等；分級 40/119/40；overlay 26 列重用 081、54 列新編；081 `verify()` 全過（caption sha、clip_id、重編 max diff 1.5e-6）。
 - action 的 control 格檢查三個 seed 全數找到（raw REPORT ＋ lvl30 per_clip）。
 - 分析腳本在 arm 尚無資料時正常輸出 control 對照列。
+
+## FAD 補算（p2 104，2026-10-05 完成）
+
+音檔重生（原旗標、逐 clip peak/LUFS 身分閘全過）後算 FAD（VGGish、seed 42 抽 2048、ref `/mnt/HDD/kojiek/musiccaps_reference`）；control s14159265 cfg0 重生後 FAD 與 084 原值差 5e-14。summary：`~/eval_output_nvme/quality_label_089_fad_backfill/summary.json`。
+
+| 格 | arm−control FAD（s14159265／s16180339／s27182818） | 3 seed 平均 |
+|---|---|---|
+| cfg0 | +0.06／−0.02／+0.02 | +0.02 |
+| hqpos cfg0 | +0.07／−0.07／−0.00 | −0.00 |
+| cfg3_neg | +0.80／+0.62／+1.10 | +0.84 |
+| cfg3_lqneg | +1.60／+1.16／+1.64 | +1.47 |
+| hqpos cfg3_lqneg | +1.58／+1.03／+1.63 | +1.41 |
+
+讀法（描述性，FAD 無預登記門檻）：無負向的兩格 arm 與 control 在 FAD 上分不開；**有推論期負向的三格 arm 一致更差（3 seed 同號）**，E1 用的 LQ 負向格代價最大。與 084 相同的模式：PQ 增益的格同時付 FAD。081 arm 的 FAD 由 p2 105 補算。

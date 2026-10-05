@@ -73,7 +73,7 @@ CI 只反映 clip 抽樣；seed 間差距（例如 E1 的 0.95～1.12、E4b 的 
 ## 下一步（未排隊）
 
 - 主觀試聽：五首固定 prompt（`docs/eval/subjective_prompts.md`）。比較 arm hqpos＋lqneg vs arm fidelity8 vs control fidelity8，seed 14159265。`infer.py` 用 `--quality_level 10`。
-- 補 FAD：至少重生 arm hqpos cfg3_lqneg、arm/ctrl cfg3_neg 這三格（決定性，可與 per_clip 對 sha）。
+- 補 FAD：**已排 p2 105（2026-10-06）**，重生 arm 全部 15 格；control 五格 FAD 已由 084／104 算好（`scripts/eval/quality_label_081_fad_backfill.py`）。
 - MusicCaps 品質字子集拆讀（限制 4）。
 - 若試聽與 FAD 都過：考慮 full budget 單 seed，以及「HQ 前綴＋fidelity8」這一格（本輪沒跑）。
 
