@@ -1,0 +1,155 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_fad_backfill_contract",
+ "experiment_id": "quality-label-081-fad-backfill-20261006",
+ "git_revision": "1c687de5e60ae3d54616cd1299c3946117fbf6e9",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "105_quality_label_081_fad_backfill.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-06",
+  "text": "GPU idle（081 results doc 的下一步：補 FAD；延續 2026-10-05「先補 FAD」）"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "Regenerate the deleted audio of the 15 081 qlabel arm cells (identical eval.py flags), FAD only, delete audio. Control FAD reused from 084/104. No training."
+ },
+ "question": "081 FAD: does the AES-PQ quality-label arm pay a FAD cost vs the nmv2pair control on each eval cell? The 081 results doc lists FAD as required before any external claim (label/endpoint leakage).",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/quality_label_prefix_081_20260926.md",
+ "fixed_protocol": {
+  "generation": "identical to the original cell (gen.log Eval args), MusicCaps 5521, MeanFlow 25, seed 42, fp32, NoMask; only --output changes",
+  "fad": "eval_metrics.py --skip_clap --skip_aes --fad --ref_dir /mnt/HDD/kojiek/musiccaps_reference --fad_num_samples 2048 (VGGish 16 kHz, random.seed(42) subset)",
+  "identity_gate": "per-clip |dpeak|<=0.0001 and |dLUFS|<=0.01 vs stored per_clip.tsv on >= 0.999 of 5521 clips, else the cell fails",
+  "reproduction_gate": "control s14159265 cfg0 regeneration from 104 (_fadrepro, FAD diff 5e-14) is reused; the cell is already done and skipped",
+  "audio_lifetime": "deleted after each cell passes"
+ },
+ "analysis": {
+  "primary": "arm minus control FAD per cell, per seed, and 3-seed mean; descriptive only, no threshold preregistered",
+  "reference": "089 (104): cfg0 +0.02, cfg3_neg +0.84, cfg3_lqneg +1.47, hqpos cfg0 -0.00, hqpos cfg3_lqneg +1.41; 084 N100 cfg0 3.81->6.16"
+ },
+ "cells": [
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+   "suffix": "_fadrepro"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+   "suffix": "_fad"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_fad"
+  }
+ ],
+ "storage": {
+  "eval_root": "/home/kojiek/eval_output_nvme",
+  "path": "/home/kojiek/eval_output_nvme/quality_label_081_fad_backfill",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/quality_label_081_fad_backfill/pause_progress.json",
+  "note": "queue kind is from_scratch_with_autoresume (cold start); the action itself restarts at cell level: cells with identity.json+finite FAD are skipped, a partial cell is wiped and regenerated from scratch",
+  "autoresume": "/home/kojiek/eval_output_nvme/quality_label_081_fad_backfill/pause_progress.json"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/quality_label_081_fad_backfill.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/quality_label_081_fad_backfill.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/quality_label_081_fad_backfill.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/quality_label_081_fad_backfill/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/105_quality_label_081_fad_backfill.sh",
+  "launcher_sha256": "246117db310b5eac7d2a8bfe990ab456ab77044b209666ede1d0d19d02233d5c",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/quality_label_081_fad_backfill_guest.py",
+  "harn_sha256": "238828e44636f4fff7a2af28c36563a865b67da60e3b7881efdcb1a8028648a9",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/quality_label_081_fad_backfill.py",
+  "action_sha256": "ba50da78871f25c12458f6b437193b028992c2b54d96472058ccedc56c3a2412",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "eval_py": "/home/kojiek/MeanAudio/eval.py",
+  "eval_py_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339"
+ }
+}
