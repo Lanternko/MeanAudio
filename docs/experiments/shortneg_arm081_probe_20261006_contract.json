@@ -1,0 +1,152 @@
+{
+ "analysis": {
+  "anchor_086": "Recorded, not blocking: regenerated A cfg0 PQ within 0.005 of 086 A__cfg0.json.",
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20261006,
+  "limits": "One training seed, one generation seed, subset not full, no FAD; control cells reused from 086.",
+  "primary": "Per wording diff-in-diff DiD(k)=[C k - C cfg0]-[A k - A cfg0] on PQ_lvl30; label specificity DiD(lqrec)-DiD(k) for k in lqnoisy/lq/irrel/fid8; thresholds 0.19 with CI lower bound > 0 (081), read as direction only.",
+  "raw_lvl30_disagree": "Report as a level effect (063/065)."
+ },
+ "approval_required": true,
+ "bindings": {
+  "action": "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_probe_20261006.py",
+  "action_sha256": "284a459fe243f1cdb8bba2532565c50b50aea1909e5ea95e95486b23cfe21a8a",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/shortneg_arm081_probe_20261006_guest.py",
+  "harn_sha256": "0af6cd448c1c9c7d99d4ffcb741187e0974040e53a2e14ac0bb2a4eb07b2ce2d",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/106_shortneg_arm081_probe.sh",
+  "launcher_sha256": "2a6848cfa44de56b23f95c82bba00be59a926a927c0630ef067cd7ba42596b58",
+  "preflight": "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_probe_20261006.py",
+  "preflight_sha256": "284a459fe243f1cdb8bba2532565c50b50aea1909e5ea95e95486b23cfe21a8a"
+ },
+ "commands": {
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_probe_20261006.py",
+   "--validate-only"
+  ],
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_probe_20261006.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_probe_20261006.py"
+  ]
+ },
+ "completion_evidence": {
+  "note": "Eval-only job: the guest writes its own terminal evidence (evidence.eval_only true) and never claims a training artifact. Per QUEUE.md the terminal's evidence.reports paths must equal this contract's reports paths with matching sha256."
+ },
+ "dependencies": [],
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/shortneg_arm081_probe_20261006.md",
+ "design_document_sha256": "4a02cc73b8375391f09251966ef4d7ed6ce711454da225d0423b8aa8a8259007",
+ "document_kind": "preregistered_eval_probe_contract",
+ "experiment_id": "shortneg-arm081-probe-20261006",
+ "git_revision": "ef19081",
+ "git_revision_note": "The commit holding the bound scripts and design document. The contract is committed one step later and cannot reference itself; exact file contents are pinned by the sha256 fields, not by this field.",
+ "immutable": {
+  "eval_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339",
+  "networks_sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69",
+  "note": "The action pins eval.py, networks.py, eval_metrics.py, level_match_rescore.py and the subset TSV by sha256; preflight refuses on any change. mean_flow.py is not pinned (training pipelines patch loss(); sampling does not use it)."
+ },
+ "label": "musiccaps_subset1024_mf25_seed42_nomask_fp32_noq_shortneg_wording_on_081_arm",
+ "launch_allowed": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "operator": "responsible_operator",
+  "scope": "Operator asked on 2026-10-06 to run the 086 short-negative wording set on the 081 arm (GPU idle).",
+  "trusted_channel": "operator_console"
+ },
+ "ordering_dependencies": [],
+ "protocol": {
+  "cells": {
+   "A": [
+    "cfg0 (reproduction anchor; other A cells reused from 086)"
+   ],
+   "C": [
+    "cfg0",
+    "lqrec",
+    "lqnoisy",
+    "lq",
+    "none",
+    "irrel",
+    "fid8"
+   ]
+  },
+  "cfg": 3.0,
+  "checkpoints": {
+   "A": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_stage2_50000",
+   "C": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_stage2_50000"
+  },
+  "clap_batch_size": 1,
+  "dataset": "MusicCaps subset1024 (09-03 negprompt_ablation, seed 20260830)",
+  "level_match_lufs": -30.0,
+  "negatives": {
+   "fid8": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+   "irrel": "a photograph of a cat, a spreadsheet, printed text",
+   "lq": "low quality",
+   "lqnoisy": "low quality, noisy",
+   "lqrec": "Low quality recording.",
+   "none": null
+  },
+  "q": "no_q (null token 10)",
+  "seed": 42,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "text_attention_mask": false,
+  "tsv": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_ablation/musiccaps_subset1024.tsv"
+ },
+ "question": "How much of 081 E1 (+1.061 PQ for \"Low quality recording.\") is label training versus the control being unusually unresponsive to that wording (086), and does the arm respond more to all short negatives or specifically to its label string?",
+ "queue_name": "106_shortneg_arm081_probe.sh",
+ "queue_placement": "Next p2 slot after 105; p2 queue empty, GPU idle.",
+ "queue_role": "p2",
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_probe_20261006/summary.json"
+  }
+ ],
+ "resource_budget": {
+  "estimated_gpu_hours_range": [
+   0.7,
+   1.1
+  ],
+  "generated_clips": 8192,
+  "gpu": "P2 assigned GPU0 only",
+  "writable_filesystems": [
+   "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_probe_20261006",
+   "/home/kojiek/logs"
+  ]
+ },
+ "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/shortneg_arm081_probe_20261006_results.md",
+ "resume": {
+  "autoresume": "",
+  "behavior": "Each cell is an atomic JSON; a restart regenerates any cell without one from scratch (directory deleted first, never topped up).",
+  "checkpoint": null,
+  "iteration": 0,
+  "kind": "from_scratch_with_autoresume",
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_probe_20261006/pause_progress.json"
+ },
+ "reuses": {
+  "control_cells": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_2x2_probe_20260928/cells",
+  "level_match": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+  "level_match_sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714",
+  "scoring": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "scoring_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "run_id": "run-20261006-106-shortneg-arm081-probe",
+ "schema_version": 1,
+ "scope_note": "Inference-only. Nothing is retrained.",
+ "storage": {
+  "estimated_peak_additional_bytes": 2000000000,
+  "hard_stop_free_bytes": 10000000000,
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_probe_20261006",
+  "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_probe_20261006/cells",
+  "warning_free_bytes": 20000000000
+ },
+ "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_probe_20261006/summary.json",
+ "watcher": {
+  "automatic_repair": false,
+  "poll_seconds": 2,
+  "stall_seconds": 3600
+ }
+}
