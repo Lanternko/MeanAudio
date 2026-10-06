@@ -65,7 +65,7 @@ CI 只反映 clip 抽樣；seed 間差距（例如 E1 的 0.95～1.12、E4b 的 
 ## 限制
 
 1. **標籤洩漏（預登錄第 1 條）**：分級用 AES PQ，端點也是 AES PQ。模型可能學到的是「AES PQ 評分器偏好的聲音」，而不是人耳感知的品質。CLAP 同向是間接支持但不是證明。**未過主觀試聽前不可對外。**
-2. **沒有 FAD**：每格評完即刪音檔（設計如此）。要補 FAD 必須重生，並明確傳 `--ref_dir /mnt/HDD/kojiek/musiccaps_reference`。negprompt 曾讓 FAD 變差（`project_negprompt_hurts_fad`），這裡不能假設沒有同樣問題。
+2. **FAD 明顯變差（p2 105 補算，2026-10-06）**：見下方「FAD 補算」。E3 格（hqpos cfg0）+1.65、主推薦用法 HQ＋LQ +4.26，3 seed 同號。PQ 增益伴隨分布偏離真實 MusicCaps。
 3. **T5 截斷**：前綴 5 token。前綴列超過 77 token 的比例從 46.7% 升到 54.3%，caption 保留比例 92.0% → 89.7%（全量 100,564 列實測；smoke 400 列是 44% → 56%）。截掉的是尾端，前綴本身不會被截。MusicCaps 加 HQ 前綴後超長比例 36.0% → 41.8%。這是對 arm 不利的代價，但 CLAP 沒有因此落後。
 4. **MusicCaps caption 自帶品質描述**（例如 "The file is of poor audio-quality."）。arm 在 cfg0 下的 −0.15 可能有一部分來自這類 prompt 被「讀懂」了。本輪沒拆，要拆可以按 caption 是否含品質字分組讀 per_clip。
 5. 單一語料、quarter 預算、單一生成 seed；不外推到 full budget。
@@ -73,9 +73,27 @@ CI 只反映 clip 抽樣；seed 間差距（例如 E1 的 0.95～1.12、E4b 的 
 ## 下一步（未排隊）
 
 - 主觀試聽：五首固定 prompt（`docs/eval/subjective_prompts.md`）。比較 arm hqpos＋lqneg vs arm fidelity8 vs control fidelity8，seed 14159265。`infer.py` 用 `--quality_level 10`。
-- 補 FAD：**已排 p2 105（2026-10-06）**，重生 arm 全部 15 格；control 五格 FAD 已由 084／104 算好（`scripts/eval/quality_label_081_fad_backfill.py`）。
+- ~~補 FAD~~：105 已完成（2026-10-06），**未過**：E3／HQ＋LQ 格 FAD 大幅變差，見下節。
 - MusicCaps 品質字子集拆讀（限制 4）。
-- 若試聽與 FAD 都過：考慮 full budget 單 seed，以及「HQ 前綴＋fidelity8」這一格（本輪沒跑）。
+- 若試聽與 FAD 都過：考慮 full budget 單 seed，以及「HQ 前綴＋fidelity8」這一格（本輪沒跑）。→ FAD 已不過，full budget 擱置，除非試聽強烈支持。
+
+## FAD 補算（p2 105，2026-10-06 完成）
+
+arm（qlabel）15 格以原旗標重生，逐 clip peak/LUFS 身分閘 15/15 全過（5521/5521），VGGish FAD（seed 42 抽 2048、ref `/mnt/HDD/kojiek/musiccaps_reference`）後刪音檔。control 五格 FAD 沿用 084／104（同 nmv2pair checkpoint；104 重生重現差 5e-14）。summary：`~/eval_output_nvme/quality_label_081_fad_backfill/summary.json`。
+
+| 格 | arm FAD（3 seed） | arm−control（s14159265／s16180339／s27182818） | 平均 | 089 對照（104） |
+|---|---|---|---|---|
+| cfg0 | 3.56／3.63／3.71 | −0.26／−0.31／−0.11 | **−0.23** | +0.02 |
+| cfg3_neg | 6.48／6.03／7.39 | +1.24／−0.33／+0.71 | +0.54 | +0.84 |
+| cfg3_lqneg（E1） | 5.24／5.30／5.80 | +1.40／+1.16／+1.53 | +1.36 | +1.47 |
+| hqpos cfg0（E3） | 5.63／4.99／5.86 | +1.86／+1.07／+2.03 | **+1.65** | −0.00 |
+| hqpos cfg3_lqneg（HQ＋LQ） | 8.14／7.66／9.31 | +4.32／+3.46／+5.00 | **+4.26** | +1.41 |
+
+讀法（描述性，FAD 無預登記門檻）：
+- **E3 的 PQ 增益（+0.824）不是免費的**：HQ 正向前綴在 CFG0 就讓 FAD +1.65（3 seed 同號）；089 的 HQ 正向 PQ 沒效、FAD 也不動。PQ 定義的 HQ 標籤把生成推離真實分布。
+- **HQ＋LQ（PQ 最高的用法）FAD 8.14–9.31，是本線所有格最差**，比 control fidelity8（5.2–6.7）還差。
+- 無前綴 CFG0 FAD 反而略好（−0.23），對應 PQ −0.15：「沒標籤＝中等品質」那一側更貼近 MusicCaps。
+- 與 081 PQ 增益同向疊加的是 FAD 代價，和 084（NegMF）、089 的有負向格同一模式；加上限制 1 的洩漏，這條線**不支持對外宣稱品質提升**，只能寫「AES PQ 可被標籤操控、代價是 FAD」。
 
 ## Checkpoint
 
