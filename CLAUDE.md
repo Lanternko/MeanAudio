@@ -75,6 +75,7 @@
 | **生成 PQ 為何高過原音（AES 稽核）**（2026-09-30：「原音 7.53」是 Jamendo 訓練語料（7.55），MusicCaps 原音 6.90；VAE＋BigVGAN 重建天花板 7.06（lvl30 7.33），CFG0 6.35 在天花板下；超車主要是 MusicCaps 業餘／現場錄音（原音最好 40% 生成仍輸）；**081 在乾淨 caption 上仍勝原音 +1.10、高過未經 VAE 的訓練語料 → 指標被優化**；真實錄音上 AES−人類殘差對 tempo／重心／高頻 ≈0，無曲風／節奏偏好證據） | `docs/experiments/results/aes_gen_exceeds_ref_audit_20260930_results.md` |
 | **MIR 指標增量效度線**（MusicEval 25 系統×100 prompt 專家 OVL；12 個 madmom／essentia 拍點＋調性特徵加進 AES4，prompt 分組 CV＋留一系統，預登錄門檻） | `docs/experiments/mir_incremental_validity_musiceval_20260930.md` |
 | **MIR 指標增量效度結果**（2026-09-30：門檻全過，ridge ΔR² +0.088（prompt）／+0.103（留一系統）、配對勝負 +2～3 點、PAM 同號複製；**但拍點類訊號在系統之間、系統內跨零**，系統內只剩調性類；HGB 版 AES 增量縮到 +0.021；系統排名 Spearman Δ 跨零；探索：nmv2 CFG3+neg AES PQ 勝真實 60% 但 pulse_clarity 只勝 19%） | `docs/experiments/results/mir_incremental_validity_musiceval_20260930_results.md` |
+| **盲聽：AES／MEva 在我們 arm 上的地面真值**（2026-10-06，待評分：3 組比較 × 24 prompt＋6 重複，響度對齊盲測；評分頁 https://claude.ai/artifact/BoPrTzrffhrTtqdng1xoQy、db `ratings/<uid>`；key 在 `~/nvme_experiment_artifacts/meanaudio/blind_listen_20261006/`；指標預測已登錄） | `docs/experiments/blind_listen_20261006.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
 | Phase 4→8 完整對比表（歷史） | `docs/experiments/history/phase4-phase8/Phase4_to_Phase8_Complete_Summary.md` |
 | 文獻啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |
