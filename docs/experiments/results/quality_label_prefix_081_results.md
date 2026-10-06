@@ -56,6 +56,7 @@ CI 只反映 clip 抽樣；seed 間差距（例如 E1 的 0.95～1.12、E4b 的 
    **負向槽的 ≈ 0 則與 09-03 消融矛盾，尚未解釋**：當時在 c2p0_slot0（`phase8_qwen_caption10s_multisent_noq_full_stage2_200000`，subset1024，cfg3）上，`low quality, noisy` 拿 +0.971，連 `music` 也有 +0.250、無關文字 +0.357（「任何文字」層約佔 fidelity 的 1/3）；這裡 control 的 `Low quality recording.` 只有 +0.018 raw／−0.007 lvl30。
    **086 已拆開**（`shortneg_2x2_probe_20260928_results.md`）：主因是措辭。`Low quality recording.` 在兩個 checkpoint 上都是最弱的；在 control 上只有 +0.04 lvl30，比無關文字（+0.52）還低。同一 control 用 `low quality, noisy` 有 +0.59。checkpoint 是次要效應（B 比 A 多 +0.27～+0.38）。
    因此 E1 的差中差定義不變，但「未訓練的模型對短標籤沒反應」只對這個措辭成立。E1 的幅度有很大一部分來自 control 恰好落在最弱的措辭上。
+   **106 補量 arm 端**（`shortneg_arm081_probe_20261006_results.md`，單 seed、subset1024）：同措辭組在 arm 上重跑。扣掉措辭劣勢的乾淨 E1（arm lqrec 增益 − control lqnoisy 增益）為 +0.43 lvl30 [+0.38, +0.48]，CLAP +0.001（≈0）。標籤專一（+0.44）與 arm 對負向整體放大（lqnoisy +0.54、fid8 +0.44）兩者都有。
 2. **arm 學會了標籤**。正向 HQ 不開 CFG 就 +0.82。這是第一個在 **CFG0** 拿到可測 PQ 的介入：075、080、073 都做不到，084 NegMF 也是在追這件事。
 3. **fidelity8 在 arm 上也變強**（+1.18 vs +0.84）。fidelity8 字串本身以 `low quality recording` 開頭，吃到了訓練過的標籤。所以 E2 小輸不代表標籤弱；arm 的所有負向用法都比 control 好。
 4. **無前綴的代價**：arm stock CFG0 −0.15 PQ，3 seed 同號、CLAP 不變。合理解釋是中間 60% 的無前綴列讓「無標籤」被學成「中等品質」。實用上只要一律加 HQ 前綴，這個代價就被覆蓋（7.37 vs control 6.70）。
