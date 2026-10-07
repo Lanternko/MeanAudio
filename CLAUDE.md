@@ -77,6 +77,7 @@
 | **MIR 指標增量效度線**（MusicEval 25 系統×100 prompt 專家 OVL；12 個 madmom／essentia 拍點＋調性特徵加進 AES4，prompt 分組 CV＋留一系統，預登錄門檻） | `docs/experiments/mir_incremental_validity_musiceval_20260930.md` |
 | **MIR 指標增量效度結果**（2026-09-30：門檻全過，ridge ΔR² +0.088（prompt）／+0.103（留一系統）、配對勝負 +2～3 點、PAM 同號複製；**但拍點類訊號在系統之間、系統內跨零**，系統內只剩調性類；HGB 版 AES 增量縮到 +0.021；系統排名 Spearman Δ 跨零；探索：nmv2 CFG3+neg AES PQ 勝真實 60% 但 pulse_clarity 只勝 19%） | `docs/experiments/results/mir_incremental_validity_musiceval_20260930_results.md` |
 | **盲聽：AES／MEva 在我們 arm 上的地面真值**（2026-10-06，待評分：3 組比較 × 24 prompt＋6 重複，響度對齊盲測；評分頁 https://claude.ai/artifact/BoPrTzrffhrTtqdng1xoQy、db `ratings/<uid>`；key 在 `~/nvme_experiment_artifacts/meanaudio/blind_listen_20261006/`；指標預測已登錄） | `docs/experiments/blind_listen_20261006.md` |
+| **AES 合成單音 × VAE 重建 probe**（006，2026-10-07 已排：單一 GM 音符／正弦／MIDI 旋律能否勝過真實錄音；7.06 是 VAE 硬上限還是只是真實內容的上限。也記錄 10/01 Codex 的三輪 MIDI／karaoke AES ablation，產出在 `~/Documents/Codex/.../outputs/`、不在 repo：乾淨 MIDI 旋律 PQ 平均 8.26，全部 > 7.55） | `docs/experiments/aes_midi_note_vae_probe_20261007.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
 | Phase 4→8 完整對比表（歷史） | `docs/experiments/history/phase4-phase8/Phase4_to_Phase8_Complete_Summary.md` |
 | 文獻啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |
