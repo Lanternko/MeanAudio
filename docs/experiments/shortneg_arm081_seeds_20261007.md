@@ -1,4 +1,4 @@
-# 107：106 短負向措辭組補另外兩個訓練 seed（2026-10-07）
+# 108：106 短負向措辭組補另外兩個訓練 seed（2026-10-07）
 
 ## 問題
 
@@ -15,7 +15,7 @@
 - **s14159265**：直接讀 086 的 A cells 和 106 的 C cells，不重生。106 已驗證 A cfg0 重生逐 clip 完全一致。
 - **協定**：與 106 相同。MusicCaps subset1024、MeanFlow 25、生成 seed 42、fp32、NoMask、`--no_q`、CFG 3（cfg0 格為 0）。評分用 eval_metrics（CLAP batch 1），再做 −30 LUFS 對齊。bootstrap 10000 次，seed 20261007。
 - **腳本**：`scripts/eval/shortneg_arm081_seeds_20261007.py`。guest 抄自 106。
-- **規模**：28 格，約 3 小時，走 p2 queue 107。
+- **規模**：28 格，約 3 小時，走 p2 queue 108（107 已被 irrelneg 佔用）。
 - **路徑驗證**：拿 s14159265 的資料假扮另外兩個 seed 跑分析，逐位重現 106 的數字。
 
 ## 預登錄讀法（主讀 PQ lvl30，3 seed 平均）

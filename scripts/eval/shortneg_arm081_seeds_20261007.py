@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""107: 106's short-negative wording set on the other two 081 training seeds.
+"""108: 106's short-negative wording set on the other two 081 training seeds.
 
 106 ran the 086 wording set on the 081 arm (C) for training seed s14159265 only and
 read A (control) from 086. Both pre-registered readings held (label-specific +0.44,

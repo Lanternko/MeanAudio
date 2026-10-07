@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""107 P2 guest: eval-only supervisor for the 081 short-negative seed replication (copied from 106).
+"""108 P2 guest: eval-only supervisor for the 081 short-negative seed replication (copied from 106).
 
 The generic queue guest gates completion on a training EMA plus a CFG0 report. This
 job trains nothing and produces neither, so it owns its terminal evidence instead of
