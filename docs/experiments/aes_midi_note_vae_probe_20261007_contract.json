@@ -1,0 +1,131 @@
+{
+ "analysis": {
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20261007,
+  "exploratory": "R3 sine vs instrument note (n=10, descriptive); feature shifts under VAE M vs J.",
+  "limits": "Two GM SoundFonts, one synth; synthetic high PQ is not proof of bias without human ratings; no model generations.",
+  "primary": "R1: S_pk PQ median >= 7.55 and mean CI low > 6.90. R2: M_vae PQ mean CI low > 7.36 -> content_dependent_ceiling; CI high < 7.36 -> vae_caps; else inconclusive."
+ },
+ "approval_required": true,
+ "bindings": {
+  "action": "/home/kojiek/MeanAudio/scripts/eval/aes_midi_note_vae_probe_20261007.py",
+  "action_sha256": "bf62c1e7f2cb811d8e094aa6ead319c27384c056160e905caf60df2e26a70d2c",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/aes_midi_note_vae_probe_20261007_guest.py",
+  "harn_sha256": "b0c4c39a0cdec752e2cc86a745953de556398ec708edd46611b70ed52c078cf1",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/006_aes_midi_note_vae_probe.sh",
+  "launcher_sha256": "e8b7e4129eaefb85091090a8538bf0e2a22e86814e5a3a2e7fc3782444f9f326",
+  "preflight": "/home/kojiek/MeanAudio/scripts/eval/aes_midi_note_vae_probe_20261007.py",
+  "preflight_sha256": "bf62c1e7f2cb811d8e094aa6ead319c27384c056160e905caf60df2e26a70d2c"
+ },
+ "commands": {
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/aes_midi_note_vae_probe_20261007.py",
+   "--validate-only"
+  ],
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/aes_midi_note_vae_probe_20261007.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/aes_midi_note_vae_probe_20261007.py"
+  ]
+ },
+ "completion_evidence": {
+  "note": "Eval-only job: the guest writes its own terminal evidence (evidence.eval_only true). Terminal evidence.reports must equal this contract's reports with matching sha256."
+ },
+ "dependencies": [],
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/aes_midi_note_vae_probe_20261007.md",
+ "design_document_sha256": "d533e0c87aec105a000be8078f65738385bf5073cd0df9423021a14e0f058c72",
+ "document_kind": "preregistered_eval_probe_contract",
+ "experiment_id": "aes-midi-note-vae-probe-20261007",
+ "git_revision": "935e4f7",
+ "git_revision_note": "The commit holding the bound scripts and design document; contract committed one step later. Exact contents pinned by sha256.",
+ "immutable": {
+  "note": "The action pins eval_metrics.py, both aes_audit modules, stage1 scores.tsv, Codex midi_items.json and both SoundFonts by sha256; preflight refuses on any change."
+ },
+ "label": "aes_synthetic_note_midi_vae_roundtrip_pk_lvl30",
+ "launch_allowed": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "operator": "responsible_operator",
+  "scope": "Operator asked on 2026-10-07 to design then run a MIDI single-note AES pilot through the queue.",
+  "trusted_channel": "operator_console"
+ },
+ "ordering_dependencies": [],
+ "protocol": {
+  "aes_batch_size": 32,
+  "groups": {
+   "C": 13,
+   "J": 64,
+   "M": 256,
+   "S": 120
+  },
+  "level_match_lufs": -30.0,
+  "peak_norm": 0.95,
+  "seconds": 10,
+  "seed": 20261007,
+  "sr": 16000,
+  "vae": "weights/v1-16.pth + weights/best_netG.pt, mel 16k, encode mode",
+  "versions": [
+   "pk",
+   "vae",
+   "pk_lvl30",
+   "vae_lvl30"
+  ]
+ },
+ "question": "Does a single clean synthetic note beat real music on AES PQ, and is the 7.06 VAE+BigVGAN PQ ceiling a hard VAE cap or a property of real-recording content?",
+ "queue_name": "006_aes_midi_note_vae_probe.sh",
+ "queue_placement": "p2 insert, after 107 (running), before 108.",
+ "queue_role": "p2",
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/aes_midi_note_vae_probe_20261007/summary.json"
+  }
+ ],
+ "resource_budget": {
+  "estimated_gpu_hours_range": [
+   0.1,
+   0.3
+  ],
+  "generated_clips": 0,
+  "gpu": "P2 assigned GPU0 only",
+  "writable_filesystems": [
+   "/home/kojiek/nvme_experiment_artifacts/meanaudio/aes_midi_note_vae_probe_20261007"
+  ]
+ },
+ "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/aes_midi_note_vae_probe_20261007_results.md",
+ "resume": {
+  "autoresume": "",
+  "behavior": "Atomic: without summary.json the audio dir is deleted and the run restarts from scratch.",
+  "checkpoint": null,
+  "iteration": 0,
+  "kind": "from_scratch_with_autoresume",
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/aes_midi_note_vae_probe_20261007/pause_progress.json"
+ },
+ "reuses": {
+  "assets": "/home/kojiek/nvme_experiment_artifacts/meanaudio/aes_midi_assets",
+  "audit_stage1": "/mnt/seagate/aes_audit/stage1",
+  "codex_extended_melodies": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-extended-20261001",
+  "scoring": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "scoring_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "run_id": "run-20261007-006-aes-midi-note-vae-probe",
+ "schema_version": 1,
+ "scope_note": "Scoring-only plus VAE round trip. Nothing is trained or generated by the model.",
+ "storage": {
+  "estimated_peak_additional_bytes": 1000000000,
+  "hard_stop_free_bytes": 10000000000,
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/aes_midi_note_vae_probe_20261007",
+  "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/aes_midi_note_vae_probe_20261007/audio",
+  "warning_free_bytes": 20000000000
+ },
+ "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/aes_midi_note_vae_probe_20261007/summary.json",
+ "watcher": {
+  "automatic_repair": false,
+  "poll_seconds": 2,
+  "stall_seconds": 1800
+ }
+}
