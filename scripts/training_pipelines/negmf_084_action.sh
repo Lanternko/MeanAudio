@@ -7,6 +7,8 @@
 #   nhi     fidelity8, only samples with t > 2/3 (++mf_guide_t_min=0.6667; t=1 is noise)
 #   rev100  Stage C: the 08-31 'reversed' text (high quality recording, clean, ...), every sample
 #           -- does any non-null guide text do it, or only negative text?
+#   lq100   2026-10-07: 'Low quality recording.' (081's label wording), every sample -- that wording is
+#           ~0 as an inference-time negative on the control (cfg3_lqneg); does training placement change it?
 # S2-only branch: migrate the nmv2pair slot0clean control's own S1 ckpt_last and train 50k S2
 # with the control's exact recipe and seed (caption2p0_nmv2pair_action.sh slot0clean), so the
 # data order is shared and the target is the only difference.
@@ -22,7 +24,7 @@
 #      Control stock cells: FAD only if missing, then their audio is deleted (lvl30 already exists).
 #      rev100 only: control CFG3 with the reversed text as inference-time negative (cfg3_revneg).
 #
-# Usage: NEGMF_ARM=n100|nhi|rev100 NEGMF_SEED=<seed> negmf_084_action.sh
+# Usage: NEGMF_ARM=n100|nhi|rev100|lq100 NEGMF_SEED=<seed> negmf_084_action.sh
 set -euo pipefail
 
 WORK_DIR="$HOME/MeanAudio"
@@ -43,11 +45,13 @@ case "$ARM" in
   n100)   T_MIN=0.0;    GUIDE_NAME=fidelity8 ;;
   nhi)    T_MIN=0.6667; GUIDE_NAME=fidelity8 ;;
   rev100) T_MIN=0.0;    GUIDE_NAME=reversed ;;
-  *) echo "[FAIL] NEGMF_ARM must be n100, nhi or rev100" >&2; exit 2 ;;
+  lq100)  T_MIN=0.0;    GUIDE_NAME=lqrec ;;
+  *) echo "[FAIL] NEGMF_ARM must be n100, nhi, rev100 or lq100" >&2; exit 2 ;;
 esac
 case "$GUIDE_NAME" in
   fidelity8) GUIDE_TEXT="low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi" ;;
   reversed)  GUIDE_TEXT="high quality recording, clean, professional, pristine, hi-fi" ;;
+  lqrec)     GUIDE_TEXT="Low quality recording." ;;
 esac
 S1_UPDATES=100000; S2_ADD=50000; FINAL_IT=$((S1_UPDATES + S2_ADD)); LR=1e-4; BATCH=8
 GUIDE_DIR="$WORK_DIR/weights/negmf_084"
