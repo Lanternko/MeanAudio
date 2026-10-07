@@ -1,0 +1,143 @@
+{
+ "analysis": {
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20261007,
+  "limits": "Inference-only; no training-time irrel arm; one irrelevant string (086).",
+  "primary": "D = G_rev - G_irr on PQ lvl30, clip-paired, pooled over 3 seeds; margin 0.10 with CI excluding 0 -> above/below, else equivalent.",
+  "secondary": "Per-seed D, D excluding silent clips, R_irr = G_irr/G_neg, CE/CU/PC/CLAP gains, FAD, LUFS, crest, silence; G_lqrec from existing 081 control cells."
+ },
+ "approval_required": true,
+ "bindings": {
+  "action": "/home/kojiek/MeanAudio/scripts/eval/irrelneg_nmv2pair_probe_20261007.py",
+  "action_sha256": "0f4f925f1989820fa0fbc20faa7fb1e0a1f47bf89a7152f657ac01773d5efe55",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/irrelneg_nmv2pair_probe_20261007_guest.py",
+  "harn_sha256": "adcdb448577a90095ecf8cff67fbad15f063929fc03e423ab7791eff2c3022c9",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/107_irrelneg_nmv2pair_probe.sh",
+  "launcher_sha256": "40153ae315dd9b886e09b60913343d9ccf589434df01230c5f7273d8621f5b80",
+  "preflight": "/home/kojiek/MeanAudio/scripts/eval/irrelneg_nmv2pair_probe_20261007.py",
+  "preflight_sha256": "0f4f925f1989820fa0fbc20faa7fb1e0a1f47bf89a7152f657ac01773d5efe55"
+ },
+ "commands": {
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/irrelneg_nmv2pair_probe_20261007.py",
+   "--validate-only"
+  ],
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/irrelneg_nmv2pair_probe_20261007.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/irrelneg_nmv2pair_probe_20261007.py"
+  ]
+ },
+ "completion_evidence": {
+  "note": "Eval-only job: the guest writes its own terminal evidence (evidence.eval_only true) and never claims a training artifact. Per QUEUE.md the terminal's evidence.reports paths must equal this contract's reports paths with matching sha256."
+ },
+ "dependencies": [],
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/irrelneg_nmv2pair_probe_20261007.md",
+ "design_document_sha256": "018f77719a6c0afd712f351660643641739be14ec4a23b049c1adce95e7c4641",
+ "document_kind": "preregistered_eval_probe_contract",
+ "experiment_id": "irrelneg-nmv2pair-probe-20261007",
+ "git_revision": "a774e77",
+ "git_revision_note": "The commit holding the bound scripts and design document. The contract is committed one step later and cannot reference itself; exact file contents are pinned by the sha256 fields, not by this field.",
+ "immutable": {
+  "eval_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339",
+  "networks_sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69",
+  "note": "The action pins eval.py, networks.py, eval_metrics.py, level_match_rescore.py, mc_mf25_negvariant_eval.sh and musiccaps_test.tsv by sha256; preflight refuses on any change."
+ },
+ "label": "musiccaps5521_mf25_seed42_nomask_fp32_noq_cfg3_irrelneg_on_nmv2pair_control_3seed",
+ "launch_allowed": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "operator": "responsible_operator",
+  "scope": "Operator asked on 2026-10-07 to queue the irrelevant-text negative probe on the nmv2pair control (084 Stage C follow-up; GPU idle).",
+  "trusted_channel": "operator_console"
+ },
+ "ordering_dependencies": [],
+ "protocol": {
+  "cells": {
+   "new": [
+    "cfg3_irrel x 3 seeds"
+   ],
+   "reused": [
+    "cfg0",
+    "cfg3_neg",
+    "cfg3_revneg",
+    "cfg3_lqneg"
+   ]
+  },
+  "cfg": 3.0,
+  "checkpoints": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s{14159265,16180339,27182818}_stage2_50000 ema_final",
+  "clap_batch_size": 1,
+  "dataset": "MusicCaps test 5521",
+  "fad": {
+   "num_samples": 2048,
+   "ref_dir": "/mnt/HDD/kojiek/musiccaps_reference"
+  },
+  "level_match_lufs": -30.0,
+  "negative": "a photograph of a cat, a spreadsheet, printed text",
+  "q": "no_q (null token 10)",
+  "seed": 42,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "text_attention_mask": false,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv"
+ },
+ "question": "Is the ~38% of NegMF N100 gain that reversed text also reaches (084 Stage C) a fidelity-vocabulary effect or an any-non-null-text effect? Measured as G_rev vs G_irr at inference on the same control checkpoints.",
+ "queue_name": "107_irrelneg_nmv2pair_probe.sh",
+ "queue_placement": "Next p2 slot after 106; p2 queue empty, GPU idle.",
+ "queue_role": "p2",
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/irrelneg_nmv2pair_probe_20261007/summary.json"
+  }
+ ],
+ "resource_budget": {
+  "estimated_gpu_hours_range": [
+   0.8,
+   1.2
+  ],
+  "generated_clips": 16563,
+  "gpu": "P2 assigned GPU0 only",
+  "writable_filesystems": [
+   "/home/kojiek/eval_output_nvme",
+   "/home/kojiek/nvme_experiment_artifacts/meanaudio/irrelneg_nmv2pair_probe_20261007",
+   "/home/kojiek/logs"
+  ]
+ },
+ "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/irrelneg_nmv2pair_probe_20261007_results.md",
+ "resume": {
+  "autoresume": "",
+  "behavior": "A seed whose irrel cell has report + FAD + lvl30 is skipped; a report-less cell dir is regenerated whole by the wrapper (never topped up).",
+  "checkpoint": null,
+  "iteration": 0,
+  "kind": "from_scratch_with_autoresume",
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/irrelneg_nmv2pair_probe_20261007/pause_progress.json"
+ },
+ "reuses": {
+  "existing_cells": "/home/kojiek/eval_output_nvme (cfg0/cfg3_neg lvl30 under d2_075_lvl30)",
+  "level_match": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+  "level_match_sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714",
+  "scoring": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "scoring_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "run_id": "run-20261007-107-irrelneg-nmv2pair-probe",
+ "schema_version": 1,
+ "scope_note": "Inference-only. Nothing is retrained.",
+ "storage": {
+  "estimated_peak_additional_bytes": 3000000000,
+  "hard_stop_free_bytes": 10000000000,
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/irrelneg_nmv2pair_probe_20261007",
+  "transient_root": "/home/kojiek/eval_output_nvme",
+  "warning_free_bytes": 20000000000
+ },
+ "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/irrelneg_nmv2pair_probe_20261007/summary.json",
+ "watcher": {
+  "automatic_repair": false,
+  "poll_seconds": 2,
+  "stall_seconds": 3600
+ }
+}
