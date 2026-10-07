@@ -82,7 +82,7 @@
 ## 下一步（Stage A 當時）
 
 - ~~Stage B~~：已跑完（087／088），見下。
-- 五首固定 prompt 試聽：盲聽包已做好（`deliverables/negmf_084_listening_20260929/`，`scripts/eval/negmf_084_listening_pack.py`），**尚未試聽**。
+- 五首固定 prompt 試聽：盲聽包已做好（`deliverables/negmf_084_listening_20260929/`，`scripts/eval/negmf_084_listening_pack.py`），**尚未試聽**。2026-10-07 做成評分頁 https://claude.ai/artifact/3w26jQTP5pJWe47htWG1wu（10 題 ABC，音質最好／最差／整體＋每段缺陷勾選；答案存 db `ratings/<uid>`；字母沿用盲聽包，WAV 檔名不透明，對照表 `~/nvme_experiment_artifacts/meanaudio/negmf_084_listen_page_20261007/key.json`；頁面模板 `scripts/eval/negmf_084_listen_page.html`）。
 - Stage C（reversed 文字放 guidance 分支）照設計要等 Stage B 過了才排。
 
 ## Checkpoint

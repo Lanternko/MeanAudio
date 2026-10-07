@@ -1,0 +1,214 @@
+<title>NegMF 084 盲聽</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Noto+Sans+TC:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one centered work column; each trial is a card with the caption, three players (stack on phones), three forced choices, per-clip defect ticks, a note. */
+:root {
+  --bg: #eef1f4; --surface: #ffffff; --fg: #18202a; --muted: #5a6776; --line: #cdd5df;
+  --accent: #2a5d8f; --accent-soft: #dbe7f3; --a: #2f6aa8; --b: #a8572f; --c: #4f8a3a; --warn: #8a5a00; --warn-soft: #fbefd5;
+  --sans: "Atkinson Hyperlegible", "Noto Sans TC", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #10151b; --surface: #18202a; --fg: #e2e8ef; --muted: #93a1b1; --line: #2c3744;
+  --accent: #7fb0e3; --accent-soft: #1d2b3b; --a: #7ea6e6; --b: #e39a74; --c: #93cc7c; --warn: #f0c36b; --warn-soft: #3a2f17; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #10151b; --surface: #18202a; --fg: #e2e8ef; --muted: #93a1b1; --line: #2c3744;
+  --accent: #7fb0e3; --accent-soft: #1d2b3b; --a: #7ea6e6; --b: #e39a74; --c: #93cc7c; --warn: #f0c36b; --warn-soft: #3a2f17; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 16px/1.55 var(--sans); }
+.wrap { max-width: 860px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 48px; display: grid; gap: 20px; }
+h1 { font-size: 1.5rem; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 65ch; }
+.muted { color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 18px; min-width: 0; }
+.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.count { font: 500 0.9rem var(--mono); font-variant-numeric: tabular-nums; color: var(--muted); }
+.track { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.track > i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.caption { font-size: 0.98rem; background: var(--accent-soft); border-radius: 8px; padding: 12px 14px; }
+.label { font-size: 0.75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.players { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 640px) { .players { grid-template-columns: 1fr; } }
+.player { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: grid; gap: 8px; min-width: 0; align-content: start; }
+.player h3 { margin: 0; font-size: 1.05rem; }
+.player[data-k="A"] h3 { color: var(--a); } .player[data-k="B"] h3 { color: var(--b); } .player[data-k="C"] h3 { color: var(--c); }
+.player audio { width: 100%; }
+.heard { font-size: 0.8rem; color: var(--muted); }
+.heard.ok { color: var(--accent); }
+.defects { display: grid; gap: 4px; font-size: 0.88rem; }
+.defects label { display: flex; gap: 6px; align-items: center; cursor: pointer; }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; }
+legend { font-weight: 700; padding: 0; margin-bottom: 6px; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choices label { flex: 1 1 90px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
+.choices label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+input[type=radio], input[type=checkbox] { accent-color: var(--accent); }
+button { font: 700 1rem var(--sans); border-radius: 8px; padding: 10px 18px; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button:focus-visible, .choices label:focus-within, input:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nav { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+.note { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 10px 14px; font-size: 0.92rem; }
+.err { color: var(--warn); font-size: 0.9rem; }
+input[type=text], textarea { font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); width: 100%; box-sizing: border-box; }
+input[type=text] { max-width: 320px; }
+textarea { min-height: 64px; resize: vertical; }
+details { border: 1px dashed var(--line); border-radius: 8px; padding: 10px 12px; }
+summary { cursor: pointer; color: var(--muted); }
+.raw { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+@media (max-width: 640px) { .raw { grid-template-columns: 1fr; } }
+.raw div { display: grid; gap: 4px; min-width: 0; } .raw audio { width: 100%; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) { .track > i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:6px">
+    <h1>NegMF 084 盲聽</h1>
+    <p class="muted">五首固定 prompt × 兩個推論 seed，共 10 題。每題三段 10 秒，條件名稱已隱藏，音量已對齊到 −23 LUFS。</p>
+  </header>
+
+  <div id="status" class="note" hidden></div>
+
+  <section id="intro" class="card">
+    <div class="label">開始前</div>
+    <ul>
+      <li>戴耳機、安靜環境；音量調好後整個過程不要再改。</li>
+      <li>A／B／C 三段都要至少播一次才能存。重聽次數不限。</li>
+      <li><b>音質</b>只看聲音本身：清不清楚、有沒有雜訊、失真、悶、過度壓縮。</li>
+      <li><b>整體</b>是你最想留下哪一段，音質和是否符合描述一起考慮。</li>
+      <li>每段可勾出聽到的問題，沒有就不勾。備註欄可寫任何觀察。</li>
+      <li>「原始音量」區是模型原本輸出的響度，選聽，不影響作答。</li>
+      <li>共 <span id="total">10</span> 題，約 15 分鐘。每題存檔後可中途離開再回來。</li>
+    </ul>
+    <label for="rater" class="label">代號（選填）</label>
+    <input id="rater" type="text" maxlength="40" placeholder="例如 lanternko">
+    <div class="nav"><span class="count" id="resumeInfo"></span><button id="start" class="primary">開始</button></div>
+  </section>
+
+  <section id="trial" class="card" hidden>
+    <div class="bar"><span class="count" id="counter">1 / 10</span><span class="count" id="saved"></span></div>
+    <div class="track"><i id="prog"></i></div>
+    <div style="display:grid;gap:6px"><div class="label">描述</div><div class="caption" id="caption"></div></div>
+    <div class="players" id="players"></div>
+    <details id="rawBox"><summary>原始音量（選聽）</summary><div class="raw" id="raw"></div></details>
+    <fieldset><legend>1. 哪一段音質最好？</legend><div class="choices" data-q="best"></div></fieldset>
+    <fieldset><legend>2. 哪一段音質最差？</legend><div class="choices" data-q="worst"></div></fieldset>
+    <fieldset><legend>3. 整體最喜歡哪一段？</legend><div class="choices" data-q="ovl"></div></fieldset>
+    <div style="display:grid;gap:6px"><label for="noteTxt" class="label">備註（選填）</label><textarea id="noteTxt" maxlength="1000"></textarea></div>
+    <span class="err" id="err"></span>
+    <div class="nav"><button id="prev">上一題</button><button id="next" class="primary" disabled>儲存並下一題</button></div>
+  </section>
+
+  <section id="done" class="card" hidden>
+    <div class="label">完成</div>
+    <p>10 題都已儲存。答案對照表只在本機，回到對話跟 Claude 說「聽完了」即可對答案。</p>
+    <div class="nav"><button id="review">回到第一題檢查</button></div>
+  </section>
+</div>
+
+<script>
+const TRIALS = __TRIALS__;
+const KEYS = ['A', 'B', 'C'];
+const DEFECTS = [['noise', '雜訊／嘶聲'], ['dist', '失真／破音'], ['muffled', '悶／高頻少'], ['squash', '過度壓縮／扁平'], ['offprompt', '不符描述']];
+const $ = id => document.getElementById(id);
+let db = null, uid = null, answers = {}, idx = 0, heard = {}, shownAt = 0;
+
+function status(msg) { $('status').textContent = msg; $('status').hidden = !msg; }
+function firstOpen() { const k = TRIALS.findIndex(t => !answers[t.trial]); return k < 0 ? TRIALS.length : k; }
+
+function build() {
+  const pl = $('players'), raw = $('raw');
+  for (const k of KEYS) {
+    const d = document.createElement('div'); d.className = 'player'; d.dataset.k = k;
+    d.innerHTML = `<h3>${k}</h3><audio id="aud${k}" controls preload="auto"></audio><span class="heard" id="heard${k}">尚未播放</span><div class="defects">` +
+      DEFECTS.map(([v, t]) => `<label><input type="checkbox" id="df${k}_${v}" data-k="${k}" value="${v}">${t}</label>`).join('') + '</div>';
+    pl.appendChild(d);
+    const r = document.createElement('div'); r.innerHTML = `<span class="label">${k} 原始</span><audio id="raw${k}" controls preload="none"></audio>`; raw.appendChild(r);
+  }
+  for (const box of document.querySelectorAll('.choices')) {
+    const q = box.dataset.q;
+    box.innerHTML = KEYS.map(k => `<label><input type="radio" name="${q}" id="${q}${k}" value="${k}">${k}</label>`).join('');
+  }
+  const all = () => document.querySelectorAll('audio');
+  for (const el of all()) {
+    el.addEventListener('play', () => { for (const o of all()) if (o !== el) o.pause(); const m = el.id.match(/^aud(.)$/); if (m) { heard[m[1]] = true; refresh(); } });
+    el.addEventListener('error', () => status('音檔載入失敗（' + el.id + '），重新整理頁面再試一次。'));
+  }
+  for (const r of document.querySelectorAll('input[type=radio]')) r.addEventListener('change', refresh);
+}
+
+async function boot() {
+  build();
+  $('total').textContent = TRIALS.length;
+  try {
+    const c = window.claude;
+    db = c ? await c.use('db') : null;
+    const user = c ? await c.use('user') : null;
+    uid = user ? await user.id() : null;
+  } catch (e) { db = null; }
+  if (!db || !uid) { status('目前無法儲存答案：請用已登入的 claude.ai 帳號開啟這個頁面。'); $('start').disabled = true; return; }
+  try {
+    const snap = await db.doc('ratings/' + uid).get();
+    if (snap.exists) { const d = snap.data(); answers = d.answers || {}; $('rater').value = d.rater || ''; }
+  } catch (e) { status('讀取先前的答案失敗（' + (e.code || e) + '），重新整理頁面再試一次。'); }
+  const n = Object.keys(answers).length;
+  if (n) { $('resumeInfo').textContent = '已完成 ' + n + ' / ' + TRIALS.length; $('start').textContent = '繼續'; }
+}
+
+function pick(q) { const r = document.querySelector(`input[name=${q}]:checked`); return r ? r.value : null; }
+
+function show(k) {
+  idx = k;
+  for (const a of document.querySelectorAll('audio')) a.pause();
+  if (k >= TRIALS.length) { $('trial').hidden = true; $('intro').hidden = true; $('done').hidden = false; return; }
+  $('done').hidden = true; $('intro').hidden = true; $('trial').hidden = false;
+  const t = TRIALS[k], prev = answers[t.trial];
+  $('counter').textContent = (k + 1) + ' / ' + TRIALS.length;
+  $('prog').style.width = (100 * Object.keys(answers).length / TRIALS.length) + '%';
+  $('caption').textContent = t.caption;
+  for (const L of KEYS) { $('aud' + L).src = 'audio/' + t.files[L]; $('raw' + L).src = 'audio/' + t.files[L + '_raw']; }
+  $('rawBox').open = false;
+  heard = {A: !!prev, B: !!prev, C: !!prev};
+  for (const r of document.querySelectorAll('input[type=radio]')) r.checked = !!prev && prev[r.name] === r.value;
+  for (const c of document.querySelectorAll('.defects input')) c.checked = !!prev && (prev.defects?.[c.dataset.k] || []).includes(c.value);
+  $('noteTxt').value = prev?.note || '';
+  $('saved').textContent = prev ? '已作答' : '';
+  $('prev').disabled = k === 0;
+  shownAt = Date.now();
+  refresh();
+  window.scrollTo({top: 0});
+}
+
+function refresh() {
+  for (const k of KEYS) { const h = $('heard' + k); h.textContent = heard[k] ? '已播放' : '尚未播放'; h.classList.toggle('ok', !!heard[k]); }
+  const b = pick('best'), w = pick('worst'), o = pick('ovl');
+  const clash = b && w && b === w;
+  $('err').textContent = clash ? '「最好」和「最差」不能是同一段。' : '';
+  $('next').disabled = !(KEYS.every(k => heard[k]) && b && w && o && !clash);
+}
+
+async function save() {
+  const t = TRIALS[idx], prev = answers[t.trial];
+  const defects = {};
+  for (const k of KEYS) defects[k] = [...document.querySelectorAll(`.defects input[data-k="${k}"]:checked`)].map(c => c.value);
+  const entry = {best: pick('best'), worst: pick('worst'), ovl: pick('ovl'), defects, note: $('noteTxt').value.trim(),
+                 ms: (prev ? prev.ms : 0) + (Date.now() - shownAt), at: new Date().toISOString()};
+  const next = Object.assign({}, answers, {[t.trial]: entry});
+  $('next').disabled = true; $('saved').textContent = '儲存中…';
+  try {
+    await db.doc('ratings/' + uid).set({rater: $('rater').value.trim(), answers: next, n: Object.keys(next).length, updated: entry.at});
+    answers = next; status('');
+    show(idx + 1 < TRIALS.length && answers[TRIALS[idx + 1].trial] ? idx + 1 : firstOpen());
+  } catch (e) {
+    status('這題沒有存到（' + (e.code || e) + '）。答案還在畫面上，請再按一次「儲存並下一題」。');
+    $('saved').textContent = ''; refresh();
+  }
+}
+
+$('start').addEventListener('click', () => show(firstOpen()));
+$('next').addEventListener('click', save);
+$('prev').addEventListener('click', () => show(Math.max(0, idx - 1)));
+$('review').addEventListener('click', () => show(0));
+boot();
+</script>
