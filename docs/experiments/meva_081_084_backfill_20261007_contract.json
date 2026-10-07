@@ -1,0 +1,241 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_meva_backfill_contract",
+ "experiment_id": "meva-081-084-backfill-20261007",
+ "git_revision": "aa3ece670a1732cb28b3d9396d558147824d300b",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "112_meva_081_084_backfill.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-07",
+  "text": "用 MEva 補評 081 和 084；排在 111 後面；主比較格"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2 after 111",
+  "valid": true,
+  "scope": "Regenerate 36 deleted cells (081 qlabel arm x5, slot0clean nmv2pair control x5, 084 N100 x2; 3 seeds) with identical eval.py flags, MEva-score, delete audio. No training."
+ },
+ "question": "Does the pinned MEva shadow evaluator agree with AES PQ on the 081 quality-label endpoints (E1/E3) and the 084 N100 CFG0 gain, i.e. are those PQ gains visible to an evaluator not trained on AES?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/quality_label_prefix_081_20260926.md",
+ "fixed_protocol": {
+  "generation": "identical to the original cell (gen.log Eval args), MusicCaps 5521, MeanFlow 25, seed 42, fp32, NoMask; only --output changes",
+  "meva": "scripts/eval/meva_score_dir.py in runtime/meva_20261003/venv: f03 pooled/small (MusicGen-small hook 11, SAE 4096, CNN), model_binding = sha256(meva_095_model_lock.json) = bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da; raw score, not loudness-aligned",
+  "runtime_check": "preflight re-scores 50 PAM clips against 095 stored scores, tol 1e-3 (tested 2026-10-07: max diff 0.0)",
+  "identity_gate": "per-clip |dpeak|<=0.0001 and |dLUFS|<=0.01 vs stored per_clip.tsv on >= 0.999 of 5521 clips, else the job fails",
+  "control_note": "097 MEva control is slot0nmv2_nmv2pair (different checkpoint, cfg0 PQ 6.53 vs 6.43), so the 081/084 control slot0clean_nmv2pair is regenerated here",
+  "audio_lifetime": "deleted after each cell passes"
+ },
+ "analysis": {
+  "primary": "MEva 081 E1 = [arm lqneg - arm cfg0] - [ctrl lqneg - ctrl cfg0] and E3 = [arm hqpos cfg0 - arm cfg0] - [ctrl same], per seed and 3-seed mean, reported next to the same contrast on raw AES PQ; 084 N100 cfg0 - control cfg0. Descriptive only, no threshold preregistered (MEva is a shadow evaluator).",
+  "secondary": "per-cell Spearman MEva vs AES PQ; arm - control by cell; control cfg3neg - cfg0",
+  "reference": "AES lvl30: 081 E1 +1.061, E3 +0.824; 084 N100 E1 +0.948. 097/103: MEva did not follow AES on negprompt gains"
+ },
+ "cells": [
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0",
+   "suffix": "_meva"
+  },
+  {
+   "label": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+   "suffix": "_meva"
+  }
+ ],
+ "storage": {
+  "eval_root": "/home/kojiek/eval_output_nvme",
+  "path": "/home/kojiek/eval_output_nvme/meva_081_084_backfill",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/meva_081_084_backfill/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/meva_081_084_backfill/pause_progress.json",
+  "note": "cell-level restart: cells with identity.json passed + meva.json n=5521 are skipped; a partial cell is wiped and regenerated"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/meva_081_084_backfill.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/meva_081_084_backfill.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/meva_081_084_backfill.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/meva_081_084_backfill/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/112_meva_081_084_backfill.sh",
+  "launcher_sha256": "1975ae3827e7d34503f7e143c37f398d8c5b7a5bbc0e367e8618795229f9a450",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/meva_081_084_backfill_guest.py",
+  "harn_sha256": "ddf34fd323dcd7448fe4272cd9dbea722465412f0a198b4507fe52fa315b52c6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/meva_081_084_backfill.py",
+  "action_sha256": "ffe32c4ecf851e6f88fbeaa177ec3734db6afddcb37ec710ee61242285cf0071",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+  "meva_runtime": "/home/kojiek/MeanAudio/scripts/eval/meva_runtime.py",
+  "meva_runtime_sha256": "3b509279b3e086a69395c2357883554f5a66f9d9c59f327219b9a76692b4fc2b",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "eval_py": "/home/kojiek/MeanAudio/eval.py",
+  "eval_py_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339"
+ }
+}
