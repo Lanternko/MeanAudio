@@ -1,6 +1,6 @@
 # 084／085 NegMF 負向蒸餾 Stage A＋B 結果（2026-09-29）
 
-> **Stage B（N100 × 3 seed）已過，見〈Stage B〉一節；Stage C（rev100 × 3 seed）判讀為「非極性＋極性兩部分都有」（PQ lvl30 上極性約占 62%，R_train 0.38 ≈ R_inf 0.31；2026-10-07 更正：原寫「詞彙部分」，但無關文字的推論期增益不低於 reversed，107 待驗），見〈Stage C〉；AES 介入診斷（095→101／102：N100 的 PQ 優勢集中在 `other` stem）見文末。** 以下 Stage A 各節保留單 seed 原文。
+> **Stage B（N100 × 3 seed）已過，見〈Stage B〉一節；Stage C（rev100 × 3 seed）判讀為「非極性＋極性兩部分都有」（PQ lvl30 上極性約占 62%，R_train 0.38 ≈ R_inf 0.31；2026-10-07 更正：38% 是「非空文字層」不是領域詞彙——107 全量 3 seed 量到無關文字推論期 G_irr +0.333，與 reversed G_rev +0.259 相當（D −0.074）），見〈Stage C〉；AES 介入診斷（095→101／102：CFG3+neg 下 N100 的 PQ 優勢集中在 `other` stem；CFG0 下分散在 other／guitar／drums）見文末。** 以下 Stage A 各節保留單 seed 原文。
 
 - 設計：`../negprompt_distill_meanflow_084_20260927.md`
 - 原始數字：`negmf_084_summary.json`（`scripts/analysis/negmf_084_analysis.py`，085 結尾自動跑，2026-09-29 01:11 本地時間）
@@ -172,7 +172,7 @@
 3. E1 ≥ 0.31 且 C1 的 CI 下界 ≤ 0？否：C1 = +0.584，CI 不跨零。
 4. → **`verdict = partial`：兩部分都有**。
    - **非極性部分（約 38%）**：把極性相反的文字寫進 guidance 目標，仍能拿到約 0.36 PQ。
-     - 2026-10-07 更正：原本把這部分稱為「領域詞彙部分」，說得太滿。理由見〈補充分析〉第 1 點：在同一個 checkpoint 上，無關文字的推論期增益不低於 reversed。這部分目前只能叫「非極性部分」；它算「任何非空文字」還是「fidelity 詞彙」，要等 107 的結果。
+     - 2026-10-07 更正：原本把這部分稱為「領域詞彙部分」，說得太滿。理由見〈補充分析〉第 1 點：在同一個 checkpoint 上，無關文字的推論期增益不低於 reversed。107（3 seed 全量）已確認：無關文字的推論期增益 G_irr +0.333（R_irr 0.40），reversed 是 +0.259（R_inf 0.31），D = −0.074 [−0.082, −0.066]，照預登錄判「相當」。所以這部分是**非空文字層**：任何一段非空文字放進負向槽都拿得到，不是 fidelity 領域詞彙。見 `irrelneg_nmv2pair_probe_20261007_results.md`。
    - **極性部分（約 62%）**：缺陷描述文字比 reversed 多拿到約 0.58 PQ，占 N100 增益的 62%。
      - 精確地說，這是「描述缺陷的文字 vs 描述高品質的文字」的差距。不能寫成「必須是 low quality 字樣」：`Low quality recording.` 單獨放在推論期負向，在同一批 control 上幾乎沒有效果（見補充分析第 5 點）。
    - 訓練期的拆分比例（R_train 0.38）與推論期（R_inf 0.31）一致。所以 **NegMF 是把推論期負向的結構原樣搬進了權重**，沒有改變「非極性＋極性」的組成。
@@ -204,7 +204,7 @@
    - 同一 checkpoint 全量的 G_rev 是 +0.459。
    - 兩者子集不同，不能直接相減；但方向上 reversed 沒有超過無關文字。所以 38% 不能叫「領域詞彙部分」。
    - 106 也看到同一件事：無關文字在 081 arm 與 control 上都約 +0.5，差中差約 0。
-   - **107 已排進 p2**：irrel × 3 seed 全量，主比較 D = G_rev − G_irr，預登錄於 `docs/experiments/irrelneg_nmv2pair_probe_20261007.md`。
+   - **107 已完成（全量 3 seed）**：D = G_rev − G_irr = −0.074 [−0.082, −0.066]，三 seed 同號，|D| < 0.10 → 判「相當」。G_irr +0.333、neg − irrel +0.504、lqneg − irrel −0.340。見 `irrelneg_nmv2pair_probe_20261007_results.md`。
 2. **極性占比依指標而定。** rev100／N100 的 E1 比例：
 
    | 指標 | 比例 | 極性占比 |
@@ -245,9 +245,9 @@
   - 這兩個比例只對 PQ lvl30 成立；CE／CU 的極性占比只有 35～41%。
 - **探索性觀察**：三條路徑的 FAD 代價都約為每單位 PQ 2.7～2.9。這支持「PQ 增益與 FAD 劣化是同一個方向」的讀法，但只有 9 個單值點，不可寫成定律。
 - **不可寫**：
-  - 「38% 是 fidelity 領域詞彙的效果」：單 seed 旁證顯示無關文字不比 reversed 差，等 107。
+  - 「38% 是 fidelity 領域詞彙的效果」：107 全量 3 seed 顯示無關文字與 reversed 相當（reversed 還小幅較低），38% 是非空文字層。
   - 「任何非空文字都行」：107 只量推論期；訓練期的 irrel arm 沒跑。
-  - 「必須是 low quality 字樣」：`Low quality recording.` 本身幾乎無效。
+  - 「必須是 low quality 字樣」：`Low quality recording.` 本身幾乎無效（G_lqrec −0.007），還比無關文字低 0.34（107）。
 - Stage C 跑完後，084 線的 GPU 部分全部完成。**control 三個 seed 的 S1 `ckpt_last` 可以進刪除候選**，但要另開清理流程確認，本節不刪。
 
 ## AES 介入診斷（2026-10-03～05：095 失敗 → 099／100 診斷 → 101／102 修正版重跑）
@@ -277,7 +277,23 @@
 | 去掉 vocals stem | +0.000（跨零） | −0.008 |
 | **去掉 `other` stem** | **−0.217** | **−0.320** |
 
-- 所有介入裡，**`other` stem 的影響最大**：stem 介入的基線是 demucs 重組版（CFG3+neg 差距 +0.364、CFG0 +0.967）；去掉 `other` 後縮到 +0.148／+0.647，分別少了 60%／33%。
+- stem 介入的基線是 demucs 重組版（CFG3+neg 差距 +0.364、CFG0 +0.967）；去掉 `other` 後縮到 +0.148／+0.647，分別少了 60%／33%。
+- **CFG3+neg 下 `other` 的影響最大**，其餘五軌都在 ±0.03 內。**CFG0 下不是只有 `other`**：去掉 guitar −0.234 跟 other −0.320 同一量級，drums −0.135 第三 → CFG0 的優勢分散在 other／guitar／drums。guitar 在兩個 CFG 反號（CFG3+neg +0.027、CFG0 −0.234）。
+- 102 的 `other` 拆解只跑 CFG3+neg；CFG0 的 guitar 沒拆過。
+
+六軌完整表（2026-10-07 補；101 實際跑了 6 軌 × 減 6 dB／移除，但 contract 登記的 12 個主要條件只含 drums／vocals／other，bass／guitar／piano 屬探索性，只報配對 prompt t 區間、未進 Holm）。ΔgapPQ 相對重組基線，n=5001（CFG3+neg）／5005（CFG0）：
+
+| 去掉的 stem | CFG3+neg | CFG0 | 主要條件 |
+|---|---:|---:|---|
+| vocals | +0.000 [−0.001, +0.002] | −0.008 [−0.012, −0.005] | 是 |
+| bass | −0.019 [−0.023, −0.014] | −0.036 [−0.042, −0.029] | 探索性 |
+| piano | −0.020 [−0.025, −0.016] | −0.039 [−0.044, −0.035] | 探索性 |
+| drums | −0.025 [−0.036, −0.015] | −0.135 [−0.148, −0.121] | 是 |
+| guitar | +0.027 [+0.013, +0.040] | −0.234 [−0.255, −0.213] | 探索性 |
+| **other** | **−0.217** [−0.231, −0.202] | **−0.320** [−0.336, −0.303] | 是 |
+
+各軌只減 6 dB 時兩格都在 ±0.011 內。來源：`~/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-corrected-20261003/confirmatory_summary.csv`（`gap_change`、`lufs23`）。
+
 - 加雜訊在兩個 CFG **反號**：CFG3+neg 下 N100 的優勢變大，CFG0 下變小。所以不能用一句「N100 對雜訊比較穩健」概括。
 - stem 分離用 htdemucs_6s；`other` 是神經網路切出來的殘餘類別，**包含音樂內容**，不等於嘶聲或背景噪音。
 
@@ -304,6 +320,6 @@
 
 ### 可寫層級
 
-- 可以寫：在 AES PQ 上，N100 對 control 的優勢有一大塊集中在 htdemucs 的 `other` 成分（300–1200 Hz、依賴時間結構），雜訊介入在兩個 CFG 方向相反。
+- 可以寫：在 AES PQ 上，CFG3+neg 下 N100 對 control 的優勢有一大塊集中在 htdemucs 的 `other` 成分（300–1200 Hz、依賴時間結構）；CFG0 下 other、guitar、drums 都有份；雜訊介入與去掉 guitar 在兩個 CFG 方向相反。
 - 不可以寫：「N100 改善的是雜訊」或「N100 改善的是伴奏品質」。`other` 包含音樂內容，頻段移除會有振鈴，而且這些都還只是 AES 讀數，沒有人耳驗證。
 - 檔案：`runtime/aes_queue_repair_20261003/diagnostic{099,100,101,102}/summary.json`、`diagnostic102/REPORT.md`；101 的完整表在 `~/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-corrected-20261003/confirmatory_REPORT.md`。095 修復的經過見 `docs/experiments/aes_queue_repair_20261003.md`。
