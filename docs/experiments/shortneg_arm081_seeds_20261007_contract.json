@@ -1,0 +1,166 @@
+{
+ "analysis": {
+  "bootstrap_replicates": 10000,
+  "bootstrap_seed": 20261007,
+  "exploratory": "DiD(lq) < 0 in all 3 seeds; stored-null CFG3 penalty on arm.",
+  "limits": "One generation seed, subset1024, no FAD; 3 seeds give sign consistency, seed SD is rough.",
+  "primary": "3-seed mean on PQ_lvl30: label specificity lqrec-lqnoisy DiD >= 0.19 and >0 in all 3 seeds; whole-slot amplification DiD(lqnoisy), DiD(fid8) >= 0.19 and >0 in all 3 seeds; clean E1 = C lqrec gain - A lqnoisy gain, reported per seed and as fraction of raw DiD(lqrec). A sign flip in any seed = inconsistent, not confirmed.",
+  "seed0": "s14159265 read from 086 A cells and 106 C cells (106 verified A cfg0 regeneration is clip-identical)."
+ },
+ "approval_required": true,
+ "bindings": {
+  "action": "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_seeds_20261007.py",
+  "action_sha256": "33d887196c69431b03655d1d4ae0aeee5d6fee334d5093c2bcab578cedb59adf",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/shortneg_arm081_seeds_20261007_guest.py",
+  "harn_sha256": "afff697937a3be88615f52546b7c6210f4af75fd1f53c68353b3d77b79ef7bf1",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/108_shortneg_arm081_seeds.sh",
+  "launcher_sha256": "fc67b4d917d645bc04a2151ebe048590743fc77fd61d2acadb2c475cf4bf4fb5",
+  "preflight": "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_seeds_20261007.py",
+  "preflight_sha256": "33d887196c69431b03655d1d4ae0aeee5d6fee334d5093c2bcab578cedb59adf"
+ },
+ "commands": {
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_seeds_20261007.py",
+   "--validate-only"
+  ],
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_seeds_20261007.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/shortneg_arm081_seeds_20261007.py"
+  ]
+ },
+ "completion_evidence": {
+  "note": "Eval-only job: the guest writes its own terminal evidence (evidence.eval_only true) and never claims a training artifact. Per QUEUE.md the terminal's evidence.reports paths must equal this contract's reports paths with matching sha256."
+ },
+ "dependencies": [],
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/shortneg_arm081_seeds_20261007.md",
+ "design_document_sha256": "7cbdd673877fca309aaaabe052c6514f035334996ce383c6cd9ef86d37bd269f",
+ "document_kind": "preregistered_eval_probe_contract",
+ "experiment_id": "shortneg-arm081-seeds-20261007",
+ "git_revision": "fa7ea8b",
+ "git_revision_note": "The commit holding the bound scripts and design document. The contract is committed one step later and cannot reference itself; exact file contents are pinned by the sha256 fields, not by this field.",
+ "immutable": {
+  "eval_sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339",
+  "networks_sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69",
+  "note": "The action pins eval.py, networks.py, eval_metrics.py, level_match_rescore.py and the subset TSV by sha256; preflight refuses on any change. mean_flow.py is not pinned (training pipelines patch loss(); sampling does not use it)."
+ },
+ "label": "musiccaps_subset1024_mf25_seed42_nomask_fp32_noq_shortneg_wording_081_seeds_s16180339_s27182818",
+ "launch_allowed": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "operator": "responsible_operator",
+  "scope": "Operator asked on 2026-10-07 to add multi-seed confirmation of 106 (GPU idle, p2 queue empty).",
+  "trusted_channel": "operator_console"
+ },
+ "ordering_dependencies": [],
+ "protocol": {
+  "cells": {
+   "per_new_seed": {
+    "A": [
+     "cfg0",
+     "lqrec",
+     "lqnoisy",
+     "lq",
+     "none",
+     "irrel",
+     "fid8"
+    ],
+    "C": [
+     "cfg0",
+     "lqrec",
+     "lqnoisy",
+     "lq",
+     "none",
+     "irrel",
+     "fid8"
+    ]
+   },
+   "seed0": "reused from 086 (A) and 106 (C)"
+  },
+  "cfg": 3.0,
+  "checkpoints": {
+   "s14159265__A": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_stage2_50000",
+   "s14159265__C": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_stage2_50000",
+   "s16180339__A": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_stage2_50000",
+   "s16180339__C": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_stage2_50000",
+   "s27182818__A": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_stage2_50000",
+   "s27182818__C": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_stage2_50000"
+  },
+  "clap_batch_size": 1,
+  "dataset": "MusicCaps subset1024 (09-03 negprompt_ablation, seed 20260830)",
+  "level_match_lufs": -30.0,
+  "negatives": {
+   "fid8": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+   "irrel": "a photograph of a cat, a spreadsheet, printed text",
+   "lq": "low quality",
+   "lqnoisy": "low quality, noisy",
+   "lqrec": "Low quality recording.",
+   "none": null
+  },
+  "q": "no_q (null token 10)",
+  "seed": 42,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "text_attention_mask": false,
+  "tsv": "/home/kojiek/nvme_experiment_artifacts/meanaudio/negprompt_ablation/musiccaps_subset1024.tsv"
+ },
+ "question": "Do 106's readings (label-specific +0.44, whole-slot amplification, clean E1 +0.43 lvl30, lq failure) hold across the other two 081 training seeds?",
+ "queue_name": "108_shortneg_arm081_seeds.sh",
+ "queue_placement": "p2 after 107 (irrelneg, running).",
+ "queue_role": "p2",
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_seeds_20261007/summary.json"
+  }
+ ],
+ "resource_budget": {
+  "estimated_gpu_hours_range": [
+   2.5,
+   3.5
+  ],
+  "generated_clips": 28672,
+  "gpu": "P2 assigned GPU0 only",
+  "writable_filesystems": [
+   "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_seeds_20261007",
+   "/home/kojiek/logs"
+  ]
+ },
+ "results_document": "/home/kojiek/MeanAudio/docs/experiments/results/shortneg_arm081_seeds_20261007_results.md",
+ "resume": {
+  "autoresume": "",
+  "behavior": "Each cell is an atomic JSON; a restart regenerates any cell without one from scratch (directory deleted first, never topped up).",
+  "checkpoint": null,
+  "iteration": 0,
+  "kind": "from_scratch_with_autoresume",
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_seeds_20261007/pause_progress.json"
+ },
+ "reuses": {
+  "arm_cells_seed0": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_probe_20261006/cells",
+  "control_cells": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_2x2_probe_20260928/cells",
+  "level_match": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+  "level_match_sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714",
+  "scoring": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "scoring_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "run_id": "run-20261007-108-shortneg-arm081-seeds",
+ "schema_version": 1,
+ "scope_note": "Inference-only. Nothing is retrained.",
+ "storage": {
+  "estimated_peak_additional_bytes": 2000000000,
+  "hard_stop_free_bytes": 10000000000,
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_seeds_20261007",
+  "transient_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_seeds_20261007/cells",
+  "warning_free_bytes": 20000000000
+ },
+ "summary": "/home/kojiek/nvme_experiment_artifacts/meanaudio/shortneg_arm081_seeds_20261007/summary.json",
+ "watcher": {
+  "automatic_repair": false,
+  "poll_seconds": 2,
+  "stall_seconds": 3600
+ }
+}
