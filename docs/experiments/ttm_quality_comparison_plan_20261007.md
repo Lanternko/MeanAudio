@@ -339,7 +339,7 @@ controller 保持佇列連續運行；科學依賴與排序依賴分開登記；
 1. **主表的生成系統**：
    - **MeanAudio（論文版）**：論文主表放的是最終完整 recipe 的模型，不是任何一個 quarter 消融 arm。084 N100、caption2.0 nmv2 都只是 recipe 的單一元件，各自在 quarter 預算下對讀 control；把其中一個放進主表當「我們的模型」，會讓讀者以為它就是完整系統（修訂於 2026-10-08，使用者指出）。
      - 主表設計與元件無關：MeanAudio 列只引用「一個 checkpoint ＋ CFG0／CFG3＋fid8 兩格」，換 checkpoint 只要重跑那兩格與指標，外部基線與真實參考不必重跑。
-     - 完整 recipe 的 checkpoint 尚不存在；要不要訓練、用多少預算，屬於 GPU 時間的資源決定（第 9.2 節）。在那之前，流程用 slot0clean nmv2pair control s14159265 當代理，只用來打通流程與量吞吐，不寫進論文。
+     - 使用者 2026-10-08 選定：MeanAudio 列 = slot0clean（nmv2matched 251,596 列）full recipe（S1 400k＋S2 200k、NoQ、seed 14159265），p2 114。S1 從 066 control 的 quarter S1（it 100k）續訓到 400k，省掉重訓前 100k（約 4 h，全程約 23 h 對從頭約 27 h）；附帶好處是 quarter 與 full 共用前 100k 步，兩者差異只剩預算。在 114 完成前，slot0clean nmv2pair control s14159265 只當流程代理，不寫進論文。
      - 方法元件的效果（NegMF、品質標籤前綴等）放在消融表，用成對 checkpoint 呈現；含 PQ 導向元件的列，AES 欄依 † 規則只作描述。
    - MusicGen：`musicgen-medium`。理由：MusicGen 論文在 MusicCaps 上的主要結果用 medium；small 與 MEva 骨幹完全相同，medium 仍屬同家族，所以 § 標記保留。
    - MusicLDM：`ucsd-reach/musicldm`。
@@ -354,8 +354,7 @@ controller 保持佇列連續運行；科學依賴與排序依賴分開登記；
 ### 9.2 仍需使用者決定的事項
 
 - 聽測的聽者來源與經費（第 9.1 節第 5 點；目前延後）。
-- 是否訓練論文版完整 recipe 的 checkpoint，以及預算（full 或 quarter），因為它決定主表的 MeanAudio 列（第 9.1 節第 1 點）。
-- 已確認（2026-10-08）：MusicGen 用 medium；最終表格進論文；先做 GPU 能做的部分。
+- 已確認（2026-10-08）：MusicGen 用 medium；最終表格進論文；先做 GPU 能做的部分；MeanAudio 列訓練 slot0clean full（p2 114，S1 複用 quarter）。
 
 ### 9.3 已開始的 GPU 工作（2026-10-08）
 
