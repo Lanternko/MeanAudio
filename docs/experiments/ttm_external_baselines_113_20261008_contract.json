@@ -1,0 +1,111 @@
+{
+ "schema_version": 1,
+ "document_kind": "generation_only_external_baselines_contract",
+ "experiment_id": "ttm-external-baselines-113-20261008",
+ "git_revision": "3398e49e60a3fc815e8749acc08db5d3bdba2368",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "113_ttm_external_baselines.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-08",
+  "text": "聽者先不管，先做 GPU 能做的 / medium / 最後要放進論文"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2 after 112",
+  "valid": true,
+  "scope": "Generate MusicCaps 5521 with MusicGen-medium, MusicLDM, MusicLDM+fidelity8 at official defaults; generation only, no training, no metrics."
+ },
+ "question": "External TTM baseline audio on the same MusicCaps prompts as MeanAudio, for the paper comparison table (ttm_quality_comparison_plan_20261007.md).",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/ttm_quality_comparison_plan_20261007.md",
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "n_prompts": 5521,
+  "python": "/home/kojiek/venvs/ttm/bin/python",
+  "min_seconds": 9.9,
+  "settings": "official upstream defaults, see generator SYSTEMS table; MusicGen top_p=1.0 (= AudioCraft top_p 0 'off')",
+  "seeds": "MusicGen 42 + batch index (batch size is protocol); MusicLDM 42 + row index per-prompt generator",
+  "output": "{id}.flac PCM_16 at native sr, same as eval.py",
+  "smoke": "3 prompts x 3 systems passed 2026-10-08 (eval_output_nvme/ttm_external_smoke)"
+ },
+ "systems": [
+  {
+   "name": "musicgen_medium",
+   "repo": "facebook/musicgen-medium",
+   "revision": "d3bd7b00761b78ad7a8a05145ee31e7832e9916c",
+   "sampling_rate": 32000,
+   "batch_size": 16,
+   "snapshot": "/home/kojiek/.cache/huggingface/hub/models--facebook--musicgen-medium/snapshots/d3bd7b00761b78ad7a8a05145ee31e7832e9916c"
+  },
+  {
+   "name": "musicldm",
+   "repo": "ucsd-reach/musicldm",
+   "revision": "b8135e32e6b85e752c513d2e2ad44269e46024f7",
+   "sampling_rate": 16000,
+   "batch_size": 8,
+   "snapshot": "/home/kojiek/.cache/huggingface/hub/models--ucsd-reach--musicldm/snapshots/b8135e32e6b85e752c513d2e2ad44269e46024f7"
+  },
+  {
+   "name": "musicldm_fid8",
+   "repo": "ucsd-reach/musicldm",
+   "revision": "b8135e32e6b85e752c513d2e2ad44269e46024f7",
+   "sampling_rate": 16000,
+   "batch_size": 8,
+   "snapshot": "/home/kojiek/.cache/huggingface/hub/models--ucsd-reach--musicldm/snapshots/b8135e32e6b85e752c513d2e2ad44269e46024f7"
+  }
+ ],
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/ttm_external_20261008",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/ttm_external_20261008/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/ttm_external_20261008/pause_progress.json",
+  "note": "batch-level restart: batches whose files all exist are skipped; a partial batch is regenerated whole with the same seed"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/ttm/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_external_baselines_113.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/ttm/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_external_baselines_113.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/ttm/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_external_baselines_113.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/ttm_external_20261008/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/113_ttm_external_baselines.sh",
+  "launcher_sha256": "032ab0221ed441ce24da92ed5a0795d77467ee2a5839a0d479e1a41b36644f05",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_external_baselines_113_guest.py",
+  "harn_sha256": "caf44b2a52ce57a882909589c286f9b388583a2b9f56a7c7e58650e16f7a4439",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/ttm_external_baselines_113.py",
+  "action_sha256": "b2d81d528dfe17b01d2fc90cad80382c4486faa792e37521aacab5e2703b322e",
+  "generator": "/home/kojiek/MeanAudio/scripts/eval/ttm_external_generate.py",
+  "generator_sha256": "cb85823ed9d51eabb786d65372e94292b5d167797df1fc51b3ebe66b5b3dd991"
+ }
+}
