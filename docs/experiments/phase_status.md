@@ -21,6 +21,7 @@
 | **109–111 NegMF lq100**（∅ 分支換 `Low quality recording.`，其餘同 rev100，3 seed） | **執行中 2026-10-07**：p2 109（05:04Z seated）、110／111 pending，每 seed 約 4.3 h；預登錄：E1 ≥ +0.30 判訓練期放大、\|E1\| < 0.15 判與推論期 ≈0 一致 | `negmf_lq100_20261007.md` |
 | **112 MEva 補評 081／084**（081 arm＋slot0clean nmv2pair control 各 5 格、084 N100 2 格 × 3 seed = 36 格；音檔已刪 → 原旗標重生＋per_clip peak/LUFS 身分閘＋MEva 打分＋刪檔；control 不能沿用 097（那是 slot0nmv2 不同 ckpt）） | **已排 2026-10-07**：p2 112，排在 111 後，約 9 h（生成 11 min＋MEva 3.5 min／格）；描述性、無門檻：MEva 版 081 E1／E3 與 084 N100 CFG0 增益，與原始 AES PQ 並列 | `meva_081_084_backfill_20261007_contract.json` |
 | **盲聽 AES／MEva 地面真值**（nmv2 CFG3+neg vs CFG0、dlab 同、081 arm HQ+LQ vs control fid8；24 MusicCaps prompt × 3＋6 重複 = 78 trial，響度對齊；Q1 音質、Q2 整體） | **待評分 2026-10-06**：音檔與評分頁已發布（artifact BoPrTzrffhrTtqdng1xoQy，db `ratings/<uid>`）；預測已登錄：AES PQ 三組都偏 treatment（24/24、22/24、21/24），MEva 只 15／12／13；評完用 ArtifactData 讀出並照預登錄讀法分析 | `blind_listen_20261006.md` |
+| **113 TTM 外部基線生成**（論文比較表用：MusicGen-medium、MusicLDM、MusicLDM＋fidelity8，官方預設、revision 鎖定，MusicCaps 5521；只生成，指標另排） | **已排 2026-10-08**：p2 113，接在 112 後；3 prompt 煙測過（抓到 transformers `top_p=0.0` = greedy 的陷阱，改 1.0）；MusicGen 對純人聲 prompt 輸出靜音是模型行為，靜音算失敗不排除；論文版 MeanAudio 列等完整 recipe 的 checkpoint（是否訓練待使用者定） | `ttm_quality_comparison_plan_20261007.md`、`ttm_external_baselines_113_20261008_contract.json` |
 | 073 guidance 幾何 | 收線（結果 2026-09-27 補寫） | `results/guidance_geometry_adg_apg_20260922_results.md` |
 
 ---
