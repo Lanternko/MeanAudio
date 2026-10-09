@@ -384,6 +384,16 @@ controller 保持佇列連續運行；科學依賴與排序依賴分開登記；
   - lvl23 的 MusicGen 與 MeanAudio CFG0 cap 率 > 1%（1.61%／1.62%），這兩列只能描述，不能排名。
   - §7.5 觸發：MeanAudio 的 PQ 只在 CFG3+fidelity8 領先（CFG0 6.681 ≈ MusicLDM 6.682），要寫成依賴在評估集上選定的推論設定。
 
+### 9.4 下一段 GPU 行程：ours 列補兩個訓練 seed（2026-10-10 排）
+
+- 理由：115 裡 MeanAudio CFG3+neg 對 MusicGen 的 lvl30 PQ 差只有 0.165，和訓練 seed 的 PQ 雜訊底線同一量級；單一 seed 說不出 ours 列是不是抽到好籤。
+- p2 116（s27182818，S1 從 068 quarter S1 it 100k 續訓）、p2 117（s16180339，從 070），配方與 114 完全相同（S1 400k＋S2 200k，NoQ，NoMask，slot0clean nmv2matched 251,596 列），各約 24 h，合計約 48 h。
+  - 共用 action `scripts/training_pipelines/caption2p0_slot0clean_full_seed_action.sh` = 114 action 的逐字複本，只把 seed 改成參數（114 action 綁 sha，不動）。
+  - 合約 `caption2p0_slot0clean_full_s{27182818,16180339}_{116,117}_contract.json`；068／070 的 S1 在對應 job 跑完 Stage 1 前不可歸檔或修剪。
+- 預登錄讀法：論文表 ours 列報 114／116／117 三 seed 平均＋逐 seed 值；「CFG3+neg 的 lvl30 PQ 勝過 MusicGen」只在三個 seed 同號時成立，否則寫成平手。CLAP 與 CFG0 同樣報三 seed。
+- 116／117 完成後另排一個 job，用 115 的協定（lvl30／raw／lvl23、MEva、MIR）補這兩個 checkpoint；115 的 selection 已凍結，不重跑 115。
+- 磁碟：每個 run 約 66 G（S1 42 G＋S2 24 G），action 開跑前要求 NVMe ≥ 90 G。排程前把 114 S1（42 G）與 066 quarter S1（13 G）搬到 `/mnt/seagate/nvme_archive/exps_nvme/` 留 symlink。
+
 第 9.2 節確認後，由負責操作人員批准凍結合約及可執行的 HARN，再進入正式實驗。
 
 ## 10. 本地依據

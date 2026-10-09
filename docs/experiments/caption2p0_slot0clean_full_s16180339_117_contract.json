@@ -1,0 +1,184 @@
+{
+ "schema_version": 1,
+ "document_kind": "preregistered_experiment_contract",
+ "experiment_id": "caption2p0-slot0clean-full-s16180339-117",
+ "run_id": "run-20261010-caption2p0-slot0clean-nmv2matched-noq-full-s16180339",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "117_c2p0_slot0clean_full_s16180339.sh",
+ "queue_role": "p2",
+ "ordering_dependencies": [
+  "116_c2p0_slot0clean_full_s27182818.sh"
+ ],
+ "dependencies": [],
+ "deviations": [
+  {
+   "id": "D1-stage1-continued-from-070",
+   "text": "Stage 1 is not trained from scratch: it resumes the 070 control S1 (phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_stage1_100000) at it 100000 and runs to 400000. Same corpus, ids, seed, batch, LR; the LR is constant after the 1k warmup (lr_schedule_steps=[999999,999999]) so the quarter S1 is the first 100k steps of a full S1. ckpt_last carries weights, optimizer, scheduler, online EMA and trainer/torch/cuda RNG. The data loader resumes at the sampler position for it 100000 (about one epoch of IO to skip). Bit-identity with an uninterrupted 400k run is not claimed (dataloader worker RNG and nondeterministic kernels)."
+  },
+  {
+   "id": "D2-ema-snapshots-copied",
+   "text": "post-hoc EMA synthesis reads every snapshot in the run dir; the 070 snapshots for steps 10k..100k (20 files, sigma_rel 0.05 and 0.1) are copied (not hardlinked) into this run so ema_final covers 10k..400k. 070 must not be archived or pruned before this job finishes Stage 1."
+  },
+  {
+   "id": "D3-rows-excluded",
+   "text": "3 rows excluded (251596 of 251599), the nmv2matched id set of the 066-071 control, so the quarter and full slot0clean checkpoints train on exactly the same rows."
+  },
+  {
+   "id": "D4-contamination-spotcheck-operator-accepted",
+   "text": "slot0clean contamination spot-check verdict REPORT_TO_OPERATOR (residual 5/6000), operator accepted 2026-09-16."
+  }
+ ],
+ "hypothesis": {
+  "question": "Training-seed replicate of the 114 full slot0clean checkpoint (TTM table ours row); not an ablation.",
+  "why_now": "TTM 115: MeanAudio CFG3+neg vs MusicGen lvl30 PQ gap is 0.165, comparable to the training-seed PQ noise floor; one seed cannot say whether the ours row is a seed draw. Two more seeds (same recipe, quarter S1 reused from the 068/070 controls) give a 3-seed mean and spread for the table.",
+  "side_comparison": "quarter (070) vs full share their first 100k S1 steps; with 114 this gives a 3-seed paired quarter-vs-full budget comparison."
+ },
+ "operator_instruction": {
+  "recorded_at": "2026-10-10",
+  "text": "繼續安排 48hr 的 GPU 行程",
+  "resolved_choices": {
+   "corpus": "slot0clean nmv2matched (066-071 control inputs)",
+   "seed": 16180339,
+   "recipe": "full: S1 400k + S2 200k (identical to 114)",
+   "stage1_init": "070 S1 ckpt_last at it 100000",
+   "eval": "mc_mf25_eval_mir.sh (CFG0 + CFG3+neg, CLAP batch 1, MIR)",
+   "decided_by": "Claude as plan reviewer (operator 2026-10-08: 上級就是你)"
+  }
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "S1 100k->400k, S2 200k, canonical eval + MIR",
+  "valid": true
+ },
+ "selection": {
+  "slot": "slot0clean",
+  "parent_slot": "c2p0_slot0clean"
+ },
+ "sources": {
+  "parent_tsv": {
+   "path": "/home/kojiek/exps_nvme/slot0clean/arm_inputs/phase8_caption2p0_slot0clean_train.tsv",
+   "sha256": "68993288caf2f1e3533cd0bb94d35f6fb1cf0336a01df9a9bf183d9b7bb99e59",
+   "rows": 251599
+  },
+  "train_tsv": {
+   "path": "/home/kojiek/exps_nvme/slot0clean_nmv2matched/arm_inputs/phase8_caption2p0_slot0clean_nmv2matched_train.tsv",
+   "sha256": "f3596f79a612a80b2850b96b28432a906aed6dfbf1e39349386b2c2ccdb2f130",
+   "rows": 251596
+  },
+  "cache_list": {
+   "path": "/home/kojiek/exps_nvme/slot0clean_nmv2matched/arm_inputs/cache_train.txt",
+   "sha256": "6a1fc2f4f7cc8765c119518f02fd85fdeb5460a457948e612fe031e1f7fb2678",
+   "rows": 251596,
+   "filtered_from": "/home/kojiek/exps_nvme/slot0clean/arm_inputs/cache_train.txt",
+   "filtered_from_sha256": "cc3ea62036b6a6a0bd8b3558a13882cc89db8302308f13e4a6966d50e916cbc0"
+  },
+  "arm_manifest": {
+   "path": "/home/kojiek/exps_nvme/slot0clean_nmv2matched/arm_inputs/manifest.json",
+   "sha256": "831158f4235200f2d44b49bfab7be86b6315fcdde1544253c9d51df05496d8e4"
+  },
+  "audio_npz_dir": "/mnt/HDD/kojiek/phase8_qwen_official_matched_npz",
+  "text_overlay_dir": "/home/kojiek/text_overlays/slot0clean",
+  "text_overlay_done_sha256": "1651df9a4d3fbab9b52081f2f3a61dc54ce4302e114792d5253f94d87504392b",
+  "base_overlay": "/home/kojiek/text_overlays/true_random",
+  "shared_npz_mutation_prohibited": true
+ },
+ "training": {
+  "scale": "full",
+  "stage1_final_iteration": 400000,
+  "stage2_additional_iterations": 200000,
+  "final_iteration": 600000,
+  "seed": 16180339,
+  "batch_size": 8,
+  "learning_rate": 0.0001,
+  "q_conditioning": false,
+  "multi_cap": false,
+  "cap_index_fixed": 0,
+  "require_text_overlay": true,
+  "use_text_attention_mask": false,
+  "stage1_init_iteration": 100000,
+  "stage1_init_checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_stage1_100000/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_stage1_100000_ckpt_last.pth"
+ },
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+  "rows": 5521,
+  "solver": "MeanFlow",
+  "steps": 25,
+  "seed": 42,
+  "mask": "NoMask",
+  "precision": "full",
+  "clap": "batch 1 (eval_metrics.py)",
+  "canonical_cell": {
+   "cfg_strength": 0
+  },
+  "secondary_cell": {
+   "cfg_strength": 3.0,
+   "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi"
+  },
+  "mir": "mir_metrics.py via mc_mf25_eval_mir.sh"
+ },
+ "decision_rule": {
+  "recorded_before_launch": true,
+  "rule": "No hypothesis test inside this job. Sanity gates: both cells REPORT present; metrics in range (CLAP 0.05-0.25, PQ 5-8, no NaN); level_silent_n and level_lufs_mean reported. The TTM table reports ours as the 3-seed mean (114/116/117) with per-seed values; the TTM metrics (115 protocol: lvl30/raw/lvl23 + MEva + MIR) for these two checkpoints are a separate later job. Pre-registered reading: the ours-vs-MusicGen lvl30 PQ claim stands only if all three seeds keep the same sign under CFG3+neg; otherwise the row is worded as a tie."
+ },
+ "cells": [
+  {
+   "cell_id": "canonical_noq",
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage2_200000/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage2_200000_ema_final.pth",
+   "checkpoint_sha256": "pending_runtime_output",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0_REPORT.json"
+  },
+  {
+   "cell_id": "cfg3_neg",
+   "label": "phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg",
+   "conditioning": "no_q",
+   "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage2_200000/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage2_200000_ema_final.pth",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg_REPORT.json"
+  }
+ ],
+ "resume": {
+  "kind": "continue_from_quarter_stage1",
+  "checkpoint": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_stage1_100000/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_stage1_100000_ckpt_last.pth",
+  "checkpoint_sha256": "8d46b6fe063b2271bff106a92c57af1b48434526384deae8a98e922aeeb4fec0",
+  "checkpoint_bytes": 2403806639,
+  "iteration": 100000,
+  "autoresume": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage1_400000/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage1_400000_ckpt_last.pth"
+ },
+ "runtime_storage": {
+  "hard_stop_free_bytes": 30000000000,
+  "metrics_root": "/home/kojiek/eval_output_nvme"
+ },
+ "commands": {
+  "run": [
+   "/bin/bash",
+   "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot0clean_full_s16180339.sh"
+  ]
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/117_c2p0_slot0clean_full_s16180339.sh",
+  "launcher_sha256": "e4183c2ffd50906a064ea967fd91ecc222d9fda3a420613d06f3a07a5b386163",
+  "harn": "/home/kojiek/gpu_queue/harn_guest.py",
+  "harn_sha256": "d9c71b8d8f3b0ecb39df8dd5babb00af4ab53ccec7bc3a97064c356ac4fe5b62",
+  "action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot0clean_full_s16180339.sh",
+  "action_sha256": "f9686a9d388b4019ae442e1bf0959a8d5bd427e5cb8c827d9804a2a114b1a4dd",
+  "shared_action": "/home/kojiek/MeanAudio/scripts/training_pipelines/caption2p0_slot0clean_full_seed_action.sh",
+  "shared_action_sha256": "797e225b38ef7609ac614acbcfaa920507f84524b9541c8605f69ae3b052c0f3",
+  "eval_wrapper": "/home/kojiek/MeanAudio/scripts/eval/mc_mf25_eval_mir.sh",
+  "eval_wrapper_sha256": "92366d1fddec03f95a07c97b8b0c5060e98bfe97ea06f937dd4c4e73a4e7c3ed",
+  "eval_wrapper_inner": "/home/kojiek/MeanAudio/scripts/eval/mc_mf25_eval.sh",
+  "eval_wrapper_inner_sha256": "e1e3013b3d18ce6d5204e60c688c13201f965c03127bcd6b3a6bb84b3508dc5e",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "mir_metrics": "/home/kojiek/MeanAudio/scripts/eval/mir_metrics.py",
+  "mir_metrics_sha256": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6"
+ },
+ "completion_evidence": {
+  "ema": "/home/kojiek/MeanAudio/exps/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage2_200000/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_stage2_200000_ema_final.pth",
+  "cfg0_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0_REPORT.json"
+ }
+}
