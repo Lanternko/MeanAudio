@@ -375,6 +375,14 @@ controller 保持佇列連續運行；科學依賴與排序依賴分開登記；
     - D3：114 兩格 REPORT 首次執行時都在才納入，並凍結在 `selection.json`；不在就只出外部表，MeanAudio 列之後補跑。
     - D4：真實參考只有 5131／5521 首，用 `--allow_missing`，不算 FAD，也不納入靜音聯集。
   - 24 clip 煙測：七個系統 × 三段全部通過。
+- 115 完成，公平檢測（2026-10-10）結論為**有附註通過**，逐項見 `results/ttm_fair_comparison_115.json`。
+  - D5（事後發現）：113 生成腳本用 `sf.write` 預設的 PCM_16 寫 MusicGen 的 float 輸出，沒有 normalize，所以超過 1.0 的樣本被硬切。
+    - 規模：392/5521 首有平頂（連續 ≥3 個滿刻度樣本）。
+    - 確認：重生 96 首，與原檔逐樣本相同（corr 1.0），其中 15 首 float 峰值 > 1（最高 1.224）。
+    - 影響：同一批 clip 削波版和 float 版的 lvl30 配對差，PQ −0.0003、CLAP −0.0002，四個 AES 軸都 ≤ 0.0072，比系統間差距小兩個數量級。
+    - 判定：lvl30 的 MusicGen 列照用，不重生；raw 段（FAD、`level_clipped_n` 757）要加註腳。AudioCraft 官方 `audio_write` 預設 peak normalize，所以這是我們這邊的處理差異。
+  - lvl23 的 MusicGen 與 MeanAudio CFG0 cap 率 > 1%（1.61%／1.62%），這兩列只能描述，不能排名。
+  - §7.5 觸發：MeanAudio 的 PQ 只在 CFG3+fidelity8 領先（CFG0 6.681 ≈ MusicLDM 6.682），要寫成依賴在評估集上選定的推論設定。
 
 第 9.2 節確認後，由負責操作人員批准凍結合約及可執行的 HARN，再進入正式實驗。
 
