@@ -365,7 +365,16 @@ controller 保持佇列連續運行；科學依賴與排序依賴分開登記；
   - 煙測抓到一個設定陷阱：AudioCraft 的 `top_p=0` 代表關閉，但 transformers 的 `top_p=0.0` 會加上 top-p warper、只留機率最高的 token（等於 top-k 內的 greedy）。腳本改為 `top_p=1.0`。
   - 吞吐（與 112 共用 GPU 時）：MusicGen-medium batch 3 約 2 s／首，峰值 8.6 GB；MusicLDM 200 步約 2.5 s／首，2.6 GB。
   - raw 響度：MusicLDM 約 −19～−21 LUFS；MusicGen-medium 約 −23～−35 LUFS，比 MeanAudio 小聲，所以 raw block 的 AES 不能直接比（第 7.7 節）。
-- 之後：−30 LUFS 處理、`eval_metrics.py`（CLAP batch 1、AES、level、FAD 明確傳 `--ref_dir`）、MEva、MIR。
+- 113 已完成。指標排 p2 115（2026-10-09，接在 114 後）：−30 LUFS 處理、`eval_metrics.py`（CLAP batch 1、AES、level、FAD 明確傳 `--ref_dir`）、MEva、MIR。
+  - 腳本：`scripts/eval/ttm_metrics_115.py`、guest `scripts/experiment_harness/ttm_metrics_115_guest.py`、合約 `ttm_metrics_115_20261009_contract.json`；輸出在 `~/eval_output_nvme/ttm_metrics_115_20261009/summary.json`。
+  - 系統：3 個外部基線、真實 MusicCaps 參考，以及 114 的 `cfg0`／`cfg3_neg` 兩格。
+  - 響度段：lvl30（主，也是試聽檔）、raw、lvl23，處理方式依 §7.7（純量增益；只用 peak cap 到 0.999，不用 limiter；靜音保留 raw 並算失敗；另報排除生成系統靜音聯集的敏感度分析）。
+  - 與 §7.7 的偏差：
+    - D1：增益後的音訊寫成 FLAC PCM_24，因為 FLAC 沒有 float 格式。
+    - D2：FAD（2048 筆、seed 42，同 105）與 MIR 只算 raw，因為文獻的 FAD 都是對原始輸出算的，這樣才能對照；MIR 只當對照讀數，raw 一份就夠。
+    - D3：114 兩格 REPORT 首次執行時都在才納入，並凍結在 `selection.json`；不在就只出外部表，MeanAudio 列之後補跑。
+    - D4：真實參考只有 5131／5521 首，用 `--allow_missing`，不算 FAD，也不納入靜音聯集。
+  - 24 clip 煙測：七個系統 × 三段全部通過。
 
 第 9.2 節確認後，由負責操作人員批准凍結合約及可執行的 HARN，再進入正式實驗。
 

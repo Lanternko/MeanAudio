@@ -1,0 +1,159 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "ttm-metrics-115-20261009",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "115_ttm_metrics.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [
+  "114_c2p0_slot0clean_full_s14159265.sh"
+ ],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-09",
+  "text": "好，寫好排在 114 後面"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2 after 114",
+  "valid": true,
+  "scope": "lvl30/raw/lvl23 blocks + eval_metrics (CLAP b1, AES, level, FAD raw) + MEva + MIR for the 113 external baselines, the MusicCaps real reference, and the 114 MeanAudio cells if present; no generation, no training."
+ },
+ "question": "Objective columns of the paper TTM comparison table (ttm_quality_comparison_plan_20261007.md tables B/D) on one loudness protocol.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/ttm_quality_comparison_plan_20261007.md",
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+  "n_prompts": 5521,
+  "python": "/home/kojiek/venvs/dac/bin/python",
+  "meva_python": "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+  "meva_runtime_check_n": 50,
+  "mir_pythons": [
+   "/home/kojiek/venvs/madmom/bin/python",
+   "/home/kojiek/venvs/mir/bin/python"
+  ],
+  "gain_workers": 12,
+  "fad_ref_dir": "/mnt/HDD/kojiek/musiccaps_reference",
+  "fad_num_samples": 2048,
+  "fad_seed": 42,
+  "blocks": {
+   "lvl30": "primary; -30 LUFS BS.1770 scalar gain",
+   "raw": "descriptive",
+   "lvl23": "sensitivity"
+  },
+  "silent_rule": "raw RMS < -45 dBFS or integrated LUFS < -70 / not finite: not gained, kept as raw, counted as failure (plan §7.7)",
+  "peak_rule": "gain reduced so peak = 0.999 (level_match_rescore rule, no limiter); per-system count; lvl30 rate > 1% => processing_unequal",
+  "format": "gained audio FLAC PCM_24 (scorers read {id}.flac; deviation D1)",
+  "fad_mir_blocks": "FAD and MIR on raw only (deviation D2)"
+ },
+ "deviations": {
+  "D1": "plan §7.7 says float32 WAV; every scorer globs {id}.flac and FLAC has no float, so PCM_24 (noise floor ~-144 dBFS; PCM_16 starts to move PQ only below -42 dB, 065).",
+  "D2": "FAD only on raw: the reference set is raw real audio and VGGish embeddings are level-dependent, so lvl30 FAD would partly measure the level offset; raw FAD is also what the literature reports. MIR (beats/chroma) is level-free, raw only.",
+  "D3": "MeanAudio 114 cells (CFG0, CFG3+neg) are scored only if both REPORTs exist at the first run; frozen in selection.json. If 114 failed, rerun 115 later with the same contract after 114 is fixed (selection.json must be deleted first).",
+  "D4": "MusicCaps real reference: 5,131 of 5,521 ids exist; scored with --allow_missing as an anchor, no FAD (it is the FAD reference), excluded from the silent union."
+ },
+ "external_systems": [
+  {
+   "name": "musicgen_medium",
+   "sampling_rate": 32000,
+   "audio": "/home/kojiek/eval_output_nvme/ttm_external_20261008/musicgen_medium/audio",
+   "manifest": "/home/kojiek/eval_output_nvme/ttm_external_20261008/musicgen_medium/manifest.json",
+   "manifest_sha256": "5525d1ab38a3d18a118e03c21671d96573e0354e9a99dca06d57fce2cdd00b99"
+  },
+  {
+   "name": "musicldm",
+   "sampling_rate": 16000,
+   "audio": "/home/kojiek/eval_output_nvme/ttm_external_20261008/musicldm/audio",
+   "manifest": "/home/kojiek/eval_output_nvme/ttm_external_20261008/musicldm/manifest.json",
+   "manifest_sha256": "c0046557893c348b9b5ebdadf595955f882d3f9626985747def3ec419f2aba9d"
+  },
+  {
+   "name": "musicldm_fid8",
+   "sampling_rate": 16000,
+   "audio": "/home/kojiek/eval_output_nvme/ttm_external_20261008/musicldm_fid8/audio",
+   "manifest": "/home/kojiek/eval_output_nvme/ttm_external_20261008/musicldm_fid8/manifest.json",
+   "manifest_sha256": "b4b1a2f98d0522a4bf204fc90d4794dfe27584baf14d8795372a4b478eb17a97"
+  }
+ ],
+ "meanaudio_cells": {
+  "exp": "phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265",
+  "cells": [
+   {
+    "name": "meanaudio_cfg0",
+    "audio": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg0/audio",
+    "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg0_REPORT.json"
+   },
+   {
+    "name": "meanaudio_cfg3_neg",
+    "audio": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg3_neg/audio",
+    "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg3_neg_REPORT.json"
+   }
+  ]
+ },
+ "reference": {
+  "name": "musiccaps_real",
+  "dir": "/mnt/HDD/kojiek/musiccaps_reference"
+ },
+ "markers": {
+  "section": "MEva on musicgen_medium is descriptive only (MEva backbone = MusicGen-small)",
+  "double_dagger": "AES cross-sampling-rate comparisons (16 kHz MusicLDM/MeanAudio vs 32 kHz MusicGen) are descriptive only (16k bias, PAM audit)",
+  "dagger": "not applicable to the 114 slot0clean row (no PQ-directed training component); the CFG3+neg cell uses fidelity8 chosen on MusicCaps AES PQ"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009",
+  "min_free_bytes": 68719476736
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/pause_progress.json",
+  "note": "step-level restart: a gain block, metrics, MEva or MIR output that validates is skipped; a partial one is redone whole"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/115_ttm_metrics.sh",
+  "launcher_sha256": "e3d2824bcba63a6e8a23fe1371946196b56c91b03f70b1305fd43337b1e83e45",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+  "action_sha256": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+  "mir_metrics": "/home/kojiek/MeanAudio/scripts/eval/mir_metrics.py",
+  "mir_metrics_sha256": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6"
+ }
+}
