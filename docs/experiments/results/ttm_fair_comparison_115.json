@@ -1,0 +1,70 @@
+{
+ "document_kind": "ttm_fair_comparison_report_v1",
+ "source_summary": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/summary.json",
+ "plan": "docs/experiments/ttm_quality_comparison_plan_20261007.md §7",
+ "written_at": "2026-10-09T16:58:42+00:00",
+ "verdict": "pass_with_caveats",
+ "checks": [
+  {
+   "id": "same_prompts",
+   "status": "pass",
+   "evidence": "5521/5521 ids for every generated system; real reference 5131 (YouTube availability, D4, descriptive row)"
+  },
+  {
+   "id": "k1_no_selection",
+   "status": "pass",
+   "evidence": "113 manifests complete, 0 retries (musicgen 346 batches, musicldm*/691); MeanAudio one run seed 42; cells frozen in selection.json"
+  },
+  {
+   "id": "duration_window",
+   "status": "pass",
+   "evidence": "musicgen 9.94 s @32k, musicldm 10.0 s @16k, MeanAudio 9.984 s @16k; <0.6% length difference"
+  },
+  {
+   "id": "scorer_identity",
+   "status": "pass",
+   "evidence": "all metrics.json same git_rev 62dec5d and TSV sha de567b13; CLAP batch 1; FAD 2048/seed 42/1924 pairs for every system"
+  },
+  {
+   "id": "tuning_parity_7_5",
+   "status": "pass_with_wording_rule",
+   "evidence": "externals at official defaults (MusicGen AudioCraft sampling top_k 250 cfg 3; MusicLDM diffusers 200 steps g2.0); MusicLDM also given the same fidelity8 negative prompt",
+   "consequence": "MeanAudio PQ lead exists only in CFG3+fidelity8 (7.595 vs CFG0 6.681 ≈ MusicLDM 6.682): must be written as depending on an inference setting chosen on the eval set. Against MusicLDM+fid8 (same negative prompt) MeanAudio still leads PQ +0.38 but trails CLAP −0.041"
+  },
+  {
+   "id": "loudness_lvl30",
+   "status": "pass",
+   "evidence": "peak-cap rate ≤0.05% every system, processing_unequal false; LUFS mean −30.03…−30.06 (musicgen −30.26 because 62 silent clips are kept raw by rule)"
+  },
+  {
+   "id": "loudness_lvl23",
+   "status": "invalid_for_some",
+   "evidence": "peak-cap rate musicgen 1.61%, meanaudio_cfg0 1.62% (>1%) → processing_unequal",
+   "consequence": "lvl23 rows for those two are descriptive only; lvl30 stays primary"
+  },
+  {
+   "id": "silent_clips",
+   "status": "pass",
+   "evidence": "silent rate musicgen 1.12% vs ≤0.25% others; counted as failures in main means; excluding 94-prompt silent union changes no mean materially"
+  },
+  {
+   "id": "upstream_processing_equal",
+   "status": "pass_with_caveat",
+   "evidence": "113 generator wrote MusicGen float output to PCM_16 without normalization → hard clipping: 754/5521 clips touch full scale, 392 have flat tops (run ≥3). Regenerating 96 clips (bit-identical, corr 1.0) shows float peaks up to 1.224 in 15/96. MusicLDM/MeanAudio: 0 clipped",
+   "impact_measured": "lvl30 paired (clipped − float), 15 clipped clips: PQ −0.0003, CE +0.0045, CU −0.0009, PC +0.0072, CLAP −0.0002 (all-96 means |Δ| ≤0.0011) — two orders below between-system gaps",
+   "consequence": "lvl30 MusicGen rows usable; raw-block MusicGen (FAD, clipped_n 757) carries the clipping and must be footnoted; AudioCraft's own audio_write would peak-normalize"
+  },
+  {
+   "id": "meanaudio_protocol",
+   "status": "pass",
+   "evidence": "114 REPORT: ckpt sha 7cc14d09, cfg 3.0, fidelity8, 25 steps, no_q, MusicCaps TSV sha de567b13"
+  }
+ ],
+ "markers_7_6": {
+  "‡": "AES across sampling rates (MusicGen 32k vs 16k systems): descriptive only — AES known to over-rate 16k diffusion systems",
+  "§": "MEva on MusicGen: descriptive only",
+  "†": "not applicable to the 114 row",
+  "loudness": "PQ and CLAP move in opposite directions with loudness; lvl30 is primary, raw LUFS spans −17.3 (MeanAudio) to −21.8 (MusicLDM)",
+  "clip": "MusicGen raw output hard-clipped by PCM_16 write (this report, upstream_processing_equal)"
+ }
+}
