@@ -1,0 +1,188 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "ttm-metrics-seeds-118-20261011",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "118_ttm_metrics_seeds.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [
+  "116_c2p0_slot0clean_full_s27182818.sh",
+  "117_c2p0_slot0clean_full_s16180339.sh"
+ ],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-11",
+  "text": "為 116 與 117 兩個 checkpoint 的 CFG0／CFG3+neg 四格，用與 p2 115 完全相同的協定補指標…commit 並 push 後排進 p2 queue（由主 session 轉交的任務；plan §9.4 已預先登錄這個 job）"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2 after 117",
+  "valid": true,
+  "scope": "lvl30/raw/lvl23 blocks + eval_metrics (CLAP b1, AES, level, FAD raw) + MEva for the four 116/117 MeanAudio cells; MIR reused; no generation, no training."
+ },
+ "question": "Does the CFG3+neg lvl30 PQ lead over MusicGen-medium (115: +0.165, one training seed) keep its sign on all three training seeds (plan §9.4 pre-registered reading)? CLAP and CFG0 reported the same way.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/ttm_quality_comparison_plan_20261007.md",
+ "protocol_source": {
+  "contract": "/home/kojiek/MeanAudio/docs/experiments/ttm_metrics_115_20261009_contract.json",
+  "contract_sha256": "ed6b8098749f56a07211de6b68f508069c5f9fd734c3aa41a904e8181c8d2baa",
+  "note": "fixed_protocol copied from the 115 contract; every gain/scoring step is the 115 function imported from bindings.protocol_module. 115 files are not modified and 115 is not rerun."
+ },
+ "fixed_protocol": {
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+  "n_prompts": 5521,
+  "python": "/home/kojiek/venvs/dac/bin/python",
+  "meva_python": "/home/kojiek/MeanAudio/runtime/meva_20261003/venv/bin/python",
+  "meva_runtime_check_n": 50,
+  "gain_workers": 12,
+  "fad_ref_dir": "/mnt/HDD/kojiek/musiccaps_reference",
+  "fad_num_samples": 2048,
+  "fad_seed": 42,
+  "blocks": {
+   "lvl30": "primary; -30 LUFS BS.1770 scalar gain",
+   "raw": "descriptive",
+   "lvl23": "sensitivity"
+  },
+  "silent_rule": "raw RMS < -45 dBFS or integrated LUFS < -70 / not finite: not gained, kept as raw, counted as failure (plan §7.7)",
+  "peak_rule": "gain reduced so peak = 0.999 (level_match_rescore rule, no limiter); per-system count; lvl30 rate > 1% => processing_unequal",
+  "format": "gained audio FLAC PCM_24 (scorers read {id}.flac; deviation D1)",
+  "fad_mir_blocks": "FAD on raw only (115 deviation D2); MIR raw only, reused from the standard eval"
+ },
+ "deviations_from_115": {
+  "E1": "Cells and REPORT sha are fixed in this contract instead of a selection.json frozen at first run.",
+  "E2": "MIR is not recomputed: mir_metrics.json written by the standard eval (mc_mf25_eval_mir.sh, same mir_metrics.py sha, same raw audio) is sha-bound here and copied into the summary. 115 computed MIR itself only because the 114 cells predate the MIR wrapper.",
+  "E3": "Exclusion sensitivity uses the 115 generated-system silent union plus the silent clips of the four new cells, so the excluded set is a superset of the 115 one; excl_silent_union numbers are not identical in support to the 115 ones. Main means count silent clips as failures, as in 115.",
+  "E4": "Guest is the 115 guest unchanged (contract-driven); its pause document kind still reads ttm_metrics_115_resume_v1."
+ },
+ "meanaudio_cells": [
+  {
+   "name": "meanaudio_s27182818_cfg0",
+   "seed": 27182818,
+   "cfg": "cfg0",
+   "training_job": 116,
+   "cell": "phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0",
+   "audio": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0/audio",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0_REPORT.json",
+   "report_sha256": "90e70ff7d9100811bc3a8ac0eb2120d771117407d58267286c594606117c57bf",
+   "mir_json": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0/mir_metrics.json",
+   "mir_json_sha256": "932fb91e4fdf1c0b676d5ece6b46147eaf1b04eff48df2444c73342751b93b66"
+  },
+  {
+   "name": "meanaudio_s27182818_cfg3_neg",
+   "seed": 27182818,
+   "cfg": "cfg3_neg",
+   "training_job": 116,
+   "cell": "phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg",
+   "audio": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg/audio",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+   "report_sha256": "e393278a2c1756a6d6cf25ba55512c04e7a55b83ee00beb30f13787f0d0c6afb",
+   "mir_json": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg/mir_metrics.json",
+   "mir_json_sha256": "8619023d3b0af8e1bc4817faa4c97c006a92906da25e4fe4b0160d1b610dfa87"
+  },
+  {
+   "name": "meanaudio_s16180339_cfg0",
+   "seed": 16180339,
+   "cfg": "cfg0",
+   "training_job": 117,
+   "cell": "phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0",
+   "audio": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/audio",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0_REPORT.json",
+   "report_sha256": "3391687d9d77cb436143c422c2e0bbb273f71106c24a7b64abe42e23bb92e003",
+   "mir_json": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/mir_metrics.json",
+   "mir_json_sha256": "1e47c4be161a7be2190c7bbcfef2cd83f4de754a1c4e957060f4ed52d1e00b57"
+  },
+  {
+   "name": "meanaudio_s16180339_cfg3_neg",
+   "seed": 16180339,
+   "cfg": "cfg3_neg",
+   "training_job": 117,
+   "cell": "phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg",
+   "audio": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/audio",
+   "report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+   "report_sha256": "74d3656b434882d5b3586a89586969e35c68a0f3fe203eb303e8219b2a362aba",
+   "mir_json": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/mir_metrics.json",
+   "mir_json_sha256": "a54567546060545fabea0baba8401a1a8c9396cf639be6d32d8441e124761a5b"
+  }
+ ],
+ "summary_115": {
+  "path": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/summary.json",
+  "sha256": "926373bb0222ac193b6ccbb141ac9b92cfc50b7326a3d13d3b0f2593f6730949"
+ },
+ "three_seed": {
+  "seed_114": 14159265,
+  "cfgs": [
+   "cfg0",
+   "cfg3_neg"
+  ],
+  "reference_system": "musicgen_medium",
+  "verdict_metrics": [
+   "PQ",
+   "clap"
+  ],
+  "rule": "plan §9.4: ours vs MusicGen on lvl30 is a lead (either direction) only if 114/116/117 all have the same sign; otherwise tie. Primary: CFG3+neg PQ. CLAP and CFG0 reported the same way."
+ },
+ "markers": {
+  "section": "MEva on musicgen_medium is descriptive only (MEva backbone = MusicGen-small)",
+  "double_dagger": "AES cross-sampling-rate comparisons (16 kHz MusicLDM/MeanAudio vs 32 kHz MusicGen) are descriptive only (16k bias, PAM audit)",
+  "dagger": "not applicable to the 114 slot0clean row (no PQ-directed training component); the CFG3+neg cell uses fidelity8 chosen on MusicCaps AES PQ"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011",
+  "min_free_bytes": 34359738368
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/pause_progress.json",
+  "note": "step-level restart: a gain block, metrics or MEva output that validates is skipped; a partial one is redone whole"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_seeds_118.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_seeds_118.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_seeds_118.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/118_ttm_metrics_seeds.sh",
+  "launcher_sha256": "fcd876c55a17b93e57cc14351c3cc1cb3fdea3ff4b860b83d0a692c2930cdbc9",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_seeds_118.py",
+  "action_sha256": "884f7fe239088aa6f01cc43517af68ab967cb59618fe85027154e22c25292dd3",
+  "protocol_module": "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+  "protocol_module_sha256": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+  "mir_metrics": "/home/kojiek/MeanAudio/scripts/eval/mir_metrics.py",
+  "mir_metrics_sha256": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6"
+ }
+}
