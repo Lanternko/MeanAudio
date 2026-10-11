@@ -1,0 +1,89 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "ttm-midi-extended-meva-119-20261012",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "119_ttm_midi_extended_meva.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-12",
+  "text": "需要補 full 嗎（對 10/01 Codex 延伸輪 19,531 段補 MEva＋lvl30 AES；前兩輪 3,051 段已於同日完成）"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2, queue empty",
+  "valid": true,
+  "scope": "re-level 19,531 existing Codex stimuli to -30 LUFS, score AES + MEva, paired analysis. No generation, no training."
+ },
+ "question": "Do the round-1/2 readings (MEva flat under white/pink noise at SNR >= 20; MEva instrument/register preferences larger than the Table B system range) hold with 64 templates, 6 instruments x 3 registers, and a discovery/validation split?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/ttm_quality_comparison_plan_20261007.md",
+ "fixed_protocol": {
+  "source": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-extended-20261001",
+  "items_sha256": {
+   "midi_items.json": "b207f7a43665668502cfb23174239b982c7ee83744fa31b4a125f31a02613f37",
+   "karaoke_items.json": "7ad66af101aa10d74536f53ab903af1b4a7312f5db9a56c30f49316f54ab6871"
+  },
+  "n_clips": 19531,
+  "level": "-30 LUFS BS.1770 scalar gain, peak cap 0.999, mono 16 kHz, FLAC PCM_24",
+  "bootstrap": "cluster = template (midi, 64) or song (karaoke, 12); 10,000 draws; seed 20261012",
+  "reading": "exploratory; no pre-registered threshold. Reported for all / discovery / validation; karaoke 10 s and 30 s separately (MEva is duration-dependent). No captions, so no CLAP. No human ratings."
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/ttm_midi_extended_meva_119_20261012",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/ttm_midi_extended_meva_119_20261012/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/ttm_midi_extended_meva_119_20261012/pause_progress.json",
+  "note": "shard-level restart: a shard whose AES and MEva outputs validate is skipped; a partial one is redone whole"
+ },
+ "watcher": {
+  "stall_seconds": 10800
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_midi_extended_meva.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_midi_extended_meva.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/ttm_midi_extended_meva.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/ttm_midi_extended_meva_119_20261012/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/119_ttm_midi_extended_meva.sh",
+  "launcher_sha256": "882db6fc29efe6b95ca19a6e87b8dda3ed29e5b0bd778edf2b4cc0b9c967d141",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/ttm_midi_extended_meva.py",
+  "action_sha256": "e96708b468c4b03d0ed2aec4b79c956243163557ab3f0a4c9f58a8dc94733a47",
+  "helper_module": "/home/kojiek/MeanAudio/scripts/eval/ttm_midi_karaoke_meva.py",
+  "helper_module_sha256": "024a947b2b820275cd1b77c0cc974bdab70ed124dc160f0517fb6046f4456bb2",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+ }
+}
