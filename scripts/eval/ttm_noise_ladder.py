@@ -187,6 +187,7 @@ def score():
         ej = d / 'meva' / 'meva.json'
         if not ej.is_file():
             log(f'MEVA {b}')
+            (d / 'meva').mkdir(exist_ok=True)
             with open(d / 'meva.log', 'w') as g:
                 subprocess.run([MEVA_PY, str(REPO / 'scripts/eval/meva_score_dir.py'), '--audio_dir', str(d / 'audio'),
                                 '--out_dir', str(d / 'meva')], cwd=REPO, stdout=g, stderr=subprocess.STDOUT, check=True)
