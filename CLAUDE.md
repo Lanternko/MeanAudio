@@ -82,6 +82,8 @@
 | **AES 介入 ablation 三輪（Codex 10/01，補記）**（karaoke 12 首＋MIDI 2,160 段＋延伸 19,531 段，全部 −23 LUFS：乾淨 MIDI PQ 8.26、真實歌曲原曲 8.20（10/07 lvl30 重評：8.30／8.20，與 081 lvl30 8.20 可直接比），**兩者都高於 Jamendo 7.55**；寬頻噪聲是最強槓桿（白噪 SNR 20：MIDI −2.13、歌曲 −0.64）；去鼓／人聲／伴奏、壓低安靜段都扣分，只有去 pad +0.07（CE −0.16）；PQ 幾乎看不到結構（shuffle ±0.01、區塊重排 0）；樂器排名依 SoundFont 翻轉；無人類評分） | `docs/experiments/results/aes_codex_ablations_20261001_results.md` |
 | **AES 合成單音 × VAE 重建結果**（006 收線，2026-10-07：一個乾淨 GM 單音 PQ 中位數 7.62，勝過 91% 的 MusicCaps 真實錄音（CE 只有 3.48）；乾淨 MIDI 旋律經 VAE＋BigVGAN 仍有 8.03（lvl30 8.16 ≈ 081 HQ＋LQ 8.20）→ **7.06 是真實內容經 VAE 的值，不是 VAE 硬上限**；Δvae 依內容而變（旋律 −0.17／Jamendo −0.44／單音 −0.64）；無人類評分，不可寫 AES 偏誤。另含 10/01 Codex MIDI／karaoke ablation 的設計 doc 補記） | `docs/experiments/results/aes_midi_note_vae_probe_20261007_results.md` |
 | **TTM 論文比較表計畫＋已填的表**（表 A 覆蓋、表 B 主比較（三 seed ours 對 MusicGen／MusicLDM／真實，lvl30 為主）、表 C 指標效度、表 D 白噪音階梯；2026-10-12：ours CFG3＋fid8 對 MusicGen lvl30 PQ +0.155、CLAP +0.0105（逐曲 CI 不跨零），CLAP 輸 MusicLDM；**MEva 在 SNR ≥ 20 對白噪音無反應**、純白噪音 MEva 2.78；人類欄與表 E 未做） | `docs/experiments/ttm_quality_comparison_plan_20261007.md` |
+| **真實曲 MIDI 控制＋LALM 評審線**（p2 123／124，2026-10-14 排入：MAESTRO 150 段 × 2 SoundFont × 57 版本（應變差 25／不應變 11／底線 12）對 AES／MEva／FAD／MIR；紅綠燈把 TTM 系統放在 clean 與底線之間；Music Flamingo＋Qwen 當評審 74,158 段；預先登錄方向，無人類評分） | `docs/experiments/realpiece_control_lalm_judge_123_124_20261014.md` |
+| **2026-10-14 會議**（控制實驗改用真實曲、紅綠燈、FAD 檢查、LALM 評審、「0.47」出處） | `docs/meetings/2026-10-14_metric_controls_real_pieces_fad_lalm.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
 | Phase 4→8 完整對比表（歷史） | `docs/experiments/history/phase4-phase8/Phase4_to_Phase8_Complete_Summary.md` |
 | 文獻啟示（Audiobox、Resonate、PE-AV） | `docs/literature/Literature_Insights.md` |
