@@ -31,13 +31,16 @@ import collections
 import csv
 import json
 import math
+import os
 import shutil
 import subprocess
 import sys
-import threading
 import time
 from multiprocessing import Pool
 from pathlib import Path
+
+# MKL_NUM_THREADS set in the parent makes the forked FAD loader pool hang on its first task (first p2 123 attempt)
+os.environ.pop('MKL_NUM_THREADS', None)
 
 import numpy as np
 import soundfile as sf
@@ -154,23 +157,23 @@ def run_unit(view, bank, rows, embedder):
     log(f'unit done {view}/{bank} n={len(stems)}')
 
 
-def run(rows):
+def run(rows, limit=None):
     import ttm_fad_lvl30 as F
-    threads = []
-    for bank in BANKS:  # CPU-only, alongside the GPU scoring
-        d, ur = ROOT / 'full30' / bank, unit_rows(rows, bank)
+    embedder = F.Embedder()  # forks its loader pool: must happen while this process is single-threaded
+    procs = []
+    for bank in BANKS:  # CPU-only, alongside the GPU scoring; own process so no thread is alive at any fork here
+        d = ROOT / 'full30' / bank
         d.mkdir(parents=True, exist_ok=True)
         if not (d / 'mir.json').is_file():
-            t = threading.Thread(target=run_mir, args=(d, [r['path'] for r in ur]))
-            t.start()
-            threads.append(t)
-    embedder = F.Embedder()
+            cmd = [sys.executable, __file__, '--mir-bank', bank] + (['--limit', str(limit)] if limit else [])
+            procs.append((bank, subprocess.Popen(cmd, stdout=open(d / 'mir.log', 'w'), stderr=subprocess.STDOUT)))
     for view in VIEWS:
         for bank in BANKS:
             run_unit(view, bank, unit_rows(rows, bank), embedder)
     embedder.pool.close()
-    for t in threads:
-        t.join()
+    for bank, pr in procs:
+        if pr.wait() != 0:
+            raise SystemExit(f'MIR failed for {bank}: see full30/{bank}/mir.log')
     for bank in BANKS:
         if not (ROOT / 'full30' / bank / 'mir.json').is_file():
             raise SystemExit(f'MIR missing for {bank}')
@@ -371,16 +374,19 @@ def main():
     ap.add_argument('--validate-only', action='store_true')
     ap.add_argument('--analyze-only', action='store_true')
     ap.add_argument('--limit', type=int)
+    ap.add_argument('--mir-bank', choices=BANKS)
     a = ap.parse_args()
     if a.preflight:
         return preflight()
     if a.limit:
         ROOT = OUT / 'smoke'
     rows = items(a.limit)
+    if a.mir_bank:
+        return run_mir(ROOT / 'full30' / a.mir_bank, [r['path'] for r in unit_rows(rows, a.mir_bank)])
     if a.validate_only:
         return validate(rows)
     if not a.analyze_only:
-        run(rows)
+        run(rows, a.limit)
     analyze(rows)
     return validate(rows)
 
