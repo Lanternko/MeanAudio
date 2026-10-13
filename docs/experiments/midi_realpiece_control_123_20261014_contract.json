@@ -1,0 +1,92 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "midi-realpiece-control-123-20261014",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "123_midi_realpiece_control.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-14",
+  "text": "這個是這禮拜的會議記錄。有下一波的實驗指示。你 ASR 後，照著做，至少 24HR GPU time"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "crop and re-level 17,100 rendered MIDI stimuli, score AES + MEva + VGGish + MIR, paired analysis, FAD checks on cached embeddings. No generation, no training."
+ },
+ "question": "On real piano pieces rendered from MAESTRO MIDI, do AES, MEva, VGGish FAD and the MIR readings drop under exaggerated note-level degradations, stay put under changes that should not matter, and where do the text-to-music systems sit between the clean render and a floor stimulus?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/realpiece_control_lalm_judge_123_124_20261014.md",
+ "fixed_protocol": {
+  "stimuli": "/home/kojiek/eval_output_nvme/midi_realpiece_123",
+  "items_sha256": "856d0e5446e850c571a8d8db4f7d8b4e50f0f9accb27e7671b6651c129cf6cab",
+  "n_clips": 17100,
+  "design": "150 excerpts x 2 SoundFonts x 57 cases (1 clean, 25 degrade, 11 control, 8 ambiguous, 12 floor)",
+  "views": "full30 (30 s render) and crop10 (0.5-10.5 s, re-leveled)",
+  "level": "-30 LUFS BS.1770 scalar gain, peak cap 0.999, mono 16 kHz, FLAC PCM_24",
+  "bootstrap": "cluster = excerpt (150); 10,000 draws; seed 20261014; FAD bootstrap 100 excerpt-paired draws",
+  "reading": "pre-registered directions per class in the design document; no human ratings; no CLAP (no captions)"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/midi_realpiece_control_123",
+  "min_free_bytes": 12884901888
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/midi_realpiece_control_123/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/midi_realpiece_control_123/pause_progress.json",
+  "note": "unit-level restart (view x SoundFont): a unit whose AES, MEva and FAD embeddings validate is skipped; a partial one is redone whole"
+ },
+ "watcher": {
+  "stall_seconds": 10800
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_control_123.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_control_123.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_control_123.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/midi_realpiece_control_123/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/123_midi_realpiece_control.sh",
+  "launcher_sha256": "1ee74bf293ffb837250faf2703b45b8ebc2d32fa11f5bb902afe2437c0939156",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_control_123.py",
+  "action_sha256": "b26825f2f7a37b0e29bd63d0bc7886a95ff879326e7607568143f34fb40c675c",
+  "stimuli_builder": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_stimuli.py",
+  "stimuli_builder_sha256": "a6ec0097f48b980e4daeded1c980806e2625bc6ba94e7a9ea123b33794552f1e",
+  "fad_module": "/home/kojiek/MeanAudio/scripts/eval/ttm_fad_lvl30.py",
+  "fad_module_sha256": "8bcc4115c261b9e375b5f4261872669ac93ecb49f4501d8d1ddd280822620b6b",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+  "mir_metrics": "/home/kojiek/MeanAudio/scripts/eval/mir_metrics.py",
+  "mir_metrics_sha256": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6"
+ }
+}

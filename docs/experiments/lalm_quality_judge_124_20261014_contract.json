@@ -1,0 +1,94 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "lalm-quality-judge-124-20261014",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "124_lalm_quality_judge.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-14",
+  "text": "這個是這禮拜的會議記錄。有下一波的實驗指示。你 ASR 後，照著做，至少 24HR GPU time"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "score 74,158 existing clips with two audio LLM judges and analyze. No generation of audio, no training."
+ },
+ "question": "Can an audio LLM used as a quality judge (Music Flamingo, Qwen2.5-Omni-3B) at least rank real recordings above white noise, track expert MOS on MusicEval, and respond to the real-piece MIDI controls in the pre-registered directions?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/realpiece_control_lalm_judge_123_124_20261014.md",
+ "fixed_protocol": {
+  "items": "/home/kojiek/eval_output_nvme/lalm_judge_124/items.tsv",
+  "items_sha256": "83bc3f43179c7797b7f88d85201bdc7f394ef686bd30092a2cb93c8798be3ade",
+  "n_clips": 74158,
+  "sets": {
+   "musiceval": 2748,
+   "pam": 500,
+   "noise": 2500,
+   "midi": 17100,
+   "ttm": 30786,
+   "seeds": 20524
+  },
+  "judges": {
+   "mf": "nvidia/music-flamingo-2601-hf in ~/venvs/music_flamingo",
+   "qwen": "Qwen/Qwen2.5-Omni-3B thinker in ~/venvs/dac"
+  },
+  "scoring": "batch 1; expectation of the digit 1..5 under the next-token distribution; 4 prompts; pair task on midi (both orders); explain task greedy, 128 new tokens",
+  "bootstrap": "cluster = excerpt for midi; 10,000 draws; seed 20261014",
+  "reading": "pre-registered minimum bar and readings in the design document; ttm and seeds sets are readings only"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/lalm_judge_124",
+  "min_free_bytes": 4294967296
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/lalm_judge_124/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/lalm_judge_124/pause_progress.json",
+  "note": "row-level restart: each (judge, task, set) TSV is appended per clip and completed rows are skipped"
+ },
+ "watcher": {
+  "stall_seconds": 14400
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/lalm_quality_judge.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/lalm_quality_judge.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/lalm_quality_judge.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/lalm_judge_124/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/124_lalm_quality_judge.sh",
+  "launcher_sha256": "4a6ba17a4ecbd05b36f7006a9a74affa5bd44ca5009f2196efc2c956167314fb",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/lalm_quality_judge.py",
+  "action_sha256": "fd959bcf5ab811130af1c9e8da64f437c1860b5c84d382df37c9574a92a54208",
+  "stimuli_builder": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_stimuli.py",
+  "stimuli_builder_sha256": "a6ec0097f48b980e4daeded1c980806e2625bc6ba94e7a9ea123b33794552f1e"
+ }
+}
