@@ -752,6 +752,30 @@ lvl30（−30 LUFS，主表）：
 
 第 9.2 節確認後，由負責操作人員批准凍結合約及可執行的 HARN，再進入正式實驗。
 
+### 9.5 FAD 對齊 −30 LUFS 補算（2026-10-13）
+
+**為什麼原本沒有**：9.3 D2 定「FAD 只算 raw」，理由是文獻的 FAD 都對原始輸出算；`ttm_metrics_115.py` 另記 VGGish 特徵（log(mel+0.01)）隨音量變，只把生成端拉到 −30 LUFS 會量到音量差。這是協定選擇，不是做不到：把參考端也對齊即可。
+
+**怎麼算**：`scripts/eval/ttm_fad_lvl30.py`，結果 `docs/experiments/results/ttm_fad_lvl30_20261013.json`。VGGish（`use_pca=False, use_activation=False`），生成與參考都做純量增益到 −30 LUFS（peak cap 0.999）。系統列沿用 eval_metrics 的 2,048 抽樣（seed 42、有參考音檔的 1,924 條）；階梯／MIDI／真實歌曲對全部 5,131 首 lvl30 真實音檔算，ΔFAD = 同一批 clip 介入後 − 介入前，CI 為對 clip 配對重抽 300 次。直接跑不走 queue：CPU 為主、全程 13 分鐘（14:22–14:35），掛了 `notify_on_exit`。重取樣用 soxr（原 pipeline 是 librosa），raw 複製已發表數字差 ≤ 0.003。
+
+| 格 | raw | lvl30 |
+|---|---|---|
+| ours CFG0（三 seed） | 3.264／3.343／3.193 | 2.501／2.562／2.519 |
+| ours CFG3＋fid8（三 seed） | 5.084／4.999／5.438 | 4.403／4.439／4.781 |
+| MusicGen-medium | 5.676 | 4.244 |
+| MusicLDM 預設 | 4.414 | 2.633 |
+| MusicLDM＋fid8 | 4.670 | 3.079 |
+
+- 對齊後五格全降，外部系統降最多（MusicGen −1.43、MusicLDM −1.78／−1.59；ours −0.63～−0.74）→ raw FAD 混著音量差。
+- 名次一處變動：raw 下 MusicGen 最差、ours CFG3＋fid8 次之；lvl30 下對調（4.24 對 4.54）。CFG0 兩種算法都最低。
+- 負向 prompt 的 FAD 代價在 lvl30 仍在：ours 2.53 → 4.54、MusicLDM 2.63 → 3.08。
+- 小樣本底線（真實 lvl30 子集對全體，10 次）：n 23 3.65［3.01, 5.47］、n 100 1.38、n 128 1.05、n 384 0.39、n 1,924 0.056。絕對值不可跨 n 比。
+- 白噪音階梯（n 100）：MusicCaps 真實錄音每一檔都變差（SNR 40／30／20：+0.47／+1.08／+2.50）；ours CFG3＋fid8 在 SNR 40／30 **下降**（−0.60／−0.42，CI 不跨零）、SNR 20 才 +1.87；MusicGen SNR 40 −0.65；純 MIDI 白噪 SNR 40 −0.95（n 2,304）；真實歌曲 SNR 40／30／20 −0.53／−1.42／−1.84（n 23）。
+- 乾淨純 MIDI 的 FAD 12.5～18.2、真實歌曲原曲 10.5，遠高於同 n 底線 → FAD 是離 MusicCaps 分布的距離；AES PQ 最高的素材 FAD 最差。
+- 純 MIDI 上 FAD 對編制的反應大於對噪音：拿掉 pad +4.75、拆 2 個樂器 −4.28、換小提琴（對鋼琴）−5.68，白噪 SNR 20 只有 +0.29。
+
+**矩陣的判定規則**（視覺化頁使用，門檻為暫定、待使用者確認）：每個指標的尺 S = 表 B 六系統 lvl30 全距（PQ 0.917、CE 1.180、MEva 0.179、CLAP 0.104、FAD 2.01）。CI 整段在 ±0.10 S 內 → ≈0；CI 不跨零 → 有反應（|Δ| ≥ 0.25 S 為大）；跨零且在 ±0.25 S 內 → ≈0；其餘 → CI 太寬不能判。依此，先前手標「MEva 對 SNR 20 無反應」的 MusicCaps 真實錄音／ours／真實歌曲三格其實是「CI 太寬」（n 100／23），只有 MusicGen、MusicLDM、純 MIDI 的上升是成立的。
+
 ## 10. 本地依據
 
 - [Canonical 評價規範](evaluation_policy.md)
