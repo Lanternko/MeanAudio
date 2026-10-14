@@ -210,8 +210,11 @@ class Judge:
             inp['input_features'] = inp['input_features'].to(self.model.dtype)
             return inp
         x, sr = sf.read(path, dtype='float32')
-        if sr != SR or x.ndim != 1:
-            raise RuntimeError(f'expected mono {SR} Hz: {path}')
+        if x.ndim != 1:
+            raise RuntimeError(f'expected mono: {path}')
+        if sr != SR:  # the MusicGen ttm renders are 32 kHz; Flamingo's processor resamples them itself (first p2 124 attempt)
+            import soxr
+            x = soxr.resample(x, sr, SR, quality='VHQ').astype('float32')
         conv = [{'role': 'user', 'content': [{'type': 'audio', 'audio': path}, {'type': 'text', 'text': prompt}]}]
         text = self.proc.apply_chat_template(conv, add_generation_prompt=True, tokenize=False)
         return self.proc(text=[text], audio=[x], return_tensors='pt', padding=True, sampling_rate=SR).to('cuda')
