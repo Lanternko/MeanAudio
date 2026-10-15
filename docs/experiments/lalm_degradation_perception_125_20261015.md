@@ -50,7 +50,7 @@ MRMAD（`../literature/lalm_judge_mqascore_mrmad_2026_10_15.md`）也報告 Qwen
 
 **P1：noise 偵測**
 - noise 問題在 SNR 10 對 clean 的 AUC，四個 noise 來源**都** ≥ 0.80，且 midi 的 `white_snr20` 對 clean 的 AUC ≥ 0.80。
-- SNR 10 在 AES PQ 上已扣約 1.9 分（表 D，四個來源都在 −1.9 左右），推定人耳明顯可聞。
+- SNR 10 在 AES PQ 上已扣 1.7–2.3 分（表 D 四個來源），推定人耳明顯可聞。
 
 **P2：極性一致**
 - 在 noise 組全部 2,500 段上，S_noise 與 1 − S_noise_rev 的 Spearman ≥ 0.5。
