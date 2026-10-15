@@ -1,5 +1,7 @@
 # 真實曲 MIDI 控制實驗（p2 123）與 LALM 品質評審（p2 124）
 
+> **狀態**：123 收線 2026-10-14（`results/midi_realpiece_control_123_results.md`）；124 收線 2026-10-15，兩個評審都沒過最低門檻（`results/lalm_quality_judge_124_results.md`）。
+
 2026-10-14 排入。來源：`docs/meetings/2026-10-14_metric_controls_real_pieces_fad_lalm.md`。
 兩個 job 都只評分，不訓練、不用我們的模型生成。沒有人類評分，結論只能寫「指標對已知介入的反應」。
 
