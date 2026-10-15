@@ -1,0 +1,186 @@
+<title>TTM 逐曲分數分佈</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+TC:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* layout: 單欄閱讀寬度；上方指標分頁 → 大張密度曲線 → 同 prompt 散佈 → 統計表 → 判讀 */
+:root{
+  --bg:#f6f7f8; --panel:#ffffff; --fg:#1b1f24; --muted:#5d6670; --rule:#dde1e5;
+  --real:#111111; --ours0:#2f6fd0; --ours3:#d2541f; --mgen:#2a9a6a; --mldm:#8a5cc2; --mldm8:#c08ad8;
+  --hl:#fff3c4;
+  --f-body:"IBM Plex Sans TC","Noto Sans TC","PingFang TC",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#14171b; --panel:#1c2026; --fg:#e7eaee; --muted:#9aa4ae; --rule:#2e343c;
+  --real:#f2f2f2; --ours0:#6aa2f0; --ours3:#f08a5a; --mgen:#5cc99a; --mldm:#b28ee6; --mldm8:#dcb1ee; --hl:#4a3f12; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#14171b; --panel:#1c2026; --fg:#e7eaee; --muted:#9aa4ae; --rule:#2e343c;
+  --real:#f2f2f2; --ours0:#6aa2f0; --ours3:#f08a5a; --mgen:#5cc99a; --mldm:#b28ee6; --mldm8:#dcb1ee; --hl:#4a3f12; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:15px;line-height:1.6}
+.wrap{max-width:980px;margin:0 auto;padding-block:28px 60px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+h1{font-size:1.6rem;margin:0;font-weight:600;text-wrap:balance}
+h2{font-size:1.1rem;margin:0 0 6px;font-weight:600}
+p{margin:0;max-width:68ch}
+.sub{color:var(--muted);font-size:.9rem}
+.panel{background:var(--panel);border:1px solid var(--rule);border-radius:6px;padding:16px;min-width:0}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+.tabs button{font:500 .9rem var(--f-mono);padding:6px 12px;border:1px solid var(--rule);background:var(--panel);color:var(--fg);border-radius:4px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.tabs button:focus-visible,.legend label:focus-within{outline:2px solid var(--ours0);outline-offset:2px}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.85rem}
+.legend label{display:flex;align-items:center;gap:6px;cursor:pointer}
+.sw{width:18px;height:3px;display:inline-block;border-radius:2px}
+.sw.dash{background:repeating-linear-gradient(90deg,currentColor 0 4px,transparent 4px 7px)!important;height:2px}
+canvas{width:100%;display:block}
+.chartbox{position:relative}
+.tip{position:absolute;pointer-events:none;background:var(--panel);border:1px solid var(--rule);font:12px var(--f-mono);padding:6px 8px;border-radius:4px;white-space:nowrap}
+.tblwrap{overflow-x:auto}
+table{border-collapse:collapse;font:13px var(--f-mono);font-variant-numeric:tabular-nums;width:100%}
+th,td{padding:5px 8px;text-align:right;border-bottom:1px solid var(--rule);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:500}
+td.flag{background:var(--hl)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:720px){.grid2{grid-template-columns:1fr}}
+ul{margin:0;padding-left:1.2em;display:grid;gap:6px;max-width:72ch}
+code{font-family:var(--f-mono);font-size:.88em}
+select{font:13px var(--f-mono);padding:3px 6px;background:var(--panel);color:var(--fg);border:1px solid var(--rule);border-radius:4px}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:6px">
+    <h1>TTM 逐曲分數分佈：生成系統與 MusicCaps 真實錄音</h1>
+    <p class="sub">MusicCaps 5,131 個共同 prompt，所有音檔先純量增益到 −30 LUFS（lvl30）再評分。來源：p2 115／118 的逐曲分數。ours 有 3 個訓練 seed。2026-10-16。</p>
+  </header>
+
+  <section class="panel" style="display:grid;gap:12px">
+    <div class="tabs" id="tabs" role="group" aria-label="指標"></div>
+    <div class="legend" id="legend"></div>
+    <div class="chartbox"><canvas id="kde" height="380" aria-label="分數密度曲線"></canvas><div class="tip" id="tip" hidden></div></div>
+    <p class="sub" id="kdeNote"></p>
+  </section>
+
+  <section class="grid2">
+    <div class="panel" style="display:grid;gap:8px">
+      <h2>同一個 prompt：真實 vs 生成</h2>
+      <label class="sub">系統 <select id="scSys"></select></label>
+      <canvas id="sc" height="320" aria-label="同 prompt 散佈圖"></canvas>
+      <p class="sub" id="scNote"></p>
+    </div>
+    <div class="panel" style="display:grid;gap:8px">
+      <h2>分位數（箱形）</h2>
+      <canvas id="qbox" height="320" aria-label="分位數圖"></canvas>
+      <p class="sub">粗線 p25–p75，細線 p5–p95，點是中位數，端點 p1／p99。</p>
+    </div>
+  </section>
+
+  <section class="panel" style="display:grid;gap:8px">
+    <h2 id="tblTitle">統計</h2>
+    <div class="tblwrap"><table id="tbl"></table></div>
+    <p class="sub">dip p＝Hartigan dip test（&lt; 0.05 表示拒絕單峰，標黃）。BC＝Sarle 雙峰係數（&gt; 0.555 是常用的雙峰提示，但偏態大時也會超過，只當參考）。W₁、KS＝與真實錄音分佈的距離。ρ＝同一個 prompt 下與真實錄音分數的 Spearman 相關。</p>
+  </section>
+
+  <section class="panel" style="display:grid;gap:10px">
+    <h2>判讀</h2>
+    <ul>
+      <li><b>PQ 沒有兩極分佈。</b>十個系統的 PQ 都是單峰、左偏（dip p 全部 &gt; 0.9）。ours CFG3＋neg 平均 7.59 但 sd 只有 0.71，比真實（6.99／1.11）窄很多，整團被推到上端；MusicGen 也一樣窄（0.80）。偏離真實的方式是「被壓縮到高分」，不是「分成兩群」。</li>
+      <li><b>CE 有兩極分佈，只出現在生成音訊。</b>ours CFG0 三個 seed 都拒絕單峰（dip p 1e-4、5e-6、0.003），低峰在 CE ≈ 3.3、主峰 ≈ 7.0；MusicLDM 也拒絕（0.045）。真實錄音與 ours CFG3＋neg 是單峰。</li>
+      <li><b>低峰是哪些 prompt。</b>ours CFG0 CE &lt; 4.5 的 1,013 首，真實錄音在同一批 prompt 上的 CE 也只有 5.01（其餘 6.42），其中 42% 真實錄音也低於 4.5。這批 caption 多出現 water、didgeridoo、scary、noise、sinister、horror、eerie、effects、game、phone、wind、amateur。也就是音效／氛圍／恐怖／業餘錄音類的 prompt。CE 把「不像一首完整音樂」打低分，生成系統在這類 prompt 上做得比真實錄音更「不像音樂」，所以分成兩群。</li>
+      <li><b>CFG3＋neg 把低峰收掉了。</b>同一個 ckpt 加負向 prompt 後低 CE 比例從 19.7% 降到 5.9%，比真實錄音（15.2%）還少。分佈比真實更集中，W₁ 反而從 0.20 變 0.84，離真實更遠。</li>
+      <li><b>MEva 幾乎不認 prompt。</b>所有系統的 MEva 分佈都和真實重疊（W₁ ≤ 0.11），但同 prompt 與真實的相關只有 ρ ≈ 0.08–0.11（AES 是 0.24–0.61）。它對「這首在講什麼」不敏感，分數差異大多是逐曲雜訊。</li>
+      <li><b>CLAP 單峰，只有平移。</b>真實 0.299，ours CFG0 0.195、CFG3＋neg ≈ 0.23，形狀都一樣。</li>
+      <li><b>MusicCaps 不是均勻的真實音樂分佈。</b>它含不少業餘、現場、音效錄音，所以「接近真實分佈」在這裡的意思是接近 MusicCaps，不代表接近一般發行音樂。</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+const D = __DATA__;
+const SYS = {
+  real:{c:'--real',w:2.6,d:false,on:true},
+  musicgen:{c:'--mgen',w:1.8,d:false,on:true},
+  musicldm:{c:'--mldm',w:1.6,d:false,on:true},
+  musicldm_fid8:{c:'--mldm8',w:1.4,d:true,on:false},
+  ours_cfg0:{c:'--ours0',w:1.8,d:false,on:true},
+  ours_cfg0_s2:{c:'--ours0',w:1,d:true,on:true},
+  ours_cfg0_s3:{c:'--ours0',w:1,d:true,on:true},
+  ours_cfg3neg:{c:'--ours3',w:1.8,d:false,on:true},
+  ours_cfg3neg_s2:{c:'--ours3',w:1,d:true,on:true},
+  ours_cfg3neg_s3:{c:'--ours3',w:1,d:true,on:true},
+};
+const LABEL = Object.fromEntries(D.systems.map(s=>[s.key,s.label]));
+const MLAB = {PQ:'AES PQ',CE:'AES CE',CU:'AES CU',PC:'AES PC',MEva:'MEva',clap:'CLAP'};
+let metric = 'CE';
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+
+function setupCanvas(cv){const r=window.devicePixelRatio||1;const w=cv.clientWidth;const h=+cv.getAttribute('height');cv.width=w*r;cv.height=h*r;cv.style.height=h+'px';const x=cv.getContext('2d');x.setTransform(r,0,0,r,0,0);return [x,w,h];}
+function ticks(lo,hi,n){const s=(hi-lo)/n;const p=Math.pow(10,Math.floor(Math.log10(s)));const st=[1,2,2.5,5,10].map(k=>k*p).find(k=>k>=s);const out=[];for(let v=Math.ceil(lo/st)*st;v<=hi+1e-9;v+=st)out.push(+v.toFixed(6));return out;}
+function fmt(v,m){return m==='clap'?v.toFixed(3):v.toFixed(2);}
+
+function tabs(){const t=document.getElementById('tabs');t.innerHTML='';for(const m of D.metric_order){const b=document.createElement('button');b.textContent=MLAB[m];b.setAttribute('aria-pressed',m===metric);b.onclick=()=>{metric=m;try{localStorage.setItem('m',m)}catch(e){}draw();};t.appendChild(b);}}
+function legend(){const l=document.getElementById('legend');l.innerHTML='';for(const k in SYS){const s=SYS[k];const lab=document.createElement('label');const cb=document.createElement('input');cb.type='checkbox';cb.id='cb_'+k;cb.checked=s.on;cb.onchange=()=>{s.on=cb.checked;draw();};const sw=document.createElement('span');sw.className='sw'+(s.d?' dash':'');sw.style.background=css(s.c);sw.style.color=css(s.c);lab.append(cb,sw,document.createTextNode(LABEL[k]));l.appendChild(lab);}}
+
+let kdeGeom=null;
+function drawKDE(){
+  const M=D.metrics[metric];const [x,W,H]=setupCanvas(document.getElementById('kde'));
+  const L=44,R=12,T=12,B=34;const g=M.grid;const lo=g[0],hi=g[g.length-1];
+  let ymax=0;for(const k in SYS){if(!SYS[k].on)continue;ymax=Math.max(ymax,...M.by_system[k].density);}
+  ymax*=1.06;const X=v=>L+(v-lo)/(hi-lo)*(W-L-R),Y=v=>T+(1-v/ymax)*(H-T-B);
+  x.font='12px '+css('--f-mono');x.fillStyle=css('--muted');x.strokeStyle=css('--rule');x.lineWidth=1;
+  for(const t of ticks(lo,hi,8)){x.beginPath();x.moveTo(X(t),T);x.lineTo(X(t),H-B);x.stroke();x.textAlign='center';x.fillText(fmt(t,metric).replace(/0+$/,'').replace(/\.$/,''),X(t),H-B+16);}
+  x.textAlign='left';x.fillText('密度',4,T+8);x.textAlign='right';x.fillText(MLAB[metric]+'（lvl30）',W-R,H-4);
+  x.beginPath();x.moveTo(L,H-B);x.lineTo(W-R,H-B);x.strokeStyle=css('--muted');x.stroke();
+  const order=Object.keys(SYS).filter(k=>k!=='real').concat(['real']);
+  for(const k of order){const s=SYS[k];if(!s.on)continue;const dd=M.by_system[k].density;x.beginPath();g.forEach((v,i)=>{i?x.lineTo(X(v),Y(dd[i])):x.moveTo(X(v),Y(dd[i]));});x.strokeStyle=css(s.c);x.lineWidth=s.w;x.setLineDash(s.d?[5,4]:[]);x.stroke();
+    if(k==='real'){x.lineTo(X(hi),Y(0));x.lineTo(X(lo),Y(0));x.closePath();x.globalAlpha=.08;x.fillStyle=css(s.c);x.fill();x.globalAlpha=1;}
+    const mu=M.by_system[k].mean;x.setLineDash([]);x.beginPath();x.moveTo(X(mu),H-B);x.lineTo(X(mu),H-B-7);x.lineWidth=2;x.stroke();}
+  x.setLineDash([]);kdeGeom={X,lo,hi,L,R,W,g};
+  const b=M.by_system;const bim=Object.keys(b).filter(k=>b[k].dip_p<0.05).map(k=>LABEL[k]);
+  document.getElementById('kdeNote').textContent='KDE（高斯核，Scott 頻寬），曲線下方短刻度是平均。'+(bim.length?' 拒絕單峰（dip p < 0.05）：'+bim.join('、')+'。':' 所有系統都沒有拒絕單峰。');
+}
+const kdeCv=document.getElementById('kde'),tip=document.getElementById('tip');
+kdeCv.addEventListener('mousemove',e=>{if(!kdeGeom)return;const r=kdeCv.getBoundingClientRect();const px=e.clientX-r.left;const {lo,hi,L,R,W,g}=kdeGeom;const v=lo+(px-L)/(W-L-R)*(hi-lo);if(v<lo||v>hi){tip.hidden=true;return;}const i=Math.round((v-lo)/(hi-lo)*(g.length-1));const M=D.metrics[metric];const rows=Object.keys(SYS).filter(k=>SYS[k].on).map(k=>`${LABEL[k].padEnd(26,' ')} ${M.by_system[k].density[i].toFixed(3)}`);tip.textContent=`${MLAB[metric]} = ${fmt(g[i],metric)}\n`+rows.join('\n');tip.style.whiteSpace='pre';tip.hidden=false;const tx=Math.min(px+12,r.width-tip.offsetWidth-4);tip.style.left=Math.max(0,tx)+'px';tip.style.top='8px';});
+kdeCv.addEventListener('mouseleave',()=>tip.hidden=true);
+
+function drawScatter(){
+  const k=document.getElementById('scSys').value;const xs=D.scatter.real[metric],ys=D.scatter[k][metric];
+  const [x,W,H]=setupCanvas(document.getElementById('sc'));const L=44,R=10,T=10,B=34;
+  const all=xs.concat(ys).slice().sort((a,b)=>a-b);const lo=all[Math.floor(all.length*.002)],hi=all[Math.ceil(all.length*.998)-1];
+  const S=Math.min(W-L-R,H-T-B);const X=v=>L+(v-lo)/(hi-lo)*S,Y=v=>T+(1-(v-lo)/(hi-lo))*S;
+  x.font='12px '+css('--f-mono');x.fillStyle=css('--muted');x.strokeStyle=css('--rule');
+  for(const t of ticks(lo,hi,5)){x.beginPath();x.moveTo(X(t),T);x.lineTo(X(t),T+S);x.moveTo(L,Y(t));x.lineTo(L+S,Y(t));x.stroke();x.textAlign='center';x.fillText(fmt(t,metric),X(t),T+S+16);x.textAlign='right';x.fillText(fmt(t,metric),L-4,Y(t)+4);}
+  x.beginPath();x.moveTo(X(lo),Y(lo));x.lineTo(X(hi),Y(hi));x.strokeStyle=css('--muted');x.setLineDash([4,4]);x.stroke();x.setLineDash([]);
+  x.fillStyle=css(SYS[k].c);x.globalAlpha=.28;for(let i=0;i<xs.length;i++){x.fillRect(X(xs[i])-1.5,Y(ys[i])-1.5,3,3);}x.globalAlpha=1;
+  x.fillStyle=css('--muted');x.textAlign='left';x.fillText('真實 →',L+S-50,T+S+30>H?H-2:T+S+30);
+  x.save();x.translate(12,T+40);x.rotate(-Math.PI/2);x.textAlign='right';x.fillText('生成 →',0,0);x.restore();
+  const st=D.metrics[metric].by_system[k];document.getElementById('scNote').textContent=`隨機 2,000 個 prompt。同 prompt Spearman ρ = ${st.spearman_with_real_same_prompt.toFixed(3)}（全部 5,131 個）。虛線是 y = x。`;
+}
+
+function drawBox(){
+  const M=D.metrics[metric];const ks=Object.keys(SYS);const [x,W,H]=setupCanvas(document.getElementById('qbox'));
+  const L=170,R=10,T=6,B=26;const lo=M.grid[0],hi=M.grid[M.grid.length-1];const X=v=>L+(v-lo)/(hi-lo)*(W-L-R);const rh=(H-T-B)/ks.length;
+  x.font='12px '+css('--f-mono');x.strokeStyle=css('--rule');x.fillStyle=css('--muted');
+  for(const t of ticks(lo,hi,5)){x.beginPath();x.moveTo(X(t),T);x.lineTo(X(t),H-B);x.stroke();x.textAlign='center';x.fillText(fmt(t,metric),X(t),H-8);}
+  ks.forEach((k,i)=>{const q=M.by_system[k].quantiles;const y=T+rh*(i+.5);x.fillStyle=css('--fg');x.textAlign='right';x.font=(W<520?'10px ':'12px ')+css('--f-mono');x.fillText(LABEL[k].replace('ours ','').replace('MusicCaps ',''),L-8,y+4);
+    x.strokeStyle=css(SYS[k].c);x.lineWidth=1;x.beginPath();x.moveTo(X(q.p1),y-3);x.lineTo(X(q.p1),y+3);x.moveTo(X(q.p99),y-3);x.lineTo(X(q.p99),y+3);x.moveTo(X(q.p5),y);x.lineTo(X(q.p95),y);x.stroke();
+    x.lineWidth=6;x.beginPath();x.moveTo(X(q.p25),y);x.lineTo(X(q.p75),y);x.stroke();x.fillStyle=css('--panel');x.beginPath();x.arc(X(q.p50),y,3.2,0,7);x.fill();x.lineWidth=1.5;x.stroke();});
+}
+
+function table(){
+  const M=D.metrics[metric];document.getElementById('tblTitle').textContent=MLAB[metric]+' 統計（n = '+D.n_common.toLocaleString()+'）';
+  const h=['系統','平均','sd','p5','p50','p95','偏態','BC','dip p','W₁','KS','ρ'];
+  let s='<thead><tr>'+h.map(v=>`<th>${v}</th>`).join('')+'</tr></thead><tbody>';
+  for(const k in SYS){const b=M.by_system[k];const q=b.quantiles;const f=v=>fmt(v,metric);
+    s+=`<tr><td>${LABEL[k]}</td><td>${f(b.mean)}</td><td>${f(b.sd)}</td><td>${f(q.p5)}</td><td>${f(q.p50)}</td><td>${f(q.p95)}</td><td>${b.skew.toFixed(2)}</td><td>${b.bimodality_coef.toFixed(3)}</td><td class="${b.dip_p<0.05?'flag':''}">${b.dip_p<0.001?b.dip_p.toExponential(1):b.dip_p.toFixed(3)}</td><td>${k==='real'?'—':f(b.w1_to_real)}</td><td>${k==='real'?'—':b.ks_to_real.toFixed(3)}</td><td>${k==='real'?'—':b.spearman_with_real_same_prompt.toFixed(3)}</td></tr>`;}
+  document.getElementById('tbl').innerHTML=s+'</tbody>';
+}
+
+function draw(){tabs();drawKDE();drawScatter();drawBox();table();}
+(function init(){try{const m=localStorage.getItem('m');if(m&&D.metrics[m])metric=m;}catch(e){}
+  const sel=document.getElementById('scSys');for(const k in SYS){if(k==='real')continue;const o=document.createElement('option');o.value=k;o.textContent=LABEL[k];sel.appendChild(o);}sel.value='ours_cfg0';sel.onchange=drawScatter;
+  legend();draw();window.addEventListener('resize',()=>{clearTimeout(window.__r);window.__r=setTimeout(draw,120);});
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change',()=>{legend();draw();});
+  new MutationObserver(()=>{legend();draw();}).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+})();
+</script>

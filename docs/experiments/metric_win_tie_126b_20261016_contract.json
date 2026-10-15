@@ -1,0 +1,92 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "metric-win-tie-126b-20261016",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "127_metric_win_tie_pieces.sh",
+ "queue_role": "p2",
+ "dependencies": [
+  "126_metric_win_tie_signal (analyze reads S from docs/experiments/results/metric_win_tie_126a_summary.json)"
+ ],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-16",
+  "text": "完整 GPU 希望至少運作 24HR 的量，你盡量安排，直到我們能找到 eval model 在哪個臨界點失靈"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "score 87,653 pre-built 10 s clips (metric_win_tie_126b_stimuli.py, CPU, already on NVMe): 402 famous-piece MIDI excerpts (9 Mutopia classical piano pieces + 10 CSD nursery melodies) x 2 SoundFonts x 42 note-level single-variable cases (wrong/random pitch, position/pitch shuffle, jitter, unsteady tempo, block shuffle, retrograde, drop/extra notes, blast notes; soft: transpose +-1, tempo +-2/5 %, velocity x0.85), the 52 126a signal variants on one SoundFont and on the real/poor recordings (CSD sung, YouTube pro and presumed-poor piano and child singing), and 174 floor clips (white noise, +-1 / 0-1 binary waveforms, square, sine, sweep, pulse train, DC, silence); AES + MEva + CLAP(batch 1) + VGGish frames per clip; MIR precomputed on CPU. No generation, no training."
+ },
+ "question": "Do the metrics rank an obviously wrong performance of a famous piece (wrong notes, shuffled notes, blast notes) below the correct one, tie musically irrelevant changes (transpose 1 semitone, 2 % tempo, SoundFont swap), rank pro > poor > MIDI sensibly, and put every floor (incl. binary 0/1 waveforms) below real music?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_win_tie_126_20261016.md",
+ "fixed_protocol": {
+  "stimuli": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/stimuli/items.json (87,653 rows; built 2026-10-16 by scripts/eval/metric_win_tie_126b_stimuli.py)",
+  "n_clips": 87653,
+  "n_units": 34,
+  "judgment": "delta = score(case) - score(clean base, same excerpt); tie if |delta| <= m, m = 0.10 S; S = 126a S (5-system clean range) for neural metrics, SD of 126b clean clips for MIR; pass = 80 % of pairs; m curve 0..0.5 S reported",
+  "cross": "per piece pro vs poor vs MIDI unpaired win rates; CSD real vs MIDI paired; poor child singing vs CSD real; SoundFont swap as soft tie",
+  "floors": "fraction of real/MIDI clean clips scoring below each floor; floor vs white noise at the same level",
+  "fad": "VGGish frames per clip (float16); FAD per case vs its clean bases, per floor vs all music",
+  "reading": "no human ratings; poor = presumed from title, listened manifest vetoes applied; PC and MIR have no human validation here"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/pause_progress.json",
+  "note": "unit-level restart: a unit with matching keys, done.json and vggish_frames is skipped; a partial one is redone whole; mir.json skipped if present"
+ },
+ "watcher": {
+  "stall_seconds": 10800
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126b.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126b.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126b.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/127_metric_win_tie_pieces.sh",
+  "launcher_sha256": "c02fc06aa7c40e066f9f5a66a2038fc2381f4068387e4057f0c1138c537fa204",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126b.py",
+  "action_sha256": "e2478559e574647d9ab1db01c9a8bacc7e8acd1368a0d4bc75d52f205be7acce",
+  "fad_module": "/home/kojiek/MeanAudio/scripts/eval/ttm_fad_lvl30.py",
+  "fad_module_sha256": "8bcc4115c261b9e375b5f4261872669ac93ecb49f4501d8d1ddd280822620b6b",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+  "action_dep": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py",
+  "action_dep_sha256": "1838b508c4583e42b27d877db9a4471016009799553ad884ee70e3ef89bbc6b7"
+ }
+}

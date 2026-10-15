@@ -1,0 +1,87 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "metric-win-tie-126a-20261016",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "126_metric_win_tie_signal.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-16",
+  "text": "完整 GPU 希望至少運作 24HR 的量，你盡量安排，直到我們能找到 eval model 在哪個臨界點失靈"
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "apply 52 signal-level single-variable interventions (23 should-tie, 30 should-lose ladders incl. clean ref) to 5,131 MusicCaps-shared clips of 5 systems (real, ours CFG3+neg, ours CFG0, MusicGen, MusicLDM; 115 lvl30 audio), score AES + MEva + CLAP(batch 1) + VGGish; per-pair win/tie/lose analysis. No generation, no training."
+ },
+ "question": "For each metric, at what magnitude does a should-tie change (gain, polarity, format, lead silence, MP3) stop being judged a tie, and at what magnitude does an obvious degradation (noise, clipping, bitcrush, clicks, dropout, lowpass, blasts, shuffle, reverse) start being judged worse, pair by pair?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_win_tie_126_20261016.md",
+ "fixed_protocol": {
+  "source_audio": "/home/kojiek/eval_output_nvme/ttm_metrics_115/<system>/lvl30/audio (native sr: MusicGen 32 kHz, others 16 kHz)",
+  "n_clips": 5131,
+  "n_units": 265,
+  "variants": "see VARIANTS in action; transforms at native sr, output clipped to +-0.999 with over-FS count recorded, per-clip RNG crc32(system/variant/id)",
+  "judgment": "delta = score(variant) - score(clean); tie if |delta| <= m, m = 0.10 S, S = range of the 5 systems' clean means per metric; pass = 80% of pairs; full m curve 0..0.5 S reported",
+  "fad": "VGGish per unit (mu, sigma); FAD vs own clean and vs real clean",
+  "reading": "no human ratings; MEva and CLAP read alongside AES; PC has no directed expectation"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126a_20261016",
+  "min_free_bytes": 42949672960
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/metric_win_tie_126a_20261016/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/metric_win_tie_126a_20261016/pause_progress.json",
+  "note": "unit-level restart (variant x system): a unit with matching ids, done.json and fad_stats is skipped; a partial one is redone whole"
+ },
+ "watcher": {
+  "stall_seconds": 10800
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126a_20261016/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/126_metric_win_tie_signal.sh",
+  "launcher_sha256": "47fa8f9e118071c40fa83e6e74a5b90b3619c0be4ae8661b8f86d0be2515112f",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py",
+  "action_sha256": "1838b508c4583e42b27d877db9a4471016009799553ad884ee70e3ef89bbc6b7",
+  "fad_module": "/home/kojiek/MeanAudio/scripts/eval/ttm_fad_lvl30.py",
+  "fad_module_sha256": "8bcc4115c261b9e375b5f4261872669ac93ecb49f4501d8d1ddd280822620b6b",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+ }
+}
