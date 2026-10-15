@@ -89,7 +89,6 @@
 7. **NegMF full recipe 過了 PQ 端點但 FAD 更差**：論文裡怎麼擺？
    - 方法消融列？
    - 還是只當「PQ 導向訓練會傷分布指標」的例子？
-8. **磁碟**：NVMe 剩約 22 GB。以下可進刪除流程：
-   - `midi_realpiece_123` 刺激 16 GB（125 擱置後沒有下游）。
-   - 120–122 的 control S1 `ckpt_last`（122 已完成）。
-   - 需要確認要不要刪。
+8. **磁碟**（已處理，2026-10-15）：改成搬到 seagate 歸檔碟，原路徑留 symlink，沒有刪除。
+   - 搬了 `midi_realpiece_123`（16 GB）、`midi_realpiece_control_123`（6 GB）、control s16180339 的 S1 400k 目錄（42 GB；另兩個 seed 先前已在 seagate）。
+   - 三個 control 的 S2 目錄留在 NVMe（TTM 表 ours 列）。

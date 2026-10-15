@@ -61,4 +61,4 @@ E1 比 084（quarter、S2-only，+0.948）大小幾乎一樣，R = 1.04。
 ## 後續
 
 - 120–122 跑完，三個 full control 的 S1 `ckpt_last` 與 mf25 音檔的「122 完成前不可刪」限制解除。
-- 是否刪除依清理流程（四類標準）另提。
+- 2026-10-15：s16180339 的 S1 400k 目錄搬到 `/mnt/seagate/nvme_archive/exps_nvme/`（留 symlink）；三個 S1 現在都在 seagate，S2 留 NVMe。
