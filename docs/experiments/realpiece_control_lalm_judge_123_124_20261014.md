@@ -50,7 +50,7 @@
 
 - 評審：Music Flamingo（`~/venvs/music_flamingo`）、Qwen2.5-Omni-3B thinker（`~/venvs/dac`）。一律 batch 1（bs1 與 bs16 分數不同）。
 - 分數不靠抽樣：固定評分 prompt 後，取下一個 token 在 1–5 五個數字上的期望值。每個（評審, prompt, clip）一個決定性分數。smoke 的數字機率質量 0.98–0.999。
-- 四個 prompt：overall、production、musical、professional。
+- 四個 prompt：overall、production、musical、professional（原文見 `results/lalm_quality_judge_124_results.md`「Prompt 原文」）。
 - 另有兩個任務：`pair`（MIDI clean 與介入版各 10 s 接成一檔，兩種順序，問哪段較好）與 `explain`（兩句評語＋`Rating: N`，greedy，128 token）。
 - 刺激 74,158 段（`items.tsv` sha256 `83bc3f43…be3ade`）：
 

@@ -24,6 +24,40 @@
 - **因此 Qwen 讀到的 MusicGen ttm 是 32→16 kHz 重採樣版**；其他來源原本就是 16 kHz。
 - GPU 時間：Flamingo 約 15.4 h，Qwen 約 17.5 h（10-14 17:00 → 10-15 10:37，含 9 分鐘中斷）；加上 123 的約 1 h。
 
+## Prompt 原文（`scripts/eval/lalm_quality_judge.py`，action sha 已綁 contract）
+
+四個評分 prompt 都接同一個結尾 ` Answer with a single digit from 1 to 5.`：
+
+| 任務 | prompt |
+|---|---|
+| overall | Rate the overall quality of this music recording on a scale from 1 (very bad) to 5 (excellent). |
+| production | Rate the audio production quality of this recording (clarity, fidelity, absence of noise, distortion and glitches) on a scale from 1 (very bad) to 5 (excellent). |
+| musical | Rate the musical quality of this recording (melody, harmony, rhythm, and how well the performance holds together) on a scale from 1 (very bad) to 5 (excellent). |
+| professional | How likely is it that this is a professionally performed and produced music recording, on a scale from 1 (certainly not) to 5 (certainly)? |
+| pair | This audio contains two music excerpts separated by a short silence. Which excerpt has the better overall quality, the first or the second? Answer with a single digit: 1 or 2. |
+| explain | Listen to this music recording. In at most two short sentences (under 40 words in total), describe its most noticeable strengths or flaws in sound quality and musical performance. Then finish with "Rating: N", where N is a single digit from 1 (very bad) to 5 (excellent). |
+
+格式細節：
+- 單輪 user 訊息，不加 system prompt（Qwen 因此每次印出 system-prompt 警告）。
+- Flamingo 的訊息是「文字在前、音訊在後」，Qwen 是「音訊在前、文字在後」，各自照官方範例的順序。
+- 評分任務：取 assistant 回答第一個 token 在數字 1–5（pair 是 1–2）上的 softmax 期望值，不抽樣。
+- explain：greedy 生成 128 token，取最後一個 `Rating: N`。
+- pair：兩段各取 0.5–10.5 s，中間隔 0.5 s 靜音，兩種順序各評一次。
+
+### explain 評語實例（說明失敗型態）
+
+從 noise 組的 explain 輸出（`scores/{mf,qwen}__explain__noise.jsonl`）抽出的評語：
+
+- **Flamingo**，ours CFG3＋neg 加 SNR 10 白噪音（Rating 4）：「The recording is clear and well-balanced, with a clean mix and **no noticeable distortion or background noise**.」
+  同一來源的 clean 版本，有的評語反而寫「muffled and low-fidelity, with noticeable background noise」。
+- **Flamingo**，純白噪音（Rating 1）：「extremely quiet and almost inaudible, with no discernible musical content」。它沒有說這是噪音，而是說幾乎聽不到。
+- **Qwen**，純白噪音（Rating 4）：「The recording is clear and free of distortion, with a **balanced mix of instruments**.」
+  ours 的 clean 與 SNR 10 版本拿到幾乎逐字相同的評語：「clear and well-balanced … the volume is slightly too high, causing some distortion」。
+
+這些評語顯示，問題出在評審**是否聽得出噪音**，而不只是評分 prompt 的措辭：
+- Flamingo 在 SNR 10 明確說「沒有背景噪音」。
+- Qwen 的 explain 評語接近固定模板，不隨內容變化。
+
 ## 1. 最低門檻（預先登錄）：未過
 
 noise 組：四個來源（ours CFG3＋neg、MusicCaps 真實、MusicGen-medium、MusicLDM）各 100 段，各有 clean 與白噪音 SNR 40／30／20／10／0 共 6 級，另有純白噪音 100 段。
@@ -165,7 +199,6 @@ overall，5,131 prompt 的平均：
 - Flamingo 最大的不一致是「對擴散系統加噪音，分數上升」。
 - Qwen 的評分 prompt 至少把白噪音放在最底，但噪音階梯不單調；explain 任務完全排反。
 - 描述性讀數中，Flamingo 的 MIDI degrade 命中率與 MusicEval 系統層 ρ 都高。由於門檻未過，這兩點不作為效度證據。
-- 無人類評分。後續若要再試 LALM 評審，可以考慮的方向如下（皆未預先登錄，供討論）：
-  - 換 prompt 措辭。
-  - 對擴散系統的噪音反應做專門檢查。
-  - 加入成對比較的人類標註。
+- 無人類評分。
+- **本結果照原樣登錄，不等新 prompt。** 理由是 explain 評語顯示，Flamingo 在 SNR 10 說「沒有背景噪音」，Qwen 把白噪音描述成「樂器平衡的混音」。這是感知層的失敗，換評分措辭不太可能讓噪音階梯變單調。
+- 若要再試，比較有資訊量的是一個**感知檢查**，而不是換評分措辭：直接問「這段錄音有沒有可聽見的嘶聲／白噪音」（yes／no 期望值），看偵測率隨 SNR 怎麼變。如果連偵測都做不到，品質評分就沒有基礎。這個實驗未排、未預先登錄。
