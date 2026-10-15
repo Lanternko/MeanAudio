@@ -1,0 +1,236 @@
+<title>音樂片段聽測</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Noto+Sans+TC:wght@400;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one centered work column; a trial is a card with caption, two players side by side (stacked on phones), two forced-choice rows. */
+:root {
+  --bg: #eef2f2; --surface: #ffffff; --fg: #17201f; --muted: #5b6b69; --line: #cfd9d8;
+  --accent: #0f6b6b; --accent-soft: #d6ecea; --a: #2f5fa8; --b: #a8572f; --warn: #8a5a00; --warn-soft: #fbefd5;
+  --sans: "Atkinson Hyperlegible", "Noto Sans TC", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #111817; --surface: #19221f; --fg: #e3ecea; --muted: #93a5a2; --line: #2d3a38;
+  --accent: #5cc2bb; --accent-soft: #1d3634; --a: #7ea6e6; --b: #e39a74; --warn: #f0c36b; --warn-soft: #3a2f17; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #111817; --surface: #19221f; --fg: #e3ecea; --muted: #93a5a2; --line: #2d3a38;
+  --accent: #5cc2bb; --accent-soft: #1d3634; --a: #7ea6e6; --b: #e39a74; --warn: #f0c36b; --warn-soft: #3a2f17; color-scheme: dark }
+body { background: var(--bg); color: var(--fg); font: 16px/1.55 var(--sans); }
+.wrap { max-width: 760px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 48px; display: grid; gap: 20px; }
+h1 { font-size: 1.5rem; margin: 0; text-wrap: balance; }
+p { margin: 0; max-width: 65ch; }
+.muted { color: var(--muted); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px; display: grid; gap: 18px; min-width: 0; }
+.bar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: space-between; }
+.count { font: 500 0.9rem var(--mono); font-variant-numeric: tabular-nums; color: var(--muted); }
+.track { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.track > i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .2s; }
+.caption { font-size: 0.98rem; background: var(--accent-soft); border-radius: 8px; padding: 12px 14px; }
+.label { font-size: 0.75rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.players { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 520px) { .players { grid-template-columns: 1fr; } }
+.player { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: grid; gap: 8px; min-width: 0; }
+.player h3 { margin: 0; font-size: 1.05rem; }
+.player[data-k="A"] h3 { color: var(--a); } .player[data-k="B"] h3 { color: var(--b); }
+.player audio, .calib audio { width: 100%; }
+.calib { border: 1px solid var(--line); border-radius: 8px; padding: 12px; display: grid; gap: 8px; }
+.check { display: flex; gap: 8px; align-items: flex-start; }
+.check input { accent-color: var(--accent); margin-top: .35em; }
+.heard { font-size: 0.8rem; color: var(--muted); }
+.heard.ok { color: var(--accent); }
+fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 8px; }
+legend { font-weight: 700; padding: 0; margin-bottom: 6px; }
+.choices { display: flex; flex-wrap: wrap; gap: 8px; }
+.choices label { flex: 1 1 120px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; display: flex; gap: 8px; align-items: center; }
+.choices label:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.choices input { accent-color: var(--accent); }
+button { font: 700 1rem var(--sans); border-radius: 8px; padding: 10px 18px; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--fg); }
+button.primary { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button:focus-visible, .choices label:focus-within, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.nav { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; }
+.note { background: var(--warn-soft); color: var(--warn); border-radius: 8px; padding: 10px 14px; font-size: 0.92rem; }
+input[type=text] { font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--fg); width: 100%; max-width: 320px; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 4px; }
+@media (prefers-reduced-motion: reduce) { .track > i { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:6px">
+    <h1>音樂片段聽測</h1>
+    <p class="muted">每題兩段 10 秒的音樂，對應同一句英文描述。來源已隱藏，A／B 位置隨機。</p>
+  </header>
+
+  <div id="status" class="note" hidden></div>
+
+  <section id="intro" class="card">
+    <div class="label">開始前</div>
+    <ul>
+      <li>請戴耳機，在安靜的地方聽。</li>
+      <li>兩段都要至少播一次，才能作答。可以重聽任意次數。</li>
+      <li><b>音質</b>：只看聲音本身好不好，例如清不清楚、有沒有雜訊、失真、悶、破音。不管好不好聽、符不符合描述。</li>
+      <li><b>整體</b>：你比較想留下哪一段，什麼因素都可以考慮。</li>
+      <li><b>符合描述</b>：哪一段比較像描述寫的內容（曲風、樂器、情緒、人聲等）。</li>
+      <li>真的分不出來就選「聽不出差別」，但請不要把它當預設答案。</li>
+      <li>共 <span id="total">72</span> 題，約 40–50 分鐘。每題作答後會自動儲存，可以中途離開再回來接著做。</li>
+    </ul>
+    <div class="calib">
+      <div class="label">音量校準</div>
+      <p>播放下面這段，把耳機音量調到舒服、聽得清楚的程度。<b>之後整個過程都不要再改音量。</b></p>
+      <audio id="audCal" controls preload="auto"></audio>
+      <label class="check"><input type="checkbox" id="calOK" disabled><span>我已經播放這段並調好音量，之後不再調整</span></label>
+    </div>
+    <fieldset><legend>你以前是否參與過 MeanAudio 研究，或常聽它生成的音訊？</legend>
+      <div class="choices">
+        <label><input type="radio" name="fam" value="no">否</label>
+        <label><input type="radio" name="fam" value="yes">是</label>
+      </div></fieldset>
+    <label for="rater" class="label">代號（選填，方便區分不同評分者）</label>
+    <input id="rater" type="text" maxlength="40" placeholder="例如 listener01">
+    <div class="nav"><span class="count" id="resumeInfo"></span><button id="start" class="primary" disabled>開始</button></div>
+  </section>
+
+  <section id="trial" class="card" hidden>
+    <div class="bar"><span class="count" id="counter">1 / 72</span><span class="count" id="saved"></span></div>
+    <div class="track"><i id="prog"></i></div>
+    <div id="blindNote" class="note" hidden>最後 6 題：每題的兩段中，有一段是真人演奏的真實錄音，另一段是電腦生成的。請判斷哪一段是真實錄音。</div>
+    <div style="display:grid;gap:6px"><div class="label">描述</div><div class="caption" id="caption"></div></div>
+    <div class="players">
+      <div class="player" data-k="A"><h3>A</h3><audio id="audA" controls preload="auto"></audio><span class="heard" id="heardA">尚未播放</span></div>
+      <div class="player" data-k="B"><h3>B</h3><audio id="audB" controls preload="auto"></audio><span class="heard" id="heardB">尚未播放</span></div>
+    </div>
+    <div id="mainQs" style="display:grid;gap:18px">
+      <fieldset><legend>1. 哪一段的音質比較好？</legend>
+        <div class="choices">
+          <label><input type="radio" name="pq" value="A">A</label>
+          <label><input type="radio" name="pq" value="same">聽不出差別</label>
+          <label><input type="radio" name="pq" value="B">B</label>
+        </div></fieldset>
+      <fieldset><legend>2. 整體而言你比較喜歡哪一段？</legend>
+        <div class="choices">
+          <label><input type="radio" name="ovl" value="A">A</label>
+          <label><input type="radio" name="ovl" value="same">聽不出差別</label>
+          <label><input type="radio" name="ovl" value="B">B</label>
+        </div></fieldset>
+      <fieldset><legend>3. 哪一段比較符合描述？</legend>
+        <div class="choices">
+          <label><input type="radio" name="txt" value="A">A</label>
+          <label><input type="radio" name="txt" value="same">聽不出差別</label>
+          <label><input type="radio" name="txt" value="B">B</label>
+        </div></fieldset>
+    </div>
+    <div id="blindQs" hidden>
+      <fieldset><legend>哪一段是真實錄音？</legend>
+        <div class="choices">
+          <label><input type="radio" name="real" value="A">A</label>
+          <label><input type="radio" name="real" value="unsure">不確定</label>
+          <label><input type="radio" name="real" value="B">B</label>
+        </div></fieldset>
+    </div>
+    <div class="nav"><button id="prev">上一題</button><button id="next" class="primary" disabled>儲存並下一題</button></div>
+  </section>
+
+  <section id="done" class="card" hidden>
+    <div class="label">完成</div>
+    <p>全部 <span id="doneN"></span> 題都已儲存，謝謝。可以關掉這個頁面了；要修改答案，按下方按鈕回到任一題。</p>
+    <div class="nav"><button id="review">回到第一題檢查</button></div>
+  </section>
+</div>
+
+<script>
+const PAGE = __PAGE__;
+const ITEMS = PAGE.trials.map(t => ({key: 't' + t.trial, kind: 'main', caption: t.caption, a: t.a, b: t.b}))
+  .concat(PAGE.blind.map(t => ({key: 'b' + t.blind, kind: 'blind', caption: t.caption, a: t.a, b: t.b})));
+const QS = {main: ['pq', 'ovl', 'txt'], blind: ['real']};
+const $ = id => document.getElementById(id);
+let db = null, uid = null, doc = {answers: {}}, idx = 0, heard = {A: false, B: false}, shownAt = 0, calHeard = false;
+
+function status(msg) { $('status').textContent = msg; $('status').hidden = !msg; }
+function firstOpen() { const k = ITEMS.findIndex(t => !doc.answers[t.key]); return k < 0 ? ITEMS.length : k; }
+function checked(name) { const r = document.querySelector('input[name=' + name + ']:checked'); return r ? r.value : null; }
+function introReady() { $('start').disabled = !(db && uid && $('calOK').checked && checked('fam')); }
+
+async function boot() {
+  $('total').textContent = ITEMS.length;
+  $('audCal').src = 'audio/' + PAGE.calibration;
+  try {
+    const c = window.claude;
+    db = c ? await c.use('db') : null;
+    const user = c ? await c.use('user') : null;
+    uid = user ? await user.id() : null;
+  } catch (e) { db = null; }
+  if (!db || !uid) { status('目前無法儲存答案：請用已登入的 claude.ai 帳號開啟這個頁面。'); return; }
+  try {
+    const snap = await db.doc('ratings/' + uid).get();
+    if (snap.exists) {
+      const d = snap.data(); doc = Object.assign({answers: {}}, d);
+      $('rater').value = d.rater || '';
+      for (const r of document.querySelectorAll('input[name=fam]')) r.checked = r.value === d.familiar;
+    }
+  } catch (e) { status('讀取先前的答案失敗（' + (e.code || e) + '），重新整理頁面再試一次。'); }
+  const n = Object.keys(doc.answers).length;
+  if (n) { $('resumeInfo').textContent = '已完成 ' + n + ' / ' + ITEMS.length; $('start').textContent = '繼續'; }
+  introReady();
+}
+
+function show(k) {
+  idx = k;
+  for (const a of [$('audA'), $('audB'), $('audCal')]) a.pause();
+  if (k >= ITEMS.length) { $('trial').hidden = true; $('done').hidden = false; $('doneN').textContent = ITEMS.length; return; }
+  $('done').hidden = true; $('intro').hidden = true; $('trial').hidden = false;
+  const t = ITEMS[k], prev = doc.answers[t.key];
+  $('counter').textContent = (k + 1) + ' / ' + ITEMS.length;
+  $('prog').style.width = (100 * Object.keys(doc.answers).length / ITEMS.length) + '%';
+  $('blindNote').hidden = $('blindQs').hidden = t.kind !== 'blind';
+  $('mainQs').hidden = t.kind !== 'main';
+  $('caption').textContent = t.caption;
+  $('audA').src = 'audio/' + t.a; $('audB').src = 'audio/' + t.b;
+  heard = {A: !!prev, B: !!prev};
+  for (const r of document.querySelectorAll('#trial input[type=radio]')) r.checked = !!prev && prev[r.name] === r.value;
+  $('saved').textContent = prev ? '已作答' : '';
+  $('prev').disabled = k === 0;
+  shownAt = Date.now();
+  refresh();
+  window.scrollTo({top: 0});
+}
+
+function refresh() {
+  for (const k of ['A', 'B']) { const h = $('heard' + k); h.textContent = heard[k] ? '已播放' : '尚未播放'; h.classList.toggle('ok', heard[k]); }
+  const t = ITEMS[idx];
+  $('next').disabled = !(t && heard.A && heard.B && QS[t.kind].every(checked));
+}
+
+async function save() {
+  const t = ITEMS[idx], prev = doc.answers[t.key];
+  const entry = {ms: (prev ? prev.ms : 0) + (Date.now() - shownAt), at: new Date().toISOString()};
+  for (const q of QS[t.kind]) entry[q] = checked(q);
+  const answers = Object.assign({}, doc.answers, {[t.key]: entry});
+  const next = {rater: $('rater').value.trim(), familiar: checked('fam') || doc.familiar || null,
+                calibrated: true, answers, n: Object.keys(answers).length, updated: entry.at};
+  $('next').disabled = true; $('saved').textContent = '儲存中…';
+  try {
+    await db.doc('ratings/' + uid).set(next);
+    doc = next; status('');
+    show(idx + 1 < ITEMS.length && doc.answers[ITEMS[idx + 1].key] ? idx + 1 : firstOpen());
+  } catch (e) {
+    status('這題沒有存到（' + (e.code || e) + '）。答案還在畫面上，請再按一次「儲存並下一題」。');
+    $('saved').textContent = ''; refresh();
+  }
+}
+
+for (const k of ['A', 'B']) {
+  const el = $('aud' + k);
+  el.addEventListener('play', () => { $('aud' + (k === 'A' ? 'B' : 'A')).pause(); heard[k] = true; refresh(); });
+  el.addEventListener('error', () => status('音檔載入失敗：' + k + '。重新整理頁面再試一次。'));
+}
+$('audCal').addEventListener('play', () => { $('calOK').disabled = false; });
+$('audCal').addEventListener('error', () => status('校準音檔載入失敗，重新整理頁面再試一次。'));
+$('calOK').addEventListener('change', introReady);
+for (const r of document.querySelectorAll('input[name=fam]')) r.addEventListener('change', introReady);
+for (const r of document.querySelectorAll('#trial input[type=radio]')) r.addEventListener('change', refresh);
+$('start').addEventListener('click', () => show(firstOpen()));
+$('next').addEventListener('click', save);
+$('prev').addEventListener('click', () => show(Math.max(0, idx - 1)));
+$('review').addEventListener('click', () => show(0));
+boot();
+</script>

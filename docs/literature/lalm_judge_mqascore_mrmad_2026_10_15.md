@@ -65,7 +65,7 @@
    - Audio Flamingo 系列同樣接近機率。
    - 124 的 explain 評語（Flamingo 對 SNR 10 說「沒有背景噪音」）屬於同一型態：聽得出內容，聽不出劣化。
 2. **MQAScore 刻意不碰音質**，所以它不能直接支持或否定我們的 1–5 分品質 prompt。但它的操作格式（二元問題、P(Yes) 正規化、AUC 與成對替換比值）可以直接搬到劣化**偵測**上。
-3. **下一步**：用 MQAScore 格式做一個劣化偵測 probe（p2 125，`../experiments/lalm_degradation_perception_125_20261015.md`）。
+3. **下一步**：用 MQAScore 格式做一個劣化偵測 probe（p2 125，`../experiments/lalm_degradation_perception_125_20261015.md`）。**2026-10-15 擱置，未執行。**
    - 單段、二元、一題一個缺陷，比 MRMAD 的多輪選擇題容易。
    - 如果連這個都做不到，LALM 品質評分就沒有感知基礎。
 4. **換評審**：Qwen3-Omni-30B-A3B 在兩篇都是最好的開源選項。

@@ -37,8 +37,9 @@ ASR 有錯字，數字與專有名詞以實驗 doc 為準。
 
 | 指示 | 實驗 | 狀態 |
 |---|---|---|
-| 1–5 | p2 123：真實曲 MIDI 控制刺激 × AES／MEva／FAD／MIR | 2026-10-14 排入 |
-| 6 | p2 124：Music Flamingo＋Qwen2.5-Omni 當評審，五組有已知答案的刺激 | 2026-10-14 排入 |
-| 7 | 人類聽測 | 未排（需要聽者） |
+| 1–5 | p2 123：真實曲 MIDI 控制刺激 × AES／MEva／FAD／MIR | **完成 2026-10-14**：`../experiments/results/midi_realpiece_control_123_results.md` |
+| 6 | p2 124：Music Flamingo＋Qwen2.5-Omni 當評審，五組有已知答案的刺激 | **完成 2026-10-15**：兩個評審都沒過最低門檻（`../experiments/results/lalm_quality_judge_124_results.md`）；後續 probe 125 擱置 |
+| 7 | 人類聽測 pilot（20 prompt × ours CFG3＋neg／CFG0 vs 真實、ours vs MusicGen） | **頁面已發布 2026-10-15，等聽者**：`../experiments/human_listen_real_vs_ours_20261015.md` |
+| 8 | 進度與問題清單 | `2026-10-21_progress_and_questions.md` |
 
 設計與預先登錄的判讀：`docs/experiments/realpiece_control_lalm_judge_123_124_20261014.md`。
