@@ -1,0 +1,50 @@
+{
+  "status": "passed",
+  "at": "2026-10-16T18:04:17.495833+00:00",
+  "tests": [
+    {
+      "name": "scientific_and_supervisor",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/test_metric_invariance_128.py",
+      "script_sha256": "32c20aabcee65c0bf23ffa9c5d065e31d1367eb63a13c9a976802241861c4c5f",
+      "output_sha256": "5ff6f18edd7a6f06037f150f626ab893bcd210541bcd9b13d462360ec41cb499",
+      "count": 15
+    },
+    {
+      "name": "schemas",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/selftest_experiment_harness_schemas.py",
+      "script_sha256": "9d85b5738d0ad55891763ce80ce739add13f2d4c608ec1e2c3da0274fd7363c7",
+      "output_sha256": "96a0628ea652b67a6fb10f7c1c804f9c3af6adff1352b2026b208968e1556750"
+    },
+    {
+      "name": "queue",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/run_loudness_queue_acceptance.py",
+      "script_sha256": "6cbe341cc09812aaab342748e087af2912434106d89a97a4411b61cfbfa8e5dd",
+      "evidence": "Earlier observed execution in this Codex turn: PASS=33 FAIL=0; real GPU fixture explicitly skipped."
+    },
+    {
+      "name": "notification_receipts",
+      "status": "passed",
+      "script": "/home/kojiek/gpu_queue/tests/test_notification_receipts.py",
+      "script_sha256": "1e74a71128efff7fbc6429598ff111822d1569f2e4619d9e360da71970879b85",
+      "evidence": "Earlier observed execution in this turn: PASS notification receipts."
+    },
+    {
+      "name": "scheduler",
+      "status": "passed",
+      "script": "/home/kojiek/gpu_queue/tests/test_lib_scheduler.py",
+      "script_sha256": "c5c47ebe50f872f6941471b6da25e32c43f81b36acffdc0cc44915c491113254",
+      "evidence": "Earlier observed execution in this turn: PASS unit; expected invalid pause ack rejected."
+    }
+  ],
+  "bindings": {
+    "scripts/eval/metric_invariance_128.py": "8f159d392324bba969882674b79c0cefc8d59d9f4da8cdc3972b6eb84965f19f",
+    "scripts/experiment_harness/metric_invariance_128_guest.py": "b8b133f669b56fa372aacee3f17bd25d905e1437dbe7190797ab7f7d8082a701",
+    "scripts/experiment_harness/register_metric_invariance_128.py": "e32b609c072814f2ca6f9adea5e039ef3008c976059d9fc5ba5875a488516f62",
+    "scripts/experiment_harness/notification_receipts.py": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+  },
+  "scope": "CPU/no-GPU fixtures. C0 identity and timing remain required live smoke gates before calibration promotion."
+}
