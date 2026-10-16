@@ -1,0 +1,10 @@
+{
+  "after_pending": [
+    "099_aes-negmf-control-diagnostic-20261003.sh"
+  ],
+  "before_pending": [],
+  "contract_sha256": "f7b5a91f6c89a771a9fe3ce0469b1cb960024d973db51eeff5105e0d56983a66",
+  "launcher_sha256": "0f0aea7f48e07ceb2fa419a79c550193b9574d9f11e606b050ce6b083a153b19",
+  "receipt": "/home/kojiek/gpu_queue/notification_receipts/aes-negmf-control-diagnostic-20261003/queue_registration.json",
+  "receipt_sha256": "bb7c07aaff06fc1458477360a01680b5ebf7b65b4663d96e3bfc05e71e6e24ef"
+}

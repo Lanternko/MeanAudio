@@ -1,0 +1,521 @@
+{
+  "document_kind": "experiment_contract",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "aes-negmf-corrected-recovery-20261003",
+  "run_id": "run-20261003-101",
+  "bindings": {
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+    "runtime_sha256": "a9bfbdc4e08f0592136130d61aab617ec84d671bbd34392e4a3a4edca427565e",
+    "command_set_sha256": "87a033398320b12e5c849fcf9837420c4c6af8a6fe3b0d09911bf6dd8213557d"
+  },
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-corrected-recovery-20261003_contract.json",
+        "sha256": "acf1d6dc1605e7b47cfebfd37860d9ca5ac35a3986eb5d1862336ae5badd72b3"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/musiccaps_test.tsv",
+        "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/contract.json",
+        "sha256": "09ac213c6aa1ebec4f85b727cd7e47edd30eadf1c48199290ca113e409ff20ce"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/raw_audit.json",
+        "sha256": "708be86bb41c2b713219b412b057387a6bde6c2bc1445eb0b789943ab5e97656"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/AUDIT.json",
+        "sha256": "49859faf1b73f9006302ea2d43a4ecc87a959ea786a135afe7e5bb1e7cef340d"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/acceptance.json",
+        "sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/operator_request.txt",
+        "sha256": "9e64e13b16a353f4a1283846ce0b8e26b18bf386b3ceb32b5d04f99b134a61f7"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-corrected-20261003/contract.json",
+        "sha256": "a30b4df8e60dbbe6e8e7059f2107464abb10d51ad8481ddec48c194446650a28"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/probe101.py",
+        "sha256": "b68debc73e6e54e85f226e47783a42c751244d13a5bb49e82573e51d6a203277"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/analyze101.py",
+        "sha256": "80e30578ff3e7caafad3da1a995a3a1115c4cf0c95fbcbf65f623968d42bf9c9"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py",
+        "sha256": "fa1ce10f81606dabcbbd6d2c762829797d79d6ca9577a0fd9416a105993cc975"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/source102.py",
+        "sha256": "60cbd17bef3a99174c688737d36511172e63998969d81fceda92853bc13d4d98"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight101.py",
+        "sha256": "0c8ea900b574316f6c4a1d1a0b50f86980824c4dadf05aa554cec7850d13ef93"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic100/summary.json",
+        "sha256": "1bae0371dabc40d19141e6e17ef805254eae0786bb7cfecb8e60c642c2d0bc73"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-formal-recovery-20261003_contract.json",
+        "sha256": "ca074f680c2a0f4036a642b303737d7afd5487e8d4b83cce75312968457561eb"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/operator_request.txt",
+        "sha256": "9e64e13b16a353f4a1283846ce0b8e26b18bf386b3ceb32b5d04f99b134a61f7"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/queue_candidates/101_aes-negmf-corrected-recovery-20261003.sh",
+        "sha256": "0c45ee86310e6ff1be09f0883bf5eefe92cf2df0a6fd08213a351fb710b08c3e"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/resume_manifest.json",
+        "sha256": "9a2a91bd0dd33766ee0e1cadcd4d441b93ae4fca1ff67f416de70a690b6bad63"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py",
+        "sha256": "fa1ce10f81606dabcbbd6d2c762829797d79d6ca9577a0fd9416a105993cc975"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/postflight101.py",
+        "sha256": "136e9cc7cb67ea9498ed425a8c5f98d276462522bc549cfd14e9d440fdd76c48"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/normalize_candidate.py",
+        "sha256": "0175fc7dc2f59c635351b218d0fc9b419fdb35ef75409df133eb6943d99b5585"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/CONTROL_FAILURE_AUDIT.json",
+        "sha256": "008dded0d00b7947d1e2a1f0b88ed1575eee39033b168c8d20e4b6e941152270"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/NORMALIZATION_DIAGNOSIS.json",
+        "sha256": "744db51311ccf07b62276720bef34572c856a4ba0b7985c0fac0095f78d2f130"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/QUB_vpjogmo_170.flac",
+        "sha256": "904a6d8325c1a10def856733c191770d08dab3df8f18b8765be8faa709880023"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/G22YfD5xxMU_60.flac",
+        "sha256": "e708068b6f4f06f067e93aeb42609d2f3c075a91c79e9543e7a9e639e4b79936"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/A5fPSkTvjmY_70.flac",
+        "sha256": "ed0f52dedf3eaee23dca1e6bd9753f0f0e7d9b3834b72b52d21a660724f28e46"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/7OgH3B49_E4_30.flac",
+        "sha256": "9c14a7bb34cda862432a397a7b037197a502ceb50302ba572cd3984a26c5365e"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/HRxTN4TH-80_0.flac",
+        "sha256": "7a23f6d77d30a4d0fcff9d262e9af5ef4f6943e0e0d89140af27a4059b7c4f82"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/6ieXDFjLKNo_230.flac",
+        "sha256": "0ce5b9229966d9b66fdd55ee3ce30c6872443343ad90f493681f0ee25a0fdae3"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/cJ80eZY03Yg_200.flac",
+        "sha256": "9388d2f6699b4e27c4d336b53a672e6f1d047f2c29db225f78cd9359896f132f"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/Z5x5BLzQKZI_10.flac",
+        "sha256": "8801d8ecfe7d628889b7df8544698aec94abed55305ea435a9ea65eaeb6d8eea"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/PTl5ixI1Ogc_30.flac",
+        "sha256": "21b68b93edc1be82c6519813fef109ee83437a608dc6066050de80e51252f4d8"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/_JTHtcRHxnw_300.flac",
+        "sha256": "bba4d1f50ed3812ae57516ee34396fdfd6e25cf9179fe14bd3b2a937e30874cd"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/1cqcTbDxsHM_130.flac",
+        "sha256": "a2f0428b75c988db1d356b807ea8e84e630512dc39624df0edc6e920df32bade"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/zjZV0tvur2I_180.flac",
+        "sha256": "2fa1d8a8147308e27296f469923c5860c1a206d7b54405ee7baaffd4b0664e0a"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/gqROBgF7_DU_70.flac",
+        "sha256": "b341e3fb913cc9694d562b85e2a830a55beb0939479657e38fc77c5d0611483a"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/n16ZUTfZtDM_0.flac",
+        "sha256": "c32098545d892af8b856bc7274e7ba122578d8c799c85cfc5ef76af321272c64"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/-SD43H5B5hE_520.flac",
+        "sha256": "7cd661641c6a8a3811c0315a12cbb5cecd4e1f8a9b3c5785f7e260df16bd1efb"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/Q9gWfok9Q5c_110.flac",
+        "sha256": "b7dca35b2a5c8691a79bb5f512974ed70a28eb54e3f6d7f7fdeb0f993b7665c0"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/GAohd8KvONo_30.flac",
+        "sha256": "ef470d6b7414541926e57b07abe7e151445c6741320ec2e2da9f87a667be27e2"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/ZEN8_GtW_UQ_30.flac",
+        "sha256": "001de6574082ae0b6b96e1a7b39d30319e2f7f4b42d8355c81b5f6136a9227fb"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/HWZdPxRzCWs_30.flac",
+        "sha256": "2da6ab6319d9809c4d47f98c786b048590203995b9c4def508accaab62b25b86"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/EyO5vB4eqo0_30.flac",
+        "sha256": "2a1d981216f24f0b9c45890badba7d54acbf7a3e041fd1826a652e8dd04b3dcf"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/F7Y1T-rQ2JU_410.flac",
+        "sha256": "ea88e2e6a47fba6efe32afcffed48bef83781c1d1302338a595b3ba690925bb9"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/dIPW9gLGSx8_30.flac",
+        "sha256": "bfed6bbf0ad20fc29183e8c9b1a3228b36b0a770e7518934796c4d8b037432ec"
+      },
+      {
+        "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/1-Y9kafYuqQ_100.flac",
+        "sha256": "3ba742aa2af21d4be006dc1647a76ebe1756e19850994d2069e78998526a9868"
+      }
+    ]
+  },
+  "repair": {
+    "enabled": false
+  },
+  "phases": [
+    {
+      "phase_id": "verified-corrected-evaluation",
+      "action_id": "launch",
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-corrected-recovery-20261003_contract.json",
+          "sha256": "acf1d6dc1605e7b47cfebfd37860d9ca5ac35a3986eb5d1862336ae5badd72b3"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/musiccaps_test.tsv",
+          "sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/contract.json",
+          "sha256": "09ac213c6aa1ebec4f85b727cd7e47edd30eadf1c48199290ca113e409ff20ce"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/raw_audit.json",
+          "sha256": "708be86bb41c2b713219b412b057387a6bde6c2bc1445eb0b789943ab5e97656"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/AUDIT.json",
+          "sha256": "49859faf1b73f9006302ea2d43a4ecc87a959ea786a135afe7e5bb1e7cef340d"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/acceptance.json",
+          "sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/operator_request.txt",
+          "sha256": "9e64e13b16a353f4a1283846ce0b8e26b18bf386b3ceb32b5d04f99b134a61f7"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-corrected-20261003/contract.json",
+          "sha256": "a30b4df8e60dbbe6e8e7059f2107464abb10d51ad8481ddec48c194446650a28"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/probe101.py",
+          "sha256": "b68debc73e6e54e85f226e47783a42c751244d13a5bb49e82573e51d6a203277"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/analyze101.py",
+          "sha256": "80e30578ff3e7caafad3da1a995a3a1115c4cf0c95fbcbf65f623968d42bf9c9"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py",
+          "sha256": "fa1ce10f81606dabcbbd6d2c762829797d79d6ca9577a0fd9416a105993cc975"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/source102.py",
+          "sha256": "60cbd17bef3a99174c688737d36511172e63998969d81fceda92853bc13d4d98"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight101.py",
+          "sha256": "0c8ea900b574316f6c4a1d1a0b50f86980824c4dadf05aa554cec7850d13ef93"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic100/summary.json",
+          "sha256": "1bae0371dabc40d19141e6e17ef805254eae0786bb7cfecb8e60c642c2d0bc73"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-formal-recovery-20261003_contract.json",
+          "sha256": "ca074f680c2a0f4036a642b303737d7afd5487e8d4b83cce75312968457561eb"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/operator_request.txt",
+          "sha256": "9e64e13b16a353f4a1283846ce0b8e26b18bf386b3ceb32b5d04f99b134a61f7"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/queue_candidates/101_aes-negmf-corrected-recovery-20261003.sh",
+          "sha256": "0c45ee86310e6ff1be09f0883bf5eefe92cf2df0a6fd08213a351fb710b08c3e"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/resume_manifest.json",
+          "sha256": "9a2a91bd0dd33766ee0e1cadcd4d441b93ae4fca1ff67f416de70a690b6bad63"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py",
+          "sha256": "fa1ce10f81606dabcbbd6d2c762829797d79d6ca9577a0fd9416a105993cc975"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/postflight101.py",
+          "sha256": "136e9cc7cb67ea9498ed425a8c5f98d276462522bc549cfd14e9d440fdd76c48"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/normalize_candidate.py",
+          "sha256": "0175fc7dc2f59c635351b218d0fc9b419fdb35ef75409df133eb6943d99b5585"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/CONTROL_FAILURE_AUDIT.json",
+          "sha256": "008dded0d00b7947d1e2a1f0b88ed1575eee39033b168c8d20e4b6e941152270"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/NORMALIZATION_DIAGNOSIS.json",
+          "sha256": "744db51311ccf07b62276720bef34572c856a4ba0b7985c0fac0095f78d2f130"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/QUB_vpjogmo_170.flac",
+          "sha256": "904a6d8325c1a10def856733c191770d08dab3df8f18b8765be8faa709880023"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/G22YfD5xxMU_60.flac",
+          "sha256": "e708068b6f4f06f067e93aeb42609d2f3c075a91c79e9543e7a9e639e4b79936"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/A5fPSkTvjmY_70.flac",
+          "sha256": "ed0f52dedf3eaee23dca1e6bd9753f0f0e7d9b3834b72b52d21a660724f28e46"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/7OgH3B49_E4_30.flac",
+          "sha256": "9c14a7bb34cda862432a397a7b037197a502ceb50302ba572cd3984a26c5365e"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/HRxTN4TH-80_0.flac",
+          "sha256": "7a23f6d77d30a4d0fcff9d262e9af5ef4f6943e0e0d89140af27a4059b7c4f82"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/6ieXDFjLKNo_230.flac",
+          "sha256": "0ce5b9229966d9b66fdd55ee3ce30c6872443343ad90f493681f0ee25a0fdae3"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/cJ80eZY03Yg_200.flac",
+          "sha256": "9388d2f6699b4e27c4d336b53a672e6f1d047f2c29db225f78cd9359896f132f"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/Z5x5BLzQKZI_10.flac",
+          "sha256": "8801d8ecfe7d628889b7df8544698aec94abed55305ea435a9ea65eaeb6d8eea"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/PTl5ixI1Ogc_30.flac",
+          "sha256": "21b68b93edc1be82c6519813fef109ee83437a608dc6066050de80e51252f4d8"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/_JTHtcRHxnw_300.flac",
+          "sha256": "bba4d1f50ed3812ae57516ee34396fdfd6e25cf9179fe14bd3b2a937e30874cd"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/1cqcTbDxsHM_130.flac",
+          "sha256": "a2f0428b75c988db1d356b807ea8e84e630512dc39624df0edc6e920df32bade"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/zjZV0tvur2I_180.flac",
+          "sha256": "2fa1d8a8147308e27296f469923c5860c1a206d7b54405ee7baaffd4b0664e0a"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/gqROBgF7_DU_70.flac",
+          "sha256": "b341e3fb913cc9694d562b85e2a830a55beb0939479657e38fc77c5d0611483a"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/n16ZUTfZtDM_0.flac",
+          "sha256": "c32098545d892af8b856bc7274e7ba122578d8c799c85cfc5ef76af321272c64"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/-SD43H5B5hE_520.flac",
+          "sha256": "7cd661641c6a8a3811c0315a12cbb5cecd4e1f8a9b3c5785f7e260df16bd1efb"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/Q9gWfok9Q5c_110.flac",
+          "sha256": "b7dca35b2a5c8691a79bb5f512974ed70a28eb54e3f6d7f7fdeb0f993b7665c0"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/GAohd8KvONo_30.flac",
+          "sha256": "ef470d6b7414541926e57b07abe7e151445c6741320ec2e2da9f87a667be27e2"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/ZEN8_GtW_UQ_30.flac",
+          "sha256": "001de6574082ae0b6b96e1a7b39d30319e2f7f4b42d8355c81b5f6136a9227fb"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/HWZdPxRzCWs_30.flac",
+          "sha256": "2da6ab6319d9809c4d47f98c786b048590203995b9c4def508accaab62b25b86"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/EyO5vB4eqo0_30.flac",
+          "sha256": "2a1d981216f24f0b9c45890badba7d54acbf7a3e041fd1826a652e8dd04b3dcf"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/F7Y1T-rQ2JU_410.flac",
+          "sha256": "ea88e2e6a47fba6efe32afcffed48bef83781c1d1302338a595b3ba690925bb9"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/dIPW9gLGSx8_30.flac",
+          "sha256": "bfed6bbf0ad20fc29183e8c9b1a3228b36b0a770e7518934796c4d8b037432ec"
+        },
+        {
+          "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/1-Y9kafYuqQ_100.flac",
+          "sha256": "3ba742aa2af21d4be006dc1647a76ebe1756e19850994d2069e78998526a9868"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic101/summary.json"
+      ],
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/postflight101.py",
+          "sha256": "136e9cc7cb67ea9498ed425a8c5f98d276462522bc549cfd14e9d440fdd76c48"
+        }
+      ],
+      "resume_action_id": "resume"
+    }
+  ],
+  "filesystems": [
+    {
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003",
+      "hard_floor_bytes": 80000000000,
+      "warning_floor_bytes": 120000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000
+    },
+    {
+      "path": "/home/kojiek/logs",
+      "hard_floor_bytes": 80000000000,
+      "warning_floor_bytes": 120000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000
+    },
+    {
+      "path": "/home/kojiek/gpu_queue/notification_receipts",
+      "hard_floor_bytes": 80000000000,
+      "warning_floor_bytes": 120000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000
+    },
+    {
+      "path": "/home/kojiek/MeanAudio",
+      "hard_floor_bytes": 80000000000,
+      "warning_floor_bytes": 120000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000
+    }
+  ],
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/scripts/queue_candidates/101_aes-negmf-corrected-recovery-20261003.sh"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/MeanAudio/scripts/queue_candidates/101_aes-negmf-corrected-recovery-20261003.sh"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight101.py"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/postflight101.py"
+      ],
+      "working_directory": "/home/kojiek/MeanAudio",
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  ],
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "notification",
+    "queue",
+    "watcher",
+    "acceptance"
+  ],
+  "notification_events": [
+    "queue_registration",
+    "start",
+    "queue_handoff",
+    "preflight_pass",
+    "phase_start",
+    "gate_pass_fail_invalid",
+    "terminal_success_failure_interruption",
+    "unexpected_gpu_idle",
+    "disk_warning",
+    "disk_hard_stop",
+    "storage_recovered",
+    "stall"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "document_kind": "event_ledger",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "aes-negmf-corrected-recovery-20261003",
+  "run_id": "run-20261003-101",
+  "bindings": {
+    "contract_raw_sha256": "9b1ba72d20685f9e6b32f70aae4a8dc8be4a399811084095ba43e751678998fc",
+    "preflight_report_raw_sha256": "043dfb100f37964f98086dc6cb82e74f3813a4b94559f6115d07897a5dd1a675",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "events": [
+    {
+      "sequence": 1,
+      "event_id": "contract-register",
+      "idempotency_key": "aes-negmf-corrected-recovery-20261003:contract-register",
+      "event_kind": "contract_registered",
+      "occurred_at": "2026-10-03T12:59:10.953447+00:00",
+      "phase": null,
+      "verdict": "none",
+      "relates_to_event_id": null,
+      "notification_status": "not_applicable",
+      "previous_event_sha256": null,
+      "event_sha256": "f9333475dfea0bcb667bf3352f2a79f1b79e0281b004fecae4fec0cfbfab9cc5"
+    }
+  ]
+}

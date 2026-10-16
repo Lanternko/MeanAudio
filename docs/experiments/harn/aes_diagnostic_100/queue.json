@@ -1,0 +1,25 @@
+{
+  "document_kind": "queue_state",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "queue_id": "p2-aes-diagnostic-100",
+  "updated_at": "2026-10-03T12:52:45.617926+00:00",
+  "entries": [
+    {
+      "entry_id": "100-aes-diagnostic",
+      "position": 1,
+      "experiment_id": "aes-negmf-fp32-diagnostic-20261003",
+      "run_id": "run-20261003-100",
+      "status": "ready",
+      "dependencies": [],
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "209ccfbe5c0594b1ff32628f972add83f34344d6cf28d151975232835ec7cf1e",
+        "preflight_report_raw_sha256": "ea9b95924552048a827a6dbac09acdad9b9db6c783dac332be13834a73714221",
+        "ledger_raw_sha256": "f26cf11050247eec6b5a0bb5231b747f860e75dc33c06757200387fa960ee33a",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "terminal_notification_status": "not_applicable"
+    }
+  ]
+}

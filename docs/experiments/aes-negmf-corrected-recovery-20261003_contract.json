@@ -1,0 +1,1306 @@
+{
+  "schema_version": 1,
+  "document_kind": "preregistered_secondary_evaluation_contract",
+  "experiment_id": "aes-negmf-corrected-recovery-20261003",
+  "run_id": "run-20261003-101",
+  "job": "recovery",
+  "status": "operator_authorized_queue_tail",
+  "operator_instruction": "檢測清楚，失敗的話就重跑；成功的話 觀看結果，並設計新的實驗 依照正式流程上架",
+  "approval_record": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/operator_request.txt",
+  "approval_required": true,
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "trusted_channel": "operator_console",
+    "operator": "responsible_operator",
+    "authorized_at": "2026-10-03T12:59:10.953447+00:00",
+    "scope": "Existing operator instruction to detect failures, rerun, design and formally register new experiments authorizes this explicit v2 repair contract. Fixed-RMS normalization and strict FP32 are declared revisions, never silent edits to original science. Original gain-control threshold unchanged."
+  },
+  "queue_name": "101_aes-negmf-corrected-recovery-20261003.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [],
+  "candidate_launcher": "/home/kojiek/MeanAudio/scripts/queue_candidates/101_aes-negmf-corrected-recovery-20261003.sh",
+  "label": "MusicCaps5521_MF25_CFG3_fidelity8_primary_CFG0_historical_existing_audio",
+  "protocol": {
+    "primary": "MusicCaps5521 MF25 CFG3 fidelity8 seed42 NoQ NoMask float32; reused verified originals",
+    "secondary": "CFG0 historical immutable replay in095 only; not relabeled",
+    "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+    "decoded_frames": 159744,
+    "sample_rate": 16000
+  },
+  "inputs": [
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/contract.json",
+      "bytes": 173950,
+      "sha256": "09ac213c6aa1ebec4f85b727cd7e47edd30eadf1c48199290ca113e409ff20ce"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/AUDIT.json",
+      "bytes": 53873,
+      "sha256": "49859faf1b73f9006302ea2d43a4ecc87a959ea786a135afe7e5bb1e7cef340d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/RESULTS.md",
+      "bytes": 2204,
+      "sha256": "7cc5a1c5fa9de9900a81c96c17db0e13cbf47b91db8686fa9fb3bf2e93be8856"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/raw_audit.json",
+      "bytes": 12520,
+      "sha256": "708be86bb41c2b713219b412b057387a6bde6c2bc1445eb0b789943ab5e97656"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/operator_request.txt",
+      "bytes": 114,
+      "sha256": "9e64e13b16a353f4a1283846ce0b8e26b18bf386b3ceb32b5d04f99b134a61f7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/resume_manifest_95.json",
+      "bytes": 682,
+      "sha256": "27a8d47a43fa9e206429bb902a425d84d518b9040cb4e36f23af76ece14526fc"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/acceptance.json",
+      "bytes": 2967,
+      "sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/common.py",
+      "bytes": 1589,
+      "sha256": "f24c86496cbfa00837e8508dd48533b675c310b385f4aa37ca5ab9b90fd0f0c5"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/guest.py",
+      "bytes": 8204,
+      "sha256": "a9bfbdc4e08f0592136130d61aab617ec84d671bbd34392e4a3a4edca427565e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/preflight.py",
+      "bytes": 3378,
+      "sha256": "c9006669eed405aaa87e35462c87b1fd49c507c0197fe8195f5c8330d41ac87d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/postflight.py",
+      "bytes": 992,
+      "sha256": "96b78703608088b2cb9046a79f50556a7ac532e4ff76066830506fc1a395e4c7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/resume.py",
+      "bytes": 3964,
+      "sha256": "0bb48ecd4aa7cfe3339e58f2078fed79d73bb3f6484dd04661b0ae4553b37227"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/acceptance.py",
+      "bytes": 5816,
+      "sha256": "7621e88cfdfca4b04ecc1fff93f70d9fd3bd4d4e76d1cb7ee800382e22e7375d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/queue_acceptance.py",
+      "bytes": 2011,
+      "sha256": "c7640115dde13f1cb97de04c7f22cb57c00f861b821c9417731cf687453e62ca"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/queue_candidates/095_aes-negmf-formal-recovery-20261003.sh",
+      "bytes": 583,
+      "sha256": "d27d6dc22ae77e4e07c19a641b03ad374cf8187755a8f8a60c5dce579e55c094"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/validate_experiment_harness_documents.py",
+      "bytes": 50012,
+      "sha256": "930f412761ed23561ec9dbb93ac4103a84979bd715655b4822dcfd3a122bd7dc"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py",
+      "bytes": 3977,
+      "sha256": "4a1fff8c90c8f69f663f0d61c1fabfb8d136ec11ca2086eede6b49ec34195c67"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+      "bytes": 25227,
+      "sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+      "bytes": 11113,
+      "sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/gpu_queue/lib_scheduler.py",
+      "bytes": 30988,
+      "sha256": "f175e4126d1a521437e52661e89dfb5e6163efefa486b78b033192797295e917"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/gpu_queue/p2_host.sh",
+      "bytes": 2152,
+      "sha256": "c4b3835b24eae02be030ccb740f6432f5d84fcb0f5704687ef13f4663b65804f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/gpu_queue/lib_host.sh",
+      "bytes": 10141,
+      "sha256": "1c487e3af6a1a8d2753edcae0975ba2ea7c3e1400967753353761dc7bbaf4c2f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/generate.py",
+      "bytes": 432,
+      "sha256": "3f9a06057920199feb3e2c35adcb4d81db090aa18fb561679f777573ed0c0e17"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/probe.py",
+      "bytes": 12946,
+      "sha256": "9df3d57f7d0481596a26a0bd78561e5a0d33fdf5b18acee76f677e61b73f2588"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/metrics.py",
+      "bytes": 16880,
+      "sha256": "bfd3a3fcbda83e03df51b14748804896b0b0fdf729890a1e0bb1b222932dc3e1"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/controller.py",
+      "bytes": 9227,
+      "sha256": "7740c4bf86b0fa8f23422f57612a22d0484facd38c99c6e269cddc00d447a658"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/analyze.py",
+      "bytes": 6220,
+      "sha256": "b2878121ddc57988396b72e1afc40bd8c702530de6f6ca76fa5e16c1e06fc5e9"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/raw_audit.py",
+      "bytes": 3751,
+      "sha256": "a60e8e76a7a56569c64fffaf0fd9ac258b6949580d09b0a3426f4c1e4275099e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/smoke_launcher.py",
+      "bytes": 1002,
+      "sha256": "89d69c07e8d1d0a4f72954f62d75200e5dc22b67aa862683e8b27b0ee5b3653c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/sample.py",
+      "bytes": 3622,
+      "sha256": "d82947680285bbfd737ed37733c21bc45d1510e8b107e4ec0847fa55d0c33055"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/runner_flowmatching.py",
+      "bytes": 31888,
+      "sha256": "70a97a1e0cd3928e9b53b51378be093399a531de1e6c46b189cdb37f9a76663c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/runner_meanflow.py",
+      "bytes": 36285,
+      "sha256": "3ec34d7aa29cb352dd3da3738b46bdd0b72548b0258ff43f6dde22d6ab056a69"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/eval_utils.py",
+      "bytes": 7200,
+      "sha256": "68315af94d35401c778c8a6bad3d449b82afe50c378dbe0ed8d7cd192bb6a84c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/rotary_embeddings.py",
+      "bytes": 2163,
+      "sha256": "598085e30e83b9a6f85d85ada0943aac9f225635b4424c7f9bbe5765ad08ce3a"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/stft_converter_mel.py",
+      "bytes": 7731,
+      "sha256": "c9328a125ac22561f7e322ba860613a6d9890a97436d8bdfc4f3804361c6b259"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/mel_converter.py",
+      "bytes": 3458,
+      "sha256": "892a64fee5ff50488fec6336f25d8614ff6d77c70e82d192bce93cdd8aba1d90"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/__init__.py",
+      "bytes": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/stft_converter.py",
+      "bytes": 5883,
+      "sha256": "89de5456a4fbc3cd0c1d6a2af6e7a8b7ade38764bc0c5835fbcbad6472e7714f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/data_setup.py",
+      "bytes": 7743,
+      "sha256": "1732e55cbd3699ff85a9a6267bf9de40ac5462b4a18d94f168a6241084224dee"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/av_utils.py",
+      "bytes": 5404,
+      "sha256": "403e5eb01d12d204668a55adca937a2a7250501eab6a347e182b11eb20f34456"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/mm_dataset.py",
+      "bytes": 2080,
+      "sha256": "c51490fb9ee276fd7b796bb5c85eaab34887b559ff31641cf7f4df29e414cbbe"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/utils.py",
+      "bytes": 4845,
+      "sha256": "f41e0a5d7577689f9c889bccdbd647df662e34f03d99d42ce33967e333243294"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/extracted_audio.py",
+      "bytes": 22596,
+      "sha256": "21b27bc96edff379cd64ccb0af409912945fe279e276f1a0d7c6a097411c0ff8"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/networks.py",
+      "bytes": 30934,
+      "sha256": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/flow_matching.py",
+      "bytes": 3275,
+      "sha256": "5d3d171cf533b1e137229a3492376129d1c02d40f2a8b03a54abc04a591eae15"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/embeddings.py",
+      "bytes": 2070,
+      "sha256": "6cfc362aa509a0ef9747d3a91f1ce6bf852a3289d5c2e4911a66a2d34f9896d6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/low_level.py",
+      "bytes": 3901,
+      "sha256": "3d5780450b7b4493661fbfc22123af2e7742b197c0aa2e63af8a58406e70b764"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/mean_flow.py",
+      "bytes": 8036,
+      "sha256": "31b3d7ee44c7929a451bb9c4d7251d4455f5e5ceb3e415043c2fdfa7e585b3ff"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/sequence_config.py",
+      "bytes": 1111,
+      "sha256": "441ce9145e28e8d2a993d3bb87250f1f33c2a01f9df74a7fad0b8f5637556877"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/transformer_layers.py",
+      "bytes": 8211,
+      "sha256": "ed2d28192e7c9ee6e8e24ce16459dbaba974ed155496ad82f631d1d43b94c8de"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/mean_flow.py.bak",
+      "bytes": 8126,
+      "sha256": "ddde1d03e9d3149e3ba9e50eed60d9a7c59ab397e78b13aa33950dfcf7877b0b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/synthesize_ema.py",
+      "bytes": 1267,
+      "sha256": "808cc9c337a2132fbc4808c35ee861355086f6f0b76b3d1c8a5bfa3d46beb7c6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/timezone.py",
+      "bytes": 27,
+      "sha256": "ecf7018055c641e9892439dcde410ece6cef6fd6c0836ed7ba40fe850c1c0a76"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/time_estimator.py",
+      "bytes": 2434,
+      "sha256": "567d8722697e9eaf2fe86852b6e041d0eb6139700e135cf56f1cd8543648b932"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/email_utils.py",
+      "bytes": 1745,
+      "sha256": "8bbcd40e550b7af2d787d320889c3dae6e2ce7308727f6947c78bd4fa16041bb"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/download_utils.py",
+      "bytes": 1947,
+      "sha256": "609063e008712df9515ea7993e79ad09a5e69eff255a12cef8eb91498bebcd04"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/training_resume.py",
+      "bytes": 751,
+      "sha256": "72b7b292b7b7ef2eac40aa45c9f1967a6f1f82356630fe93f16bc447e0c5444d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/dist_utils.py",
+      "bytes": 516,
+      "sha256": "8085b5c5816b8a219511a7d251ad9d047a0f6e66bb90f85341e77c25a0d4ead2"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/logger.py",
+      "bytes": 7424,
+      "sha256": "8ed340ae611112fba15eb01fdf08285b6072a7d5fa52b710fc197e5ed46a3abf"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/tensor_utils.py",
+      "bytes": 510,
+      "sha256": "889fc8d4f41bb623cec39272d409cb8ebeb175cc82b68818594e27a00cb8a439"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/log_integrator.py",
+      "bytes": 3920,
+      "sha256": "c8b44ff9a4e87d966cd5e5912365009c6d5e3eae79aa5391a882de01d18fb24c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/utils/video_joiner.py",
+      "bytes": 2278,
+      "sha256": "975b2b48903b09d77259069eeba36dfcdca5fb83855cbd9e954515d89d165b74"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/models.py",
+      "bytes": 9566,
+      "sha256": "545a1aa9e2078d472884c953e4065494af9492c805e2cec4743851aec73a3f3b"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/LICENSE",
+      "bytes": 1076,
+      "sha256": "da9858d516047d82096d01c112a61bd67f26d289039464d668a1d45f91738ecc"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/activations.py",
+      "bytes": 4504,
+      "sha256": "3ba94028aebabfc994bcd746bf9cbe92ecace528434c922c480be6ada182cad6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/utils.py",
+      "bytes": 814,
+      "sha256": "23c12cd2a92babe447f9b74a1f24e68d9a341855ebcbbefdab95120d6dda96db"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/bigvgan_vocoder.yml",
+      "bytes": 682,
+      "sha256": "6b6b2ccc1b236d901195efa4341df9912a79ae08e24c348f0bb8142beefefbd1"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/env.py",
+      "bytes": 510,
+      "sha256": "54ae665797fbb20ed3fc9b856be688f6b8a903b0bed8ff7edabff81dd9cdcd33"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/__init__.py",
+      "bytes": 29,
+      "sha256": "36d064aaaff4c5654b55991617ae8d0fa6d55493a95da9ba3d02fbc1827eb9b8"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/bigvgan.py",
+      "bytes": 988,
+      "sha256": "7f5d0fe9ab689e50fb5356d1b6005096d364b5d576e9686316a371c710ee07fa"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/LICENSE",
+      "bytes": 1076,
+      "sha256": "5c7f573db5f807a9adc2a755c4901e203ea067f73c7a20fa6b703da7e77d7b35"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/activations.py",
+      "bytes": 4541,
+      "sha256": "ff2562e116399bca730929aeb07e029a61321660a4f07c3db0b8f9853c70470f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/utils.py",
+      "bytes": 789,
+      "sha256": "cfd3d2e280120d48f5c87f3d81c1d8cee070da1f8f219c752abb88066b7be120"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/env.py",
+      "bytes": 510,
+      "sha256": "54ae665797fbb20ed3fc9b856be688f6b8a903b0bed8ff7edabff81dd9cdcd33"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/bigvgan.py",
+      "bytes": 16725,
+      "sha256": "feb745ea979e947e03f9763294a4c401cfb0c36520c16fef97a98b72a66745d7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/autoencoder/edm2_utils.py",
+      "bytes": 5549,
+      "sha256": "838e77d4252a4771e50b204c60bf44048a5c4d37a6b694b348dc8ab6f7a5f048"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/autoencoder/vae_modules.py",
+      "bytes": 3364,
+      "sha256": "c3ffa001023713aa98611adc959f0054099d33ebe98817b4e29241cfbd75926d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/autoencoder/__init__.py",
+      "bytes": 43,
+      "sha256": "429abde414b7f5bf799f666b378340695af33136682831404b8f7ce3e080f042"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/autoencoder/autoencoder.py",
+      "bytes": 1805,
+      "sha256": "5b2e22472767d967c0a4df3f8ccc75812a945c4053fac126a9b59e3c57fd2788"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/autoencoder/vae.py",
+      "bytes": 14674,
+      "sha256": "9ec08e6238cdde1da170270bc223612367120c859896d68688da270773bf10a7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/incl_licenses/LICENSE_2",
+      "bytes": 1068,
+      "sha256": "7441474b0fe03def0efc41a6340b4818359453c7cb32423c647839f8799e68df"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/incl_licenses/LICENSE_3",
+      "bytes": 11355,
+      "sha256": "7339fa418c9ad3e8e12e74ad0fd26a9cc4be8703f9c110728a992b193be85cb2"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/incl_licenses/LICENSE_1",
+      "bytes": 1067,
+      "sha256": "5eec017ce442989e01a46cd9cd6aeb13cd0aa3b3943f681577bda00475afaa23"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/incl_licenses/LICENSE_5",
+      "bytes": 1058,
+      "sha256": "b6234401b9831a86505fbeecad803a0b2fe17b06997f614d5325c6d0e1a6fa7f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/incl_licenses/LICENSE_4",
+      "bytes": 1530,
+      "sha256": "9a2fbb788a9d584a2a0766e4bb790c8368911143472d257952581455313cf2c6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/alias_free_torch/resample.py",
+      "bytes": 1859,
+      "sha256": "f9d28fb23311ecfac2b9fc7f3e16be0e6b5e8cc33f60c2e40b435f1078edcfe0"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/alias_free_torch/filter.py",
+      "bytes": 3456,
+      "sha256": "41890f2dc9ad822e679f17db34eb7beb7c0f5f2a3b01229c2d55393cd0538991"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/alias_free_torch/__init__.py",
+      "bytes": 199,
+      "sha256": "a520b10a7e52fa817b46af9cb0b8d1cf7672d3016e3632b7296cc06c11b76da0"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan/alias_free_torch/act.py",
+      "bytes": 854,
+      "sha256": "fb2c0ccfda50344e82227e53cab40ea6c157e9a7c33c0d8191245ba0e3807dac"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_2",
+      "bytes": 1068,
+      "sha256": "7441474b0fe03def0efc41a6340b4818359453c7cb32423c647839f8799e68df"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_7",
+      "bytes": 1069,
+      "sha256": "8f36ba0c214d4f487ffd7ee0b8528da9b67b459bef2d115de9cd001316589f46"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_3",
+      "bytes": 11355,
+      "sha256": "7339fa418c9ad3e8e12e74ad0fd26a9cc4be8703f9c110728a992b193be85cb2"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_8",
+      "bytes": 1063,
+      "sha256": "ff474afe15f36bab44711fc45c1a77314a4b9d8c96fa2d333f3fefe719fd76f9"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_1",
+      "bytes": 1067,
+      "sha256": "5eec017ce442989e01a46cd9cd6aeb13cd0aa3b3943f681577bda00475afaa23"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_5",
+      "bytes": 1058,
+      "sha256": "b6234401b9831a86505fbeecad803a0b2fe17b06997f614d5325c6d0e1a6fa7f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_4",
+      "bytes": 1530,
+      "sha256": "9a2fbb788a9d584a2a0766e4bb790c8368911143472d257952581455313cf2c6"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/incl_licenses/LICENSE_6",
+      "bytes": 1073,
+      "sha256": "3fb4aef5b76dc0ccb1f57499d75c2fe039df5c9793778ede172f5ac7a4045681"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/compat.h",
+      "bytes": 893,
+      "sha256": "39e530d6d9cf5eda60c25b899cf0ba87c70cdca3424de7cb1716adad8f212388"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/anti_alias_activation.cpp",
+      "bytes": 977,
+      "sha256": "222ce6cd687fdc1d541a4bedbf5f3578f321bc2649996b2747ebc60ddd2e1d8e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/type_shim.h",
+      "bytes": 5838,
+      "sha256": "3e32f2fec72b2b6749389acd64c336b2932a3764b686634c696af8151df0e38c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/load.py",
+      "bytes": 2594,
+      "sha256": "6ee5cbfaedc6b73cf2bff9677f18bcc5a46c91a088523e853bca12805a909e8a"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/anti_alias_activation_cuda.cu",
+      "bytes": 10328,
+      "sha256": "e3fa60fbf80fd95cad6f05dd605c85393b6539d6684502a56b64c348c655de7d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/cuda/activation1d.py",
+      "bytes": 2555,
+      "sha256": "54778a4308d359cac8348bc28f5407652982b22732c3c768a6721183c26f5b0e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/resample.py",
+      "bytes": 1917,
+      "sha256": "350320c2ed2a077bac8254515ae9f83c55c2b407b310ff0e8bdc64451e487eee"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/filter.py",
+      "bytes": 3401,
+      "sha256": "acf2257276e617dd3161e53abc0a1582e586a3d2d618a43235c7f83818b4e179"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/__init__.py",
+      "bytes": 200,
+      "sha256": "2e3138e1052e377ba2e51ea59c7d5d255a519559001757af21dbec4cb9c22471"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/ext/bigvgan_v2/alias_free_activation/torch/act.py",
+      "bytes": 881,
+      "sha256": "afb517e64f37543d4753a6651d53fbd4cbfca400ef83947b3fa73f439219461d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/eval/moviegen.py",
+      "bytes": 4284,
+      "sha256": "ebde6a8c518b18b2c7b8a3a4379f2cf011eb2b6f171a233571cba5fa04e09cb1"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/eval/audiocaps.py",
+      "bytes": 1049,
+      "sha256": "771c5f0a5f705054f226d2a044854937e151c759dd519f52eea3af77022c98a8"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/eval/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/eval/video_dataset.py",
+      "bytes": 6523,
+      "sha256": "8638c59f565844e032f08128e4f20eea3e20eeaff9e74d73d3329cb28daf5c8e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/extraction/wav_dataset.py",
+      "bytes": 6101,
+      "sha256": "e73a74b7e1608121ceea2ebef88f33f7d8b508d1c7ab4dbab16b6f0b2ed7664e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/extraction/vgg_sound.py",
+      "bytes": 7090,
+      "sha256": "b9cf09fa96642d3e69af6f93c3fa3fb0470767d6a717a18e411a3102c8668209"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/data/extraction/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/utils/features_utils.py",
+      "bytes": 7853,
+      "sha256": "830a36a6dece66d1c583419587211ca95aab624db9e36e6bf2f6a493d682d10d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/utils/sample_utils.py",
+      "bytes": 373,
+      "sha256": "5bfdf41b83c557587e017ff80283063f5962a22b061243b92947328df1ec0858"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/utils/distributions.py",
+      "bytes": 1617,
+      "sha256": "4781b5981d4268ea99b21a667c9cab4f29a79173f30b7485a141dea32767b9f0"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/utils/__init__.py",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/runtime/meanaudio/model/utils/parameter_groups.py",
+      "bytes": 2093,
+      "sha256": "296043ef908adfc4a60ac450c4375cbf6586af9b08c88ceeed1ac9dedfda9872"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/v1-16.pth",
+      "bytes": 686652758,
+      "sha256": "15ad082c714ccf3771898a771fc6eebdc1d9c8d5c6154726906a97f43603d62c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/best_netG.pt",
+      "bytes": 449217313,
+      "sha256": "970ca75ee4d5ce583e9396a4534acb14971ea2b4f1c22e038f476680c868a789"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt",
+      "bytes": 2352471003,
+      "sha256": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/empty_string_t5.pth",
+      "bytes": 316612,
+      "sha256": "c7e9a3adce14701ceefb9d7bdd75fa5fcadad11002bab73fa793274d706b224f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/weights/empty_string_clap_c.pth",
+      "bytes": 3288,
+      "sha256": "1d17a4ac85c1c438b90c0b181a6bbfb6dd0da43fda828e1beca08e87323cd46c"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/work/demucs-models/download_checks.json",
+      "bytes": 28267,
+      "sha256": "d3622e1fa19c161d3cf704927711b453d593a3f1eb0f2e0838c3136907935151"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/work/demucs-models/5c90dfd2-34c22ccb.th",
+      "bytes": 54996327,
+      "sha256": "34c22ccb381c6f9fdbf324f04e1e2fe21aaaf293f5ded163a162697ff9a02ddd"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/work/demucs-models/htdemucs_6s.yaml",
+      "bytes": 21,
+      "sha256": "207405151270af8fd81c2373c25d27950916682ac91dca7884a11ce13dad6f58"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6/config.json",
+      "bytes": 492,
+      "sha256": "0b8eabc5ced92cefed116a3aca8f1e59d2a33dc4d376b9e86dfb9c072e1d280d"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6/model.safetensors",
+      "bytes": 415472992,
+      "sha256": "a5a3c2412649cc2384ec525ffd5180ce6c4778f43bed6108e0a1303de04d014e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-corrected-20261003/contract.json",
+      "bytes": 174653,
+      "sha256": "a30b4df8e60dbbe6e8e7059f2107464abb10d51ad8481ddec48c194446650a28"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/probe101.py",
+      "bytes": 13823,
+      "sha256": "b68debc73e6e54e85f226e47783a42c751244d13a5bb49e82573e51d6a203277"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/analyze101.py",
+      "bytes": 6459,
+      "sha256": "80e30578ff3e7caafad3da1a995a3a1115c4cf0c95fbcbf65f623968d42bf9c9"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py",
+      "bytes": 4343,
+      "sha256": "fa1ce10f81606dabcbbd6d2c762829797d79d6ca9577a0fd9416a105993cc975"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/source102.py",
+      "bytes": 10714,
+      "sha256": "60cbd17bef3a99174c688737d36511172e63998969d81fceda92853bc13d4d98"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight101.py",
+      "bytes": 1875,
+      "sha256": "0c8ea900b574316f6c4a1d1a0b50f86980824c4dadf05aa554cec7850d13ef93"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic100/summary.json",
+      "bytes": 996,
+      "sha256": "1bae0371dabc40d19141e6e17ef805254eae0786bb7cfecb8e60c642c2d0bc73"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-formal-recovery-20261003_contract.json",
+      "bytes": 47433,
+      "sha256": "ca074f680c2a0f4036a642b303737d7afd5487e8d4b83cce75312968457561eb"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/operator_request.txt",
+      "bytes": 114,
+      "sha256": "9e64e13b16a353f4a1283846ce0b8e26b18bf386b3ceb32b5d04f99b134a61f7"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/queue_candidates/101_aes-negmf-corrected-recovery-20261003.sh",
+      "bytes": 702,
+      "sha256": "0c45ee86310e6ff1be09f0883bf5eefe92cf2df0a6fd08213a351fb710b08c3e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/resume_manifest.json",
+      "bytes": 420,
+      "sha256": "9a2a91bd0dd33766ee0e1cadcd4d441b93ae4fca1ff67f416de70a690b6bad63"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py",
+      "bytes": 4343,
+      "sha256": "fa1ce10f81606dabcbbd6d2c762829797d79d6ca9577a0fd9416a105993cc975"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/postflight101.py",
+      "bytes": 1233,
+      "sha256": "136e9cc7cb67ea9498ed425a8c5f98d276462522bc549cfd14e9d440fdd76c48"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/normalize_candidate.py",
+      "bytes": 814,
+      "sha256": "0175fc7dc2f59c635351b218d0fc9b419fdb35ef75409df133eb6943d99b5585"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/CONTROL_FAILURE_AUDIT.json",
+      "bytes": 24011,
+      "sha256": "008dded0d00b7947d1e2a1f0b88ed1575eee39033b168c8d20e4b6e941152270"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/NORMALIZATION_DIAGNOSIS.json",
+      "bytes": 3429,
+      "sha256": "744db51311ccf07b62276720bef34572c856a4ba0b7985c0fac0095f78d2f130"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/QUB_vpjogmo_170.flac",
+      "bytes": 126616,
+      "sha256": "904a6d8325c1a10def856733c191770d08dab3df8f18b8765be8faa709880023"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/G22YfD5xxMU_60.flac",
+      "bytes": 265171,
+      "sha256": "e708068b6f4f06f067e93aeb42609d2f3c075a91c79e9543e7a9e639e4b79936"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/A5fPSkTvjmY_70.flac",
+      "bytes": 182646,
+      "sha256": "ed0f52dedf3eaee23dca1e6bd9753f0f0e7d9b3834b72b52d21a660724f28e46"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/7OgH3B49_E4_30.flac",
+      "bytes": 258374,
+      "sha256": "9c14a7bb34cda862432a397a7b037197a502ceb50302ba572cd3984a26c5365e"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/HRxTN4TH-80_0.flac",
+      "bytes": 203501,
+      "sha256": "7a23f6d77d30a4d0fcff9d262e9af5ef4f6943e0e0d89140af27a4059b7c4f82"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/6ieXDFjLKNo_230.flac",
+      "bytes": 106867,
+      "sha256": "0ce5b9229966d9b66fdd55ee3ce30c6872443343ad90f493681f0ee25a0fdae3"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/cJ80eZY03Yg_200.flac",
+      "bytes": 205020,
+      "sha256": "9388d2f6699b4e27c4d336b53a672e6f1d047f2c29db225f78cd9359896f132f"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/Z5x5BLzQKZI_10.flac",
+      "bytes": 144215,
+      "sha256": "8801d8ecfe7d628889b7df8544698aec94abed55305ea435a9ea65eaeb6d8eea"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/PTl5ixI1Ogc_30.flac",
+      "bytes": 91964,
+      "sha256": "21b68b93edc1be82c6519813fef109ee83437a608dc6066050de80e51252f4d8"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/N100_s27182818_mf25_cfg0_historical_null/audio/_JTHtcRHxnw_300.flac",
+      "bytes": 190320,
+      "sha256": "bba4d1f50ed3812ae57516ee34396fdfd6e25cf9179fe14bd3b2a937e30874cd"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/1cqcTbDxsHM_130.flac",
+      "bytes": 121049,
+      "sha256": "a2f0428b75c988db1d356b807ea8e84e630512dc39624df0edc6e920df32bade"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/zjZV0tvur2I_180.flac",
+      "bytes": 142111,
+      "sha256": "2fa1d8a8147308e27296f469923c5860c1a206d7b54405ee7baaffd4b0664e0a"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/gqROBgF7_DU_70.flac",
+      "bytes": 153731,
+      "sha256": "b341e3fb913cc9694d562b85e2a830a55beb0939479657e38fc77c5d0611483a"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/n16ZUTfZtDM_0.flac",
+      "bytes": 134088,
+      "sha256": "c32098545d892af8b856bc7274e7ba122578d8c799c85cfc5ef76af321272c64"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/-SD43H5B5hE_520.flac",
+      "bytes": 60377,
+      "sha256": "7cd661641c6a8a3811c0315a12cbb5cecd4e1f8a9b3c5785f7e260df16bd1efb"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/Q9gWfok9Q5c_110.flac",
+      "bytes": 114170,
+      "sha256": "b7dca35b2a5c8691a79bb5f512974ed70a28eb54e3f6d7f7fdeb0f993b7665c0"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/GAohd8KvONo_30.flac",
+      "bytes": 126660,
+      "sha256": "ef470d6b7414541926e57b07abe7e151445c6741320ec2e2da9f87a667be27e2"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/ZEN8_GtW_UQ_30.flac",
+      "bytes": 138114,
+      "sha256": "001de6574082ae0b6b96e1a7b39d30319e2f7f4b42d8355c81b5f6136a9227fb"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/HWZdPxRzCWs_30.flac",
+      "bytes": 77620,
+      "sha256": "2da6ab6319d9809c4d47f98c786b048590203995b9c4def508accaab62b25b86"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/EyO5vB4eqo0_30.flac",
+      "bytes": 118461,
+      "sha256": "2a1d981216f24f0b9c45890badba7d54acbf7a3e041fd1826a652e8dd04b3dcf"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/F7Y1T-rQ2JU_410.flac",
+      "bytes": 106913,
+      "sha256": "ea88e2e6a47fba6efe32afcffed48bef83781c1d1302338a595b3ba690925bb9"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/dIPW9gLGSx8_30.flac",
+      "bytes": 138036,
+      "sha256": "bfed6bbf0ad20fc29183e8c9b1a3228b36b0a770e7518934796c4d8b037432ec"
+    },
+    {
+      "kind": "immutable_input",
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-followup-20261002/cells/control_s14159265_mf25_cfg3_fidelity8/audio/1-Y9kafYuqQ_100.flac",
+      "bytes": 106634,
+      "sha256": "3ba742aa2af21d4be006dc1647a76ebe1756e19850994d2069e78998526a9868"
+    }
+  ],
+  "tsv": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-longrun-20261002/musiccaps_test.tsv",
+  "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101",
+  "runtime_root": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic101",
+  "state_root": "/home/kojiek/logs/aes_negmf_diagnostic_101_harn",
+  "summary": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic101/summary.json",
+  "reports": [
+    {
+      "path": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic101/summary.json"
+    }
+  ],
+  "resume": {
+    "kind": "verified_per_item_cache",
+    "checkpoint": "/home/kojiek/MeanAudio/docs/experiments/harn/aes_diagnostic_101/resume_manifest.json",
+    "checkpoint_sha256": "9a2a91bd0dd33766ee0e1cadcd4d441b93ae4fca1ff67f416de70a690b6bad63",
+    "checkpoint_bytes": 420,
+    "autoresume": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic101/host_resume.json",
+    "behavior": "Resume only v2 keys with source/waveform/hash/control verification. Failed v1 scores are retained in their original roots and not adopted. Official P2 seat and bound scientific revision required."
+  },
+  "storage": {
+    "path": "/home/kojiek/MeanAudio",
+    "transient_root": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic101",
+    "estimated_peak_additional_bytes": 35000000000,
+    "warning_free_bytes": 120000000000,
+    "hard_stop_free_bytes": 80000000000,
+    "authorized_cleanup": "Only own incomplete last JSONL write, saved to forensic .partial-tail SHA file before truncation; no other deletion."
+  },
+  "resource_budget": {
+    "writable_filesystems": [
+      "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003",
+      "/home/kojiek/logs",
+      "/home/kojiek/gpu_queue/notification_receipts",
+      "/home/kojiek/MeanAudio"
+    ],
+    "cpu_threads": 4,
+    "estimated_gpu_hours_range": [
+      20,
+      35
+    ],
+    "automatic_repair": false
+  },
+  "watcher": {
+    "poll_seconds": 2,
+    "stall_seconds": 1800,
+    "healthy_poll_model_calls": 0,
+    "progress": "Actual child log-size or score progress changes; heartbeats do not count as science progress; official persistent P2 parent owns resource and reports terminal disappearance"
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/preflight101.py"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/postflight101.py"
+    ]
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/101_aes-negmf-corrected-recovery-20261003.sh",
+    "launcher_sha256": "0c45ee86310e6ff1be09f0883bf5eefe92cf2df0a6fd08213a351fb710b08c3e",
+    "harn": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/guest.py",
+    "harn_sha256": "a9bfbdc4e08f0592136130d61aab617ec84d671bbd34392e4a3a4edca427565e",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/aes_queue_repair_20261003/resume101.py",
+    "action_sha256": "fa1ce10f81606dabcbbd6d2c762829797d79d6ca9577a0fd9416a105993cc975"
+  },
+  "notification_receipts": {
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b"
+  },
+  "notifications": [
+    "queue_registration",
+    "start",
+    "queue_handoff",
+    "preflight_pass",
+    "phase_start",
+    "gate_pass_fail_invalid",
+    "terminal_success_failure_interruption",
+    "unexpected_gpu_idle",
+    "disk_warning",
+    "disk_hard_stop",
+    "storage_recovered",
+    "stall"
+  ],
+  "completion_evidence": {
+    "eval_only": true,
+    "criteria": "Exact reports registered, all input/coverage/control hashes validated by commands.postflight, delivered terminal notification"
+  },
+  "scope_limits": "No training, no regenerated captions, no hidden protocol substitution, no shared cache mutation; FAD and human ratings absent",
+  "corpus_classification": "Non-generated published MusicCaps caption corpus; generated audio is immutable evaluation input, not a generated caption training corpus.",
+  "original_contract": "/home/kojiek/MeanAudio/docs/experiments/aes-negmf-formal-recovery-20261003_contract.json",
+  "original_contract_sha256": "ca074f680c2a0f4036a642b303737d7afd5487e8d4b83cce75312968457561eb",
+  "diagnostic_sources": [
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "QUB_vpjogmo_170",
+      "sha256": "904a6d8325c1a10def856733c191770d08dab3df8f18b8765be8faa709880023"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "G22YfD5xxMU_60",
+      "sha256": "e708068b6f4f06f067e93aeb42609d2f3c075a91c79e9543e7a9e639e4b79936"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "A5fPSkTvjmY_70",
+      "sha256": "ed0f52dedf3eaee23dca1e6bd9753f0f0e7d9b3834b72b52d21a660724f28e46"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "7OgH3B49_E4_30",
+      "sha256": "9c14a7bb34cda862432a397a7b037197a502ceb50302ba572cd3984a26c5365e"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "HRxTN4TH-80_0",
+      "sha256": "7a23f6d77d30a4d0fcff9d262e9af5ef4f6943e0e0d89140af27a4059b7c4f82"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "6ieXDFjLKNo_230",
+      "sha256": "0ce5b9229966d9b66fdd55ee3ce30c6872443343ad90f493681f0ee25a0fdae3"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "cJ80eZY03Yg_200",
+      "sha256": "9388d2f6699b4e27c4d336b53a672e6f1d047f2c29db225f78cd9359896f132f"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "Z5x5BLzQKZI_10",
+      "sha256": "8801d8ecfe7d628889b7df8544698aec94abed55305ea435a9ea65eaeb6d8eea"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "PTl5ixI1Ogc_30",
+      "sha256": "21b68b93edc1be82c6519813fef109ee83437a608dc6066050de80e51252f4d8"
+    },
+    {
+      "cell": "N100_s27182818_mf25_cfg0_historical_null",
+      "id": "_JTHtcRHxnw_300",
+      "sha256": "bba4d1f50ed3812ae57516ee34396fdfd6e25cf9179fe14bd3b2a937e30874cd"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "1cqcTbDxsHM_130",
+      "sha256": "a2f0428b75c988db1d356b807ea8e84e630512dc39624df0edc6e920df32bade"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "zjZV0tvur2I_180",
+      "sha256": "2fa1d8a8147308e27296f469923c5860c1a206d7b54405ee7baaffd4b0664e0a"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "gqROBgF7_DU_70",
+      "sha256": "b341e3fb913cc9694d562b85e2a830a55beb0939479657e38fc77c5d0611483a"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "n16ZUTfZtDM_0",
+      "sha256": "c32098545d892af8b856bc7274e7ba122578d8c799c85cfc5ef76af321272c64"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "-SD43H5B5hE_520",
+      "sha256": "7cd661641c6a8a3811c0315a12cbb5cecd4e1f8a9b3c5785f7e260df16bd1efb"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "Q9gWfok9Q5c_110",
+      "sha256": "b7dca35b2a5c8691a79bb5f512974ed70a28eb54e3f6d7f7fdeb0f993b7665c0"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "GAohd8KvONo_30",
+      "sha256": "ef470d6b7414541926e57b07abe7e151445c6741320ec2e2da9f87a667be27e2"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "ZEN8_GtW_UQ_30",
+      "sha256": "001de6574082ae0b6b96e1a7b39d30319e2f7f4b42d8355c81b5f6136a9227fb"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "HWZdPxRzCWs_30",
+      "sha256": "2da6ab6319d9809c4d47f98c786b048590203995b9c4def508accaab62b25b86"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "EyO5vB4eqo0_30",
+      "sha256": "2a1d981216f24f0b9c45890badba7d54acbf7a3e041fd1826a652e8dd04b3dcf"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "F7Y1T-rQ2JU_410",
+      "sha256": "ea88e2e6a47fba6efe32afcffed48bef83781c1d1302338a595b3ba690925bb9"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "dIPW9gLGSx8_30",
+      "sha256": "bfed6bbf0ad20fc29183e8c9b1a3228b36b0a770e7518934796c4d8b037432ec"
+    },
+    {
+      "cell": "control_s14159265_mf25_cfg3_fidelity8",
+      "id": "1-Y9kafYuqQ_100",
+      "sha256": "3ba742aa2af21d4be006dc1647a76ebe1756e19850994d2069e78998526a9868"
+    }
+  ],
+  "scientific_scope": "Explicit v2 scientific normalization: fixed RMS before -23 BS1770, strict FP32 with TF32 disabled; all thresholds retained including gain control <0.01. Fresh versioned scores; old failed results preserved. Same audio/seeds/conditions/primary holdout and inferential plan. CFG0 remains historical. Source study may reuse only v2 scores with identical waveform and source SHA.",
+  "corrected_science_root": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-corrected-20261003",
+  "normalization_revision": "fixed_rms_seed_then_bs1770_minus23_v2",
+  "inference_revision": {
+    "matmul_tf32": false,
+    "cudnn_tf32": false,
+    "aes_dtype": "float32",
+    "early_gain_gate": true
+  },
+  "original_preflight": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003/preflight.py",
+  "runtime_environment": {
+    "PYTHONPATH": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/work/structure-packages"
+  }
+}

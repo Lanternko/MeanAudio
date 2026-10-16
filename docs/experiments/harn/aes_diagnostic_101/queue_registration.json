@@ -1,0 +1,6 @@
+{
+  "receipt": "/home/kojiek/gpu_queue/notification_receipts/aes-negmf-corrected-recovery-20261003/queue_registration.json",
+  "receipt_sha256": "cecdc3aa47a756c48238afabf5240a50c969ceee9aba50c08a29dfea1cf5f24b",
+  "contract_sha256": "acf1d6dc1605e7b47cfebfd37860d9ca5ac35a3986eb5d1862336ae5badd72b3",
+  "launcher_sha256": "0c45ee86310e6ff1be09f0883bf5eefe92cf2df0a6fd08213a351fb710b08c3e"
+}

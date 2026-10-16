@@ -1,0 +1,8 @@
+{
+  "kind": "verified_per_item_cache",
+  "science_root": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-corrected-20261003",
+  "normalization_revision": "fixed_rms_seed_then_bs1770_minus23_v2",
+  "cache_root": "/home/kojiek/MeanAudio/runtime/aes_queue_repair_20261003/diagnostic102",
+  "original_audio_reused": true,
+  "old_scores_not_adopted": true
+}

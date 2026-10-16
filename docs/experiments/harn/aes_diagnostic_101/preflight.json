@@ -1,0 +1,123 @@
+{
+  "document_kind": "preflight_report",
+  "schema_version": "1.0.0",
+  "schema_bundle_id": "harn-schema-v1",
+  "experiment_id": "aes-negmf-corrected-recovery-20261003",
+  "run_id": "run-20261003-101",
+  "contract_raw_sha256": "9b1ba72d20685f9e6b32f70aae4a8dc8be4a399811084095ba43e751678998fc",
+  "approval_evidence": {
+    "evidence_id": "operator-diagnosis-99",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console",
+    "channel_record_id": "codex-user-diagnose-failed-rerun",
+    "channel_record_sha256": "9e64e13b16a353f4a1283846ce0b8e26b18bf386b3ceb32b5d04f99b134a61f7",
+    "approver_id": "responsible-operator",
+    "issued_at": "2026-10-03T12:59:10.953447+00:00",
+    "expires_at": "2026-10-10T12:59:10.953456+00:00",
+    "experiment_id": "aes-negmf-corrected-recovery-20261003",
+    "run_id": "run-20261003-101",
+    "bindings": {
+      "contract_raw_sha256": "9b1ba72d20685f9e6b32f70aae4a8dc8be4a399811084095ba43e751678998fc",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2",
+      "runtime_sha256": "a9bfbdc4e08f0592136130d61aab617ec84d671bbd34392e4a3a4edca427565e",
+      "repair_envelope_sha256": null,
+      "command_set_sha256": "87a033398320b12e5c849fcf9837420c4c6af8a6fe3b0d09911bf6dd8213557d"
+    }
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T12:59:10.953447+00:00",
+      "valid_until": "2026-10-10T12:59:10.953456+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "provenance",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T12:59:10.953447+00:00",
+      "valid_until": "2026-10-10T12:59:10.953456+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "storage",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T12:59:10.953447+00:00",
+      "valid_until": "2026-10-10T12:59:10.953456+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "notification",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T12:59:10.953447+00:00",
+      "valid_until": "2026-10-10T12:59:10.953456+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "queue",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T12:59:10.953447+00:00",
+      "valid_until": "2026-10-10T12:59:10.953456+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "watcher",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T12:59:10.953447+00:00",
+      "valid_until": "2026-10-10T12:59:10.953456+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    },
+    {
+      "check_id": "acceptance",
+      "verdict": "pass",
+      "observed_at": "2026-10-03T12:59:10.953447+00:00",
+      "valid_until": "2026-10-10T12:59:10.953456+00:00",
+      "evidence_sha256": "a6ce339ed14a54fd3920bba0a503ae51bc85718b0cee9fafd20410e999934a0e"
+    }
+  ],
+  "storage": [
+    {
+      "path": "/home/kojiek/Documents/Codex/2026-10-01/files-pasted-by-the-user-negmf/outputs/aes-formal-20261003",
+      "hard_floor_bytes": 80000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000,
+      "measured_at": "2026-10-03T12:59:10.953447+00:00",
+      "free_bytes": 287307190272,
+      "verdict": "pass"
+    },
+    {
+      "path": "/home/kojiek/logs",
+      "hard_floor_bytes": 80000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000,
+      "measured_at": "2026-10-03T12:59:10.953447+00:00",
+      "free_bytes": 287307190272,
+      "verdict": "pass"
+    },
+    {
+      "path": "/home/kojiek/gpu_queue/notification_receipts",
+      "hard_floor_bytes": 80000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000,
+      "measured_at": "2026-10-03T12:59:10.953447+00:00",
+      "free_bytes": 287307190272,
+      "verdict": "pass"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio",
+      "hard_floor_bytes": 80000000000,
+      "peak_additional_bytes": 35000000000,
+      "transient_bytes": 50000000,
+      "recovery_reserve_bytes": 80000000000,
+      "measured_at": "2026-10-03T12:59:10.953447+00:00",
+      "free_bytes": 287307190272,
+      "verdict": "pass"
+    }
+  ],
+  "derived_verdict": "pass",
+  "created_at": "2026-10-03T12:59:10.953447+00:00"
+}

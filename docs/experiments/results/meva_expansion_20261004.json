@@ -1,0 +1,2704 @@
+{
+  "aes_replaced": false,
+  "comparisons": [
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        -0.0034832606856923585,
+        0.02930425894182675
+      ],
+      "direction": "inconclusive",
+      "expectation": "full expected higher; training budget only, no human-known winner",
+      "label": "slot0nm full\u2212quarter / mc_mf25_cfg3_neg",
+      "left": "phase8_qwen_caption2p0_slot0nm_noq_full_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.5204673066473465,
+      "mean_delta": 0.01266585517417605,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0nm_noq_quarter_mc_mf25_cfg3_neg",
+      "win_ci95": [
+        0.5076978808186923,
+        0.5337823763810904
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        -0.013346321773127442,
+        0.01469435340909935
+      ],
+      "direction": "inconclusive",
+      "expectation": "full expected higher; training budget only, no human-known winner",
+      "label": "slot0nm full\u2212quarter / musiccaps_mf25_cfg0_noq",
+      "left": "phase8_qwen_caption2p0_slot0nm_noq_full_musiccaps_mf25_cfg0_noq",
+      "left_win_fraction": 0.5004528165187466,
+      "mean_delta": 0.00039584229463599034,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0nm_noq_quarter_musiccaps_mf25_cfg0_noq",
+      "win_ci95": [
+        0.4877739539938417,
+        0.5133173338163376
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.12245597701209288,
+        0.24820494561766582
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212bitcrush_4",
+      "left": "d1_clean",
+      "left_win_fraction": 0.6770833333333334,
+      "mean_delta": 0.1839552323023478,
+      "n": 192,
+      "right": "d1_bitcrush_4",
+      "win_ci95": [
+        0.609375,
+        0.7447916666666666
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.012069946775833767,
+        0.08999403002671885
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212bitcrush_8",
+      "left": "d1_clean",
+      "left_win_fraction": 0.5520833333333334,
+      "mean_delta": 0.049681782722473145,
+      "n": 192,
+      "right": "d1_bitcrush_8",
+      "win_ci95": [
+        0.484375,
+        0.6197916666666666
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.24694369950642187,
+        0.37948238112342847
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212clip_18db",
+      "left": "d1_clean",
+      "left_win_fraction": 0.78125,
+      "mean_delta": 0.3129676301032305,
+      "n": 192,
+      "right": "d1_clip_18db",
+      "win_ci95": [
+        0.7239583333333334,
+        0.8385416666666666
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.0014823237123588722,
+        0.07354960919668276
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212clip_6db",
+      "left": "d1_clean",
+      "left_win_fraction": 0.5208333333333334,
+      "mean_delta": 0.0367206446826458,
+      "n": 192,
+      "right": "d1_clip_6db",
+      "win_ci95": [
+        0.453125,
+        0.59375
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.2045668143313378,
+        0.3780776085797697
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212lowpass_1k",
+      "left": "d1_clean",
+      "left_win_fraction": 0.6666666666666666,
+      "mean_delta": 0.2890686063716809,
+      "n": 192,
+      "right": "d1_lowpass_1k",
+      "win_ci95": [
+        0.59375,
+        0.734375
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.39593930745807787,
+        0.551348637137562
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212lowpass_2k",
+      "left": "d1_clean",
+      "left_win_fraction": 0.828125,
+      "mean_delta": 0.47313052353759605,
+      "n": 192,
+      "right": "d1_lowpass_2k",
+      "win_ci95": [
+        0.7760416666666666,
+        0.8802083333333334
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.30000402899459006,
+        0.4364763597336908
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212noise_snr0",
+      "left": "d1_clean",
+      "left_win_fraction": 0.8229166666666666,
+      "mean_delta": 0.36550594369570416,
+      "n": 192,
+      "right": "d1_noise_snr0",
+      "win_ci95": [
+        0.765625,
+        0.875
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.11710524306011698,
+        0.23982547582127153
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212noise_snr10",
+      "left": "d1_clean",
+      "left_win_fraction": 0.703125,
+      "mean_delta": 0.17749778802196184,
+      "n": 192,
+      "right": "d1_noise_snr10",
+      "win_ci95": [
+        0.640625,
+        0.765625
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.02399859675206244,
+        0.13965355896701415
+      ],
+      "direction": "left higher",
+      "expectation": "clean expected higher; severe degradations strongest sanity tests, no human labels",
+      "label": "clean\u2212noise_snr20",
+      "left": "d1_clean",
+      "left_win_fraction": 0.5677083333333334,
+      "mean_delta": 0.07966493380566438,
+      "n": 192,
+      "right": "d1_noise_snr20",
+      "win_ci95": [
+        0.5,
+        0.6355468749999993
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.03819766262533699,
+        0.06911235096834205
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.5370403912334722,
+      "mean_delta": 0.05353395836527333,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0",
+      "win_ci95": [
+        0.5239947473283826,
+        0.5495381271508785
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        -0.04115663481415063,
+        -0.009486362524296897
+      ],
+      "direction": "right higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30 vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+      "left_win_fraction": 0.47328382539395036,
+      "mean_delta": -0.025571259634366524,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+      "win_ci95": [
+        0.4602381814888607,
+        0.48686832095634847
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        -0.10368454321055627,
+        -0.07138482243378641
+      ],
+      "direction": "right higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.4482883535591378,
+      "mean_delta": -0.08800969767713003,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0",
+      "win_ci95": [
+        0.43524723781923563,
+        0.46096721608404273
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        -0.05657259388864742,
+        -0.024476156304267374
+      ],
+      "direction": "right higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.47183481253396126,
+      "mean_delta": -0.040773189406834574,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0",
+      "win_ci95": [
+        0.4582503169715631,
+        0.48524270965404814
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.1351157918348409,
+        0.1654141987294223
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.607860894765441,
+      "mean_delta": 0.15063181443396653,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0",
+      "win_ci95": [
+        0.5950009056330375,
+        0.6201775040753487
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.08308509306304375,
+        0.11459696255361142
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30 vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+      "left_win_fraction": 0.5662017750407535,
+      "mean_delta": 0.09897522234523713,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+      "win_ci95": [
+        0.5529704763629777,
+        0.5797862706031516
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.07359048254387121,
+        0.10293694506778035
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.5595906538670531,
+      "mean_delta": 0.08828121871754778,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0",
+      "win_ci95": [
+        0.5468189639558051,
+        0.5721812171708024
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.08960026184991313,
+        0.11919503365332094
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.5652961420032603,
+      "mean_delta": 0.10402894756366887,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0",
+      "win_ci95": [
+        0.5529795326933526,
+        0.5785183843506612
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.10984987808275733,
+        0.139059079938707
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.5899293606230755,
+      "mean_delta": 0.12458732298288067,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+      "win_ci95": [
+        0.577069371490672,
+        0.6031516029704763
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.11401282440350768,
+        0.14410824009450615
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.588661474370585,
+      "mean_delta": 0.12929968679756645,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0",
+      "win_ci95": [
+        0.5754347038579968,
+        0.6009780836804927
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.11814577624355617,
+        0.14871780736639412
+      ],
+      "direction": "left higher",
+      "expectation": "direction unknown; jointly changes CFG and negative prompt",
+      "label": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg vs CFG0",
+      "left": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+      "left_win_fraction": 0.5854011954356095,
+      "mean_delta": 0.13276521146049147,
+      "n": 5521,
+      "right": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0",
+      "win_ci95": [
+        0.5736279659481978,
+        0.5978989313530158
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.24421962563962613,
+        0.2786347670316307
+      ],
+      "direction": "left higher",
+      "expectation": "100k expected higher; also doubles updates and changes historical source split",
+      "label": "MusicFlamingo100k\u221210k",
+      "left": "mf100k_noq_stage2_100000",
+      "left_win_fraction": 0.6650969027350118,
+      "mean_delta": 0.262134762156638,
+      "n": 5521,
+      "right": "mf10k_noq_fast_stage2_50000",
+      "win_ci95": [
+        0.6524135120449194,
+        0.6770512588299221
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.018567510442314014,
+        0.05525497246416901
+      ],
+      "direction": "left higher",
+      "expectation": "100k expected higher; also doubles updates and changes historical source split",
+      "label": "LPMC100k\u221210k",
+      "left": "lpmc100k_noq_stage2_100000",
+      "left_win_fraction": 0.5201956167360985,
+      "mean_delta": 0.037679474501911225,
+      "n": 5521,
+      "right": "lpmc10k_noq_fast_stage2_50000",
+      "win_ci95": [
+        0.507335627603695,
+        0.5332367324760007
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        -0.2165093267278122,
+        -0.1791270658176806
+      ],
+      "direction": "right higher",
+      "expectation": "method comparison; no human-known winner",
+      "label": "MusicFlamingo\u2212LPMC / 10k",
+      "left": "mf10k_noq_fast_stage2_50000",
+      "left_win_fraction": 0.3743886976996921,
+      "mean_delta": -0.19778912807154367,
+      "n": 5521,
+      "right": "lpmc10k_noq_fast_stage2_50000",
+      "win_ci95": [
+        0.3613430537946024,
+        0.3870720883897844
+      ]
+    },
+    {
+      "caveat": "Pointwise CI; descriptive, no human accuracy/adoption claim.",
+      "delta_ci95": [
+        0.008753854491382032,
+        0.04392460433442703
+      ],
+      "direction": "left higher",
+      "expectation": "method comparison; no human-known winner",
+      "label": "MusicFlamingo\u2212LPMC / 100k",
+      "left": "mf100k_noq_stage2_100000",
+      "left_win_fraction": 0.5125882992211556,
+      "mean_delta": 0.026666159583183115,
+      "n": 5521,
+      "right": "lpmc100k_noq_stage2_100000",
+      "win_ci95": [
+        0.4991804021010686,
+        0.5258105415685564
+      ]
+    }
+  ],
+  "coverage": {
+    "excluded_prior_inventory": [
+      {
+        "cell": "c2p0_slot0_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/c2p0_slot0_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "mf_dedup_noq_full_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/mf_dedup_noq_full_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "mf_dedup_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/mf_dedup_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "mf_fullcov_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/mf_fullcov_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "mfshort100k_direct_noq_c2p0recipe_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/mfshort100k_direct_noq_c2p0recipe_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "mixcap_01m_random_noq_full_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/mixcap_01m_random_noq_full_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "mixcap_01m_random_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/mixcap_01m_random_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "paired59k_mf_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/paired59k_mf_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "paired59k_qwen_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/paired59k_qwen_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_bestof3_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_bestof3_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_fair013_bestof3_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_fair013_k3_quarter_mc_mf25_cfg3_neg_q9",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_fair013_k3_quarter_mc_mf25_cfg3_neg_q9",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_fair013_worstof3_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_fake_random_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_fake_random_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_true012_random_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true012_random_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_true_random_noq_full_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true_random_noq_full_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_true_random_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true_random_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_true_random_qk10b_quarter_mc_mf25_cfg3_neg_q0",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true_random_qk10b_quarter_mc_mf25_cfg3_neg_q0",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_true_random_qk10b_quarter_mc_mf25_cfg3_neg_q9",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true_random_qk10b_quarter_mc_mf25_cfg3_neg_q9",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_mc_mf25_cfg3_neg_q0",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_mc_mf25_cfg3_neg_q0",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_mc_mf25_cfg3_neg_q9",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_k3_true_random_qk3b_quarter_mc_mf25_cfg3_neg_q9",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_modular_template_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_modular_template_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_qwen3cap_k3_quarter_mc_mf25_cfg3_neg_q9",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_qwen3cap_k3_quarter_mc_mf25_cfg3_neg_q9",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "66b5e0f8c52bc0c9a1e7c1d9828b39aa8256b9e62154b6f237a1b2566c6eb327",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "aa9bb2f98714446319cf3eb4221be857283c3cfdfe4d71967ab0ec32bbca3603",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "a91591db587acf5fee339d8d04ac6410585735c66a4c90a6ae59aa015eb7643d",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "e757ff8fb8dff777af8d6cde2ccb3afd4af681187c1e48a3050ac8ad8f6c5d39",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "108288bfd1b55133487c9d24ba4f66a404ed5b2ee9636bf0fd45ae5485169506",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "e1cedea3a63d9a4349c7cf66ba9850da5a738031718c8b62587aa51fa599bf0c",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "073451762e569f65a9468f294edb6520e7a25236d84c76db4dc6fe1150ce0bf3",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "eb7b6d8cd4074bb7b295ed9d964ca20f09a4873ac38a1268b4970e6194a5a421",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "54b8010fdd1f302205e7a12fe1cb10fc6f8f4e92b8cd0de6d178ffe98856cdbd",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "7398ba3d22eeaecc4b8f9f7fcdd95de06f1e31619a77fd43e8f5d791debe77a5",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "5709181d497bb3704533a527fd1bc00c06c18b1724972942955e63ab6bc92fec",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "9e3d058b701992f7a76bd8a1d0363ac6a0534163a8751be75caf621fd78a0ad8",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "7d14268f0579ceb29eafa284f14779c630c38aadc6147c0cfc4987ef540f3f27",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "b7e342b4d239f8888a23b9c957e6bee317c78ab87f17b2a443c841e81031e098",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "88a288f6745b4b26630f618e10d4dc2d5249530f9fe6baac2e8524c081505882",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "aae7f116ff133c895a970947222f5e16926374351fb1bee8c12df5d298f2c9cc",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "0d74590c232176bc6286c20930a19bf7beaaf8814bfb229296294e43fbaca461",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "2a715e0bc5fe7e18ac63d62aa83714f15c0541f1cbbdb7a47fdf1207f414e480",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "bc73154e7ecb0a1f0a72344f86ff1e16c4eadaf9f1f82caf28f5160482027d8c",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "0ac5ff3c3fbc71e851ca51ef801d79cb83f35ef484bd7832f81574171394376d",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "b7a6f278b535e308d5f8cac340de3d61a1b18abc240691ea344d91394de79734",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "0d09940a42884143147c6ac9175b24aad102f8c9bf525323c12b576ffd17598a",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "2649448c0121268d5ecddb9b78357ff3ae8a18e2fd8d19c9b0157acd898e86e8",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "a1a6896842057b2e75fd616540d8fb5767e28fb75b9dd1efd44eaaa7029d7887",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "bf124cd62c74329ee33f42f8dbc7f7632d99a01e5ef69034cce08463d6ae9e0c",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "4bc016cc56ff90a8bc2103770b8c29fd2543b6299341b9533a348400d08e4fbc",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "0bdedc764199c8d545acc8c3e7d9e1507cc6e2df64b89847bcd681becd206068",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "d100031c3cd1a6a25bb41672f41bce14deb2f6663e427687d92447c8af1d9c5e",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "e51ddc2732f74bcd7c1ce7c44ed6aed921648feeea9a2aab1b63b753a5a50d8a",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "a5167002984f993b90ae27ffb32e147635722954530e9e0b72e5f0218634c04b",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "e7f171c2965c757c22ae03881585822966d28ece2925c7f2f963037484f7b9bc",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "bf6ec91450f12d690e87ca5d0a43a602c51fe55799856f9fc3fdb132f94005de",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "cba74cfc13b37b1cba049a3f770c17c0da4b8d9928378bda1d97ca936bfd274f",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "563113fbc55745836027520e61caf92bef88819a1fd5b5478dad5de0ece2507d",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "fe86fc78f83148c9acc55b5b4e1cfee5ef97e58db719b212aed400e7fad26d3b",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "188039dde69c77c7c37ef06bc93e5ec7367e9b1ef37f734fb738ff3bc6e67f63",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "cd9c597baaffd9f0ef8fc252f8f2a1f5026afb5b336433fbfac35985c4d6c331",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "4f3ccbe50906d1add817ba3b42a5432f8dd4b7bff78e3a0e3f17a076b068adef",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "f6f0805d5887b4c1a75e2939e0757de72d435ef55f9e7eaff4b4ca644cf79875",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "6ef568c987d7ad6aee9a7f2a58ab5e94baa2f7c5cd06a63c8b23b3ed4f9f124c",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfnhi_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "3ee8b31f02c3c8d82a57feb90a9bf72925d3a9e952fdfc2395a59a5911de2855",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "002c9afbbaa8e7fc4dc50a361a7c5f0f73438ec04f2e48b886866315bc7ac71c",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "f2f2cea271dd273b5377c967c215cb6ed2674bc466c85f9afcc988b241885b3a",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "4d85a826ca771656c32f1f1a907b3908bc7a2f76c0f063135d66f6cb75e79a6c",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "6d732ceb79faf04a93d58c1b64ca33d826e28927c10cccebf3dc658b4c290a52",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "a78ac86d3b73c37b1723f179d4e2d7508aa8df16ba3a54fa76d05a4ac1975cb0",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "e3d60ccc847a64a442e81a8c2db7f05e335308ecb3970c270fe0832cef90b422",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "cdc7a601ebd73be214b81c45955f29ef808f90ba08d99a8ceabdb082be94eda8",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "be1247a578a085fe1d29fe98b26e3958ed94797c6ef5b29ef196c93c8dbc9dc1",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "906a745fc8c96e11d206b237d18c27a9ad3c310c5b89aef0905879ae7d9f4fa3",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "a797c2d979c500a636dad5b21e54422cfdb02cef2ed36ed7eaacdbb26dd92a10",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "55020644430135c2f6c310baa4e7928a1098a4ce77e6c40730e71cfb40ba8cd0",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfrev100_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "ae24be4f7294fbe5e39b20cd081af281b4b6d7e9063d944b755fafeae35f06ae",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "be1c1884c00e054d2162e81162d75b0e7f9cb0cd2444137513fb37bfb9aa04b0",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "1910277684a8e9740b0fe17f8b026c9ab4634edd90a923114168686f395f3f4e",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "f833ab0763a90f8033fbce300ecbfb5708c381d66248657181200a8a88e10081",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "e85292fc7eb9df7293bd0a5117d7abec7b0691161f01f5eb63a8634eae98a672",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "4f539c36eddb679d72f109f513d493b79aad0054bb9880c2aef5b62f09e943fe",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "cc13ebd7321c999086d283f77746e40485923004d29ee72a4e83e0e19c4067ae",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "c9d9c701e6424a480a6e8d4d6aa8679fff45166653f21d4c71a70b2df6c4feeb",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "f35cef57b4ef9ddadd325258dea4c8941c83b6ecbadde3d2f053cb40c81f5515",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "dc16d39cec0b1d8f9566988710c05bf9b1a3c8efa6d9e8fd3518686bfb24b013",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "high quality recording, clean, professional, pristine, hi-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg/per_clip.tsv",
+        "per_clip_sha256": "9c4a65056d56ac19b6c52d83a91b0a269c6f2d43b327d00183d81a8dcbfd059a",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg_REPORT.json",
+        "source_report_sha256": "b45f4143a9f73c022522198068d82ae3738bac9f8f4390b7a710e7d37748706f",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_revneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "6587ca9c760cfd900fb10413496b80592616c797b97f3fadc14953721291d430",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "21a9b3ae5c1739d7d1384ca9843cc084815b0e98ee77a8e195e0bae99455a690",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "53b381e9bba084eaaa1167efbe00bae32b5481642244b37fab224c17dfd9978b",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "79175518427ce6d30a3f539ea6b549f345235d729d754e6f77bcd286753731b5",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "27ad0a6957ea5e2d8012f672235bb7ebf68b37fcee3a9d0c12991b29424cfffa",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "44bfba62394ffb296d92ecb88168316d10383b777a69a1e48f7ac084d9ab3067",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "f02fe4b2f78f96a531be326bd3d66e2f4deec2b07bba9c2eda9b889555a075fd",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "24eaa47a9120409e2418a96457e802b3dfa082d1437bb2ca8f4b2a3031759e63",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "1bfd866b4665801fb50f0d483443db2cf1379a0f32a511c52c0e1a132e68bca3",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "c2d5d7800f61ca7d847de5f97c9d0937d508a5b96532c742ae944e065f29d327",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "high quality recording, clean, professional, pristine, hi-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg/per_clip.tsv",
+        "per_clip_sha256": "9978b797a427f1615404b6109d2b89ef69df81fa46f2959b4b756cbf70955239",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg_REPORT.json",
+        "source_report_sha256": "fed6342b69723f35e6f8b58b7b774ff53012d37c0ddd3fc8ca70e3fc09c98735",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_revneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "fd6f3a1f404ef1934c668a36836c44fa0686424824953bed427f55922a47c8b6",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "61d8134425b27c5939c8dc86181277b45937510f49a65051ffc04f3c2167ac11",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "08fbfd090ae3b070b98a69f277a704ae7a9311308b06379942f2abb85fd86734",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "2d406c389f37eaecde0a32026ee09e879d5d23f9b13d19f8540950718b382468",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "083075e034bb9b47fa3488f7f19ff83039bf068345d161940e8519e65c6f8a1c",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "d943143976b263d053039756c5836ddf94ebc7b1ea90a0193b4c85eb86825c47",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "e99c8464089799dae12570d2e8c0395e957b2489b5113f764b889e75a634edcd",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "c082c62f82ee4ed97905d9aeab19ef3f95fc0ebf5301f0374dc8553450bd9915",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "e8cbed437f985717313c0bfdc02cd1d4fc009af94fd534cbdc5ebeefb9aeaae2",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "609dd5cb81d7a49a974bdf1db4ced98f37f0a6fd14e2ff689ec6e603e2658378",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg_fad",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg_fad",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "high quality recording, clean, professional, pristine, hi-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg/per_clip.tsv",
+        "per_clip_sha256": "247c78babb1b7739b26174cee57f5612acff91b5d32accd57b83a40e9625b00f",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg_REPORT.json",
+        "source_report_sha256": "98a1ee9438f7c076e7c71208ba2259c63b286ecdfbac5f3a0bc56a2fe269552e",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_revneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "d89ba1af05d7da539034dcad58740400b1448d519ef5ee7b236b27e3a2060293",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "8d124e8feadfe7d904585e05e62f37bc7c9a4a94964725f9d049d4139ea6f7e3",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "d90c47fc1f03505fff6c744da2afac73b89769565ba5de0e34a4fa238db9039c",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "119d6ca5b0538aa44265c1438a8e638dba69b309e12b1ab3ee6286ee96b3c891",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "9d02e042fe1774c179bb7f39b52aa1c732359f6fd5cd6e8978f8646439ca856a",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "c7c7979e6e6a43db97fd250f0e1114acb19ad7e5554f070a703eb8d5580d15cd",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "eff75797f2a0be857961f11f67404e38982a22894b81a4f8805a742be0c54883",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "a8be36509530fca06bfa721b32af8d29a534351f93d661575acca8ac80a0fe4a",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "63a10f22c52eea39ade3d5b15662037f3737d44a513955a7e9d91490dc58ce91",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "7cf791df3f8596ddf853c3d510219af16db85141ba5c6e8ec2463cc975be322c",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "3b41d984312b6da080f5f928fc98c0b8f06daee740796f9fe77f8a2c0ba95b84",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "765fd820fd66c2b5efa8ffc00be14e27cebf7c7d8d91d801b6007ad52ba9fbd2",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "ce4e9047be537a1693da977ec8d3957397ecee7933f3e6fbe4930a7de2a3c3c1",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "4ac979801684573af29fd64496e8932ee6a5685f16edbd6b824366249d7385fc",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "ad6122da0609dc939bab349cb7f6ffbdff65ffd08892deab3436e60e83ecf598",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "a6612a7669237603a991e96322164c7cd955cf39436fb0191d35e508b2780673",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "ec71932aebf805716ed96c445663bf879616fad75b1e5127319c315cc22ab47b",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "a3424bba7409c06c0a0bb26032719bda723581d53082386aad4f94e8a286526f",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "ffce1365bcbe4ab9657a7bf39b3d1bf2404e58ae4850bbbf3395da59292eb003",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "d0614828cfec133ca1194ae462d5fe35a37d23812a57dfa1bed2edb565fa0800",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "a7b15c6ab652299220ac39fa4e3bd8189fd42b921fd267139c37025a4c5b3265",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "1da6dcc63c13751a5051de60fad603a18f92a2b00c8e8437583346057f45cc27",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "0c59b0d29abb0c02588938d633c19f260c78d5e9111ac8c6aa478e675e144566",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "76b9edd0a75527cc575a813f9e43e17aacb687f2bf53859a7d81d4b27f54040f",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "900023484bdd9dcf634993fb56040b4098d1ecc7788d15788c3cd0bbb95967f9",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "50749b92d248499bba959e2e0c91c815be4b8b9ad13456e28c94393f570af320",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "67e712621ccde5e221ea4d2d12f921a1ceb42df97b3334f76ffb188bc698c657",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "5d0219a4774b2f60178183aabacbecd4ef017d532864a9a77829ca0cdc5e1285",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "ba528521667f254025340415c55e44e70eb791793af8a637f1e9a4c2ccc735c0",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "35724476ba4491203489a8b2ffadded560611aa3814218c85c22e3d53885d53d",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_peavlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "27f90b8f7127d73c1009cb7464372e0d6e67343e7622ccf8b220d56a0ef92b95",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "48a48472a6f67d0ee4f19f411e86c5218c7a27c548d9d27cef1723c982e3ee45",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "dcf888a8f1b3c59610bb6e26191ed2e895e2197fa11e2b55dd7738492bdeb5aa",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "c2ec48478e0c0dc7904e44a99558c72ec60e3837eb4492eedb9f44722a561106",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "aa22686165f8bc28639fab4c2cda7de300c6ab2c2f81015cec0d7a73070b3175",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "677023158ef0c26eeb77f217baa638d847793bb27361e668e02f83f73edf2bd4",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "32119625c59718160e24157a289fd9431ac7afb0739f72e0d75d2c842dd8061f",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "90c98ab048e89303af67eb061325f80a598defa4477e164f2b65333da6f423e5",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "d0fb2d385a91d297ad8d98c47b56a8546d9c163a2ed2b778588a5d44c2a85222",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "5d6b2ea5f49c85e7050097718a610cdde8fc6b1780ab96395c5d4dd1fbaae46a",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "3a57523ee25e1ad563ac4acef36eb99768294659b1cc71e6319ae8885350a8d1",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "766256a1d8d442c5d5544323fb962776b2b2db7cff2ff9e4661f99c7a0dbccbd",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "3197e6e7c05ea9b63ffe138d9074a5fa198828eec91a5b372aa6ffb88bd82fd8",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "766d31a9c840112ba3b38a710435d43c32daac359ac35e60e83408c895b5074e",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "5f6dfaf06f409b31e49cb26c9d4910f5704d5983e6075400552f84e6762e03cf",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "9de97800901ea8dddf7a41371ccebf5f6b15fa613d50707c9d852c826f8f9f74",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "7b11265b0c79d9534886002f13aa561f88c9238877b319ed362ff91826a454ff",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "baca291a6aab37071d1fc1ae152a30f1190cb662c67823e33de3a0c9f46405a9",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "ad99c0963d0264bf53c4da1a83013ac6b2e0182e433fb6a78c0e27b7d5a446b9",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "e11cd972c95fcf38483479c16ee3ba76a7517a2722b390e1b20417429db662b3",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s16180339_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "f7f0a285f52a729201261464086c2ec0288bd01e05e1843d452a429f3196a42f",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "9e3efb0392b96664afdbc150794c9175237b8abdb77617f59441aa69cd4c2c72",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "acd553b48f89f71d8de7e633a322175e03a73a3819c305eda06c8645846e7543",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "e8e5bed10ec08882bc146f5441ce9d15182f8a957769e36338bfa22ca6d82acc",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_hqpos_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "7ad0f422564daecac87a3af88ae82f83c413157e50a44f07bfcb5755573954a5",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "9c0254299907912d076b86910c4d4aaf02e9a96c380de7eefcadf8a4923671cb",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg0_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "Low quality recording.",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/per_clip.tsv",
+        "per_clip_sha256": "3f73b516448e14d6d35d0e2ce1fb68e44330df54c54ed3acdd280d63f572b69c",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_REPORT.json",
+        "source_report_sha256": "466b65539f7a0ef702f43a4e13db784b6fc5c5e54904bb32b6ee53f30ace949a",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_lqneg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 5521,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "b37b6ed76ab8151eed49128cfcc83d572b299da9f967af6eade678f7d6abfb29",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "37a8a1c7a580ec7c4163c3fcaccbb8f94075050c2aae552bf7ac25977511eba8",
+        "status": "audio_missing_no_regeneration"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_qlabel_noq_quarter_s27182818_mc_mf25_cfg3_neg_lvl30",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nm_noq_full_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nm_noq_full_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nm_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nm_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nm_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nm_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "a12e9fe501cb580b2566cfeb72059b4321374882d52cfd6894f2aca6d0a454d2",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "f52c3805c4cad32a65f66da291e8ab5226186d0877b8762fc0f47067c33aa8fc",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "c641056da91133df64334fd05b2dd073fca2afb667f8ef706f11b4ef8c75318b",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "463508e377efceacce7a99e4cec72371dc71c50b5fb06c0f3dacdf2127305720",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "826de89e945dd79ef3738f3608648d22b3e1bedeb4b9dbf540f844fce5f5412f",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "98996ada54e2d0341152136a09385056f8fee38951732dac345bf6d86ebd827a",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "4a85d3213e01ba82705e4074f0772da007c17b7318be48b0983f7f7f20b037b4",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "1e65831d45604a1e26034817aac4a436ee110237f0541e6ac3c6319a7382e03c",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0",
+        "cfg_strength": 0.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": null,
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/per_clip.tsv",
+        "per_clip_sha256": "f34a83ecf034bc8fe57064fc367b099a508c6ccb075b2ad330c3cc1792cb5133",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0_REPORT.json",
+        "source_report_sha256": "92eab8f79c7acea68092818cbf690f59cfde556e09b3d8cad9eac2ea422373d0",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "cfg_strength": 3.0,
+        "n_metrics": 5521,
+        "n_missing_audio": 0,
+        "negative_prompt": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "per_clip_path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/per_clip.tsv",
+        "per_clip_sha256": "66824f9c28790b525f51f99da8977b95d8cc4969d373a99301bd257fd0809945",
+        "source_report": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg_REPORT.json",
+        "source_report_sha256": "539ea98ebb2cda71f164d85f9a2a029a6a86af3f793a2d44e820d1d18ac833cb",
+        "status": "included"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot1_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot1_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot2_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot2_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot3_noq_full_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot3_noq_full_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot4_no_digits_noq_full_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot4_no_digits_noq_full_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot4_no_digits_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot4_no_digits_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      },
+      {
+        "cell": "phase8_qwen_caption2p0_worstof3_noq_quarter_mc_mf25_cfg3_neg",
+        "path": "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_worstof3_noq_quarter_mc_mf25_cfg3_neg",
+        "status": "unavailable_source_report_or_per_clip"
+      }
+    ],
+    "existing_rows": 184113,
+    "known_degradation_rows": 1920,
+    "n_retained_cells": 33,
+    "retained_cells": [
+      {
+        "group": "c2p0_slot0_quarter_mc_mf25_cfg3_neg",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG0 native;existing -30LUFS level-match diagnostic",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native;existing -30LUFS level-match diagnostic",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG0 native;existing -30LUFS level-match diagnostic",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native;existing -30LUFS level-match diagnostic",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nm_noq_full_mc_mf25_cfg3_neg",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nm_noq_quarter_mc_mf25_cfg3_neg",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nm_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_mc_mf25_cfg3_neg",
+        "modern_report_present": false,
+        "n": 5521,
+        "protocol": "Historical CFG3+fidelity8 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_musiccaps_mf25_cfg0_noq",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nm_noq_full_musiccaps_mf25_cfg0_noq",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nm_noq_quarter_musiccaps_mf25_cfg0_noq",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot0nm_noq_quarter_s27182818_musiccaps_mf25_cfg0_noq",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      },
+      {
+        "group": "phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_musiccaps_mf25_cfg0_noq",
+        "modern_report_present": true,
+        "n": 5521,
+        "protocol": "Historical CFG0 native",
+        "provenance": "source report where retained; otherwise historical contract, directory label and aggregate metrics; descriptive only"
+      }
+    ],
+    "scope": "All complete MusicCaps cells retained on NVMe and CFG0 runtime; four fresh10k/100k cells; historical missing audio remains disclosed"
+  },
+  "groups": {
+    "c2p0_slot0_quarter_mc_mf25_cfg3_neg": {
+      "max": 4.7690887451171875,
+      "mean": 2.9595260187629946,
+      "min": 0.9994059801101685,
+      "n": 5521,
+      "std": 0.48825247128903076
+    },
+    "d1_bitcrush_4": {
+      "max": 3.9045047760009766,
+      "mean": 2.8535553564627967,
+      "min": 1.4214861392974854,
+      "n": 192,
+      "std": 0.39568523293819946
+    },
+    "d1_bitcrush_8": {
+      "max": 4.2742719650268555,
+      "mean": 2.987828806042671,
+      "min": 1.4749760627746582,
+      "n": 192,
+      "std": 0.47661856941519914
+    },
+    "d1_clean": {
+      "max": 4.426594257354736,
+      "mean": 3.0375105887651443,
+      "min": 1.2304164171218872,
+      "n": 192,
+      "std": 0.5174968397133833
+    },
+    "d1_clip_18db": {
+      "max": 3.8296542167663574,
+      "mean": 2.724542958661914,
+      "min": 1.3406672477722168,
+      "n": 192,
+      "std": 0.4427521824282228
+    },
+    "d1_clip_6db": {
+      "max": 4.543837070465088,
+      "mean": 3.0007899440824986,
+      "min": 1.5997536182403564,
+      "n": 192,
+      "std": 0.5284471496335064
+    },
+    "d1_lowpass_1k": {
+      "max": 3.8797905445098877,
+      "mean": 2.7484419823934636,
+      "min": 1.0989298820495605,
+      "n": 192,
+      "std": 0.4993361341166377
+    },
+    "d1_lowpass_2k": {
+      "max": 3.7395918369293213,
+      "mean": 2.564380065227548,
+      "min": 1.268716812133789,
+      "n": 192,
+      "std": 0.47327948778186846
+    },
+    "d1_noise_snr0": {
+      "max": 3.3155486583709717,
+      "mean": 2.6720046450694404,
+      "min": 1.9187215566635132,
+      "n": 192,
+      "std": 0.26844525864842045
+    },
+    "d1_noise_snr10": {
+      "max": 3.6838624477386475,
+      "mean": 2.8600128007431826,
+      "min": 1.6837542057037354,
+      "n": 192,
+      "std": 0.3281072861222512
+    },
+    "d1_noise_snr20": {
+      "max": 3.836052179336548,
+      "mean": 2.95784565495948,
+      "min": 1.5358742475509644,
+      "n": 192,
+      "std": 0.3796457840111938
+    },
+    "lpmc100k_noq_stage2_100000": {
+      "max": 6.765649795532227,
+      "mean": 2.8790430000479983,
+      "min": 1.0499471426010132,
+      "n": 5521,
+      "std": 0.5265882187433347
+    },
+    "lpmc10k_noq_fast_stage2_50000": {
+      "max": 4.482499122619629,
+      "mean": 2.8413635255460874,
+      "min": 0.9962767362594604,
+      "n": 5521,
+      "std": 0.5061998227921711
+    },
+    "mf100k_noq_stage2_100000": {
+      "max": 4.582317352294922,
+      "mean": 2.9057091596311815,
+      "min": 0.9120151996612549,
+      "n": 5521,
+      "std": 0.5051160081106997
+    },
+    "mf10k_noq_fast_stage2_50000": {
+      "max": 4.427422046661377,
+      "mean": 2.6435743974745436,
+      "min": 0.8575299978256226,
+      "n": 5521,
+      "std": 0.5205448975666248
+    },
+    "phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_mc_mf25_cfg3_neg": {
+      "max": 4.351920127868652,
+      "mean": 2.8995483904898847,
+      "min": 1.094612717628479,
+      "n": 5521,
+      "std": 0.48370031049856055
+    },
+    "phase8_qwen_caption2p0_slot0_noq_quarter_s27182818_musiccaps_mf25_cfg0_noq": {
+      "max": 4.736942291259766,
+      "mean": 2.8429272106604566,
+      "min": 1.1344776153564453,
+      "n": 5521,
+      "std": 0.4676854909521004
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0": {
+      "max": 4.443540573120117,
+      "mean": 2.8515594886537263,
+      "min": 0.6766494512557983,
+      "n": 5521,
+      "std": 0.478989174924147
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30": {
+      "max": 4.681087970733643,
+      "mean": 2.9193316529225104,
+      "min": 0.9177472591400146,
+      "n": 5521,
+      "std": 0.4866715334538795
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg": {
+      "max": 4.8151655197143555,
+      "mean": 2.905093447019,
+      "min": 0.9424453973770142,
+      "n": 5521,
+      "std": 0.5226836231866508
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30": {
+      "max": 4.489027976989746,
+      "mean": 2.8937603932881437,
+      "min": 0.7572284936904907,
+      "n": 5521,
+      "std": 0.502937780169564
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg0": {
+      "max": 4.777196407318115,
+      "mean": 2.85323566542741,
+      "min": 0.9869858026504517,
+      "n": 5521,
+      "std": 0.46756851415772444
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s16180339_mc_mf25_cfg3_neg": {
+      "max": 4.8584489822387695,
+      "mean": 2.76522596775028,
+      "min": 0.8686416149139404,
+      "n": 5521,
+      "std": 0.5190693978730593
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg0": {
+      "max": 4.316937446594238,
+      "mean": 2.8466767290540633,
+      "min": 0.8999831676483154,
+      "n": 5521,
+      "std": 0.4832879649382252
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectlab_noq_quarter_s27182818_mc_mf25_cfg3_neg": {
+      "max": 5.094633102416992,
+      "mean": 2.8059035396472285,
+      "min": 0.7612864971160889,
+      "n": 5521,
+      "std": 0.5172147736580678
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0": {
+      "max": 4.478551864624023,
+      "mean": 2.8264722133153506,
+      "min": 0.9194504022598267,
+      "n": 5521,
+      "std": 0.4620767394482101
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg0_lvl30": {
+      "max": 4.304357528686523,
+      "mean": 2.909077010515742,
+      "min": 1.1176507472991943,
+      "n": 5521,
+      "std": 0.46504010346110436
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg": {
+      "max": 4.6928791999816895,
+      "mean": 2.9771040277493173,
+      "min": 0.9906094074249268,
+      "n": 5521,
+      "std": 0.49010495243345237
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s14159265_mc_mf25_cfg3_neg_lvl30": {
+      "max": 4.79401159286499,
+      "mean": 3.008052232860979,
+      "min": 0.9367704391479492,
+      "n": 5521,
+      "std": 0.48509248116026965
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg0": {
+      "max": 4.535660266876221,
+      "mean": 2.8520386967618405,
+      "min": 0.845439076423645,
+      "n": 5521,
+      "std": 0.4676935415058063
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s16180339_mc_mf25_cfg3_neg": {
+      "max": 4.607700824737549,
+      "mean": 2.940319915479388,
+      "min": 1.0791223049163818,
+      "n": 5521,
+      "std": 0.49203410741246123
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg0": {
+      "max": 4.757002830505371,
+      "mean": 2.8225541119341444,
+      "min": 0.8948181867599487,
+      "n": 5521,
+      "std": 0.4807370042934136
+    },
+    "phase8_qwen_caption2p0_slot0clean_defectunlab_noq_quarter_s27182818_mc_mf25_cfg3_neg": {
+      "max": 4.727804183959961,
+      "mean": 2.9265830594978133,
+      "min": 1.0694681406021118,
+      "n": 5521,
+      "std": 0.49133966949242824
+    },
+    "phase8_qwen_caption2p0_slot0nm_noq_full_mc_mf25_cfg3_neg": {
+      "max": 4.539989471435547,
+      "mean": 2.99122533988659,
+      "min": 1.0249438285827637,
+      "n": 5521,
+      "std": 0.5122826249373978
+    },
+    "phase8_qwen_caption2p0_slot0nm_noq_full_musiccaps_mf25_cfg0_noq": {
+      "max": 4.820517063140869,
+      "mean": 2.8435651256087637,
+      "min": 0.9167909622192383,
+      "n": 5521,
+      "std": 0.4892626403773689
+    },
+    "phase8_qwen_caption2p0_slot0nm_noq_quarter_mc_mf25_cfg3_neg": {
+      "max": 4.824508190155029,
+      "mean": 2.978559484712414,
+      "min": 0.7952874898910522,
+      "n": 5521,
+      "std": 0.4883833182260122
+    },
+    "phase8_qwen_caption2p0_slot0nm_noq_quarter_musiccaps_mf25_cfg0_noq": {
+      "max": 4.7613043785095215,
+      "mean": 2.8431692833141278,
+      "min": 0.8373943567276001,
+      "n": 5521,
+      "std": 0.48578439134078844
+    },
+    "phase8_qwen_caption2p0_slot0nm_noq_quarter_s27182818_mc_mf25_cfg3_neg": {
+      "max": 4.7046661376953125,
+      "mean": 2.9268479237541776,
+      "min": 1.1615760326385498,
+      "n": 5521,
+      "std": 0.49085943805680043
+    },
+    "phase8_qwen_caption2p0_slot0nm_noq_quarter_s27182818_musiccaps_mf25_cfg0_noq": {
+      "max": 4.367186069488525,
+      "mean": 2.855593108198086,
+      "min": 0.8733230829238892,
+      "n": 5521,
+      "std": 0.4758811934015069
+    },
+    "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg0": {
+      "max": 4.672956943511963,
+      "mean": 2.840484739537473,
+      "min": 0.7254248857498169,
+      "n": 5521,
+      "std": 0.47303651266167024
+    },
+    "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s14159265_mc_mf25_cfg3_neg": {
+      "max": 5.247890949249268,
+      "mean": 2.965072062520354,
+      "min": 1.0520285367965698,
+      "n": 5521,
+      "std": 0.44853063320998193
+    },
+    "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg0": {
+      "max": 4.786771774291992,
+      "mean": 2.8684935569763184,
+      "min": 0.9789155721664429,
+      "n": 5521,
+      "std": 0.4753054206881603
+    },
+    "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s16180339_mc_mf25_cfg3_neg": {
+      "max": 4.809802532196045,
+      "mean": 2.997793243773885,
+      "min": 1.1296824216842651,
+      "n": 5521,
+      "std": 0.4949884911313895
+    },
+    "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg0": {
+      "max": 4.3604817390441895,
+      "mean": 2.8455949453874854,
+      "min": 0.9677811861038208,
+      "n": 5521,
+      "std": 0.4732414440330497
+    },
+    "phase8_qwen_caption2p0_slot0nmv2_nmv2pair_noq_quarter_s27182818_mc_mf25_cfg3_neg": {
+      "max": 5.222356796264648,
+      "mean": 2.9783601568479767,
+      "min": 1.2064964771270752,
+      "n": 5521,
+      "std": 0.49702994214548274
+    },
+    "phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_mc_mf25_cfg3_neg": {
+      "max": 4.4189276695251465,
+      "mean": 2.9003745589302063,
+      "min": 0.9047036170959473,
+      "n": 5521,
+      "std": 0.5066148672727268
+    },
+    "phase8_qwen_caption2p0_slot4v2_no_digits_noq_quarter_musiccaps_mf25_cfg0_noq": {
+      "max": 4.8155717849731445,
+      "mean": 2.8343074514994995,
+      "min": 0.9785757064819336,
+      "n": 5521,
+      "std": 0.4875235733935316
+    }
+  },
+  "limitations": [
+    "Quarter/full slot0nm uses the same251598 rows; steps100k+50k vs400k+200k. This is a training-budget comparison.",
+    "10k/100k historical checkpoints also change update budgets100k+50k vs200k+100k and original corpus splits. No pure data-size causal claim.",
+    "Historical100k scripts reference a quarantined source TSV. Checkpoints are evaluated descriptively, never retrained or promoted as clean method evidence.",
+    "Many retained legacy cells have aggregate metrics but no modern REPORT; directory/source contracts identify protocol. Preserve historical labels, no canonical relabeling.",
+    "No PromptCC human labels: model preference fractions are not human accuracy. More data/updates are expectations, not guaranteed winners.",
+    "D1 degradations are preexisting paired controls; severe noise and clipping are strongest checks, stylistic effects of mild distortion are subjective.",
+    "Pointwise prompt/source bootstrap CIs are descriptive and do not include training-seed variation or establish multiplicity-controlled adoption.",
+    "Only retained complete cells and four selected surviving data-size checkpoints are covered. Missing historical audio is disclosed; not all historic experiments are recovered."
+  ],
+  "model_binding": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da",
+  "n_scored": 206197,
+  "status": "completed"
+}

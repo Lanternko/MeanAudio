@@ -1,0 +1,10 @@
+{
+  "after_pending": [
+    "100_aes-negmf-fp32-diagnostic-20261003.sh"
+  ],
+  "before_pending": [],
+  "contract_sha256": "b27d77274a9c788cddf85f0b7745ce0c961d851ac72349fd2bc07cebf289cd68",
+  "launcher_sha256": "ccb5a6851738bca15dfea2c5ab193960251d39b100ec059a7e03004a4c83fe20",
+  "receipt": "/home/kojiek/gpu_queue/notification_receipts/aes-negmf-fp32-diagnostic-20261003/queue_registration.json",
+  "receipt_sha256": "becefd307ce9eef081750b11a80f483f69ab05368b70f946cd5b6a8341a7fa07"
+}
