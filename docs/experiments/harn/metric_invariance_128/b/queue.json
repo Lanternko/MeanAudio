@@ -1,0 +1,62 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "6246ed73aea78dc605ec234b0fedf67f20e1fa830d285e6a4fd7242d68dda5d2",
+        "ledger_raw_sha256": "f080b57dbac875af463e10d0971b0d08e9fd26c51fe6dd758633213c7ca80419",
+        "preflight_report_raw_sha256": "446cebb7baedc27be8194170f3dd64a4a94412c89866d297fe72f87d459d0bf9",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "128_metric_invariance_calibration",
+      "experiment_id": "metric-invariance-128a-20261017",
+      "position": 1,
+      "run_id": "run-20261017-128-metric-invariance",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    },
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "428a0f1d3df3d0b5f007b7c50cb407fb5c051e3d872aaf9c6326989ac8f2456f",
+        "ledger_raw_sha256": "b05683a1580095aa44ca13b9a0814888653045c395707a182f1ed7269c36a08b",
+        "preflight_report_raw_sha256": "79130c7b72866fc736bc231f6e5672eba532e7e73374e2ef7d5c9a7eb26ee5cc",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [
+        "128_metric_invariance_calibration"
+      ],
+      "entry_id": "129_metric_invariance_table_b",
+      "experiment_id": "metric-invariance-128b-20261017",
+      "position": 2,
+      "run_id": "run-20261017-129-metric-invariance",
+      "status": "blocked",
+      "terminal_notification_status": "not_applicable"
+    },
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "dada32d1cfd436c4fcd6459f91b124ca73483c2e053d95b625c7a8c955296955",
+        "ledger_raw_sha256": "ec1506ba5ddd625e13345bf4e81e602d559c78a4feb1d75a09802de2bebf83c0",
+        "preflight_report_raw_sha256": "64e77b11796b69bd5be5258e4cb4af6855d496efd33a0ba0243e1fc6dda5e38b",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [
+        "128_metric_invariance_calibration",
+        "129_metric_invariance_table_b"
+      ],
+      "entry_id": "130_metric_invariance_negmf",
+      "experiment_id": "metric-invariance-128c-20261017",
+      "position": 3,
+      "run_id": "run-20261017-130-metric-invariance",
+      "status": "blocked",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-invariance-128",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-10-16T18:09:36.146984+00:00"
+}
