@@ -20,6 +20,33 @@ import metric_invariance_128_guest as G
 
 
 class ScientificGates(unittest.TestCase):
+    def test_aes_partial_batch_matches_full_batch_without_extra_observations(self):
+        paths=[f'clip{i}.flac' for i in range(50)]
+        def numeric_size_sensitive_score(got,batch_size,progress):
+            result={}
+            for k in range(0,len(got),batch_size):
+                chunk=got[k:k+batch_size]
+                for p in chunk:result[p]={'PQ':1. if len(chunk)==32 else 1.001}
+            return result,{}
+        original,_=numeric_size_sensitive_score(paths,32,False)
+        self.assertNotEqual(original[paths[-1]]['PQ'],1.)
+        (scores,failed),padding=M.score_aes_full_batches(paths,numeric_size_sensitive_score)
+        self.assertEqual(padding,14);self.assertFalse(failed)
+        self.assertEqual(set(scores),set(paths));self.assertEqual(len(scores),50)
+        self.assertTrue(all(r['PQ']==1. for r in scores.values()))
+
+    def test_aes_full_batch_is_not_padded(self):
+        fn=MagicMock(return_value=({},{}));paths=[str(i) for i in range(32)]
+        _,padding=M.score_aes_full_batches(paths,fn)
+        self.assertEqual(padding,0);fn.assert_called_once_with(paths,batch_size=32,progress=False)
+
+    def test_aes_single_clip_retains_one_observation_and_empty_rejected(self):
+        fn=MagicMock(return_value=({'a':{'PQ':1.}},{}))
+        (got,_),padding=M.score_aes_full_batches(['a'],fn)
+        self.assertEqual(padding,31);self.assertEqual(list(got),['a'])
+        self.assertEqual(fn.call_args.args[0],['a']*32)
+        with self.assertRaises(ValueError):M.score_aes_full_batches([],fn)
+
     def test_members_preserve_length_sign_and_truncation(self):
         x=np.linspace(-.2,.3,16000)
         ys=M.members(x,16000,'C2')

@@ -79,6 +79,19 @@ def table(path, key='id'):
         return {r[key]: r for r in csv.DictReader(f, delimiter='\t')}
 
 
+def score_aes_full_batches(paths, score_fn):
+    """Keep AES's actual forward size at 32, including a cohort's final batch.
+
+    Repeated context paths are not new observations: score_aes returns one value
+    per unique original path. CLAP/MEva, source audio and cohort IDs are unchanged.
+    This candidate must pass the original C0 1e-4 gate before any promotion.
+    """
+    if not paths:
+        raise ValueError('AES cannot score an empty cohort')
+    padding=(-len(paths))%32
+    return score_fn([*paths,*([paths[-1]]*padding)],batch_size=32,progress=False),padding
+
+
 def config():
     return json.loads(Path(os.environ['GPU_QUEUE_CONTRACT']).read_text())
 
@@ -202,7 +215,7 @@ class Scorer:
             if variant == 'clean_shuf':
                 import random
                 random.Random(126).shuffle(paths)
-            aes, failed = score_aes(paths, progress=False)
+            (aes, failed), aes_padding = score_aes_full_batches(paths, score_aes)
             if failed or len(aes) != len(paths):
                 raise RuntimeError(f'AES incomplete: {directory}')
             aes = {Path(p).stem: v for p, v in aes.items()}
@@ -244,6 +257,7 @@ class Scorer:
             meta = {'identity': identity, 'n': len(records), 'seconds': time.monotonic()-t0,
                     'score_sha256': sha(score_path), 'mode': mode,
                     'members': 4 if mode in ('C2', 'C3') else 1,
+                    'aes_padding':aes_padding,
                     'prepare_seconds':prepared_seconds,'meva_compute_seconds':meva_compute,
                     'aes_clap_seconds':aes_clap_seconds,
                     'scalable_seconds':prepared_seconds+max(aes_clap_seconds,meva_compute)}
