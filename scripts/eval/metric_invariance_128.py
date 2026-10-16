@@ -98,7 +98,8 @@ def storage(c):
     for spec in c['filesystems']:
         free = shutil.disk_usage(spec['path']).free
         if free < spec['hard_floor_bytes']:
-            raise RuntimeError(f"storage hard stop: {spec['path']} free={free} floor={spec['hard_floor_bytes']}")
+            print(f"storage hard stop: {spec['path']} free={free} floor={spec['hard_floor_bytes']}",flush=True)
+            raise SystemExit(75)
 
 
 def normalize(x, sr):
@@ -183,7 +184,7 @@ class Scorer:
                 return {k: z[k] for k in z.files}, meta
         storage(c)
         t0 = time.monotonic()
-        tmp = Path(tempfile.mkdtemp(prefix='audio-', dir=root / 'tmp'))
+        tmp = Path(tempfile.mkdtemp(prefix='audio-', dir=c['storage']['transient_root']))
         child = None
         try:
             prepared = list(self.pool.map(prepare_one,
@@ -325,7 +326,7 @@ def run_a(c, scorer, manifest):
         # charges MP3 roundtrip/correlation work instead of extrapolating clean.
         bench={}
         for variant in VARIANTS:
-            tmp=Path(tempfile.mkdtemp(prefix='benchmark-',dir=root/'tmp'));started=time.monotonic()
+            tmp=Path(tempfile.mkdtemp(prefix='benchmark-',dir=c['storage']['transient_root']));started=time.monotonic()
             try:
                 for s in manifest['calibration']:(tmp/s).mkdir()
                 jobs=[(r,s,variant,'C3',str(tmp/s)) for s,rs in manifest['calibration'].items() for r in rs[:10]]
@@ -526,7 +527,8 @@ def preflight(c):
     subprocess.run([sys.executable,str(R/'scripts/validate_experiment_harness_documents.py'),
         '--contract',str(bundle/'contract.json'),'--preflight',str(bundle/'preflight.json'),
         '--ledger',str(bundle/'ledger.json'),'--queue',str(bundle/'queue.json')],check=True)
-    Path(c['storage']['path'],'tmp').mkdir(parents=True,exist_ok=True)
+    storage(c)
+    Path(c['storage']['transient_root']).mkdir(parents=True,exist_ok=True)
     print('128 preflight passed',flush=True)
 
 
@@ -566,6 +568,9 @@ def main():
             with np.load(score_path) as z:
                 if len(z['ids'])!=meta['n'] or len(set(z['ids']))!=meta['n']:
                     raise RuntimeError('incomplete or duplicate scored ids')
+                required=[0,1,2,3]+([4] if meta['mode']!='C1' else [])+([5] if meta['mode'] in ('C0','C3') else [])
+                if z['values'].shape!=(meta['n'],len(METRICS)) or not np.isfinite(z['values'][:,required]).all():
+                    raise RuntimeError('invalid scored metric matrix')
         if c['part']=='a':
             if set(result.get('chosen',{}))!=set(JUDGED):raise RuntimeError('missing calibration decisions')
             expected=len(VARIANTS)*len(A.SYSTEMS)*4
@@ -573,6 +578,13 @@ def main():
             if len(list((root/'midi').glob('*/*/*/done.json')))!=len(MIDI_CASES)*4:raise RuntimeError('missing MIDI units')
         else:
             manifest=json.loads(Path(c['manifest']).read_text())
+            selected=manifest['table_b'] if c['part']=='b' else manifest['negmf']
+            expected=sum(math.ceil(len(rows)/1000)*3 for rows in selected.values())
+            expected+=sum(math.ceil(len(rows)/1000) for name,rows in selected.items() if name not in manifest['table_references'])
+            if len(list((root/'table').glob('*/*/*/done.json')))!=expected:
+                raise RuntimeError('missing re-adjudication score units')
+            if len(list((root/'identity').glob('*/*/*/done.json')))!=len(selected):
+                raise RuntimeError('missing 200-clip identity units')
             if set(result.get('claims',{}))!={x[0] for x in manifest['claims'][c['part']]}:
                 raise RuntimeError('missing re-adjudication claims')
             if c['part']=='b' and json.loads((root/'summary_d.json').read_text()).get('status')!='completed':
@@ -585,7 +597,8 @@ def main():
             write(root/'summary.json',{'status':'deferred','reason':'128a+128b exceeded registered 17-hour budget','elapsed_seconds':elapsed})
             notify(c,'budget_deferred','130 / 128c deferred under registered 17h rule. No NegMF scores were recomputed.');return
     if c['part']=='a' and not (root/'started.json').exists():write(root/'started.json',{'at':time.time()})
-    tmp=root/'tmp'
+    storage(c)
+    tmp=Path(c['storage']['transient_root'])
     if tmp.is_symlink():raise RuntimeError('temporary scoring root must not be a symlink')
     # Only the supervisor holding this experiment's lock can start an action.
     # A killed unit has no completion evidence; discard only its registered scratch.

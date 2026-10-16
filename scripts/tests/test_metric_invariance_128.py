@@ -78,6 +78,20 @@ class ScientificGates(unittest.TestCase):
         self.assertEqual(M.conclusion([.01,.02,.01],rates,.1),'tie')
         self.assertEqual(M.conclusion([.2,.3,-.1],rates,.1),'weakened')
 
+    def test_resume_accepts_only_matching_completed_bytes(self):
+        with tempfile.TemporaryDirectory() as td:
+            c={'storage':{'path':td},'bindings':{'action_sha256':'action'}}
+            records=[{'id':'a','path':'unused','sha256':'source','caption':'caption'}]
+            d=Path(td)/'group/system/clean/C0';d.mkdir(parents=True)
+            score=d/'scores.npz';np.savez(score,ids=np.array(['a']),values=np.ones((1,6)))
+            identity=M.hash_json({'action':'action','mode':'C0','system':'system','variant':'clean','records':records})
+            M.write(d/'done.json',{'identity':identity,'score_sha256':M.sha(score),'n':1})
+            scorer=M.Scorer.__new__(M.Scorer);scorer.c=c
+            got,_=scorer.unit('group','system','clean','C0',records)
+            self.assertEqual(got['ids'].tolist(),['a'])
+            score.write_bytes(b'corrupt')
+            with self.assertRaises(RuntimeError):scorer.unit('group','system','clean','C0',records)
+
     def test_storage_all_filesystems(self):
         c={'filesystems':[{'path':'/a','hard_floor_bytes':100,'warning_floor_bytes':200},
                            {'path':'/b','hard_floor_bytes':100,'warning_floor_bytes':200}]}
@@ -88,6 +102,12 @@ class ScientificGates(unittest.TestCase):
             self.assertEqual([r['state'] for r in G.storage_state(c)],['ok','hard_stop'])
         with patch.object(G.os,'statvfs',side_effect=[S(500),S(150)]):
             self.assertEqual([r['state'] for r in G.storage_state(c)],['ok','warning'])
+
+    def test_action_storage_wait_has_retryable_exit(self):
+        with patch.object(M.shutil,'disk_usage',return_value=type('Disk',(),{'free':99})()):
+            with self.assertRaises(SystemExit) as caught:
+                M.storage({'filesystems':[{'path':'/fixture','hard_floor_bytes':100}]})
+            self.assertEqual(caught.exception.code,75)
 
 
 class SupervisorBranches(unittest.TestCase):

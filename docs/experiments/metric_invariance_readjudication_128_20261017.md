@@ -148,6 +148,6 @@ CLAP 的優勢**剛好等於** 126 定的平手容許量，而 CLAP 只要開頭
 - C1/C3 在浮點 WAV 容器中保留超過 0 dBFS 的樣本，不以 FLAC 整數編碼隱性截幅；沿用評分器以內容讀檔的路徑介面。保存每段 peak 與 126a 變換的 over_fs。無法定義 LUFS 的音訊使 gate invalid，不默默排除或替代。
 - 128b/c 在暫存區直接呼叫 115 `_gain_one()` 從 raw 重做 lvl30；115/118 原有 lvl30 存在時逐檔比對 SHA256。128a 的 C0 再與 126a、115 分數檢查，容許差 1e-4；128b 的每格 200 段同樣對 115/118 做身分閘。
 - NegMF 六格 raw 音檔全部存在，不需重新生成。NegMF 原 arm 沒有 115 lvl30 分數；不得把 raw 舊分數誤當 lvl30 身分錨。使用凍結的原始音檔 SHA256 與相同 115 轉換；control 仍檢查 115/118。
-- 新分數、暫存與 supervisor 寫入 `/mnt/seagate/kojiek_data/metric_invariance_128_20261017/`。126b 刺激逐檔 SHA256 驗證後移到 Seagate，原路徑以 symlink 保留；不刪除音訊。NVMe 與 Seagate 均維持 50 GiB hard floor，禁止利用較低的舊 126 floor 開跑。
+- 新分數與 supervisor 寫入 `/mnt/seagate/kojiek_data/metric_invariance_128_20261017/`；每次評分的音訊批次暫存於 NVMe `eval_output_nvme/metric_invariance_128_20261017_tmp/<part>/`，峰值預留 6 GiB，每批評完刪掉，避免 USB ext4 大量小檔拖慢 GPU。126b 刺激逐檔 SHA256 驗證後移到 Seagate，原路徑以 symlink 保留；不刪除音訊。NVMe 與 Seagate 均維持 50 GiB hard floor，禁止利用較低的舊 126 floor 開跑。
 - 128c 的 17 h 順延條件從 128a 的 smoke 開始計時；超時時輸出 deferred 報告，不暗中跳過仍宣告完成評分。129 必須驗證 128 完成 evidence，130 必須驗證 128 與 129；舊 CFG0 是具名歷史次要協定，不改成新 canonical comparator。
 - 128d 用真實錄音的 pulse clarity quantile；cutpoint 相同的值留在同層，避免任意切散 ties。128a/b/c 不訓練、不變動模型或表 B。

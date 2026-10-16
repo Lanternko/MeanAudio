@@ -1,14 +1,14 @@
 {
   "status": "passed",
-  "at": "2026-10-16T18:04:17.495833+00:00",
+  "at": "2026-10-16T18:08:57.722390+00:00",
   "tests": [
     {
       "name": "scientific_and_supervisor",
       "status": "passed",
       "script": "/home/kojiek/MeanAudio/scripts/tests/test_metric_invariance_128.py",
-      "script_sha256": "32c20aabcee65c0bf23ffa9c5d065e31d1367eb63a13c9a976802241861c4c5f",
-      "output_sha256": "5ff6f18edd7a6f06037f150f626ab893bcd210541bcd9b13d462360ec41cb499",
-      "count": 15
+      "script_sha256": "1ffafb5c495f8b9b16caabecdfa111d2280840d1d71223abb123efe669d6863f",
+      "output_sha256": "4b332277d6115e04183676f5aa30fb8c6cdcd8f558f1c3e0efc1c1c8498c5d65",
+      "count": 17
     },
     {
       "name": "schemas",
@@ -40,9 +40,9 @@
     }
   ],
   "bindings": {
-    "scripts/eval/metric_invariance_128.py": "8f159d392324bba969882674b79c0cefc8d59d9f4da8cdc3972b6eb84965f19f",
-    "scripts/experiment_harness/metric_invariance_128_guest.py": "b8b133f669b56fa372aacee3f17bd25d905e1437dbe7190797ab7f7d8082a701",
-    "scripts/experiment_harness/register_metric_invariance_128.py": "e32b609c072814f2ca6f9adea5e039ef3008c976059d9fc5ba5875a488516f62",
+    "scripts/eval/metric_invariance_128.py": "b7cd9a91c7c2c8a4cb7582de7c2ade7951bc9f2bc7517becc59819d36831f696",
+    "scripts/experiment_harness/metric_invariance_128_guest.py": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "scripts/experiment_harness/register_metric_invariance_128.py": "6159f1f24ad651c6a8c2ec583a29b663d2af1f8f1c323a966f16bc95ee7ea2b3",
     "scripts/experiment_harness/notification_receipts.py": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
     "scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
   },

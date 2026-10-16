@@ -15,6 +15,7 @@ from lib_scheduler import PAUSE_EXIT, accept_guest, atomic_json, now, pid_start_
 from secondary_queue_controller import Controller
 
 INTERRUPTED = False
+DISK_HOLD = '128 storage hard stop: owned evaluation child stopped. Polling capacity; no cleanup or automatic scientific changes.'
 
 
 def handler(sig, frame):
@@ -89,7 +90,7 @@ def main():
             if current_disk == 'hard_stop':
                 stop(child); child = None
                 if disk_state != current_disk:
-                    ctl.notify('disk_hard_stop','held','128 storage hard stop: owned evaluation child stopped. Polling capacity; no cleanup or automatic scientific changes.')
+                    ctl.notify('disk_hard_stop','held',DISK_HOLD)
                 disk_state=current_disk; time.sleep(5); continue
             if disk_state=='hard_stop':
                 ctl.notify('storage_recovered','start','128 capacity recovered; repeating preflight before resuming existing units.')
@@ -98,6 +99,9 @@ def main():
             disk_state=current_disk
             if child is None:
                 rc = subprocess.run(c['commands']['preflight']).returncode
+                if rc==75:
+                    if disk_state!='hard_stop':ctl.notify('disk_hard_stop','held',DISK_HOLD)
+                    disk_state='hard_stop';time.sleep(5);continue
                 if rc:
                     ctl.terminal('held','held','held',f'128 preflight invalid rc={rc}; no scorer launched.',reason='preflight_invalid')
                     return 2
@@ -108,6 +112,10 @@ def main():
                 previous=progress(c); changed=time.monotonic()
             rc=child.poll()
             if rc is not None:
+                if rc==75:
+                    child=None
+                    if disk_state!='hard_stop':ctl.notify('disk_hard_stop','held',DISK_HOLD)
+                    disk_state='hard_stop';time.sleep(5);continue
                 if rc:
                     status='interrupted' if rc in (-1,-2,-9,-15,129,130,137,143) else 'failed'
                     ctl.terminal(status,'interrupted' if status=='interrupted' else 'failure','interrupted' if status=='interrupted' else 'failure',

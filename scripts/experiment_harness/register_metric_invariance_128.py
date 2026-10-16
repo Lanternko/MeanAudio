@@ -159,7 +159,9 @@ def main():
     if not mf.exists():
         print('Hashing existing audio; no model execution.',flush=True);write(mf,manifest())
     if args.manifest_only:return
-    acceptance=B/'acceptance.json';assert json.loads(acceptance.read_text())['status']=='passed'
+    acceptance=B/'acceptance.json';accept=json.loads(acceptance.read_text());assert accept['status']=='passed'
+    for path,expected in accept['bindings'].items():
+        assert sha(R/path)==expected,f'acceptance evidence stale: {path}'
     approval=B/'operator_request.txt'
     approval.write_text('2026-10-17 operator_console: 使用者提供 PR #2 的 128a/b/c/d 設計，並指示「開始實驗」。\n範圍：補腳本與 contracts、smoke、通過 gate 後依 p2 128→129→130 執行；128c 遵守 17h 順延規則。\n')
     common=[Path(__file__),R/'scripts/eval/metric_invariance_128.py',R/'scripts/experiment_harness/metric_invariance_128_guest.py',
@@ -189,7 +191,8 @@ def main():
     for number,part,label in [(128,'a','calibration'),(129,'b','table_b'),(130,'c','negmf')]:
         name=f'{number}_metric_invariance_{label}.sh';cp=R/f'docs/experiments/metric_invariance_128{part}_20261017_contract.json'
         launcher=R/'scripts/queue_candidates'/name;out=O/part;out.mkdir(exist_ok=True)
-        (out/'tmp').mkdir(exist_ok=True)
+        tmp=E/'metric_invariance_128_20261017_tmp'/part
+        tmp.mkdir(parents=True,exist_ok=True);tmp.chmod(0o700)
         assert not (out/'started.json').exists(),'refuse replacing launched contract'
         launcher.write_text(f'''#!/bin/bash
 # GPU_QUEUE_CONTRACT={cp}
@@ -197,16 +200,16 @@ export GPU_QUEUE_JOB_SCRIPT="$0"
 export GPU_QUEUE_CONTRACT={cp}
 export PYTHONUNBUFFERED=1 HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1
-export TMPDIR={out}/tmp
+export TMPDIR={tmp}
 export PYTHONPATH=/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies
 export PYTHONDONTWRITEBYTECODE=1
 cd /home/kojiek/MeanAudio || exit 1
 exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_128_guest.py
 ''');launcher.chmod(0o755)
         filesystems=[{'path':str(out),'hard_floor_bytes':50*2**30,'warning_floor_bytes':80*2**30,
-            'peak_additional_bytes':6*2**30,'transient_bytes':512*2**20,'recovery_reserve_bytes':2*2**30},
+            'peak_additional_bytes':2*2**30,'transient_bytes':512*2**20,'recovery_reserve_bytes':2*2**30},
             {'path':str(R),'hard_floor_bytes':50*2**30,'warning_floor_bytes':60*2**30,
-             'peak_additional_bytes':100*2**20,'transient_bytes':10*2**20,'recovery_reserve_bytes':2*2**30}]
+             'peak_additional_bytes':6*2**30,'transient_bytes':100*2**20,'recovery_reserve_bytes':2*2**30}]
         action=R/'scripts/eval/metric_invariance_128.py';guest=R/'scripts/experiment_harness/metric_invariance_128_guest.py'
         c={'schema_version':1,'document_kind':'eval_only_metrics_contract','experiment_id':f'metric-invariance-128{part}-20261017',
             'run_id':f'run-20261017-{number}-metric-invariance','part':part,'status':'authorized_pending_preflight','launch_allowed':True,
@@ -226,7 +229,7 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
               'fallback':'C3 per metric; label sensitivity_only if no candidate passes',
               'clap_modes':['C0','C2','C3'],'meva_modes':['C0','C3'],'peak_over_fs_recorded':True,
               'budget_deferral_c_seconds':17*3600},
-            'storage':{'path':str(out),'min_free_bytes':50*2**30},'filesystems':filesystems,
+            'storage':{'path':str(out),'transient_root':str(tmp),'min_free_bytes':50*2**30},'filesystems':filesystems,
             'resume':{'kind':'from_scratch_with_autoresume','checkpoint':None,'iteration':0,
               'autoresume':str(out/'pause_progress.json'),'pause_progress':str(out/'pause_progress.json'),
               'behavior':'Hash-bound completed unit skipped; incomplete own temporary audio removed and redone; no upstream deletion.'},
@@ -246,7 +249,7 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
               'notifier':str(R/'scripts/notify_experiment_webhook.py'),'notifier_sha256':sha(R/'scripts/notify_experiment_webhook.py'),
               'helper':str(R/'scripts/experiment_harness/notification_receipts.py'),'helper_sha256':sha(R/'scripts/experiment_harness/notification_receipts.py')},
             'completion_evidence':{'eval_only':True,'method':'validated registered reports, terminal hash evidence and delivered receipt'},
-            'cleanup_authorization':{'paths':[str(out/'tmp')],'behavior':'Only this run temporary scoring audio; upstream raw, lvl30, stimuli and cached weights retained.'}}
+            'cleanup_authorization':{'paths':[str(tmp)],'behavior':'Only this run temporary scoring audio; upstream raw, lvl30, stimuli and cached weights retained.'}}
         write(cp,c);bundle(c,cp,acceptance);print(cp,flush=True)
     # Registration snapshot binds the whole chain, including blocked scientific
     # successors. Live eligibility is independently checked against host receipts.
