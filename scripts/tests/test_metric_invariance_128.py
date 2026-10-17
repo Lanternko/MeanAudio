@@ -40,6 +40,25 @@ class ScientificGates(unittest.TestCase):
     def test_silent_normalization_fails_closed(self):
         with self.assertRaises(ValueError):M.normalize(np.zeros(16000),16000)
 
+    def test_preparation_failure_drains_writers_before_cleanup(self):
+        with tempfile.TemporaryDirectory() as td:
+            scratch=Path(td)/'scratch';scratch.mkdir()
+            scorer=M.Scorer.__new__(M.Scorer)
+            scorer.c={'storage':{'path':td,'transient_root':str(scratch)},
+                      'bindings':{'action_sha256':'fixture'},'filesystems':[]}
+            scorer.pool=MagicMock()
+            # A worker fails while another still has a pending output write.
+            def failed_map(*args,**kwargs):
+                raise ValueError('LUFS undefined fixture')
+            def drain(**kwargs):
+                next(scratch.glob('audio-*')).joinpath('late.flac').write_bytes(b'late writer')
+            scorer.pool.map.side_effect=failed_map
+            scorer.pool.shutdown.side_effect=drain
+            with self.assertRaisesRegex(ValueError,'LUFS undefined fixture'):
+                scorer.unit('smoke','musicgen','clean','C1',[])
+            scorer.pool.shutdown.assert_called_once_with(wait=True,cancel_futures=True)
+            self.assertEqual(list(scratch.iterdir()),[])
+
     def test_transform_import_and_byte_identity(self):
         with tempfile.TemporaryDirectory() as td:
             p=Path(td)/'clip.flac';x=np.sin(np.arange(16000)*.2)*.1

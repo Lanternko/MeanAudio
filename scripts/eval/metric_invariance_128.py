@@ -169,6 +169,16 @@ class Scorer:
     def close(self):
         self.pool.shutdown()
 
+    def prepare(self, jobs, chunksize):
+        try:
+            return list(self.pool.map(prepare_one, jobs, chunksize=chunksize))
+        except BaseException:
+            # map may raise while other workers are still writing this unit's
+            # audio. Drain them before the caller removes its scratch directory,
+            # preserving the original preparation error instead of a cleanup race.
+            self.pool.shutdown(wait=True, cancel_futures=True)
+            raise
+
     def unit(self, group, system, variant, mode, records):
         c = self.c; root = Path(c['storage']['path'])
         directory = root / group / system / variant / mode
@@ -187,8 +197,8 @@ class Scorer:
         tmp = Path(tempfile.mkdtemp(prefix='audio-', dir=c['storage']['transient_root']))
         child = None
         try:
-            prepared = list(self.pool.map(prepare_one,
-                [(r, system, variant, mode, str(tmp)) for r in records], chunksize=8))
+            prepared = self.prepare(
+                [(r, system, variant, mode, str(tmp)) for r in records], chunksize=8)
             prepared_seconds = time.monotonic()-t0
             rows = [(Path(p).stem, r['caption']) for r, data in zip(records, prepared) for p in data['paths']]
             paths = [Path(p) for data in prepared for p in data['paths']]
@@ -346,7 +356,7 @@ def run_a(c, scorer, manifest):
             try:
                 for s in manifest['calibration']:(tmp/s).mkdir()
                 jobs=[(r,s,variant,'C3',str(tmp/s)) for s,rs in manifest['calibration'].items() for r in rs[:10]]
-                list(scorer.pool.map(prepare_one,jobs,chunksize=2))
+                scorer.prepare(jobs,chunksize=2)
                 bench[variant]=(time.monotonic()-started)/50
             finally:shutil.rmtree(tmp)
         extra_transform=max(0.,sum(bench.values())-len(VARIANTS)*bench['clean'])*5*4

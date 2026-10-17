@@ -1,0 +1,16 @@
+{
+  "status": "installed",
+  "at": "2026-10-17T00:48:02.430685+00:00",
+  "prior_p2_pending": [],
+  "order": [
+    "128_metric_invariance_calibration_identity_r1.sh",
+    "129_metric_invariance_table_b_identity_r1.sh",
+    "130_metric_invariance_negmf_identity_r1.sh"
+  ],
+  "launchers": {
+    "/home/kojiek/gpu_queue/p2/pending/128_metric_invariance_calibration_identity_r1.sh": "06f80ca2f6c55fc2d6f101bc9d458924c3fe82dd5f973ad111faff21f543524a",
+    "/home/kojiek/gpu_queue/p2/pending/129_metric_invariance_table_b_identity_r1.sh": "93420492c0db6cc54c328799a46ecf48a2ed3affe734ea552f6144cf7043fd43",
+    "/home/kojiek/gpu_queue/p2/pending/130_metric_invariance_negmf_identity_r1.sh": "e8bb1a1bc2498eb526156ee6d2eb92e688f67c0c723613a219a7b76dcb24bf37"
+  },
+  "installation_guard": "exclusive shared GPU flock; empty P2 pending/running verified; exact launcher and duplicate checks; existing host retained"
+}
