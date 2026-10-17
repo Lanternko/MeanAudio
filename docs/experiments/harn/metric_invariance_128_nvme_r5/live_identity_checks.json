@@ -1,0 +1,46 @@
+{
+  "meanaudio_s14159265_cfg0": {
+    "blocking_metrics": [
+      "PQ",
+      "clap"
+    ],
+    "checked_n": 200,
+    "failed_blocking_metrics": [],
+    "kind": "historical_score_comparison",
+    "metrics": {
+      "CE": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "CU": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "PC": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "PQ": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "clap": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      }
+    },
+    "passed": true,
+    "scored_context_n": 224,
+    "warning_metrics": []
+  }
+}
