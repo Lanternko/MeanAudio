@@ -5,6 +5,7 @@ import csv
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
@@ -13,6 +14,8 @@ from pathlib import Path
 R=Path('/home/kojiek/MeanAudio'); E=Path('/home/kojiek/eval_output_nvme')
 O=Path('/mnt/seagate/kojiek_data/metric_invariance_128_20261017')
 B=R/'docs/experiments/harn/metric_invariance_128'
+ORIGINAL_OUTPUT=O
+DEPENDENCIES=ORIGINAL_OUTPUT/'python_dependencies'
 PY='/home/kojiek/venvs/dac/bin/python'
 sys.path.insert(0,str(R/'scripts/eval'))
 import metric_invariance_128 as M
@@ -128,8 +131,8 @@ def bundle(c,cp,acceptance):
                             {'measured_at':at,'free_bytes':free,'verdict':'pass'})
     preflight={'document_kind':'preflight_report','schema_version':'1.0.0','schema_bundle_id':'harn-schema-v1',
         'experiment_id':c['experiment_id'],'run_id':c['run_id'],'contract_raw_sha256':ch,
-        'approval_evidence':{'evidence_id':'operator-start-128-20261017','source_kind':'trusted_operator_record','trusted_channel':'operator_console',
-            'channel_record_id':'codex-chat-20261017-start-128','channel_record_sha256':sha(B/'operator_request.txt'),
+        'approval_evidence':{'evidence_id':'operator-start-'+c['run_id'],'source_kind':'trusted_operator_record','trusted_channel':'operator_console',
+            'channel_record_id':'codex-chat-'+c['run_id'],'channel_record_sha256':sha(B/'operator_request.txt'),
             'approver_id':'responsible-operator','issued_at':at,'expires_at':until,'experiment_id':c['experiment_id'],'run_id':c['run_id'],
             'bindings':dict(bindings,contract_raw_sha256=ch,repair_envelope_sha256=None)},
         'checks':checks,'storage':measurements,'derived_verdict':'pass','created_at':at}
@@ -141,7 +144,7 @@ def bundle(c,cp,acceptance):
             'experiment_id':c['experiment_id'],'run_id':c['run_id'],
             'bindings':{'contract_raw_sha256':ch,'preflight_report_raw_sha256':ph,'schema_bundle_sha256':schema},'events':[event]}
     write(directory/'ledger.json',ledger)
-    queue={'document_kind':'queue_state','schema_version':'1.0.0','schema_bundle_id':'harn-schema-v1','queue_id':'p2-invariance-128',
+    queue={'document_kind':'queue_state','schema_version':'1.0.0','schema_bundle_id':'harn-schema-v1','queue_id':'p2-'+c['run_id'],
            'updated_at':at,'entries':[{'entry_id':c['queue_name'][:-3],'position':1,'experiment_id':c['experiment_id'],'run_id':c['run_id'],
              'status':'ready','dependencies':[],'assigned_resource':None,
              'bindings':{'contract_raw_sha256':ch,'preflight_report_raw_sha256':ph,'ledger_raw_sha256':sha(directory/'ledger.json'),
@@ -153,17 +156,30 @@ def bundle(c,cp,acceptance):
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--manifest-only',action='store_true');args=ap.parse_args()
+    global O,B
+    ap=argparse.ArgumentParser();ap.add_argument('--manifest-only',action='store_true')
+    ap.add_argument('--run-suffix',default='',help='Unique retry label; preserves all previous runs.')
+    args=ap.parse_args()
+    if args.run_suffix and not re.fullmatch(r'[a-z0-9_]+',args.run_suffix):
+        ap.error('run suffix must contain only lowercase letters, digits and underscores')
+    suffix=('_'+args.run_suffix) if args.run_suffix else ''
+    if suffix:
+        O=Path(str(ORIGINAL_OUTPUT)+suffix);B=Path(str(B)+suffix)
+    def job(number,label):return f'{number}_metric_invariance_{label}{suffix}'
     B.mkdir(parents=True,exist_ok=True);O.mkdir(parents=True,exist_ok=True)
-    mf=O/'inputs.json'
+    # Reuse the exact frozen input manifest, including the original sample draw.
+    mf=ORIGINAL_OUTPUT/'inputs.json' if suffix else O/'inputs.json'
     if not mf.exists():
         print('Hashing existing audio; no model execution.',flush=True);write(mf,manifest())
     if args.manifest_only:return
+    for part in 'abc':
+        cp=R/f'docs/experiments/metric_invariance_128{part}_20261017{suffix}_contract.json'
+        assert not cp.exists(),f'refuse replacing registered contract: {cp}'
     acceptance=B/'acceptance.json';accept=json.loads(acceptance.read_text());assert accept['status']=='passed'
     for path,expected in accept['bindings'].items():
         assert sha(R/path)==expected,f'acceptance evidence stale: {path}'
     approval=B/'operator_request.txt'
-    approval.write_text('2026-10-17 operator_console: 使用者提供 PR #2 的 128a/b/c/d 設計，並指示「開始實驗」。\n範圍：補腳本與 contracts、smoke、通過 gate 後依 p2 128→129→130 執行；128c 遵守 17h 順延規則。\n')
+    approval.write_text('2026-10-17 operator_console: 使用者提供 PR #2 commit 4830bd1 的身分門檻 amendment，並指示「開始實驗」。\n範圍：重新登錄三份 contract，以新的 run id 依 p2 128→129→130 執行；保留舊失敗 run。AES 每段最大差 0.01、各軸 signed mean 絕對值 0.001；CLAP/MEva 1e-4，m 與科學判定不變；不套用 optional padding 3b1ead4。128c 遵守 17h 順延規則。\n' if suffix else '2026-10-17 operator_console: 使用者提供 PR #2 的 128a/b/c/d 設計，並指示「開始實驗」。\n範圍：補腳本與 contracts、smoke、通過 gate 後依 p2 128→129→130 執行；128c 遵守 17h 順延規則。\n')
     common=[Path(__file__),R/'scripts/eval/metric_invariance_128.py',R/'scripts/experiment_harness/metric_invariance_128_guest.py',
         R/'scripts/eval/metric_win_tie_126a.py',R/'scripts/eval/ttm_metrics_115.py',R/'scripts/eval/eval_metrics.py',
         R/'scripts/eval/meva_score_dir.py',R/'scripts/eval/meva_runtime.py',R/'docs/experiments/meva_095_model_lock.json',
@@ -171,6 +187,7 @@ def main():
         R/'scripts/notify_experiment_webhook.py',Path('/home/kojiek/gpu_queue/lib_scheduler.py'),
         R/'scripts/validate_experiment_harness_documents.py',Path(M.A.TSV),mf,acceptance,approval,
         R/'docs/experiments/metric_invariance_readjudication_128_20261017.md',
+        R/'docs/experiments/harn/metric_invariance_128/identity_gate_amendment_20261017.json',
         R/'docs/experiments/results/metric_win_tie_126a_summary.json',
         R/'weights/music_speech_audioset_epoch_15_esc_89.98.pt']
     mfdata=json.loads(mf.read_text())
@@ -178,8 +195,8 @@ def main():
         list(mfdata['mir'].values())+[mfdata['floor_mir']]))
     aes=Path('/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots')
     common += sorted(p for p in aes.glob('*/*') if p.name in ('model.safetensors','config.json'))
-    common += sorted((O/'python_dependencies').rglob('*.py'))
-    common += sorted((O/'python_dependencies').rglob('*.so'))
+    common += sorted(DEPENDENCIES.rglob('*.py'))
+    common += sorted(DEPENDENCIES.rglob('*.so'))
     common += [R/'docs/experiments/ttm_metrics_115_20261009_contract.json',
                R/'docs/experiments/ttm_metrics_seeds_118_20261011_contract.json',
                M.A.R115/'selection.json',M.A.R115/'summary.json',E/'ttm_metrics_seeds_118_20261011/summary.json']
@@ -189,9 +206,9 @@ def main():
     common=list(dict.fromkeys(common))
     immutable={str(p):sha(p) for p in common}
     for number,part,label in [(128,'a','calibration'),(129,'b','table_b'),(130,'c','negmf')]:
-        name=f'{number}_metric_invariance_{label}.sh';cp=R/f'docs/experiments/metric_invariance_128{part}_20261017_contract.json'
+        name=job(number,label)+'.sh';cp=R/f'docs/experiments/metric_invariance_128{part}_20261017{suffix}_contract.json'
         launcher=R/'scripts/queue_candidates'/name;out=O/part;out.mkdir(exist_ok=True)
-        tmp=E/'metric_invariance_128_20261017_tmp'/part
+        tmp=E/f'metric_invariance_128_20261017{suffix}_tmp'/part
         tmp.mkdir(parents=True,exist_ok=True);tmp.chmod(0o700)
         assert not (out/'started.json').exists(),'refuse replacing launched contract'
         launcher.write_text(f'''#!/bin/bash
@@ -211,11 +228,11 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
             {'path':str(R),'hard_floor_bytes':50*2**30,'warning_floor_bytes':60*2**30,
              'peak_additional_bytes':6*2**30,'transient_bytes':100*2**20,'recovery_reserve_bytes':2*2**30}]
         action=R/'scripts/eval/metric_invariance_128.py';guest=R/'scripts/experiment_harness/metric_invariance_128_guest.py'
-        c={'schema_version':1,'document_kind':'eval_only_metrics_contract','experiment_id':f'metric-invariance-128{part}-20261017',
-            'run_id':f'run-20261017-{number}-metric-invariance','part':part,'status':'authorized_pending_preflight','launch_allowed':True,
+        c={'schema_version':1,'document_kind':'eval_only_metrics_contract','experiment_id':f'metric-invariance-128{part}-20261017{suffix}',
+            'run_id':f'run-20261017-{number}-metric-invariance{suffix}','part':part,'status':'authorized_pending_preflight','launch_allowed':True,
             'priority':'P2','queue_role':'p2','queue_name':name,'dependencies':[] if part=='a' else
-                ['128_metric_invariance_calibration']+(['129_metric_invariance_table_b'] if part=='c' else []),
-            'ordering_dependencies':[] if part=='a' else [f'{number-1}_metric_invariance_'+('calibration' if part=='b' else 'table_b')],
+                [job(128,'calibration')]+([job(129,'table_b')] if part=='c' else []),
+            'ordering_dependencies':[] if part=='a' else [job(number-1,'calibration' if part=='b' else 'table_b')],
             'approval_required':True,'launch_authorization':{'valid':True,'gpu_launch_allowed':True,'trusted_channel':'operator_console',
               'operator_instruction':'開始實驗','scope':'Implement and run PR2 design as explicitly labelled secondary historical-score invariance study; no training.'},
             'manifest':str(mf),'immutable_files':immutable,'harn_bundle':str(B/part),
@@ -237,8 +254,8 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
             'watcher':{'stall_seconds':10800,'poll_seconds':5,'healthy_poll_model_calls':0,'automatic_repair':False},
             'calibration_summary':str(O/'a/summary.json'),'previous_summary':str(O/('a' if part=='b' else 'b')/'summary.json') if part!='a' else None,
             'scientific_dependencies':{} if part=='a' else {
-                '128_metric_invariance_calibration':str(O/'a/summary.json'),
-                **({'129_metric_invariance_table_b':str(O/'b/summary.json')} if part=='c' else {})},
+                job(128,'calibration'):str(O/'a/summary.json'),
+                **({job(129,'table_b'):str(O/'b/summary.json')} if part=='c' else {})},
             'commands':{'preflight':[PY,str(action),'--preflight'],'run':[PY,str(action)],'postflight':[PY,str(action),'--validate-only']},
             'reports':[{'path':str(out/'summary.json')}]+([{'path':str(out/'summary_d.json')}] if part=='b' else []),
             'bindings':{'launcher':str(Path('/home/kojiek/gpu_queue/p2/pending')/name),'launcher_sha256':sha(launcher),

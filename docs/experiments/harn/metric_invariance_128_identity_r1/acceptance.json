@@ -1,0 +1,54 @@
+{
+  "status": "passed",
+  "at": "2026-10-17T00:45:27.658102+00:00",
+  "tests": [
+    {
+      "name": "scientific_and_supervisor",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/test_metric_invariance_128.py",
+      "script_sha256": "61f23cf6be6d24b89f28e1baaa90d4ce7839ded32f68ea559369b09c41f708e4",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/test_0.txt",
+      "output_sha256": "2359c6e517fc09d9b51491fde97892302ef13a835f8f7780ed0cff767552c271"
+    },
+    {
+      "name": "schemas",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/selftest_experiment_harness_schemas.py",
+      "script_sha256": "9d85b5738d0ad55891763ce80ce739add13f2d4c608ec1e2c3da0274fd7363c7",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/test_1.txt",
+      "output_sha256": "96a0628ea652b67a6fb10f7c1c804f9c3af6adff1352b2026b208968e1556750"
+    },
+    {
+      "name": "queue",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/run_loudness_queue_acceptance.py",
+      "script_sha256": "6cbe341cc09812aaab342748e087af2912434106d89a97a4411b61cfbfa8e5dd",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/test_2.txt",
+      "output_sha256": "514029937a02fb8a730f1d9f8eaabf6a5a1abc2fbfd37b22e80fee62ea5bbeb4"
+    },
+    {
+      "name": "notification_receipts",
+      "status": "passed",
+      "script": "/home/kojiek/gpu_queue/tests/test_notification_receipts.py",
+      "script_sha256": "1e74a71128efff7fbc6429598ff111822d1569f2e4619d9e360da71970879b85",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/test_3.txt",
+      "output_sha256": "d2d62b0cbc0b756f8f61696319324606f6020f12792d26b86824599f7bee86b4"
+    },
+    {
+      "name": "scheduler",
+      "status": "passed",
+      "script": "/home/kojiek/gpu_queue/tests/test_lib_scheduler.py",
+      "script_sha256": "c5c47ebe50f872f6941471b6da25e32c43f81b36acffdc0cc44915c491113254",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/test_4.txt",
+      "output_sha256": "159adfa5c19f1546a26267e6af1b6c1d88b34c64d17648ace04b50ea920d9f49"
+    }
+  ],
+  "bindings": {
+    "scripts/eval/metric_invariance_128.py": "04346f874a6888b7aa473d938c2c0b8e2b0921a33e80c9367d72a52e329bd30b",
+    "scripts/experiment_harness/metric_invariance_128_guest.py": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "scripts/experiment_harness/register_metric_invariance_128.py": "b75f7292d20ca2742180bef74ad2ccd9b235f181c7600513b7636269be735e87",
+    "scripts/experiment_harness/notification_receipts.py": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+  },
+  "scope": "18 scientific/supervisor tests, queue 33/33, schema and notification/scheduler CPU fixtures; real-GPU pause/resume fixture skipped. Fresh live C0 and throughput gates remain mandatory."
+}
