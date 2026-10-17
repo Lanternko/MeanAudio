@@ -295,14 +295,30 @@ def select_modes(cells):
     return {'verdicts': verdicts, 'chosen': chosen}
 
 
-def check_c0(got, references, metrics, tol=1e-4):
-    diffs = {}
+# Identity gate, amendment 2026-10-17 (docs/experiments/harn/metric_invariance_128/identity_gate_amendment_20261017.json).
+# AES moves by up to 0.005 when only the forward batch size changes (126a clean vs clean_shuf: all 22
+# clips over 1e-4 sit in the two 11-clip tail batches), so a 1e-4 per-clip bound fails on machine noise.
+# AES: per-clip max <= 0.01 and |mean signed diff| <= 0.001 (catches a small systematic offset such as
+# a level error that stays under the per-clip bound). CLAP / MEva reproduce to ~5e-7 and keep 1e-4.
+AES_AXES = ('PQ', 'CE', 'CU', 'PC')
+IDENTITY = {'aes_max_abs': 0.01, 'aes_abs_mean_signed': 0.001, 'other_max_abs': 1e-4}
+
+
+def check_c0(got, references, metrics, gate=IDENTITY):
+    diffs, failures = {}, []
     for metric in metrics:
         j = METRICS.index(metric)
-        diffs[metric] = max(abs(float(value)-float(references[str(i)][metric]))
-                           for i, value in zip(got['ids'], got['values'][:, j]))
-    if max(diffs.values()) > tol:
-        raise RuntimeError(f'C0 identity failed: {diffs}, tolerance={tol}')
+        d = [float(value)-float(references[str(i)][metric]) for i, value in zip(got['ids'], got['values'][:, j])]
+        mx, mean = max(abs(x) for x in d), sum(d)/len(d)
+        diffs[metric] = {'max_abs': mx, 'mean_signed': mean}
+        if metric in AES_AXES:
+            if mx > gate['aes_max_abs']: failures.append(f'{metric} max {mx:.6f} > {gate["aes_max_abs"]}')
+            if abs(mean) > gate['aes_abs_mean_signed']:
+                failures.append(f'{metric} |mean| {abs(mean):.6f} > {gate["aes_abs_mean_signed"]}')
+        elif mx > gate['other_max_abs']:
+            failures.append(f'{metric} max {mx:.2e} > {gate["other_max_abs"]}')
+    if failures:
+        raise RuntimeError(f'C0 identity failed: {failures}; diffs={diffs}')
     return diffs
 
 
@@ -341,7 +357,7 @@ def run_a(c, scorer, manifest):
         feasible = [n for n in (1000, 600, 400) if estimates[str(n)] <= 7 * 3600]
         smoke = {'identity': identity, 'timing': timing, 'setup_seconds':setup,
                  'transform_benchmark_seconds_per_clip':bench,'estimated_seconds': estimates,
-                 'selected_n': feasible[0] if feasible else None, 'identity_tolerance': 1e-4}
+                 'selected_n': feasible[0] if feasible else None, 'identity_gate': IDENTITY}
         write(smoke_path, smoke)
     smoke = json.loads(smoke_path.read_text())
     if smoke['selected_n'] is None:

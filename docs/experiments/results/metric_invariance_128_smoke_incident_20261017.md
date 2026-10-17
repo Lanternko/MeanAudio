@@ -63,6 +63,22 @@ AES 以每批最多 32 段評分，50 段分為 **32＋18**。所有超標都落
 
 目前證據強烈指向此次失配與不足 32 段的尾批次有關。**尚未以固定實際 batch 大小的 GPU 對照試驗確認因果。**
 
+### 補充（2026-10-17）：歷史差異的位置
+
+126a 的 `clean` 以排序後的 ID 順序送進 AES，`clean_shuf` 則先 `random.Random(126).shuffle()`（`metric_win_tie_126a.py`），兩者都是每批 32 段；5,131 段在兩種順序下各有一個 11 段的尾批次。重建兩種順序後：
+
+| | 段數／值 |
+|---|---|
+| 四軸任一軸差 > 1e-4 | 22 |
+| 其中位於任一種順序的尾批次 | **22**（11＋11） |
+| 不在尾批次的段，四軸最大差 | **3e-6** |
+
+不在尾批次的 5,109 段，同批的其他段在打亂後全部不同，分數仍吻合到 3e-6，所以 AES 分數受 **批次大小** 影響、不受同批內容影響（全部段長相同，318,080 samples，不是 padding）。上面「歷史整體差異的成因仍需另外控制變因」一句據此可回答：歷史 clean／clean_shuf 的差異全部可由尾批次解釋。重現：`python3 scripts/analysis/tail_batch_position_check_128.py`（只需標準函式庫）。
+
+### 後續：身分閘 amendment
+
+使用者同意把 AES 的身分閘從每段 1e-4 改成「每段 ≤ 0.01 且平均差絕對值 ≤ 0.001」，CLAP／MEva 維持 1e-4（設計 doc §10、`harn/metric_invariance_128/identity_gate_amendment_20261017.json`）。以 `smoke_50.tsv` 離線重驗，此次 smoke 在新門檻下對 126a 與 115 都通過。重跑另登錄新 run。
+
 ## 修補候選的狀態
 
 隔離候選 [`3b1ead4`](https://github.com/Lanternko/MeanAudio/compare/45bf011...codex/metric-invariance-128-tail-batch) 將 AES 最後不足 32 段的批次，用最後一段的重複路徑補齊至 32；50 段例子會補 14 次模型輸入。沿用的 per-path score mapping 保留 50 筆觀測，重複路徑只作運算上下文。候選保留原始 cohort、其他評分器及 `1e-4` 身分門檻。

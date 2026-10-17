@@ -75,7 +75,7 @@ CLAP 的優勢**剛好等於** 126 定的平手容許量，而 CLAP 只要開頭
 
 - 系統：ours CFG3+neg × 3 seed（114／116／117）、ours CFG0 × 3 seed、MusicGen-medium、MusicLDM、MusicLDM＋fidelity8、真實 MusicCaps，共 10 格，各 5,521 段（真實 5,131）。
 - lvl30 音訊用 115 的同一個函式從 raw 現算，不落地。
-- 方案：C0（只對 200 段重算，當身分閘：PQ 與 115／118 per-clip 差 ≤ 1e-4，否則停止）、C1、C2、C3，以及 C\*（若不在前述之中）。
+- 方案：C0（只對 200 段重算，當身分閘，否則停止；門檻原為 per-clip 差 ≤ 1e-4，2026-10-17 改為 §10 的 amendment 版）、C1、C2、C3，以及 C\*（若不在前述之中）。
 
 **判定（全部在 C\* 下，同 prompt 配對）**：
 
@@ -146,8 +146,27 @@ CLAP 的優勢**剛好等於** 126 定的平手容許量，而 CLAP 只要開頭
 - N_a 使用 rng(20261017) 從排序的 5,131 個 ID 無放回抽 1,000 個，再依 smoke 決定取前 1,000／600／400 個；五系統同一批 ID。若三個大小都不能在 7 h 內完成，停止並回報，不能自行縮小。
 - C* 是 **各指標分別** 決定。CLAP 按原文只評 C0/C2/C3，因此 CLAP 不會選未測的 C1；AES 測四方案。MEva 仍只測 C0/C3、不參與通過條件。
 - C1/C3 在浮點 WAV 容器中保留超過 0 dBFS 的樣本，不以 FLAC 整數編碼隱性截幅；沿用評分器以內容讀檔的路徑介面。保存每段 peak 與 126a 變換的 over_fs。無法定義 LUFS 的音訊使 gate invalid，不默默排除或替代。
-- 128b/c 在暫存區直接呼叫 115 `_gain_one()` 從 raw 重做 lvl30；115/118 原有 lvl30 存在時逐檔比對 SHA256。128a 的 C0 再與 126a、115 分數檢查，容許差 1e-4；128b 的每格 200 段同樣對 115/118 做身分閘。
+- 128b/c 在暫存區直接呼叫 115 `_gain_one()` 從 raw 重做 lvl30；115/118 原有 lvl30 存在時逐檔比對 SHA256。128a 的 C0 再與 126a、115 分數檢查，容許差 1e-4（2026-10-17 改為 §10）；128b 的每格 200 段同樣對 115/118 做身分閘。
 - NegMF 六格 raw 音檔全部存在，不需重新生成。NegMF 原 arm 沒有 115 lvl30 分數；不得把 raw 舊分數誤當 lvl30 身分錨。使用凍結的原始音檔 SHA256 與相同 115 轉換；control 仍檢查 115/118。
 - 新分數與 supervisor 寫入 `/mnt/seagate/kojiek_data/metric_invariance_128_20261017/`；每次評分的音訊批次暫存於 NVMe `eval_output_nvme/metric_invariance_128_20261017_tmp/<part>/`，峰值預留 6 GiB，每批評完刪掉，避免 USB ext4 大量小檔拖慢 GPU。126b 刺激逐檔 SHA256 驗證後移到 Seagate，原路徑以 symlink 保留；不刪除音訊。NVMe 與 Seagate 均維持 50 GiB hard floor，禁止利用較低的舊 126 floor 開跑。
 - 128c 的 17 h 順延條件從 128a 的 smoke 開始計時；超時時輸出 deferred 報告，不暗中跳過仍宣告完成評分。129 必須驗證 128 完成 evidence，130 必須驗證 128 與 129；舊 CFG0 是具名歷史次要協定，不改成新 canonical comparator。
 - 128d 用真實錄音的 pulse clarity quantile；cutpoint 相同的值留在同層，避免任意切散 ties。128a/b/c 不訓練、不變動模型或表 B。
+
+## 10. 身分閘 amendment（2026-10-17，使用者同意）
+
+第一次 smoke（`45bf011`）在身分閘停下：AES 最大差 0.00053 > 1e-4，事件紀錄見 `results/metric_invariance_128_smoke_incident_20261017.md`。
+
+身分閘是用來抓管線 bug（讀錯檔、重採樣錯、響度正規化錯）的，不是用來判勝負的；但 1e-4 比 AES 本身的重現性還嚴。126a 的 MusicGen 5,131 段中，clean 與 clean_shuf 差超過 1e-4 的**剛好 22 段，全部是兩種排序各自 11 段的尾批次**，其餘 5,109 段同批鄰居都換了仍在 3e-6 內（`scripts/analysis/tail_batch_position_check_128.py`）。AES 分數隨 forward 的批次大小變動，最大約 0.005。
+
+| | 原門檻 | amendment 後 |
+|---|---|---|
+| AES 四軸，每段最大差 | 1e-4 | **0.01**（實測批次雜訊 0.0052 的約 2 倍；PQ m 的 0.11、PC m 的 0.29） |
+| AES 四軸，50／200 段的平均差（帶正負號）絕對值 | — | **0.001**（抓每段都偏一點、per-clip 抓不到的系統性偏移） |
+| CLAP、MEva，每段最大差 | 1e-4 | 1e-4（實測 ≤ 5e-7，維持） |
+
+- 只改身分閘。m、80% 通過率、階梯、C\* 規則、K1–K4 判定都不變。
+- 改在看到 smoke 失敗之後、128 任何科學結果產生之前；門檻只由 126a 的歷史分數推得。失敗的 run 與紀錄原樣保留，重跑要另登錄新 run 與 contract。
+- 用失敗 smoke 的 `smoke_50.tsv` 離線重驗：對 126a 與 115 都通過（AES 最大 5.3e-4、平均差 ≤ 3.3e-5）。
+- 尾批次補齊候選 `3b1ead4` 變成可選，不是重跑的前提。
+- 紀錄：`harn/metric_invariance_128/identity_gate_amendment_20261017.json`；程式 `check_c0()`、`register_metric_invariance_128.py` 的 `identity_gate`、測試 `test_identity_gate_amendment`。
+

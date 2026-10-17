@@ -57,7 +57,20 @@ class ScientificGates(unittest.TestCase):
         self.assertEqual(r['tie'],.6);self.assertEqual(r['better'],.2);self.assertEqual(r['worse'],.2)
         got={'ids':['a'],'values':np.array([[1,2,3,4,5,6]])}
         M.check_c0(got,{'a':{'PQ':1.00001}},['PQ'])
-        with self.assertRaises(RuntimeError):M.check_c0(got,{'a':{'PQ':1.01}},['PQ'])
+        with self.assertRaises(RuntimeError):M.check_c0(got,{'a':{'PQ':1.02}},['PQ'])
+
+    def test_identity_gate_amendment(self):
+        ids=[str(k) for k in range(50)]
+        got={'ids':ids,'values':np.array([[7.,6.,7.,5.,.3,3.]]*50)}
+        ref=lambda d:{i:{'PQ':7.+d(k),'CE':6.,'CU':7.,'PC':5.,'clap':.3,'meva':3.} for k,i in enumerate(ids)}
+        # 2026-10-17 smoke: 18 tail clips off by up to 5.3e-4 with mixed sign -> passes now.
+        M.check_c0(got,ref(lambda k:(5.3e-4 if k%2 else -4e-4) if k>=32 else 0.),['PQ','CE','CU','PC','clap'])
+        with self.assertRaises(RuntimeError):  # one clip beyond the per-clip bound
+            M.check_c0(got,ref(lambda k:.011 if k==49 else 0.),['PQ'])
+        with self.assertRaises(RuntimeError):  # uniform small offset: per-clip ok, mean bias caught
+            M.check_c0(got,ref(lambda k:.002),['PQ'])
+        with self.assertRaises(RuntimeError):  # CLAP keeps 1e-4
+            M.check_c0(got,{i:{'clap':.3002} for i in ids},['clap'])
 
     def test_mode_selection_and_missing_gate(self):
         cells={}
