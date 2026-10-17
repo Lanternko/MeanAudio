@@ -18,9 +18,47 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'eval'))
 import metric_invariance_128 as M
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'experiment_harness'))
 import metric_invariance_128_guest as G
+import register_metric_invariance_128 as REG
 
 
 class ScientificGates(unittest.TestCase):
+    def resume_fixture(self, root):
+        records=[{'id':str(k),'caption':'test','path':'unused','sha256':'raw'} for k in range(4)]
+        inputs={'table_b':{'system':records}};source=root/'source';dest=root/'dest'
+        d=source/'table/system/chunk00000/C1';d.mkdir(parents=True)
+        np.savez(d/'scores.npz',ids=np.array([r['id'] for r in records]),values=np.ones((4,6)))
+        M.write(d/'done.json',{'identity':M.hash_json({'action':'action','mode':'C1','system':'system','variant':'chunk00000','records':records}),
+                             'n':4,'score_sha256':M.sha(d/'scores.npz')})
+        return records,inputs,source,dest,d
+
+    def test_storage_resume_keeps_exact_units_and_skips_incomplete(self):
+        with tempfile.TemporaryDirectory() as td:
+            records,inputs,source,dest,d=self.resume_fixture(Path(td))
+            partial=source/'table/system/chunk01000/C1';partial.mkdir(parents=True)
+            (partial/'scores.tmp.npz').write_bytes(b'incomplete')
+            copied=REG.copy_completed_units(source,dest,inputs,'action')
+            self.assertEqual(len(copied),1)
+            self.assertEqual(copied[0]['scores_sha256'],M.sha(d/'scores.npz'))
+            scorer=M.Scorer.__new__(M.Scorer);scorer.c={'storage':{'path':str(dest)},'bindings':{'action_sha256':'action'}}
+            got,meta=scorer.unit('table','system','chunk00000','C1',records)
+            self.assertEqual(got['ids'].tolist(),[r['id'] for r in records])
+            self.assertEqual(meta['n'],4)  # cache loads without any model initialization
+            with self.assertRaises(RuntimeError):REG.copy_completed_units(source,dest,inputs,'action')
+
+    def test_storage_resume_rejects_changed_scores_or_source(self):
+        with tempfile.TemporaryDirectory() as td:
+            records,inputs,source,dest,d=self.resume_fixture(Path(td))
+            with self.assertRaises(RuntimeError):REG.copy_completed_units(source,dest,inputs,'different-action')
+            (d/'scores.npz').write_bytes(b'corrupted')
+            with self.assertRaises(RuntimeError):REG.copy_completed_units(source,dest,inputs,'action')
+
+    def test_storage_resume_rejects_rehashed_wrong_ids(self):
+        with tempfile.TemporaryDirectory() as td:
+            records,inputs,source,dest,d=self.resume_fixture(Path(td))
+            np.savez(d/'scores.npz',ids=np.array(['wrong']*4),values=np.ones((4,6)))
+            meta=json.loads((d/'done.json').read_text());meta['score_sha256']=M.sha(d/'scores.npz');M.write(d/'done.json',meta)
+            with self.assertRaises(RuntimeError):REG.copy_completed_units(source,dest,inputs,'action')
+
     def test_actual_200_clip_cu_failure_is_warning_for_pq_clap_claims(self):
         root=Path(__file__).resolve().parents[2]
         p=root/'docs/experiments/harn/metric_invariance_128_budget_r3/outcome_20261018/b_identity_200.tsv'

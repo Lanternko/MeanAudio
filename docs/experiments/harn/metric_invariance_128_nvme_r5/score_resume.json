@@ -1,0 +1,41 @@
+{
+  "files": {
+    "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128b_20261017_claims_r4_contract.json": "3e4a8518a359964caf8e94be713867915916aff708879c44b75ec991a8d1ec26",
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_claims_r4/interrupted.json": "64300bd4722a10f2e7ead108582ebedceb63cb34d97be84367866f6e20acb710",
+    "/home/kojiek/gpu_queue/p2/interrupted/129_metric_invariance_table_b_claims_r4.terminal.json": "f69e4e87208ead5daa185d9dd045400f4937bea651065cc6ba4dd505bf916e72",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/started.json": "7bfea9cd26048e27609207ec0eedf31880442f58f5d32b5315ebb6f8eaad3a58"
+  },
+  "original_b_started": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/started.json",
+  "source_contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128b_20261017_claims_r4_contract.json",
+  "source_root": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b",
+  "units": [
+    {
+      "destination": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/identity/meanaudio_s14159265_cfg0/clean/C0",
+      "done_sha256": "4e607e86cd78ce67c833d2609e81d56c517c083a594ca56bd6b02e94db62b19a",
+      "n": 224,
+      "scores_sha256": "c72e9163e003ab0c7159262bef6ba8a5a8e432734217b073821b8f19e94a10bc",
+      "source": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/identity/meanaudio_s14159265_cfg0/clean/C0"
+    },
+    {
+      "destination": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/table/meanaudio_s14159265_cfg0/chunk00000/C1",
+      "done_sha256": "826788a473aef4174bec100b09a1a7302fd2b65c551deafd7863ba06939c782d",
+      "n": 1000,
+      "scores_sha256": "c48364738546336d7b1e78a41161805db78d95e0888e03af26df00716426276d",
+      "source": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk00000/C1"
+    },
+    {
+      "destination": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/table/meanaudio_s14159265_cfg0/chunk01000/C1",
+      "done_sha256": "3a6ee4478e708732189664f1ed6fa322116eac5dbc0dd339b17c4e9ab81ed995",
+      "n": 1000,
+      "scores_sha256": "acebb5611b094ad41fba9d644687bac8dd9af47b40d6aad8cbda6f44ea4075ce",
+      "source": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk01000/C1"
+    },
+    {
+      "destination": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/table/meanaudio_s14159265_cfg0/chunk02000/C1",
+      "done_sha256": "1786fb52869511cf86447c3067b1928abd1971093169099299cd66c5afed5e21",
+      "n": 1000,
+      "scores_sha256": "ebe4eab76528af91981ef75b394e92beba31a30bc74648de1d0feddd6609ea5f",
+      "source": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk02000/C1"
+    }
+  ]
+}

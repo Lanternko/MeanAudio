@@ -219,3 +219,16 @@ budget_r3 的 128a 已完成，所有候選均未通過完整校正條件，四�
 - `identity_checks.json` 與 summary 保存每格阻斷指標、全部診斷統計、警告和歷史錨的可用性；postflight 驗證兩份一致且主要身分檢查通過。不穩健或 C* 未通過完整校正的 K 結果仍不能作為正式結論。
 
 amendment：`harn/metric_invariance_128/claim_identity_amendment_20261018.json`。變更在看到 CU 失敗與 128a 結果之後訂定；新契約、原契約和逐段證據並存，公開這個時間順序。
+
+## 14. 熱資料回 NVMe 的儲存修正（2026-10-18）
+
+使用者指出「seagate 不是放舊資料而已嗎？新資料都在 nvme」。§13 因 root 空間接近安全線而把新評分暫存與分數放到 Seagate，偏離了熱資料配置，實測每千段 C1 的準備耗時約 188–200 秒，GPU 評分僅約 6 秒；本次恢復新分數、日誌與批次音訊在 NVMe，Seagate 只保留已完成／舊 run 資料。這是儲存與續跑修正，評分器來源和科學規則不變。
+
+- 已完成的 115 六格 lvl23 音訊不屬於本次 input manifest；僅將這些舊檔案封存至 Seagate，逐檔複製、fsync、SHA256 驗證，以 atomic directory/symlink exchange 保留原路徑。驗證後才移除 NVMe 重複副本，完整來源資料仍在封存區；不移動任何本次原始輸入。
+- `claims_r4` 129 以已驗證 PID/start time 正常中斷，保留完成的 3 個 C1 × 1,000 段和 224 段 identity unit；其 130 因成功依賴缺失 held。新 `nvme_r5` 只接續同一 129 → 130，不重跑 A，也不重算已完成 unit。逐 unit 驗證 action/records identity、score SHA、ID、維度及有限值後複製承接，不帶入未完成的暫存。
+- 新輸出 `/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/<part>`；音訊暫存為同 NVMe 的 `metric_invariance_128_20261017_nvme_r5_tmp/<part>`。同一 filesystem 合併預算：50 GiB hard floor、7 GiB 新增峰值（含 6 GiB 暫存及報告）、100 MiB atomic duplication、2 GiB recovery reserve。完成足夠封存並通過精確容量閘後即可接續，其餘已登錄舊資料封存可在背景完成，不等待模型決策。
+- 評分器 source SHA 與所有本次輸入未改，三份全量 LUFS 掃描的 source/manifest hash 仍有效；逐份驗證後原樣承接，不另造掃描。新增 3 個 cache 移轉測試，含 hash/action/ID 錯誤拒絕與未完成 unit 排除。
+- 17 h 數值保留，沿用 `claims_r4` 的原 B start clock，連此次儲存修正時間也計入，不以重啟延長預算。C3 sensitivity-only、fallback 排除、m、80%、K1–K4 判定及主要 identity 門檻皆不變。
+- 新 CPU-only NVMe 準備測速涵蓋十格、各 32 段、C1/C2/C3，未產生任何科學分數。結合完成 A 的實際 GPU 耗時、chunk setup、25% reserve 及 identity/CPU 分析 allowance，暫估剩餘 B 約 5.5 h、C 約 3.6 h；須再以實際 NVMe 正式批次校正，不能把小批次預估當保證。
+
+完整儲存計畫、封存逐檔雜湊、掃描承接、cache 承接、測速和容量證據位於 `harn/metric_invariance_128_nvme_r5/`。科學 source 不動；新 contract 與已中斷的舊 run 分別保存。

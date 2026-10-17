@@ -1,0 +1,9 @@
+{
+  "notification_receipt": {
+    "event": "interrupted",
+    "path": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_claims_r4/interrupted.json",
+    "status": "interrupted"
+  },
+  "status": "interrupted",
+  "written_at": "2026-10-17T17:27:49Z"
+}

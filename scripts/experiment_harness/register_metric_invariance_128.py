@@ -6,6 +6,7 @@ import hashlib
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
 from datetime import datetime, timedelta, timezone
@@ -67,6 +68,41 @@ def completed_calibration(cp):
             'job':job,'source_revision':revision,'source_action_sha256':c['bindings']['action_sha256'],
             'completed_calibration_seconds':elapsed,'calibration_fingerprints':fingerprints,
             'files':{str(p):sha(p) for p in files}}
+
+
+def copy_completed_units(source, destination, inputs, action_sha):
+    """Carry exact cached scores across a storage-only restart; ignore unfinished work."""
+    import numpy as np
+    copied=[]
+    for done in sorted(source.glob('*/*/*/*/done.json')):
+        group,system,variant,mode=done.parent.relative_to(source).parts
+        if group not in ('identity','table') or system not in inputs['table_b']:
+            raise RuntimeError('unexpected resume unit')
+        records=inputs['table_b'][system]
+        if group=='identity':
+            if (variant,mode)!=('clean','C0'):raise RuntimeError('invalid identity resume unit')
+            records=records[:min(len(records),224)]
+        else:
+            if not re.fullmatch(r'chunk\d{5}',variant) or mode not in ('C1','C2','C3'):
+                raise RuntimeError('invalid table resume unit')
+            offset=int(variant[5:]);records=records[offset:offset+1000]
+        meta=json.loads(done.read_text());scores=done.parent/'scores.npz'
+        expected=M.hash_json({'action':action_sha,'mode':mode,'system':system,'variant':variant,'records':records})
+        if not records or meta['identity']!=expected or meta['n']!=len(records) or sha(scores)!=meta['score_sha256']:
+            raise RuntimeError('resume unit provenance/hash mismatch')
+        with np.load(scores) as z:
+            required=[0,1,2,3]+([4] if mode!='C1' else [])+([5] if mode in ('C0','C3') else [])
+            if z['ids'].tolist()!=[r['id'] for r in records] or z['values'].shape!=(len(records),6) or not np.isfinite(z['values'][:,required]).all():
+                raise RuntimeError('resume score IDs/values invalid')
+        out=destination/done.parent.relative_to(source);out.mkdir(parents=True,exist_ok=True)
+        for p in (scores,done):
+            dest=out/p.name
+            if dest.exists():raise RuntimeError('refuse replacing resumed score')
+            shutil.copy2(p,dest)
+            if sha(dest)!=sha(p):raise RuntimeError('resume copy changed')
+        copied.append({'source':str(done.parent),'destination':str(out),'n':len(records),
+                       'scores_sha256':sha(scores),'done_sha256':sha(done)})
+    return copied
 
 
 def manifest():
@@ -197,12 +233,15 @@ def main():
                     help='Registered smoke feasibility ceiling; 9h explicitly approved by operator on 2026-10-17.')
     ap.add_argument('--reuse-calibration-contract',type=Path,help='Verified completed 128a; register only fresh 129/130.')
     ap.add_argument('--transient-root',type=Path,help='Dedicated scratch base; use output filesystem when NVMe headroom is low.')
+    ap.add_argument('--output-root',type=Path,help='Explicit fresh score root; frozen input manifest stays unchanged.')
+    ap.add_argument('--resume-contract',type=Path,help='Interrupted B contract; carry only hash-verified completed units.')
     args=ap.parse_args()
     if args.run_suffix and not re.fullmatch(r'[a-z0-9_]+',args.run_suffix):
         ap.error('run suffix must contain only lowercase letters, digits and underscores')
     suffix=('_'+args.run_suffix) if args.run_suffix else ''
     if suffix:
         O=Path(str(ORIGINAL_OUTPUT)+suffix);B=Path(str(B)+suffix)
+    if args.output_root:O=args.output_root.resolve()
     def job(number,label):return f'{number}_metric_invariance_{label}{suffix}'
     B.mkdir(parents=True,exist_ok=True);O.mkdir(parents=True,exist_ok=True)
     # Reuse the exact frozen input manifest, including the original sample draw.
@@ -227,6 +266,27 @@ def main():
     if reuse:
         approval.write_text(approval.read_text()+'2026-10-18 operator_console: 使用者對各結論僅由所用指標阻斷、CU 等其他軸改記診斷警告的提案回覆「GO」。新 129/130 承接已驗證完成的 128a，只阻斷該階段 claims 使用的指標（b=PQ/CLAP，c=PQ）；所有軸的數值與警告保留，主要指標門檻不變。新 run 累計已完成 A 的耗時與本次 B 的時間，17h 預算數值保留，排除舊 run 終止後等待；不重跑 A，不改 m、80% 或敏感度標記。\n')
         write(B/'calibration_reuse.json',reuse)
+    resume=None
+    if args.resume_contract:
+        assert reuse,'storage restart requires verified completed A'
+        gate=json.loads((B/'archive_gate.json').read_text())
+        assert gate['status']=='passed' and gate['verified_cold_cells'],'cold archive/capacity not verified'
+        oldcp=args.resume_contract.resolve();old=json.loads(oldcp.read_text())
+        terminal=Path('/home/kojiek/gpu_queue/p2/interrupted')/(Path(old['queue_name']).stem+'.terminal.json')
+        t=json.loads(terminal.read_text());assert old['part']=='b' and t['status']=='interrupted'
+        assert old['manifest']==str(mf) and old['bindings']['action_sha256']==sha(R/'scripts/eval/metric_invariance_128.py')
+        sys.path.insert(0,str(R/'scripts/experiment_harness'))
+        from notification_receipts import validate_delivered_receipt
+        receipt=Path(t['notification_receipt']['path']);launcher=terminal.with_name(Path(old['queue_name']).name)
+        ok,reason=validate_delivered_receipt(receipt,contract_path=oldcp,launcher_path=launcher,event='interrupted',status='interrupted')
+        assert ok,reason
+        source=Path(old['storage']['path']);(O/'b').mkdir(parents=True,exist_ok=True)
+        copied=copy_completed_units(source,O/'b',json.loads(mf.read_text()),old['bindings']['action_sha256'])
+        started=source/'started.json'
+        resume={'source_contract':str(oldcp),'source_root':str(source),'units':copied,'original_b_started':str(started),
+                'files':{str(p):sha(p) for p in (oldcp,terminal,receipt,started)}}
+        write(B/'score_resume.json',resume)
+        approval.write_text(approval.read_text()+'2026-10-18 operator_console: 使用者指出 Seagate 應只封存舊資料，新資料在 NVMe。修正先前熱資料放置：只封存已完成且不在現行輸入的 115 lvl23，逐檔驗證並保留 symlink；新分數、日誌與暫存回 NVMe。已完成 score unit 驗證後承接；科學參數與 17h 不變，仍用原 B started clock，包含本次搬移時間。\n')
     common=[Path(__file__),R/'scripts/eval/metric_invariance_128.py',R/'scripts/experiment_harness/metric_invariance_128_guest.py',
         R/'scripts/eval/metric_win_tie_126a.py',R/'scripts/eval/ttm_metrics_115.py',R/'scripts/eval/eval_metrics.py',
         R/'scripts/eval/meva_score_dir.py',R/'scripts/eval/meva_runtime.py',R/'docs/experiments/meva_095_model_lock.json',
@@ -242,6 +302,13 @@ def main():
         R/'weights/music_speech_audioset_epoch_15_esc_89.98.pt']
     common += [Path(p) for p in scans.values()]
     if reuse:common += [B/'calibration_reuse.json']+[Path(p) for p in reuse['files']]
+    if resume:
+        common += [B/'score_resume.json',B/'storage_correction_plan.json',B/'archive_gate.json',B/'scan_reuse.json']
+        for path,expected in gate['files'].items():
+            assert sha(path)==expected,'archive verification evidence changed'
+            common.append(Path(path))
+        common += [Path(p) for p in resume['files']]
+        common += [Path(u['destination'])/name for u in resume['units'] for name in ('scores.npz','done.json')]
     mfdata=json.loads(mf.read_text())
     common+=list(dict.fromkeys(Path(p) for p in list(mfdata['reference_115'].values())+list(mfdata['table_references'].values())+
         list(mfdata['mir'].values())+[mfdata['floor_mir']]))
@@ -281,6 +348,11 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
             'peak_additional_bytes':8*2**30 if on_output_fs else 2*2**30,'transient_bytes':6*2**30 if on_output_fs else 512*2**20,'recovery_reserve_bytes':2*2**30},
             {'path':str(R),'hard_floor_bytes':50*2**30,'warning_floor_bytes':60*2**30,
              'peak_additional_bytes':512*2**20 if on_output_fs else 6*2**30,'transient_bytes':100*2**20,'recovery_reserve_bytes':2*2**30}]
+        if on_output_fs and os.stat(out).st_dev==os.stat(R).st_dev:
+            # Score output and scratch share NVMe: one filesystem budget, including
+            # 6 GiB audio plus reports; atomic duplication is counted separately.
+            filesystems=[{'path':str(R),'hard_floor_bytes':50*2**30,'warning_floor_bytes':60*2**30,
+                'peak_additional_bytes':7*2**30,'transient_bytes':100*2**20,'recovery_reserve_bytes':2*2**30}]
         action=R/'scripts/eval/metric_invariance_128.py';guest=R/'scripts/experiment_harness/metric_invariance_128_guest.py'
         calibration_report=reuse['report'] if reuse else str(O/'a/summary.json')
         calibration_job=reuse['job'] if reuse else job(128,'calibration')
@@ -343,8 +415,9 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
         if reuse:
             c['calibration_reuse']=reuse
             c['budget_carry']={'completed_calibration_seconds':reuse['completed_calibration_seconds'],
-                'readjudication_started_path':str(O/'b/started.json'),
-                'scope':'completed A duration plus this fresh B run wall time; old terminal-to-restart idle excluded'}
+                'readjudication_started_path':resume['original_b_started'] if resume else str(O/'b/started.json'),
+                'scope':'completed A plus original B wall time, including storage relocation' if resume else 'completed A duration plus this fresh B run wall time; old terminal-to-restart idle excluded'}
+            if resume:c['score_resume']=resume
             M.validate_calibration_reuse(c)
         write(cp,c);bundle(c,cp,acceptance);print(cp,flush=True)
     # Registration snapshot binds the whole chain, including blocked scientific
