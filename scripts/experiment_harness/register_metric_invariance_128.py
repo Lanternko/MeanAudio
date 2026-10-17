@@ -35,6 +35,40 @@ def raw_record(path,ident,caption,lvl=None):
     return result
 
 
+def completed_calibration(cp):
+    c=json.loads(cp.read_text());assert c['part']=='a'
+    job=Path(c['queue_name']).stem
+    launcher=Path('/home/kojiek/gpu_queue/p2/done')/c['queue_name']
+    terminal=launcher.with_suffix('.terminal.json');t=json.loads(terminal.read_text())
+    report=Path(c['reports'][0]['path']);s=json.loads(report.read_text())
+    assert t['status']=='completed' and s['status']=='completed'
+    assert any(r['path']==str(report) and r['sha256']==sha(report) for r in t['evidence']['reports'])
+    sys.path.insert(0,str(R/'scripts/experiment_harness'))
+    from notification_receipts import validate_delivered_receipt
+    receipt=Path(t['notification_receipt']['path'])
+    ok,reason=validate_delivered_receipt(receipt,contract_path=cp,launcher_path=launcher,event='success',status='success')
+    assert ok,reason
+    source=None;revision=None
+    for rev in subprocess.check_output(['git','log','-40','--format=%H','--','scripts/eval/metric_invariance_128.py'],cwd=R,text=True).splitlines():
+        blob=subprocess.check_output(['git','show',rev+':scripts/eval/metric_invariance_128.py'],cwd=R)
+        if hashlib.sha256(blob).hexdigest()==c['bindings']['action_sha256']:
+            source=blob.decode();revision=rev;break
+    assert source is not None,'completed evaluator source unavailable from git'
+    fingerprints=M.calibration_fingerprints(source)
+    assert fingerprints==M.calibration_fingerprints((R/'scripts/eval/metric_invariance_128.py').read_text()),'calibration or scoring functions changed'
+    critical=['metric_win_tie_126a.py','ttm_metrics_115.py','eval_metrics.py','meva_score_dir.py','meva_runtime.py']
+    files=[cp,terminal,report,receipt]
+    for name in critical:
+        p=R/'scripts/eval'/name;assert sha(p)==c['immutable_files'][str(p)];files.append(p)
+    started=report.parent/'started.json';files.append(started)
+    elapsed=datetime.fromisoformat(t['written_at'].replace('Z','+00:00')).timestamp()-json.loads(started.read_text())['at']
+    assert 0<elapsed<17*3600
+    return {'source_contract':str(cp),'terminal':str(terminal),'report':str(report),'started':str(started),
+            'job':job,'source_revision':revision,'source_action_sha256':c['bindings']['action_sha256'],
+            'completed_calibration_seconds':elapsed,'calibration_fingerprints':fingerprints,
+            'files':{str(p):sha(p) for p in files}}
+
+
 def manifest():
     import numpy as np
     caps=dict(M.A.items())
@@ -161,6 +195,8 @@ def main():
     ap.add_argument('--run-suffix',default='',help='Unique retry label; preserves all previous runs.')
     ap.add_argument('--budget-hours-a',type=int,choices=(7,9),default=7,
                     help='Registered smoke feasibility ceiling; 9h explicitly approved by operator on 2026-10-17.')
+    ap.add_argument('--reuse-calibration-contract',type=Path,help='Verified completed 128a; register only fresh 129/130.')
+    ap.add_argument('--transient-root',type=Path,help='Dedicated scratch base; use output filesystem when NVMe headroom is low.')
     args=ap.parse_args()
     if args.run_suffix and not re.fullmatch(r'[a-z0-9_]+',args.run_suffix):
         ap.error('run suffix must contain only lowercase letters, digits and underscores')
@@ -174,7 +210,9 @@ def main():
     if not mf.exists():
         print('Hashing existing audio; no model execution.',flush=True);write(mf,manifest())
     if args.manifest_only:return
-    for part in 'abc':
+    reuse=completed_calibration(args.reuse_calibration_contract.resolve()) if args.reuse_calibration_contract else None
+    parts='bc' if reuse else 'abc'
+    for part in parts:
         cp=R/f'docs/experiments/metric_invariance_128{part}_20261017{suffix}_contract.json'
         assert not cp.exists(),f'refuse replacing registered contract: {cp}'
     scans={part:str(B/'lufs_scans'/f'{part}.json') for part in 'abc'}
@@ -186,6 +224,9 @@ def main():
     approval.write_text('2026-10-17 operator_console: 使用者提供 PR #2 commit eff41ef，確認近靜音 LUFS 替代規則及兩個條件（fallback 排除敏感度分析、三份 CPU 全量掃描）；指示主機拉分支、掃描通過後重新登錄並以新 run 排 128→129→130。此指示承接先前「開始實驗」授權。\n範圍：C1/C3 非零 finite 且 LUFS=-inf 時以 unit-peak probe 再量測、正規化到 -30 LUFS；其他無效音訊仍失敗。所有 fallback ID/count 和排除後判定報告，不穩健者不用作結論。AES 每段最大差 0.01、各軸 signed mean 絕對值 0.001；CLAP/MEva 1e-4。m、80% 與科學判定不變；不套用 padding 3b1ead4，128c 遵守 17h 順延規則。舊 run 及 identity_r1 完整保留。\n')
     if args.budget_hours_a==9:
         approval.write_text(approval.read_text()+'2026-10-17 operator_console: 使用者對 quiet_r2 吞吐 gate 失敗後的具體提案回覆「同意」：只將 128a 預估上限由 7 h 改為 9 h，以 N=400 另登錄新 run（仍依新 smoke 在原候選集合選擇）；其餘規則不變。腳本讀取 contract 參數，三份 source-bound CPU 掃描必須重建通過；保留 quiet_r2 的全部證據。\n')
+    if reuse:
+        approval.write_text(approval.read_text()+'2026-10-18 operator_console: 使用者對各結論僅由所用指標阻斷、CU 等其他軸改記診斷警告的提案回覆「GO」。新 129/130 承接已驗證完成的 128a，只阻斷該階段 claims 使用的指標（b=PQ/CLAP，c=PQ）；所有軸的數值與警告保留，主要指標門檻不變。新 run 累計已完成 A 的耗時與本次 B 的時間，17h 預算數值保留，排除舊 run 終止後等待；不重跑 A，不改 m、80% 或敏感度標記。\n')
+        write(B/'calibration_reuse.json',reuse)
     common=[Path(__file__),R/'scripts/eval/metric_invariance_128.py',R/'scripts/experiment_harness/metric_invariance_128_guest.py',
         R/'scripts/eval/metric_win_tie_126a.py',R/'scripts/eval/ttm_metrics_115.py',R/'scripts/eval/eval_metrics.py',
         R/'scripts/eval/meva_score_dir.py',R/'scripts/eval/meva_runtime.py',R/'docs/experiments/meva_095_model_lock.json',
@@ -196,9 +237,11 @@ def main():
         R/'docs/experiments/harn/metric_invariance_128/identity_gate_amendment_20261017.json',
         R/'docs/experiments/harn/metric_invariance_128/quiet_lufs_amendment_20261017.json',
         R/'docs/experiments/harn/metric_invariance_128/budget_amendment_20261017.json',
+        R/'docs/experiments/harn/metric_invariance_128/claim_identity_amendment_20261018.json',
         R/'docs/experiments/results/metric_win_tie_126a_summary.json',
         R/'weights/music_speech_audioset_epoch_15_esc_89.98.pt']
     common += [Path(p) for p in scans.values()]
+    if reuse:common += [B/'calibration_reuse.json']+[Path(p) for p in reuse['files']]
     mfdata=json.loads(mf.read_text())
     common+=list(dict.fromkeys(Path(p) for p in list(mfdata['reference_115'].values())+list(mfdata['table_references'].values())+
         list(mfdata['mir'].values())+[mfdata['floor_mir']]))
@@ -215,9 +258,10 @@ def main():
     common=list(dict.fromkeys(common))
     immutable={str(p):sha(p) for p in common}
     for number,part,label in [(128,'a','calibration'),(129,'b','table_b'),(130,'c','negmf')]:
+        if part not in parts:continue
         name=job(number,label)+'.sh';cp=R/f'docs/experiments/metric_invariance_128{part}_20261017{suffix}_contract.json'
         launcher=R/'scripts/queue_candidates'/name;out=O/part;out.mkdir(exist_ok=True)
-        tmp=E/f'metric_invariance_128_20261017{suffix}_tmp'/part
+        tmp=(args.transient_root if args.transient_root else E/f'metric_invariance_128_20261017{suffix}_tmp')/part
         tmp.mkdir(parents=True,exist_ok=True);tmp.chmod(0o700)
         assert not (out/'started.json').exists(),'refuse replacing launched contract'
         launcher.write_text(f'''#!/bin/bash
@@ -232,18 +276,22 @@ export PYTHONDONTWRITEBYTECODE=1
 cd /home/kojiek/MeanAudio || exit 1
 exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_128_guest.py
 ''');launcher.chmod(0o755)
+        on_output_fs=os.stat(tmp).st_dev==os.stat(out).st_dev
         filesystems=[{'path':str(out),'hard_floor_bytes':50*2**30,'warning_floor_bytes':80*2**30,
-            'peak_additional_bytes':2*2**30,'transient_bytes':512*2**20,'recovery_reserve_bytes':2*2**30},
+            'peak_additional_bytes':8*2**30 if on_output_fs else 2*2**30,'transient_bytes':6*2**30 if on_output_fs else 512*2**20,'recovery_reserve_bytes':2*2**30},
             {'path':str(R),'hard_floor_bytes':50*2**30,'warning_floor_bytes':60*2**30,
-             'peak_additional_bytes':6*2**30,'transient_bytes':100*2**20,'recovery_reserve_bytes':2*2**30}]
+             'peak_additional_bytes':512*2**20 if on_output_fs else 6*2**30,'transient_bytes':100*2**20,'recovery_reserve_bytes':2*2**30}]
         action=R/'scripts/eval/metric_invariance_128.py';guest=R/'scripts/experiment_harness/metric_invariance_128_guest.py'
+        calibration_report=reuse['report'] if reuse else str(O/'a/summary.json')
+        calibration_job=reuse['job'] if reuse else job(128,'calibration')
+        run_date=datetime.now(timezone(timedelta(hours=8))).strftime('%Y%m%d')
         c={'schema_version':1,'document_kind':'eval_only_metrics_contract','experiment_id':f'metric-invariance-128{part}-20261017{suffix}',
-            'run_id':f'run-20261017-{number}-metric-invariance{suffix}','part':part,'status':'authorized_pending_preflight','launch_allowed':True,
+            'run_id':f'run-{run_date}-{number}-metric-invariance{suffix}','part':part,'status':'authorized_pending_preflight','launch_allowed':True,
             'priority':'P2','queue_role':'p2','queue_name':name,'dependencies':[] if part=='a' else
-                [job(128,'calibration')]+([job(129,'table_b')] if part=='c' else []),
-            'ordering_dependencies':[] if part=='a' else [job(number-1,'calibration' if part=='b' else 'table_b')],
+                [calibration_job]+([job(129,'table_b')] if part=='c' else []),
+            'ordering_dependencies':[] if part=='a' else [calibration_job if part=='b' else job(129,'table_b')],
             'approval_required':True,'launch_authorization':{'valid':True,'gpu_launch_allowed':True,'trusted_channel':'operator_console',
-              'operator_instruction':'開始實驗','scope':'Implement and run PR2 design as explicitly labelled secondary historical-score invariance study; no training.'},
+              'operator_instruction':'GO (2026-10-18)' if reuse else '開始實驗','scope':'Implement and run PR2 design as explicitly labelled secondary historical-score invariance study; no training.'},
             'manifest':str(mf),'immutable_files':immutable,'harn_bundle':str(B/part),'lufs_scan_reports':scans,
             'design_document':str(R/'docs/experiments/metric_invariance_readjudication_128_20261017.md'),
             'protocol':{'classification':'separately_named_secondary_historical_metric_sensitivity',
@@ -264,9 +312,9 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
               'autoresume':str(out/'pause_progress.json'),'pause_progress':str(out/'pause_progress.json'),
               'behavior':'Hash-bound completed unit skipped; incomplete own temporary audio removed and redone; no upstream deletion.'},
             'watcher':{'stall_seconds':10800,'poll_seconds':5,'healthy_poll_model_calls':0,'automatic_repair':False},
-            'calibration_summary':str(O/'a/summary.json'),'previous_summary':str(O/('a' if part=='b' else 'b')/'summary.json') if part!='a' else None,
+            'calibration_summary':calibration_report,'previous_summary':(calibration_report if part=='b' else str(O/'b/summary.json')) if part!='a' else None,
             'scientific_dependencies':{} if part=='a' else {
-                job(128,'calibration'):str(O/'a/summary.json'),
+                calibration_job:calibration_report,
                 **({job(129,'table_b'):str(O/'b/summary.json')} if part=='c' else {})},
             'commands':{'preflight':[PY,str(action),'--preflight'],'run':[PY,str(action)],'postflight':[PY,str(action),'--validate-only']},
             'reports':[{'path':str(out/'summary.json')}]+([{'path':str(out/'summary_d.json')}] if part=='b' else []),
@@ -280,18 +328,36 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
               'helper':str(R/'scripts/experiment_harness/notification_receipts.py'),'helper_sha256':sha(R/'scripts/experiment_harness/notification_receipts.py')},
             'completion_evidence':{'eval_only':True,'method':'validated registered reports, terminal hash evidence and delivered receipt'},
             'cleanup_authorization':{'paths':[str(tmp)],'behavior':'Only this run temporary scoring audio; upstream raw, lvl30, stimuli and cached weights retained.'}}
+        if part in 'bc':
+            blocking=sorted({claim[1] for claim in mfdata['claims'][part]})
+            c['protocol']['readjudication_identity_policy']={'blocking_metrics':blocking,
+                'diagnostic_metrics':[m for m in ('PQ','CE','CU','PC','clap') if m not in blocking],
+                'checked_n':200,'context_batch_size':32,
+                'context_rule':'next real records complete the final batch; compare only the original first 200',
+                'amendment':'docs/experiments/harn/metric_invariance_128/claim_identity_amendment_20261018.json'}
+            # C may validly defer before scoring: its identity report is validated
+            # through summary/postflight only when scoring actually takes place.
+            if part=='b':c['reports'].append({'path':str(out/'identity_checks.json')})
+            cells=mfdata['table_b'] if part=='b' else mfdata['negmf']
+            c['notifications'] += ['identity_warning_'+name for name in cells]
+        if reuse:
+            c['calibration_reuse']=reuse
+            c['budget_carry']={'completed_calibration_seconds':reuse['completed_calibration_seconds'],
+                'readjudication_started_path':str(O/'b/started.json'),
+                'scope':'completed A duration plus this fresh B run wall time; old terminal-to-restart idle excluded'}
+            M.validate_calibration_reuse(c)
         write(cp,c);bundle(c,cp,acceptance);print(cp,flush=True)
     # Registration snapshot binds the whole chain, including blocked scientific
     # successors. Live eligibility is independently checked against host receipts.
     entries=[]
-    for position,part in enumerate(('a','b','c'),1):
+    for position,part in enumerate(parts,1):
         q=json.loads((B/part/'queue.json').read_text());entry=q['entries'][0]
         entry['position']=position
         if position>1:
             entry['status']='blocked';entry['dependencies']=[entries[0]['entry_id']]
             if position==3:entry['dependencies'].append(entries[1]['entry_id'])
         entries.append(entry)
-    for part in ('a','b','c'):
+    for part in parts:
         directory=B/part;q=json.loads((directory/'queue.json').read_text());q['entries']=entries
         write(directory/'queue.json',q)
         subprocess.run([PY,str(R/'scripts/validate_experiment_harness_documents.py'),

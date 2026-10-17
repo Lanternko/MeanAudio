@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """CPU scientific-gate fixtures for 128; no model or live queue writes."""
 import copy
+import csv
 import json
 import os
 import sys
@@ -20,6 +21,80 @@ import metric_invariance_128_guest as G
 
 
 class ScientificGates(unittest.TestCase):
+    def test_actual_200_clip_cu_failure_is_warning_for_pq_clap_claims(self):
+        root=Path(__file__).resolve().parents[2]
+        p=root/'docs/experiments/harn/metric_invariance_128_budget_r3/outcome_20261018/b_identity_200.tsv'
+        with p.open() as f:rows=list(csv.DictReader(f,delimiter='\t'))
+        got={'ids':np.array([r['id'] for r in rows]),'values':np.array([[float(r['score_'+m]) for m in M.METRICS] for r in rows])}
+        refs={r['id']:{m:float(r['reference_'+m]) for m in M.METRICS[:-1]} for r in rows}
+        audit=M.readjudication_identity(got,refs,['PQ','clap'])
+        self.assertTrue(audit['passed']);self.assertEqual(audit['warning_metrics'],['CU'])
+        self.assertAlmostEqual(audit['metrics']['CU']['max_abs'],.012890815734863281)
+        with self.assertRaises(RuntimeError):M.check_c0(got,refs,M.METRICS[:-1])
+
+    def test_claim_identity_keeps_primary_bounds_and_mean_bias(self):
+        ids=[str(k) for k in range(50)]
+        refs={i:{m:0. for m in M.METRICS[:-1]} for i in ids}
+        for metric,value in [('PQ',.011),('clap',.0002)]:
+            values=np.zeros((50,6));values[0,M.METRICS.index(metric)]=value
+            audit=M.readjudication_identity({'ids':ids,'values':values},refs,['PQ','clap'])
+            self.assertFalse(audit['passed']);self.assertIn(metric,audit['failed_blocking_metrics'])
+        values=np.zeros((50,6));values[:,0]=.002
+        audit=M.readjudication_identity({'ids':ids,'values':values},refs,['PQ'])
+        self.assertFalse(audit['passed'])
+        values[:]=0;values[0,4]=.0002
+        audit=M.readjudication_identity({'ids':ids,'values':values},refs,['PQ'])
+        self.assertTrue(audit['passed']);self.assertEqual(audit['warning_metrics'],['clap'])
+        values[0,0]=np.nan
+        with self.assertRaises(RuntimeError):M.readjudication_identity({'ids':ids,'values':values},refs,['PQ'])
+
+    def test_ancillary_identity_warning_does_not_stop_score_cells(self):
+        records=[{'id':str(k)} for k in range(225)]
+        refs={r['id']:{m:7. for m in M.METRICS} for r in records}
+        def unit(group,system,variant,mode,rs):
+            values=np.full((len(rs),6),7.)
+            if group=='identity':
+                values[0,2]+=.02
+                values[200:,0]+=2.  # context-only rows must not enter the 200-clip gate
+            elif system=='ours':values+=.2
+            return {'ids':np.array([r['id'] for r in rs]),'values':values,'sd':np.zeros_like(values),'lufs_fallback':np.zeros(len(rs),bool)},{}
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);calibration=root/'calibration.json'
+            M.write(calibration,{'chosen':{m:{'mode':'C3','sensitivity_only':True} for m in M.JUDGED}})
+            c={'storage':{'path':td},'calibration_summary':str(calibration),'part':'c',
+               'protocol':{'readjudication_identity_policy':{'blocking_metrics':['PQ'],'context_batch_size':32},'identity_gate':M.IDENTITY}}
+            manifest={'negmf':{'ours':records,'base':records},'table_references':{'ours':'ours-ref','base':'base-ref'},
+                      'margins':{'PQ':.1},'claims':{'c':[['K4','PQ',['ours']*3,['base']*3]]}}
+            scorer=MagicMock();scorer.unit.side_effect=unit
+            with patch.object(M,'table',return_value=refs),patch.object(M,'notify') as notify:
+                M.score_cells(c,scorer,manifest,'c')
+            out=json.loads((root/'summary.json').read_text())
+            self.assertEqual(out['status'],'completed')
+            self.assertEqual(out['identity_checks']['ours']['warning_metrics'],['CU'])
+            self.assertEqual(out['identity_checks']['ours']['checked_n'],200)
+            self.assertEqual(out['identity_checks']['ours']['scored_context_n'],224)
+            self.assertFalse(out['claims']['K4']['eligible_as_conclusion'])
+            self.assertEqual(notify.call_count,2)
+            self.assertEqual(json.loads((root/'identity_checks.json').read_text()),out['identity_checks'])
+
+    def test_carried_budget_includes_completed_a_and_new_b_only(self):
+        with tempfile.TemporaryDirectory() as td:
+            p=Path(td)/'b-started.json';M.write(p,{'at':100000.})
+            c={'budget_carry':{'completed_calibration_seconds':7*3600,'readjudication_started_path':str(p)}}
+            self.assertEqual(M.prior_phase_elapsed(c,100000+3600),8*3600)
+            self.assertGreater(M.prior_phase_elapsed(c,100000+11*3600),17*3600)
+            with self.assertRaises(RuntimeError):M.prior_phase_elapsed(c,99999.)
+            c['budget_carry']['completed_calibration_seconds']=-1
+            with self.assertRaises(RuntimeError):M.prior_phase_elapsed(c,100000.)
+            old=Path(td)/'a';old.mkdir();M.write(old/'started.json',{'at':100.})
+            self.assertEqual(M.prior_phase_elapsed({'calibration_summary':str(old/'summary.json')},200.),100.)
+
+    def test_reused_calibration_detects_normalizer_change(self):
+        source=Path(M.__file__).read_text();fingerprints=M.calibration_fingerprints(source)
+        self.assertEqual(fingerprints,M.calibration_fingerprints(source+'\n# unrelated comment\n'))
+        changed=source.replace('y = x * 10 ** ((-30.0 - level) / 20)','y = x * 10 ** ((-29.0 - level) / 20)',1)
+        self.assertNotEqual(fingerprints,M.calibration_fingerprints(changed))
+
     def test_calibration_budget_comes_from_registered_contract(self):
         estimates={'1000':71299.05280564557,'600':44631.68567510432,'400':31298.002109833702}
         self.assertIsNone(M.select_calibration_n(estimates,{'protocol':{'budget_seconds_a':7*3600}}))

@@ -11,6 +11,7 @@ for _name in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'NUMEXPR_NUM_THREADS'):
 os.environ.pop('MKL_NUM_THREADS', None)
 
 import argparse
+import ast
 import csv
 import hashlib
 import io
@@ -352,22 +353,89 @@ AES_AXES = ('PQ', 'CE', 'CU', 'PC')
 IDENTITY = {'aes_max_abs': 0.01, 'aes_abs_mean_signed': 0.001, 'other_max_abs': 1e-4}
 
 
-def check_c0(got, references, metrics, gate=IDENTITY):
-    diffs, failures = {}, []
+def c0_statistics(got, references, metrics):
+    diffs = {}
     for metric in metrics:
         j = METRICS.index(metric)
         d = [float(value)-float(references[str(i)][metric]) for i, value in zip(got['ids'], got['values'][:, j])]
+        if not d or len(d) != len(got['ids']) or not all(math.isfinite(v) for v in d):
+            raise RuntimeError(f'invalid C0 identity data: {metric}')
         mx, mean = max(abs(x) for x in d), sum(d)/len(d)
         diffs[metric] = {'max_abs': mx, 'mean_signed': mean}
-        if metric in AES_AXES:
-            if mx > gate['aes_max_abs']: failures.append(f'{metric} max {mx:.6f} > {gate["aes_max_abs"]}')
-            if abs(mean) > gate['aes_abs_mean_signed']:
-                failures.append(f'{metric} |mean| {abs(mean):.6f} > {gate["aes_abs_mean_signed"]}')
-        elif mx > gate['other_max_abs']:
-            failures.append(f'{metric} max {mx:.2e} > {gate["other_max_abs"]}')
+    return diffs
+
+
+def identity_metric_failures(metric, stat, gate):
+    mx, mean = stat['max_abs'], stat['mean_signed']; failures = []
+    if metric in AES_AXES:
+        if mx > gate['aes_max_abs']: failures.append(f'{metric} max {mx:.6f} > {gate["aes_max_abs"]}')
+        if abs(mean) > gate['aes_abs_mean_signed']:
+            failures.append(f'{metric} |mean| {abs(mean):.6f} > {gate["aes_abs_mean_signed"]}')
+    elif mx > gate['other_max_abs']:
+        failures.append(f'{metric} max {mx:.2e} > {gate["other_max_abs"]}')
+    return failures
+
+
+def check_c0(got, references, metrics, gate=IDENTITY):
+    diffs = c0_statistics(got, references, metrics)
+    failures = [f for m, stat in diffs.items() for f in identity_metric_failures(m, stat, gate)]
     if failures:
         raise RuntimeError(f'C0 identity failed: {failures}; diffs={diffs}')
     return diffs
+
+
+def readjudication_identity(got, references, blocking, gate=IDENTITY):
+    metrics = ('PQ', 'CE', 'CU', 'PC', 'clap')
+    if not blocking or not set(blocking) <= set(metrics):
+        raise RuntimeError('invalid registered identity blocking metrics')
+    diffs = c0_statistics(got, references, metrics)
+    checks = {m:dict(stat, passed=not identity_metric_failures(m,stat,gate),
+                    failures=identity_metric_failures(m,stat,gate)) for m,stat in diffs.items()}
+    failed = [m for m in blocking if not checks[m]['passed']]
+    warnings = [m for m in metrics if m not in blocking and not checks[m]['passed']]
+    return {'kind':'historical_score_comparison','blocking_metrics':list(blocking),
+            'passed':not failed,'failed_blocking_metrics':failed,'warning_metrics':warnings,'metrics':checks}
+
+
+def prior_phase_elapsed(c, now=None):
+    carry = c.get('budget_carry')
+    if not carry:
+        return (time.time() if now is None else now)-json.loads((Path(c['calibration_summary']).parent/'started.json').read_text())['at']
+    prior = float(carry['completed_calibration_seconds'])
+    started = float(json.loads(Path(carry['readjudication_started_path']).read_text())['at'])
+    elapsed = (time.time() if now is None else now)-started
+    if not math.isfinite(prior) or prior < 0 or not math.isfinite(elapsed) or elapsed < 0:
+        raise RuntimeError('invalid carried experiment budget')
+    return prior+elapsed
+
+
+def calibration_fingerprints(source):
+    names = {'normalize','members','variant_audio','prepare_one','Scorer','rates',
+             'threshold','select_modes','select_calibration_n','run_a'}
+    nodes = {n.name:n for n in ast.parse(source).body if isinstance(n,(ast.FunctionDef,ast.ClassDef))}
+    return {n:hashlib.sha256(ast.dump(nodes[n],include_attributes=False).encode()).hexdigest() for n in sorted(names)}
+
+
+def validate_calibration_reuse(c):
+    binding = c['calibration_reuse']
+    for path, expected in binding['files'].items():
+        if sha(path)!=expected:raise RuntimeError(f'reused calibration evidence changed: {path}')
+    old=json.loads(Path(binding['source_contract']).read_text())
+    terminal=json.loads(Path(binding['terminal']).read_text())
+    summary=json.loads(Path(binding['report']).read_text())
+    reports=terminal.get('evidence',{}).get('reports',[])
+    if old['part']!='a' or old['manifest']!=c['manifest'] or summary.get('status')!='completed' or terminal.get('status')!='completed':
+        raise RuntimeError('invalid completed calibration source')
+    if not any(r['path']==binding['report'] and r['sha256']==sha(binding['report']) for r in reports):
+        raise RuntimeError('unverified reused calibration report')
+    if calibration_fingerprints(Path(__file__).read_text())!=binding['calibration_fingerprints']:
+        raise RuntimeError('calibration/scoring functions changed since completed calibration')
+    end = float(binding['completed_calibration_seconds'])
+    start = float(json.loads(Path(binding['started']).read_text())['at'])
+    from datetime import datetime
+    actual=datetime.fromisoformat(terminal['written_at'].replace('Z','+00:00')).timestamp()-start
+    if not math.isfinite(end) or end<0 or abs(actual-end)>1e-6 or c['budget_carry']['completed_calibration_seconds']!=end:
+        raise RuntimeError('invalid carried calibration time')
 
 
 def select_calibration_n(estimates, c):
@@ -507,17 +575,47 @@ def score_cells(c, scorer, manifest, part):
     root = Path(c['storage']['path'])
     calibration = json.loads(Path(c['calibration_summary']).read_text())
     cells = manifest['table_b'] if part == 'b' else manifest['negmf']
-    results, reports = {}, {}
+    results, reports, identities = {}, {}, {}
+    policy = c.get('protocol', {}).get('readjudication_identity_policy')
+    if policy:
+        blocking = sorted({claim[1] for claim in manifest['claims'][part]})
+        if blocking != sorted(policy['blocking_metrics']):
+            raise RuntimeError('identity policy does not match registered claim metrics')
     for name, records in cells.items():
         results[name] = {}
-        got, _ = scorer.unit('identity', name, 'clean', 'C0', records[:200])
+        checked_n = min(200,len(records))
+        context_n = checked_n
+        if policy:
+            if policy['context_batch_size']!=32:
+                raise RuntimeError('identity context must match registered AES batch size 32')
+            context_n = min(len(records),math.ceil(checked_n/32)*32)
+        got, _ = scorer.unit('identity', name, 'clean', 'C0', records[:context_n])
+        checked = {'ids':got['ids'][:checked_n],'values':got['values'][:checked_n]}
         reference = manifest['table_references'].get(name)
         if reference:
-            check_c0(got, table(reference), ('PQ', 'CE', 'CU', 'PC', 'clap'))
+            if policy:
+                audit = readjudication_identity(checked, table(reference), blocking, c['protocol']['identity_gate'])
+                audit.update({'checked_n':checked_n,'scored_context_n':context_n})
+                identities[name] = audit
+                write(root/'identity_checks.json',identities)
+                if not audit['passed']:
+                    raise RuntimeError(f'claim-metric identity failed: {name}: {audit["failed_blocking_metrics"]}')
+                if audit['warning_metrics']:
+                    notify(c,'identity_warning_'+name,
+                           f'{name}: ancillary identity warnings {audit["warning_metrics"]}; claim metrics {blocking} passed, continuing sensitivity analysis.')
+            else:
+                check_c0(got, table(reference), ('PQ', 'CE', 'CU', 'PC', 'clap'))
         else:
             # E1 has raw historical AES, not a 115 lvl30 score. Raw byte provenance
             # and the shared 115 transform are bound; do not relabel it as 115.
             if part != 'c': raise RuntimeError('missing required 115/118 identity scores')
+            if policy:
+                if not name.startswith('negmf_'):
+                    raise RuntimeError('missing historical reference for a required control cell')
+                identities[name]={'kind':'registered_input_hash_and_normalization_only',
+                    'historical_reference_available':False,'blocking_metrics':blocking,'warning_metrics':[],
+                    'checked_n':checked_n,'scored_context_n':context_n}
+                write(root/'identity_checks.json',identities)
         for mode in ('C1', 'C2', 'C3'):
             chunks = []
             for k in range(0, len(records), 1000):
@@ -564,6 +662,7 @@ def score_cells(c, scorer, manifest, part):
         tau=float(kendalltau(x,y).statistic)
         rankings[metric]={'C0':dict(zip(cells,x)), 'Cstar':dict(zip(cells,y)), 'kendall_tau':tau if math.isfinite(tau) else None}
     write(root/'summary.json', {'status':'completed','part':part,'claims':reports,'rankings':rankings,
+          'identity_checks':identities,
           'lufs_fallback_ids':{name:sorted(v) for name,v in dropped.items()},
           'lufs_fallback_counts':{name:len(v) for name,v in dropped.items()},
           'calibration_sha256':sha(c['calibration_summary']),
@@ -687,6 +786,8 @@ def preflight(c):
     manifest=json.loads(Path(c['manifest']).read_text())
     if c['protocol'].get('quiet_lufs_rule'):
         require_lufs_scans(c['lufs_scan_reports'],c['manifest'])
+    if c.get('calibration_reuse'):
+        validate_calibration_reuse(c)
     groups=list(manifest['calibration'].values())+list(manifest['midi'].values())+list(manifest['table_b'].values())+list(manifest['negmf'].values())
     seen=set()
     for records in groups:
@@ -780,14 +881,27 @@ def main():
                 raise RuntimeError('missing re-adjudication claims')
             if c['part']=='b' and json.loads((root/'summary_d.json').read_text()).get('status')!='completed':
                 raise RuntimeError('128d incomplete')
+            if c['protocol'].get('readjudication_identity_policy'):
+                audits=json.loads((root/'identity_checks.json').read_text())
+                if set(audits)!=set(selected) or result.get('identity_checks')!=audits:
+                    raise RuntimeError('missing or mismatched identity diagnostics')
+                if any(a.get('failed_blocking_metrics') for a in audits.values()):
+                    raise RuntimeError('failed claim-metric identity check')
+                for name,audit in audits.items():
+                    if audit['kind']=='historical_score_comparison':
+                        if audit.get('passed') is not True or sorted(audit['blocking_metrics'])!=sorted(c['protocol']['readjudication_identity_policy']['blocking_metrics']):
+                            raise RuntimeError('invalid claim-metric identity decision')
+                    elif c['part']!='c' or not name.startswith('negmf_'):
+                        raise RuntimeError('unexpected missing historical reference')
         return
     manifest=json.loads(Path(c['manifest']).read_text())
     if c['part']=='c':
-        elapsed=time.time()-json.loads((Path(c['calibration_summary']).parent/'started.json').read_text())['at']
-        if elapsed>17*3600:
+        elapsed=prior_phase_elapsed(c)
+        if elapsed>c['protocol']['budget_deferral_c_seconds']:
             write(root/'summary.json',{'status':'deferred','reason':'128a+128b exceeded registered 17-hour budget','elapsed_seconds':elapsed})
             notify(c,'budget_deferred','130 / 128c deferred under registered 17h rule. No NegMF scores were recomputed.');return
-    if c['part']=='a' and not (root/'started.json').exists():write(root/'started.json',{'at':time.time()})
+    if (c['part']=='a' or (c['part']=='b' and c.get('budget_carry'))) and not (root/'started.json').exists():
+        write(root/'started.json',{'at':time.time()})
     storage(c)
     tmp=Path(c['storage']['transient_root'])
     if tmp.is_symlink():raise RuntimeError('temporary scoring root must not be a symlink')

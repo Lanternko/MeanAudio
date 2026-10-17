@@ -205,3 +205,17 @@ quiet_r2 的五系統 C0 身分檢查與四方案 smoke 評分通過，但含既
 新 run 的 `protocol.budget_seconds_a=32400`；evaluator 依此參數判定候選是否可行，不再在程式中固定 7 h。候選集合仍為 1000／600／400，按原規則選可行者中的最大值；前次實測預期會選 400，新 run 仍須重新量測及通過 gate。此為可接受的吞吐**預估**上限，原 25% reserve、m、80%、seed、資料、identity／LUFS 規則、敏感度分析及 17 h deferral 全部不變。本文先前的 7 h feasibility gate 由本節對新 run 取代，舊契約不追溯修改。
 
 amendment：`harn/metric_invariance_128/budget_amendment_20261017.json`。新 suffix `budget_r3`；三份 source-bound CPU 掃描須重新建立並全通過，使用全新 contract／run；quiet_r2 紀錄保留。
+
+## 13. 依結論選擇身分閘與續跑 amendment（2026-10-18，使用者「GO」）
+
+budget_r3 的 128a 已完成，所有候選均未通過完整校正條件，四個決策指標皆退回 C3，必須保留 `sensitivity_only=true`。129 在首格 200 段的 CU 最大差 0.0128908 > 0.01 停止；PQ、CLAP 通過，CPU 重做音訊逐樣本一致，差異集中在 8 段尾批次。這是身分閘的適用範圍問題，不能解讀成表 B 的科學結論失敗。完整正反結果、原閘判定和診斷見 `results/metric_invariance_128_budget_r3_outcome_20261018.md`，全部保留。
+
+- 新 `claims_r4` 只重啟 129 → 130。128b 的 K1–K3 僅由 **PQ、CLAP** 身分閘阻斷；128c 的 K4 僅由 **PQ** 阻斷。門檻數值不變：AES max ≤ 0.01 且 |signed mean| ≤ 0.001，CLAP max ≤ 1e-4。其他軸照原門檻計算、保存每軸統計及警告，超標時通知並繼續，不因結果好壞刪除資料。非有限分數、錯檔、缺檔及 provenance 錯誤仍不允許繼續。
+- 身分檢查仍比較每格原本的前 **200 段**。額外讀取後續 24 段真實音訊，使 AES 最後一次 forward 維持 batch=32；只比較前 200 段。這 24 段只提供批次上下文，不加入比較樣本數，不修改模型、Scorer 或正式評分批次。所有格記錄 `checked_n` 與 `scored_context_n`。
+- NegMF 原 arm 沒有同處理的歷史分數；明列為僅通過凍結輸入 SHA256 與共同正規化驗證，不宣稱完成歷史分數身分比對。三個 control 仍依 PQ 檢查歷史分數。
+- 沿用 budget_r3 的完整 128a：驗證成功 terminal、report SHA256、通知回執、同一 input manifest、評分／校正函式 AST 與依賴雜湊一致。原 C*、fallback 排除、blastnote 負面結果及 sensitivity-only 標記均原封不動，不重跑或重選。新來源 SHA 綁定的三份 CPU 全量 LUFS 掃描仍須全過。
+- 128c 的預算數值仍為 17 h；本次續跑累計已完成 A 的 **26,762.696 秒（7.434 h）**與新 B 的 wall time，排除舊 run 終止後到重啟之間的等待，另存 `budget_carry` 與新 B 的 `started.json`。若累計超標，照原規則產生 deferred 報告。
+- 新暫存區改在 Seagate 的專用 `metric_invariance_128_20261017_claims_r4_audio_tmp/<part>`。每批清理自己的暫存，原始音訊與舊 run 不動；兩個檔案系統仍維持 50 GiB hard floor。此調整避免目前 root 約 55.7 GiB 的剩餘空間被評分暫存吃穿安全線。
+- `identity_checks.json` 與 summary 保存每格阻斷指標、全部診斷統計、警告和歷史錨的可用性；postflight 驗證兩份一致且主要身分檢查通過。不穩健或 C* 未通過完整校正的 K 結果仍不能作為正式結論。
+
+amendment：`harn/metric_invariance_128/claim_identity_amendment_20261018.json`。變更在看到 CU 失敗與 128a 結果之後訂定；新契約、原契約和逐段證據並存，公開這個時間順序。

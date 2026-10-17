@@ -1,0 +1,4 @@
+2026-10-17 operator_console: 使用者提供 PR #2 commit eff41ef，確認近靜音 LUFS 替代規則及兩個條件（fallback 排除敏感度分析、三份 CPU 全量掃描）；指示主機拉分支、掃描通過後重新登錄並以新 run 排 128→129→130。此指示承接先前「開始實驗」授權。
+範圍：C1/C3 非零 finite 且 LUFS=-inf 時以 unit-peak probe 再量測、正規化到 -30 LUFS；其他無效音訊仍失敗。所有 fallback ID/count 和排除後判定報告，不穩健者不用作結論。AES 每段最大差 0.01、各軸 signed mean 絕對值 0.001；CLAP/MEva 1e-4。m、80% 與科學判定不變；不套用 padding 3b1ead4，128c 遵守 17h 順延規則。舊 run 及 identity_r1 完整保留。
+2026-10-17 operator_console: 使用者對 quiet_r2 吞吐 gate 失敗後的具體提案回覆「同意」：只將 128a 預估上限由 7 h 改為 9 h，以 N=400 另登錄新 run（仍依新 smoke 在原候選集合選擇）；其餘規則不變。腳本讀取 contract 參數，三份 source-bound CPU 掃描必須重建通過；保留 quiet_r2 的全部證據。
+2026-10-18 operator_console: 使用者對各結論僅由所用指標阻斷、CU 等其他軸改記診斷警告的提案回覆「GO」。新 129/130 承接已驗證完成的 128a，只阻斷該階段 claims 使用的指標（b=PQ/CLAP，c=PQ）；所有軸的數值與警告保留，主要指標門檻不變。新 run 累計已完成 A 的耗時與本次 B 的時間，17h 預算數值保留，排除舊 run 終止後等待；不重跑 A，不改 m、80% 或敏感度標記。
