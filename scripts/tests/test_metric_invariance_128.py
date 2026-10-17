@@ -20,6 +20,14 @@ import metric_invariance_128_guest as G
 
 
 class ScientificGates(unittest.TestCase):
+    def test_calibration_budget_comes_from_registered_contract(self):
+        estimates={'1000':71299.05280564557,'600':44631.68567510432,'400':31298.002109833702}
+        self.assertIsNone(M.select_calibration_n(estimates,{'protocol':{'budget_seconds_a':7*3600}}))
+        self.assertEqual(M.select_calibration_n(estimates,{'protocol':{'budget_seconds_a':9*3600}}),400)
+        for budget in (0,-1,float('nan'),float('inf')):
+            with self.assertRaises(ValueError):M.select_calibration_n(estimates,{'protocol':{'budget_seconds_a':budget}})
+        with self.assertRaises(KeyError):M.select_calibration_n(estimates,{'protocol':{}})
+
     def test_members_preserve_length_sign_and_truncation(self):
         x=np.linspace(-.2,.3,16000)
         ys,fallback=M.members(x,16000,'C2')

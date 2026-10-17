@@ -1,0 +1,57 @@
+== unit ==
+pause ack invalid: ack request_id mismatch
+PASS unit /tmp/sched-unit-nhig5inp
+OK unit-lib
+== sort-3digit ==
+OK sort-010-first
+OK sort-mix-100-before-10
+== 1 fail-then-next ==
+OK 1-failed
+OK 1-next-done
+== 2 held ==
+OK 2-held-stays
+OK 2-held-not-done
+== 8 singleton ==
+OK 8-refused
+== 75-no-ack ==
+OK 75-no-ack-held
+OK 75-no-ack-not-pending
+== 11 bare0 ==
+OK 11-held
+== 3-4 pause/requeue ==
+OK 3-p1-first
+OK 4-p2-resumed
+OK 4-k5-not-lost
+OK 4-order-10-done
+== 5 foreign ==
+OK 5-not-started
+== 6 smi-fail ==
+OK 6-not-started
+== 7 stale-ack ==
+pause ack invalid: ack request_id mismatch
+OK 7-stale-ack
+== 9 recover ==
+OK 9-guest-survived
+OK 9-still-running-file
+OK 9-recovered-classified
+OK 9-recovered-done
+== 10 gates ==
+OK 10-contract-held
+OK 10-notify-held
+OK 10-preflight-held
+== cfg0-numeric ==
+OK cfg0-numeric-zero
+== pause-runtime-requeue ==
+bound-k3
+bound-p1
+OK runtime-p1-preempt
+OK runtime-p2-resumed-done
+OK runtime-p2-not-held
+OK runtime-binding-written
+OK runtime-binding-matches-overwritten-ckpt
+== idle-notify ==
+grep: /tmp/tmp.1GceJZVMpJ/notify.log: No such file or directory
+OK idle-notify-once
+OK idle-notify-again-after-drain
+SKIP 12 real-GPU pause/resume fixture
+PASS=33 FAIL=0 tmp=/tmp/tmp.1GceJZVMpJ

@@ -159,6 +159,8 @@ def main():
     global O,B
     ap=argparse.ArgumentParser();ap.add_argument('--manifest-only',action='store_true')
     ap.add_argument('--run-suffix',default='',help='Unique retry label; preserves all previous runs.')
+    ap.add_argument('--budget-hours-a',type=int,choices=(7,9),default=7,
+                    help='Registered smoke feasibility ceiling; 9h explicitly approved by operator on 2026-10-17.')
     args=ap.parse_args()
     if args.run_suffix and not re.fullmatch(r'[a-z0-9_]+',args.run_suffix):
         ap.error('run suffix must contain only lowercase letters, digits and underscores')
@@ -182,6 +184,8 @@ def main():
         assert sha(R/path)==expected,f'acceptance evidence stale: {path}'
     approval=B/'operator_request.txt'
     approval.write_text('2026-10-17 operator_console: 使用者提供 PR #2 commit eff41ef，確認近靜音 LUFS 替代規則及兩個條件（fallback 排除敏感度分析、三份 CPU 全量掃描）；指示主機拉分支、掃描通過後重新登錄並以新 run 排 128→129→130。此指示承接先前「開始實驗」授權。\n範圍：C1/C3 非零 finite 且 LUFS=-inf 時以 unit-peak probe 再量測、正規化到 -30 LUFS；其他無效音訊仍失敗。所有 fallback ID/count 和排除後判定報告，不穩健者不用作結論。AES 每段最大差 0.01、各軸 signed mean 絕對值 0.001；CLAP/MEva 1e-4。m、80% 與科學判定不變；不套用 padding 3b1ead4，128c 遵守 17h 順延規則。舊 run 及 identity_r1 完整保留。\n')
+    if args.budget_hours_a==9:
+        approval.write_text(approval.read_text()+'2026-10-17 operator_console: 使用者對 quiet_r2 吞吐 gate 失敗後的具體提案回覆「同意」：只將 128a 預估上限由 7 h 改為 9 h，以 N=400 另登錄新 run（仍依新 smoke 在原候選集合選擇）；其餘規則不變。腳本讀取 contract 參數，三份 source-bound CPU 掃描必須重建通過；保留 quiet_r2 的全部證據。\n')
     common=[Path(__file__),R/'scripts/eval/metric_invariance_128.py',R/'scripts/experiment_harness/metric_invariance_128_guest.py',
         R/'scripts/eval/metric_win_tie_126a.py',R/'scripts/eval/ttm_metrics_115.py',R/'scripts/eval/eval_metrics.py',
         R/'scripts/eval/meva_score_dir.py',R/'scripts/eval/meva_runtime.py',R/'docs/experiments/meva_095_model_lock.json',
@@ -191,6 +195,7 @@ def main():
         R/'docs/experiments/metric_invariance_readjudication_128_20261017.md',
         R/'docs/experiments/harn/metric_invariance_128/identity_gate_amendment_20261017.json',
         R/'docs/experiments/harn/metric_invariance_128/quiet_lufs_amendment_20261017.json',
+        R/'docs/experiments/harn/metric_invariance_128/budget_amendment_20261017.json',
         R/'docs/experiments/results/metric_win_tie_126a_summary.json',
         R/'weights/music_speech_audioset_epoch_15_esc_89.98.pt']
     common += [Path(p) for p in scans.values()]
@@ -250,7 +255,7 @@ exec {PY} /home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_12
               'variants':M.VARIANTS,'tie_variants':M.TIES,'degradation_ladders':M.LADDERS,'tie_pass':.8,
               'threshold_max_regression_steps':1,'wrong_direction_max_increase':.05,'identity_gate':{'aes_max_abs':.01,'aes_abs_mean_signed':.001,'other_max_abs':1e-4,
                 'amendment':'docs/experiments/harn/metric_invariance_128/identity_gate_amendment_20261017.json'},
-              'sample_rng_seed':20261017,'n_a_candidates':[1000,600,400],'budget_seconds_a':7*3600,
+              'sample_rng_seed':20261017,'n_a_candidates':[1000,600,400],'budget_seconds_a':args.budget_hours_a*3600,
               'fallback':'C3 per metric; label sensitivity_only if no candidate passes',
               'clap_modes':['C0','C2','C3'],'meva_modes':['C0','C3'],'peak_over_fs_recorded':True,
               'budget_deferral_c_seconds':17*3600},

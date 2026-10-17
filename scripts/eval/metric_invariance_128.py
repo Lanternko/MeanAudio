@@ -370,6 +370,13 @@ def check_c0(got, references, metrics, gate=IDENTITY):
     return diffs
 
 
+def select_calibration_n(estimates, c):
+    budget = float(c['protocol']['budget_seconds_a'])
+    if not math.isfinite(budget) or budget <= 0:
+        raise ValueError('registered calibration budget must be finite and positive')
+    return next((n for n in (1000, 600, 400) if estimates[str(n)] <= budget), None)
+
+
 def run_a(c, scorer, manifest):
     root = Path(c['storage']['path']); smoke_path = root / 'smoke.json'
     if not smoke_path.exists():
@@ -402,14 +409,14 @@ def run_a(c, scorer, manifest):
         # Include 25% for transforms / I/O and the complete MIDI block.
         estimates = {str(n): (per_clip*n*len(VARIANTS)+extra_transform*n+
                      setup_cost+per_clip/5*402*len(MIDI_CASES))*1.25 for n in (1000,600,400)}
-        feasible = [n for n in (1000, 600, 400) if estimates[str(n)] <= 7 * 3600]
         smoke = {'identity': identity, 'timing': timing, 'setup_seconds':setup,
                  'transform_benchmark_seconds_per_clip':bench,'estimated_seconds': estimates,
-                 'selected_n': feasible[0] if feasible else None, 'identity_gate': IDENTITY}
+                 'selected_n': select_calibration_n(estimates, c),
+                 'budget_seconds_a':c['protocol']['budget_seconds_a'], 'identity_gate': IDENTITY}
         write(smoke_path, smoke)
     smoke = json.loads(smoke_path.read_text())
     if smoke['selected_n'] is None:
-        notify(c, 'smoke_budget_invalid', '128a: no registered N in {1000,600,400} fits 7h; no calibration promoted.', 'held')
+        notify(c, 'smoke_budget_invalid', f"128a: no registered N in {{1000,600,400}} fits {c['protocol']['budget_seconds_a']/3600:g}h; no calibration promoted.", 'held')
         raise RuntimeError('registered smoke budget gate failed')
     notify(c, 'smoke_pass', f"128a C0 identity passed; frozen N_a={smoke['selected_n']}; starting calibration.")
     n = smoke['selected_n']

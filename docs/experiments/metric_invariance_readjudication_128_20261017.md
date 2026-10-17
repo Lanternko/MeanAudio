@@ -197,3 +197,11 @@ CLAP 的優勢**剛好等於** 126 定的平手容許量，而 CLAP 只要開頭
 
 
 主機登錄補充：CPU 掃描使用每個 job 專屬暫存目錄，MIDI 報告保留 case 名稱，workers 上限 8。掃描報告記錄 evaluator 與 input manifest SHA256、完整檢查數；三份通過報告都納入新 contract 的 immutable files，登錄與 GPU preflight 均檢查三份 scope／數量／雜湊，拒絕陳舊、缺漏或失敗的掃描證明。敏感度報告另外列出排除後 Q3 判定、table fallback 數量及 `eligible_as_conclusion`；判定改變、C* 不穩健或原先只屬敏感度分析的項目，均不作為結論。
+
+## 12. 128a 吞吐預估上限 amendment（2026-10-17，使用者同意）
+
+quiet_r2 的五系統 C0 身分檢查與四方案 smoke 評分通過，但含既有 25% reserve 的 N=400 預估為 8.694 h，超過原 7 h gate，因此未進入正式校正。使用者對「只把 128a 預估時間上限改為 9 小時，以 N=400 登錄新 run」回覆「同意」。
+
+新 run 的 `protocol.budget_seconds_a=32400`；evaluator 依此參數判定候選是否可行，不再在程式中固定 7 h。候選集合仍為 1000／600／400，按原規則選可行者中的最大值；前次實測預期會選 400，新 run 仍須重新量測及通過 gate。此為可接受的吞吐**預估**上限，原 25% reserve、m、80%、seed、資料、identity／LUFS 規則、敏感度分析及 17 h deferral 全部不變。本文先前的 7 h feasibility gate 由本節對新 run 取代，舊契約不追溯修改。
+
+amendment：`harn/metric_invariance_128/budget_amendment_20261017.json`。新 suffix `budget_r3`；三份 source-bound CPU 掃描須重新建立並全通過，使用全新 contract／run；quiet_r2 紀錄保留。

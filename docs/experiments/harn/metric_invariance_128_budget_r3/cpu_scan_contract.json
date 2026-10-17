@@ -1,0 +1,53 @@
+{
+  "action_sha256": "4316c50e1c9928ebf3b147c7ac7bdffe55b7345596a5a6946a3c8c6fb819b8d7",
+  "authorization": "operator_console: user approved 7h to 9h feasibility amendment and a fresh run; regenerate all three source-bound CPU scans",
+  "commands": [
+    {
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--scan-lufs",
+        "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_budget_r3/lufs_scans/a.json",
+        "--scan-workers",
+        "8"
+      ],
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128a_20261017_quiet_r2_contract.json",
+      "contract_sha256": "4c39f16ccfe48c0c1e65fbf429bcf2f4a1e0f48f19c32ca0770f382342722473",
+      "part": "a"
+    },
+    {
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--scan-lufs",
+        "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_budget_r3/lufs_scans/b.json",
+        "--scan-workers",
+        "8"
+      ],
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128b_20261017_quiet_r2_contract.json",
+      "contract_sha256": "67e8eefdf790e405fc552b24e9e393d514164da24b0c55c24a8ecfb8b88d243f",
+      "part": "b"
+    },
+    {
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--scan-lufs",
+        "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_budget_r3/lufs_scans/c.json",
+        "--scan-workers",
+        "8"
+      ],
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128c_20261017_quiet_r2_contract.json",
+      "contract_sha256": "0340bd7d8c6665995aa29c41f99929164b4350ef158d40a26711b141402f3fbf",
+      "part": "c"
+    }
+  ],
+  "cpu_workers": 8,
+  "driver_sha256": "f7bcd1d9b74c56ffb5a8322b8b3acd81cdd11d571e588be4252f102566ba1cff",
+  "gpu": false,
+  "hard_floor_bytes": 53687091200,
+  "manifest_sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1",
+  "repair": false,
+  "resume": "No GPU launch; retain all partial/failed evidence. New output directory required for rerun.",
+  "run_id": "128-budget-r3-cpu-lufs-scans"
+}
