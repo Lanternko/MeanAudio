@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-17T08:21:45.981167+08:00",
+  "p2_state": "idle",
+  "jobs": {
+    "128": {
+      "script": "/home/kojiek/gpu_queue/p2/failed/128_metric_invariance_calibration.sh",
+      "terminal_status": "failed",
+      "notification_receipt_validated": true,
+      "terminal_sha256": "10abd27ee1c884ed7a4bcb5b124f03044e888cc37f65ce68417efcd8bec59658"
+    },
+    "129": {
+      "script": "/home/kojiek/gpu_queue/p2/held/129_metric_invariance_table_b.sh",
+      "terminal_status": "held",
+      "notification_receipt_validated": true,
+      "terminal_sha256": "3419a552c24baf616752befff4d7cc4ecb4602569ce243961055123b7840c533"
+    },
+    "130": {
+      "script": "/home/kojiek/gpu_queue/p2/held/130_metric_invariance_negmf.sh",
+      "terminal_status": "held",
+      "notification_receipt_validated": true,
+      "terminal_sha256": "9b9f710821c9c4f3f824bdbabe2b6a1943861a121c11affeb071e46f21005840"
+    }
+  }
+}

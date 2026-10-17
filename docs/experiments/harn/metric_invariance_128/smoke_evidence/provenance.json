@@ -1,0 +1,53 @@
+{
+  "sources": {
+    "reference_126a": {
+      "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126a_20261016/units/clean/musicgen/scores.tsv",
+      "sha256": "4645f2f226416888edcf6f56cccdc54390cdc650dda0668ade71b76e9ca3d784"
+    },
+    "reference_115": {
+      "path": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicgen_medium/lvl30/scores/musicgen_medium_lvl30/per_clip.tsv",
+      "sha256": "c1f21e6341a061beb5cfa10ae6861f162c0051964a5af05fe980d289c3a6d7a2"
+    },
+    "shuffled_126a": {
+      "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126a_20261016/units/clean_shuf/musicgen/scores.tsv",
+      "sha256": "484f0cc16d5127b0d6df82897da241314135a43e154b1c72f4aa50a2c9a20a01"
+    },
+    "smoke_scores": {
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/a/smoke/musicgen/clean/C0/scores.npz",
+      "sha256": "6c60acc1fa8482e891fc6795234b3315a9d71c0d75780ac730d26207c3158704"
+    },
+    "smoke_done": {
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/a/smoke/musicgen/clean/C0/done.json",
+      "sha256": "b25f0d6734dc499c7e23e131c67216cdcfc2897ea6e103cfd6f7dbfa02bd7938"
+    },
+    "frozen_inputs": {
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/inputs.json",
+      "sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1"
+    }
+  },
+  "exports": {
+    "audio_inputs_50.json": "dee9f0c08e039afd607a925652bccb325fbdf743cbc50fcbb797cbb818f47625",
+    "audit_results.json": "7dca79c5a20c9c14a5ba10eaa8197bab8772617e469939ad227a42304f273d8c",
+    "candidate_tests_20.txt": "22660f4d7cd00671a584d732bc90463fe9d0461e6386aa8107e029449ca83584",
+    "historical_clean_vs_shuffled_5131.tsv": "2c0efc9b43379dad8e57b5ea185959c3f283e506e8e7babc1fdc9659ca4ddcc6",
+    "queue_status_snapshot.json": "f079cc9a37577b48b420692e96d4e2a90fdc9026ac0ad613bcdcc0eea7b19e47",
+    "smoke_50.tsv": "d16ca4643834a7d904b6958fc863db8969c673d2a777b036002a6f191ac5bc38",
+    "smoke_done.json": "b25f0d6734dc499c7e23e131c67216cdcfc2897ea6e103cfd6f7dbfa02bd7938",
+    "terminal_128.json": "10abd27ee1c884ed7a4bcb5b124f03044e888cc37f65ce68417efcd8bec59658",
+    "terminal_129.json": "3419a552c24baf616752befff4d7cc4ecb4602569ce243961055123b7840c533",
+    "terminal_130.json": "9b9f710821c9c4f3f824bdbabe2b6a1943861a121c11affeb071e46f21005840"
+  },
+  "score_columns": [
+    "PQ",
+    "CE",
+    "CU",
+    "PC",
+    "clap",
+    "meva"
+  ],
+  "indices": "zero-based; first batch 0..31, final batch 32..49",
+  "diagnostic_script": {
+    "path": "scripts/analysis/audit_metric_invariance_128_smoke.py",
+    "sha256": "5493375d98e208f3ee880df0d57930fef7c374684efa93a3dfeafad0873712ef"
+  }
+}
