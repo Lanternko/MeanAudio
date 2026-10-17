@@ -1,6 +1,8 @@
 # 128 budget_r3：已批准的 9 小時吞吐預估上限
 
-最新狀態：2026-10-17 09:50:07（台北）P2 已啟動 budget_r3。五系統 C0 對 126a／115 身分檢查與全部 20 個 smoke units 完成；新的 9 h feasibility gate 通過，選定 N=400，含原 25% reserve 的預估為 8.715 h。09:53:26 第一個 400 段校準單元完成，已正式進入 128a，129／130 按成功依賴在 pending。尚無校準、表 B 或 NegMF 結論。
+2026-10-18 查核更新：128a 已於 10-17 17:16:20 完成，四種方案未有任何完整通過；129 因 CU 尾批次身分閘超標 failed，130 依賴 held，GPU 已釋放。完整結果、200 段 CPU 音訊重建與可離線重算證據見 [後續結果報告](metric_invariance_128_budget_r3_outcome_20261018.md)。以下保留開跑時紀錄。
+
+開跑時驗證：2026-10-17 09:50:07（台北）P2 已啟動 budget_r3。五系統 C0 對 126a／115 身分檢查與全部 20 個 smoke units 完成；新的 9 h feasibility gate 通過，選定 N=400，含原 25% reserve 的預估為 8.715 h。09:53:26 第一個 400 段校準單元完成，已正式進入 128a，129／130 按成功依賴在 pending。尚無校準、表 B 或 NegMF 結論。
 
 使用者對「只把 128a 預估時間上限由 7 h 改為 9 h，以 N=400 另登錄新 run」回覆「同意」。amendment 原檔為 `harn/metric_invariance_128/budget_amendment_20261017.json`，保留原 quiet_r2 提案及失敗證據。預估仍包含原本的 25% reserve；候選 1000／600／400、m、80%、seed、資料、變體、identity／quiet-LUFS、排除敏感度及 17 h deferral 均不變。依前次 8.694 h 實測預期選 400，新 run 仍須通過新的 smoke。
 
