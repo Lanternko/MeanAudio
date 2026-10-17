@@ -1,0 +1,58 @@
+{
+  "status": "passed",
+  "at": "2026-10-17T01:25:30.452683+00:00",
+  "tests": [
+    {
+      "name": "scientific_and_supervisor",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/test_metric_invariance_128.py",
+      "script_sha256": "ad7ef144521eef9cbc74fe34a710862604e62cb18e06f79fe172952022e8f1b3",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/test_0.txt",
+      "output_sha256": "9d73be084b953d387333eff33ff97439bf1970d3e675592b0284c324e3ea465f"
+    },
+    {
+      "name": "schemas",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/selftest_experiment_harness_schemas.py",
+      "script_sha256": "9d85b5738d0ad55891763ce80ce739add13f2d4c608ec1e2c3da0274fd7363c7",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/test_1.txt",
+      "output_sha256": "96a0628ea652b67a6fb10f7c1c804f9c3af6adff1352b2026b208968e1556750"
+    },
+    {
+      "name": "queue",
+      "status": "passed",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/run_loudness_queue_acceptance.py",
+      "script_sha256": "6cbe341cc09812aaab342748e087af2912434106d89a97a4411b61cfbfa8e5dd",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/test_2.txt",
+      "output_sha256": "b6ed37a8b83beca26072a85a9ed1321a4f06576629150b08631b1fc6618ae24c"
+    },
+    {
+      "name": "notification_receipts",
+      "status": "passed",
+      "script": "/home/kojiek/gpu_queue/tests/test_notification_receipts.py",
+      "script_sha256": "1e74a71128efff7fbc6429598ff111822d1569f2e4619d9e360da71970879b85",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/test_3.txt",
+      "output_sha256": "77f5e119f498c9d67752903a018a1221f34d4cc0d2ca83abf796a264b67f9bc7"
+    },
+    {
+      "name": "scheduler",
+      "status": "passed",
+      "script": "/home/kojiek/gpu_queue/tests/test_lib_scheduler.py",
+      "script_sha256": "c5c47ebe50f872f6941471b6da25e32c43f81b36acffdc0cc44915c491113254",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/test_4.txt",
+      "output_sha256": "f45bcac07d3e42cdb7991c09e1893aaadedbbe48397f3d8ac35812d9e3c2495f"
+    }
+  ],
+  "bindings": {
+    "scripts/eval/metric_invariance_128.py": "cc94d06706f86c6696758dbc53938e6f8b8570a0453c3917502cd54947b34a87",
+    "scripts/experiment_harness/metric_invariance_128_guest.py": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "scripts/experiment_harness/register_metric_invariance_128.py": "0914a764e7c2dac4ff702cf120566d393cb6862ebb13173bdaf0932e4d0e5617",
+    "scripts/experiment_harness/notification_receipts.py": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+  },
+  "scan_cli_fixture": {
+    "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/scan_cli_fixture.json",
+    "sha256": "309ad77bd8df88935863f9a33de430b60600099d0e416ad8829c7ecc7bbe7358"
+  },
+  "scope": "24 scientific/supervisor tests including quiet fallback, same-cohort sensitivity and paired-claim conclusion suppression; queue 33/33; schema and notification/scheduler fixtures. Spawn CLI normal/quiet/zero fixture passed. Real-GPU pause/resume fixture skipped. Full three-part LUFS scans and fresh live GPU smoke remain independent gates."
+}

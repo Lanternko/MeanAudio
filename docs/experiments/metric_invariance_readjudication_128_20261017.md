@@ -195,3 +195,5 @@ CLAP 的優勢**剛好等於** 126 定的平手容許量，而 CLAP 只要開頭
 - 紀錄：`harn/metric_invariance_128/quiet_lufs_amendment_20261017.json`；程式 `normalize()`、`fallback_ids()`、`scan_lufs()`，以及 `run_a()`／`score_cells()` 的 `lufs_fallback_sensitivity`／`*_excl` 欄位；測試 `test_quiet_lufs_fallback_amendment`、`test_calibration_reports_lufs_fallback_sensitivity`。
 - 重跑要用新的 source hash、重新登錄 contract、新的 run id；`identity_r1` 與其紀錄保留不動。
 
+
+主機登錄補充：CPU 掃描使用每個 job 專屬暫存目錄，MIDI 報告保留 case 名稱，workers 上限 8。掃描報告記錄 evaluator 與 input manifest SHA256、完整檢查數；三份通過報告都納入新 contract 的 immutable files，登錄與 GPU preflight 均檢查三份 scope／數量／雜湊，拒絕陳舊、缺漏或失敗的掃描證明。敏感度報告另外列出排除後 Q3 判定、table fallback 數量及 `eligible_as_conclusion`；判定改變、C* 不穩健或原先只屬敏感度分析的項目，均不作為結論。

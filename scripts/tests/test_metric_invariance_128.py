@@ -59,6 +59,33 @@ class ScientificGates(unittest.TestCase):
         u={'ids':np.array(['a','b','c']),'lufs_fallback':np.array([False,True,False])}
         self.assertEqual(M.fallback_ids(u,{'ids':np.array(['c'])},{'ids':np.array(['c']),'lufs_fallback':np.array([True])}),{'b','c'})
 
+    def test_cpu_scan_classifies_and_cleans_isolated_audio(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);scratch=root/'scratch';scratch.mkdir()
+            tone=.1*np.sin(2*np.pi*440*np.arange(16000)/16000)
+            for label,x,expected in [('normal',tone,'ok'),('quiet',tone*1e-4,'fallback'),('zero',tone*0,'invalid')]:
+                p=root/f'{label}.wav';sf.write(p,x,16000,subtype='FLOAT')
+                rec={'id':'same-id','path':str(p),'sha256':M.sha(p)}
+                row=M.scan_one((rec,label,'table',str(scratch)))
+                self.assertEqual(row[3],expected)
+                self.assertEqual(list(scratch.iterdir()),[])
+            rec['sha256']='0'*64
+            self.assertEqual(M.scan_one((rec,'zero','table',str(scratch)))[3],'invalid')
+
+    def test_scan_gate_rejects_incomplete_and_stale_evidence(self):
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);mf=root/'inputs.json'
+            M.write(mf,{'calibration':{'system':[{}]},'midi':{c:[{}] for c in M.MIDI_CASES},
+                        'table_b':{'system':[{}]},'negmf':{'system':[{}]}})
+            paths={p:str(root/f'{p}.json') for p in 'abc'}
+            reports={p:{'part':p,'status':'passed','n_invalid':0,'n_checked':len(M.VARIANTS)+len(M.MIDI_CASES) if p=='a' else 1,
+                        'action_sha256':M.sha(M.__file__),'manifest_sha256':M.sha(mf)} for p in 'abc'}
+            for p in 'abc':M.write(paths[p],reports[p])
+            M.require_lufs_scans(paths,mf)
+            for key,value in [('n_checked',0),('action_sha256','stale'),('manifest_sha256','stale'),('n_invalid',1)]:
+                bad=dict(reports['b']);bad[key]=value;M.write(paths['b'],bad)
+                with self.assertRaises(RuntimeError):M.require_lufs_scans(paths,mf)
+
     def test_preparation_failure_drains_writers_before_cleanup(self):
         with tempfile.TemporaryDirectory() as td:
             scratch=Path(td)/'scratch';scratch.mkdir()
@@ -159,6 +186,30 @@ class ScientificGates(unittest.TestCase):
         self.assertEqual(M.conclusion([.2,.3,.2],rates,.1),'still_holds')
         self.assertEqual(M.conclusion([.01,.02,.01],rates,.1),'tie')
         self.assertEqual(M.conclusion([.2,.3,-.1],rates,.1),'weakened')
+
+    def test_claim_fallback_exclusion_changes_verdict_and_blocks_conclusion(self):
+        records=[{'id':str(k)} for k in range(4)]
+        def unit(group,system,variant,mode,rs):
+            values=np.zeros((len(rs),len(M.METRICS)))
+            if system=='ours':
+                values[:]=np.array([-.4 if r['id']=='0' else .2 for r in rs])[:,None]
+            flags=np.array([system=='ours' and mode in ('C1','C3') and r['id']=='0' for r in rs])
+            return {'ids':np.array([r['id'] for r in rs]),'values':values,'sd':np.zeros_like(values),'lufs_fallback':flags},{}
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);calibration=root/'calibration.json'
+            M.write(calibration,{'chosen':{m:{'mode':'C3' if m=='clap' else 'C1','sensitivity_only':False} for m in M.JUDGED}})
+            scorer=MagicMock();scorer.unit.side_effect=unit
+            manifest={'negmf':{'ours':records,'base':records},'table_references':{},'margins':{'PQ':.1},
+                      'claims':{'c':[['K4','PQ',['ours']*3,['base']*3]]}}
+            M.score_cells({'storage':{'path':td},'calibration_summary':str(calibration),'part':'c'},scorer,manifest,'c')
+            out=json.loads((root/'summary.json').read_text())
+        claim=out['claims']['K4']
+        self.assertEqual(claim['verdict'],'tie')
+        self.assertEqual(claim['verdict_excl'],'still_holds')
+        self.assertEqual(claim['n_pairs_excl'],[3]*3)
+        self.assertFalse(claim['robust_to_lufs_fallback'])
+        self.assertFalse(claim['eligible_as_conclusion'])
+        self.assertEqual(out['lufs_fallback_counts'],{'ours':1,'base':0})
 
     def test_resume_accepts_only_matching_completed_bytes(self):
         with tempfile.TemporaryDirectory() as td:

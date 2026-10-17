@@ -477,6 +477,7 @@ def run_a(c, scorer, manifest):
         'midi_excluded_ids': sorted(midi_drop),
         'cells': cells_excl, 'midi_pq': midi_excl, **{k+'_excl': v for k, v in chosen_excl.items()},
         'q3_prediction_passed': q3,
+        'q3_prediction_passed_excl': q3_excl,
         'chosen_changed': {m: chosen['chosen'][m] != chosen_excl['chosen'][m] for m in JUDGED},
         'q3_changed': q3 != q3_excl}
     sensitivity['robust_to_lufs_fallback'] = not any(sensitivity['chosen_changed'].values()) and not sensitivity['q3_changed']
@@ -544,6 +545,8 @@ def score_cells(c, scorer, manifest, part):
             report.update({'deltas'+tag:deltas,'paired'+tag:comparisons,'above_2sd_fraction'+tag:noise,
                            'n_pairs'+tag:n_pairs,'verdict'+tag:conclusion(deltas,comparisons,manifest['margins'][metric])})
         report['robust_to_lufs_fallback'] = report['verdict'] == report['verdict_excl']
+        report['eligible_as_conclusion'] = (report['robust_to_lufs_fallback'] and
+            not choice['sensitivity_only'] and not calibration.get('lufs_fallback_sensitivity', {}).get('chosen_changed', {}).get(metric, False))
         reports[claim] = report
     rankings = {}
     from scipy.stats import kendalltau
@@ -555,6 +558,7 @@ def score_cells(c, scorer, manifest, part):
         rankings[metric]={'C0':dict(zip(cells,x)), 'Cstar':dict(zip(cells,y)), 'kendall_tau':tau if math.isfinite(tau) else None}
     write(root/'summary.json', {'status':'completed','part':part,'claims':reports,'rankings':rankings,
           'lufs_fallback_ids':{name:sorted(v) for name,v in dropped.items()},
+          'lufs_fallback_counts':{name:len(v) for name,v in dropped.items()},
           'calibration_sha256':sha(c['calibration_summary']),
           'c2_ensemble_sd_means':{name:{metric:float(results[name]['C2']['sd'][:,METRICS.index(metric)].mean())
                                      for metric in ('PQ','CE','CU','PC','clap')} for name in cells}})
@@ -604,22 +608,25 @@ def run_d(c, manifest, results, calibration):
 
 def scan_one(job):
     rec, system, variant, tmp = job
-    x, sr, _, _, ident = variant_audio(rec, system, variant, tmp)
     try:
-        _, fallback = normalize(x, sr)
+        # Raw-to-lvl30 writes by id: separate jobs must never share that path.
+        with tempfile.TemporaryDirectory(prefix='clip-',dir=tmp) as own:
+            x, sr, _, _, ident = variant_audio(rec, system, variant, own)
+            _, fallback = normalize(x, sr)
         return system, variant, ident, 'fallback' if fallback else 'ok', None
-    except ValueError as e:
-        return system, variant, ident, 'invalid', str(e)
+    except Exception as e:
+        return system, variant, rec['id'], 'invalid', f'{type(e).__name__}: {e}'
 
 
-def scan_lufs(c, manifest, output):
+def scan_lufs(c, manifest, output, workers=4):
     """CPU preflight: every C1/C3 input this contract will score, before any GPU work."""
+    action_hash,manifest_hash=sha(__file__),sha(c['manifest'])
     jobs = []
     if c['part'] == 'a':
         n = max(c.get('protocol', {}).get('n_a_candidates', [1000]))  # superset of any frozen N_a
         for system, records in manifest['calibration'].items():
             jobs += [(r, system, v, None) for r in records[:n] for v in VARIANTS]
-        jobs += [(r, 'generaluser', 'source', None) for case in MIDI_CASES for r in manifest['midi'][case]]
+        jobs += [(r, 'generaluser', 'source_'+case, None) for case in MIDI_CASES for r in manifest['midi'][case]]
     else:
         cells = manifest['table_b'] if c['part'] == 'b' else manifest['negmf']
         # score_cells passes chunk names, which are not 126a variants: no transform, as here.
@@ -627,13 +634,21 @@ def scan_lufs(c, manifest, output):
     tmp = Path(tempfile.mkdtemp(prefix='lufs-scan-', dir=c['storage']['transient_root']))
     try:
         jobs = [(r, s_, v, str(tmp)) for r, s_, v, _ in jobs]
-        with ProcessPoolExecutor(max_workers=os.cpu_count() or 4, mp_context=mp.get_context('spawn')) as pool:
-            rows = list(pool.map(scan_one, jobs, chunksize=64))
+        rows=[]
+        with ProcessPoolExecutor(max_workers=workers, mp_context=mp.get_context('spawn')) as pool:
+            for row in pool.map(scan_one, jobs, chunksize=64):
+                rows.append(row)
+                if len(rows)%1000==0:
+                    write(Path(str(output)+'.progress.json'),{'part':c['part'],'checked':len(rows),'total':len(jobs),
+                        'invalid_so_far':sum(r[3]=='invalid' for r in rows)})
     finally:
         shutil.rmtree(tmp)
     fallback = sorted({(s_, v, i) for s_, v, i, k, _ in rows if k == 'fallback'})
     invalid = [{'system': s_, 'variant': v, 'id': i, 'error': e} for s_, v, i, k, e in rows if k == 'invalid']
+    if action_hash!=sha(__file__) or manifest_hash!=sha(c['manifest']):
+        raise RuntimeError('scan source or manifest changed during scan')
     report = {'part': c['part'], 'n_checked': len(rows), 'n_fallback': len(fallback),
+              'action_sha256':action_hash,'manifest_sha256':manifest_hash,
               'fallback_ids_by_system': {s_: sorted({i for x, _, i in fallback if x == s_}) for s_ in {x for x, _, _ in fallback}},
               'fallback': [{'system': s_, 'variant': v, 'id': i} for s_, v, i in fallback],
               'n_invalid': len(invalid), 'invalid': invalid,
@@ -644,11 +659,27 @@ def scan_lufs(c, manifest, output):
         raise SystemExit('LUFS scan: audio that stays invalid under the amended rule; see report')
 
 
+def require_lufs_scans(paths, manifest_path):
+    manifest=json.loads(Path(manifest_path).read_text())
+    expected={'a':sum(len(rs[:1000])*len(VARIANTS) for rs in manifest['calibration'].values())+
+                   sum(len(manifest['midi'][case]) for case in MIDI_CASES),
+              'b':sum(map(len,manifest['table_b'].values())),
+              'c':sum(map(len,manifest['negmf'].values()))}
+    for part in 'abc':
+        report=json.loads(Path(paths[part]).read_text())
+        if not (report['part']==part and report['status']=='passed' and report['n_invalid']==0
+                and report['n_checked']==expected[part] and report['action_sha256']==sha(__file__)
+                and report['manifest_sha256']==sha(manifest_path)):
+            raise RuntimeError(f'missing, stale or incomplete LUFS scan: {part}')
+
+
 def preflight(c):
     storage(c)
     for path, expected in c['immutable_files'].items():
         if sha(path) != expected: raise RuntimeError(f'immutable binding changed: {path}')
     manifest=json.loads(Path(c['manifest']).read_text())
+    if c['protocol'].get('quiet_lufs_rule'):
+        require_lufs_scans(c['lufs_scan_reports'],c['manifest'])
     groups=list(manifest['calibration'].values())+list(manifest['midi'].values())+list(manifest['table_b'].values())+list(manifest['negmf'].values())
     seen=set()
     for records in groups:
@@ -684,6 +715,7 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--preflight',action='store_true');ap.add_argument('--validate-only',action='store_true')
     ap.add_argument('--part',choices=('a','b','c','d'),help='Must match bound contract; d reuses completed b scores on CPU.')
     ap.add_argument('--scan-lufs',metavar='OUTPUT',help='CPU-only: check every C1/C3 input of this contract under the quiet-LUFS rule.')
+    ap.add_argument('--scan-workers',type=int,default=4,choices=range(1,9),help='Bound CPU scan workers on the shared host (1-8).')
     args=ap.parse_args();c=config()
     if args.part and args.part!=c['part'] and not (args.part=='d' and c['part']=='b'):
         raise RuntimeError('--part must match the immutable contract')
@@ -705,7 +737,7 @@ def main():
         run_d(c,manifest,results,calibration);return
     if args.scan_lufs:
         Path(c['storage']['transient_root']).mkdir(parents=True,exist_ok=True)
-        scan_lufs(c,json.loads(Path(c['manifest']).read_text()),args.scan_lufs);return
+        scan_lufs(c,json.loads(Path(c['manifest']).read_text()),args.scan_lufs,args.scan_workers);return
     if args.preflight:preflight(c);return
     root=Path(c['storage']['path'])
     if args.validate_only:
