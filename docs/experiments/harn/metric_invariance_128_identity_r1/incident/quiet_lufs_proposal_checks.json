@@ -1,0 +1,15 @@
+{
+  "status": "cpu_proposal_checks_passed",
+  "approved": false,
+  "production_applied": false,
+  "gpu_scored": false,
+  "checks": [
+    "finite-LUFS output unchanged",
+    "gain invariance for tone across gate",
+    "zero/NaN/empty rejected",
+    "observed quiet clip reaches -30 LUFS",
+    "observed peak >1 preserved"
+  ],
+  "observed_output_peak": 1.2068989823535656,
+  "risk": "Changes the absolute-gate behavior for nonzero audio below the gate. Amplifies near-silent noise and may change invariance/degradation results. Requires explicit protocol amendment and new contracts."
+}

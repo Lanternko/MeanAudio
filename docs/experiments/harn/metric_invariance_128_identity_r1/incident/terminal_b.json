@@ -1,0 +1,10 @@
+{
+  "notification_receipt": {
+    "event": "held",
+    "path": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_identity_r1/held.json",
+    "status": "held"
+  },
+  "reason": "preflight_invalid",
+  "status": "held",
+  "written_at": "2026-10-17T00:49:55Z"
+}

@@ -1,0 +1,159 @@
+{
+  "status": "audit_passed",
+  "n_a": 400,
+  "chosen": {
+    "CE": {
+      "mode": "C3",
+      "sensitivity_only": true
+    },
+    "CU": {
+      "mode": "C3",
+      "sensitivity_only": true
+    },
+    "PQ": {
+      "mode": "C3",
+      "sensitivity_only": true
+    },
+    "clap": {
+      "mode": "C3",
+      "sensitivity_only": true
+    }
+  },
+  "passing_modes": {
+    "CE": [],
+    "CU": [],
+    "PQ": [],
+    "clap": []
+  },
+  "midi_blastnote_x1": {
+    "C0": {
+      "better": 0.8034825870646766,
+      "mean_delta": 0.15493587830766517,
+      "n": 402,
+      "tie": 0.1890547263681592,
+      "worse": 0.007462686567164179
+    },
+    "C1": {
+      "better": 0.8034825870646766,
+      "mean_delta": 0.15496106171489354,
+      "n": 402,
+      "tie": 0.1890547263681592,
+      "worse": 0.007462686567164179
+    },
+    "C2": {
+      "better": 0.818407960199005,
+      "mean_delta": 0.15479999454460333,
+      "n": 402,
+      "tie": 0.1791044776119403,
+      "worse": 0.0024875621890547263
+    },
+    "C3": {
+      "better": 0.818407960199005,
+      "mean_delta": 0.15482026783388053,
+      "n": 402,
+      "tie": 0.1791044776119403,
+      "worse": 0.0024875621890547263
+    }
+  },
+  "q3_prediction_passed": false,
+  "q3_prediction_passed_excl": false,
+  "fallback_excluded_counts": {
+    "musicgen": 3,
+    "musicldm": 0,
+    "ours_cfg0": 0,
+    "ours_cfg3neg": 0,
+    "real": 0
+  },
+  "decisions_robust_to_fallback": true,
+  "b_identity": {
+    "failed_metrics": [
+      "CU"
+    ],
+    "prefix_n": 192,
+    "tail_n": 8,
+    "metrics": {
+      "PQ": {
+        "max_abs": 0.00904083251953125,
+        "mean_signed": -5.6142807006835935e-05,
+        "prefix_192_max_abs": 0.0,
+        "tail_8_max_abs": 0.00904083251953125,
+        "indices_over_1e4": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199
+        ],
+        "clips_over_registered_max": []
+      },
+      "CE": {
+        "max_abs": 0.0028862953186035156,
+        "mean_signed": -6.39200210571289e-06,
+        "prefix_192_max_abs": 0.0,
+        "tail_8_max_abs": 0.0028862953186035156,
+        "indices_over_1e4": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199
+        ],
+        "clips_over_registered_max": []
+      },
+      "CU": {
+        "max_abs": 0.012890815734863281,
+        "mean_signed": -5.950927734375e-05,
+        "prefix_192_max_abs": 0.0,
+        "tail_8_max_abs": 0.012890815734863281,
+        "indices_over_1e4": [
+          192,
+          193,
+          194,
+          195,
+          197,
+          198,
+          199
+        ],
+        "clips_over_registered_max": [
+          {
+            "index": 193,
+            "id": "0ewQiU3q5jM_30",
+            "diff": -0.012890815734863281
+          }
+        ]
+      },
+      "PC": {
+        "max_abs": 0.0015366077423095703,
+        "mean_signed": -1.7503499984741212e-05,
+        "prefix_192_max_abs": 0.0,
+        "tail_8_max_abs": 0.0015366077423095703,
+        "indices_over_1e4": [
+          192,
+          193,
+          194,
+          195,
+          196,
+          197,
+          198,
+          199
+        ],
+        "clips_over_registered_max": []
+      },
+      "clap": {
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "prefix_192_max_abs": 0.0,
+        "tail_8_max_abs": 0.0,
+        "indices_over_1e4": [],
+        "clips_over_registered_max": []
+      }
+    }
+  },
+  "scientific_scope": "128a completed. No Table B, NegMF or rhythm-stratification conclusion: b failed its identity gate; c held."
+}

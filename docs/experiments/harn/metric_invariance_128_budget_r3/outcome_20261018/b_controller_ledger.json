@@ -1,0 +1,81 @@
+{
+  "document_kind": "resource_owning_preflight_controller_ledger_v1",
+  "events": [
+    {
+      "at": "2026-10-17T09:16:22Z",
+      "details": {
+        "controller_role": "resource_owning_preflight_controller",
+        "p2_job_id": "129_metric_invariance_table_b_budget_r3",
+        "p2_run_id": "129_metric_invariance_table_b_budget_r3-20261017T091620Z",
+        "pid": 1072881
+      },
+      "event": "resource_owner_recorded"
+    },
+    {
+      "at": "2026-10-17T09:16:23Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/disk_warning.json"
+      },
+      "event": "notification_disk_warning_delivered"
+    },
+    {
+      "at": "2026-10-17T09:16:30Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/preflight_pass.json"
+      },
+      "event": "notification_preflight_pass_delivered"
+    },
+    {
+      "at": "2026-10-17T09:16:31Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/queue_handoff.json"
+      },
+      "event": "notification_queue_handoff_delivered"
+    },
+    {
+      "at": "2026-10-17T09:16:31Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/start.json"
+      },
+      "event": "notification_start_delivered"
+    },
+    {
+      "at": "2026-10-17T09:16:31Z",
+      "details": {},
+      "event": "evaluation_child_launch_authorized"
+    },
+    {
+      "at": "2026-10-17T09:16:32Z",
+      "details": {
+        "pid": 1072961,
+        "start_time": "54400696"
+      },
+      "event": "child_started"
+    },
+    {
+      "at": "2026-10-17T09:16:57Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/failure.json"
+      },
+      "event": "notification_failure_delivered"
+    },
+    {
+      "at": "2026-10-17T09:16:57Z",
+      "details": {
+        "event": "failure",
+        "path": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/failure.json",
+        "status": "failure"
+      },
+      "event": "terminal_notification_delivered"
+    },
+    {
+      "at": "2026-10-17T09:16:57Z",
+      "details": {
+        "status": "failed"
+      },
+      "event": "terminal_json_committed"
+    }
+  ],
+  "experiment_id": "metric-invariance-128b-20261017_budget_r3",
+  "run_id": "run-20261017-129-metric-invariance_budget_r3"
+}

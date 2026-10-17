@@ -1,0 +1,86 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "03080c0cc6d4fd075445a8c90ffe018b38c5c9c637c0f1c18fb856aa565cbe00",
+      "contract_raw_sha256": "f90841c6ab1399a2cf90d76cd7f8e805329a8f3fcb90c4e3fbb83924d33e4dd5",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-chat-run-20261018-129-metric-invariance_nvme_r5",
+    "channel_record_sha256": "d4c211fdbbf4bb91314ab62184e641917fc3fd2fddfa78b842ed2f2a168aee1d",
+    "evidence_id": "operator-start-run-20261018-129-metric-invariance_nvme_r5",
+    "experiment_id": "metric-invariance-128b-20261017_nvme_r5",
+    "expires_at": "2026-10-24T17:37:15.499884+00:00",
+    "issued_at": "2026-10-17T17:37:15.499884+00:00",
+    "run_id": "run-20261018-129-metric-invariance_nvme_r5",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "9f9295d1edec59ff9c96220936e3159c2effd8a4c5559224f105e7c234d5fcfb",
+      "observed_at": "2026-10-17T17:37:15.499884+00:00",
+      "valid_until": "2026-10-24T17:37:15.499884+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "9f9295d1edec59ff9c96220936e3159c2effd8a4c5559224f105e7c234d5fcfb",
+      "observed_at": "2026-10-17T17:37:15.499884+00:00",
+      "valid_until": "2026-10-24T17:37:15.499884+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "9f9295d1edec59ff9c96220936e3159c2effd8a4c5559224f105e7c234d5fcfb",
+      "observed_at": "2026-10-17T17:37:15.499884+00:00",
+      "valid_until": "2026-10-24T17:37:15.499884+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "e41e6870cd8df817513e38fc00378c68a85d8687d24e0a08bb50ef3c4b15be5e",
+      "observed_at": "2026-10-17T17:37:15.499884+00:00",
+      "valid_until": "2026-10-24T17:37:15.499884+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "9f9295d1edec59ff9c96220936e3159c2effd8a4c5559224f105e7c234d5fcfb",
+      "observed_at": "2026-10-17T17:37:15.499884+00:00",
+      "valid_until": "2026-10-24T17:37:15.499884+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "e41e6870cd8df817513e38fc00378c68a85d8687d24e0a08bb50ef3c4b15be5e",
+      "observed_at": "2026-10-17T17:37:15.499884+00:00",
+      "valid_until": "2026-10-24T17:37:15.499884+00:00",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "f90841c6ab1399a2cf90d76cd7f8e805329a8f3fcb90c4e3fbb83924d33e4dd5",
+  "created_at": "2026-10-17T17:37:15.499884+00:00",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "metric-invariance-128b-20261017_nvme_r5",
+  "run_id": "run-20261018-129-metric-invariance_nvme_r5",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 64157732864,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-17T17:37:15.499884+00:00",
+      "path": "/home/kojiek/MeanAudio",
+      "peak_additional_bytes": 7516192768,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 104857600,
+      "verdict": "pass"
+    }
+  ]
+}
