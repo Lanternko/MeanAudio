@@ -22,7 +22,8 @@ import metric_invariance_128_guest as G
 class ScientificGates(unittest.TestCase):
     def test_members_preserve_length_sign_and_truncation(self):
         x=np.linspace(-.2,.3,16000)
-        ys=M.members(x,16000,'C2')
+        ys,fallback=M.members(x,16000,'C2')
+        self.assertFalse(fallback)
         self.assertEqual([len(y) for y in ys],[16000]*4)
         np.testing.assert_array_equal(ys[0],x)
         np.testing.assert_array_equal(ys[1][:640],0)
@@ -31,14 +32,32 @@ class ScientificGates(unittest.TestCase):
     def test_normalization_does_not_limit_peak(self):
         import pyloudnorm
         sr=16000;x=np.zeros(sr*10);x[100]=1.
-        y=M.normalize(x,sr)
+        y,fallback=M.normalize(x,sr)
+        self.assertFalse(fallback)
         self.assertAlmostEqual(pyloudnorm.Meter(sr).integrated_loudness(y),-30,places=8)
         self.assertGreater(float(np.max(np.abs(y))),1.)
         # Positive homogeneity is the gain-invariance construction.
-        np.testing.assert_allclose(M.normalize(x*10,sr),y,atol=1e-12)
+        np.testing.assert_allclose(M.normalize(x*10,sr)[0],y,atol=1e-12)
 
     def test_silent_normalization_fails_closed(self):
         with self.assertRaises(ValueError):M.normalize(np.zeros(16000),16000)
+        for bad in (np.array([]),np.full(16000,np.nan)):
+            with self.assertRaises(ValueError):M.normalize(bad,16000)
+
+    def test_quiet_lufs_fallback_amendment(self):
+        import pyloudnorm
+        sr=16000;t=np.arange(sr*10)/sr
+        tone=.1*np.sin(2*np.pi*440*t)
+        ref,fb=M.normalize(tone,sr);self.assertFalse(fb)
+        # Below the -70 LUFS absolute gate: standard LUFS is -inf, fallback measures at unit peak.
+        quiet=tone*1e-4
+        self.assertEqual(pyloudnorm.Meter(sr).integrated_loudness(quiet),-np.inf)
+        y,fb=M.normalize(quiet,sr);self.assertTrue(fb)
+        self.assertAlmostEqual(pyloudnorm.Meter(sr).integrated_loudness(y),-30,places=8)
+        np.testing.assert_allclose(y,ref,atol=1e-9)  # same waveform shape -> same canonical audio
+        views,fb=M.members(quiet,sr,'C3');self.assertTrue(fb);self.assertEqual(len(views),4)
+        u={'ids':np.array(['a','b','c']),'lufs_fallback':np.array([False,True,False])}
+        self.assertEqual(M.fallback_ids(u,{'ids':np.array(['c'])},{'ids':np.array(['c']),'lufs_fallback':np.array([True])}),{'b','c'})
 
     def test_preparation_failure_drains_writers_before_cleanup(self):
         with tempfile.TemporaryDirectory() as td:
@@ -103,6 +122,37 @@ class ScientificGates(unittest.TestCase):
             cells[mode]['real']['PQ']['polarity']['n']=0
         self.assertTrue(M.select_modes(cells)['chosen']['PQ']['sensitivity_only'])
         self.assertEqual(M.select_modes(cells)['chosen']['PQ']['mode'],'C3')
+
+    def test_calibration_reports_lufs_fallback_sensitivity(self):
+        n=5;ids=[f'x{k}' for k in range(n)]
+        recs=[{'id':i} for i in ids]
+        def unit(group,system,variant,mode,records):
+            base=np.full((len(records),len(M.METRICS)),7.)
+            name=variant.replace('source_','') if group=='midi' else variant
+            if name in M.TIES or name in ('clean','clean_shuf','source'):d=0.
+            else:d=-1.
+            vals=base+d
+            fb=np.array([r['id']=='x0' and mode in ('C1','C3') and system in ('real','generaluser') for r in records])
+            if fb.any():vals[fb]+=5.  # the fallback clip disagrees; excluding it must change counts only
+            return ({'ids':np.array([r['id'] for r in records]),'values':vals,'sd':np.zeros_like(vals),
+                     'variant_capped':np.zeros(len(records),bool),'lufs_fallback':fb},{})
+        with tempfile.TemporaryDirectory() as td:
+            root=Path(td);(root/'smoke.json').write_text(json.dumps({'selected_n':n}))
+            manifest={'calibration':{s:recs for s in M.A.SYSTEMS},
+                      'midi':{case:recs for case in M.MIDI_CASES},
+                      'midi_reference':{i:{'PQ':7.} for i in ids},
+                      'margins':{m:.1 for m in M.METRICS}}
+            scorer=MagicMock();scorer.unit.side_effect=unit
+            with patch.object(M,'notify'):M.run_a({'storage':{'path':td}},scorer,manifest)
+            out=json.loads((root/'summary.json').read_text())
+        sens=out['lufs_fallback_sensitivity']
+        self.assertEqual(sens['excluded_ids']['real'],['x0'])
+        self.assertEqual(sens['excluded_counts']['musicgen'],0)
+        self.assertEqual(sens['midi_excluded_ids'],['x0'])
+        self.assertEqual(out['cells']['C1']['real']['PQ']['gain-1']['n'],n)
+        self.assertEqual(sens['cells']['C1']['real']['PQ']['gain-1']['n'],n-1)
+        self.assertEqual(sens['cells']['C0']['real']['PQ']['gain-1']['n'],n-1)  # same cohort in every mode
+        self.assertIn('robust_to_lufs_fallback',sens)
 
     def test_seed_readjudication(self):
         rates=[{'better':.8,'worse':.1}]*3

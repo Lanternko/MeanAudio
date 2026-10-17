@@ -27,3 +27,8 @@
 `docs/experiments/harn/metric_invariance_128_identity_r1/incident/` 保存 LUFS audit、fresh C0 done、terminal 三份、supervisor snapshot、host log、收據驗證、CPU 候選證據及清理修正測試輸出。`scripts/analysis/audit_metric_invariance_128_lufs.py` 可在主機重現 250 段 CPU 量測及 fresh C0 檢查，不呼叫 GPU 模型。
 
 NVMe 約 59 GiB 可用，高於 50 GiB hard floor、低於 60 GiB warning floor；容量警告已送達，停止原因為 LUFS，不是磁碟。約 21 小時仍是未由完整 smoke 驗證的原估計。
+
+## 後續：使用者同意（2026-10-17）
+
+使用者同意採用上述替代規則，並加兩個條件：所有結論在去掉替代規則段落後重算一次，翻轉就報不穩健；開跑前用 CPU 全量掃描三份 contract 的 C1／C3 輸入。已實作於 `scripts/eval/metric_invariance_128.py`，規則與條件見設計 doc §11 與 `harn/metric_invariance_128/quiet_lufs_amendment_20261017.json`。正式重跑需新 contract 與新 run。
+

@@ -170,3 +170,28 @@ CLAP 的優勢**剛好等於** 126 定的平手容許量，而 CLAP 只要開頭
 - 尾批次補齊候選 `3b1ead4` 變成可選，不是重跑的前提。
 - 紀錄：`harn/metric_invariance_128/identity_gate_amendment_20261017.json`；程式 `check_c0()`、`register_metric_invariance_128.py` 的 `identity_gate`、測試 `test_identity_gate_amendment`。
 
+## 11. 近靜音 LUFS amendment（2026-10-17，使用者同意）
+
+`identity_r1` 通過新身分閘後，C1 在 MusicGen `RDCXvJPzT5k_520` 停下：峰值 0.0033、RMS 1.07e-4，不是全零，但每個量測區塊都低於 integrated LUFS 的絕對閘，pyloudnorm 回傳 −∞。§9 規定這種情況整個 run invalid（事件紀錄 `results/metric_invariance_128_identity_r1_20261017.md`）。
+
+**規則**（只改 C1／C3 的正規化）：
+
+| 音訊 | 處理 |
+|---|---|
+| LUFS 量得到 | 不變：縮放到 −30 LUFS，不 limiting |
+| 非全零、有限值，但 LUFS = −∞ | 先除以峰值再量 LUFS，然後縮放到 −30 LUFS，不 limiting；該段在每個 score unit 標記 `lufs_fallback` |
+| 全零、空檔、含 NaN／Inf、峰值縮放後仍量不到 | 仍 invalid，run 失敗；不排除、不以 raw 代替 |
+
+**條件 1：敏感度分析（在任何 128 結果產生前登錄）**
+- 128a：把在任一 C1／C3 unit 用到替代規則的 ID，從四個方案的所有格一起拿掉（同一批段落），重做 C\* 選擇與 Q3（blastnote）判讀。任何 C\* 或 Q3 改變 → `robust_to_lufs_fallback = false`。
+- 128b／128c：每個 K 結論在「去掉任一邊用到替代規則的配對」下重判；判定不同 → 該結論 `robust_to_lufs_fallback = false`。
+- 不穩健的判定照實報告，不當作 128 的結論。替代規則的段數與 ID 一律報告。只重算既有分數，不多跑 GPU。
+
+**條件 2：開跑前 CPU 全量掃描**
+- `metric_invariance_128.py --scan-lufs <out.json>`，在 128a／128b／128c 三份 contract 下各跑一次：128a 涵蓋最大 N_a 候選以內的校準段 × 35 個變體與全部 MIDI case；128b／128c 涵蓋每格全部 clean 段。
+- 有任何段在新規則下仍 invalid → 掃描失敗，不開 GPU。三份都通過才登錄並開跑；報告寫出替代規則的段數與 ID。
+
+- 偏誤風險：規則在看到失敗後、128 任何科學結果之前訂定；觀察到的那段會被放大約 50 dB，評的是被放大的底噪。條件 1 用來限制它對結論的影響。
+- 紀錄：`harn/metric_invariance_128/quiet_lufs_amendment_20261017.json`；程式 `normalize()`、`fallback_ids()`、`scan_lufs()`，以及 `run_a()`／`score_cells()` 的 `lufs_fallback_sensitivity`／`*_excl` 欄位；測試 `test_quiet_lufs_fallback_amendment`、`test_calibration_reports_lufs_fallback_sensitivity`。
+- 重跑要用新的 source hash、重新登錄 contract、新的 run id；`identity_r1` 與其紀錄保留不動。
+

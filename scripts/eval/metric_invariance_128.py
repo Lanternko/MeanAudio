@@ -103,33 +103,57 @@ def storage(c):
 
 
 def normalize(x, sr):
+    """-30 LUFS without limiting. Returns (y, used_fallback).
+
+    Amendment 2026-10-17 (harn/metric_invariance_128/quiet_lufs_amendment_20261017.json):
+    nonzero finite audio whose integrated LUFS is -inf (every block under the absolute
+    gate) is measured at unit peak, then scaled to -30 LUFS. Finite-LUFS audio is
+    unchanged; zero / empty / nonfinite / still-undefined audio stays invalid.
+    """
     import pyloudnorm
-    level = float(pyloudnorm.Meter(sr).integrated_loudness(x))
+    if not x.size or not np.isfinite(x).all():
+        raise ValueError('C1/C3 empty or nonfinite audio')
+    peak = float(np.max(np.abs(x)))
+    if peak == 0:
+        raise ValueError('C1/C3 digital silence: LUFS undefined, refuse substituting raw audio')
+    meter = pyloudnorm.Meter(sr)
+    level, fallback = float(meter.integrated_loudness(x)), False
+    if level == -math.inf:
+        x, fallback = x / peak, True
+        level = float(meter.integrated_loudness(x))
     if not math.isfinite(level):
-        raise ValueError('C1/C3 LUFS undefined; refuse silently substituting raw audio')
+        raise ValueError('C1/C3 LUFS undefined even at unit peak; refuse substituting raw audio')
     y = x * 10 ** ((-30.0 - level) / 20)
     if not np.isfinite(y).all():
         raise ValueError('nonfinite canonicalized audio')
-    return y
+    return y, fallback
 
 
 def members(x, sr, mode):
-    y = normalize(x, sr) if mode in ('C1', 'C3') else x
+    """Scoring views for one clip. Returns (views, used_lufs_fallback)."""
+    fallback = False
+    y = x
+    if mode in ('C1', 'C3'):
+        y, fallback = normalize(x, sr)
     if mode in ('C0', 'C1'):
-        return [y]
+        return [y], fallback
     n = len(y)
     return [np.pad(y[:n-k] if k else y, (k, 0)) * sign
             for ms, sign in ((0, 1), (40, -1), (80, 1), (120, -1))
-            for k in [int(sr * ms / 1000)]]
+            for k in [int(sr * ms / 1000)]], fallback
 
 
-def prepare_one(job):
-    """One source -> exact historical variant quantization -> scoring views.
+def fallback_ids(*units):
+    """IDs whose C1/C3 view used the quiet-LUFS fallback in any of these score units."""
+    out = set()
+    for u in units:
+        if 'lufs_fallback' in u:
+            out |= {str(i) for i, f in zip(u['ids'], u['lufs_fallback']) if f}
+    return out
 
-    WAV/FLOAT containers with .flac names preserve >0 dBFS C1/C3 samples. The
-    existing file-based scorers sniff the container; no limiter or integer clip.
-    """
-    rec, system, variant, mode, tmp = job
+
+def variant_audio(rec, system, variant, tmp):
+    """Hash-checked source -> exact historical variant audio (126a transform + quantization)."""
     src, ident = Path(rec['path']), rec['id']
     if sha(src) != rec['sha256']:
         raise ValueError(f'input hash changed: {src}')
@@ -151,12 +175,25 @@ def prepare_one(job):
         buf = io.BytesIO()
         sf.write(buf, y, sr, format='FLAC', subtype=var['subtype'])
         buf.seek(0); x, sr = sf.read(buf, dtype='float64')
+    return x, sr, over, variant_capped, ident
+
+
+def prepare_one(job):
+    """One source -> exact historical variant quantization -> scoring views.
+
+    WAV/FLOAT containers with .flac names preserve >0 dBFS C1/C3 samples. The
+    existing file-based scorers sniff the container; no limiter or integer clip.
+    """
+    rec, system, variant, mode, tmp = job
+    x, sr, over, variant_capped, ident = variant_audio(rec, system, variant, tmp)
     paths, peaks = [], []
-    for k, y in enumerate(members(x, sr, mode)):
+    views, fallback = members(x, sr, mode)
+    for k, y in enumerate(views):
         p = Path(tmp) / f'{ident}__e{k}.flac'
         sf.write(p, y, sr, format='WAV', subtype='FLOAT')
         paths.append(str(p)); peaks.append(float(np.max(np.abs(y))))
-    return {'id': ident, 'paths': paths, 'over_fs': over, 'peaks': peaks,'variant_capped':variant_capped}
+    return {'id': ident, 'paths': paths, 'over_fs': over, 'peaks': peaks,'variant_capped':variant_capped,
+            'lufs_fallback': fallback}
 
 
 class Scorer:
@@ -248,6 +285,7 @@ class Scorer:
             out = {'ids': np.array([r['id'] for r in records]), 'values': np.array(values),
                    'sd': np.array(deviations), 'over_fs': np.array([d['over_fs'] for d in prepared]),
                    'variant_capped':np.array([d['variant_capped'] for d in prepared]),
+                   'lufs_fallback':np.array([d['lufs_fallback'] for d in prepared]),
                    'peak': np.array([max(d['peaks']) for d in prepared])}
             scratch = directory / 'scores.tmp.npz'
             np.savez(scratch, **out); os.replace(scratch, score_path)
@@ -374,41 +412,77 @@ def run_a(c, scorer, manifest):
         notify(c, 'smoke_budget_invalid', '128a: no registered N in {1000,600,400} fits 7h; no calibration promoted.', 'held')
         raise RuntimeError('registered smoke budget gate failed')
     notify(c, 'smoke_pass', f"128a C0 identity passed; frozen N_a={smoke['selected_n']}; starting calibration.")
-    cells, clean_means = {}, {}
     n = smoke['selected_n']
+    raw_units = {mode: {} for mode in MODES}
     for mode in MODES:
-        cells[mode], clean_means[mode] = {}, {}
         for system, all_records in manifest['calibration'].items():
             records = all_records[:n]
-            raw = {}
-            for variant in VARIANTS:
-                raw[variant], _ = scorer.unit('calibration', system, variant, mode, records)
-            clean = raw['clean']['values']
-            clean_means[mode][system] = [None if not np.isfinite(v) else float(v) for v in clean.mean(0)]
-            cells[mode][system] = {}
-            for metric in JUDGED:
-                if metric == 'clap' and mode == 'C1': continue
-                j = METRICS.index(metric); margin = manifest['margins'][metric]
-                cells[mode][system][metric] = {}
-                for variant, got in raw.items():
-                    keep = np.ones(n, dtype=bool)
-                    if variant.startswith('gain+'):
-                        keep = ~got['variant_capped']
-                    cells[mode][system][metric][variant] = rates((got['values'][:, j]-clean[:, j])[keep], margin) if keep.any() else {'n': 0, 'tie': 0., 'better': 0., 'worse': 0., 'mean_delta': 0.}
-    midi = {}
+            raw_units[mode][system] = {variant: scorer.unit('calibration', system, variant, mode, records)[0]
+                                       for variant in VARIANTS}
+    excluded = {system: sorted(fallback_ids(*[raw_units[m][system][v] for m in ('C1', 'C3') for v in VARIANTS]))
+                for system in manifest['calibration']}
+
+    def build(drop):
+        cells, clean_means = {}, {}
+        for mode in MODES:
+            cells[mode], clean_means[mode] = {}, {}
+            for system, raw in raw_units[mode].items():
+                clean = raw['clean']['values']
+                base = np.array([str(i) not in drop.get(system, ()) for i in raw['clean']['ids']])
+                clean_means[mode][system] = [None if not np.isfinite(v) else float(v) for v in clean[base].mean(0)]
+                cells[mode][system] = {}
+                for metric in JUDGED:
+                    if metric == 'clap' and mode == 'C1': continue
+                    j = METRICS.index(metric); margin = manifest['margins'][metric]
+                    cells[mode][system][metric] = {}
+                    for variant, got in raw.items():
+                        if list(got['ids']) != list(raw['clean']['ids']): raise RuntimeError('calibration pairs not aligned')
+                        keep = base.copy()
+                        if variant.startswith('gain+'):
+                            keep &= ~got['variant_capped']
+                        cells[mode][system][metric][variant] = rates((got['values'][:, j]-clean[:, j])[keep], margin) if keep.any() else {'n': 0, 'tie': 0., 'better': 0., 'worse': 0., 'mean_delta': 0.}
+        return cells, clean_means
+
+    cells, clean_means = build({})
+    cells_excl, _ = build(excluded)
+    midi_units = {}
     for mode in MODES:
-        midi[mode] = {}
         clean, _ = scorer.unit('midi', 'generaluser', 'source', mode, manifest['midi']['clean'])
         if mode == 'C0':
             refs = manifest['midi_reference']
             check_c0(clean, refs, ('PQ',))
-        for case in MIDI_CASES:
-            got = clean if case == 'clean' else scorer.unit('midi', 'generaluser', 'source_'+case, mode, manifest['midi'][case])[0]
-            if list(got['ids']) != list(clean['ids']): raise RuntimeError('MIDI pairs not aligned')
-            midi[mode][case] = rates(got['values'][:, 0]-clean['values'][:, 0], manifest['margins']['PQ'])
+        midi_units[mode] = {case: clean if case == 'clean' else
+                            scorer.unit('midi', 'generaluser', 'source_'+case, mode, manifest['midi'][case])[0]
+                            for case in MIDI_CASES}
+    midi_drop = fallback_ids(*[midi_units[m][case] for m in ('C1', 'C3') for case in MIDI_CASES])
+
+    def midi_rates(drop):
+        out = {}
+        for mode in MODES:
+            out[mode] = {}
+            clean = midi_units[mode]['clean']
+            keep = np.array([str(i) not in drop for i in clean['ids']])
+            for case in MIDI_CASES:
+                got = midi_units[mode][case]
+                if list(got['ids']) != list(clean['ids']): raise RuntimeError('MIDI pairs not aligned')
+                out[mode][case] = rates((got['values'][:, 0]-clean['values'][:, 0])[keep], manifest['margins']['PQ'])
+        return out
+
+    midi, midi_excl = midi_rates(set()), midi_rates(midi_drop)
+    chosen, chosen_excl = select_modes(cells), select_modes(cells_excl)
+    q3, q3_excl = midi['C1']['blastnote_x1']['better'] < .5, midi_excl['C1']['blastnote_x1']['better'] < .5
+    sensitivity = {
+        'rule': 'Same analysis without every id that used the quiet-LUFS fallback in any C1/C3 unit (all modes, both pair members). Any changed decision is reported as not robust to the fallback.',
+        'excluded_ids': excluded, 'excluded_counts': {s_: len(v) for s_, v in excluded.items()},
+        'midi_excluded_ids': sorted(midi_drop),
+        'cells': cells_excl, 'midi_pq': midi_excl, **{k+'_excl': v for k, v in chosen_excl.items()},
+        'q3_prediction_passed': q3,
+        'chosen_changed': {m: chosen['chosen'][m] != chosen_excl['chosen'][m] for m in JUDGED},
+        'q3_changed': q3 != q3_excl}
+    sensitivity['robust_to_lufs_fallback'] = not any(sensitivity['chosen_changed'].values()) and not sensitivity['q3_changed']
     result = {'status': 'completed', 'n_a': n, 'margins': manifest['margins'], 'cells': cells,
-              'midi_pq': midi, 'clean_means': clean_means, **select_modes(cells),
-              'q3_prediction_passed': midi['C1']['blastnote_x1']['better'] < .5}
+              'midi_pq': midi, 'clean_means': clean_means, **chosen,
+              'q3_prediction_passed': q3, 'lufs_fallback_sensitivity': sensitivity}
     write(root / 'summary.json', result)
     notify(c, 'calibration_gate', '128a calibration complete; per-metric C* and sensitivity-only fallbacks persisted. 129 must verify this report before re-adjudication.')
 
@@ -451,21 +525,26 @@ def score_cells(c, scorer, manifest, part):
         else:
             chunks = [scorer.unit('table',name,f'chunk{k:05d}','C0',records[k:k+1000])[0] for k in range(0,len(records),1000)]
             results[name]['C0'] = {key: np.concatenate([z[key] for z in chunks]) for key in chunks[0]}
+    dropped = {name: fallback_ids(*[results[name][m] for m in ('C1', 'C3')]) for name in cells}
     for claim, metric, ours, baseline in manifest['claims'][part]:
         choice = calibration['chosen'][metric]; mode = choice['mode']; j = METRICS.index(metric)
-        deltas, comparisons, noise = [], [], []
-        for arm, base in zip(ours, baseline):
-            x, y = results[arm][mode], results[base][mode]
-            yi = {str(i): k for k, i in enumerate(y['ids'])}
-            pairs = [(k, yi[str(i)]) for k,i in enumerate(x['ids']) if str(i) in yi]
-            a,b = np.array(pairs).T
-            delta = x['values'][a,j]-y['values'][b,j]
-            combined = np.sqrt(results[arm]['C2']['sd'][a,j]**2+results[base]['C2']['sd'][b,j]**2)
-            deltas.append(float(delta.mean())); comparisons.append(rates(delta,manifest['margins'][metric]))
-            noise.append(float(np.mean(np.abs(delta)>2*combined)))
-        reports[claim] = {'metric':metric,'mode':mode,'sensitivity_only':choice['sensitivity_only'],
-            'deltas':deltas,'paired':comparisons,'above_2sd_fraction':noise,
-            'verdict':conclusion(deltas,comparisons,manifest['margins'][metric])}
+        report = {'metric':metric,'mode':mode,'sensitivity_only':choice['sensitivity_only']}
+        for tag, use_drop in (('', False), ('_excl', True)):
+            deltas, comparisons, noise, n_pairs = [], [], [], []
+            for arm, base in zip(ours, baseline):
+                x, y = results[arm][mode], results[base][mode]
+                skip = (dropped[arm] | dropped[base]) if use_drop else set()
+                yi = {str(i): k for k, i in enumerate(y['ids'])}
+                pairs = [(k, yi[str(i)]) for k,i in enumerate(x['ids']) if str(i) in yi and str(i) not in skip]
+                a,b = np.array(pairs).T
+                delta = x['values'][a,j]-y['values'][b,j]
+                combined = np.sqrt(results[arm]['C2']['sd'][a,j]**2+results[base]['C2']['sd'][b,j]**2)
+                deltas.append(float(delta.mean())); comparisons.append(rates(delta,manifest['margins'][metric]))
+                noise.append(float(np.mean(np.abs(delta)>2*combined))); n_pairs.append(len(pairs))
+            report.update({'deltas'+tag:deltas,'paired'+tag:comparisons,'above_2sd_fraction'+tag:noise,
+                           'n_pairs'+tag:n_pairs,'verdict'+tag:conclusion(deltas,comparisons,manifest['margins'][metric])})
+        report['robust_to_lufs_fallback'] = report['verdict'] == report['verdict_excl']
+        reports[claim] = report
     rankings = {}
     from scipy.stats import kendalltau
     for metric in ('PQ','clap'):
@@ -475,6 +554,7 @@ def score_cells(c, scorer, manifest, part):
         tau=float(kendalltau(x,y).statistic)
         rankings[metric]={'C0':dict(zip(cells,x)), 'Cstar':dict(zip(cells,y)), 'kendall_tau':tau if math.isfinite(tau) else None}
     write(root/'summary.json', {'status':'completed','part':part,'claims':reports,'rankings':rankings,
+          'lufs_fallback_ids':{name:sorted(v) for name,v in dropped.items()},
           'calibration_sha256':sha(c['calibration_summary']),
           'c2_ensemble_sd_means':{name:{metric:float(results[name]['C2']['sd'][:,METRICS.index(metric)].mean())
                                      for metric in ('PQ','CE','CU','PC','clap')} for name in cells}})
@@ -522,6 +602,48 @@ def run_d(c, manifest, results, calibration):
           'floor_like_outputs':floor_like,'floor_entropy_range':[low,high]})
 
 
+def scan_one(job):
+    rec, system, variant, tmp = job
+    x, sr, _, _, ident = variant_audio(rec, system, variant, tmp)
+    try:
+        _, fallback = normalize(x, sr)
+        return system, variant, ident, 'fallback' if fallback else 'ok', None
+    except ValueError as e:
+        return system, variant, ident, 'invalid', str(e)
+
+
+def scan_lufs(c, manifest, output):
+    """CPU preflight: every C1/C3 input this contract will score, before any GPU work."""
+    jobs = []
+    if c['part'] == 'a':
+        n = max(c.get('protocol', {}).get('n_a_candidates', [1000]))  # superset of any frozen N_a
+        for system, records in manifest['calibration'].items():
+            jobs += [(r, system, v, None) for r in records[:n] for v in VARIANTS]
+        jobs += [(r, 'generaluser', 'source', None) for case in MIDI_CASES for r in manifest['midi'][case]]
+    else:
+        cells = manifest['table_b'] if c['part'] == 'b' else manifest['negmf']
+        # score_cells passes chunk names, which are not 126a variants: no transform, as here.
+        jobs += [(r, name, 'table', None) for name, records in cells.items() for r in records]
+    tmp = Path(tempfile.mkdtemp(prefix='lufs-scan-', dir=c['storage']['transient_root']))
+    try:
+        jobs = [(r, s_, v, str(tmp)) for r, s_, v, _ in jobs]
+        with ProcessPoolExecutor(max_workers=os.cpu_count() or 4, mp_context=mp.get_context('spawn')) as pool:
+            rows = list(pool.map(scan_one, jobs, chunksize=64))
+    finally:
+        shutil.rmtree(tmp)
+    fallback = sorted({(s_, v, i) for s_, v, i, k, _ in rows if k == 'fallback'})
+    invalid = [{'system': s_, 'variant': v, 'id': i, 'error': e} for s_, v, i, k, e in rows if k == 'invalid']
+    report = {'part': c['part'], 'n_checked': len(rows), 'n_fallback': len(fallback),
+              'fallback_ids_by_system': {s_: sorted({i for x, _, i in fallback if x == s_}) for s_ in {x for x, _, _ in fallback}},
+              'fallback': [{'system': s_, 'variant': v, 'id': i} for s_, v, i in fallback],
+              'n_invalid': len(invalid), 'invalid': invalid,
+              'status': 'passed' if not invalid else 'failed'}
+    write(Path(output), report)
+    print(json.dumps({k: report[k] for k in ('part', 'n_checked', 'n_fallback', 'n_invalid', 'status')}), flush=True)
+    if invalid:
+        raise SystemExit('LUFS scan: audio that stays invalid under the amended rule; see report')
+
+
 def preflight(c):
     storage(c)
     for path, expected in c['immutable_files'].items():
@@ -561,6 +683,7 @@ def preflight(c):
 def main():
     ap=argparse.ArgumentParser();ap.add_argument('--preflight',action='store_true');ap.add_argument('--validate-only',action='store_true')
     ap.add_argument('--part',choices=('a','b','c','d'),help='Must match bound contract; d reuses completed b scores on CPU.')
+    ap.add_argument('--scan-lufs',metavar='OUTPUT',help='CPU-only: check every C1/C3 input of this contract under the quiet-LUFS rule.')
     args=ap.parse_args();c=config()
     if args.part and args.part!=c['part'] and not (args.part=='d' and c['part']=='b'):
         raise RuntimeError('--part must match the immutable contract')
@@ -580,6 +703,9 @@ def main():
                     with np.load(d/'scores.npz') as z:chunks.append({key:z[key] for key in z.files})
                 results[name][mode]={key:np.concatenate([z[key] for z in chunks]) for key in chunks[0]}
         run_d(c,manifest,results,calibration);return
+    if args.scan_lufs:
+        Path(c['storage']['transient_root']).mkdir(parents=True,exist_ok=True)
+        scan_lufs(c,json.loads(Path(c['manifest']).read_text()),args.scan_lufs);return
     if args.preflight:preflight(c);return
     root=Path(c['storage']['path'])
     if args.validate_only:
