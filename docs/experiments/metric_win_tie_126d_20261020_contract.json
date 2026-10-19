@@ -1,0 +1,107 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "metric-win-tie-126d-songeval-20261020",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "132_metric_win_tie_songeval.sh",
+ "queue_role": "p2",
+ "dependencies": [
+  "metric-win-tie-126c-musdb-20261019 (126c stimuli at /home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/stimuli/)",
+  "metric-win-tie-126b (126b stimuli at /home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/stimuli/)",
+  "metric-win-tie-126a (R115 source audio at /home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/)"
+ ],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-20",
+  "text": "Score all 126c/126b/126a stimuli with SongEval (MuQ-large backbone, 5 aesthetic dims), run Part B clean-detune-control and karaoke-LUFS comparison, analyze win/tie/lose pass rates against preregistered criteria."
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "SongEval scoring (5 dims: se_coh/se_mem/se_nat/se_cla/se_mus) of 126c (36,366 FLACs), 126b (87,653 FLACs), 126a (53 variants × 5 systems × 5,131 clips generated on-the-fly from R115 + transform), Part B1 (detune control: rubberband +50c/-50c vs +100c/-50c vs +100c/-100c on MUSDB vocals), Part B2 (karaoke 12 songs at -30 LUFS vs original LUFS, demucs removal deltas); win/tie/lose analysis against m=0.10*S threshold; S_i = range of clean means across 5 TTM systems; pass=80%; NVMe peak < 500 MB extra; wall time < 10.5 h. No generation, no training."
+ },
+ "question": "Does SongEval (trained on musicality judgements of AI-generated songs) pass the two-criteria requirement — detect clearly-worse edits (lose) and judge tie on unimportant differences — in the same cases where AES/MEva/CLAP/MIR all failed?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_win_tie_126d_songeval_20261020.md",
+ "fixed_protocol": {
+  "stimuli_126c": "/home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/stimuli/audio/**/*.flac (36,366 files)",
+  "stimuli_126b": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/stimuli/audio/**/*.flac (87,653 files)",
+  "stimuli_126a": "generated on-the-fly: R115/{system}/lvl30/audio/{id}.flac → transform → 24kHz; 5131 clips × 53 variants × 5 systems",
+  "songeval": "ASLP-lab/SongEval commit 848fb2ff3a2a9d64dcb20d46f07238c28abd7add; ckpt sha256 0cb1eb8be02b96e9949ca3a2b66997c5ac7d9da3567240df4dbfc2048eb98efd; MuQ revision 0562a57814f6f8bbd9fdea0a25921a2fce1a841a",
+  "scoring": "24kHz input (librosa.resample), batch_size=16, deterministic (same clip scored twice: diff=0.00e+00), batch sensitivity bs=1 vs bs=16: 1.41e-4 (acceptable)",
+  "judgment": "d = score(case) - score(clean_base, same clip or window); tie if |d| <= m, m = 0.10*S_i; S_i = max_sys(mean_i) - min_sys(mean_i) for i in {coh,mem,nat,cla,mus}; pass = 80% of pairs; S computed from Part A-3 clean unit results",
+  "identity_gate": "rescore ~200 126b clips with AES PQ, compare to stored scores.tsv; max allowed diff 1e-3",
+  "n_clips_126a_per_system": 5131,
+  "output_126c": "{OUT}/126c_songeval.tsv (key, se_coh, se_mem, se_nat, se_cla, se_mus)",
+  "output_126b": "{OUT}/126b_songeval.tsv",
+  "output_126a": "{OUT}/126a/{vname}/{system}/songeval.tsv",
+  "output_s_values": "{OUT}/s_values.json",
+  "output_partb1": "{OUT}/partb1_detune_control_songeval.tsv",
+  "output_partb2": "{OUT}/partb2_karaoke_lufs.tsv"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126d_20261020",
+  "min_free_bytes": 5368709120
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/metric_win_tie_126d_20261020/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/metric_win_tie_126d_20261020/pause_progress.json",
+  "note": "TSV-level autoresume: if 126c_songeval.tsv / 126b_songeval.tsv already exist and have the right number of rows, skip those parts; 126a unit-level: if {vname}/{system}/songeval.tsv exists with correct rows, skip"
+ },
+ "watcher": {
+  "stall_seconds": 10800
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/metric_win_tie_126d_summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/132_metric_win_tie_songeval.sh",
+  "launcher_sha256": "e2ada642a6a4aadedb17f8abbe58a02a456b626a9b1d1156ab182c8a4b378942",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+  "action_sha256": "3210fa93f202ac5580d8a42cc0ff007d5aa08c7e577a4530f50e9b5597d8d487",
+  "action_dep_126a": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py",
+  "action_dep_126a_sha256": "1838b508c4583e42b27d877db9a4471016009799553ad884ee70e3ef89bbc6b7",
+  "action_dep_126b": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126b.py",
+  "action_dep_126b_sha256": "e2478559e574647d9ab1db01c9a8bacc7e8acd1368a0d4bc75d52f205be7acce",
+  "action_dep_126c": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126c.py",
+  "action_dep_126c_sha256": "91318dc1806cb400581b3dcae2b4fe5c6bdf5acb971c79a4d7675850d5f5b937",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+  "songeval_src": "/home/kojiek/MeanAudio/scripts/eval/songeval_src/",
+  "songeval_commit": "848fb2ff3a2a9d64dcb20d46f07238c28abd7add",
+  "songeval_ckpt": "/home/kojiek/MeanAudio/scripts/eval/songeval_src/ckpt/model.safetensors",
+  "songeval_ckpt_sha256": "0cb1eb8be02b96e9949ca3a2b66997c5ac7d9da3567240df4dbfc2048eb98efd",
+  "muq_revision": "0562a57814f6f8bbd9fdea0a25921a2fce1a841a"
+ }
+}
