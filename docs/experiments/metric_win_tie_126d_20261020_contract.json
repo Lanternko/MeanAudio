@@ -5,7 +5,7 @@
  "status": "authorized_p2_pending",
  "launch_allowed": true,
  "priority": "P2",
- "queue_name": "132_metric_win_tie_songeval.sh",
+ "queue_name": "132_metric_win_tie_songeval_r2.sh",
  "queue_role": "p2",
  "dependencies": [
   "metric-win-tie-126c-musdb-20261019 (126c stimuli at /home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/stimuli/)",
@@ -21,14 +21,14 @@
   "gpu_launch_allowed": true,
   "queue_position": "p2",
   "valid": true,
-  "scope": "SongEval scoring (5 dims: se_coh/se_mem/se_nat/se_cla/se_mus) of 126c (36,366 FLACs), 126b (87,653 FLACs), 126a (53 variants × 5 systems × 5,131 clips generated on-the-fly from R115 + transform), Part B1 (detune control: rubberband +50c/-50c vs +100c/-50c vs +100c/-100c on MUSDB vocals), Part B2 (karaoke 12 songs at -30 LUFS vs original LUFS, demucs removal deltas); win/tie/lose analysis against m=0.10*S threshold; S_i = range of clean means across 5 TTM systems; pass=80%; NVMe peak < 500 MB extra; wall time < 10.5 h. No generation, no training."
+  "scope": "SongEval scoring (5 dims: se_coh/se_mem/se_nat/se_cla/se_mus) of 126c (36,366 FLACs), 126b (87,653 FLACs), 126a (53 variants \u00d7 5 systems \u00d7 5,131 clips generated on-the-fly from R115 + transform), Part B1 (detune control: rubberband +50c/-50c vs +100c/-50c vs +100c/-100c on MUSDB vocals), Part B2 (karaoke 12 songs at -30 LUFS vs original LUFS, demucs removal deltas); win/tie/lose analysis against m=0.10*S threshold; S_i = range of clean means across 5 TTM systems; pass=80%; NVMe peak < 500 MB extra; wall time < 10.5 h. No generation, no training."
  },
- "question": "Does SongEval (trained on musicality judgements of AI-generated songs) pass the two-criteria requirement — detect clearly-worse edits (lose) and judge tie on unimportant differences — in the same cases where AES/MEva/CLAP/MIR all failed?",
+ "question": "Does SongEval (trained on musicality judgements of AI-generated songs) pass the two-criteria requirement \u2014 detect clearly-worse edits (lose) and judge tie on unimportant differences \u2014 in the same cases where AES/MEva/CLAP/MIR all failed?",
  "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_win_tie_126d_songeval_20261020.md",
  "fixed_protocol": {
   "stimuli_126c": "/home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/stimuli/audio/**/*.flac (36,366 files)",
   "stimuli_126b": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/stimuli/audio/**/*.flac (87,653 files)",
-  "stimuli_126a": "generated on-the-fly: R115/{system}/lvl30/audio/{id}.flac → transform → 24kHz; 5131 clips × 53 variants × 5 systems",
+  "stimuli_126a": "generated on-the-fly: R115/{system}/lvl30/audio/{id}.flac \u2192 transform \u2192 24kHz; 5131 clips \u00d7 53 variants \u00d7 5 systems",
   "songeval": "ASLP-lab/SongEval commit 848fb2ff3a2a9d64dcb20d46f07238c28abd7add; ckpt sha256 0cb1eb8be02b96e9949ca3a2b66997c5ac7d9da3567240df4dbfc2048eb98efd; MuQ revision 0562a57814f6f8bbd9fdea0a25921a2fce1a841a",
   "scoring": "24kHz input (librosa.resample), batch_size=16, deterministic (same clip scored twice: diff=0.00e+00), batch sensitivity bs=1 vs bs=16: 1.41e-4 (acceptable)",
   "judgment": "d = score(case) - score(clean_base, same clip or window); tie if |d| <= m, m = 0.10*S_i; S_i = max_sys(mean_i) - min_sys(mean_i) for i in {coh,mem,nat,cla,mus}; pass = 80% of pairs; S computed from Part A-3 clean unit results",
@@ -54,7 +54,7 @@
   "note": "TSV-level autoresume: if 126c_songeval.tsv / 126b_songeval.tsv already exist and have the right number of rows, skip those parts; 126a unit-level: if {vname}/{system}/songeval.tsv exists with correct rows, skip"
  },
  "watcher": {
-  "stall_seconds": 10800
+  "stall_seconds": 28800
  },
  "commands": {
   "preflight": [
@@ -82,7 +82,7 @@
   "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
  },
  "bindings": {
-  "launcher": "/home/kojiek/gpu_queue/p2/pending/132_metric_win_tie_songeval.sh",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/132_metric_win_tie_songeval_r2.sh",
   "launcher_sha256": "e2ada642a6a4aadedb17f8abbe58a02a456b626a9b1d1156ab182c8a4b378942",
   "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
   "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
