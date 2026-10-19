@@ -92,6 +92,7 @@
 | **評分不變性修補 × 論文結論重判**（128，2026-10-17 設計、2026-10-18 收線：響度正規化／平移＋極性集成能否讓 AES／CLAP 過 126 的平手要求而不損偵測力；在通過方案下重判 TTM 表 B（PQ +0.155、CLAP +0.0105 ≈ m）與 NegMF E1；PQ 優勢的節奏分層；約 21 h） | `docs/experiments/metric_invariance_readjudication_128_20261017.md` |
 | **評分不變性重判結果**（128 收線 2026-10-18：128a 四方案都不過 → 全部 C3 `sensitivity_only`、**不可寫成經不變性驗證**；C3 下表 B PQ（+0.12～+0.16）與 CLAP（+0.016～+0.022 > m 0.0104）仍成立但逐段 better 僅 ~51–53%；CFG0 vs MusicLDM PQ 平手；NegMF E1 +0.94～+1.00 仍成立（逐段 93%）；PQ 優勢不隨參考節奏清晰度分層改變） | `docs/experiments/results/metric_invariance_128_results.md` |
 | **NegMF N100 full recipe 結果**（120–122 收線 2026-10-15：CFG0 lvl30 PQ +0.956（三 seed +0.92～+0.99）、CLAP 非劣性過、無靜音逃逸；FAD 三 seed 都更差（CFG0 3.2→5.9）；不推論期負向就追平 control CFG3＋neg 的 PQ 但 CLAP −0.023；AES 不進排名） | `docs/experiments/results/negmf_full_120_results.md` |
+| **人類 JND pilot（126 分水嶺的地面真值）**（2026-10-19 設計登錄、未實作：A 組 4 段 TTM／真實 × 18 個訊號層檔位（noise／clip／dropout／clicks／gain／lead／polarity／mp3）、B 組 4 段鋼琴 MIDI × 12 個音符層檔位（錯音／jitter／blastnote／移調／速度／換 SoundFont）；同異＋好壞兩題、L1／L2 平衡表、6 人 × 76 試次；以相同配對假警報率為基準判聽得出／聽不出，對照 126 標籤分一致／盲點／過敏；聽者不可熟悉 MeanAudio） | `docs/experiments/human_jnd_pilot_20261019.md` |
 | **2026-10-21 會議用進度＋問題清單** | `docs/meetings/2026-10-21_progress_and_questions.md` |
 | **LALM 評審文獻定位**（MQAScore：Yes／No 逐概念、刻意排除音質；MRMAD：Qwen2.5-Omni 音樂劣化兩段比較 49.6%＝擲硬幣） | `docs/literature/lalm_judge_mqascore_mrmad_2026_10_15.md` |
 | **2026-10-14 會議**（控制實驗改用真實曲、紅綠燈、FAD 檢查、LALM 評審、「0.47」出處） | `docs/meetings/2026-10-14_metric_controls_real_pieces_fad_lalm.md` |
