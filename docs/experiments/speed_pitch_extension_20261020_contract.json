@@ -2,32 +2,176 @@
  "schema_version": 1,
  "document_kind": "eval_only_metrics_contract",
  "experiment_id": "speed-pitch-extension-134-20261020",
- "status": "draft_unbound_not_queued",
+ "status": "authorized_p2_pending",
  "priority": "P2",
- "question": "Do AES/MEva/CLAP/MIR remain tie-robust to mild tempo/pitch changes and detect large ones, and is MEva monotone in tempo?",
+ "question": "Where do AES/MEva/CLAP/MIR cross from tie to lose along a dense continuous tempo grid (0.10-2.00) and over pitch shifts, and is MEva monotone in tempo?",
  "design_document": "/home/kojiek/MeanAudio/docs/experiments/speed_pitch_extension_20261020.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-20",
+  "text": "Tempo dense continuous grid 0.1-2.0; tie band 0.95-1.05, lose band <=0.80 or >=1.25, middle transition no prediction; report tie->lose crossing per metric; delete the 'x0.1 PQ should not drop' expectation; 126 pairwise win/tie/lose m=0.10*S; keep pitch design."
+ },
  "approval_required": true,
- "launch_authorization": {"gpu_launch_allowed": false, "queue_position": "p2", "valid": false, "scope": "pending action implementation and user approval"},
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Eval-only scoring of ~49,300 tempo/pitch-transformed clips (MAESTRO 150 + 126b piano MIDI + TTM 5 systems subsample); AES/MEva/CLAP on GPU, MIR on CPU; NVMe peak ~15 GB; wall time < 4h. No generation, no training.",
+  "valid": true
+ },
  "bindings": {
   "launcher": "/home/kojiek/gpu_queue/p2/pending/134_speed_pitch_extension.sh",
-  "launcher_sha256": "UNBOUND",
+  "launcher_sha256": "f6058107240f30cf73ca6371da017080076bb49b8c1fa8be9ba7199ba1c1f01a",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
   "action": "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py",
-  "action_sha256": "UNBOUND"
+  "action_sha256": "e4860225e35293bd71dbb21902a567b4f53cb3ad0be77d290fa031a015d1b48a"
  },
  "commands": {
-  "preflight": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py", "--preflight"],
-  "run": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py"],
-  "postflight": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py", "--validate-only"]
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
  },
  "fixed_protocol": {
-  "tempo": [0.1, 0.25, 0.5, 0.7, 0.8, 0.9, 1.1, 1.25, 1.5, 2.0],
-  "pitch_semitones": [-12, -5, -2, -1, 1, 2, 5, 12],
-  "implementations": ["rubberband_waveform", "midi_level"],
-  "sources": ["maestro_150_from_123", "126b_piano_midi_fixed_seed", "ttm_clean_5131_subsample_fixed_seed"],
-  "metrics": ["PQ", "CE", "CU", "PC", "MEva", "CLAP", "pulse_clarity", "ibi_cv"],
-  "judgment": "delta=variant-clean; tie if |delta|<=m; m=0.10*S (D0 and D3); pass=80%; cluster bootstrap REP=400",
-  "tie_expected": ["tempo 0.9/1.1", "pitch +-1"],
-  "meva_monotonicity": "Spearman rho over tempo 0.5..2.0, expected > 0",
-  "tempo_0p1_expectation": "PQ expected not to drop (possibly rise): stretched sustained texture; recorded as metric blind spot if judged tie/up"
- }
+  "tempo": [
+   0.1,
+   0.15,
+   0.2,
+   0.25,
+   0.3,
+   0.35,
+   0.4,
+   0.45,
+   0.5,
+   0.55,
+   0.6,
+   0.65,
+   0.7,
+   0.75,
+   0.8,
+   0.85,
+   0.9,
+   0.95,
+   0.97,
+   0.98,
+   0.99,
+   1.0,
+   1.01,
+   1.02,
+   1.03,
+   1.05,
+   1.1,
+   1.15,
+   1.2,
+   1.25,
+   1.3,
+   1.35,
+   1.4,
+   1.45,
+   1.5,
+   1.55,
+   1.6,
+   1.65,
+   1.7,
+   1.75,
+   1.8,
+   1.85,
+   1.9,
+   1.95,
+   2.0
+  ],
+  "tempo_n": 45,
+  "pitch_semitones": [
+   -12,
+   -5,
+   -2,
+   -1,
+   1,
+   2,
+   5,
+   12
+  ],
+  "implementations": [
+   "rubberband_waveform",
+   "midi_level"
+  ],
+  "sources": [
+   "maestro_150_from_123",
+   "126b_piano_midi_fixed_seed",
+   "ttm_clean_5131_subsample_fixed_seed"
+  ],
+  "metrics": [
+   "PQ",
+   "CE",
+   "CU",
+   "PC",
+   "MEva",
+   "CLAP",
+   "pulse_clarity",
+   "ibi_cv"
+  ],
+  "judgment": "delta=variant-clean (same clip); tie if |delta|<=m; m=0.10*S (126a current S; D2/D3 unchanged); pass=80%; cluster bootstrap REP=400; directed metrics judged for worse, PC ties only",
+  "tie_band": [
+   0.95,
+   1.05
+  ],
+  "lose_band": {
+   "low_le": 0.8,
+   "high_ge": 1.25
+  },
+  "transition_zone": "0.80<tempo<0.95 and 1.05<tempo<1.25: no prediction, estimates only",
+  "report": "per-metric tie_exit and lose_entry tempo (linear interpolation between adjacent grid points) with cluster-bootstrap CI",
+  "meva_monotonicity": "Spearman rho over tempo 0.5..2.0 per clip, cluster-averaged, expected > 0 with CI excluding 0",
+  "deleted_expectation": "old 'tempo 0.1 PQ should not drop' removed 2026-10-20",
+  "pitch": "unchanged: +-1 expected tie; +-2,+-5,+-12 should lose"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/speed_pitch_extension_134_20261020",
+  "min_free_bytes": 32212254720
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "per-excerpt stimulus rows and per-unit scoring are idempotent; rerun skips completed units",
+  "pause_progress": "/home/kojiek/eval_output_nvme/speed_pitch_extension_134_20261020/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/speed_pitch_extension_134_20261020/pause_progress.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "metric-win-tie-126a (S values: docs/experiments/results/metric_win_tie_126a summary)",
+  "metric-win-tie-126b (piano MIDI sources)",
+  "123 MAESTRO realpiece manifest",
+  "ttm_metrics_115 lvl30 clips"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/speed_pitch_extension_134_summary.json"
+  }
+ ],
+ "queue_name": "134_speed_pitch_extension.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-20",
+   "note": "Rewritten per user 2026-10-20 decisions: dense tempo grid, new bands/crossing report, action implemented, smoke passed (138 clips)."
+  }
+ ]
 }
