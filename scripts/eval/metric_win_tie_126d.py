@@ -327,7 +327,7 @@ def _partb1_detune_control(muq, gen, device):
     if not windows_json.is_file():
         log('  WARNING: 126c windows.json not found, skip B1')
         return
-    windows = json.loads(windows_json.read_text())
+    windows = json.loads(windows_json.read_text())['windows']
     # Filter windows that have vocal track
     win_ids = [w['win'] for w in windows if (cache_dir / f'{w["win"]}.npz').is_file()][:100]
     log(f'  using {len(win_ids)} windows')

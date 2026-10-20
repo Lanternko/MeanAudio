@@ -5,7 +5,7 @@
  "status": "authorized_p2_pending",
  "launch_allowed": true,
  "priority": "P2",
- "queue_name": "132_metric_win_tie_songeval_r2.sh",
+ "queue_name": "132_metric_win_tie_songeval_r3.sh",
  "queue_role": "p2",
  "dependencies": [
   "metric-win-tie-126c-musdb-20261019 (126c stimuli at /home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/stimuli/)",
@@ -82,12 +82,12 @@
   "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
  },
  "bindings": {
-  "launcher": "/home/kojiek/gpu_queue/p2/pending/132_metric_win_tie_songeval_r2.sh",
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/132_metric_win_tie_songeval_r3.sh",
   "launcher_sha256": "e2ada642a6a4aadedb17f8abbe58a02a456b626a9b1d1156ab182c8a4b378942",
   "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
   "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
   "action": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
-  "action_sha256": "3210fa93f202ac5580d8a42cc0ff007d5aa08c7e577a4530f50e9b5597d8d487",
+  "action_sha256": "7771a231b1d7cf5cd3c64ee9159a6e3e4a6b1578b9a391ce77d16cbd471fbdcc",
   "action_dep_126a": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py",
   "action_dep_126a_sha256": "1838b508c4583e42b27d877db9a4471016009799553ad884ee70e3ef89bbc6b7",
   "action_dep_126b": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126b.py",
