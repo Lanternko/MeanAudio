@@ -1,0 +1,33 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "speed-pitch-extension-134-20261020",
+ "status": "draft_unbound_not_queued",
+ "priority": "P2",
+ "question": "Do AES/MEva/CLAP/MIR remain tie-robust to mild tempo/pitch changes and detect large ones, and is MEva monotone in tempo?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/speed_pitch_extension_20261020.md",
+ "approval_required": true,
+ "launch_authorization": {"gpu_launch_allowed": false, "queue_position": "p2", "valid": false, "scope": "pending action implementation and user approval"},
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/134_speed_pitch_extension.sh",
+  "launcher_sha256": "UNBOUND",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py",
+  "action_sha256": "UNBOUND"
+ },
+ "commands": {
+  "preflight": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py", "--preflight"],
+  "run": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py"],
+  "postflight": ["/home/kojiek/venvs/dac/bin/python", "/home/kojiek/MeanAudio/scripts/eval/speed_pitch_extension_134.py", "--validate-only"]
+ },
+ "fixed_protocol": {
+  "tempo": [0.1, 0.25, 0.5, 0.7, 0.8, 0.9, 1.1, 1.25, 1.5, 2.0],
+  "pitch_semitones": [-12, -5, -2, -1, 1, 2, 5, 12],
+  "implementations": ["rubberband_waveform", "midi_level"],
+  "sources": ["maestro_150_from_123", "126b_piano_midi_fixed_seed", "ttm_clean_5131_subsample_fixed_seed"],
+  "metrics": ["PQ", "CE", "CU", "PC", "MEva", "CLAP", "pulse_clarity", "ibi_cv"],
+  "judgment": "delta=variant-clean; tie if |delta|<=m; m=0.10*S (D0 and D3); pass=80%; cluster bootstrap REP=400",
+  "tie_expected": ["tempo 0.9/1.1", "pitch +-1"],
+  "meva_monotonicity": "Spearman rho over tempo 0.5..2.0, expected > 0",
+  "tempo_0p1_expectation": "PQ expected not to drop (possibly rise): stretched sustained texture; recorded as metric blind spot if judged tie/up"
+ }
+}
