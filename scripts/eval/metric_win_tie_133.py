@@ -2,24 +2,36 @@
 """133: MERT-v1-95M + MuQ-embed cosine distance on 126/126b/126c stimulus sets.
 
 Design: docs/experiments/metric_win_tie_133_mert_20261020.md
-Judging rule: same as 126d.
-  score(x, sys) = cosim(L2_norm(mean_pool(embed(x))), μ_sys)
-  where μ_sys = L2-normalised mean embedding of 5,131 clean clips for each of the 5 TTM systems.
-  d = score(case) - score(clean_base_same_source); tie if |d| ≤ m, m = 0.10 S;
-  S = range(mean_score(clean, sys) across 5 systems); pass = 80 %.
 
-Two embedding functions:
-  mert   – m-a-p/MERT-v1-95M  rev 12af15fef9d0ac838c3f475bfbbf26d2060dd4f5  768-dim
-  muq    – OpenMuQ/MuQ-large-msd-iter  rev 0562a57814f6f8bbd9fdea0a25921a2fce1a841a  1024-dim
+r1 failure (2026-10-20) and design corrections applied in r2:
+  1. score_126a: switched to pairwise cosim(embed(variant), embed(clean, same clip+sys)).
+     Per-clip clean MERT embeds saved as per_clip_embeds.npy per system.
+     S_mert keeps the preregistered centroid definition; reuses s_values_mert.json from r1.
+  2. S_muq: computed from MuQ centroids on 5 TTM systems' clean lvl30 audio
+     (same centroid definition as S_mert). Saved to s_values_muq.json.
+     MuQ judging now uses m_muq, not m_mert.
+  3. analyze(): uses items['case'] field (not absent 'vname'); excludes base=='' items
+     from judging; provides descriptive stats (no pass/fail) for soft/floor/descriptive.
+
+Judging rule (126b, 126c):
+  d = cosim(embed(case), embed(base_clean)) - 1.0   [cosim(clean,clean)=1]
+  tie if |d| <= m; lose if d < -m; m = 0.10 * S; pass = 80%.
+
+Judging rule (126a):
+  d = cosim(embed(variant_x), embed(clean_x))   [pairwise, same clip same sys] - 1.0
+  Same m and pass threshold.
+
+S_mert = range(mean cosim(clean_i, mu_sys) across 5 TTM systems)  [centroid, preregistered]
+S_muq  = same definition with MuQ embeddings.
 
 Scope:
-  126c   36,366 FLAC  → MERT + MuQ
-  126b   87,653 FLAC  → MERT + MuQ
-  126a   1,334,060 clips on-the-fly → MERT only  (MuQ on 126a would hit the 7h cap)
+  126c  36,366 FLAC -> MERT + MuQ  (pairwise cosim vs base; complete in r1)
+  126b  87,653 FLAC -> MERT + MuQ  (pairwise cosim vs base; complete in r1)
+  126a  ~1.33M on-the-fly clips   -> MERT only (pairwise vs same clean clip)
 """
 import os
 for _v in ('OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS', 'NUMEXPR_NUM_THREADS'):
-    os.environ.setdefault(_v, '1')
+    os.environ[_v] = '1'  # pool workers fork; avoid BLAS oversubscription
 os.environ.pop('MKL_NUM_THREADS', None)
 
 import argparse, csv, json, sys, time
@@ -32,7 +44,7 @@ import librosa
 REPO = Path('/home/kojiek/MeanAudio')
 sys.path.insert(0, str(REPO / 'scripts/eval'))
 import metric_win_tie_126a as A
-import metric_win_tie_126b as B
+import metric_win_tie_126b as B  # noqa: F401 (imported for B_VARIANTS reference)
 
 EV = Path('/home/kojiek/eval_output_nvme')
 OUT = EV / 'metric_win_tie_133_20261020'
@@ -54,7 +66,7 @@ SYSTEMS = A.SYSTEMS
 log = A.log
 
 
-# ── Embedding models ──
+# ── Embedding models ──────────────────────────────────────────────────────────
 
 def load_mert(device='cuda'):
     from transformers import AutoModel, AutoFeatureExtractor
@@ -72,15 +84,15 @@ def load_muq(device='cuda'):
 
 
 def mean_pool_norm(hidden):
-    """Mean-pool time dim and L2-normalise. hidden: (B, T, D) tensor → (B, D) numpy."""
+    """Mean-pool time dim and L2-normalise. hidden: (B, T, D) tensor -> (B, D) numpy."""
     import torch
-    e = hidden.mean(dim=1)  # (B, D)
+    e = hidden.mean(dim=1)
     norms = e.norm(dim=-1, keepdim=True).clamp(min=1e-8)
     return (e / norms).cpu().numpy().astype(np.float32)
 
 
 def embed_mert_batch(wavs_24k, feat, mdl, device):
-    """Returns (N, 768) L2-normalised embeddings."""
+    """Returns (N, 768) L2-normalised MERT embeddings."""
     import torch
     inputs = feat(wavs_24k, sampling_rate=EMBED_SR, return_tensors='pt', padding=True)
     inputs = {k: v.to(device) for k, v in inputs.items()}
@@ -90,7 +102,7 @@ def embed_mert_batch(wavs_24k, feat, mdl, device):
 
 
 def embed_muq_batch(wavs_24k, mdl, device):
-    """Returns (N, 1024) L2-normalised embeddings."""
+    """Returns (N, 1024) L2-normalised MuQ embeddings."""
     import torch
     max_len = max(len(w) for w in wavs_24k)
     padded = np.zeros((len(wavs_24k), max_len), dtype=np.float32)
@@ -112,7 +124,7 @@ def load_24k(path):
 
 
 def embed_files(paths, feat_mert, mdl_mert, mdl_muq, device, use_muq=True, progress=True):
-    """Score list of paths. Returns {path: {'mert': (768,), 'muq': (1024,) or None}}."""
+    """Embed list of paths. Returns {str(path): {'mert': (768,), 'muq': (1024,)|None}}."""
     results = {}
     for i in range(0, len(paths), BATCH):
         batch_paths = paths[i:i + BATCH]
@@ -128,13 +140,6 @@ def embed_files(paths, feat_mert, mdl_mert, mdl_muq, device, use_muq=True, progr
         if progress and (i // BATCH) % 50 == 0:
             log(f'  embedded {min(i + BATCH, len(paths))}/{len(paths)}')
     return results
-
-
-def cosim_rows(emb_dict, key_a, key_b, dim='mert'):
-    """Cosine similarity between two clip embeddings."""
-    ea = emb_dict[key_a][dim]
-    eb = emb_dict[key_b][dim]
-    return float(np.dot(ea, eb))
 
 
 def write_cosim_tsv(path, rows, dims=('mert_cosim', 'muq_cosim')):
@@ -156,7 +161,7 @@ def read_cosim_tsv(path, dims=('mert_cosim', 'muq_cosim')):
     return result
 
 
-# ── score 126c ──
+# ── score 126c (pairwise, complete in r1) ────────────────────────────────────
 
 def score_126c(feat_mert, mdl_mert, mdl_muq, device):
     out_mert = OUT / '126c_mert_cosim.tsv'
@@ -167,15 +172,11 @@ def score_126c(feat_mert, mdl_mert, mdl_muq, device):
 
     log('=== embedding 126c ===')
     items = json.loads((OUT_126C / 'stimuli/items.json').read_text())
-    # Build path → key and base-key mappings
     paths = sorted(set(r['path'] for r in items if Path(r['path']).is_file()))
     log(f'  {len(paths)} clips')
 
     embs = embed_files(paths, feat_mert, mdl_mert, mdl_muq, device, use_muq=True)
-
-    # Group by window, compute per-window base (the 'mix' condition)
     key_to_path = {r['key']: r['path'] for r in items}
-    key_to_base = {r['key']: r['base'] for r in items}
 
     mert_rows, muq_rows = {}, {}
     for r in items:
@@ -185,10 +186,10 @@ def score_126c(feat_mert, mdl_mert, mdl_muq, device):
         bp = key_to_path.get(base_key, p)
         if p not in embs or bp not in embs:
             continue
-        mert_c = cosim_rows({p: embs[p], bp: embs[bp]}, p, bp, 'mert')
-        muq_c = cosim_rows({p: embs[p], bp: embs[bp]}, p, bp, 'muq')
-        mert_rows[key] = {'mert_cosim': mert_c}
-        muq_rows[key] = {'muq_cosim': muq_c}
+        ea_m, eb_m = embs[p]['mert'], embs[bp]['mert']
+        ea_q, eb_q = embs[p]['muq'], embs[bp]['muq']
+        mert_rows[key] = {'mert_cosim': float(np.dot(ea_m, eb_m))}
+        muq_rows[key] = {'muq_cosim': float(np.dot(ea_q, eb_q))}
 
     write_cosim_tsv(out_mert, {k: {'mert_cosim': v['mert_cosim']} for k, v in mert_rows.items()},
                     dims=['mert_cosim'])
@@ -197,7 +198,7 @@ def score_126c(feat_mert, mdl_mert, mdl_muq, device):
     log(f'  wrote {out_mert.name}, {out_muq.name}')
 
 
-# ── score 126b ──
+# ── score 126b (pairwise, complete in r1) ────────────────────────────────────
 
 def score_126b(feat_mert, mdl_mert, mdl_muq, device):
     out_mert = OUT / '126b_mert_cosim.tsv'
@@ -212,7 +213,6 @@ def score_126b(feat_mert, mdl_mert, mdl_muq, device):
     log(f'  {len(paths)} clips')
 
     embs = embed_files(paths, feat_mert, mdl_mert, mdl_muq, device, use_muq=True)
-
     key_to_path = {r['key']: r['path'] for r in items}
 
     mert_rows, muq_rows = {}, {}
@@ -223,8 +223,10 @@ def score_126b(feat_mert, mdl_mert, mdl_muq, device):
         bp = key_to_path.get(base_key, p)
         if p not in embs or bp not in embs:
             continue
-        mert_rows[key] = {'mert_cosim': cosim_rows({p: embs[p], bp: embs[bp]}, p, bp, 'mert')}
-        muq_rows[key] = {'muq_cosim': cosim_rows({p: embs[p], bp: embs[bp]}, p, bp, 'muq')}
+        ea_m, eb_m = embs[p]['mert'], embs[bp]['mert']
+        ea_q, eb_q = embs[p]['muq'], embs[bp]['muq']
+        mert_rows[key] = {'mert_cosim': float(np.dot(ea_m, eb_m))}
+        muq_rows[key] = {'muq_cosim': float(np.dot(ea_q, eb_q))}
 
     write_cosim_tsv(out_mert, {k: {'mert_cosim': v['mert_cosim']} for k, v in mert_rows.items()},
                     dims=['mert_cosim'])
@@ -233,7 +235,69 @@ def score_126b(feat_mert, mdl_mert, mdl_muq, device):
     log(f'  wrote {out_mert.name}, {out_muq.name}')
 
 
-# ── score 126a (MERT only) ──
+# ── compute S_muq ─────────────────────────────────────────────────────────────
+
+def compute_s_muq(mdl_muq, device):
+    """MuQ centroid calibration on 5 TTM systems' clean lvl30 clips. Saves s_values_muq.json."""
+    s_file = OUT / 's_values_muq.json'
+    if s_file.is_file():
+        log('S_muq already computed, skipping')
+        return
+
+    log('=== computing S_muq (MuQ centroids on TTM clean lvl30) ===')
+    clean_mean_cosim_muq = {}
+
+    for sname, sfolder in SYSTEMS.items():
+        clips = sorted((R115 / sfolder / 'lvl30/audio').glob('*.flac'))[:5131]
+        if not clips:
+            log(f'  WARNING: no clips for {sname}')
+            continue
+        all_embs = []
+        for i in range(0, len(clips), BATCH):
+            batch = clips[i:i + BATCH]
+            wavs = [load_24k(p).tolist() for p in batch]
+            emb = embed_muq_batch(wavs, mdl_muq, device)
+            all_embs.append(emb)
+            if (i // BATCH) % 40 == 0:
+                log(f'  MuQ {sname}: {min(i + BATCH, len(clips))}/{len(clips)}')
+        arr = np.vstack(all_embs).astype(np.float32)  # (N, 1024)
+        mu = arr.mean(0)
+        mu /= np.linalg.norm(mu) + 1e-8
+        mean_cosim = float((arr @ mu).mean())
+        clean_mean_cosim_muq[sname] = mean_cosim
+        log(f'  MuQ {sname}: mean_cosim={mean_cosim:.6f}')
+
+    S_muq = max(clean_mean_cosim_muq.values()) - min(clean_mean_cosim_muq.values()) \
+        if clean_mean_cosim_muq else 0.05
+    m_muq = M_FRAC * S_muq
+    log(f'  S_muq={S_muq:.6f}  m_muq={m_muq:.6f}')
+    s_file.write_text(json.dumps({
+        'S_muq': S_muq, 'm_muq': m_muq,
+        'clean_mean_cosim_muq': clean_mean_cosim_muq,
+    }, indent=2))
+
+
+# ── score 126a (MERT only, pairwise cosim vs same clean clip) ─────────────────
+
+LIMIT_126A = None     # smoke: first N clips
+VARS_126A = None      # smoke: subset of variant names
+POOL_WORKERS = 12
+
+
+def _prep_126a(job):
+    """Read lvl30 clip, apply the 126a variant exactly as A.make_one does (incl. the FLAC
+    subtype quantisation, done in memory), resample to 24 kHz. Returns (clip_id, float32)."""
+    src, sname, vname = job
+    var = A.VARIANTS[vname]
+    x, sr = sf.read(src, dtype='float64')
+    if x.ndim > 1:
+        x = x.mean(1)
+    y, _ = A.transform(x, var, A.rng_for(sname, vname, Path(src).stem), int(sr))
+    q = 2 ** 15 if var['subtype'] == 'PCM_16' else 2 ** 23
+    y = (np.round(y * q) / q).astype(np.float32)
+    if int(sr) != EMBED_SR:
+        y = librosa.resample(y, orig_sr=int(sr), target_sr=EMBED_SR)
+    return Path(src).stem, y
 
 def score_126a(feat_mert, mdl_mert, device):
     out_dir = OUT / '126a'
@@ -242,127 +306,167 @@ def score_126a(feat_mert, mdl_mert, device):
         log('126a MERT already done, skipping')
         return
 
-    log('=== embedding 126a (MERT only) ===')
-    # Precompute clean embeddings for each system (5 × 5131 clips)
-    clean_mu = {}  # system -> (1024,) mean embed
-    log('  precomputing clean system means...')
+    log('=== embedding 126a (MERT only, pairwise) ===')
+
+    # Load preregistered S_mert from r1 (centroid definition)
+    s_file = OUT / 's_values_mert.json'
+    s_r1 = json.loads(s_file.read_text()) if s_file.is_file() else None
+
+    # Step 1: per-clip clean MERT embeddings per system
+    clean_per_clip = {}    # sname -> {clip_id: (768,) float32 L2-normed}
+    clean_mu = {}          # sname -> (768,) centroid
+    clean_mean_cosim = {}  # sname -> float (for S verification)
+
+    log('  computing per-clip clean embeddings...')
     for sname, sfolder in SYSTEMS.items():
-        clean_unit_dir = OUT / f'126a_clean_embeds/{sname}'
-        emb_file = clean_unit_dir / 'mean_embed.npy'
-        if emb_file.is_file():
-            clean_mu[sname] = np.load(str(emb_file))
-            continue
-        clean_unit_dir.mkdir(parents=True, exist_ok=True)
+        clip_dir = OUT / f'126a_clean_embeds/{sname}'
+        clip_dir.mkdir(parents=True, exist_ok=True)
+        per_clip_file = clip_dir / 'per_clip_embeds.npy'
+        ids_file = clip_dir / 'clip_ids.json'
+        mean_file = clip_dir / 'mean_embed.npy'
+
         clips = sorted((R115 / sfolder / 'lvl30/audio').glob('*.flac'))
+        if LIMIT_126A is not None:
+            keep = {cid for cid, _ in A.items(limit=LIMIT_126A)}
+            clips = [p for p in clips if p.stem in keep]
+        clip_ids_sys = [p.stem for p in clips]
+
+        if per_clip_file.is_file() and ids_file.is_file():
+            arr = np.load(str(per_clip_file))               # (N, 768)
+            saved_ids = json.loads(ids_file.read_text())
+            if mean_file.is_file():
+                mu = np.load(str(mean_file))
+            else:
+                mu = arr.mean(0); mu /= np.linalg.norm(mu) + 1e-8
+                mu = mu.astype(np.float32); np.save(str(mean_file), mu)
+            mean_cosim = float((arr @ mu).mean())
+            clean_per_clip[sname] = dict(zip(saved_ids, arr))
+            clean_mu[sname] = mu
+            clean_mean_cosim[sname] = mean_cosim
+            log(f'  {sname}: loaded {len(saved_ids)} clips, mean_cosim={mean_cosim:.6f}')
+            continue
+
         if not clips:
-            log(f'  WARNING: no clean clips found for {sname}')
+            log(f'  WARNING: no clean clips for {sname}')
             continue
-        clip_embs = []
+
+        all_embs = []
         for i in range(0, len(clips), BATCH):
             batch = clips[i:i + BATCH]
             wavs = [load_24k(p).tolist() for p in batch]
             emb = embed_mert_batch(wavs, feat_mert, mdl_mert, device)
-            clip_embs.append(emb)
-        clip_embs = np.vstack(clip_embs)  # (N, 768)
-        mu = clip_embs.mean(axis=0)
-        mu /= np.linalg.norm(mu) + 1e-8
-        np.save(str(emb_file), mu.astype(np.float32))
+            all_embs.append(emb)
+            if (i // BATCH) % 64 == 0:
+                log(f'  {sname}: {min(i + BATCH, len(clips))}/{len(clips)}')
+
+        arr = np.vstack(all_embs).astype(np.float32)  # (N, 768)
+        if mean_file.is_file():
+            mu = np.load(str(mean_file))
+        else:
+            mu = arr.mean(0); mu /= np.linalg.norm(mu) + 1e-8
+            mu = mu.astype(np.float32); np.save(str(mean_file), mu)
+
+        np.save(str(per_clip_file), arr)
+        ids_file.write_text(json.dumps(clip_ids_sys))
+
+        mean_cosim = float((arr @ mu).mean())
+        clean_per_clip[sname] = dict(zip(clip_ids_sys, arr))
         clean_mu[sname] = mu
-        log(f'  clean mean {sname}: {len(clips)} clips')
+        clean_mean_cosim[sname] = mean_cosim
+        log(f'  {sname}: {len(clips)} clips, mean_cosim={mean_cosim:.6f}')
 
-    # For S computation: mean cosim(clean_i, mu_s) per system
-    clean_mean_cosim = {}  # sname -> float
-    for sname, sfolder in SYSTEMS.items():
-        if sname not in clean_mu:
-            continue
-        mu = clean_mu[sname]
-        clips = sorted((R115 / sfolder / 'lvl30/audio').glob('*.flac'))[:5131]
-        cosims = []
-        for i in range(0, len(clips), BATCH):
-            batch = clips[i:i + BATCH]
-            wavs = [load_24k(p).tolist() for p in batch]
-            emb = embed_mert_batch(wavs, feat_mert, mdl_mert, device)
-            cosims.extend([float(np.dot(e, mu)) for e in emb])
-        clean_mean_cosim[sname] = np.mean(cosims)
-        log(f'  clean cosim {sname}: mean={clean_mean_cosim[sname]:.6f}')
+    # Step 2: verify S_mert vs r1 (must agree within 1e-4)
+    if not clean_mean_cosim:
+        log('ERROR: no clean embeddings computed'); sys.exit(1)
 
-    S_mert = max(clean_mean_cosim.values()) - min(clean_mean_cosim.values()) if clean_mean_cosim else 0.05
-    m_mert = M_FRAC * S_mert
-    log(f'  S_mert={S_mert:.6f}  m_mert={m_mert:.6f}')
-    (OUT / 's_values_mert.json').write_text(json.dumps(
-        {'S_mert': S_mert, 'm_mert': m_mert, 'clean_mean_cosim': clean_mean_cosim}, indent=2))
+    S_computed = max(clean_mean_cosim.values()) - min(clean_mean_cosim.values())
+    if s_r1 is not None:
+        diff = abs(S_computed - s_r1['S_mert'])
+        log(f'  S_mert check: computed={S_computed:.6f} r1={s_r1["S_mert"]:.6f} diff={diff:.2e}')
+        if diff > 1e-4:
+            log(f'  WARNING: S_mert diff {diff:.2e} exceeds 1e-4 tolerance')
+        S_mert = s_r1['S_mert']
+        m_mert = s_r1['m_mert']
+    else:
+        S_mert = S_computed
+        m_mert = M_FRAC * S_mert
+        s_file.write_text(json.dumps(
+            {'S_mert': S_mert, 'm_mert': m_mert, 'clean_mean_cosim': clean_mean_cosim}, indent=2))
+        log(f'  S_mert={S_mert:.6f}  m_mert={m_mert:.6f}  (no r1 file, computed fresh)')
 
-    # Score all 126a variants
-    variants = A.variants()  # list of (vname, kind) tuples
-    n_total = len(variants) * len(SYSTEMS)
+    # Step 3: score all 126a variants (pairwise cosim). Transforms (incl. ffmpeg mp3
+    # round-trips) run in a CPU pool; the main process only batches MERT on GPU.
+    all_clip_ids = [cid for cid, _ in A.items(limit=LIMIT_126A)]
+    variants_list = [v for v in A.variants() if VARS_126A is None or v['name'] in VARS_126A]
+    n_total = len(variants_list) * len(SYSTEMS)
     done = 0
-    for vname, vkind in variants:
-        for sname, sfolder in SYSTEMS.items():
-            out_tsv = out_dir / vname / sname / 'mert_cosim.tsv'
-            if out_tsv.is_file():
+    from multiprocessing import get_context
+    pool = get_context('fork').Pool(POOL_WORKERS)
+    try:
+        for var in variants_list:
+            vname = var['name']
+            for sname, sfolder in SYSTEMS.items():
+                out_tsv = out_dir / vname / sname / 'mert_cosim.tsv'
                 done += 1
-                continue
-            out_tsv.parent.mkdir(parents=True, exist_ok=True)
-
-            mu = clean_mu.get(sname)
-            if mu is None:
-                continue
-
-            # Generate clips using 126a transform
-            ids = A.items(vname, sname)
-            rows = {}
-            batch_keys, batch_wavs = [], []
-            for clip_id in ids:
-                src = R115 / sfolder / 'lvl30/audio' / f'{clip_id}.flac'
-                if not src.is_file():
+                if out_tsv.is_file():
                     continue
-                x, sr = sf.read(str(src), dtype='float32')
-                if x.ndim > 1: x = x.mean(1)
-                rng = A.rng_for(vname, sname, clip_id)
-                x_var = A.transform(vname, x, sr, rng)
-                if x_var is None:
-                    continue
-                if sr != EMBED_SR:
-                    x_var = librosa.resample(x_var, orig_sr=sr, target_sr=EMBED_SR)
-                batch_keys.append(f'{vname}/{sname}/{clip_id}')
-                batch_wavs.append(x_var.tolist())
-                if len(batch_keys) >= BATCH:
-                    emb = embed_mert_batch(batch_wavs, feat_mert, mdl_mert, device)
-                    for k, e in zip(batch_keys, emb):
-                        rows[k] = float(np.dot(e, mu))
-                    batch_keys, batch_wavs = [], []
-            if batch_keys:
-                emb = embed_mert_batch(batch_wavs, feat_mert, mdl_mert, device)
-                for k, e in zip(batch_keys, emb):
-                    rows[k] = float(np.dot(e, mu))
+                per_clip = clean_per_clip.get(sname, {})
+                if not per_clip:
+                    log(f'ERROR: no clean embeddings for {sname}'); sys.exit(1)
+                t0 = time.time()
+                jobs = [(str(R115 / sfolder / 'lvl30/audio' / f'{cid}.flac'), sname, vname)
+                        for cid in all_clip_ids if cid in per_clip]
+                rows, bk, bw = {}, [], []
 
-            write_cosim_tsv(out_tsv, {k: {'mert_cosim': v} for k, v in rows.items()},
-                            dims=['mert_cosim'])
-            done += 1
-            if done % 10 == 0:
-                log(f'  126a MERT unit {done}/{n_total}')
+                def flush():
+                    embs = embed_mert_batch(bw, feat_mert, mdl_mert, device)
+                    for cid, e in zip(bk, embs):
+                        rows[f'{vname}/{sname}/{cid}'] = float(np.dot(e, per_clip[cid]))
+                    bk.clear(); bw.clear()
 
+                for cid, x24 in pool.imap(_prep_126a, jobs, chunksize=8):
+                    bk.append(cid); bw.append(x24)
+                    if len(bk) >= BATCH:
+                        flush()
+                if bk:
+                    flush()
+                if len(rows) != len(jobs):
+                    log(f'ERROR: {vname}/{sname} scored {len(rows)}/{len(jobs)}'); sys.exit(1)
+                out_tsv.parent.mkdir(parents=True, exist_ok=True)
+                tmp = out_tsv.with_suffix('.tmp')
+                write_cosim_tsv(tmp, {k: {'mert_cosim': v} for k, v in rows.items()}, dims=['mert_cosim'])
+                tmp.rename(out_tsv)
+                c = np.array(list(rows.values()))
+                log(f'  126a unit {done}/{n_total} {vname}/{sname}: n={len(c)} '
+                    f'mean={c.mean():.6f} min={c.min():.6f} ({time.time() - t0:.0f}s)')
+    finally:
+        pool.close(); pool.join()
+
+    if LIMIT_126A is not None or VARS_126A is not None:
+        log('  126a subset run (smoke): not writing done marker')
+        return
     done_marker.write_text(json.dumps({'done': True, 'S_mert': S_mert, 'm_mert': m_mert}))
     log('  126a MERT done')
 
 
-# ── analysis ──
+# ── analysis ──────────────────────────────────────────────────────────────────
 
 def analyze():
     log('=== analyze ===')
-    s_file = OUT / 's_values_mert.json'
-    if not s_file.is_file():
-        log('ERROR: s_values_mert.json not found')
-        sys.exit(1)
-    sv = json.loads(s_file.read_text())
-    S_mert = sv['S_mert']
-    m_mert = sv['m_mert']
+    s_mert_file = OUT / 's_values_mert.json'
+    s_muq_file = OUT / 's_values_muq.json'
 
-    # Load 126b and 126c clean cosim distributions
-    from metric_win_tie_126b import VARIANTS as B_VARIANTS
-    b_summary_path = OUT_126B / 'summary.json'
-    b_items_path = OUT_126B / 'stimuli/items.json'
-    b_items = json.loads(b_items_path.read_text()) if b_items_path.is_file() else []
+    if not s_mert_file.is_file():
+        log('ERROR: s_values_mert.json not found'); sys.exit(1)
+    sv_mert = json.loads(s_mert_file.read_text())
+    S_mert, m_mert = sv_mert['S_mert'], sv_mert['m_mert']
+
+    if s_muq_file.is_file():
+        sv_muq = json.loads(s_muq_file.read_text())
+        S_muq, m_muq = sv_muq['S_muq'], sv_muq['m_muq']
+    else:
+        log('WARNING: s_values_muq.json not found; using m_mert for MuQ (suboptimal)')
+        S_muq, m_muq = S_mert, m_mert
 
     mert_126b = read_cosim_tsv(OUT / '126b_mert_cosim.tsv', dims=['mert_cosim']) \
         if (OUT / '126b_mert_cosim.tsv').is_file() else {}
@@ -373,18 +477,14 @@ def analyze():
     muq_126c = read_cosim_tsv(OUT / '126c_muq_cosim.tsv', dims=['muq_cosim']) \
         if (OUT / '126c_muq_cosim.tsv').is_file() else {}
 
-    def judge_cell(cosim_dict, items, vname, kind, m, dim):
-        """Judge win/tie/lose for one (vname, kind) cell."""
-        # d = cosim(case, base) - cosim(clean, base)
-        # For individual-reference: cosim(clean, clean) = 1.0 always → d = cosim - 1
-        # Lose: d < -m → cosim < 1 - m
-        # Tie: |d| ≤ m → cosim ≥ 1 - m  (since d ≤ 0 always)
-        # Win: not applicable for distance-based (d never > 0)
+    JUDGE_KINDS = {'lose', 'tie'}
+
+    def judge_cell(cosim_dict, recs, kind, m, dim):
         thresh = 1.0 - m
         n_correct = n_total = 0
-        for r in items:
-            if r.get('vname') != vname:
-                continue
+        for r in recs:
+            if r.get('base', '') == '':
+                continue   # no reference; cosim undefined
             key = r['key']
             if key not in cosim_dict:
                 continue
@@ -392,84 +492,99 @@ def analyze():
             if not np.isfinite(c):
                 continue
             n_total += 1
-            if kind == 'lose':
-                # Correct if cosim < thresh (i.e., clearly worse)
-                n_correct += int(c < thresh)
-            elif kind == 'tie':
-                # Correct if cosim ≥ thresh (i.e., similar)
-                n_correct += int(c >= thresh)
+            n_correct += int(c < thresh) if kind == 'lose' else int(c >= thresh)
         if n_total == 0:
             return None
         return {'n': n_total, 'pass_rate': n_correct / n_total, 'pass': n_correct / n_total >= PASS}
 
-    # Build results
+    def describe_cell(cosim_dict, recs, dim):
+        """Descriptive stats (no pass/fail) for soft/floor/descriptive/ref kinds."""
+        vals = []
+        for r in recs:
+            if r.get('base', '') == '':
+                continue
+            key = r['key']
+            if key not in cosim_dict:
+                continue
+            c = cosim_dict[key].get(dim, float('nan'))
+            if np.isfinite(c):
+                vals.append(c)
+        if not vals:
+            return None
+        v = np.array(vals)
+        return {'n': len(v), 'mean': float(v.mean()), 'std': float(v.std()),
+                'p10': float(np.percentile(v, 10)), 'median': float(np.median(v)),
+                'p90': float(np.percentile(v, 90))}
+
+    def analyze_set(items, mert_dict, muq_dict, m_m, m_q):
+        """Group by case, judge or describe each case cell."""
+        by_case = {}
+        for r in items:
+            by_case.setdefault(r['case'], []).append(r)
+        out = {}
+        for case, recs in by_case.items():
+            kind = recs[0].get('kind', 'lose')
+            if kind in JUDGE_KINDS:
+                out[case] = {
+                    'kind': kind,
+                    'mert': judge_cell(mert_dict, recs, kind, m_m, 'mert_cosim'),
+                    'muq':  judge_cell(muq_dict,  recs, kind, m_q, 'muq_cosim'),
+                }
+            else:
+                out[case] = {
+                    'kind': kind,
+                    'mert': describe_cell(mert_dict, recs, 'mert_cosim'),
+                    'muq':  describe_cell(muq_dict,  recs, 'muq_cosim'),
+                }
+        return out
+
     results = {
         'S_mert': S_mert, 'm_mert': m_mert,
-        '126b': {}, '126c': {}
+        'S_muq': S_muq,   'm_muq': m_muq,
+        '126b': {}, '126c': {},
     }
 
-    # Read 126b items for per-case analysis
-    if b_items:
-        b_by_vname = {}
-        for r in b_items:
-            vname = r.get('vname', r.get('case', ''))
-            b_by_vname.setdefault(vname, []).append(r)
+    b_items_path = OUT_126B / 'stimuli/items.json'
+    if b_items_path.is_file():
+        b_items = json.loads(b_items_path.read_text())
+        results['126b'] = analyze_set(b_items, mert_126b, muq_126b, m_mert, m_muq)
+        log(f'  126b: {len(results["126b"])} cases')
 
-        for vname, vrecs in b_by_vname.items():
-            kind = vrecs[0].get('kind', 'lose')
-            mert_j = judge_cell(mert_126b, vrecs, vname, kind, m_mert, 'mert_cosim')
-            muq_j = judge_cell(muq_126b, vrecs, vname, kind, m_mert, 'muq_cosim')
-            results['126b'][vname] = {'kind': kind, 'mert': mert_j, 'muq': muq_j}
-
-    # Read 126c items
     c_items_path = OUT_126C / 'stimuli/items.json'
     if c_items_path.is_file():
         c_items = json.loads(c_items_path.read_text())
-        c_by_vname = {}
-        for r in c_items:
-            vname = r.get('vname', r.get('case', ''))
-            c_by_vname.setdefault(vname, []).append(r)
-        for vname, vrecs in c_by_vname.items():
-            kind = vrecs[0].get('kind', 'lose')
-            mert_j = judge_cell(mert_126c, vrecs, vname, kind, m_mert, 'mert_cosim')
-            muq_j = judge_cell(muq_126c, vrecs, vname, kind, m_mert, 'muq_cosim')
-            results['126c'][vname] = {'kind': kind, 'mert': mert_j, 'muq': muq_j}
+        results['126c'] = analyze_set(c_items, mert_126c, muq_126c, m_mert, m_muq)
+        log(f'  126c: {len(results["126c"])} cases')
 
-    # 126a summary (if available)
     done_126a = OUT / '126a_mert_done.json'
     if done_126a.is_file():
-        # Aggregate 126a pass rates from per-unit TSV files
+        # same cell layout as 126a analyze(): one cell per (variant, system); judge() rule
         a_results = {}
-        for vname, vkind in A.variants():
-            cell_rates = []
+        for var in A.variants():
+            vname, vkind = var['name'], var['kind']
             for sname in SYSTEMS:
                 tsv = OUT / '126a' / vname / sname / 'mert_cosim.tsv'
                 if not tsv.is_file():
                     continue
-                cosims = [v['mert_cosim'] for v in read_cosim_tsv(tsv, dims=['mert_cosim']).values()]
-                if not cosims:
-                    continue
-                thresh = 1.0 - m_mert
-                if vkind == 'lose':
-                    rate = sum(c < thresh for c in cosims) / len(cosims)
-                else:
-                    rate = sum(c >= thresh for c in cosims) / len(cosims)
-                cell_rates.append(rate)
-            if cell_rates:
-                a_results[vname] = {
-                    'kind': vkind,
-                    'mean_pass_rate': np.mean(cell_rates),
-                    'pass': np.mean(cell_rates) >= PASS,
-                    'n_systems': len(cell_rates),
-                }
+                c = np.array([v['mert_cosim'] for v in read_cosim_tsv(tsv, dims=['mert_cosim']).values()])
+                d = c - 1.0
+                cell = {'kind': vkind, 'n': int(len(c)), 'mean_cosim': float(c.mean()),
+                        'p10_cosim': float(np.percentile(c, 10)),
+                        'tie': float(np.mean(np.abs(d) <= m_mert)), 'worse': float(np.mean(d < -m_mert))}
+                if vkind == 'tie':
+                    cell['pass'] = cell['tie'] >= PASS
+                elif vkind == 'lose':
+                    cell['pass'] = cell['worse'] >= PASS
+                a_results.setdefault(vname, {})[sname] = cell
         results['126a'] = a_results
+        log(f'  126a: {len(a_results)} variants x {len(SYSTEMS)} systems')
 
     REPORT.parent.mkdir(parents=True, exist_ok=True)
     REPORT.write_text(json.dumps(results, indent=2))
     log(f'  wrote {REPORT}')
 
 
-# ── preflight / validate ──
+# ── preflight / validate ───────────────────────────────────────────────────────
 
 def check_disk():
     import shutil
@@ -481,27 +596,22 @@ def check_disk():
 
 
 def preflight():
-    import shutil
     OUT.mkdir(parents=True, exist_ok=True)
     if not check_disk():
         sys.exit(75)
 
-    # Check MERT cached
     from huggingface_hub import try_to_load_from_cache
     r = try_to_load_from_cache(MERT_REPO, 'config.json', revision=MERT_REVISION)
     if not r:
         log(f'ERROR: MERT {MERT_REVISION} not in HF cache')
         sys.exit(75)
 
-    # Check 126a source data
     for sname, sfolder in SYSTEMS.items():
-        clips = list((R115 / sfolder / 'lvl30/audio').glob('*.flac'))[:5
-        ]
+        clips = list((R115 / sfolder / 'lvl30/audio').glob('*.flac'))[:5]
         if not clips:
             log(f'ERROR: no R115 clips for {sname}')
             sys.exit(75)
 
-    # Check 126b/126c stimuli
     for p in [OUT_126C / 'stimuli/items.json', OUT_126B / 'stimuli/items.json']:
         if not p.is_file():
             log(f'ERROR: {p} not found')
@@ -516,9 +626,17 @@ def validate():
         log(f'ERROR: {REPORT} not found')
         sys.exit(1)
     d = json.loads(REPORT.read_text())
-    if 'S_mert' not in d:
-        log('ERROR: malformed report')
-        sys.exit(1)
+    for key in ('S_mert', 'S_muq', '126b', '126c'):
+        if key not in d:
+            log(f'ERROR: malformed report (missing {key})')
+            sys.exit(1)
+    # Verify no None cells in judged (lose/tie) rows
+    for setname in ('126b', '126c'):
+        for case, cell in d.get(setname, {}).items():
+            if cell.get('kind') in ('lose', 'tie'):
+                if cell.get('mert') is None or cell.get('muq') is None:
+                    log(f'ERROR: {setname}/{case} has None cell (kind={cell["kind"]})')
+                    sys.exit(1)
     print('VALIDATE OK')
     sys.exit(0)
 
@@ -547,7 +665,13 @@ def main():
 
     score_126c(feat_mert, mdl_mert, mdl_muq, device)
     score_126b(feat_mert, mdl_mert, mdl_muq, device)
-    score_126a(feat_mert, mdl_mert, device)   # MuQ skipped for 126a (time budget)
+    compute_s_muq(mdl_muq, device)
+
+    del mdl_muq
+    import torch as _torch
+    _torch.cuda.empty_cache()
+
+    score_126a(feat_mert, mdl_mert, device)
     analyze()
 
 

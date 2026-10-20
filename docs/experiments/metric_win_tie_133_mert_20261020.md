@@ -184,3 +184,22 @@ GPU 任務：p2 133（`133_metric_win_tie_mert.sh`）
 - `docs/experiments/results/metric_win_tie_126d_results.md` — 132 結果
 - `scripts/eval/metric_win_tie_133.py` — 主驅動腳本
 - `docs/experiments/metric_win_tie_133_20261020_contract.json` — 合約
+
+---
+
+## 9. r1 失敗與 r2 修正（2026-10-20）
+
+**r1（p2 133，rc=1）**：126c／126b 的 MERT＋MuQ cosim TSV 與 `s_values_mert.json` 都已寫完（S_mert 0.0393、m_mert 0.0039），在 `score_126a` 崩潰：`A.variants()` 回傳的是 dict，腳本當 tuple 拆（`ValueError: too many values to unpack`）。審查時另外發現三個設計／實作缺口，r2 一起修：
+
+1. **126a 改成成對比較**：d = cosim(embed(變體), embed(同 clip 同系統的 clean)) − 1。r1 的寫法拿變體跟系統重心比，這跟 126b／126c 的成對定義不一致，而且 tie 判準會被 clip 自己離重心多遠污染。S_mert 沿用預登錄的重心定義（重用 r1 的 `s_values_mert.json`，重算值要和 r1 差 < 1e-4）。變體一律用 `A.transform`，rng key（system, vname, clip）、FLAC subtype 量化都和 `A.make_one` 相同，只是在記憶體裡做；CPU pool 做 transform（mp3 ffmpeg 往返），GPU 只跑 MERT。
+2. **補算 S_muq**：用同樣的重心定義算，存成 `s_values_muq.json`；MuQ 用 m_muq 判定（r1 誤用 m_mert）。
+3. **analyze 依 `case` 分格**（r1 讀了不存在的 `vname` 欄位）；`base==''` 的項目沒有參考，排除。soft／floor／descriptive／ref 只報描述統計，不判通過。126a 依 126 的格式，一個 (variant, system) 一格，套 `A.judge` 規則。
+
+**Smoke 測試**（scratch 目錄，9 個變體 × 5 系統 × 32 clip）：
+- clean／clean_shuf／gain−6／pcm16 的 cosim = 1.0000。
+- mp3_64k 0.9985–0.9998。
+- polarity 0.9926–0.9977：MERT **不具極性不變性**，這是讀數，不是 bug。
+- noise_snr30 0.989–0.995，未過 lose 門檻；noise_snr0 0.82–0.88，過門檻。
+- reverse 0.980–0.989。
+- 64 clip／系統試算 S_muq ≈ 0.108（正式值由 r2 全量算）。
+- 126b／126c 判定格沒有空值。
