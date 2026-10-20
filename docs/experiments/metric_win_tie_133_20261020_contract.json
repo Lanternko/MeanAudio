@@ -83,5 +83,6 @@
  "queue_role": "p2",
  "watcher": {
   "stall_seconds": 28800
- }
+ },
+ "launch_allowed": true
 }
