@@ -1,0 +1,4888 @@
+{
+  "S_mert": 0.039296183140508756,
+  "m_mert": 0.003929618314050876,
+  "S_muq": 0.10867887735366821,
+  "m_muq": 0.010867887735366823,
+  "126b": {
+    "binary_01_hold_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "binary_01_hold_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "binary_01_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "binary_01_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "binary_pm1_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "binary_pm1_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "dc_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "dc_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "pulse10ps_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "pulse10ps_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "silence_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "silence_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "sine1k_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "sine1k_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "square100_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "square100_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "square1k_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "square1k_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "sweep_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "sweep_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "white_fs": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "white_lvl30": {
+      "kind": "floor",
+      "mert": null,
+      "muq": null
+    },
+    "blastnote_x1": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.722636815920398,
+        "pass": false
+      }
+    },
+    "blastnote_x10": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "blastnote_x3": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.9975124378109452,
+        "pass": true
+      }
+    },
+    "blockshuffle0.5s": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9950248756218906,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "blockshuffle1.5s": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.7748756218905473,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "blockshuffle3.0s": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.43781094527363185,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.8432835820895522,
+        "pass": true
+      }
+    },
+    "clean": {
+      "kind": "ref",
+      "mert": null,
+      "muq": null
+    },
+    "drop10pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.5087064676616916,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.6492537313432836,
+        "pass": false
+      }
+    },
+    "drop30pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9813432835820896,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.9888059701492538,
+        "pass": true
+      }
+    },
+    "drop60pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "extra10pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.16417910447761194,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.472636815920398,
+        "pass": false
+      }
+    },
+    "extra30pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9054726368159204,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.996268656716418,
+        "pass": true
+      }
+    },
+    "jitter10ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.15796019900497513,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.42412935323383083,
+        "pass": false
+      }
+    },
+    "jitter200ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9937810945273632,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "jitter30ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.3805970149253731,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.818407960199005,
+        "pass": true
+      }
+    },
+    "jitter80ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.7587064676616916,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.9900497512437811,
+        "pass": true
+      }
+    },
+    "pitchshuffle2s": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.7922885572139303,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.9527363184079602,
+        "pass": true
+      }
+    },
+    "pitchshuffle_all": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9626865671641791,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.9937810945273632,
+        "pass": true
+      }
+    },
+    "posshuffle100pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "posshuffle10pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.6181592039800995,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.7860696517412935,
+        "pass": false
+      }
+    },
+    "posshuffle30pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9701492537313433,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.9900497512437811,
+        "pass": true
+      }
+    },
+    "randpitch100pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "randpitch10pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.3855721393034826,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.4527363184079602,
+        "pass": false
+      }
+    },
+    "randpitch30pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.8644278606965174,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.8893034825870647,
+        "pass": true
+      }
+    },
+    "retrograde": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9291044776119403,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "tempo_x0.95": {
+      "kind": "soft",
+      "mert": {
+        "n": 804,
+        "mean": 0.9943819650248755,
+        "std": 0.023982482115631466,
+        "p10": 0.993359978,
+        "median": 0.997252375,
+        "p90": 0.998537051
+      },
+      "muq": {
+        "n": 804,
+        "mean": 0.9833345065547264,
+        "std": 0.006176471664593533,
+        "p10": 0.97516174,
+        "median": 0.98428491,
+        "p90": 0.990349499
+      }
+    },
+    "tempo_x0.98": {
+      "kind": "soft",
+      "mert": {
+        "n": 804,
+        "mean": 0.9954644862064677,
+        "std": 0.030932298505622187,
+        "p10": 0.996011226,
+        "median": 0.99874067,
+        "p90": 0.999407041
+      },
+      "muq": {
+        "n": 804,
+        "mean": 0.9962061569900497,
+        "std": 0.001484450840238393,
+        "p10": 0.994289988,
+        "median": 0.9964483399999999,
+        "p90": 0.9978594
+      }
+    },
+    "tempo_x1.02": {
+      "kind": "soft",
+      "mert": {
+        "n": 804,
+        "mean": 0.9953888384079602,
+        "std": 0.029485139190263424,
+        "p10": 0.995222509,
+        "median": 0.9986868799999999,
+        "p90": 0.999419815
+      },
+      "muq": {
+        "n": 804,
+        "mean": 0.9963492948009951,
+        "std": 0.001626817375140121,
+        "p10": 0.9942723,
+        "median": 0.99656558,
+        "p90": 0.998034058
+      }
+    },
+    "tempo_x1.05": {
+      "kind": "soft",
+      "mert": {
+        "n": 804,
+        "mean": 0.9960251986691543,
+        "std": 0.005754136319636967,
+        "p10": 0.993216697,
+        "median": 0.997449605,
+        "p90": 0.998510165
+      },
+      "muq": {
+        "n": 804,
+        "mean": 0.9845657912189055,
+        "std": 0.006746012571581331,
+        "p10": 0.976103042,
+        "median": 0.98553902,
+        "p90": 0.992081585
+      }
+    },
+    "transpose+1": {
+      "kind": "soft",
+      "mert": {
+        "n": 804,
+        "mean": 0.9534482202860696,
+        "std": 0.03873830744454543,
+        "p10": 0.932343292,
+        "median": 0.962231965,
+        "p90": 0.973631713
+      },
+      "muq": {
+        "n": 804,
+        "mean": 0.9492125321517413,
+        "std": 0.01868454916548725,
+        "p10": 0.925002361,
+        "median": 0.95158404,
+        "p90": 0.970122461
+      }
+    },
+    "transpose-1": {
+      "kind": "soft",
+      "mert": {
+        "n": 804,
+        "mean": 0.9519369675497511,
+        "std": 0.04051131910882081,
+        "p10": 0.931941346,
+        "median": 0.961294205,
+        "p90": 0.9736067850000001
+      },
+      "muq": {
+        "n": 804,
+        "mean": 0.9491390228855721,
+        "std": 0.019017618368785388,
+        "p10": 0.924266424,
+        "median": 0.95268026,
+        "p90": 0.969947732
+      }
+    },
+    "unsteady15pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.3283582089552239,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.8644278606965174,
+        "pass": true
+      }
+    },
+    "unsteady30pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.6106965174129353,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.9676616915422885,
+        "pass": true
+      }
+    },
+    "unsteady5pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.13805970149253732,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.5211442786069652,
+        "pass": false
+      }
+    },
+    "vel_random": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.9701492537313433,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.4900497512437811,
+        "pass": false
+      }
+    },
+    "vel_x0.85": {
+      "kind": "soft",
+      "mert": {
+        "n": 804,
+        "mean": 0.9991287888432836,
+        "std": 0.0008266996726374299,
+        "p10": 0.998232046,
+        "median": 0.99938905,
+        "p90": 0.999890492
+      },
+      "muq": {
+        "n": 804,
+        "mean": 0.9992289129104477,
+        "std": 0.000603033666887255,
+        "p10": 0.998603107,
+        "median": 0.9993522450000001,
+        "p90": 0.999773221
+      }
+    },
+    "wrong100pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "wrong10pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.3407960199004975,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.40422885572139305,
+        "pass": false
+      }
+    },
+    "wrong1_semi": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.0708955223880597,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.043532338308457715,
+        "pass": false
+      }
+    },
+    "wrong1_tritone": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.16791044776119404,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.0845771144278607,
+        "pass": false
+      }
+    },
+    "wrong30pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.8445273631840796,
+        "pass": true
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.8756218905472637,
+        "pass": true
+      }
+    },
+    "wrong5pct": {
+      "kind": "lose",
+      "mert": {
+        "n": 804,
+        "pass_rate": 0.12935323383084577,
+        "pass": false
+      },
+      "muq": {
+        "n": 804,
+        "pass_rate": 0.17786069651741293,
+        "pass": false
+      }
+    },
+    "bitcrush4": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "bitcrush6": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9892262487757101,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9990205680705191,
+        "pass": true
+      }
+    },
+    "bitcrush8": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.7071498530852106,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9490695396669931,
+        "pass": true
+      }
+    },
+    "blast80ms_x1": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.8148873653281097,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.025465230166503428,
+        "pass": false
+      }
+    },
+    "blast80ms_x3": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9872673849167483,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.8628795298726738,
+        "pass": true
+      }
+    },
+    "clean_shuf": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "clicks1ps": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9980411361410382,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9960822722820764,
+        "pass": true
+      }
+    },
+    "clicks20ps": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "clicks5ps": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "clip12db": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9921645445641528,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.940254652301665,
+        "pass": true
+      }
+    },
+    "clip20db": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9960822722820764,
+        "pass": true
+      }
+    },
+    "clip3db": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.010773751224289911,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.04407443682664055,
+        "pass": false
+      }
+    },
+    "clip6db": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.23702252693437806,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.4505386875612145,
+        "pass": false
+      }
+    },
+    "dropout20ms_x10": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9333986287952988,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.8667972575905974,
+        "pass": true
+      }
+    },
+    "dropout20ms_x3": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.13614103819784526,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.23996082272282077,
+        "pass": false
+      }
+    },
+    "dropout20ms_x30": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9960822722820764,
+        "pass": true
+      }
+    },
+    "gain+1": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain+3": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain+6": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain-0.5": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain-1": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain-10": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9813907933398629,
+        "pass": true
+      }
+    },
+    "gain-15": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.5690499510284035,
+        "pass": false
+      }
+    },
+    "gain-2": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain-20": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.022526934378060724,
+        "pass": false
+      }
+    },
+    "gain-3": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain-30": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.0,
+        "pass": false
+      }
+    },
+    "gain-6": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "lead10ms": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9686581782566112,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "lead200ms": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.8932419196865817,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.8824681684622919,
+        "pass": true
+      }
+    },
+    "lead50ms": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9539666993143977,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9373163565132223,
+        "pass": true
+      }
+    },
+    "lowpass1k": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "lowpass2k": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9980411361410382,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "lowpass4k": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.594515181194907,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "mp3_160k": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9853085210577864,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.1811949069539667,
+        "pass": false
+      }
+    },
+    "mp3_32k": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9696376101860921,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.005876591576885406,
+        "pass": false
+      }
+    },
+    "mp3_64k": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9853085210577864,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.14005876591576885,
+        "pass": false
+      }
+    },
+    "noise_snr0": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr10": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr15": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr20": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9990205680705191,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr25": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9872673849167483,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9980411361410382,
+        "pass": true
+      }
+    },
+    "noise_snr30": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9637610186092067,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9951028403525954,
+        "pass": true
+      }
+    },
+    "noise_snr40": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.6963761018609207,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.960822722820764,
+        "pass": true
+      }
+    },
+    "noise_snr5": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr50": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.4593535749265426,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.6904995102840352,
+        "pass": false
+      }
+    },
+    "pcm16": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9990205680705191,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9647404505386875,
+        "pass": true
+      }
+    },
+    "polarity": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9245837414299706,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "resample44k": {
+      "kind": "tie",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "reverse": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.9392752203721841,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "shuffle0.25s": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "shuffle1.0s": {
+      "kind": "lose",
+      "mert": {
+        "n": 1021,
+        "pass_rate": 0.7061704211557297,
+        "pass": false
+      },
+      "muq": {
+        "n": 1021,
+        "pass_rate": 0.9990205680705191,
+        "pass": true
+      }
+    }
+  },
+  "126c": {
+    "bass_semi+1": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.969147005444646,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.1306715063520871,
+        "pass": false
+      }
+    },
+    "clicks5ps": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "clip6db": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.23774954627949182,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.019963702359346643,
+        "pass": false
+      }
+    },
+    "dmx_no_bass": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.9401958095825771,
+        "std": 0.0545595293005006,
+        "p10": 0.87600487,
+        "median": 0.95538038,
+        "p90": 0.98804617
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.946589431724138,
+        "std": 0.02202967216126798,
+        "p10": 0.9168601,
+        "median": 0.95118475,
+        "p90": 0.97004473
+      }
+    },
+    "dmx_no_drums": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.9435264120871143,
+        "std": 0.04920553846452337,
+        "p10": 0.87757128,
+        "median": 0.96062803,
+        "p90": 0.98784244
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9045579790381125,
+        "std": 0.038203418682475405,
+        "p10": 0.85203636,
+        "median": 0.91029167,
+        "p90": 0.94863403
+      }
+    },
+    "dmx_no_other": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.9617428606352088,
+        "std": 0.028723410782157614,
+        "p10": 0.92521882,
+        "median": 0.96902782,
+        "p90": 0.98914599
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.8812531852994555,
+        "std": 0.051746952920307315,
+        "p10": 0.81138033,
+        "median": 0.88816416,
+        "p90": 0.93964666
+      }
+    },
+    "dmx_no_vocals": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.9680865147186933,
+        "std": 0.01992497472969191,
+        "p10": 0.94277358,
+        "median": 0.97306305,
+        "p90": 0.98783916
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.7907875756624319,
+        "std": 0.09337588251160325,
+        "p10": 0.66494244,
+        "median": 0.79369831,
+        "p90": 0.9054088
+      }
+    },
+    "dmx_resum": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.9945553539019963,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.0018148820326678765,
+        "pass": false
+      }
+    },
+    "drums_lag100ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.7096188747731398,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.9637023593466425,
+        "pass": true
+      }
+    },
+    "drums_lag20ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.29945553539019965,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.007259528130671506,
+        "pass": false
+      }
+    },
+    "drums_lag250ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.7658802177858439,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.9382940108892922,
+        "pass": true
+      }
+    },
+    "drums_lag50ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.5499092558983666,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.7386569872958257,
+        "pass": false
+      }
+    },
+    "gain-1": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "gain-3": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "lead10ms": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.7912885662431942,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "lowpass4k": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "mix": {
+      "kind": "ref",
+      "mert": null,
+      "muq": null
+    },
+    "mp3_64k": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.9310344827586207,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.0,
+        "pass": false
+      }
+    },
+    "no_bass": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.9417591112704174,
+        "std": 0.054979648122638454,
+        "p10": 0.86913902,
+        "median": 0.95866394,
+        "p90": 0.98896748
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9726413827404718,
+        "std": 0.022428567932538116,
+        "p10": 0.94272017,
+        "median": 0.97891665,
+        "p90": 0.99330664
+      }
+    },
+    "no_drums": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.947684735571688,
+        "std": 0.04829889460502364,
+        "p10": 0.8845951,
+        "median": 0.96516597,
+        "p90": 0.98991466
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9244211214337567,
+        "std": 0.04277765763901191,
+        "p10": 0.86658466,
+        "median": 0.93245459,
+        "p90": 0.97175491
+      }
+    },
+    "no_other": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.9678128213248638,
+        "std": 0.024460555269517462,
+        "p10": 0.93774962,
+        "median": 0.97399122,
+        "p90": 0.9913615
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9142162171143375,
+        "std": 0.049307581782544525,
+        "p10": 0.85370708,
+        "median": 0.92284995,
+        "p90": 0.96786237
+      }
+    },
+    "no_vocals": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.9698998304718691,
+        "std": 0.0205809377563518,
+        "p10": 0.94485235,
+        "median": 0.97477323,
+        "p90": 0.98944747
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.8222987215426497,
+        "std": 0.09186833743266745,
+        "p10": 0.6971249,
+        "median": 0.83023226,
+        "p90": 0.93375492
+      }
+    },
+    "noise_snr10": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.9981851179673321,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr20": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.691470054446461,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr30": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.22686025408348456,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.9491833030852994,
+        "pass": true
+      }
+    },
+    "noise_snr40": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.04900181488203267,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.4519056261343013,
+        "pass": false
+      }
+    },
+    "only_bass": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.7963988047368421,
+        "std": 0.07076773314786836,
+        "p10": 0.69502103,
+        "median": 0.80920351,
+        "p90": 0.87193286
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.5125674933030853,
+        "std": 0.10286926143203708,
+        "p10": 0.38890857,
+        "median": 0.50681961,
+        "p90": 0.65269184
+      }
+    },
+    "only_drums": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.8147472786388384,
+        "std": 0.06805536220524669,
+        "p10": 0.72583669,
+        "median": 0.82048577,
+        "p90": 0.8943162
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.6284470312704173,
+        "std": 0.1050194859291177,
+        "p10": 0.48541009,
+        "median": 0.63193762,
+        "p90": 0.77139521
+      }
+    },
+    "only_other": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.8522245199455536,
+        "std": 0.06783014113015857,
+        "p10": 0.76444322,
+        "median": 0.8671127,
+        "p90": 0.92400777
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.6870830951724138,
+        "std": 0.11682741957577966,
+        "p10": 0.52519083,
+        "median": 0.69724107,
+        "p90": 0.82542139
+      }
+    },
+    "only_vocals": {
+      "kind": "descriptive",
+      "mert": {
+        "n": 551,
+        "mean": 0.7950786590381125,
+        "std": 0.06827527559025107,
+        "p10": 0.7085585,
+        "median": 0.80549181,
+        "p90": 0.86981273
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.6452538551179673,
+        "std": 0.1033930134241395,
+        "p10": 0.51216424,
+        "median": 0.64926964,
+        "p90": 0.77030462
+      }
+    },
+    "pcm16": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "polarity": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.3430127041742287,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_bass_+1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_bass_+3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9955685705989109,
+        "std": 0.002753591435413995,
+        "p10": 0.99217951,
+        "median": 0.99620759,
+        "p90": 0.9980154
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9988249029401088,
+        "std": 0.0010491784957338806,
+        "p10": 0.99777132,
+        "median": 0.99911791,
+        "p90": 0.99962819
+      }
+    },
+    "rebal_bass_+6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9824920984936479,
+        "std": 0.010543564968621546,
+        "p10": 0.96982384,
+        "median": 0.98490143,
+        "p90": 0.9918617
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9951897546642468,
+        "std": 0.003888021431177706,
+        "p10": 0.99071777,
+        "median": 0.99625254,
+        "p90": 0.99843264
+      }
+    },
+    "rebal_bass_-1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.9981851179673321,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_bass_-3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9963849093647913,
+        "std": 0.002357164597742354,
+        "p10": 0.993577,
+        "median": 0.99697667,
+        "p90": 0.99862754
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9989703575680582,
+        "std": 0.0009603653715515715,
+        "p10": 0.99805421,
+        "median": 0.99922961,
+        "p90": 0.99970198
+      }
+    },
+    "rebal_bass_-6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9878523520689655,
+        "std": 0.008446703895375553,
+        "p10": 0.97808677,
+        "median": 0.98966157,
+        "p90": 0.9961431
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9964306993466424,
+        "std": 0.0030322113622104703,
+        "p10": 0.99339056,
+        "median": 0.99722278,
+        "p90": 0.99898088
+      }
+    },
+    "rebal_drums_+1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.9945553539019963,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_drums_+3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.994282542123412,
+        "std": 0.0038402689132436803,
+        "p10": 0.98995423,
+        "median": 0.99501836,
+        "p90": 0.99792892
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9973601497822141,
+        "std": 0.0015446883958462373,
+        "p10": 0.99564421,
+        "median": 0.99764621,
+        "p90": 0.99879336
+      }
+    },
+    "rebal_drums_+6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9791665919419237,
+        "std": 0.012022128816595793,
+        "p10": 0.96427363,
+        "median": 0.98198313,
+        "p90": 0.99148607
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9893966810889291,
+        "std": 0.006241539053422082,
+        "p10": 0.98258233,
+        "median": 0.99052984,
+        "p90": 0.99516594
+      }
+    },
+    "rebal_drums_-1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.9981851179673321,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_drums_-3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9949326164972777,
+        "std": 0.00404898839664333,
+        "p10": 0.99009758,
+        "median": 0.99573487,
+        "p90": 0.99874389
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9974681082032666,
+        "std": 0.001624016640384672,
+        "p10": 0.99573815,
+        "median": 0.99782902,
+        "p90": 0.99893105
+      }
+    },
+    "rebal_drums_-6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9836909488203265,
+        "std": 0.013545385302802918,
+        "p10": 0.96509284,
+        "median": 0.98703897,
+        "p90": 0.99634314
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.990377794428312,
+        "std": 0.00626566165824627,
+        "p10": 0.98360705,
+        "median": 0.99177027,
+        "p90": 0.99604219
+      }
+    },
+    "rebal_other_+1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_other_+3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.996754307150635,
+        "std": 0.0028551248521266562,
+        "p10": 0.99442846,
+        "median": 0.99736834,
+        "p90": 0.99892497
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9952332977313976,
+        "std": 0.004515656392029038,
+        "p10": 0.99081188,
+        "median": 0.99666691,
+        "p90": 0.99843711
+      }
+    },
+    "rebal_other_+6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9870184934119781,
+        "std": 0.00901565332471639,
+        "p10": 0.97851801,
+        "median": 0.98894662,
+        "p90": 0.99514735
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9791494648820327,
+        "std": 0.018910576531845396,
+        "p10": 0.95709604,
+        "median": 0.98546416,
+        "p90": 0.99371982
+      }
+    },
+    "rebal_other_-1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_other_-3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9977514859346643,
+        "std": 0.0017115983431489476,
+        "p10": 0.99569499,
+        "median": 0.99822462,
+        "p90": 0.99931169
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9965769732849366,
+        "std": 0.002851619748825335,
+        "p10": 0.99416524,
+        "median": 0.99728072,
+        "p90": 0.99865103
+      }
+    },
+    "rebal_other_-6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9929800978221414,
+        "std": 0.005273862826952808,
+        "p10": 0.98612553,
+        "median": 0.9945128,
+        "p90": 0.99779451
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9886532039382941,
+        "std": 0.008347178616958986,
+        "p10": 0.98057669,
+        "median": 0.99036288,
+        "p90": 0.9951731
+      }
+    },
+    "rebal_vocals_+1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_vocals_+3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9968411421778585,
+        "std": 0.0016650258359953757,
+        "p10": 0.99499893,
+        "median": 0.99714029,
+        "p90": 0.99837941
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9959468474591653,
+        "std": 0.0032096179295301804,
+        "p10": 0.99313205,
+        "median": 0.99675131,
+        "p90": 0.99824423
+      }
+    },
+    "rebal_vocals_+6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9870502027586207,
+        "std": 0.006275220334861091,
+        "p10": 0.98028648,
+        "median": 0.98828435,
+        "p90": 0.99290204
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9862295096370235,
+        "std": 0.008932432087714612,
+        "p10": 0.97812045,
+        "median": 0.98827207,
+        "p90": 0.99331528
+      }
+    },
+    "rebal_vocals_-1dB": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "rebal_vocals_-3dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9974305049364792,
+        "std": 0.0016235712016375756,
+        "p10": 0.99602282,
+        "median": 0.99767649,
+        "p90": 0.99878722
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9943962408529945,
+        "std": 0.005248254569215353,
+        "p10": 0.98838663,
+        "median": 0.99613535,
+        "p90": 0.99811244
+      }
+    },
+    "rebal_vocals_-6dB": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9918901620508167,
+        "std": 0.005435698731023928,
+        "p10": 0.98724365,
+        "median": 0.99263656,
+        "p90": 0.99632889
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9764088423049001,
+        "std": 0.020386671857186834,
+        "p10": 0.9496147,
+        "median": 0.98339689,
+        "p90": 0.99256247
+      }
+    },
+    "stemsum": {
+      "kind": "tie",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "swap_drums": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.9981851179673321,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "swap_vocals": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 1.0,
+        "pass": true
+      }
+    },
+    "vocal_pv0": {
+      "kind": "soft",
+      "mert": {
+        "n": 551,
+        "mean": 0.9965646998729585,
+        "std": 0.003312489453274693,
+        "p10": 0.99421227,
+        "median": 0.99718738,
+        "p90": 0.99884617
+      },
+      "muq": {
+        "n": 551,
+        "mean": 0.9943882882032667,
+        "std": 0.0034297364669498218,
+        "p10": 0.99022865,
+        "median": 0.99495548,
+        "p90": 0.99786389
+      }
+    },
+    "vocals_detune100c": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.8330308529945554,
+        "pass": true
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.4863883847549909,
+        "pass": false
+      }
+    },
+    "vocals_detune25c": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.279491833030853,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.009074410163339383,
+        "pass": false
+      }
+    },
+    "vocals_detune50c": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.5644283121597096,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.1088929219600726,
+        "pass": false
+      }
+    },
+    "vocals_lag100ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.15970961887477314,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.5716878402903811,
+        "pass": false
+      }
+    },
+    "vocals_lag250ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.3647912885662432,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.7096188747731398,
+        "pass": false
+      }
+    },
+    "vocals_lag50ms": {
+      "kind": "lose",
+      "mert": {
+        "n": 551,
+        "pass_rate": 0.0852994555353902,
+        "pass": false
+      },
+      "muq": {
+        "n": 551,
+        "pass_rate": 0.13430127041742287,
+        "pass": false
+      }
+    }
+  },
+  "126a": {
+    "clean": {
+      "real": {
+        "kind": "ref",
+        "n": 5131,
+        "mean_cosim": 0.9999999940830248,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0
+      },
+      "ours_cfg3neg": {
+        "kind": "ref",
+        "n": 5131,
+        "mean_cosim": 0.9999999926193723,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0
+      },
+      "ours_cfg0": {
+        "kind": "ref",
+        "n": 5131,
+        "mean_cosim": 0.9999999939660885,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0
+      },
+      "musicgen": {
+        "kind": "ref",
+        "n": 5131,
+        "mean_cosim": 0.9999999932722666,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0
+      },
+      "musicldm": {
+        "kind": "ref",
+        "n": 5131,
+        "mean_cosim": 0.9999999867881503,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0
+      }
+    },
+    "clean_shuf": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999940830248,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999926193723,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999939660885,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999932722666,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999867881503,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      }
+    },
+    "gain-0.5": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999999991970376,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999999991629312,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999904950302,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999997307230559,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999445624635,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      }
+    },
+    "gain-1": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999891073864,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999918397973,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999824790488,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999989453244982,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999998091405184,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      }
+    },
+    "gain-2": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999792730461,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999999987680764,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999488910544,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999957685421946,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999999264671604,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      }
+    },
+    "gain-3": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999558546094,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999853595791,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999998776300918,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999900594815826,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9990255310855584,
+        "worse": 0.0009744689144416293,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999980636873904,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      }
+    },
+    "gain-6": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999998025784447,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999541960631,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999991954277919,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999547746306764,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9970765932566751,
+        "worse": 0.002923406743324888,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999922881894368,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9996102124342233,
+        "worse": 0.0003897875657766517,
+        "pass": true
+      }
+    },
+    "gain-10": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999999099403625,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999997191619568,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999951384135647,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9998696465737674,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9961021243422334,
+        "worse": 0.0038978756577665173,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999826011713117,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9996102124342233,
+        "worse": 0.0003897875657766517,
+        "pass": true
+      }
+    },
+    "gain-15": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999997746053401,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999980511381797,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999837370882868,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9990255310855584,
+        "worse": 0.0009744689144416293,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9997247837478074,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9937633989475736,
+        "worse": 0.006236601052426427,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999744367257845,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9996102124342233,
+        "worse": 0.0003897875657766517,
+        "pass": true
+      }
+    },
+    "gain-20": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999942831514326,
+        "p10_cosim": 0.9999997,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999921338355097,
+        "p10_cosim": 0.9999997,
+        "tie": 0.999415318651335,
+        "worse": 0.0005846813486649776,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999735463204052,
+        "p10_cosim": 0.9999997,
+        "tie": 0.9986357435197817,
+        "worse": 0.001364256480218281,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9995831485928669,
+        "p10_cosim": 0.9999997,
+        "tie": 0.992788930033132,
+        "worse": 0.007211069966868057,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999678732118495,
+        "p10_cosim": 0.99999964,
+        "tie": 0.999415318651335,
+        "worse": 0.0005846813486649776,
+        "pass": true
+      }
+    },
+    "gain-30": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999450439758332,
+        "p10_cosim": 0.99997419,
+        "tie": 0.9972714870395635,
+        "worse": 0.002728512960436562,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999429287565778,
+        "p10_cosim": 0.99997681,
+        "tie": 0.9984408497368934,
+        "worse": 0.0015591502631066068,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999176300467745,
+        "p10_cosim": 0.99997485,
+        "tie": 0.9974663808224518,
+        "worse": 0.002533619177548236,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999284043356071,
+        "p10_cosim": 0.99997538,
+        "tie": 0.989865523289807,
+        "worse": 0.010134476710192944,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999281092827907,
+        "p10_cosim": 0.99997145,
+        "tie": 0.9980510621711167,
+        "worse": 0.0019489378288832587,
+        "pass": true
+      }
+    },
+    "gain+1": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999839446502,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999875112064,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999850204638,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999989564724225,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999998705573961,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      }
+    },
+    "gain+3": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999998784798285,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999691736504,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999999402338725,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999993016928474,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9992204248684466,
+        "worse": 0.0007795751315533034,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999990869674528,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      }
+    },
+    "gain+6": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999992412882478,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999999673636718,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999993794289611,
+        "p10_cosim": 0.99999988,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999827562775288,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9982459559540051,
+        "worse": 0.0017540440459949329,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999972063944649,
+        "p10_cosim": 0.99999988,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      }
+    },
+    "polarity": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9938591631787176,
+        "p10_cosim": 0.984626,
+        "tie": 0.6731631260962775,
+        "worse": 0.32683687390372246,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9952790659267199,
+        "p10_cosim": 0.98981518,
+        "tie": 0.772169167803547,
+        "worse": 0.22783083219645292,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9955611363204053,
+        "p10_cosim": 0.99075294,
+        "tie": 0.7630091600077957,
+        "worse": 0.23699083999220424,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9960417988150457,
+        "p10_cosim": 0.99184883,
+        "tie": 0.7142857142857143,
+        "worse": 0.2857142857142857,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9972351710816603,
+        "p10_cosim": 0.99555355,
+        "tie": 0.869031377899045,
+        "worse": 0.13096862210095497,
+        "pass": true
+      }
+    },
+    "pcm16": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999890435977392,
+        "p10_cosim": 0.99999803,
+        "tie": 0.9996102124342233,
+        "worse": 0.0003897875657766517,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999941862794777,
+        "p10_cosim": 0.99999893,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999779881251218,
+        "p10_cosim": 0.99999774,
+        "tie": 0.9990255310855584,
+        "worse": 0.0009744689144416293,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999856930150068,
+        "p10_cosim": 0.9999944,
+        "tie": 0.9992204248684466,
+        "worse": 0.0007795751315533034,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999600182030792,
+        "p10_cosim": 0.9999935,
+        "tie": 0.9978561683882284,
+        "worse": 0.0021438316117715845,
+        "pass": true
+      }
+    },
+    "resample44k": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999956940286494,
+        "p10_cosim": 0.99992049,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999996070337167,
+        "p10_cosim": 0.99999923,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999993790079906,
+        "p10_cosim": 0.99999881,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999994614656013,
+        "p10_cosim": 0.99999964,
+        "tie": 1.0,
+        "worse": 0.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999893105749366,
+        "p10_cosim": 0.99998844,
+        "tie": 0.999415318651335,
+        "worse": 0.0005846813486649776,
+        "pass": true
+      }
+    },
+    "lead10ms": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9975065713623074,
+        "p10_cosim": 0.99557912,
+        "tie": 0.8758526603001364,
+        "worse": 0.12414733969986358,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9974829628766323,
+        "p10_cosim": 0.99515122,
+        "tie": 0.8633794581952836,
+        "worse": 0.13662054180471642,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9973642815260182,
+        "p10_cosim": 0.99522626,
+        "tie": 0.8524654063535373,
+        "worse": 0.14753459364646268,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9966862959910349,
+        "p10_cosim": 0.99385941,
+        "tie": 0.7768466185928669,
+        "worse": 0.22315338140713312,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9973723294542975,
+        "p10_cosim": 0.99555755,
+        "tie": 0.8596764763204053,
+        "worse": 0.1403235236795946,
+        "pass": true
+      }
+    },
+    "lead50ms": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9965816530851687,
+        "p10_cosim": 0.99383456,
+        "tie": 0.7934125901383746,
+        "worse": 0.2065874098616254,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9971142983336582,
+        "p10_cosim": 0.99466068,
+        "tie": 0.8341453907620346,
+        "worse": 0.1658546092379653,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9969060039836288,
+        "p10_cosim": 0.99457335,
+        "tie": 0.7994542974079127,
+        "worse": 0.20054570259208732,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9958151229584875,
+        "p10_cosim": 0.99298859,
+        "tie": 0.6649775872149678,
+        "worse": 0.33502241278503214,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.996786065583707,
+        "p10_cosim": 0.99469924,
+        "tie": 0.7799649191190801,
+        "worse": 0.2200350808809199,
+        "pass": false
+      }
+    },
+    "lead200ms": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9962569602631066,
+        "p10_cosim": 0.9937492,
+        "tie": 0.7552134086922627,
+        "worse": 0.24478659130773728,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9979825785772755,
+        "p10_cosim": 0.99680698,
+        "tie": 0.9393880335217306,
+        "worse": 0.060611966478269344,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9973214142311441,
+        "p10_cosim": 0.9955982,
+        "tie": 0.8625998830637303,
+        "worse": 0.13740011693626974,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9963292027519002,
+        "p10_cosim": 0.99366617,
+        "tie": 0.7119469888910543,
+        "worse": 0.2880530111089456,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9970774666965503,
+        "p10_cosim": 0.99480188,
+        "tie": 0.7943870590528163,
+        "worse": 0.2056129409471838,
+        "pass": false
+      }
+    },
+    "mp3_160k": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9986170294835315,
+        "p10_cosim": 0.9974637,
+        "tie": 0.9694016760865328,
+        "worse": 0.03059832391346716,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9997879723465212,
+        "p10_cosim": 0.99955463,
+        "tie": 0.9996102124342233,
+        "worse": 0.0003897875657766517,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.999721050278698,
+        "p10_cosim": 0.9994567,
+        "tie": 0.9990255310855584,
+        "worse": 0.0009744689144416293,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9999886095030209,
+        "p10_cosim": 0.99998635,
+        "tie": 0.9998051062171117,
+        "worse": 0.00019489378288832586,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9989803938296629,
+        "p10_cosim": 0.99804568,
+        "tie": 0.9846033911518223,
+        "worse": 0.015396608848177742,
+        "pass": true
+      }
+    },
+    "mp3_64k": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9985627935821478,
+        "p10_cosim": 0.99738866,
+        "tie": 0.9662833755603196,
+        "worse": 0.033716624439680376,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9997272829545899,
+        "p10_cosim": 0.99945056,
+        "tie": 0.9986357435197817,
+        "worse": 0.001364256480218281,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9996519763730267,
+        "p10_cosim": 0.99936652,
+        "tie": 0.9984408497368934,
+        "worse": 0.0015591502631066068,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9994469478795557,
+        "p10_cosim": 0.99890602,
+        "tie": 0.9939582927304619,
+        "worse": 0.006041707269538101,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.998936090629507,
+        "p10_cosim": 0.99798346,
+        "tie": 0.9836289222373806,
+        "worse": 0.01637107776261937,
+        "pass": true
+      }
+    },
+    "mp3_32k": {
+      "real": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9977685258019879,
+        "p10_cosim": 0.99627709,
+        "tie": 0.91268758526603,
+        "worse": 0.08731241473396999,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9989879268095887,
+        "p10_cosim": 0.99816376,
+        "tie": 0.9809004092769441,
+        "worse": 0.019099590723055934,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9988175468894952,
+        "p10_cosim": 0.99808586,
+        "tie": 0.9807055154940557,
+        "worse": 0.01929448450594426,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.9848750974371469,
+        "p10_cosim": 0.97051775,
+        "tie": 0.12999415318651336,
+        "worse": 0.8700058468134867,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "tie",
+        "n": 5131,
+        "mean_cosim": 0.998192546649776,
+        "p10_cosim": 0.99692142,
+        "tie": 0.9543948548041318,
+        "worse": 0.04560514519586825,
+        "pass": true
+      }
+    },
+    "noise_snr50": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9982115538004288,
+        "p10_cosim": 0.99734223,
+        "tie": 0.9259403625024362,
+        "worse": 0.07405963749756382,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9992576470454103,
+        "p10_cosim": 0.99901068,
+        "tie": 0.9664782693432079,
+        "worse": 0.03352173065679205,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9990552903040343,
+        "p10_cosim": 0.99836493,
+        "tie": 0.9504969791463652,
+        "worse": 0.04950302085363477,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.998824230725005,
+        "p10_cosim": 0.99691004,
+        "tie": 0.9310076008575326,
+        "worse": 0.06899239914246735,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9978611214383162,
+        "p10_cosim": 0.99559665,
+        "tie": 0.8885207561878776,
+        "worse": 0.11147924381212239,
+        "pass": false
+      }
+    },
+    "noise_snr40": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9948966814967842,
+        "p10_cosim": 0.98991358,
+        "tie": 0.7774312999415318,
+        "worse": 0.22256870005846813,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9970278369557591,
+        "p10_cosim": 0.99387884,
+        "tie": 0.8206977197427402,
+        "worse": 0.1793022802572598,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9966743340381993,
+        "p10_cosim": 0.99244285,
+        "tie": 0.7959462093159229,
+        "worse": 0.20405379068407717,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.995528544416293,
+        "p10_cosim": 0.98877329,
+        "tie": 0.6326252192555057,
+        "worse": 0.36737478074449426,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9938678844728124,
+        "p10_cosim": 0.98575693,
+        "tie": 0.6811537711946989,
+        "worse": 0.3188462288053011,
+        "pass": false
+      }
+    },
+    "noise_snr30": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9898672975755214,
+        "p10_cosim": 0.97757202,
+        "tie": 0.5359579029428961,
+        "worse": 0.46404209705710386,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9911395865055546,
+        "p10_cosim": 0.98241276,
+        "tie": 0.3541220035080881,
+        "worse": 0.6458779964919119,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9911364978425258,
+        "p10_cosim": 0.98039615,
+        "tie": 0.4120054570259209,
+        "worse": 0.5879945429740792,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9889823502436172,
+        "p10_cosim": 0.97544849,
+        "tie": 0.32060027285129605,
+        "worse": 0.679399727148704,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.988055870908205,
+        "p10_cosim": 0.97175753,
+        "tie": 0.4316897290976418,
+        "worse": 0.5683102709023582,
+        "pass": false
+      }
+    },
+    "noise_snr25": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9856104950613915,
+        "p10_cosim": 0.96793157,
+        "tie": 0.38998245955954003,
+        "worse": 0.61001754044046,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9860619324205807,
+        "p10_cosim": 0.97321475,
+        "tie": 0.1407133112453713,
+        "worse": 0.8592866887546288,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9858634952173065,
+        "p10_cosim": 0.97026765,
+        "tie": 0.19820697719742741,
+        "worse": 0.8017930228025726,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9836494211752095,
+        "p10_cosim": 0.96514201,
+        "tie": 0.18417462482946795,
+        "worse": 0.8158253751705321,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9829672847904891,
+        "p10_cosim": 0.96092784,
+        "tie": 0.2923406743324888,
+        "worse": 0.7076593256675112,
+        "pass": false
+      }
+    },
+    "noise_snr20": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9787504136055349,
+        "p10_cosim": 0.95298332,
+        "tie": 0.22276359384135647,
+        "worse": 0.7772364061586435,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.977274280401481,
+        "p10_cosim": 0.95721012,
+        "tie": 0.023777041512375755,
+        "worse": 0.9762229584876242,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.977014768242058,
+        "p10_cosim": 0.95406759,
+        "tie": 0.04891833950496979,
+        "worse": 0.9510816604950302,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9759738687741181,
+        "p10_cosim": 0.95169693,
+        "tie": 0.07328006236601052,
+        "worse": 0.9267199376339895,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9753952279458195,
+        "p10_cosim": 0.9462319,
+        "tie": 0.1432469304229195,
+        "worse": 0.8567530695770805,
+        "pass": true
+      }
+    },
+    "noise_snr15": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9671656451724809,
+        "p10_cosim": 0.93051982,
+        "tie": 0.06217111674137595,
+        "worse": 0.937828883258624,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9595440549736892,
+        "p10_cosim": 0.92519653,
+        "tie": 0.001364256480218281,
+        "worse": 0.9986357435197817,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9609957764373417,
+        "p10_cosim": 0.92551184,
+        "tie": 0.004287663223543169,
+        "worse": 0.9957123367764569,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9652788290723056,
+        "p10_cosim": 0.93606406,
+        "tie": 0.012083414539076203,
+        "worse": 0.9879165854609238,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9638867766263887,
+        "p10_cosim": 0.92520249,
+        "tie": 0.03858896901188852,
+        "worse": 0.9614110309881114,
+        "pass": true
+      }
+    },
+    "noise_snr10": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9454517624926915,
+        "p10_cosim": 0.88789308,
+        "tie": 0.002533619177548236,
+        "worse": 0.9974663808224518,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9257110377509259,
+        "p10_cosim": 0.86796093,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9293414575365426,
+        "p10_cosim": 0.87033117,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9475539129117131,
+        "p10_cosim": 0.90798378,
+        "tie": 0.00019489378288832586,
+        "worse": 0.9998051062171117,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9452790365133501,
+        "p10_cosim": 0.88976938,
+        "tie": 0.0035080880919898657,
+        "worse": 0.9964919119080101,
+        "pass": true
+      }
+    },
+    "noise_snr5": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9090800498323913,
+        "p10_cosim": 0.83349121,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8821060442681737,
+        "p10_cosim": 0.81485981,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8855069284291561,
+        "p10_cosim": 0.8186661,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.916391083168973,
+        "p10_cosim": 0.86102128,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9146850256908985,
+        "p10_cosim": 0.83595115,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      }
+    },
+    "noise_snr0": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8675318368173845,
+        "p10_cosim": 0.78722721,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8370315323757553,
+        "p10_cosim": 0.76163149,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8434859119508867,
+        "p10_cosim": 0.77460861,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8858572311089457,
+        "p10_cosim": 0.8300519,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8769213485149093,
+        "p10_cosim": 0.78903031,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      }
+    },
+    "clip3db": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9990976029195088,
+        "p10_cosim": 0.99823749,
+        "tie": 0.95575911128435,
+        "worse": 0.04424088871564997,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9988546450380043,
+        "p10_cosim": 0.99757636,
+        "tie": 0.9430910153966089,
+        "worse": 0.05690898460339115,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9989455939602415,
+        "p10_cosim": 0.9977687,
+        "tie": 0.9450399532254921,
+        "worse": 0.054960046774507894,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9995951406743325,
+        "p10_cosim": 0.99915022,
+        "tie": 0.984993178717599,
+        "worse": 0.015006821282401092,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9995731617228608,
+        "p10_cosim": 0.99897587,
+        "tie": 0.9859676476320406,
+        "worse": 0.014032352367959463,
+        "pass": false
+      }
+    },
+    "clip6db": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9947890595731824,
+        "p10_cosim": 0.98835081,
+        "tie": 0.6622490742545313,
+        "worse": 0.3377509257454687,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9936674627051256,
+        "p10_cosim": 0.98592877,
+        "tie": 0.5759111284350029,
+        "worse": 0.4240888715649971,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9945558022607678,
+        "p10_cosim": 0.98745203,
+        "tie": 0.6456831027090236,
+        "worse": 0.35431689729097643,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9963282382401091,
+        "p10_cosim": 0.99170887,
+        "tie": 0.7347495614889885,
+        "worse": 0.2652504385110115,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9963952279789515,
+        "p10_cosim": 0.99239266,
+        "tie": 0.7575521340869227,
+        "worse": 0.24244786591307738,
+        "pass": false
+      }
+    },
+    "clip12db": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.975118125638277,
+        "p10_cosim": 0.9515425,
+        "tie": 0.021243422334827518,
+        "worse": 0.9787565776651724,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9769805405203664,
+        "p10_cosim": 0.95577735,
+        "tie": 0.015786396413954396,
+        "worse": 0.9842136035860456,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9760665421886572,
+        "p10_cosim": 0.95248288,
+        "tie": 0.02455661664392906,
+        "worse": 0.975443383356071,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9763601499122979,
+        "p10_cosim": 0.95399362,
+        "tie": 0.03625024361722861,
+        "worse": 0.9637497563827714,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9759588700974469,
+        "p10_cosim": 0.95127869,
+        "tie": 0.016565971545507697,
+        "worse": 0.9834340284544923,
+        "pass": true
+      }
+    },
+    "clip20db": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9346338371915807,
+        "p10_cosim": 0.89589363,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9403260036815435,
+        "p10_cosim": 0.90608257,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9293851799610212,
+        "p10_cosim": 0.88436019,
+        "tie": 0.00019489378288832586,
+        "worse": 0.9998051062171117,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9254588705398559,
+        "p10_cosim": 0.87880659,
+        "tie": 0.0003897875657766517,
+        "worse": 0.9996102124342233,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9248227754784641,
+        "p10_cosim": 0.86784887,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      }
+    },
+    "bitcrush8": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9960309855973495,
+        "p10_cosim": 0.98947561,
+        "tie": 0.7612551159618008,
+        "worse": 0.23874488403819918,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9959420789046969,
+        "p10_cosim": 0.99110824,
+        "tie": 0.723055934515689,
+        "worse": 0.27694406548431105,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9949062365328395,
+        "p10_cosim": 0.99000287,
+        "tie": 0.7220814656012473,
+        "worse": 0.2779185343987527,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9934212584759307,
+        "p10_cosim": 0.98578602,
+        "tie": 0.5519391931397388,
+        "worse": 0.4480608068602612,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9939229877645683,
+        "p10_cosim": 0.98390877,
+        "tie": 0.6347690508672773,
+        "worse": 0.3652309491327227,
+        "pass": false
+      }
+    },
+    "bitcrush6": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9862749119372441,
+        "p10_cosim": 0.96673292,
+        "tie": 0.4507893198206977,
+        "worse": 0.5492106801793023,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9842173645390763,
+        "p10_cosim": 0.96888441,
+        "tie": 0.17287078542194503,
+        "worse": 0.827129214578055,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9826124799122977,
+        "p10_cosim": 0.96685046,
+        "tie": 0.25141297992594036,
+        "worse": 0.7485870200740596,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9806208408633794,
+        "p10_cosim": 0.96077335,
+        "tie": 0.19976612746053402,
+        "worse": 0.800233872539466,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9824611014422141,
+        "p10_cosim": 0.95979273,
+        "tie": 0.3120249464042097,
+        "worse": 0.6879750535957903,
+        "pass": false
+      }
+    },
+    "bitcrush4": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9513095662424478,
+        "p10_cosim": 0.87894845,
+        "tie": 0.0904307152601832,
+        "worse": 0.9095692847398168,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9310995016702397,
+        "p10_cosim": 0.86219788,
+        "tie": 0.004482557006431495,
+        "worse": 0.9955174429935685,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9367480349990254,
+        "p10_cosim": 0.86835551,
+        "tie": 0.007405963749756383,
+        "worse": 0.9925940362502437,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9323257483434028,
+        "p10_cosim": 0.86698151,
+        "tie": 0.010329370493081271,
+        "worse": 0.9896706295069188,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9422121974351977,
+        "p10_cosim": 0.87259614,
+        "tie": 0.030013642564802184,
+        "worse": 0.9699863574351978,
+        "pass": true
+      }
+    },
+    "clicks1ps": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9728378751257065,
+        "p10_cosim": 0.9342441,
+        "tie": 0.1364256480218281,
+        "worse": 0.8635743519781719,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9776245490742546,
+        "p10_cosim": 0.9425047,
+        "tie": 0.20054570259208732,
+        "worse": 0.7994542974079127,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9705348352465406,
+        "p10_cosim": 0.93285829,
+        "tie": 0.07678815045800039,
+        "worse": 0.9232118495419996,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9792898104326643,
+        "p10_cosim": 0.94227076,
+        "tie": 0.2720717209121029,
+        "worse": 0.7279282790878971,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9666709579497174,
+        "p10_cosim": 0.92079341,
+        "tie": 0.05184174624829468,
+        "worse": 0.9481582537517054,
+        "pass": true
+      }
+    },
+    "clicks5ps": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9120290215045799,
+        "p10_cosim": 0.832156,
+        "tie": 0.00019489378288832586,
+        "worse": 0.9998051062171117,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9269624451958682,
+        "p10_cosim": 0.84567755,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9076028515942313,
+        "p10_cosim": 0.82541573,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9378254265737673,
+        "p10_cosim": 0.86937362,
+        "tie": 0.0003897875657766517,
+        "worse": 0.9996102124342233,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9110773736133306,
+        "p10_cosim": 0.83781236,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      }
+    },
+    "clicks20ps": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8311771749113231,
+        "p10_cosim": 0.75702822,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8503549489280843,
+        "p10_cosim": 0.77496529,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8310611858565582,
+        "p10_cosim": 0.7553528,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8729292668778016,
+        "p10_cosim": 0.80938184,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.8325439861235626,
+        "p10_cosim": 0.764943,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      }
+    },
+    "dropout20ms_x3": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9971556058643538,
+        "p10_cosim": 0.9942441,
+        "tie": 0.7883453517832781,
+        "worse": 0.2116546482167219,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9977927633268368,
+        "p10_cosim": 0.99539018,
+        "tie": 0.8653283960241668,
+        "worse": 0.13467160397583317,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9970005546150846,
+        "p10_cosim": 0.99410546,
+        "tie": 0.7641785227051257,
+        "worse": 0.2358214772948743,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9971558714383163,
+        "p10_cosim": 0.99422526,
+        "tie": 0.7910738647437147,
+        "worse": 0.2089261352562853,
+        "pass": false
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9969584872597934,
+        "p10_cosim": 0.99376512,
+        "tie": 0.7478074449425063,
+        "worse": 0.25219255505749366,
+        "pass": false
+      }
+    },
+    "dropout20ms_x10": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.987201598058858,
+        "p10_cosim": 0.97609484,
+        "tie": 0.09803157279282791,
+        "worse": 0.9019684272071721,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9905070231806664,
+        "p10_cosim": 0.98184168,
+        "tie": 0.2019099590723056,
+        "worse": 0.7980900409276944,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9870989576495809,
+        "p10_cosim": 0.97664887,
+        "tie": 0.08341453907620347,
+        "worse": 0.9165854609237966,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.988430223476905,
+        "p10_cosim": 0.97736222,
+        "tie": 0.14656012473202104,
+        "worse": 0.8534398752679789,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9862283264938609,
+        "p10_cosim": 0.9728989,
+        "tie": 0.10485285519391932,
+        "worse": 0.8951471448060807,
+        "pass": true
+      }
+    },
+    "dropout20ms_x30": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9629373637107776,
+        "p10_cosim": 0.93945503,
+        "tie": 0.004287663223543169,
+        "worse": 0.9957123367764569,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9716307877821089,
+        "p10_cosim": 0.95340383,
+        "tie": 0.008185538881309686,
+        "worse": 0.9918144611186903,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9634638019060612,
+        "p10_cosim": 0.94211286,
+        "tie": 0.0017540440459949329,
+        "worse": 0.9982459559540051,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9660753534808031,
+        "p10_cosim": 0.94235194,
+        "tie": 0.0011693626973299552,
+        "worse": 0.9988306373026701,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9606677122334829,
+        "p10_cosim": 0.93200004,
+        "tie": 0.002923406743324888,
+        "worse": 0.9970765932566751,
+        "pass": true
+      }
+    },
+    "lowpass4k": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9743653484427989,
+        "p10_cosim": 0.95485616,
+        "tie": 0.038978756577665176,
+        "worse": 0.9610212434223349,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9739099985616838,
+        "p10_cosim": 0.95759946,
+        "tie": 0.030403430130578835,
+        "worse": 0.9695965698694212,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9753457747709998,
+        "p10_cosim": 0.95766014,
+        "tie": 0.026505554472812318,
+        "worse": 0.9734944455271877,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9778991943734167,
+        "p10_cosim": 0.96238536,
+        "tie": 0.06509452348470084,
+        "worse": 0.9349054765152992,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9749231610037031,
+        "p10_cosim": 0.95431215,
+        "tie": 0.06334047943870591,
+        "worse": 0.9366595205612941,
+        "pass": true
+      }
+    },
+    "lowpass2k": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9505530247846423,
+        "p10_cosim": 0.92074168,
+        "tie": 0.0019489378288832587,
+        "worse": 0.9980510621711167,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9506762566984992,
+        "p10_cosim": 0.92612082,
+        "tie": 0.004287663223543169,
+        "worse": 0.9957123367764569,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9517960859423115,
+        "p10_cosim": 0.925336,
+        "tie": 0.0019489378288832587,
+        "worse": 0.9980510621711167,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9575674543597738,
+        "p10_cosim": 0.93282831,
+        "tie": 0.010524264275969596,
+        "worse": 0.9894757357240304,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.954813260500877,
+        "p10_cosim": 0.92556548,
+        "tie": 0.014811927499512765,
+        "worse": 0.9851880725004872,
+        "pass": true
+      }
+    },
+    "lowpass1k": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9182184889573182,
+        "p10_cosim": 0.88971835,
+        "tie": 0.00019489378288832586,
+        "worse": 0.9998051062171117,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9160125740011693,
+        "p10_cosim": 0.88886458,
+        "tie": 0.0003897875657766517,
+        "worse": 0.9996102124342233,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9152258834671605,
+        "p10_cosim": 0.88754809,
+        "tie": 0.0,
+        "worse": 1.0,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9227075516098227,
+        "p10_cosim": 0.89060122,
+        "tie": 0.0017540440459949329,
+        "worse": 0.9982459559540051,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9235869344318846,
+        "p10_cosim": 0.89249027,
+        "tie": 0.006236601052426427,
+        "worse": 0.9937633989475736,
+        "pass": true
+      }
+    },
+    "blast80ms_x1": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9686953030734751,
+        "p10_cosim": 0.94013083,
+        "tie": 0.08672773338530501,
+        "worse": 0.913272266614695,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9727425527070748,
+        "p10_cosim": 0.94364405,
+        "tie": 0.12395244591697525,
+        "worse": 0.8760475540830247,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9682173400701618,
+        "p10_cosim": 0.93901461,
+        "tie": 0.08555837068797506,
+        "worse": 0.914441629312025,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9689879230150068,
+        "p10_cosim": 0.94187576,
+        "tie": 0.07366984993178717,
+        "worse": 0.9263301500682128,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9649557849873319,
+        "p10_cosim": 0.93591857,
+        "tie": 0.09237965308906645,
+        "worse": 0.9076203469109335,
+        "pass": true
+      }
+    },
+    "blast80ms_x3": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.934447076332099,
+        "p10_cosim": 0.90009272,
+        "tie": 0.007211069966868057,
+        "worse": 0.992788930033132,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9426277377548236,
+        "p10_cosim": 0.90945202,
+        "tie": 0.010719158058857923,
+        "worse": 0.9892808419411421,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9361157520814657,
+        "p10_cosim": 0.90223569,
+        "tie": 0.0068212824010914054,
+        "worse": 0.9931787175989086,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9324715110446307,
+        "p10_cosim": 0.89482737,
+        "tie": 0.0033131943091015397,
+        "worse": 0.9966868056908985,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9267327530189047,
+        "p10_cosim": 0.89046043,
+        "tie": 0.004092769440654843,
+        "worse": 0.9959072305593452,
+        "pass": true
+      }
+    },
+    "shuffle0.25s": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9670003852523874,
+        "p10_cosim": 0.93715858,
+        "tie": 0.0009744689144416293,
+        "worse": 0.9990255310855584,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9790867432976029,
+        "p10_cosim": 0.96452749,
+        "tie": 0.0037029818748781913,
+        "worse": 0.9962970181251218,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9762266177041513,
+        "p10_cosim": 0.95878291,
+        "tie": 0.0023387253946599105,
+        "worse": 0.99766127460534,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9616225577821086,
+        "p10_cosim": 0.92859656,
+        "tie": 0.001364256480218281,
+        "worse": 0.9986357435197817,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9735709355681154,
+        "p10_cosim": 0.95300138,
+        "tie": 0.002728512960436562,
+        "worse": 0.9972714870395635,
+        "pass": true
+      }
+    },
+    "shuffle1.0s": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9899710415006822,
+        "p10_cosim": 0.97986525,
+        "tie": 0.29506918729292536,
+        "worse": 0.7049308127070747,
+        "pass": false
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9925838330910154,
+        "p10_cosim": 0.98667014,
+        "tie": 0.28746832976028064,
+        "worse": 0.7125316702397193,
+        "pass": false
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9912549607990646,
+        "p10_cosim": 0.98479164,
+        "tie": 0.20853634769050866,
+        "worse": 0.7914636523094913,
+        "pass": false
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9871092218904696,
+        "p10_cosim": 0.97520208,
+        "tie": 0.1054375365425843,
+        "worse": 0.8945624634574157,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9903864248041317,
+        "p10_cosim": 0.98328161,
+        "tie": 0.2976028064704736,
+        "worse": 0.7023971935295265,
+        "pass": false
+      }
+    },
+    "reverse": {
+      "real": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.984119150847788,
+        "p10_cosim": 0.97069645,
+        "tie": 0.03508088091989865,
+        "worse": 0.9649191190801013,
+        "pass": true
+      },
+      "ours_cfg3neg": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9814706988403818,
+        "p10_cosim": 0.9659791,
+        "tie": 0.04716429545897486,
+        "worse": 0.9528357045410252,
+        "pass": true
+      },
+      "ours_cfg0": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9849798927382576,
+        "p10_cosim": 0.97326863,
+        "tie": 0.03254726174235042,
+        "worse": 0.9674527382576495,
+        "pass": true
+      },
+      "musicgen": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9791610874196063,
+        "p10_cosim": 0.96256423,
+        "tie": 0.02026895342038589,
+        "worse": 0.9797310465796141,
+        "pass": true
+      },
+      "musicldm": {
+        "kind": "lose",
+        "n": 5131,
+        "mean_cosim": 0.9840176624848957,
+        "p10_cosim": 0.96888322,
+        "tie": 0.05476515299161957,
+        "worse": 0.9452348470083805,
+        "pass": true
+      }
+    }
+  }
+}
