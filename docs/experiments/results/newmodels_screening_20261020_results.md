@@ -50,7 +50,7 @@ Pearson、Kendall τ-b、系統內 ρ、成對一致率（整體與 <0.5／0.5�
 ## 4. 實作與稽核
 
 - 權重 sha256：`/mnt/seagate/newmodels_20261020/weights_sha256.txt`（MuQ-Eval-A1 `4163ec9b…`、MuQ-Eval(A3a) `aaec8558…`、MuQ-large `273febab…`、CMI-RM `e816d99f…`、MS-CLAP 2023 `2cef4016…`）；版本與授權在各 `scripts/eval/newmetrics_*.py` docstring 與預登錄 §1。CMI-RM、MuQ 編碼器為 **CC-BY-NC-4.0，只限非商用**。
-- 輸出範圍：CMI-RM -2.7～4.7、MuQ-Eval 0.4～5.8、PAM 0.02～0.998，皆有限；每組唯一值數 ≈ n（無量化假平手）。ME 少數檔 NaN-free，PAM/ME 有 1–3 個極端平手。
+- 輸出範圍：CMI-RM -2.7～4.7、MuQ-Eval 0.4～5.8、PAM 0.02～0.998，皆有限；每組唯一值數 ≈ n（無量化假平手）。
 - 預登錄後實作細節（非結果導向）：成對分析 G3 的最小配對數門檻訂為 500（PAM400 575、ME-test 653 皆適用）；`gates.py` 第一版寫成 1000 使 PAM400／ME-test 漏掉 G3，已在看過 gate 表後更正為 500 並重跑。**這個更正發生在看過第一版表之後**，但 G3 在預登錄 §4 本來就適用於 PAM400，不是新增門檻；更正後沒有任何判定翻轉（第一版與更正版判定欄相同）。
 - MEva 用 `runtime/meva_20261003` 的 pinned venv（`check_binding` 通過）；MC522 的 MEva 為新算。
 
