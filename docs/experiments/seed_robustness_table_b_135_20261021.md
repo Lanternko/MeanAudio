@@ -87,14 +87,16 @@ seed 清單在本檔 commit 時固定，不因結果增減。
 
 ## 5. 預算（重現閘 pilot 後凍結）
 
-| job | 內容 | 預估 GPU |
+| job | 內容 | 預估 GPU（2026-10-21 重現閘 pilot 實測後） |
 |---|---|---|
-| 135 | 重現閘＋ours 24 格生成＋lvl30 評分 | 約 8–10 h |
-| 136 | MusicGen 4 seed 生成＋評分 | 約 13–14 h（2 s／首 × 5,521 × 4） |
-| 137 | MusicLDM 2 seed 生成＋評分 | 約 8–9 h（2.5 s／首） |
-| 138 | 分析（CPU 為主，含 FAD） | 約 1 h |
-| 139 | 切段長度（只評分） | 約 3–4 h |
-| 合計 | | **約 33–38 h** |
+| 135 | 重現閘＋ours 24 格生成＋lvl30 評分 | 約 18.5 h（cfg0 0.327 s／首＝30 min／格、cfg3_neg 0.435 s／首＝40 min／格，各加 lvl30 評分約 11 min／格；12×41 min＋12×51 min＋閘約 10 min） |
+| 136 | MusicGen 4 seed 生成＋評分 | 約 4.6 h（0.634 s／首＝58 min／格＋11 min；原估 2 s／首偏高） |
+| 137 | MusicLDM 2 seed 生成＋評分 | 約 3.9 h（1.147 s／首＝106 min／格＋11 min；原估 2.5 s／首偏高） |
+| 138 | 分析（CPU 為主，含 30 格 raw FAD） | 約 1.5 h（FAD 256 首 47 s，全量約 2–4 min／格；階層 bootstrap 2000 次 < 1 min） |
+| 139 | 切段長度（只評分） | 約 4 h（pilot 64 首／實體：每個單位 35–44 s 幾乎全是模型載入；全量以 lvl30 評分 11 min／格＋MIR 約 10 min／格＋SongEval 約 2 min 推估） |
+| 合計 | | **約 32–33 h**（原估 33–38 h；生成 s／首含程序啟動，是上界） |
+
+重現閘 pilot 實測（前 256 首、seed 42、與既有音檔比；ours 兩格各 256/256 逐位相同，max|Δ| = 0）：ours cfg0／cfg3_neg、MusicGen、MusicLDM 全部 bit-identical（max abs diff 0.0、PQ 差 0.0000），評分關（重新評 s27182818 cfg3_neg 全量 lvl30）CLAP／PQ／MEva 與 118 差 0.0。
 
 job 依 135 → 136 → 137 → 138 → 139 排在 p2，各自可在「份」的粒度續跑（已有完整 manifest 的份跳過，殘缺份整份重跑）。
 
@@ -108,3 +110,11 @@ job 依 135 → 136 → 137 → 138 → 139 排在 p2，各自可在「份」的
 ## 偏離紀錄
 
 （commit 後的任何改動記在這裡，附日期與理由。）
+
+- 2026-10-21 實作決定（不改門檻、seed 清單、判定規則；實作 138 時為規則沒覆蓋的細節定案，分析腳本 sha 在 contract 綁定後不再改）：
+  1. 判定類別順序 robust → holds_mean_only → reversed → seed_dependent（其餘兜底）；平均 > m0 但 > 5% 的差 < 0 者依規則順序是 holds_mean_only，結果表另標 `more_than_5pct_below_zero`。
+  2. H3／H4 的差數是 45（ours 15 組合 × MusicLDM 3 seed），不是 75。
+  3. 階層 bootstrap：每次重抽先抽 prompt（所有系統同一組索引，保持配對）、再抽 ours 訓練 seed（3 取 3）並在被抽中的訓練 seed 內巢狀重抽推論 seed、對照組推論 seed 獨立重抽；numpy default_rng(20261021)。
+  4. MusicGen 沿用 113 的 PCM_16 FLAC 存檔，使 seed 42 可 bit-identical 重現（重現閘因此能過）；`feedback_external_generator_write_float` 提過的 PCM_16 硬削波因此仍在所有 MusicGen seed 上一致存在，不影響跨 seed 比較，但表 B 的絕對 MusicGen 分數仍帶這個存檔格式。
+  5. 重現閘 pilot 結果見 §5。
+
