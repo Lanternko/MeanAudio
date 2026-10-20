@@ -31,8 +31,9 @@ Definitions (spec words in quotes, the rest is the frozen implementation choice)
       reversed          mean < 0 and CI upper bound < 0
       seed_dependent    everything else (mean in (0, m0], >5% of differences < 0 without the
                         above, mean <= 0 with a CI that crosses 0)
-      A case with mean > m0 and >5% of differences < 0 is holds_mean_only (rule order); it is
-      flagged `more_than_5pct_below_zero` so the reader can see it.
+      A case with mean > m0 and >5% of differences < 0 is seed_dependent (the spec's ">5% below 0"
+      clause wins over holds_mean_only; fixed 2026-10-21 before any result); still flagged
+      `more_than_5pct_below_zero`.
   H3 (tie, |delta| < m0): robust = >=95% of |differences| < m0 and CI inside (-m0, m0);
       holds_mean_only = |mean| < m0 only; not_tie = CI entirely outside the band; else seed_dependent.
   H4 (expected negative, bound 0): H1 logic on the negated differences with m0 = 0.
@@ -217,7 +218,7 @@ def judge_greater(d, lo, hi, m0):
     a, b = frac >= 0.95, lo > m0
     if a and b:
         v = 'robust'
-    elif mean > m0:
+    elif mean > m0 and below0 <= 0.05:
         v = 'holds_mean_only'
     elif mean < 0 and hi < 0:
         v = 'reversed'

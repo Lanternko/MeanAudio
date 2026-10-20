@@ -112,7 +112,7 @@ job 依 135 → 136 → 137 → 138 → 139 排在 p2，各自可在「份」的
 （commit 後的任何改動記在這裡，附日期與理由。）
 
 - 2026-10-21 實作決定（不改門檻、seed 清單、判定規則；實作 138 時為規則沒覆蓋的細節定案，分析腳本 sha 在 contract 綁定後不再改）：
-  1. 判定類別順序 robust → holds_mean_only → reversed → seed_dependent（其餘兜底）；平均 > m0 但 > 5% 的差 < 0 者依規則順序是 holds_mean_only，結果表另標 `more_than_5pct_below_zero`。
+  1. 判定類別順序 robust → holds_mean_only → reversed → seed_dependent（其餘兜底）；~~平均 > m0 但 > 5% 的差 < 0 者依規則順序是 holds_mean_only~~ → 2026-10-21 審閱改正（尚無任何新 seed 結果）：這種情況判 `seed_dependent`，「> 5% 的差 < 0」子句優先於 holds_mean_only，符合預登錄原意（較嚴）；結果表仍另標 `more_than_5pct_below_zero`。
   2. H3／H4 的差數是 45（ours 15 組合 × MusicLDM 3 seed），不是 75。
   3. 階層 bootstrap：每次重抽先抽 prompt（所有系統同一組索引，保持配對）、再抽 ours 訓練 seed（3 取 3）並在被抽中的訓練 seed 內巢狀重抽推論 seed、對照組推論 seed 獨立重抽；numpy default_rng(20261021)。
   4. MusicGen 沿用 113 的 PCM_16 FLAC 存檔，使 seed 42 可 bit-identical 重現（重現閘因此能過）；`feedback_external_generator_write_float` 提過的 PCM_16 硬削波因此仍在所有 MusicGen seed 上一致存在，不影響跨 seed 比較，但表 B 的絕對 MusicGen 分數仍帶這個存檔格式。
