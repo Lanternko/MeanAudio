@@ -8,7 +8,7 @@
 
 **沒有任何一個評分模型同時滿足兩條要求。**
 
-- AES PQ／CE／CU 在小幅增益（±1 dB）、PCM_16、極性上能判平手。但 **10 ms 前置靜音**在所有系統上都判不了平手（45–76%）。
+- AES PQ／CE／CU 在小幅增益（±1 dB）、PCM_16、極性上能判平手。但 **10 ms 前置靜音**在所有系統上都判不了平手（46–76%）。
 - 音符層的錯音、亂音高、音高打亂，**全部指標都偵測不到**。
 - MEva 逐段幾乎沒有平手能力，−0.5 dB 增益只有 5–8% 判平手。
 - 底線方面，−30 LUFS 的 1 kHz 正弦波、掃頻、方波，PQ 高過 34–38% 的 126b 音樂片段。
@@ -85,7 +85,7 @@
 - **爆音（clicks）**：每秒 1 個時 3/5 不過；cfg0、MusicLDM 的 PQ 已通過（84／81%）；每秒 5 個時 PQ／CE／CU 5/5。
 - **dropout**：20 ms × 30 時 PQ／CE／CU 5/5。
 - **低通**：PC 是最強的偵測者（4 kHz 低通 5/5），CE 只在 1 kHz 才過。
-- **單發 80 ms blast**：×1 僅 MusicGen 的 CE 偵測到（81%）；×3 只有 CE 偵測到。
+- **單發 80 ms blast**：×1 僅 MusicGen 的 CE 偵測到（81%）；×3 CE 在 5/5 系統偵測到，另有 ours CFG3＋neg 的 PQ／CU、MusicGen 的 CU 也通過。
 - **reverse、0.25 s shuffle**：CE／CU 5/5。
 
 ## 4. 126a：MEva 與 FAD
@@ -133,7 +133,7 @@
 | drop 60% | 8 | **93** | 66 | **98** | **86** | 37 | **90** | 61 | 71 | 22 |
 | blastnote ×1 | 2 | **85** | 32 | 58 | 61 | 13 | 49 | 42 | 35 | 10 |
 | blastnote ×10 | 79 | **94** | 66 | 61 | 67 | 23 | 71 | 49 | 43 | 31 |
-| tempo ×1.02（soft，平手%） | 98 | 78 | 95 | 66 | 3 | 54 | 86 | 26 | 30 | 95 |
+| tempo ×1.02（soft，平手%） | 98 | 78 | 94 | 66 | 3 | 54 | 86 | 26 | 30 | 95 |
 | transpose +1（soft） | 97 | 47 | 89 | 51 | 4 | 46 | 83 | 15 | 49 | 43 |
 | vel ×0.85（soft） | 100 | 100 | 100 | 96 | 15 | 85 | 100 | 88 | 77 | 98 |
 
@@ -207,3 +207,6 @@
 - 第 88 行（單發 80 ms blast ×1）：`沒有指標偵測到` → `僅 MusicGen 的 CE 偵測到（81%）`。依據 `cells.blast80ms_x1.musicgen.metrics.CE.at_m.pass=true`、`worse=0.8141`；其餘系統與指標皆 false。
 - 第 136 行（tempo ×1.02，FluidR3）：PQ `100` → `98`（0.9801）、CE `77` → `78`（0.7836）、PC `62` → `66`（0.6567）、CLAP `43` → `54`（0.5373）、pulse `81` → `86`（0.8607）、chroma `96` → `95`（0.9478）。依據 `metric_win_tie_126b_summary.json` `cells["midi/midi_fluidr3"].tempo_x1.02.metrics.<metric>.at_m.tie`。
 - 第 144 行（AES 對節奏介入）：`全部 ≤ 12% 判差` → `jitter 30 ms、unsteady 15% 判差 ≤ 12–17%，posshuffle 可達 28–50%；仍遠低於 80% 門檻`。依據 `cells["midi/midi_fluidr3"]`：`unsteady15pct.PC.at_m.worse=0.1716`、`posshuffle30pct.CE/PC=0.2736/0.2811`、`posshuffle100pct.CE/PC=0.5025/0.4627`。原句只列 jitter 30 ms／unsteady 15%／posshuffle 30% 起，故未寫成「jitter／unsteady 一律 ≤ 17%」（jitter 200 ms 的 CE 可達 47.0%、unsteady 30% 的 PC 21.6%）。
+- 第 11 行（lead 10 ms 摘要）：`45–76%` → `46–76%`。依據 `metric_win_tie_126a_summary.json` `cells.lead10ms.*.metrics.{PQ,CE,CU}.at_m.tie`：最小 0.464（musicldm CE）、最大 0.759（ours_cfg3neg CU）。（原 45 是 lead 10／50／200 三檔合併的 PQ 下界。）
+- 第 88 行（blast ×3）：`只有 CE 偵測到` → `CE 在 5/5 系統偵測到，另有 ours CFG3＋neg 的 PQ／CU、MusicGen 的 CU 也通過`。依據 `cells.blast80ms_x3`：CE pass 5/5；ours_cfg3neg PQ worse 0.842、CU 0.892；musicgen CU 0.887。
+- 第 136 行（tempo ×1.02，CU 欄）：`95` → `94`。依據 `metric_win_tie_126b_summary.json` `cells["midi/midi_fluidr3"].tempo_x1.02.metrics.CU.at_m.tie = 0.9403`。

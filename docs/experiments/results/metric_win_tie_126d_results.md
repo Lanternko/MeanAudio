@@ -23,8 +23,8 @@ Identity gate：max AES PQ diff = 1.09e-3（閾值 1.0e-3，超出 9%）。超�
 
 | dim | mean(clean 126a TTM) range | S | m（= 0.10×S） |
 |-----|---------------------------|---|----------------|
-| se_coh | musicgen 2.591 → musicldm 2.432 | 0.1814 | 0.0181 |
-| se_mem | musicgen 2.630 → musicldm 2.484 | 0.1620 | 0.0162 |
+| se_coh | musicgen 2.591 → real 2.409 | 0.1814 | 0.0181 |
+| se_mem | musicgen 2.630 → real 2.468 | 0.1620 | 0.0162 |
 | se_nat | musicgen 2.556 → musicldm 2.417 | 0.1387 | 0.0139 |
 | se_cla | musicgen 2.423 → real 2.272 | 0.1512 | 0.0151 |
 | se_mus | musicgen 2.345 → real 2.195 | 0.1498 | 0.0150 |
@@ -142,3 +142,5 @@ clip、bitcrush、dropout、lead、mp3、lowpass（雖 126a 類似）
 
 - 第 28 行（se_nat）：`musicgen 2.556 → real 2.427` → `musicgen 2.556 → musicldm 2.417`。依據 `metric_win_tie_126d_summary.json` `system_means_songeval`：musicgen[2]=2.55587、musicldm[2]=2.41714、real[2]=2.42750；最低是 musicldm，S=0.1387=2.55587−2.41714。
 - 第 30 行（se_mus）：`musicgen 2.345 → musicldm 2.237` → `musicgen 2.345 → real 2.195`。依據同欄位：musicgen[4]=2.34495、musicldm[4]=2.23672、real[4]=2.19515；最低是 real，S=0.1498=2.34495−2.19515。
+- 第 26 行（se_coh）：`→ musicldm 2.432` → `→ real 2.409`。依據 `system_means_songeval`：real[0]=2.40928 < musicldm[0]=2.43191；S=2.59069−2.40928=0.1814，原 S 值本來就是用 real 算的，不變。
+- 第 27 行（se_mem）：`→ musicldm 2.484` → `→ real 2.468`。依據同欄位：real[1]=2.46840 < musicldm[1]=2.48353；S=0.1620 不變。
