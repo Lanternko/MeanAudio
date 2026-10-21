@@ -55,7 +55,7 @@
 | polarity | 4/5（78–91） | 5/5 | 3/5 | 0/5（54–66） | 0/5（2–4） | 5/5（100） |
 | pcm16 | 5/5 | 5/5 | 5/5 | 5/5 | 0/5（46–60） | 1/5（68–86） |
 | resample 44k | 4/5（58–100） | 4/5 | 4/5 | 4/5 | 0/5 | 5/5 |
-| **lead 10／50／200 ms** | **0/5（45–76）** | 0/5 | 0/5 | 0/5 | 0/5 | **0/5（21–38）** |
+| **lead 10／50／200 ms** | **0/5（45–73）** | 0/5 | 0/5 | 0/5 | 0/5 | **0/5（21–38）** |
 | mp3 160k | 3/5（32–100） | 3/5 | 3/5 | 2/5 | 0/5 | 1/5 |
 | mp3 32k | 全不過 | | | | | |
 
@@ -82,10 +82,10 @@
 
 - **削波**：clip 3／6 dB 全指標都不過；clip 12 dB 時 PQ 5/5。
 - **bitcrush**：8 bit 不過；6 bit 時 PQ 5/5。
-- **爆音（clicks）**：每秒 1 個不過；每秒 5 個時 PQ／CE／CU 5/5。
+- **爆音（clicks）**：每秒 1 個時 3/5 不過；cfg0、MusicLDM 的 PQ 已通過（84／81%）；每秒 5 個時 PQ／CE／CU 5/5。
 - **dropout**：20 ms × 30 時 PQ／CE／CU 5/5。
 - **低通**：PC 是最強的偵測者（4 kHz 低通 5/5），CE 只在 1 kHz 才過。
-- **單發 80 ms blast**：×1 沒有指標偵測到；×3 只有 CE 偵測到。
+- **單發 80 ms blast**：×1 僅 MusicGen 的 CE 偵測到（81%）；×3 只有 CE 偵測到。
 - **reverse、0.25 s shuffle**：CE／CU 5/5。
 
 ## 4. 126a：MEva 與 FAD
@@ -133,7 +133,7 @@
 | drop 60% | 8 | **93** | 66 | **98** | **86** | 37 | **90** | 61 | 71 | 22 |
 | blastnote ×1 | 2 | **85** | 32 | 58 | 61 | 13 | 49 | 42 | 35 | 10 |
 | blastnote ×10 | 79 | **94** | 66 | 61 | 67 | 23 | 71 | 49 | 43 | 31 |
-| tempo ×1.02（soft，平手%） | 100 | 77 | 95 | 62 | 3 | 43 | 81 | 26 | 30 | 96 |
+| tempo ×1.02（soft，平手%） | 98 | 78 | 95 | 66 | 3 | 54 | 86 | 26 | 30 | 95 |
 | transpose +1（soft） | 97 | 47 | 89 | 51 | 4 | 46 | 83 | 15 | 49 | 43 |
 | vel ×0.85（soft） | 100 | 100 | 100 | 96 | 15 | 85 | 100 | 88 | 77 | 98 |
 
@@ -141,7 +141,7 @@
 - **節奏類介入只有 MIR 拍點指標偵測得到**：
   - pulse_clarity：jitter 30 ms、unsteady 15%、posshuffle 30% 起就通過。
   - ibi_cv：jitter 30 ms 起通過，posshuffle 要到 100%。
-  - AES 對這些介入全部 ≤ 12% 判差。
+  - AES 對 jitter 30 ms、unsteady 15% 判差 ≤ 12–17%，posshuffle 可達 28–50%；仍遠低於 80% 門檻。
 - **blastnote ×1 的 PQ 判差率只有 2%**：m = 0 時有 78.6% 判「變好」，在 m 之下有 18.9%。CE 則判差 85%。預登錄的 Q3 預測未成立（見 128a）。
 - **GeneralUser** 方向相同。訊號層介入的偵測門檻比 126a 低，例如 noise SNR 40 dB 時 PQ 100%、clip 6 dB 時 PQ 92%：乾淨合成音訊上的缺陷比較顯眼。
 - **soundfont_swap**（FluidR3 ↔ GeneralUser，應平手）：PQ 38%、CE 0%、CLAP 0%，全部不過。換音色在每個指標上都被當成「大差異」。
@@ -199,3 +199,11 @@
 
 - 128 已用 126 的 S 與子集測試不變性修補（C1–C3）。結果是無方案通過，見 `metric_invariance_128_results.md`。
 - MUSDB18-HQ 的去樂器／人聲 job 尚未排。
+
+## 勘誤（2026-10-22）
+
+- 第 58 行（PQ 欄，lead 10／50／200 ms）：`0/5（45–76）` → `0/5（45–73）`。依據 `metric_win_tie_126a_summary.json` `cells.lead{10,50,200}ms.*.metrics.PQ.at_m.tie`：最小 0.4522、最大 0.7264；76.26 是 CU lead200 的值。
+- 第 85 行（clicks 1/s）：`每秒 1 個不過` → `每秒 1 個時 3/5 不過；cfg0、MusicLDM 的 PQ 已通過（84／81%）`。依據 `cells.clicks1ps.ours_cfg0.metrics.PQ.at_m.pass=true`（worse 0.8433）、`cells.clicks1ps.musicldm.metrics.PQ.at_m.pass=true`（worse 0.8119）。
+- 第 88 行（單發 80 ms blast ×1）：`沒有指標偵測到` → `僅 MusicGen 的 CE 偵測到（81%）`。依據 `cells.blast80ms_x1.musicgen.metrics.CE.at_m.pass=true`、`worse=0.8141`；其餘系統與指標皆 false。
+- 第 136 行（tempo ×1.02，FluidR3）：PQ `100` → `98`（0.9801）、CE `77` → `78`（0.7836）、PC `62` → `66`（0.6567）、CLAP `43` → `54`（0.5373）、pulse `81` → `86`（0.8607）、chroma `96` → `95`（0.9478）。依據 `metric_win_tie_126b_summary.json` `cells["midi/midi_fluidr3"].tempo_x1.02.metrics.<metric>.at_m.tie`。
+- 第 144 行（AES 對節奏介入）：`全部 ≤ 12% 判差` → `jitter 30 ms、unsteady 15% 判差 ≤ 12–17%，posshuffle 可達 28–50%；仍遠低於 80% 門檻`。依據 `cells["midi/midi_fluidr3"]`：`unsteady15pct.PC.at_m.worse=0.1716`、`posshuffle30pct.CE/PC=0.2736/0.2811`、`posshuffle100pct.CE/PC=0.5025/0.4627`。原句只列 jitter 30 ms／unsteady 15%／posshuffle 30% 起，故未寫成「jitter／unsteady 一律 ≤ 17%」（jitter 200 ms 的 CE 可達 47.0%、unsteady 30% 的 PC 21.6%）。

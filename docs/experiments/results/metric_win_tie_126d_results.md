@@ -25,9 +25,9 @@ Identity gate：max AES PQ diff = 1.09e-3（閾值 1.0e-3，超出 9%）。超�
 |-----|---------------------------|---|----------------|
 | se_coh | musicgen 2.591 → musicldm 2.432 | 0.1814 | 0.0181 |
 | se_mem | musicgen 2.630 → musicldm 2.484 | 0.1620 | 0.0162 |
-| se_nat | musicgen 2.556 → real 2.427 | 0.1387 | 0.0139 |
+| se_nat | musicgen 2.556 → musicldm 2.417 | 0.1387 | 0.0139 |
 | se_cla | musicgen 2.423 → real 2.272 | 0.1512 | 0.0151 |
-| se_mus | musicgen 2.345 → musicldm 2.237 | 0.1498 | 0.0150 |
+| se_mus | musicgen 2.345 → real 2.195 | 0.1498 | 0.0150 |
 
 S 值有意義（系統間確有差異）；m 極小（約 0.014–0.018），反映 SongEval 在系統間的區辨力有限。
 
@@ -137,3 +137,8 @@ clip、bitcrush、dropout、lead、mp3、lowpass（雖 126a 類似）
 ## 7. 下一步：133 MERT + MuQ-embed cosine distance
 
 因 126d 兩條均不過，接續測試 reference-based 嵌入餘弦距離（無需美學訓練頭）。設計已預登錄：`docs/experiments/metric_win_tie_133_mert_20261020.md`，p2 133 即將排入。
+
+## 勘誤（2026-10-22）
+
+- 第 28 行（se_nat）：`musicgen 2.556 → real 2.427` → `musicgen 2.556 → musicldm 2.417`。依據 `metric_win_tie_126d_summary.json` `system_means_songeval`：musicgen[2]=2.55587、musicldm[2]=2.41714、real[2]=2.42750；最低是 musicldm，S=0.1387=2.55587−2.41714。
+- 第 30 行（se_mus）：`musicgen 2.345 → musicldm 2.237` → `musicgen 2.345 → real 2.195`。依據同欄位：musicgen[4]=2.34495、musicldm[4]=2.23672、real[4]=2.19515；最低是 real，S=0.1498=2.34495−2.19515。

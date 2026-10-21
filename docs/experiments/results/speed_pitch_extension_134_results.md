@@ -50,7 +50,7 @@
 ## 3. 交叉點（平手 → 變差）
 `tie_exit`：從 1.0 向外首次平手率 < 80% 的速度；`lose_entry`：首次變差率 ≥ 80%。相鄰格線性內插。
 
-- **rb 路徑與 TTM 的 tie_exit 全部落在 0.99／1.01（最近一格）**——也就是在 ±1% 就已經不到 80% 平手。原因是 **rubberband 處理底**：maestro rb 在 tempo 0.99–1.05 的 PQ 平手率只有 0.36–0.45（Δ PQ ≈ −0.11 > m = 0.092），而 rb 1.00 恆等時為 1.00（與 clean 逐位相同）。換言之 rb 路徑上測不出「速度」的平手帶，量到的是「過了一次 rubberband」。CU 在 maestro rb 為 0.69–0.75，同樣略低於 80%。
+- **rb 路徑與 TTM 的 PQ tie_exit 全部落在 0.99／1.01（最近一格）**——也就是在 ±1% 就已經不到 80% 平手（CU 例外：piano126b rb 為 0.91／1.17）。原因是 **rubberband 處理底**：maestro rb 在 tempo 0.99–1.05 的 PQ 平手率只有 0.36–0.45（Δ PQ ≈ −0.11 > m = 0.092），而 rb 1.00 恆等時為 1.00（與 clean 逐位相同）。換言之 rb 路徑上測不出「速度」的平手帶，量到的是「過了一次 rubberband」。CU 在 maestro rb 為 0.69–0.75，同樣略低於 80%。
 - **ttm rb 1.00 恆等本身只有 PQ 0.75／MEva 0.19／CLAP 0.28 平手**（clean 底圖與 rb 恆等輸出不是逐位相同：重取樣／切 10 s 路徑差異），所以 TTM 的平手底線就低於 80%，連「完全不變」都不過——這是 TTM 讀數的底，不是 bug。
 - MIDI 路徑的有意義交叉點（point estimate［CI］）：
 
@@ -102,3 +102,7 @@
 
 ## 7. 一句話
 連續速度網格上：AES 的 CE／CU 在 MIDI 層大約 ±5–15% 內判平手（符合預登錄平手帶），但在大幅變速時**不判差**（MIDI 層內容品質沒變）；rb／TTM 路徑上則被 rubberband 處理底主導，±1% 就掉出平手；MEva 沒有「快高慢低」（TTM 上反向），也沒有平手能力。沒有指標同時過「小差異平手＋大差異變差」。
+
+## 勘誤（2026-10-22）
+
+- 第 53 行（§3 交叉點）：`rb 路徑與 TTM 的 tie_exit 全部落在 0.99／1.01` → `rb 路徑與 TTM 的 PQ tie_exit 全部落在 0.99／1.01（CU 例外：piano126b rb 為 0.91／1.17）`。依據 `speed_pitch_extension_134_summary.json` `curves["piano126b/rb/tempo/CU"].crossings`：`tie_exit_low.est=0.90714`、`tie_exit_high.est=1.175`；同來源 `piano126b/rb/tempo/PQ` 才是 0.99／1.01，其餘 rb／TTM 的 CU 也都是 0.99／1.01。

@@ -37,7 +37,7 @@ AES、MEva、SongEval 在這一層全部偵測不到。
 - unsteady 0.14–0.61
 - randpitch10pct 0.39
 
-**MuQ**：小幅錯誤同樣全部沒過。jitter30／80ms、unsteady15／30pct、blockshuffle 這幾個 MuQ 過了，MERT 沒過。
+**MuQ**：小幅錯誤同樣全部沒過。jitter30／80ms、unsteady15／30pct、blockshuffle 1.5／3.0 s 這幾個 MuQ 過了，MERT 沒過（blockshuffle 0.5 s 兩者都過）。
 
 **應判平手的變化**：MERT 與 MuQ 都**把 transpose ±1 判成大差**，cosim 中位數 0.962／0.952，這符合預登錄的預測失敗。tempo ±2% 判為平手（0.9987），tempo ±5% 是 0.997，落在平手門檻附近。
 
@@ -65,3 +65,7 @@ AES、MEva、SongEval 在這一層全部偵測不到。
 - **可寫**：兩者都把移調 ±1 判為大差。MuQ 對 mp3 與大幅衰減不具不變性；MERT 在 TTM 音訊上對極性不具不變性。
 - **不可寫**：「MERT 通過兩條要求」。音符層的小錯（單一錯音、10% 以下）和訊號層的輕度劣化都偵測不到。
 - **限制**：這是以參考為基準的指標，需要同一首的 clean 版本，所以不能直接拿來評 TTM 系統之間的排名。沒有人類評分。S_mert 的重算值與 r1 差 3.2e-4，超過預定容差 1e-4，判定沿用預登錄的 r1 值。
+
+## 勘誤（2026-10-22）
+
+- 第 40 行（MuQ）：`blockshuffle 這幾個 MuQ 過了，MERT 沒過` → `blockshuffle 1.5／3.0 s 這幾個 MuQ 過了，MERT 沒過（blockshuffle 0.5 s 兩者都過）`。依據 `metric_win_tie_133_summary.json` `126b.blockshuffle0.5s.mert={pass:true, pass_rate:0.9950}`、`126b.blockshuffle0.5s.muq={pass:true, pass_rate:1.0}`；MERT 未過的是 1.5 s（0.7749）與 3.0 s（0.4378）。

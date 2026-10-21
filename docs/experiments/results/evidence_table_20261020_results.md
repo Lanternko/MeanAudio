@@ -22,9 +22,9 @@
 
 ## 2. 旗標
 
-### 2.1「加雜訊但分數上升」（lose 類、CI 排除零且方向相反）：409 列
+### 2.1「加雜訊但分數上升」（lose 類、CI 排除零且方向相反）：406 列
 - 126a：PC 36、CLAP 13、MEva 29
-- 126b：CE 51、CU 52、PC 136、PQ 31、chroma_entropy 8、CLAP 17、ibi_cv 1、key_cnn_conf 2、MEva 21
+- 126b：CE 51、CU 52、PC 136、PQ 31、chroma_entropy 8、CLAP 14、ibi_cv 1、key_cnn_conf 2、MEva 21
 - 126c：PC 5、CLAP 5、MEva 2
 - 最大者全是噪音階梯上的 PC：SNR 0–10 時 csd_real／pro／poor／midi 的 PC +1.0～+1.57（噪音被 PC 當成內容複雜度）。
 - 非 PC 的最大例（不含 pulse_clarity）：126b `poor_sing` clicks20ps／5ps／1ps MEva +0.20／+0.19／+0.12（CI 下界 +0.09／+0.08／+0.06，m₀ 0.017）；`midi_fluidr3` extra30pct CE +0.170 [+0.134, +0.207]；`midi_generaluser` blastnote_x1 PQ +0.155 [+0.143, +0.166]、blastnote_x3 PQ +0.143；posshuffle100pct CU +0.13；`poor_sing` noise_snr25／30 CE +0.118／+0.103。
@@ -68,3 +68,8 @@
 - `evidence_rows.tsv` 的每列有 Δ、CI、n、tie／worse／better；**clean 與變體的原始分數平均未逐列存入**（只存 Δ）。原始逐 clip 分數在各 126 資料集的 scores.tsv／`items.json`，`cells_rates.json.gz` 為判定率快取。若要逐列原始值，需以 `evidence.py` 加一欄重跑（約 576 MB RAM、數分鐘）。
 - 126b／126c 以 piece 為群，群數少（8–59）時 bootstrap CI 偏窄的風險未校正。
 - 分類為預先登錄的機械規則；「爭議」不代表指標好或壞。
+
+## 勘誤（2026-10-22）
+
+- 第 25 行（§2.1 標題）：`409 列` → `406 列`。依據 `research/eval/metric_std_20261020/evidence_rows.tsv` 重算 `kind=lose & lo>0 & metric≠pulse_clarity`：126a 78／126b 316／126c 12，合計 406；若含 `pulse_clarity` 為 408。
+- 第 27 行（126b 分項）：`CLAP 17` → `CLAP 14`。依據同一檔：126b `clap` 且 `kind=lose`、`lo>0` 為 14 列；修正後 126b 分項合計 316，與上列總數 406 一致。
