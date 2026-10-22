@@ -1,0 +1,81 @@
+{
+  "at_taipei": "2026-10-18T00:49:27.412363+08:00",
+  "states": {
+    "a": "completed",
+    "b": "failed",
+    "c": "held"
+  },
+  "p2_pending": [],
+  "p2_running": [],
+  "gpu_compute_processes": [],
+  "receipts": {
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/seat_attempt.json": {
+      "valid": true,
+      "sha256": "ab2e74ef5fed28f3cc9cb895158050088231c2644db0b326345591f27a0415fc"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/preflight_pass.json": {
+      "valid": true,
+      "sha256": "61e888cad7174559e1dda5fea33057e9268a06fe21b23b61faed6d0910c569b4"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/queue_handoff.json": {
+      "valid": true,
+      "sha256": "5855a7be5196ebb0e3c14074978183d016b57b611f4c8905082238d2ffb6cb4c"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/smoke_pass.json": {
+      "valid": true,
+      "sha256": "a63d76cf3ef7c86c34f701d8fe3e4274b7e6957e79492c4e7723e5054e035080"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/disk_warning.json": {
+      "valid": true,
+      "sha256": "5a731ca3ce293b0e25752aa83602a29bdf9038fc8b04bcca5fcda6077df55885"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/start.json": {
+      "valid": true,
+      "sha256": "cbd85f12fd35ad53ce2a68517c70f7621c24fe4a741c16fefd0c43e3fec637c2"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/calibration_gate.json": {
+      "valid": true,
+      "sha256": "acbd55d13a2dc1b7b263f8f0fe62f9d179e41d3122c7f88726ca3ab06f05c83c"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/success.json": {
+      "valid": true,
+      "sha256": "371877b4621df288a32d4c55c943df118f3e6bca769717c92dc6605b885fc301"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/seat_attempt.json": {
+      "valid": true,
+      "sha256": "6086dcb3e2b3544ffcdd626153a179c663274e786ed0334f3029fb2b778fbe92"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/preflight_pass.json": {
+      "valid": true,
+      "sha256": "65dc157c6388ef4bb3e6a910d05b71449807247a1a8eefd5aef8a79b628e5154"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/queue_handoff.json": {
+      "valid": true,
+      "sha256": "eb73e493de7b2a76b5d784dcbf682e58bdff2fb9140dd9402e182b6fe1e47784"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/failure.json": {
+      "valid": true,
+      "sha256": "ea68f81038f18a9bad09751806ea069234be6868206c430bde6ee03477650718"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/disk_warning.json": {
+      "valid": true,
+      "sha256": "a01387d748ea40486672d68e28f9afa37fac8c84ae13326ff0452e728bfc9870"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_budget_r3/start.json": {
+      "valid": true,
+      "sha256": "aa2bc4a151f295a9a58e1e2b83ea22200a039b3d9a27f56da499f252cb9822da"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_budget_r3/seat_attempt.json": {
+      "valid": true,
+      "sha256": "3c93b89cddf6e91c98ae8310d1b070358e6b99b286e45c57562d6653b4a64fb7"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_budget_r3/disk_warning.json": {
+      "valid": true,
+      "sha256": "9957c13d4d38001d756371fa2351c27af3e25a298a51fe015964a5fdead2f1f8"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_budget_r3/held.json": {
+      "valid": true,
+      "sha256": "773ae13a9f9888b61f135037cb4ab4f035a323013ba791a67d92c02aa0591d81"
+    }
+  }
+}

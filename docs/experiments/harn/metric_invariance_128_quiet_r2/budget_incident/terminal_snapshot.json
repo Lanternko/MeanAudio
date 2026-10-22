@@ -1,0 +1,64 @@
+{
+  "at": "2026-10-17T01:37:26.484002+00:00",
+  "p2_pending": [],
+  "p2_running": [],
+  "receipts": {
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_quiet_r2/disk_warning.json": {
+      "sha256": "b938b5fb914d475ed1b6f0ceb4989f19561641b21158b0ccbafc01e8ae8ba591",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_quiet_r2/failure.json": {
+      "sha256": "3d4034a45c1cfb98a632fe36c829911f4c3ae7c4756b8c9547f2da75ece74622",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_quiet_r2/preflight_pass.json": {
+      "sha256": "7e06bd4b13831f2b18b575db024a180df8ce9eafe64670655fefe0410ebb4a06",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_quiet_r2/queue_handoff.json": {
+      "sha256": "93045b9c678fe9084b19c04ba95416828cf64a0cd52bc42ba0ca690c68850520",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_quiet_r2/seat_attempt.json": {
+      "sha256": "56027f3202cb7795418b56b32f3d29ee4873568ae082453b0650fef7ff86d7ab",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_quiet_r2/smoke_budget_invalid.json": {
+      "sha256": "aaeba53661d65757b6547a5829a16e887bf593330565f1713aebc525c7bd2f2f",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_quiet_r2/start.json": {
+      "sha256": "73e0eca2ab3ae9b62ec2e16a3d1ad2b01e92c7697d7387ca2051833fca0ef19c",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_quiet_r2/disk_warning.json": {
+      "sha256": "4d8c7ce1e3e7420c9ea70ad14e67502404a589243d564c52cbe418f87a55f5c5",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_quiet_r2/held.json": {
+      "sha256": "a9dcb1ffbe50160e46f83295fa6aa854d74fe70c044c8cad9873262a00a7a144",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_quiet_r2/seat_attempt.json": {
+      "sha256": "8790e84fbd7d29d036b23b643fc66d4805f537d312ff7f45e92d6f16754eee6b",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_quiet_r2/disk_warning.json": {
+      "sha256": "2d5941448ada88bf4a1c2a094b91336015367de46e84a316fc190875786e23f4",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_quiet_r2/held.json": {
+      "sha256": "407f8068e09e0b2bdb96593eeb51d9901934f1638066bce885fb33d6f651a251",
+      "valid": true
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_quiet_r2/seat_attempt.json": {
+      "sha256": "3c02f228a48951fa6477a1079ac1b420c20d3487a8dcf8d414921eff0cb00959",
+      "valid": true
+    }
+  },
+  "terminal_status": {
+    "a": "failed",
+    "b": "held",
+    "c": "held"
+  }
+}

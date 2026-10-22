@@ -1,0 +1,23 @@
+{
+  "document_kind": "proposed_preregistration_amendment",
+  "implementation_requirement": "New contract/run; evaluator must read the registered budget_seconds_a instead of the current hard-coded 7h. If evaluator hash changes, all three source-bound CPU scans must be regenerated; no stale scan reuse.",
+  "n_candidates_unchanged": [
+    1000,
+    600,
+    400
+  ],
+  "not_performed": "No calibration, Table B or NegMF readjudication; no approved increase in budget.",
+  "observed_estimates_seconds": {
+    "1000": 71299.05280564557,
+    "400": 31298.002109833702,
+    "600": 44631.68567510432
+  },
+  "old_budget_seconds_a": 25200,
+  "other_rules": "m, 80%, input manifest, identity/quiet-LUFS rules, sensitivity exclusion, 17h deferral, seeds and variants unchanged.",
+  "predicted_selected_n": 400,
+  "production_applied": false,
+  "proposed_budget_seconds_a": 32400,
+  "reason": "All 20 GPU smoke units and five C0 identity comparisons passed; smallest registered N exceeds the 7h estimate gate. N=400 estimate is 8.694h including existing 25% reserve.",
+  "scope": "128a smoke feasibility time estimate only",
+  "status": "pending_operator_approval"
+}

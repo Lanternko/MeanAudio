@@ -1,0 +1,17 @@
+{
+  "document_kind": "proposed_preregistration_amendment",
+  "status": "pending_operator_approval",
+  "production_applied": false,
+  "experiment": "128",
+  "reason": "identity_r1 C0 passed; C1 encountered a nonzero MusicGen clip below the integrated LUFS absolute gate. Current design section 9 requires invalid gate on undefined LUFS.",
+  "scope": "C1/C3 normalization only; identity gate, input manifest, m, 80%, ladders and K1-K4 unchanged.",
+  "proposed_rule": {
+    "finite_lufs": "Keep original normalization exactly.",
+    "negative_infinite_lufs_nonzero_finite_audio": "Measure pyloudnorm on x/max(abs(x)), then scale this probe to -30 LUFS without limiting; record fallback count and ids.",
+    "zero_empty_nonfinite_or_still_undefined": "Remain invalid, no exclusion or raw substitution."
+  },
+  "bias_risk": "Defined after observing a failure. Boosts near-silent noise and changes the absolute gate mask for these clips; may affect invariance and degradation outcomes. Must report fallback counts/ids.",
+  "candidate": "scripts/analysis/propose_metric_invariance_128_quiet_lufs.py",
+  "cpu_evidence": "quiet_lufs_proposal_checks.json",
+  "relaunch_requirement": "Explicit responsible-operator approval, production implementation and tests, new source hashes, fresh contracts and a new run. Do not resume identity_r1."
+}

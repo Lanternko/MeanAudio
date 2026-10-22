@@ -1,0 +1,9 @@
+{
+  "source": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/b/identity/meanaudio_s14159265_cfg0/clean/C0",
+  "score_sha256": "521484d6a04f7394c00cbb39b67c30f146ce7f942af25ea51df15eab58228d1f",
+  "reference_path": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/meanaudio_cfg0/lvl30/scores/meanaudio_cfg0_lvl30/per_clip.tsv",
+  "reference_sha256": "476ba68fa1ca83eaf8a0eb4863dd9f4367ac8b11c7893d22e17cffd7eaf69d99",
+  "reference_n": 5521,
+  "ids_equal_sorted_reference_prefix": true,
+  "batch_size": 32
+}

@@ -1,0 +1,31 @@
+{
+  "status": "passed",
+  "at": 1792258609.890712,
+  "free_bytes": 64158523392,
+  "required_bytes": 63455625216,
+  "hard_floor_bytes": 53687091200,
+  "peak_additional_bytes": 7516192768,
+  "transient_bytes": 104857600,
+  "recovery_reserve_bytes": 2147483648,
+  "verified_cold_cells": [
+    {
+      "system": "musicgen_medium",
+      "n": 5521,
+      "bytes": 3549401274,
+      "source": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicgen_medium/lvl23/audio",
+      "archive": "/mnt/seagate/kojiek_data/cold_archive_20261018/ttm_metrics_115_20261009/musicgen_medium/lvl23/audio"
+    },
+    {
+      "system": "musicldm_fid8",
+      "n": 5521,
+      "bytes": 2032004936,
+      "source": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicldm_fid8/lvl23/audio",
+      "archive": "/mnt/seagate/kojiek_data/cold_archive_20261018/ttm_metrics_115_20261009/musicldm_fid8/lvl23/audio"
+    }
+  ],
+  "files": {
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_nvme_r5/archive_musicgen_medium.json": "76ba150e0753fca645db42052d07deb0371f9d43f3ae4c862690db24d7bcdfd2",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_nvme_r5/archive_musicldm_fid8.json": "bd63c1a80ae1929d7d18533d38e2d9dd0072218d08a8dd515f7933beaf069761"
+  },
+  "remaining_registered_cold_archive": "May continue in background; excludes all study inputs, source directories preserved until hashes/fsync/atomic exchange pass."
+}

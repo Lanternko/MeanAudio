@@ -1,0 +1,109 @@
+{
+  "at": "2026-10-17T17:20:21.429678+00:00",
+  "calibration_reused": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/summary.json",
+  "carried_calibration_seconds": 26762.69604897499,
+  "child_pid": 2350036,
+  "child_start_time": "57274251",
+  "completed_units": [
+    {
+      "done_sha256": "4e607e86cd78ce67c833d2609e81d56c517c083a594ca56bd6b02e94db62b19a",
+      "kind": "identity",
+      "n": 224,
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/identity/meanaudio_s14159265_cfg0/clean/C0",
+      "scores_sha256": "c72e9163e003ab0c7159262bef6ba8a5a8e432734217b073821b8f19e94a10bc"
+    },
+    {
+      "done_sha256": "826788a473aef4174bec100b09a1a7302fd2b65c551deafd7863ba06939c782d",
+      "kind": "first_formal_C1_chunk",
+      "n": 1000,
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk00000/C1",
+      "scores_sha256": "c48364738546336d7b1e78a41161805db78d95e0888e03af26df00716426276d"
+    }
+  ],
+  "contract_sha256": "3e4a8518a359964caf8e94be713867915916aff708879c44b75ec991a8d1ec26",
+  "elapsed_budget_seconds": 27056.38407588005,
+  "final_scientific_results_available": false,
+  "identity": {
+    "blocking_metrics": [
+      "PQ",
+      "clap"
+    ],
+    "checked_n": 200,
+    "failed_blocking_metrics": [],
+    "kind": "historical_score_comparison",
+    "metrics": {
+      "CE": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "CU": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "PC": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "PQ": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "clap": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      }
+    },
+    "passed": true,
+    "scored_context_n": 224,
+    "warning_metrics": []
+  },
+  "next_job_pending": "130_metric_invariance_negmf_claims_r4",
+  "notification_receipts": [
+    {
+      "event": "disk_warning",
+      "reason": "ok",
+      "sha256": "d397a940b55c2b89ee279ffe4d2f3ef764ff5a67a4b0d4e607b9d8f711f63200",
+      "valid": true
+    },
+    {
+      "event": "preflight_pass",
+      "reason": "ok",
+      "sha256": "e3ae2efa924c3d1daa2427f70070c440862946b006502c40d3376f2177d8470c",
+      "valid": true
+    },
+    {
+      "event": "queue_handoff",
+      "reason": "ok",
+      "sha256": "25c5c8be0830bf9bfe7d3e0660b74226e88cb915036eee8f31add0c63c555da7",
+      "valid": true
+    },
+    {
+      "event": "start",
+      "reason": "ok",
+      "sha256": "2eeba21ab2b4896e1f17ddc098ab12a97cbfb892a8123e8bbb8b5497f96397b2",
+      "valid": true
+    }
+  ],
+  "seat": {
+    "control_dir": "/home/kojiek/gpu_queue/p2/control/129_metric_invariance_table_b_claims_r4-20261017T171515Z",
+    "job_id": "129_metric_invariance_table_b_claims_r4",
+    "phase": "running",
+    "pid": 2349966,
+    "role": "p2",
+    "run_id": "129_metric_invariance_table_b_claims_r4-20261017T171515Z",
+    "seated_at": "2026-10-17T17:15:16Z",
+    "start_time": "57273129"
+  },
+  "source_commit": "3977f766a42c0f9f4f4293616dc21001ff1abeab",
+  "status": "running_verified"
+}

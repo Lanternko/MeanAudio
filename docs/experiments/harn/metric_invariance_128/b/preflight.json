@@ -1,0 +1,96 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "4eb63600edb3bc4630ce4d4658f575ea3cc4135205674945b955433221e86e59",
+      "contract_raw_sha256": "428a0f1d3df3d0b5f007b7c50cb407fb5c051e3d872aaf9c6326989ac8f2456f",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-chat-20261017-start-128",
+    "channel_record_sha256": "44a1f6f736b227f58aa282d8f64794769bc372ac8282cd1f1d96942da5bb7b01",
+    "evidence_id": "operator-start-128-20261017",
+    "experiment_id": "metric-invariance-128b-20261017",
+    "expires_at": "2026-10-23T18:09:36.146984+00:00",
+    "issued_at": "2026-10-16T18:09:36.146984+00:00",
+    "run_id": "run-20261017-129-metric-invariance",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "b2cf25e39bde114fc1552e896bedbe9e54d094dbc3a63f85419690fd4c04ec82",
+      "observed_at": "2026-10-16T18:09:36.146984+00:00",
+      "valid_until": "2026-10-23T18:09:36.146984+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "b2cf25e39bde114fc1552e896bedbe9e54d094dbc3a63f85419690fd4c04ec82",
+      "observed_at": "2026-10-16T18:09:36.146984+00:00",
+      "valid_until": "2026-10-23T18:09:36.146984+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "b2cf25e39bde114fc1552e896bedbe9e54d094dbc3a63f85419690fd4c04ec82",
+      "observed_at": "2026-10-16T18:09:36.146984+00:00",
+      "valid_until": "2026-10-23T18:09:36.146984+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "cdc66c94fb3a66cf2dffd50b9b46250197b741246848dc0b647d2d4b2ae15b38",
+      "observed_at": "2026-10-16T18:09:36.146984+00:00",
+      "valid_until": "2026-10-23T18:09:36.146984+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "b2cf25e39bde114fc1552e896bedbe9e54d094dbc3a63f85419690fd4c04ec82",
+      "observed_at": "2026-10-16T18:09:36.146984+00:00",
+      "valid_until": "2026-10-23T18:09:36.146984+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "cdc66c94fb3a66cf2dffd50b9b46250197b741246848dc0b647d2d4b2ae15b38",
+      "observed_at": "2026-10-16T18:09:36.146984+00:00",
+      "valid_until": "2026-10-23T18:09:36.146984+00:00",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "428a0f1d3df3d0b5f007b7c50cb407fb5c051e3d872aaf9c6326989ac8f2456f",
+  "created_at": "2026-10-16T18:09:36.146984+00:00",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "metric-invariance-128b-20261017",
+  "run_id": "run-20261017-129-metric-invariance",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 3261204070400,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-16T18:09:36.146984+00:00",
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/b",
+      "peak_additional_bytes": 2147483648,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 536870912,
+      "verdict": "pass"
+    },
+    {
+      "free_bytes": 68725358592,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-16T18:09:36.146984+00:00",
+      "path": "/home/kojiek/MeanAudio",
+      "peak_additional_bytes": 6442450944,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 104857600,
+      "verdict": "pass"
+    }
+  ]
+}

@@ -1,0 +1,422 @@
+{
+  "status": "provisional",
+  "B_base_seconds": 15397.099028537155,
+  "B_with_25pct_reserve_seconds": 19846.373785671443,
+  "C_base_seconds": 10123.646007059135,
+  "C_with_25pct_reserve_seconds": 12954.557508823918,
+  "B_details": [
+    {
+      "system": "meanaudio_s14159265_cfg0",
+      "mode": "C1",
+      "remaining_n": 2521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 26.060274041006195
+    },
+    {
+      "system": "meanaudio_s14159265_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004514925563853467,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 430.4177316529934
+    },
+    {
+      "system": "meanaudio_s14159265_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004884440095338505,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.8162841348558
+    },
+    {
+      "system": "meanaudio_s14159265_cfg3_neg",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.003286627626948757,
+      "gpu_per_clip": 0.006915807432524162,
+      "seconds": 56.3622781894682
+    },
+    {
+      "system": "meanaudio_s14159265_cfg3_neg",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004337909718742594,
+      "gpu_per_clip": 0.07331009663495934,
+      "seconds": 428.7675969169449
+    },
+    {
+      "system": "meanaudio_s14159265_cfg3_neg",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004836561311094556,
+      "gpu_per_clip": 0.17965266227722168,
+      "seconds": 1061.61639294207
+    },
+    {
+      "system": "meanaudio_s16180339_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0032482791248185094,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 56.45249399418695
+    },
+    {
+      "system": "meanaudio_s16180339_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004245932312187506,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 428.9326199105456
+    },
+    {
+      "system": "meanaudio_s16180339_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004836216157855233,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.5500397760106
+    },
+    {
+      "system": "meanaudio_s16180339_cfg3_neg",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0032553707496845163,
+      "gpu_per_clip": 0.006915807432524162,
+      "seconds": 56.189708970092326
+    },
+    {
+      "system": "meanaudio_s16180339_cfg3_neg",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004331204341724515,
+      "gpu_per_clip": 0.07331009663495934,
+      "seconds": 428.7305765304281
+    },
+    {
+      "system": "meanaudio_s16180339_cfg3_neg",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.00489341578213498,
+      "gpu_per_clip": 0.17965266227722168,
+      "seconds": 1061.9302864766842
+    },
+    {
+      "system": "meanaudio_s27182818_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.003280955999798607,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 56.63290302095207
+    },
+    {
+      "system": "meanaudio_s27182818_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004358175596280489,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 429.552315082023
+    },
+    {
+      "system": "meanaudio_s27182818_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004830564437725116,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.5188366291723
+    },
+    {
+      "system": "meanaudio_s27182818_cfg3_neg",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.003253411250625504,
+      "gpu_per_clip": 0.006915807432524162,
+      "seconds": 56.17889057578752
+    },
+    {
+      "system": "meanaudio_s27182818_cfg3_neg",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.00429232274836977,
+      "gpu_per_clip": 0.07331009663495934,
+      "seconds": 428.51591125351655
+    },
+    {
+      "system": "meanaudio_s27182818_cfg3_neg",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.00475996284512803,
+      "gpu_per_clip": 0.17965266227722168,
+      "seconds": 1061.1934928114688
+    },
+    {
+      "system": "musiccaps_real",
+      "mode": "C1",
+      "remaining_n": 5131,
+      "cpu_per_clip": 0.0027189156899112277,
+      "gpu_per_clip": 0.006869628129934426,
+      "seconds": 49.25067405368842
+    },
+    {
+      "system": "musiccaps_real",
+      "mode": "C2",
+      "remaining_n": 5131,
+      "cpu_per_clip": 0.0036863680943497457,
+      "gpu_per_clip": 0.07261330499255564,
+      "seconds": 391.5665580445997
+    },
+    {
+      "system": "musiccaps_real",
+      "mode": "C3",
+      "remaining_n": 5131,
+      "cpu_per_clip": 0.004233998435665853,
+      "gpu_per_clip": 0.1773433965444565,
+      "seconds": 974.9684450360616
+    },
+    {
+      "system": "musicgen_medium",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.00665634909455548,
+      "gpu_per_clip": 0.007932365460001166,
+      "seconds": 80.59712373982242
+    },
+    {
+      "system": "musicgen_medium",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.008589538094383897,
+      "gpu_per_clip": 0.0797366771425004,
+      "seconds": 487.74467960874824
+    },
+    {
+      "system": "musicgen_medium",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.01011472584286821,
+      "gpu_per_clip": 0.1790391856431961,
+      "seconds": 1086.0701235951374
+    },
+    {
+      "system": "musicldm",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.003220156875613611,
+      "gpu_per_clip": 0.0068377996449999045,
+      "seconds": 55.57350625229781
+    },
+    {
+      "system": "musicldm",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.00425337237174972,
+      "gpu_per_clip": 0.07233849283511518,
+      "seconds": 422.936477076717
+    },
+    {
+      "system": "musicldm",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004824500374525087,
+      "gpu_per_clip": 0.17819891154766082,
+      "seconds": 1053.3739395438363
+    },
+    {
+      "system": "musicldm_fid8",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0032940730307018384,
+      "gpu_per_clip": 0.0068377996449999045,
+      "seconds": 55.981597344539914
+    },
+    {
+      "system": "musicldm_fid8",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004298852436477318,
+      "gpu_per_clip": 0.07233849283511518,
+      "seconds": 423.18757251407806
+    },
+    {
+      "system": "musicldm_fid8",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.00501572647044668,
+      "gpu_per_clip": 0.17819891154766082,
+      "seconds": 1054.4296988194194
+    }
+  ],
+  "C_details": [
+    {
+      "system": "meanaudio_s14159265_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 57.00992176170563
+    },
+    {
+      "system": "meanaudio_s14159265_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004514925563853467,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 430.4177316529934
+    },
+    {
+      "system": "meanaudio_s14159265_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004884440095338505,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.8162841348558
+    },
+    {
+      "system": "meanaudio_s16180339_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0032482791248185094,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 56.45249399418695
+    },
+    {
+      "system": "meanaudio_s16180339_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004245932312187506,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 428.9326199105456
+    },
+    {
+      "system": "meanaudio_s16180339_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004836216157855233,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.5500397760106
+    },
+    {
+      "system": "meanaudio_s27182818_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.003280955999798607,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 56.63290302095207
+    },
+    {
+      "system": "meanaudio_s27182818_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004358175596280489,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 429.552315082023
+    },
+    {
+      "system": "meanaudio_s27182818_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004830564437725116,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.5188366291723
+    },
+    {
+      "system": "negmf_s14159265_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 57.00992176170563
+    },
+    {
+      "system": "negmf_s14159265_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004514925563853467,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 430.4177316529934
+    },
+    {
+      "system": "negmf_s14159265_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004884440095338505,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.8162841348558
+    },
+    {
+      "system": "negmf_s14159265_cfg0",
+      "mode": "C0",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.038368491530418394,
+      "seconds": 271.34368281600865
+    },
+    {
+      "system": "negmf_s16180339_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 57.00992176170563
+    },
+    {
+      "system": "negmf_s16180339_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004514925563853467,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 430.4177316529934
+    },
+    {
+      "system": "negmf_s16180339_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004884440095338505,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.8162841348558
+    },
+    {
+      "system": "negmf_s16180339_cfg0",
+      "mode": "C0",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.038368491530418394,
+      "seconds": 271.34368281600865
+    },
+    {
+      "system": "negmf_s27182818_cfg0",
+      "mode": "C1",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.006967305114958435,
+      "seconds": 57.00992176170563
+    },
+    {
+      "system": "negmf_s27182818_cfg0",
+      "mode": "C2",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004514925563853467,
+      "gpu_per_clip": 0.07342673880513757,
+      "seconds": 430.4177316529934
+    },
+    {
+      "system": "negmf_s27182818_cfg0",
+      "mode": "C3",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.004884440095338505,
+      "gpu_per_clip": 0.1801816213130951,
+      "seconds": 1064.8162841348558
+    },
+    {
+      "system": "negmf_s27182818_cfg0",
+      "mode": "C0",
+      "remaining_n": 5521,
+      "cpu_per_clip": 0.0033492441252747085,
+      "gpu_per_clip": 0.038368491530418394,
+      "seconds": 271.34368281600865
+    }
+  ],
+  "method": "Fresh NVMe preparation benchmark + actual completed A clean-unit GPU timings, per-system mapped; includes chunk setup, 25% reserve and identity/analysis allowance. Must calibrate against full fresh B batches, not a guarantee.",
+  "B_completed_C1_clips_reused": 3000,
+  "benchmark_sha256": "df80647aeace7ecc4c1d41f2518d8b666dcd79802a6eb731c9a711021a0bdab1"
+}
