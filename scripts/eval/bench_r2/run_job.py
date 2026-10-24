@@ -35,7 +35,7 @@ def contract():
     return json.loads(Path(os.environ['GPU_QUEUE_CONTRACT']).read_text())
 
 
-def decoders_running():
+def decoders_running(datasets):
     me = os.getpid()
     for p in Path('/proc').iterdir():
         if p.name.isdigit() and int(p.name) != me:
@@ -43,7 +43,7 @@ def decoders_running():
                 cmd = (p / 'cmdline').read_bytes().split(b'\0')
             except OSError:
                 continue
-            if any(x.endswith(b'decode_cache.py') for x in cmd[:4]):
+            if any(x.endswith(b'decode_cache.py') for x in cmd[:4]) and any(d.encode() in cmd for d in datasets):
                 return True
     return False
 
@@ -59,8 +59,8 @@ def preflight(c):
     for ds in c['fixed_protocol']['datasets']:
         if not (D.MAN / f'{ds}.tsv').exists() and not list(D.MAN.glob(f'{ds}*')):
             sys.exit(f'manifest missing: {ds}')
-    if decoders_running():
-        print('another decode_cache.py is running; wait')
+    if decoders_running(c['fixed_protocol']['datasets']):
+        print('another decode_cache.py on these datasets is running; wait')
         return 75
     print('preflight ok')
     return 0

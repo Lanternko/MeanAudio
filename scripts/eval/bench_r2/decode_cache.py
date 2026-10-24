@@ -171,7 +171,12 @@ def load_index(path):
     if not Path(path).exists():
         return {}
     with open(path, newline='') as f:
-        return {r['unit_id']: r for r in csv.DictReader(f, delimiter='\t')}
+        rows = list(csv.reader(f, delimiter='\t'))
+    if not rows:
+        return {}
+    if rows[0][0] != 'unit_id':  # headerless file (empty file pre-existed when the header decision was made)
+        raise SystemExit(f'{path}: missing header row')
+    return {r[0]: dict(zip(rows[0], r)) for r in rows[1:]}
 
 
 def needed(dataset, jobs=None):
@@ -211,7 +216,7 @@ def main():
     if a.limit:
         work = work[:a.limit]
     print(f'{a.dataset}: {len(work)} items to decode ({len(done)} units already indexed)', flush=True)
-    new = not idx_path.exists()
+    new = not idx_path.exists() or idx_path.stat().st_size == 0
     t0 = time.time()
     # AIME: group by shard so each worker re-uses its parquet read
     if a.dataset == 'aime':
