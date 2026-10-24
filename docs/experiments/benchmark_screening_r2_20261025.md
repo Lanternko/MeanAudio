@@ -459,27 +459,52 @@ docs/experiments/results/benchmark_screening_r2_20261025_results.md   # 結果�
 
 ---
 
-## 13. 未核實清單（實作前必須補查）
+## 13. 未核實清單（2026-10-25 實作時核實；設計未因此更動）
 
-| # | 項目 | 目前狀態 | 補查方式 |
+| # | 項目 | 結果 | 狀態 |
 |---|---|---|---|
-| 1 | ODAQ 逐檔授權（`_detailed_license.csv`） | 未核實（zip 未下載） | 下載 zip 後 `head`／`column` |
-| 2 | ODAQ 30 trials 與 25 段來源的對應（music／DE trials 各幾個） | 未核實 | 解 zip 後數 `ODAQ_listening_test` |
-| 3 | ODAQ `ODAQ_results.csv` 的欄位名與 BAQ 聚合方式 | 未核實 | 解 zip 後讀 CSV 表頭 |
-| 4 | SongEval 官方 train／test split 與 SongEval 指標訓練範圍 | 未核實 | 讀 repo／checkpoint 卡 |
-| 5 | SongEval mp3 bitrate 與 sample rate | 未核實 | ffprobe |
-| 6 | AIME 音訊 parquet 的 track id 與 survey snippet 的對應 | 未核實 | 下載後讀 schema |
-| 7 | Music Arena 偏好分布、平均 duration、TIE 數量、audio 非 null 的可用 battle 數 | 未核實 | 下載 battle JSON 後統計 |
-| 8 | Music Arena 排除 `sao` 後可下載的 mp3 數與 404 | 未核實 | 清單 HEAD／下載日誌 |
-| 9 | SingMOS predictor 權重 payload 授權 | 未核實 | 讀 release／repo LICENSE |
-| 10 | SongBench repo 的 `NOASSERTION` 是否允許研究使用 | 未核實 | 讀 LICENSE 檔 |
-| 11 | MEva 的輸入長度與 SR | 未核實 | 讀 pinned runtime |
-| 12 | HEAR 的輸入長度（30 s 窗？）與 SongEval 維度對應 | 未核實 | 讀 repo README |
-| 13 | CMI-RM 訓練是否含 AIME | 未核實 | 讀 CMI-Pref 論文／資料卡 |
-| 14 | MEva 訓練是否含 Music Arena | 未核實 | 讀 MEva 論文附錄 |
-| 15 | SongEval 的 16 位評分者 vs metadata 每首 4 位 | 未核實（可能是輪換） | 讀論文 §3 |
+| 1 | ODAQ 逐檔授權 | `_detailed_license.csv` 66 列（含 15 個空行與 `[1]` 引文列）；原始素材 CC BY 4.0／3.0／2.5、CC0（glockenspiel／claves／SitaSings 等）；Fraunhofer 與 Netflix 自有音樂（`female_speech_music_*_BG／LD*`、`Lonely Path`）為 **CC BY-NC 4.0**。逐檔計數 CC BY 31／BY-NC 9／CC0 5（README 表）。結果檔只發表指標分數、不散布音檔 → NC 不構成問題 | 已核實 |
+| 2 | ODAQ 30 trials 對應 | 30 trial＝10 個 DE 資料夾（`DE_*_LD*`，語音＋背景混音）＋5 個方法（LP、…）× 4 個素材（`LP_11_guitar`、`LP_23_jazz`、`LP_AmateurOnPurpose`、`LP_CreatureFromTheBlackjackTable` 等）；240 檔＝30 trial × 8 process | 已核實 |
+| 3 | `ODAQ_results.csv` 欄位 | 6,241 行（6,240 筆評分）；欄位 `score,method,condition,process,item,subject`；26 位聽者（`Subject n: <site-id>`，另有每位聽者的 XML）；MUSHRA 0–100，BAQ 以 trial×process 對聽者取平均 | 已核實 |
+| 4 | SongEval 官方 split 與 SongEval 指標訓練範圍 | `metadata.jsonl` 只有 `file_name／gender／annotation` 三欄，**沒有 split 欄**；官方 train／test 切分與 SongEval 模型的訓練集沒有逐檔核實。§5 的重疊旗標維持預登錄的「SongEval 指標 × SongEval 資料＝重疊」，結論只寫 observation | **未完全核實**（保守旗標） |
+| 5 | SongEval mp3 bitrate／SR | ffprobe 20 檔（seed 20261025）：mp3、44.1／48 kHz、單／雙聲道、64–320 kbps、127–365 s；無錯誤 | 已核實 |
+| 6 | AIME track id 對應 | `description` 欄＋`id`＋`model` 可對上 survey；parquet 210 shard、6,500 track；1,300 snippet 全部找到 track；與 MC522 key 重疊 0 | 已核實（來源 hash 見 §14.3） |
+| 7 | Music Arena 偏好分布／TIE | 抽樣後 2,000 battle＝3,998 個 mp3（見 `meta/music_arena_pick.json`）；其餘統計由 analyze_r2 在評分後輸出，**此處未另外列表** | 部分核實 |
+| 8 | Music Arena 排除 `sao` 後 mp3 數與 404 | 2,000 battle × 2＝4,000 條，2 條 404（`meta/music_arena_missing.json`）→ 3,998；受影響 battle 兩邊不齊，分析時排除（§14.6） | 已核實 |
+| 9 | SingMOS predictor 權重授權 | predictor 經 torch.hub 取得並可執行（見 §14.4）；權重 payload 的 LICENSE 沒有逐檔讀 | **未核實** |
+| 10 | SongBench `NOASSERTION` | J6 跳過、未連接 SongBench，故未讀 LICENSE（§14.2） | **未核實（不影響主表）** |
+| 11 | MEva 輸入長度與 SR | 32 kHz 輸入、30 s 切塊最長 360 s、pool 到 1,500 frame；因此 analyze_r2 的 bandwidth-blind LP 規則把 MEva 路徑訂為 Nyquist 16 kHz（> Q5 15 kHz → 全可見；原先誤設 16 kHz 已改，見 §14.8） | 已核實 |
+| 12 | HEAR 輸入長度／維度對應 | J6 跳過，未讀 | **未核實（J6 跳過）** |
+| 13 | CMI-RM 訓練是否含 AIME | 本輪沒有讀 CMI-Pref 論文／資料卡；§5 沿用預登錄旗標 | **未核實** |
+| 14 | MEva 訓練是否含 Music Arena | 未讀附錄；§5 沿用預登錄旗標 | **未核實** |
+| 15 | SongEval 16 位評分者 vs 每首 4 位 | 每首 `annotation` 恆為 4 筆（metadata 驗證），16 位為輪換池，與論文描述一致；未逐篇比對論文 §3 | 部分核實 |
+
+### 13.1 §10.3 檢查結果（`analysis/cache_check.json`，只含已解碼部分）
+
+| 資料集 | manifest／index | invalid | ffprobe 20 檔 | 峰值／LUFS／靜音 |
+|---|---|---|---|---|
+| ODAQ | 240／960 | 0 | 48 kHz 雙聲道，pcm 16／24／f32，10.0–16.3 s | peak max 0.971（無 ≥ 1.0，hidden ref 條件通過）、LUFS p50 −26.6、靜音 0 |
+| MC522 | 522／1,566 | 0 | 16 kHz 單聲道 pcm_s16，10 s | 43 檔 peak = 1.0（滿刻度）、LUFS p50 −16.7、靜音 proxy 1 檔（LUFS < −45） |
+| SongEval | 2,399／（解碼中，僅 smoke 4 列） | 0 | 見 #5 | 只有 smoke 列 |
+| Music Arena | 3,998／（解碼中，僅 smoke 列） | 0 | 32／44.1／48 kHz mp3，83–202 kbps，20–253 s | smoke 64 列中 33 列 peak ≥ 1.0（mp3 解碼過衝，最大 2.72；norm 變體 `over_fs` 欄記錄） |
+
+SingMOS、AIME 與上列兩個解碼中的資料集待解碼完成後重跑 `check_cache.py`；靜音比例是 LUFS_in < −45 的 proxy，不是 §10.3 原文的樣本級 −45 dBFS。授權（§10.3 第 3 點）：ODAQ 已核實；AIME 逐軌授權、SongEval NC-SA 未逐軌核對。重疊（第 4 點）：AIME vs MC522 以 key 比對 0 重疊（與 PAM 未比）。
 
 ---
+
+## 14. 實作偏離與限制（只記實作層面；預登錄門檻、種子、變體、重疊旗標皆未改）
+
+1. **J1 沒掛 `notify_on_exit`**：J1 的 wrapper 沒有 `notify_on_exit` trap（140 失敗後 141→142 重排時沿用，未補）；之後 143–150 由 `make_queue_job.py` 產生，已走 queue 的通知。
+2. **J6（SongBench＋HEAR 探索）跳過**：依 §9.3「可跳過」，不影響主表；#10、#12 因此未核實。
+3. **AIME manifest 以 metadata hash 建立**：59 GB 音訊在共用碟 I/O 競爭下讀取過慢（已終止），`aime_track_index` 只讀 `id／model／description` 三欄，來源 provenance hash＝sha256(`id|model|description`)[:16]，**不是音訊 bytes hash**；音訊在 decode 階段才逐 shard 讀取（每 shard 一次）。
+4. **SingMOS predictor**：torchaudio 缺 API，以 stub（`pylib_singmos/`）執行；smoke 通過（AIME smoke 8 檔 singmos 2.84），但與官方環境的數值一致性沒有另外驗證；權重授權未核實（#9）。
+5. **J3／J5 切半，且 AIME 獨立成 J2**：J3→J3a／J3b（2.4／3.2 h）、J5→J5a／J5b（3.2／3.7 h），單 job 皆 < 4 h；queue 編號 142 J1、143 J3a、144 J3b、145 J5a、146 J5b、147 J4a、148 J4b、149 J4c、150 J2；合計約 21.5 h（含 15% 開銷，J6 不計），落在 12–24 h 內。實測 J1 因共用碟競爭較名目慢，後續工時可能超出，stall 設 28,800 s。
+6. **Music Arena 2 個 mp3 404**：受影響 battle 兩側不齊，分析排除，不補抽樣（預登錄抽樣 seed 20261025 不重抽）。
+7. **126d／133 的 sha 未 pin**：contract 的 bindings 沒有納入 `metric_win_tie_126d.py`／`metric_win_tie_133.py`／`newmetrics_*.py`（這些檔案目前有未 commit 的修改，不屬於本任務）；bench_r2 只 import 其評分函式，若上游變動，結果不可逐位重現。
+8. **analyze_r2 的 MEva LP 規則**：原假設 16 kHz，核實為 32 kHz 輸入，已改為 44（全可見）；此為實作 bug fix，規則本身（依輸入 Nyquist）不變。
+9. **analyze_r2 只在部分 ODAQ 分數上測過**；Kendall τ 的 CI 沒有實作（只報點估計與 bootstrap 的 Spearman／配對勝率）；正式結果前需在完整分數上再跑。
+10. **J1 contract sha 已不吻合**：`decode_cache.py`／`bench_datasets.py`／launcher 在 J1 啟動後為 AIME 修改（只動 AIME 分支）。contract sha 僅在 `run_job --preflight` 檢查，J1 已通過；`--validate-only` 只讀 summary 報告、不重算 sha，因此不影響 J1 收尾。143–150 已用新 sha 重新產生 contract。J1 不重排。
+11. **跨檔案載入**：`datasets` 名稱遮蔽 → `bench_datasets.py`；CLAP 一律逐檔（`eval_metrics.score_clap`，batch 1）。
 
 ## 附錄 A：與 round-1 預登錄的差異（逐條）
 
