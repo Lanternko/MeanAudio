@@ -1,0 +1,122 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "bench-r2-J1-20261025",
+ "job": "140",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Round-2 benchmark screening J1 (preregistered docs/experiments/benchmark_screening_r2_20261025.md \u00a79.3): score ODAQ (native raw/norm, V5, V10) and MusicCaps-522 (V5, V10 raw, V10 norm) with AES, MEva, MuQ-Eval A1/A3a, CMI-RM, PAM, MERT/MuQ embeddings (ODAQ) and CLAP (MC522). Scores only; analysis (G1-G6) is a later step. SingMOS-Pro predictor not included (environment unresolved).",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/benchmark_screening_r2_20261025.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-25",
+  "text": "Run the preregistered round-2 screening scoring jobs; thresholds, seeds and variants are not changed."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Eval-only scoring of ODAQ 960 + MC522 1,566 units x <=7 models. Output /mnt/seagate/benchmarks_r2/{derived,scores}.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/140_bench_r2_J1.sh",
+  "launcher_sha256": "5eea824c1370160c727bc6e8f6d5d6b4152a8dbd57a1f2e7a71b23ed76304425",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/bench_r2_guest.py",
+  "harn_sha256": "4250ca29bebded705f9651a699402fc3168347f7a60d92573b0b516397e5c5ab",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py",
+  "action_sha256": "4647610133ba45e36bf01d9a56b99c76e349bcdf436ce602e531bf68e507cbd6",
+  "score_r2": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/score_r2.py",
+  "score_r2_sha256": "80b5c78cabc736026f10e489d91415ba61a8d938e5a1fc022bac81a7387a3a76",
+  "decode_cache": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/decode_cache.py",
+  "decode_cache_sha256": "705bb13f049df657093f172c6406ef6f56382cb9cbd0f5049320572cbe71c143",
+  "bench_datasets": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/bench_datasets.py",
+  "bench_datasets_sha256": "68d5d46d7c1bf11765d4c7d090d05dec8193293ca56791129a78e688a38b9ed0",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the summary json after --validate-only passes (every planned unit scored or in .err.tsv)"
+ },
+ "fixed_protocol": {
+  "job": "J1",
+  "datasets": [
+   "odaq",
+   "mc522"
+  ],
+  "models": {
+   "odaq": [
+    "aes",
+    "meva",
+    "muqeval_A1",
+    "muqeval_A3a",
+    "cmirm",
+    "pam",
+    "embed"
+   ],
+   "mc522": [
+    "aes",
+    "meva",
+    "muqeval_A1",
+    "muqeval_A3a",
+    "cmirm",
+    "pam",
+    "clap"
+   ]
+  },
+  "min_free_bytes": 21474836480,
+  "seed": 20261025
+ },
+ "storage": {
+  "path": "/mnt/seagate/benchmarks_r2",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "row-level resume on unit_id in scores/*.tsv; decode is idempotent; preflight waits (rc 75) while another decode_cache.py runs",
+  "pause_progress": "/mnt/seagate/benchmarks_r2/pause_progress_J1.json",
+  "autoresume": "/mnt/seagate/benchmarks_r2/pause_progress_J1.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "ODAQ/MusicCaps-522 downloads and manifests (done)"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/bench_r2_J1_summary.json"
+  }
+ ],
+ "queue_name": "140_bench_r2_J1.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-25",
+   "note": "Written by dispatch task 20261025-044112-c1b491. score_r2 also imports metric_win_tie_126d.py / metric_win_tie_133.py / meva_runtime (not sha-bound: 126d has uncommitted edits by other work)."
+  }
+ ]
+}
