@@ -129,10 +129,13 @@ def aime_track_index():
         return json.loads(cache.read_text())
     import pyarrow.parquet as pq
     idx = {}
+    # id/model/description only (column projection: ~1 MB per shard instead of 59 GB of audio).  The provenance hash
+    # is therefore of the metadata triple, not of the audio bytes (recorded as a deviation in the doc §14).
     for f in sorted((DL / 'AIME/data').glob('train-*.parquet')):
-        t = pq.read_table(f).to_pylist()
+        t = pq.read_table(f, columns=['id', 'model', 'description']).to_pylist()
         for i, r in enumerate(t):
-            idx[r['id']] = [str(f), i, r['model'], r['description'], hashlib.sha256(r['audio']['bytes']).hexdigest()[:16]]
+            h = hashlib.sha256(f"{r['id']}|{r['model']}|{r['description']}".encode()).hexdigest()[:16]
+            idx[r['id']] = [str(f), i, r['model'], r['description'], h]
     cache.write_text(json.dumps(idx))
     return idx
 

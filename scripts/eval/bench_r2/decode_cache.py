@@ -52,7 +52,8 @@ def read_source(item):
     import soundfile as sf
     src = item['src']
     if src.startswith('aime:'):
-        _, shard, row, b, e = src.split(':')
+        parts = src.split(':')  # aime:<shard>:<row>:<H:M:S begin>:<H:M:S end>
+        shard, row, b, e = parts[1], parts[2], ':'.join(parts[3:6]), ':'.join(parts[6:9])
         return _aime_cut(shard, int(row), hms(b), hms(e))
     a, sr = sf.read(src, dtype='float32', always_2d=True)
     return a.mean(axis=1).astype(np.float32), int(sr)
@@ -106,6 +107,10 @@ def save(path, a, sr):
     tmp = path.with_name(path.name + '.tmp.wav')
     sf.write(str(tmp), a, sr, subtype='FLOAT')
     os.replace(tmp, path)
+
+
+def decode_group(group):
+    return [r for w in group for r in decode_item(w)]
 
 
 def decode_item(args):
@@ -225,10 +230,17 @@ def main():
         w = csv.DictWriter(f, fieldnames=IDX_COLS, delimiter='\t')
         if new:
             w.writeheader()
-        for n, rows in enumerate(ex.map(decode_item, work, chunksize=4), 1):
+        if a.dataset == 'aime':  # one task per parquet shard: the shard's audio column is read once per shard
+            groups = {}
+            for w_ in work:
+                groups.setdefault(w_[0]['src'].split(':')[1], []).append(w_)
+            results = ex.map(decode_group, list(groups.values()))
+        else:
+            results = ex.map(decode_item, work, chunksize=4)
+        for n, rows in enumerate(results, 1):
             for r in rows:
                 w.writerow({k: r.get(k, '') for k in IDX_COLS})
-            if n % 200 == 0:
+            if n % (20 if a.dataset == 'aime' else 200) == 0:
                 f.flush()
                 print(f'  {n}/{len(work)} {time.time() - t0:.0f}s', flush=True)
     idx = load_index(idx_path)

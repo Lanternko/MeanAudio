@@ -40,8 +40,8 @@ INDEP = {'aes': {'odaq', 'aime', 'singmos', 'arena'},
          'songeval': set(), 'clap': set()}
 GENERATIVE = {'aime', 'singmos', 'arena', 'songeval'}
 
-# §7.2：各指標輸入 Nyquist 類別（LP 可見性）
-PATH = {'aes': 16, 'singmos': 16, 'meva': 16, 'muqeval_A1': 24, 'muqeval_A3a': 24, 'cmirm': 24, 'embed': 24,
+# §7.2：各指標輸入 Nyquist 類別（LP 可見性）。meva 實測 32 kHz 輸入（meva_runtime.py: 30*32000）→ Nyquist 16 kHz > Q5 15 kHz → 全可見（歸 44 類）
+PATH = {'aes': 16, 'singmos': 16, 'meva': 44, 'muqeval_A1': 24, 'muqeval_A3a': 24, 'cmirm': 24, 'embed': 24,
         'pam': 44, 'clap': 48, 'songeval': 24}
 LP_VISIBLE = {16: {'Q1'}, 24: {'Q1', 'Q2', 'Q3'}, 44: {'Q1', 'Q2', 'Q3', 'Q4', 'Q5'}, 48: {'Q1', 'Q2', 'Q3', 'Q4', 'Q5'}}
 
