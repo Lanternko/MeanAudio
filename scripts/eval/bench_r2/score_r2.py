@@ -250,7 +250,14 @@ def make_singmos(ds):
     import numpy as np
     import soundfile as sf
     import torch
+    import types
     import torchaudio
+    # the v1.1.2 repo imports torchaudio's removed sox API at import time; the predictor never uses it
+    torchaudio.set_audio_backend = lambda *a, **k: None
+    se = types.ModuleType('torchaudio.sox_effects')
+    se.apply_effects_tensor = se.apply_effects_file = None
+    sys.modules['torchaudio.sox_effects'] = se
+    torchaudio.sox_effects = se
     repo = Path.home() / '.cache/torch/hub/South-Twilight_SingMOS_v1.1.2'
     m = torch.hub.load(str(repo), 'singmos_pro', source='local', trust_repo=True).cuda().eval()
 
@@ -260,8 +267,8 @@ def make_singmos(ds):
         t = torch.from_numpy(a.mean(axis=1))
         if sr != 16000:
             t = torchaudio.functional.resample(t, sr, 16000)
-        t = t.unsqueeze(0).cuda()
-        v = m(t, torch.tensor([t.shape[1]]).cuda()) if _takes_len(m) else m(t)
+        t = t.view(1, 1, -1).cuda()  # [B, 1, T]
+        v = m(t, torch.tensor([t.shape[-1]]).cuda())
         return {'singmos': float(np.asarray(v.float().cpu()).reshape(-1)[0])}
     return PerWindow(ds, fn, ['singmos'])
 

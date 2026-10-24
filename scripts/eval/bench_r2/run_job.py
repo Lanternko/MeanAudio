@@ -66,9 +66,13 @@ def preflight(c):
     return 0
 
 
-def sh(cmd):
+def sh(cmd, offline=True):
     print('+', ' '.join(cmd), flush=True)
-    return subprocess.run(cmd, env={**os.environ, 'HF_HUB_OFFLINE': '1', 'TRANSFORMERS_OFFLINE': '1'}).returncode
+    env = dict(os.environ)
+    if not offline:  # cmirm (xlm-roberta tokenizer) and singmos (torch.hub) call the hub API even with a warm cache
+        for k in ('HF_HUB_OFFLINE', 'TRANSFORMERS_OFFLINE'):
+            env.pop(k, None)
+    return subprocess.run(cmd, env=env).returncode
 
 
 def run(c):
@@ -81,7 +85,8 @@ def run(c):
     for ds in fp['datasets']:
         for m in fp['models'][ds]:
             py = MEVA if m == 'meva' else DAC
-            rc = sh([py, '-I', str(HERE / 'score_r2.py'), '--dataset', ds, '--job', job, '--models', m])
+            rc = sh([py, '-I', str(HERE / 'score_r2.py'), '--dataset', ds, '--job', job, '--models', m],
+                    offline=m not in ('cmirm', 'singmos'))
             if rc:
                 print(f'model {m} on {ds} failed rc={rc}; continuing', flush=True)
                 rc_all = rc_all or rc
