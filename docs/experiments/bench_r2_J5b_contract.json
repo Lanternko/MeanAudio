@@ -1,0 +1,109 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "bench-r2-J5b-20261025",
+ "job": "146",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Round-2 screening J5b: Music Arena 2,000 battles, MuQ-Eval A1/A3a, CMI-RM (empty + caption), CLAP; scores only.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/benchmark_screening_r2_20261025.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-25",
+  "text": "Run the preregistered round-2 screening scoring jobs; thresholds, seeds and variants are not changed."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Eval-only scoring, plan key J5, estimate 3.7 h. Output /mnt/seagate/benchmarks_r2/{derived,scores}.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/146_bench_r2_J5b.sh",
+  "launcher_sha256": "3fad3b65e4293e068f8f9e49095f2291df6fc63fdfbf5498eff4a91f2aba2cc7",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/bench_r2_guest.py",
+  "harn_sha256": "4250ca29bebded705f9651a699402fc3168347f7a60d92573b0b516397e5c5ab",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py",
+  "action_sha256": "eb9e79c5de1e709fb531370eddbdf1f275ae83cbd33222861a066db45c4b35e6",
+  "score_r2": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/score_r2.py",
+  "score_r2_sha256": "e1d4b3ab9d5c7f60e6cd90f08c8e276e18204da6409c480b6bbb3b96dbfc8cca",
+  "decode_cache": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/decode_cache.py",
+  "decode_cache_sha256": "38f08a39ea159877f995474a6da34a5f1efbc494de3bcff0e3027e04a9babef5",
+  "bench_datasets": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/bench_datasets.py",
+  "bench_datasets_sha256": "68d5d46d7c1bf11765d4c7d090d05dec8193293ca56791129a78e688a38b9ed0",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the summary json after --validate-only passes (every planned unit scored or in .err.tsv)"
+ },
+ "fixed_protocol": {
+  "job": "J5",
+  "datasets": [
+   "arena"
+  ],
+  "models": {
+   "arena": [
+    "muqeval_A1",
+    "muqeval_A3a",
+    "cmirm",
+    "clap"
+   ]
+  },
+  "min_free_bytes": 21474836480,
+  "seed": 20261025
+ },
+ "storage": {
+  "path": "/mnt/seagate/benchmarks_r2",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "row-level resume on unit_id in scores/*.tsv; decode is idempotent; preflight waits (rc 75) while a decode_cache.py for the same datasets runs",
+  "pause_progress": "/mnt/seagate/benchmarks_r2/pause_progress_J5b.json",
+  "autoresume": "/mnt/seagate/benchmarks_r2/pause_progress_J5b.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "downloads and manifests (done)"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/bench_r2_J5b_summary.json"
+  }
+ ],
+ "queue_name": "146_bench_r2_J5b.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-25",
+   "note": "dispatch task 20261025-044112-c1b491; score_r2 also imports 126d/133/meva_runtime (not sha-bound)."
+  }
+ ]
+}
