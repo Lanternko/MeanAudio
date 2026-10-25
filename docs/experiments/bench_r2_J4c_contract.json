@@ -24,7 +24,7 @@
   "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/bench_r2_guest.py",
   "harn_sha256": "4250ca29bebded705f9651a699402fc3168347f7a60d92573b0b516397e5c5ab",
   "action": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_job.py",
-  "action_sha256": "eb9e79c5de1e709fb531370eddbdf1f275ae83cbd33222861a066db45c4b35e6",
+  "action_sha256": "cfc921c082fe56e58d9abf2275a9500758d76aa41eb9383066045c945f653ac6",
   "score_r2": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/score_r2.py",
   "score_r2_sha256": "e1d4b3ab9d5c7f60e6cd90f08c8e276e18204da6409c480b6bbb3b96dbfc8cca",
   "decode_cache": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/decode_cache.py",
@@ -107,6 +107,11 @@
    "rev": "r1",
    "date": "2026-10-25",
    "note": "dispatch task 20261025-044112-c1b491; score_r2 also imports 126d/133/meva_runtime (not sha-bound)."
+  },
+  {
+   "rev": "r2",
+   "date": "2026-10-25",
+   "note": "run_job.summary() no longer counts decode-invalid units (silent_or_too_short) as missing (J3b 144 failed rc=1 on 27 such units); action_sha256 updated, nothing else changed."
   }
  ]
 }

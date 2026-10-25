@@ -7,6 +7,7 @@
 Run with -I; the MEva model runs in its own venv (score_r2 is lazy-import).
 """
 import argparse
+import csv
 import hashlib
 import json
 import os
@@ -101,12 +102,22 @@ def read_ids(path):
         return {ln.split('\t', 1)[0] for ln in f}
 
 
+def invalid_ids(ds):
+    """Units decode_cache marked invalid (silent_or_too_short, read errors...); score_r2 skips them by design."""
+    p = D.ROOT / 'derived' / ds / 'index.tsv'
+    if not p.exists():
+        return set()
+    with open(p, newline='') as f:
+        return {r['unit_id'] for r in csv.DictReader(f, delimiter='\t') if r['invalid']}
+
+
 def summary(c):
     fp = c['fixed_protocol']
     out = {'job': fp['job'], 'datasets': {}}
     missing = 0
     for ds in fp['datasets']:
         items = D.read_manifest(ds)
+        inv = invalid_ids(ds)
         d = out['datasets'][ds] = {}
         for m in fp['models'][ds]:
             for variant, loud, subset in D.PLAN[ds][fp['job']]:
@@ -114,9 +125,10 @@ def summary(c):
                 base = D.SCORES / ds / f'{m}__{variant}_{loud}'
                 ok = read_ids(Path(str(base) + '.tsv'))
                 er = read_ids(Path(str(base) + '.err.tsv'))
-                miss = len(units - ok - er)
+                miss = len(units - ok - er - inv)
                 missing += miss
-                d[f'{m}__{variant}_{loud}'] = dict(planned=len(units), ok=len(units & ok), err=len(units & er), missing=miss)
+                d[f'{m}__{variant}_{loud}'] = dict(planned=len(units), ok=len(units & ok), err=len(units & er),
+                                                   invalid=len(units & inv), missing=miss)
     out['missing_total'] = missing
     return out
 

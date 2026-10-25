@@ -505,6 +505,7 @@ SingMOS、AIME 與上列兩個解碼中的資料集待解碼完成後重跑 `che
 9. **analyze_r2 只在部分 ODAQ 分數上測過**；Kendall τ 的 CI 沒有實作（只報點估計與 bootstrap 的 Spearman／配對勝率）；正式結果前需在完整分數上再跑。
 10. **J1 contract sha 已不吻合**：`decode_cache.py`／`bench_datasets.py`／launcher 在 J1 啟動後為 AIME 修改（只動 AIME 分支）。contract sha 僅在 `run_job --preflight` 檢查，J1 已通過；`--validate-only` 只讀 summary 報告、不重算 sha，因此不影響 J1 收尾。143–150 已用新 sha 重新產生 contract。J1 不重排。
 11. **跨檔案載入**：`datasets` 名稱遮蔽 → `bench_datasets.py`；CLAP 一律逐檔（`eval_metrics.score_clap`，batch 1）。
+12. **J3b（144）rc=1 失敗與重排為 151（J3b2）**（2026-10-25 15:29）：144 的 7 個模型 × 2 變體分數已全部寫完，失敗原因是 `run_job.summary()` 把 SingMOS `native_norm` 中 27 個 `decode_cache` 標為 `silent_or_too_short` 的無效單元（`score_r2` 依設計跳過、不寫 err）算成 missing，`run` 回傳 1。這是 summary 的實作 bug，不是評分失敗。修法：`summary()` 讀 `derived/<ds>/index.tsv`，無效單元不計入 missing，並在輸出多寫 `invalid` 欄；預登錄的評分範圍／門檻／變體不變（這 27 個單元在分析中視同缺值）。因 `run_job.py` sha 變動，144 的 contract 作廢，以 151（contract 標籤 `J3b2`，報告 `bench_r2_J3b2_summary.json`）重排：`scores/singmos/*.tsv` 逐列續用，不重算，只重跑 decode 驗證與 summary（< 0.3 h）。同一問題影響到的後續 job：149 J4c（SongEval `V10_norm` 有 2 個無效單元）；146／147／148／150 無無效單元，不受影響，但 `run_job.py` sha 已更新進 146–150 的 contract（r2 修訂紀錄）。**正在跑的 145（J5a）contract 的 `action_sha256` 沒更新**（Arena 無無效單元，不受 bug 影響；僅在 145 被 pause 後重啟、preflight 重新比 sha 時會 held，屆時以 requeue 處理，分數可逐列續用）。
 
 ## 附錄 A：與 round-1 預登錄的差異（逐條）
 
