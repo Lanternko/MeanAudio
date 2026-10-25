@@ -206,7 +206,7 @@ def analyze_item_level(ds, nboot, out_dir, log):
                              'n': st['n'], 'pearson': st['pearson'], 'pearson_ci': st['pearson_ci'],
                              'spearman': st['spearman'], 'spearman_ci': st['spearman_ci'],
                              'kendall': st.get('kendall', float('nan'))})
-                if ds in S and target == primary_target and ds != 'songeval':
+                if S and target == primary_target and ds != 'songeval':
                     sysn = [S[i] for i in items]
                     xw, yw = center_by(x, sysn), center_by(y, sysn)
                     sw = corr_stats(xw, yw, idx, kendall=False)
@@ -292,6 +292,7 @@ def analyze_odaq(nboot, out_dir, log):
                 i: {k.replace('_emb', '_ref'): -float(np.dot(e, ref[meta[i][0]]) / (np.linalg.norm(e) * np.linalg.norm(ref[meta[i][0]])))}
                 for i, e in vals.items() if i in meta and meta[i][0] in ref}
         del sc[(model, v, l)]
+    rho_store = {}  # (model, col, variant, loud) -> {trial: within-trial ρ}（G4／G5 用）
     for variant, loud in sorted({(v, l) for (_, v, l) in sc}):
         tab = metric_table(sc, variant, loud)
         for (model, col), vals in sorted(tab.items()):
@@ -346,6 +347,7 @@ def analyze_odaq(nboot, out_dir, log):
             r['g6_pass'] = bool('g6a' in r and 'g6b' in r and r['g6a'] >= 0.5 and r['g6a_ci'][0] > 0.30
                                 and r['g6b'] >= 0.80 and r['g6b_ci'][0] > 0.60)
             rows.append(r)
+            rho_store[(model, col, variant, loud)] = dict(rho_vis)
             # 成對（描述）：trial 內 C(5,2) 對，人類 ΔMUSHRA 的 listener-bootstrap CI 不含 0
             if (variant, loud) == PRIMARY['odaq']:
                 agree, tot = 0, 0
@@ -366,11 +368,40 @@ def analyze_odaq(nboot, out_dir, log):
                             agree += int((vals[i] - vals[j]) * d_.mean() > 0)
                 if tot:
                     pair_rows.append(dict(dataset='odaq', model=model, col=col, n_pairs=tot, agree=agree / tot))
+    # G4／G5（§7.2，描述性）：ODAQ 的 within-trial ρ 對「段長」「響度」變體的 paired Δ（trial 為 cluster）
+    rngd = np.random.default_rng(SEED)
+    len_rows, loud_rows = [], []
+    for model, col in sorted({(m, c) for (m, c, _, _) in rho_store}):
+        for kind, (c1, c0) in (('length', (('V5', 'raw'), ('V10', 'raw'))),
+                               ('loudness', (('native', 'norm'), ('native', 'raw')))):
+            a_map = rho_store.get((model, col) + c1, {})
+            b_map = rho_store.get((model, col) + c0, {})
+            common = sorted(set(a_map) & set(b_map))
+            if len(common) < 5:
+                continue
+            a = np.array([a_map[t] for t in common]); b = np.array([b_map[t] for t in common])
+            idx = rngd.integers(0, len(common), size=(nboot, len(common)))
+            d = a[idx].mean(1) - b[idx].mean(1)
+            ci = boot_ci(d)
+            dr = float(a.mean() - b.mean())
+            if kind == 'length':
+                lab = ('stable' if abs(dr) < 0.05 and ci[0] <= 0 <= ci[1] else
+                       'sensitive' if abs(dr) >= 0.05 and not (ci[0] <= 0 <= ci[1]) else 'inconclusive')
+            else:
+                lab = ('loudness-robust' if abs(dr) < 0.05 and ci[0] <= 0 <= ci[1] else
+                       'loudness-dependent' if abs(dr) >= 0.10 and not (ci[0] <= 0 <= ci[1]) else 'inconclusive')
+            row = dict(dataset='odaq', model=model, col=col, cmp=f'{c1[0]}_{c1[1]}-{c0[0]}_{c0[1]}',
+                       rho_a=float(a.mean()), rho_b=float(b.mean()), delta=dr, delta_ci=ci,
+                       n=len(common), label=lab)
+            (len_rows if kind == 'length' else loud_rows).append(row)
     write_rows(out_dir / 'odaq_g6.tsv', rows)
     write_rows(out_dir / 'odaq_pairs.tsv', pair_rows)
+    write_rows(out_dir / 'odaq_length_delta.tsv', len_rows)
+    write_rows(out_dir / 'odaq_loudness_delta.tsv', loud_rows)
     # 方法別 Q1 vs Q5 方向（§8 規則 2）
-    log(f'odaq: {len(rows)} G6 rows, {len(pair_rows)} pair rows')
-    return rows
+    log(f'odaq: {len(rows)} G6 rows, {len(pair_rows)} pair rows, '
+        f'{len(len_rows)} length delta rows, {len(loud_rows)} loudness delta rows')
+    return rows, len_rows + loud_rows
 
 
 # ───────────────────────── pairwise datasets (AIME, Arena) ─────────────────────────
@@ -510,13 +541,19 @@ def decide(results):
             if 'spearman' in r:
                 c['G1'] = bool(r['spearman'] >= 0.5 and r['spearman_ci'][0] > 0.30)
                 c['G1_upper_lt'] = bool(r['spearman_ci'][1] < 0.5)
+                c['G1_stat'] = float(r['spearman']); c['G1_ci'] = list(r['spearman_ci']); c['G1_n'] = r.get('n')
             if 'within_sys' in r and ds in ('aime', 'singmos', 'arena'):
                 c['G2'] = bool(r['within_sys'] >= 0.5 and r['within_sys_ci'][0] > 0.30)
+                c['G2_stat'] = float(r['within_sys']); c['G2_ci'] = list(r['within_sys_ci']); c['G2_n'] = r.get('n')
             if 'agree_m' in r and ds in ('aime', 'arena'):
                 c['G3'] = bool(r['agree_m_ci'][0] > 0.55)
                 c['G3_upper_lt'] = bool(r['agree_m_ci'][1] < 0.55)
+                c['G3_stat'] = float(r['agree_m']); c['G3_ci'] = list(r['agree_m_ci'])
+                c['G3_n_pairs'] = r.get('n_pairs'); c['G3_forced'] = r.get('agree_forced'); c['G3_m'] = r.get('m')
             if 'g6_pass' in r:
                 c['G6'] = bool(r['g6_pass'])
+                c['G6a'] = r.get('g6a'); c['G6a_ci'] = list(r.get('g6a_ci', (float('nan'),) * 2))
+                c['G6b'] = r.get('g6b'); c['G6b_ci'] = list(r.get('g6b_ci', (float('nan'),) * 2))
     out = {}
     for fam, per in cands.items():
         ok_ds = [ds for ds, c in per.items() if all(v for k, v in c.items() if k in ('G1', 'G2', 'G3'))
@@ -549,6 +586,58 @@ def write_rows(path, rows):
             w.writerow([fmt(r.get(k, '')) if not isinstance(r.get(k), (dict,)) else json.dumps(r[k]) for k in keys])
 
 
+def sanity_cells(datasets):
+    """每資料集：manifest 項數、index 列數／無效單元、每個 (variant, loud, model) 的列數與各欄非 NaN 數。
+
+    目的只是讓結果檔能核對「沒有哪個指標整欄全缺」，不參與任何統計。
+    """
+    out = {}
+    for ds in datasets:
+        if not (D.SCORES / ds).exists():
+            continue
+        man = len(D.read_manifest(ds)) if (D.MAN / f'{ds}.tsv').exists() else None
+        idx = {'rows': 0, 'invalid': 0}
+        ip = D.DER / ds / 'index.tsv'
+        if ip.exists():
+            for r in csv.DictReader(open(ip, newline=''), delimiter='\t'):
+                idx['rows'] += 1
+                if r.get('invalid'):
+                    idx['invalid'] += 1
+        cells = {}
+        for p in sorted((D.SCORES / ds).glob('*.tsv')):
+            if p.name.endswith('.err.tsv'):
+                continue
+            model, rest = p.stem.split('__', 1)
+            variant, loud = rest.rsplit('_', 1)
+            with open(p, newline='') as f:
+                rd = csv.DictReader(f, delimiter='\t')
+                hdr = [k for k in rd.fieldnames if k not in ('unit_id', 'item_id', 'n_win')]
+                cnt = {k: 0 for k in hdr}
+                n = 0
+                for r in rd:
+                    n += 1
+                    for k in hdr:
+                        x = r.get(k)
+                        if x in (None, ''):
+                            continue
+                        if model == 'embed':
+                            cnt[k] += 1
+                            continue
+                        try:
+                            v = float(x)
+                        except ValueError:
+                            continue
+                        if np.isfinite(v):
+                            cnt[k] += 1
+            ep = p.with_suffix('.err.tsv')
+            n_err = 0
+            if ep.exists():
+                n_err = sum(1 for _ in csv.DictReader(open(ep, newline=''), delimiter='\t'))
+            cells.setdefault(variant, {}).setdefault(loud, {})[model] = dict(n_rows=n, n_err=n_err, cols=cnt)
+        out[ds] = {'manifest_items': man, 'index': idx, 'cells': cells}
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--datasets', default='odaq,mc522,singmos,songeval,aime,arena')
@@ -567,7 +656,7 @@ def main():
             log(f'{ds}: no scores, skipped')
             continue
         if ds == 'odaq':
-            results[ds] = analyze_odaq(a.nboot, out, log)
+            results[ds], deltas[ds] = analyze_odaq(a.nboot, out, log)
         elif ds in ('aime', 'arena'):
             results[ds] = analyze_pairwise(ds, a.nboot, out, log)
         else:
@@ -577,7 +666,18 @@ def main():
             deltas[ds] = paired_delta(ds, a.nboot, sc, H, tgt, out, 'length', log) + \
                 paired_delta(ds, a.nboot, sc, H, tgt, out, 'loudness', log)
     dec = decide({k: v for k, v in results.items() if k != 'songeval'})
-    (out / 'summary.json').write_text(json.dumps({'decision': dec, 'seed': SEED, 'nboot': a.nboot}, indent=1, default=str))
+    # G4／G5 讀數：只留進閘門的候選欄位（§4），其餘在 <ds>_{length,loudness}_delta.tsv
+    readouts = {}
+    for ds, rows in deltas.items():
+        keep = [dict(cmp=r['cmp'], model=r['model'], col=r['col'], rho_a=r['rho_a'], rho_b=r['rho_b'],
+                     delta=r['delta'], delta_ci=list(r['delta_ci']), n=r['n'], label=r['label'])
+                for r in rows if CAND_COL.get(r['model']) == r['col']]
+        if keep:
+            readouts[ds] = keep
+    (out / 'summary.json').write_text(json.dumps({'decision': dec, 'variant_readouts': readouts,
+                                                  'seed': SEED, 'nboot': a.nboot,
+                                                  'sanity': sanity_cells(a.datasets.split(','))},
+                                                 indent=1, default=str))
     (out / 'REPORT.md').write_text('# round-2 analysis log\n\n' + '\n'.join(f'- {l}' for l in lines) +
                                    '\n\n## 判定（§7.3）\n\n' + '\n'.join(f'- {k}: {v["label"]}（通過：{v["passing_datasets"]}）'
                                                                     for k, v in dec.items()) + '\n')

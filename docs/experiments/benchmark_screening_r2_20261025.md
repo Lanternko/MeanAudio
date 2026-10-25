@@ -1,6 +1,6 @@
 # 指標 × 人類評分 benchmark 海選 round 2（2026-10-25 預登錄）
 
-**狀態：預登錄草案。本檔在任何 round-2 評分之前 commit；實作是另一個任務。**
+**狀態：評分與分析完成（2026-10-26）。** 本檔的預登錄草案 commit `643bc85`，早於任何 round-2 評分。評分（queue 142–151；J3b2／151 取代 J3b，J6 略過）與分析（`analyze_r2.py --nboot 2000`，輸出 `/mnt/seagate/benchmarks_r2/analysis/`）已完成，結果見 `results/benchmark_screening_r2_20261025_results.md`、判定機讀版 `results/benchmark_screening_r2_20261025_summary.json`。**門檻、變體、重疊旗標、cluster 與判定規則一行未改**；實作修訂與偏離逐條記在 §14（#10–#24）。
 本檔只寫設計、資料查核、協定、統計、門檻、GPU 預算與下載清單；**沒有**跑任何 GPU、沒有對任何新 benchmark 評分。已下載的只有小型 metadata（見 §10.4）。
 
 **與 round 1 的關係**：round 1（`newmodels_screening_20261020.md`／`results/newmodels_screening_20261020_results.md`）在 MC522／PAM400／ME 三個 benchmark 上沒有任何指標通過。本輪**不重跑那三個 benchmark、不改寫 round-1 判定**，只補齊三件 round 1 缺的東西：
@@ -506,6 +506,18 @@ SingMOS、AIME 與上列兩個解碼中的資料集待解碼完成後重跑 `che
 10. **J1 contract sha 已不吻合**：`decode_cache.py`／`bench_datasets.py`／launcher 在 J1 啟動後為 AIME 修改（只動 AIME 分支）。contract sha 僅在 `run_job --preflight` 檢查，J1 已通過；`--validate-only` 只讀 summary 報告、不重算 sha，因此不影響 J1 收尾。143–150 已用新 sha 重新產生 contract。J1 不重排。
 11. **跨檔案載入**：`datasets` 名稱遮蔽 → `bench_datasets.py`；CLAP 一律逐檔（`eval_metrics.score_clap`，batch 1）。
 12. **J3b（144）rc=1 失敗與重排為 151（J3b2）**（2026-10-25 15:29）：144 的 7 個模型 × 2 變體分數已全部寫完，失敗原因是 `run_job.summary()` 把 SingMOS `native_norm` 中 27 個 `decode_cache` 標為 `silent_or_too_short` 的無效單元（`score_r2` 依設計跳過、不寫 err）算成 missing，`run` 回傳 1。這是 summary 的實作 bug，不是評分失敗。修法：`summary()` 讀 `derived/<ds>/index.tsv`，無效單元不計入 missing，並在輸出多寫 `invalid` 欄；預登錄的評分範圍／門檻／變體不變（這 27 個單元在分析中視同缺值）。因 `run_job.py` sha 變動，144 的 contract 作廢，以 151（contract 標籤 `J3b2`，報告 `bench_r2_J3b2_summary.json`）重排：`scores/singmos/*.tsv` 逐列續用，不重算，只重跑 decode 驗證與 summary（< 0.3 h）。同一問題影響到的後續 job：149 J4c（SongEval `V10_norm` 有 2 個無效單元）；146／147／148／150 無無效單元，不受影響，但 `run_job.py` sha 已更新進 146–150 的 contract（r2 修訂紀錄）。**正在跑的 145（J5a）contract 的 `action_sha256` 沒更新**（Arena 無無效單元，不受 bug 影響；僅在 145 被 pause 後重啟、preflight 重新比 sha 時會 held，屆時以 requeue 處理，分數可逐列續用）。
+13. **analyze_r2 的 G2 在 SingMOS 整欄缺漏（實作 bug，已修）**：`analyze_item_level` 的判斷寫成 `if ds in S`，但 `S` 是 item→system 的 dict（鍵是 item_id，不是資料集名），恆為 False → 所有 item-level 資料集的系統內 Spearman 都不會被計算，SingMOS（唯一靠這條路徑算 G2 的資料集）`within_sys` 整欄空白。已改為 `if S and target == primary_target and ds != 'songeval'`；修後 SingMOS 才有 G2 讀數（結果檔 §2）。門檻、cluster、primary target 皆未改。
+14. **analyze_r2 沒實作 B1 的 G4／G5（實作缺漏，已補）**：§7.2 寫 G4 適用 B1／B3／B5，原程式只在 item-level 資料集算 paired Δρ，ODAQ 完全沒有段長／響度讀數。已補：以既有的 trial 內 within-trial Spearman 為單位，trial 為 cluster、同一組重抽索引算 paired Δ，輸出 `odaq_length_delta.tsv`／`odaq_loudness_delta.tsv`。判定字串與門檻沿用 §7.2 原文。
+15. **`summary.json` 補上判定所需的統計量（只增輸出，不改判定）**：原本 decision 只寫 `G1/G1_upper_lt/...` 布林，結果檔無法引用點估計與 CI。已加 `G1_stat/G1_ci/G1_n`、`G2_stat/G2_ci/G2_n`、`G3_stat/G3_ci/G3_n_pairs/G3_forced/G3_m`、`G6a/G6a_ci/G6b/G6b_ci`，另加 `variant_readouts`（只含 §4 的候選欄位）與 `sanity`（per dataset 的 manifest 項數、index 列數／invalid、每 model×variant 的列數、error 數、各欄非缺值計數）。`decide()` 的門檻與 §7.3 判定規則一行未動。
+16. **B1 的 G4 是 trial-level 而非 item-level**：ODAQ 的 within-trial Spearman 只在「該指標可見條件 ≥3 個」的 trial 有值，因此 Δρ 的 n 是進 G6a 的 trial 數（16 kHz 指標 26、其餘 30；LP 在 16 kHz 只有 Q1 可見→整個 LP 方法排除）。B4 沒有 V10 變體（只有 native 與 test 子集的 V5）→ `singmos_length_delta.tsv` 0 列，這是協定本身，不是缺漏。
+17. **MERT-ref／MuQ-ref 的方向與 §3.5／§4 的字面寫法相反（只記錄，不翻號）**：§3.5 寫「分數＝`−cosim(x, hidden_ref)`（愈高愈好）」，實際語意是「離該 trial 的 hidden reference 愈遠分數愈高」，與人類品質方向相反。分析照預登錄字面跑：G6a −0.850／−0.917、`ref_top2` 0.000、成對一致率 0.075／0.039（都在結果檔並列）。若改按 `+cosim` 讀（即「愈接近參考愈好」），兩個指標的 G6a 是 0.85／0.92、G6b 1.00、一致率 0.925／0.961。**本任務不改預登錄的指標定義**，兩種讀數都寫進結果檔的限制段。
+18. **MERT-ref／MuQ-ref 沒進 `INDEP`／`CAND_COL`**：程式只在 `CAND_COL` 有登記的欄位上做 §7.3 判定，這兩個指標因此不出現在判定表，雖然 §4 寫「只進閘門的候選（僅 B1）」。即使補進去，只有 B1 一個 dataset 也達不到 §7.3 的「≥2 個獨立 dataset」→ 最多 `未定`，故不補、只記錄。
+19. **MEva 的真實缺值（不是被跳過，是 runtime 拒收）**：Arena `native_raw` 3,977/3,998（21 個 error：16 個 `Final chunk shorter than 0.1 s`、5 個超過 360 s 預算）、`native_norm` 798/800；SongEval `VFULL_raw`／`VFULL_norm` 各 795/800。其他指標在這兩個資料集 0 error。這些單元直接少在 cell 的 n 裡，沒有插補、沒有改抽樣。
+20. **G5（響度）沒有算成對偏好資料集 B2／B6**：`paired_delta` 只在 item-level 資料集（B1、B3、B4、B5）跑，AIME 全量 norm 與 Arena 800 子集 norm 的分數有算、但分析沒使用。G5 本來就是描述性閘門，判定不受影響；B2／B6 的響度讀數留白。
+21. **MEva 的 VFULL 是「整軌單窗」不是窗平均**（`score_r2.py` docstring 已寫「MEva scores the whole track」）：因此 SongEval 的 `meva`／`meva_med`／`meva_first` 三欄逐列相同，MEva 的 VFULL 讀數不能與 AES／PAM／SongEval 的 30 s 窗平均直接比。同樣地，MuQ-Eval 依 §3.5 固定「中央裁 10 s」，V30 與 V10 是**同一個輸入**，`V30−V10` 的 Δρ ≡ 0（CI [0,0]）不是「段長穩定」的證據。
+22. **`odaq_g6.tsv` 的 `by_method` 以 Python float 原樣輸出**（如 `0.6699999999999998`）：只影響可讀性，不影響 `g6a`／`g6b`（那兩欄另算）。結果檔引用時四捨五入到小數第二位。
+23. **SingMOS 的 `INDEP` 與 §5 表格字面不一致（照報，不改旗標）**：§5 的表格把 SingMOS 在 B1／B2／B6 標「獨立（域外）」，但 §4 的候選清單與 §5 小結寫「SingMOS 僅 B4」（SingMOS 只聲稱歌唱域，不套純器樂）。實作採後者（`INDEP['singmos'] = {'singmos'}`）。若改按表格把 B2 算進來，AIME 的 G1 0.023（CI [−0.031, 0.081]）與 G3 0.500（CI 上界 0.509）會讓 SingMOS 由「未定」變成「排除」。兩種讀法都沒有候選通過；**預登錄旗標不動**，結果檔 §8 並列。
+24. **`songeval_corr.tsv` 的 `kendall` 欄有 680 格 `nan`**：`analyze_item_level` 只對 primary 維度（Musicality）算 Kendall（`st.get('kendall', float('nan'))`），其餘 4 維依設計留 NaN。只影響描述欄，不進 G1／G4／G5 判定；結果檔已註明。
 
 ## 附錄 A：與 round-1 預登錄的差異（逐條）
 
