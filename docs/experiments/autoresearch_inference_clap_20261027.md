@@ -551,6 +551,8 @@ $PY …/driver.py --configs <scratch>/rounds/r5.json --split full5521 \
     r1_summary.json          # analyze 的輸出（晉級清單）
 ```
 
+- 上面是 Phase 0 之後的目標佈局。本輪只產生驗證用的 split：`runtime/autoresearch_smoke_20261027/tsv_probe/`（`dev1024/heldout1024/rest3473.tsv`＋`manifest.json`，`runtime/` 是 gitignore）與 `~/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027/tsv/dev256.tsv`；它們的 sha 與 prereg 逐一相符（§10.1），Phase 0 用同一支 `split_subsets.py` 在 scratch 重建，sha 必須相同。
+
 ### 9.4 patch 介面（骨架）
 
 ```python
@@ -652,6 +654,7 @@ def make_run_t0_to_t1(spec):
 | dev256 baseline（s14159265，由 canonical full cell 抽出） | cfg0：lvl30 CLAP **0.1847**／PQ **6.6368**；cfg3+neg：**0.2296**／**7.5786**；raw crest 6.3444／6.3043、silent 0、clipped 0 | 讀 `*_lvl30/<cell>_lvl30/per_clip.tsv` 的 256 個 id + `eval_metrics` level |
 | lvl30 全流程（批次） | ~577 s/cell | **並行時**（36 cell 同時），非單跑值 |
 | baseline 六格 | 見 §1.3 | canonical `*_lvl30/metrics.json` |
+| split 重現 | 三段 sha 與 prereg 相同：dev1024 `3bc818c8`／heldout `a87b20ad`／rest `b230d552`（dev256 = dev1024 前 256 筆，逐列相同） | 比對 `runtime/autoresearch_smoke_20261027/tsv_probe/manifest.json` |
 | 磁碟 | 64 GB free | `df -h ~` |
 
 ### 10.2 未實測（估計，Phase 0 會換成實測）
