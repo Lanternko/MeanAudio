@@ -21,7 +21,8 @@ import json
 from pathlib import Path
 
 MC_TSV = Path('/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv')
-SPLITS = {'dev1024': (0, 1024), 'heldout1024': (1024, 2048), 'rest3473': (2048, None)}
+SPLITS = {'dev256': (0, 256), 'dev1024': (0, 1024),
+          'heldout1024': (1024, 2048), 'rest3473': (2048, None)}
 
 
 def sha256(path):

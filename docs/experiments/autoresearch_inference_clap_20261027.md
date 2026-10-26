@@ -220,10 +220,10 @@
 | F3_early_two_thirds | F3 | 3.0 | stock | (0.333, 1.0] | — | vanilla | 25 | uniform | |
 | F3_early_half | F3 | 3.0 | stock | (0.5, 1.0] | — | vanilla | 25 | uniform | |
 | F3_late_half | F3 | 3.0 | stock | (0.0, 0.5] | — | vanilla | 25 | uniform | |
-| F4_ramp_up | F4 | — | stock | — | 1−t | vanilla | 25 | uniform | t=1 起點 c=1，越晚越強 |
+| F4_ramp_up | F4 | — | stock | — | 1−t | vanilla | 25 | uniform | t=1 起點 w=0（c<1 → conditional-only，代數上等於 vanilla c=1），越晚越強 |
 | F4_ramp_dn | F4 | — | stock | — | t | vanilla | 25 | uniform | 起點最強，越晚越弱 |
-| F4_bump_mid | F4 | — | stock | — | 4t(1−t) | vanilla | 25 | uniform | 中段最強 |
-| F4_sqrt_up | F4 | — | stock | — | √(1−t) | vanilla | 25 | uniform | |
+| F4_bump_mid | F4 | — | stock | — | 4t(1−t) | vanilla | 25 | uniform | 中段最強；t=1 端點 w=0 |
+| F4_sqrt_up | F4 | — | stock | — | √(1−t) | vanilla | 25 | uniform | t=1 端點 w=0 |
 | F5_adg_g0.25 | F5 | 3.0 | stock | — | — | ADG γ0.25 | 25 | uniform | |
 | F5_adg_g0.5 | F5 | 3.0 | stock | — | — | ADG γ0.5 | 25 | uniform | 073 的 γ0.5 曾 +0.096 PQ |
 | F5_adg_g1.0 | F5 | 3.0 | stock | — | — | ADG γ1.0 | 25 | uniform | |
@@ -240,6 +240,8 @@
 | C2_null_seed161803 | C | 3.0 | stock | — | — | vanilla | 25 | uniform | seed 底線 |
 
 > F3 的區間寫法：`(lo, hi]` 對應程式 `lo < t ≤ hi`；`t` 是該步的起點時間（1.0 起、0.0 止）。
+>
+> **F4 的 schedule（r5）**：`w(t) = 3.0 × s(t) / mean_t s(t)`，平均在該 trial **實際用到的 25 個步點**上取（uniform 網格 = `linspace(1,0,26)[:-1]`）。所以四條曲線的平均 guidance 強度都等於 stock cfg3 的 3.0，差別只在「把同樣的總量放在哪些步」。`w < 1` 的步（例如 ramp_up／sqrt_up／bump_mid 在 t=1 的 w=0）走 conditional-only 分支，代數上等於 vanilla `c=1`——表上 `cfg` 欄留「—」就是因為 cfg 由這條式子逐點決定，不是常數。
 
 ### 3.3 rung 2–3 的生成規則（adaptive，但規則先定）
 
@@ -259,14 +261,14 @@ rung 2 之後不再擴大搜尋空間（避免「邊看邊發明」的無限膨�
 
 | 階段 | 形式 | 為什麼 |
 |---|---|---|
-| Phase 0（copy gate、FAD parity、子集 baseline、seed 校正） | **直接跑**（< 30 min） | contract 的固定成本比工作本身高；但仍要 `hold_lock.py`＋`notify_on_exit` |
-| rung 1–5 | **每個 rung 一個 p2 queue job** | 每個 rung 0.8–2.1 h，值得有 contract、done/held 分類與 Discord 通知 |
+| Phase 0（copy gate、FAD parity、子集 baseline、seed 校正） | **p2 queue job 153**（r5 改；原訂直接跑） | 152 持有 `gpu0.lock`，直接跑會卡在等鎖；做成 queue job 可排隊且有 done/held 分類與通知 |
+| rung 1–5 | **每個 rung 一個 p2 queue job（154–158）** | 每個 rung 0.8–2.1 h，值得有 contract、done/held 分類與 Discord 通知 |
 | rung 之間的判斷 | 由派工代理（本 session 的下一輪）跑 `analyze.py`／`make_round_configs.py` | 需要判斷（例如 FAD-pending 要不要帶），不適合寫死進 queue |
 
 ### 4.2 Queue job 編號與 contract
 
-- 編號 **153–157**（152 已被 `bench_r2_J5c_singmos` 佔用）：153=R1、154=R2、155=R3、156=R4、157=R5。
-- 每個 job 的 contract 先寫在 `docs/experiments/`（`autoresearch_153_r1_contract.json` … `157_r5_contract.json`），再放 launcher 進 `gpu_queue/p2/pending/`（順序不可顛倒；`pending/` 裡不能有 dotfile）。
+- 編號 **153–158**（152 已被 `bench_r2_J5c_singmos` 佔用）：153=P0、154=R1、155=R2、156=R3、157=R4、158=R5。Phase 0 改 queue 的理由見 §10.3。
+- 每個 job 的 contract 先寫在 `docs/experiments/`（`autoresearch_153_p0_contract.json` … `158_r5_contract.json`），再放 launcher 進 `gpu_queue/p2/pending/`（順序不可顛倒；`pending/` 裡不能有 dotfile）。
 - contract 沿用 bench_r2 的 schema：`schema_version: 1`、`document_kind: eval_only_metrics_contract`、`launch_authorization`、`bindings`（每個用到的腳本算 sha256）、`commands.{preflight,run,postflight}`（`python -I`）、`completion_evidence.eval_only: true` + `reports`、`resume.from_scratch_with_autoresume`、`storage.min_free_bytes`、`watcher.stall_seconds`、`queue_role: p2`。
 - **guest 要自己寫**（`scripts/eval/autoresearch_clap_20261027/guest.py`），不能直接用 `gpu_queue/harn_guest.py`：通用 guest 硬編碼 `validate_cfg0_report` 的閘門，對 eval-only 不適用（bench_r2 也是為此自己寫 `bench_r2_guest.py`）。
 
@@ -331,16 +333,16 @@ rung 1–4（子集 n）：
 
 | 階段 | 形式 | 工作 | trial 數 | 單 trial | 小時 |
 |---|---|---|---|---|---|
-| **P0** | 直接 | copy gate ×1、FAD parity ×1、子集 baseline（dev256／dev1024／heldout 的 CLAP/PQ/FAD）、seed 校正 | 4–6 | 163–475 s | **0.20** |
-| **R1** | queue 153 | 38 組在 dev256（含 3 控制） | **38** | 163 s | **1.72** |
-| **R2** | queue 154 | top 8（＋≤2 FAD-pending）在 dev1024 | **≤10** | 475 s | **1.32** |
-| **R3** | queue 155 | ≤6 組合在 dev1024 | **≤6** | 475 s | **0.79** |
-| **R4** | queue 156 | 贏家 × 3 ckpt × 3 seed 在 heldout1024 | **9** | 475 s | **1.19** |
-| **R5** | queue 157 | 贏家 full 5521 × 3 ckpt＋FAD＋MEva | **3**（＋MEva） | 2215 s | **2.13** |
+| **P0** | queue 153 | copy gate ×1、FAD parity ×1、子集 baseline（dev256／dev1024／heldout 的 CLAP/PQ/FAD）、seed 校正、序列 lvl30 成本 | 4–6 | 163–475 s | **0.60** |
+| **R1** | queue 154 | 38 組在 dev256（含 3 控制） | **38** | 163 s | **1.72** |
+| **R2** | queue 155 | top 8（＋≤2 FAD-pending）在 dev1024 | **≤10** | 475 s | **1.32** |
+| **R3** | queue 156 | ≤6 組合在 dev1024 | **≤6** | 475 s | **0.79** |
+| **R4** | queue 157 | 贏家 × 3 ckpt × 3 seed 在 heldout1024 | **9** | 475 s | **1.19** |
+| **R5** | queue 158 | 贏家 full 5521 × 3 ckpt＋FAD＋MEva | **3**（＋MEva） | 2215 s | **2.13** |
 | 分析 | session | 匯總、圖表、文件 | — | — | **0.40** |
-| **合計** | | | **66** | | **7.75 h** |
+| **合計** | | | **66** | | **8.15 h** |
 
-- **GPU 本體 ≈ 7.35 h**（分析 0.4 h 是 CPU）；soft target 8 h、**hard cap 15 h**。
+- **GPU 本體 ≈ 7.75 h**（分析 0.4 h 是 CPU；P0 的 0.6 h 已含 queue 啟動與 5521 序列 lvl30 量測）；soft target 8.25 h、**hard cap 15 h**。
 - 66 個 trial 是「上限」（R2/R3 可能不到）；Phase 0 的 4–6 個不計入 66。
 
 ### 5.4 停止規則
@@ -351,7 +353,7 @@ rung 1–4（子集 n）：
 | E2 | rung 2 沒有設定達到 Δ ≥ 0.005 且配對 bootstrap 95% CI 下界 > 0 | 停下 |
 | E3 | rung 3 沒有組合贏最佳單項 ≥ 0.002 | 帶最佳單項進 rung 4 |
 | E4 | rung 4 未達 2.8 的四項要求 | 停下，報 not replicated |
-| E5 | rung 邊界時 wall clock > 8 h | 跳過 rung 3；> 15 h | 當前 trial 結束後中止 |
+| E5 | rung 邊界時 wall clock > 8.25 h | 跳過 rung 3；> 15 h | 當前 trial 結束後中止 |
 | E6 | rung 5 任何強制閘門沒過 | 報閘門失敗，不得宣稱 win |
 
 ---
@@ -445,80 +447,88 @@ rung 1–4（子集 n）：
 
 ### 9.1 檔案清單
 
-**已存在（本輪）**
-
-| 路徑 | 狀態 |
-|---|---|
-| `docs/experiments/autoresearch_inference_clap_20261027.md` | 本檔 |
-| `docs/experiments/autoresearch_clap_20261027_prereg.json` | 預登錄（38 組、閘門、預算、預測） |
-| `scripts/eval/autoresearch_clap_20261027/split_subsets.py` | 已寫、已跑（manifest sha 已進 prereg） |
-| `scripts/eval/autoresearch_smoke_20261027.sh` | 計時煙測腳本（**本輪未執行**，見 §10.3） |
-
-**待寫（下一輪，實作階段）**
+**已寫（本輪，實作階段）**
 
 | 路徑 | 介面 |
 |---|---|
-| `scripts/eval/autoresearch_clap_20261027/patch_meanflow.py` | `make_ode_wrapper(spec)`、`make_run_t0_to_t1(spec)`、`patch(spec)` contextmanager |
-| `…/render.py` | `--out DIR --tsv TSV --num-steps N --cfg C --prompt TEXT --seed S [--interval lo:hi] [--schedule NAME] [--grid NAME] [--geometry NAME --adg-gamma G / --apg-eta E]` → 用 `runpy` 跑 `eval.py` |
-| `…/trial.py` | 單 trial：render → raw level → lvl30 → CLAP/AES → FAD → 閘門 → `summary.json` |
-| `…/fad_cache.py` | `score(background_dir, eval_dir, background_embds_path=<cache.npy>)`；cache key = 排序後 ref id 清單的 sha256 |
-| `…/driver.py` | 吃 `configs.json`，逐 trial 呼叫 `trial.py`，跳過已有 `summary.json` 且 sha 相符者 |
-| `…/analyze.py` | 配對 bootstrap（10000 次、seed 20261027）、閘門、晉級清單 |
-| `…/make_round_configs.py` | 由 analyze 輸出下一輪 `configs.json`（rung 2/3 規則見 §3.3） |
-| `…/guest.py` | p2 guest：progress 行、stall watchdog、`evidence={'eval_only': True, 'reports': [...]}` |
-| `scripts/queue_candidates/153_autoresearch_r1.sh` … `157_…_r5.sh` | launcher（`GPU_QUEUE_CONTRACT`、`PYTHONUNBUFFERED`、`HF_HUB_OFFLINE`、`OMP_NUM_THREADS=2`、`exec python -I … guest.py`） |
-| `docs/experiments/autoresearch_153_r1_contract.json` … `157_…_r5_contract.json` | contract（先於 launcher 進 pending） |
+| `scripts/eval/autoresearch_clap_20261027/common.py` | 路徑常數、`load_prereg`／`load_plan`、split/baseline 讀取、`config_sha`、`trial_dir`、atomic JSON |
+| `…/patch_meanflow.py` | `spec_from_config(cfg)`、`cfg_at(t, spec)`、`schedule_weights(name, steps, grid)`、`grid_values`、`guidance(a, b, c, kind, eta/gamma)`、`make_ode_wrapper`、`make_run_t0_to_t1`、`patch(spec)` contextmanager |
+| `…/render.py` | `--out DIR --tsv TSV --checkpoint P --configs PLAN --config-id ID --seed S`；用 `runpy` 跑 `eval.py`，unpatched 時 argv 與 `mc_mf25_eval.sh` 完全相同 |
+| `…/trial.py` | 單 trial：render → raw level → lvl30 → CLAP/AES → FAD → 閘門 → `summary.json`；`--score-only` 只重算閘門；`compute_gates()` 是純函式 |
+| `…/fad_cache.py` | `score(audio_dir, rows, cache_dir=…)`；cache key = 排序後 ref id 清單的 sha256；`ref_dir` 預設 `/mnt/HDD/kojiek/musiccaps_reference` |
+| `…/baselines.py` | 由 canonical full cell 抽子集 baseline（不重新生成）；`build_one()` |
+| `…/driver.py` | 吃 plan，逐 trial 呼叫 `trial.run_trial`，`summary.json` 的 `config_sha` 相符就跳過；`--only`、`--force`、`--no-fad` |
+| `…/analyze.py` | 配對 bootstrap（10000 次、seed 20261027）、閘門、`promote_r1/r2`、r3 組合、r4/r5 判定 → `rounds_out/<round>_summary.json` |
+| `…/make_round_configs.py` | `--round r1..r5` 產生下一輪 plan（§3.3 規則；r1 直接讀 prereg） |
+| `…/phase0.py` | `all`／`verify`／`baselines`／`copy`／`fad-parity`／`timing`／`report`；寫 `phase0/p0_summary.json` |
+| `…/run_round.py` | queue action：`--preflight`（sha、磁碟、rc 75）、`--validate-only`、預設跑 phase0 或 driver＋analyze |
+| `…/split_subsets.py` | 四段 split＋manifest（已跑，sha 已進 prereg） |
+| `…/test_unit.py` | 26 個 CPU 單元測試（F3 邊界、F4 正規化、ADG/APG、F5 η=1、split、閘門） |
+| `scripts/experiment_harness/autoresearch_clap_20261027_guest.py` | p2 guest（照 `bench_r2_guest.py`）：ownership、rc 75、pause ack、stall watchdog、terminal evidence |
+| `scripts/queue_candidates/153_autoresearch_p0.sh` | launcher（磁碟閘門、`GPU_QUEUE_CONTRACT`、`PYTHONUNBUFFERED`、`HF_HUB_OFFLINE`、`OMP_NUM_THREADS=2`、`exec python -I … guest`） |
+| `docs/experiments/autoresearch_153_p0_contract.json` | P0 的 contract（先於 launcher 進 pending） |
+| `…/make_queue_job.py` | 產生 contract＋launcher，算 launcher／harn／action／prereg sha（避免手寫 sha 漂移） |
+
+**待寫（後續輪；rung 1–5 的 launcher 與 contract）**
+
+| 路徑 | 介面 |
+|---|---|
+| `scripts/queue_candidates/154_autoresearch_r1.sh` … `158_…_r5.sh` | 同 153 的 launcher 模板，contract 由 `make_queue_job.py` 產生 |
+| `docs/experiments/autoresearch_154_r1_contract.json` … `158_r5_contract.json` | 由 `make_queue_job.py --round rN --plan …` 產生 |
 
 ### 9.2 一個 trial 的實際指令
 
 ```bash
 PY=/home/kojiek/venvs/dac/bin/python
-T=<scratch>/trials/r1/F2_short
-RAW=$T/cells/F2_short_raw                    # 命名規則：<config_id>_raw
+S=<scratch>
+T=$S/trials/r1/F2_short                       # 目錄名 = config id（rung 4/5 加 __<ckpt>__s<seed>）
+RAW=$T/cells/F2_short_raw                     # 命名規則：<config_id>_raw
 
-# 1) 生成（patched 或 unpatched；unpatched 時 argv 與 mc_mf25_eval.sh 完全相同）
+# 1) 生成（render.py 從 plan 讀 config；unpatched 時 eval.py 的 argv 與 mc_mf25_eval.sh 完全相同）
 $PY scripts/eval/autoresearch_clap_20261027/render.py \
-  --out $RAW/audio --tsv <scratch>/tsv/dev256.tsv \
-  --checkpoint <primary.pth> --num-steps 25 --cfg 3.0 --prompt "$PROMPT" --seed 42
-# 內部等價 argv（unpatched）：
+  --out $RAW/audio --tsv $S/tsv/dev256.tsv --checkpoint <primary.pth> \
+  --configs $S/rounds/r1.json --config-id F2_short --seed 42
+# 內部 eval.py argv（unpatched）：
 #   python eval.py --variant meanaudio_s --model_path <CKPT> --output $RAW/audio \
 #     --tsv <split.tsv> --use_meanflow --num_steps 25 --cfg_strength 3.0 \
 #     --negative_prompt "<PROMPT>" --no_text_attention_mask --encoder_name t5_clap \
 #     --text_c_dim 512 --seed 42 --full_precision --no_q
 
 # 2) raw level 只算響度（G4/G5）
-$PY scripts/eval/eval_metrics.py --gen_dir $RAW/audio --tsv <split.tsv> \
+$PY scripts/eval/eval_metrics.py --gen_dir $RAW/audio --tsv $S/tsv/dev256.tsv \
   --exp_name F2_short_raw --out_dir $RAW --skip_clap --skip_aes
 
 # 3) lvl30 增益＋全量 metrics（CLAP batch1 + AES + level）
 #    輸出固定是 <out_root>/<cell 名>_lvl30/，所以會是 $T/lvl30/F2_short_raw_lvl30/
-$PY scripts/eval/level_match_rescore.py --cell_dir $RAW --tsv <split.tsv> \
+$PY scripts/eval/level_match_rescore.py --cell_dir $RAW --tsv $S/tsv/dev256.tsv \
   --target -30 --peak_cap 0.999 --workers 8 --out_root $T/lvl30
 
 # 4) FAD（raw 音訊；ref embedding 用 cache）
 $PY scripts/eval/autoresearch_clap_20261027/fad_cache.py \
-  --gen-dir $RAW/audio --tsv <split.tsv> --split dev256 --out $T/fad.json
+  --gen-dir $RAW/audio --tsv $S/tsv/dev256.tsv --split dev256 --out $T/fad.json
 
-# 5) 閘門＋summary
+# 5) 閘門＋summary（只重算既有 artifact 的閘門時）
 $PY scripts/eval/autoresearch_clap_20261027/trial.py --score-only \
-  --trial-dir $T --configs <scratch>/rounds/r1.json --config-id F2_short
+  --configs $S/rounds/r1.json --config-id F2_short --split dev256 \
+  --checkpoint s14159265 --scratch $S
 ```
 
-driver 一次跑整輪：
+上面 1–4 就是 `trial.run_trial()` 的內容（各自獨立 subprocess，VRAM 在階段間釋放），實務上由 driver 一次跑整輪：
 
 ```bash
 $PY scripts/eval/autoresearch_clap_20261027/driver.py \
-  --configs <scratch>/rounds/r1.json --split dev256 --scratch <scratch> --resume
+  --configs $S/rounds/r1.json --scratch $S        # summary.json 的 config_sha 相符就跳過
 ```
 
-rung 4／5 用 `--cross`：
+rung 4／5 用 `--checkpoints`／`--seeds`（沒有 `--resume`，跳過規則內建；沒有 `--cross`）：
 
 ```bash
-$PY …/driver.py --configs <scratch>/rounds/r4.json --split heldout1024 \
-  --checkpoints s14159265,s16180339,s27182818 --seeds 42,7,161803 --scratch <scratch> --resume
-$PY …/driver.py --configs <scratch>/rounds/r5.json --split full5521 \
-  --checkpoints s14159265,s16180339,s27182818 --seeds 42 --fad --meva --scratch <scratch>
+$PY …/driver.py --configs $S/rounds/r4.json --split heldout1024 \
+  --checkpoints s14159265,s16180339,s27182818 --seeds 42,7,161803 --scratch $S
+$PY …/driver.py --configs $S/rounds/r5.json --split full5521 --scratch $S   # FAD 預設就開
 ```
+
+MEva 不進 driver（它是 rung 5 的**報告**欄位，不是閘門）：rung 5 完成後由既有的 MEva 評分腳本對 `<cell>_lvl30` 音檔補評，結果寫進報告，不影響任何 gate。
 
 ### 9.3 目錄結構
 
@@ -673,16 +683,20 @@ def make_run_t0_to_t1(spec):
   - 它的環境是 `P2_JOB_ID=152_bench_r2_J5c_singmos`，父程序是 `gpu_queue/p2_host.sh`；`gpu0.owner.json` 記 `job_id=152_bench_r2_J5c_singmos`、`acquired_at=2026-10-26T20:54:46Z`。
   - 這是**另一個任務（benchmark r2）的 p2 job**，不是我的殘留程序 → **不動、不殺、不搶**。
 - `gpu0.lock` 由該 job 持有，我的煙測腳本（`scripts/eval/autoresearch_smoke_20261027.sh`）用 `hold_lock.py --block`，會一直等；在別人的 job 結束前跑就是搶佔，違反規則。
-- 因此本輪**沒有**煙測數字；§5.1 的成本模型全部來自**既有 canonical cell 的實測 timestamp**（§10.1），並在 Phase 0 補量 FAD、子集雜訊與序列 lvl30 成本。Phase 0 預算 0.2 h 已含這些量測。
-- 煙測腳本保留在 repo（未執行、未 commit 任何音檔），等 GPU 空出來時可直接跑；它輸出的 `timing.json` 會是 Phase 0 的第一份證據。
+- 因此本輪**沒有**煙測數字；§5.1 的成本模型全部來自**既有 canonical cell 的實測 timestamp**（§10.1），並在 Phase 0 補量 FAD、子集雜訊與序列 lvl30 成本。
+- **Phase 0 改成 queue job 153（r5）**：等 `gpu0.lock` 會把整個 session 卡在別人的 job 後面，而派工明文允許「等鎖會超過時間就把 Phase 0 也做成 queue job」。queue 的 preflight 是同一套 sha 檢查，guest 也有 stall watchdog 與 done/held 分類，所以固定成本換來的是可排隊、可通知、可稽核。編號順延：153=P0、154–158=rung 1–5（152 仍屬 `bench_r2_J5c_singmos`）。
+- 煙測腳本保留在 repo（未執行、未 commit 任何音檔）；它與 Phase 0 重疊的量測（FAD、序列 lvl30）以 Phase 0 的 `phase0/*.json` 為準，不重跑煙測。
 
-### 10.4 Phase 0 要補的量測（開跑前）
+### 10.4 Phase 0（queue job 153）要補的量測
 
-1. copy gate：stock cfg3 在 dev256 的 256/256 sha（同時得到一次 dev256 trial 的實測秒數）。
-2. FAD parity：canonical cfg3 full cell 用 cache 重算，必須得到 **5.0836**（誤差 < 1e-3）。
-3. 子集 baseline：dev256／dev1024／heldout 的六個 baseline 的 CLAP/PQ/FAD（不重新生成）。
-4. seed 校正：C1/C2 的實測 Δ（進 `measured_floor_rule`）。
-5. 序列 lvl30 成本（一次 5521 的 lvl30 cell，用既有的 cfg0 raw cell 重跑 rescore；不寫新音檔到 canonical 目錄）。
+`phase0.py all` 依序做六步，每步寫 `<scratch>/phase0/<step>.json`，最後 `p0_summary.json` 汇总；`status != pass` 時 `run_round.py --validate-only` 會擋下 rung 1。
+
+1. `verify`：source TSV／三段 split／三個 checkpoint 的 sha 與 prereg 逐一比對，並檢查 dev256 = dev1024 前 256 個 id；prereg 改版會自動重跑。
+2. `baselines`：dev256／dev1024／heldout1024 的六個 baseline（CLAP/PQ/FAD，由 canonical full cell 抽出，不重新生成），同時得到**子集 FAD 散布**。
+3. `copy`：`C0_dup_seed42` 重跑 → **G0**（vs canonical dev256，256/256 sha 相同）；同設定再跑一次 `C0_p0b` → **G1**（256/256 相同）。順便跑 `C1_null_seed7`／`C2_null_seed161803` 量 seed 底線，這三個 trial 會被 rung 1 以 `config_sha` 重用。同時得到**一次 dev256 trial 的實測秒數**。
+4. `fad-parity`：canonical cfg3 full cell 用 cache 重算，必須得到 **5.0836**（誤差 < 1e-3）；同時量 FAD 的 seconds/pair。
+5. `timing`：對 canonical cfg0 raw cell 跑一次**序列**全量 5521 的 lvl30 rescore（輸出到 `phase0/lvl30_probe`，量完即刪，不碰 canonical 目錄），得到 lvl30 的實測秒數。
+6. `report`：集結上面五步的 gates 與實測值 → `p0_summary.json`。G0／G1／FAD parity 任一不過就 `status=fail`，rung 1 不排。
 
 ---
 
