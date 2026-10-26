@@ -246,7 +246,7 @@
  "loop": {
   "mechanism": "hybrid: one direct phase, then one queue job per rung with an agent audit between rungs",
   "phase0": "direct run (<30 min) with gpu0.lock via hold_lock.py and notify_on_exit; reason: contract overhead exceeds the work",
-  "queue_jobs": "p2, numbering after 152, contract in docs/experiments/ before the launcher enters pending/, no dotfiles in pending/",
+  "queue_jobs": "p2, numbering 153-157 (152 is taken by 152_bench_r2_J5c_singmos); contract in docs/experiments/ before the launcher enters pending/, no dotfiles in pending/",
   "wake": "python3 ~/.claude-dispatch/claude_dispatch.py after --wait '/home/kojiek/gpu_queue/p2/*/<JOB>.terminal.json' --task <task_id> --log <driver.log> --message '<next step>' --timeout-hours 6 --stall-minutes 45 --check-minutes 60",
   "between_rungs": "run analyze.py, write round{N+1}_configs.json + contract, commit, stage launcher, submit",
   "resume": "trial-level: a trial whose summary.json exists and whose config sha matches is skipped"
