@@ -39,7 +39,8 @@
     },
     "note": "derived from the canonical full cells by selecting the first 256 ids; no new generation; the other two checkpoints are extracted the same way in Phase 0"
   },
-  "reference_cfg3_minus_cfg0_lvl30_clap": 0.040
+  "reference_cfg3_minus_cfg0_lvl30_clap": 0.042,
+  "reference_cfg3_minus_cfg0_per_checkpoint": {"s14159265": 0.0398, "s16180339": 0.0415, "s27182818": 0.0453}
  },
  "splits": {
   "rule": "contiguous csv-record slices of the canonical MusicCaps TSV; no shuffling; no reuse of older subset files",
@@ -72,7 +73,7 @@
   "min_effect_lvl30_clap": 0.005,
   "min_effect_heldout_lvl30_clap": 0.004,
   "min_effect_combo_over_single": 0.002,
-  "min_effect_source": "12.5% of the stock cfg3-cfg0 gap (+0.040); 3.6 sigma at n=256, 7.1 sigma at n=1024",
+  "min_effect_source": "12% of the stock cfg3-cfg0 gap (+0.042 mean; per checkpoint 0.0398/0.0415/0.0453); 3.6 sigma at n=256, 7.1 sigma at n=1024",
   "promotion_rung1": "delta >= 0.005 on dev256 AND all rung-1 gates pass; top 8, at most 2 per family; if fewer than 3 pass, take the top 3 even if below threshold and mark the round underpowered",
   "promotion_rung2": "delta >= 0.005 on dev1024 AND paired bootstrap 95% CI lower > 0 (10000 resamples, seed 20261027)",
   "promotion_rung3": "best combo, or best single if no combo beats it by >= 0.002",
@@ -205,17 +206,17 @@
    "meva_s_per_clip": 0.163,
    "scoring_scope": "rungs 1-4 score raw level only plus the full lvl30 cell; rung 5 adds raw CLAP/AES and MEva"
   },
-  "per_trial_seconds": {"dev256": 163, "dev1024": 473, "heldout1024": 473, "full5521": 2215},
+  "per_trial_seconds": {"dev256": 163, "dev1024": 475, "heldout1024": 475, "full5521": 2215},
   "stages": [
    {"id": "P0", "mode": "direct", "work": "copy gate, FAD parity, split baseline scoring, noise calibration", "hours": 0.2},
    {"id": "R1", "mode": "queue", "work": "38 trials on dev256", "hours": 1.72},
-   {"id": "R2", "mode": "queue", "work": "<=10 trials on dev1024", "hours": 1.31},
+   {"id": "R2", "mode": "queue", "work": "<=10 trials on dev1024", "hours": 1.32},
    {"id": "R3", "mode": "queue", "work": "<=6 combos on dev1024", "hours": 0.79},
-   {"id": "R4", "mode": "queue", "work": "9 trials on heldout1024 (3 ckpt x 3 seeds)", "hours": 1.18},
+   {"id": "R4", "mode": "queue", "work": "9 trials on heldout1024 (3 ckpt x 3 seeds)", "hours": 1.19},
    {"id": "R5", "mode": "queue", "work": "3 full-5521 runs + FAD + MEva on heldout", "hours": 2.13},
    {"id": "analysis", "mode": "session", "work": "summaries, tables, docs", "hours": 0.4}
   ],
-  "total_hours_estimate": 7.73,
+  "total_hours_estimate": 7.75,
   "soft_target_hours": 8.0,
   "hard_cap_hours": 15.0,
   "early_stop": [
@@ -268,6 +269,8 @@
  ],
  "revision_history": [
   {"rev": "r1", "date": "2026-10-27", "note": "initial registration; written by the dispatched design session; no GPU search executed"},
-  {"rev": "r2", "date": "2026-10-27", "note": "added the measured raw level-only cost (0.74 s at 256) and the dev256 baselines extracted from the canonical full cells; no threshold, config, gate, or budget changed"}
+  {"rev": "r2", "date": "2026-10-27", "note": "added the measured raw level-only cost (0.74 s at 256) and the dev256 baselines extracted from the canonical full cells; no threshold, config, gate, or budget changed"},
+  {"rev": "r3", "date": "2026-10-27", "note": "corrected reference_cfg3_minus_cfg0_lvl30_clap from 0.040 (single checkpoint rounded) to the exact 3-checkpoint mean 0.0422 (0.0398/0.0415/0.0453); thresholds unchanged, min_effect_source reworded to 12%"},
+  {"rev": "r4", "date": "2026-10-27", "note": "budget arithmetic: the rungs 1-4 per-trial formula now lists the measured raw level-only pass explicitly, so dev1024/heldout1024 go 473 -> 475 s and the total goes 7.73 -> 7.75 h; dev256, full5521, every threshold, config, gate and split unchanged; no trial executed"}
  ]
 }

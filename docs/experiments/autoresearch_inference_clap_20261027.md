@@ -16,9 +16,9 @@
 | 選模資料 | `dev256` → `dev1024`（皆取自 records [0,1024)），**heldout1024 = records [1024,2048) 全程不參與選模** |
 | 主要門檻 | lvl30 CLAP Δ ≥ **0.005**（dev）、heldout ≥ **0.004**、組合增益 ≥ **0.002**；FAD +0.30、AES PQ −0.10 為強制不採納閘門 |
 | 迴圈 | Phase 0 直接跑（<30 min），之後**每個 rung 一個 p2 queue job**，編號 **153–157**；rung 之間由代理分析、寫下一輪 configs 與 contract |
-| 單 trial 時間 | dev256 **163 s**／dev1024 **473 s**／heldout1024 **473 s**／full 5521 **2215 s** |
+| 單 trial 時間 | dev256 **163 s**／dev1024 **475 s**／heldout1024 **475 s**／full 5521 **2215 s** |
 | 計畫 trial 數 | **66**（38 + ≤10 + ≤6 + 9 + 3），另加 Phase 0 的 4–6 個基線／校正 trial |
-| 總 GPU 時數 | **7.73 h**（含 0.4 h 分析；GPU 本體 ≈ 7.3 h），soft 8 h、**hard cap 15 h** |
+| 總 GPU 時數 | **7.75 h**（含 0.4 h 分析；GPU 本體 ≈ 7.35 h），soft 8 h、**hard cap 15 h** |
 | 磁碟 | 每 trial 峰值 0.13／0.47／2.5 GB，FAD 暫存另 1.23 GB，最壞 **3.8 GB**；NVMe 目前 64 GB 可用 |
 
 **一句話**：在一個固定 checkpoint 上，只改推論期的 guidance／prompt／步數／時間格，用 256 檔快篩、1024 檔複驗、1024 檔獨立 heldout 三關擋 winner's curse，再用 full 5521 × 3 checkpoint 做最終確認；全程 ≤ 8 h GPU，且 FAD／PQ／靜音／削波／響度五類閘門都可以單獨否決一個 CLAP 較高的設定。
@@ -61,7 +61,7 @@
 | s27182818 | cfg0 | 0.1922 | 6.637 | 0.2130 | 6.414 | 38 | 3.3426 |
 | s27182818 | cfg3+neg | **0.2375** | 7.548 | 0.2535 | 7.392 | 35 | 4.9986 |
 
-- **cfg3−cfg0 的 lvl30 CLAP 差距 = +0.040**（三 checkpoint 平均）。這是「現有 guidance 值多少」的尺；最小可偵測效果 0.005 就是它的 12.5%。
+- **cfg3−cfg0 的 lvl30 CLAP 差距 = +0.042**（三 checkpoint 平均；逐一為 0.0398／0.0415／0.0453）。這是「現有 guidance 值多少」的尺；最小可偵測效果 0.005 就是它的 ~12%。
 - 三 checkpoint 的 lvl30 CLAP 散布：cfg3 **0.0050**、cfg0 **0.0027**（這是模型間差異，不是推論雜訊）。
 - FAD 的三 checkpoint 散布：cfg3 **0.4399**、cfg0 **0.1499** → 256 檔子集上的 FAD 閘門必須用**同子集**的三 checkpoint 實測雜訊來定，不能沿用 full 的 0.30。
 
@@ -111,7 +111,7 @@
 
 | 用途 | 門檻 | 理由 |
 |---|---|---|
-| dev（rung 1–3） | Δ lvl30 CLAP ≥ **0.005** | = cfg3−cfg0 差距的 12.5%；在 n=256 是 3.6σ、n=1024 是 7.1σ |
+| dev（rung 1–3） | Δ lvl30 CLAP ≥ **0.005** | = cfg3−cfg0 差距（0.042）的 ~12%；在 n=256 是 3.6σ、n=1024 是 7.1σ |
 | heldout（rung 4） | ≥ **0.004** | 獨立檢定，樣本 9 格（3 ckpt × 3 seed），留一點餘裕給兩樣本誤差 |
 | 組合（rung 3） | 比最佳單項多 ≥ **0.002** | 小於此值就當「沒有額外貢獻」，直接用單項 |
 
@@ -120,7 +120,7 @@
 - rung 1 有 **35 個真設定**（38 減 3 個控制）。
 - n=256、σ=0.0014 時，35 個 null 的最大值期望值 ≈ **0.0031**，小於門檻 0.005。
 - 門檻 0.005 對應的 familywise α ≈ **0.6%**（35 × P(Z>3.57)）。
-- rung 2 最多 10 個候選，σ_used=0.0013（取實測底線與 n 縮放的較大者）→ null 最大值期望 ≈ **0.0020**，仍低於 0.005。
+- rung 2 最多 10 個候選，暫用 σ_used≈0.0013（Phase 0 量到 C1/C2 後若更大，`E[max]` 按比例上修）→ null 最大值期望 ≈ **0.0020**，仍低於 0.005。
 - **偏差揭露**：rung 1–3 的 Δ 都是「選出來的」，必然上偏；唯一不偏的估計是 **heldout1024**。full 5521 內含 2048 筆選模 records，它的數字是**論文用數字，不是獨立檢定**。這條寫進 prereg 的 `multiplicity.bias_note`，報告時必須一起寫。
 
 ### 2.6 negative prompt 洩漏稽核
@@ -190,7 +190,7 @@
 |---|---|---|
 | F1 cfg | 否 | `--cfg_strength` |
 | F2 prompt | 否 | `--negative_prompt` |
-| F3 interval | 是 | `MeanAudio.ode_wrapper`：`c(t)=3.0 if lo<t≤hi else 0.0`（cfg<1 → 只算 conditional，實測少一次 forward） |
+| F3 interval | 是 | `MeanAudio.ode_wrapper`：`c(t)=3.0 if lo<t≤hi else 0.0`（程式上 `cfg<1` 只算 conditional，少一次 forward） |
 | F4 schedule | 是 | `MeanAudio.ode_wrapper`：`c(t)=1+2r(t)`，`c≤1` 時走 conditional-only |
 | F5 ADG/APG | 是 | `MeanAudio.ode_wrapper`（073 的公式，原封不動搬） |
 | F6 steps | 否 | `--num_steps` |
@@ -315,15 +315,15 @@ job 結束（`*.terminal.json` 出現）→ 自動喚醒 → `dispatch_continue`
 rung 1–4（子集 n）：
 
 ```
-23 + 0.3142·n + (27 + 0.022·n) + 0.00644·n + FAD(n)
+23 + 0.3142·n + (27 + 0.022·n) + level_only(n) + 0.00644·n + FAD(n)
 ```
 
-| split | n | 生成 | metrics | 增益 | FAD | **合計** |
-|---|---|---|---|---|---|---|
-| dev256 | 256 | 80.4 s | 32.6 s | 1.6 s | 25 s | **163 s** |
-| dev1024 | 1024 | 321.7 s | 49.5 s | 6.6 s | 71 s | **473 s** |
-| heldout1024 | 1024 | 321.7 s | 49.5 s | 6.6 s | 71 s | **473 s** |
-| full5521（rung 5） | 5521 | 1734.7 s | 148.5 s（raw）＋148.5 s（lvl30） | 35.5 s | 125 s | **2215 s** |
+| split | n | 生成 | metrics | raw level | 增益 | FAD | **合計** |
+|---|---|---|---|---|---|---|---|
+| dev256 | 256 | 80.4 s | 32.6 s | 0.7 s | 1.6 s | 25 s | **163 s** |
+| dev1024 | 1024 | 321.7 s | 49.5 s | 3.0 s | 6.6 s | 71 s | **475 s** |
+| heldout1024 | 1024 | 321.7 s | 49.5 s | 3.0 s | 6.6 s | 71 s | **475 s** |
+| full5521（rung 5） | 5521 | 1734.7 s | 148.5 s（raw，含 level）＋148.5 s（lvl30） | 0（已含在 raw） | 35.5 s | 125 s | **2215 s** |
 
 （rung 1–4 只算 raw level 與 lvl30 全量；rung 5 才算 raw CLAP/AES＋MEva。rung 5 的 2215 s 已含 setup 23 s。）
 
@@ -331,16 +331,16 @@ rung 1–4（子集 n）：
 
 | 階段 | 形式 | 工作 | trial 數 | 單 trial | 小時 |
 |---|---|---|---|---|---|
-| **P0** | 直接 | copy gate ×1、FAD parity ×1、子集 baseline（dev256／dev1024／heldout 的 CLAP/PQ/FAD）、seed 校正 | 4–6 | 163–473 s | **0.20** |
+| **P0** | 直接 | copy gate ×1、FAD parity ×1、子集 baseline（dev256／dev1024／heldout 的 CLAP/PQ/FAD）、seed 校正 | 4–6 | 163–475 s | **0.20** |
 | **R1** | queue 153 | 38 組在 dev256（含 3 控制） | **38** | 163 s | **1.72** |
-| **R2** | queue 154 | top 8（＋≤2 FAD-pending）在 dev1024 | **≤10** | 473 s | **1.31** |
-| **R3** | queue 155 | ≤6 組合在 dev1024 | **≤6** | 473 s | **0.79** |
-| **R4** | queue 156 | 贏家 × 3 ckpt × 3 seed 在 heldout1024 | **9** | 473 s | **1.18** |
+| **R2** | queue 154 | top 8（＋≤2 FAD-pending）在 dev1024 | **≤10** | 475 s | **1.32** |
+| **R3** | queue 155 | ≤6 組合在 dev1024 | **≤6** | 475 s | **0.79** |
+| **R4** | queue 156 | 贏家 × 3 ckpt × 3 seed 在 heldout1024 | **9** | 475 s | **1.19** |
 | **R5** | queue 157 | 贏家 full 5521 × 3 ckpt＋FAD＋MEva | **3**（＋MEva） | 2215 s | **2.13** |
 | 分析 | session | 匯總、圖表、文件 | — | — | **0.40** |
-| **合計** | | | **66** | | **7.73 h** |
+| **合計** | | | **66** | | **7.75 h** |
 
-- **GPU 本體 ≈ 7.3 h**（分析 0.4 h 是 CPU）；soft target 8 h、**hard cap 15 h**。
+- **GPU 本體 ≈ 7.35 h**（分析 0.4 h 是 CPU）；soft target 8 h、**hard cap 15 h**。
 - 66 個 trial 是「上限」（R2/R3 可能不到）；Phase 0 的 4–6 個不計入 66。
 
 ### 5.4 停止規則
@@ -661,7 +661,7 @@ def make_run_t0_to_t1(spec):
 | FAD 秒數 | 25／71／125 s | 可能低估（16 kHz 轉檔＋VGGish）；Phase 0 用 256 檔實測 |
 | 子集 FAD 雜訊 | 未定 | 必須先量三 checkpoint 的 baseline 散布，才定 G2 的實務門檻 |
 | 序列 lvl30 全流程 | 183 s（5521） | 用乾淨單跑值；Phase 0 驗一次 |
-| `--skip_clap --skip_aes` 的 raw level 成本 | **已實測 0.74 s（256 檔）**，1024 檔 ≈ 3 s | 已含在 163／473 的 slack 內 |
+| `--skip_clap --skip_aes` 的 raw level 成本 | **已實測 0.74 s（256 檔）**，1024 檔 ≈ 3 s | 已明列在 §5.2 的 `level_only(n)` 欄（163／475 都含它） |
 
 ### 10.3 煙測為什麼沒跑（誠實記錄）
 
@@ -717,7 +717,7 @@ def make_run_t0_to_t1(spec):
 | 門檻 | 0.005／0.004／0.002 | §2.4 同 |
 | 雜訊 | 0.0003／0.142／σ(n) | §2.3 同 |
 | rung 1 configs | 38（F1 7、F2 7、F3 6、F4 4、F5 6、F6 3、F7 2、C 3） | §3.2 同 |
-| 單 trial | 163／473／473／2215 | §5.2 同 |
-| 總時數 | 7.73 h、soft 8、cap 15 | §5.3 同 |
+| 單 trial | 163／475／475／2215 | §5.2 同 |
+| 總時數 | 7.75 h、soft 8、cap 15 | §5.3 同 |
 | 盤 | 峰值 3.8 GB、guards 20/10 GB | §6 同 |
 | 預測 | P1–P8 | §8 同 |
