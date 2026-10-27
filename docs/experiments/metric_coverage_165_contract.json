@@ -101,7 +101,7 @@
   "min_free_bytes": 10737418240
  },
  "resume": {
-  "kind": "preregistered_skip_complete",
+  "kind": "from_scratch_with_autoresume",
   "note": "every job skips keys that already carry a finite score row; 126a shards are append-only and compacted only after a completed run; a missing REPORT/run json forces a rerun",
   "pause_progress": "/home/kojiek/eval_output_nvme/metric_coverage_20261027/pause_progress_165.json",
   "autoresume": "/home/kojiek/eval_output_nvme/metric_coverage_20261027/pause_progress_165.json",

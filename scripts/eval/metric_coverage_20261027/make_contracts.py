@@ -250,7 +250,7 @@ def contract(job, lname, lcontent):
         },
         'storage': {'path': str(out), 'min_free_bytes': MIN_FREE[job]},
         'resume': {
-            'kind': 'preregistered_skip_complete',
+            'kind': 'from_scratch_with_autoresume',
             'note': 'every job skips keys that already carry a finite score row; 126a shards '
                     'are append-only and compacted only after a completed run; a missing '
                     'REPORT/run json forces a rerun',
