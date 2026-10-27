@@ -120,7 +120,7 @@ const Cover: Page = () => (
         <br />
         該平的判平
       </div>
-      <div style={{ fontSize: 34, color: C.muted, marginTop: 44 }}>12 個指標 × 183 組介入 × 7,043 個檢查點</div>
+      <div style={{ fontSize: 34, color: C.muted, marginTop: 44 }}>先跟人類評分比，再用 183 組介入找原因</div>
     </div>
   </Shell>
 );
@@ -144,7 +144,7 @@ const GoalCard = ({ icon, color, bg, head, line1, line2, ex }: { icon: string; c
 
 const Goal: Page = () => (
   <Shell>
-    <Title step="大目標">好的評分模型要做到兩件事</Title>
+    <Title step="找原因" sub="海選只說「跟人類不一致」，不說錯在哪；所以自己把音樂改壞、改成該平手，逐項考">好的評分模型要做到兩件事</Title>
     <div style={{ display: 'flex', gap: 48, flex: 1, alignItems: 'stretch' }}>
       <GoalCard icon="↓" color={C.red} bg={C.redBg} head="分得出好壞" line1="音樂被弄壞" line2="→ 分數要下降" ex="例：加噪音、錯音、鼓對不上拍" />
       <GoalCard icon="=" color={C.blue} bg={C.blueBg} head="說得出平手" line1="不重要的差異" line2="→ 分數要不動" ex="例：小聲 1 dB、反相、mp3、移調" />
@@ -489,11 +489,11 @@ const Domain = ({ head, sets, what }: { head: string; sets: string; what: string
 
 const ScreenIntro: Page = () => (
   <Shell>
-    <Title step="海選 round 2" sub="前面的「該差／該平」是我們定的；這裡改問：分數排序跟人類評分一不一致">換人類評分來考</Title>
+    <Title step="先考最直接的" sub="海選 round 2：指標的分數排序，跟人類評分一不一致">拿人類評分來考</Title>
     <div style={{ display: 'flex', gap: 36 }}>
       <Domain head="訊號劣化" sets="ODAQ" what="專家 MUSHRA 評壓縮、分離瑕疵" />
-      <Domain head="真實錄音" sets="MusicCaps 522 首" what="真實音樂的品質評分" />
-      <Domain head="生成音樂" sets="AIME、Music Arena" what="聽者在生成系統之間選喜歡的" />
+      <Domain head="真實錄音／歌唱" sets="MusicCaps 522、SingMOS-Pro" what="真實音樂與歌聲的品質評分" />
+      <Domain head="生成音樂" sets="SongEval、AIME、Arena、PAM400、MusicEval、MusicPrefs" what="生成系統的評分與兩兩偏好" />
     </div>
     <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 18, fontSize: 32 }}>
       <div><b>過一格</b>：和人類評分的相關 ρ ≥ 0.50（信賴區間下界 &gt; 0.30）</div>
@@ -502,45 +502,43 @@ const ScreenIntro: Page = () => (
   </Shell>
 );
 
-type RCell = [number, 'i' | 't' | 'u'] | null;
-const RHO: [string, RCell[]][] = [
-  ['AES PQ', [[0.55, 'i'], [0.83, 't'], [0.4, 'i'], [0.15, 'i']]],
-  ['AES CE', [[0.72, 'i'], [0.63, 't'], [0.38, 'i'], [0.11, 'i']]],
-  ['PAM', [[0.6, 'i'], [0.61, 'i'], [0.47, 'i'], [-0.06, 'i']]],
-  ['MEva', [[-0.05, 'i'], [0.36, 'i'], [0.83, 't'], [0.25, 't']]],
-  ['MuQ A1', [[0.18, 'i'], [0.47, 'i'], [0.54, 'i'], [0.22, 'i']]],
-  ['MuQ A3a', [[0.26, 'i'], [0.45, 'i'], [0.64, 'i'], [0.22, 'i']]],
-  ['CMI-RM', [[0.1, 'i'], [0.37, 'i'], [0.59, 'i'], [0.22, 'i']]],
-  ['SingMOS', [[0.27, 'i'], [0.34, 'i'], [0.02, 'i'], [-0.06, 'i']]],
-];
+// 值＝和人類評分的相關 ρ；'i' 沒訓練過、't' 訓練過（不算）、'd' 設計用資料（不算）
+type RFlag = 'i' | 't' | 'd';
+type RCell = [number, RFlag] | 'p' | 'x';
+
 const BLUES = ['#eef4fd', '#cde2fb', '#9ec5f4', '#6da7ec', '#3987e5', '#256abf', '#184f95'];
 const blue = (v: number) => BLUES[Math.max(0, Math.min(BLUES.length - 1, Math.floor((Math.max(v, 0) / 0.9) * BLUES.length)))];
-const RW = 300;
 
-const RhoCell = ({ c }: { c: RCell }) => {
-  if (!c) return <div style={{ width: RW - 12, height: 64, margin: '4px 6px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#c4c8cf', fontSize: 30 }}>沒評</div>;
-  const [v, s] = c;
-  const pass = s === 'i' && v >= 0.5;
-  const trained = s !== 'i';
+const RhoCell = ({ c, w, h }: { c: RCell; w: number; h: number }) => {
+  const base: CSSProperties = {
+    width: w - 10,
+    height: h,
+    margin: '2px 5px',
+    borderRadius: 8,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: mono,
+    fontWeight: 800,
+    boxSizing: 'border-box',
+  };
+  if (c === 'p')
+    return <div style={{ ...base, fontSize: 19, color: '#9aa0a8', outline: '2px dotted #d7dade', outlineOffset: -3 }}>排隊中</div>;
+  if (c === 'x') return <div style={{ ...base, fontSize: 19, color: '#c4c8cf' }}>沒評</div>;
+  const [v, f] = c;
+  const trained = f !== 'i';
+  const pass = f === 'i' && v >= 0.5;
   const bg = trained ? 'transparent' : pass ? C.green : blue(v);
   const dark = pass || (!trained && BLUES.indexOf(bg) >= 4);
   return (
     <div
       style={{
-        width: RW - 12,
-        height: 64,
-        margin: '4px 6px',
-        borderRadius: 10,
+        ...base,
         background: bg,
+        fontSize: 24,
         outline: trained ? '3px dashed #c4c8cf' : 'none',
         outlineOffset: -4,
         color: trained ? '#9aa0a8' : dark ? '#ffffff' : 'var(--osd-text)',
-        fontFamily: mono,
-        fontWeight: 800,
-        fontSize: 32,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
       }}
     >
       {v.toFixed(2)}
@@ -555,34 +553,144 @@ const Key = ({ sw, text }: { sw: CSSProperties; text: string }) => (
   </div>
 );
 
-const ScreenHeat: Page = () => (
-  <Shell>
-    <Title step="海選結果">和人類評分的相關 ρ</Title>
+type MCol = { head: string; n: string; ceil: string; group?: string };
+type MRow = [string, RCell[]];
+
+const HeadRow = ({ labelW, cols, w }: { labelW: number; cols: MCol[]; w: number }) => (
+  <>
     <div style={{ display: 'flex' }}>
-      <div style={{ width: 220 }} />
-      <div style={{ width: RW, textAlign: 'center', fontSize: 28, fontWeight: 900 }}>訊號劣化</div>
-      <div style={{ width: RW, textAlign: 'center', fontSize: 28, fontWeight: 900 }}>真實錄音</div>
-      <div style={{ width: RW * 2, textAlign: 'center', fontSize: 28, fontWeight: 900, borderBottom: `3px solid ${C.soft}` }}>生成音樂</div>
+      <div style={{ width: labelW }} />
+      {cols.map((c, i) => {
+        const span = cols.filter((x) => x.group === c.group).length * w;
+        const first = cols.findIndex((x) => x.group === c.group) === i;
+        return (
+          <div
+            key={i}
+            style={{
+              width: c.group ? span - (first ? 0 : 0) : w,
+              display: first ? 'block' : 'none',
+              textAlign: 'center',
+              fontSize: 26,
+              fontWeight: 900,
+              borderBottom: `3px solid ${C.soft}`,
+            }}
+          >
+            {c.group ?? ''}
+          </div>
+        );
+      })}
     </div>
-    <div style={{ display: 'flex', marginBottom: 6, marginTop: 6 }}>
-      <div style={{ width: 220 }} />
-      {['ODAQ', 'MC522', 'AIME', 'Arena'].map((t) => (
-        <div key={t} style={{ width: RW, textAlign: 'center', fontSize: 26, color: C.soft }}>{t}</div>
+    <div style={{ display: 'flex', marginTop: 6 }}>
+      <div style={{ width: labelW }} />
+      {cols.map((c) => (
+        <div key={c.head} style={{ width: w, textAlign: 'center', fontSize: 25, color: C.soft, lineHeight: 1.15 }}>
+          {c.head}
+          <div style={{ fontSize: 17, color: C.muted, fontFamily: mono }}>{c.n}</div>
+        </div>
       ))}
     </div>
-    {RHO.map(([name, cells]) => (
+  </>
+);
+
+const CeilRow = ({ labelW, cols, w, h }: { labelW: number; cols: MCol[]; w: number; h: number }) => (
+  <div style={{ display: 'flex', alignItems: 'center', borderTop: `2px solid ${C.line}`, marginTop: 4 }}>
+    <div style={{ width: labelW, fontSize: 21, color: C.muted }}>人類天花板</div>
+    {cols.map((c) => (
+      <div key={c.head} style={{ width: w, height: h - 4, display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: mono, fontSize: 21, color: C.muted }}>
+        {c.ceil}
+      </div>
+    ))}
+  </div>
+);
+
+const ROWS_A: MRow[] = [
+  ['AES PQ', [[0.646, 'i'], [0.403, 'i'], [0.149, 'i'], [0.447, 'i'], [0.656, 'i'], 'p']],
+  ['AES CE', [[0.56, 'i'], [0.382, 'i'], [0.11, 'i'], [0.566, 'i'], [0.683, 'i'], 'p']],
+  ['AES CU', [[0.711, 'i'], [0.454, 'i'], [0.167, 'i'], [0.521, 'i'], [0.692, 'i'], 'p']],
+  ['AES PC', [[0.289, 'i'], [0.008, 'i'], [0.107, 'i'], [0.178, 'i'], [0.026, 'i'], 'p']],
+  ['PAM', [[0.609, 'i'], [0.473, 'i'], [-0.06, 'i'], [0.625, 'd'], [0.673, 'i'], 'p']],
+  ['MEva', [[0.533, 't'], [0.829, 't'], [0.252, 't'], [0.015, 'i'], [0.865, 't'], 'p']],
+  ['MuQ A1', [[0.753, 'i'], [0.54, 'i'], [0.221, 'i'], [0.508, 'i'], [0.893, 't'], 'p']],
+  ['MuQ A3a', [[0.794, 'i'], [0.637, 'i'], [0.22, 'i'], [0.58, 'i'], [0.847, 't'], 'p']],
+  ['CMI-RM', [[0.692, 'i'], [0.586, 'i'], [0.216, 'i'], [0.812, 'i'], [0.846, 't'], 'p']],
+  ['SongEval', [[0.5, 't'], 'p', 'p', 'p', 'p', 'p']],
+  ['SingMOS', ['p', [0.023, 'i'], 'p', 'p', 'p', 'p']],
+  ['CLAP', ['x', [0.307, 'i'], [0.037, 'i'], 'p', 'p', 'p']],
+];
+const COLS_A: MCol[] = [
+  { head: 'SongEval', n: '800', ceil: '0.92', group: '生成音樂（整首）' },
+  { head: 'AIME', n: '1.3k', ceil: '0.81', group: '生成音樂（整首）' },
+  { head: 'Arena', n: '4.0k', ceil: '0.74', group: '生成音樂（整首）' },
+  { head: 'PAM400', n: '400', ceil: '—', group: '生成音樂（整首）' },
+  { head: 'MusicEval', n: '2.7k', ceil: '—', group: '生成音樂（整首）' },
+  { head: 'MusicPrefs', n: '5.0k', ceil: '待算', group: '生成音樂（整首）' },
+];
+
+const ROWS_B: MRow[] = [
+  ['AES PQ', [[0.554, 'i'], [0.825, 'i'], [0.208, 'i']]],
+  ['AES CE', [[0.715, 'i'], [0.633, 'i'], [0.233, 'i']]],
+  ['AES CU', [[0.677, 'i'], [0.803, 'i'], [0.116, 'i']]],
+  ['AES PC', [[-0.465, 'i'], [-0.086, 'i'], [-0.25, 'i']]],
+  ['PAM', [[0.603, 'i'], [0.61, 'i'], [0.257, 'i']]],
+  ['MEva', [[-0.053, 'i'], [0.355, 'i'], [0.138, 'i']]],
+  ['MuQ A1', [[0.183, 'i'], [0.466, 'i'], [0.358, 'i']]],
+  ['MuQ A3a', [[0.257, 'i'], [0.451, 'i'], [0.411, 'i']]],
+  ['CMI-RM', [[0.103, 'i'], [0.372, 'i'], [0.278, 'i']]],
+  ['SongEval', ['p', 'p', 'p']],
+  ['SingMOS', [[0.269, 'i'], [0.338, 'i'], [0.573, 't']]],
+  ['CLAP', ['x', [0.095, 'i'], 'x']],
+];
+const COLS_B: MCol[] = [
+  { head: 'ODAQ', n: '960', ceil: '0.99', group: '訊號劣化' },
+  { head: 'MC522', n: '522', ceil: '0.95', group: '真實錄音' },
+  { head: 'SingMOS-Pro', n: '3.1k', ceil: '0.92', group: '歌唱' },
+];
+
+const MatrixGrid = ({ labelW, cols, rows, w, h }: { labelW: number; cols: MCol[]; rows: MRow[]; w: number; h: number }) => (
+  <>
+    <HeadRow labelW={labelW} cols={cols} w={w} />
+    {rows.map(([name, cells]) => (
       <div key={name} style={{ display: 'flex', alignItems: 'center' }}>
-        <div style={{ width: 220, fontSize: 30, fontWeight: 800 }}>{name}</div>
+        <div style={{ width: labelW, fontSize: 24, fontWeight: 800 }}>{name}</div>
         {cells.map((c, i) => (
-          <RhoCell key={i} c={c} />
+          <RhoCell key={i} c={c} w={w} h={h} />
         ))}
       </div>
     ))}
-    <div style={{ display: 'flex', gap: 44, fontSize: 26, color: C.soft, marginTop: 'auto' }}>
-      <Key sw={{ background: '#6da7ec' }} text="沒過（越深越高）" />
-      <Key sw={{ background: C.green }} text="過 0.50" />
-      <Key sw={{ outline: '3px dashed #c4c8cf', outlineOffset: -3 }} text="訓練過，不算" />
+    <CeilRow labelW={labelW} cols={cols} w={w} h={h} />
+  </>
+);
+
+const Legend = () => (
+  <div style={{ display: 'flex', gap: 40, fontSize: 23, color: C.soft, marginTop: 'auto' }}>
+    <Key sw={{ background: '#6da7ec' }} text="沒過（越深越高）" />
+    <Key sw={{ background: C.green }} text="過 0.50" />
+    <Key sw={{ outline: '3px dashed #c4c8cf', outlineOffset: -3 }} text="訓練過／設計用資料，不算" />
+    <Key sw={{ outline: '2px dotted #d7dade', outlineOffset: -3 }} text="排隊中" />
+  </div>
+);
+
+// 12. 海選結果（一）：生成音樂 6 欄
+const ScreenHeat: Page = () => (
+  <Shell>
+    <Title step="海選結果 1／2">生成音樂：六個資料集，一起看</Title>
+    <MatrixGrid labelW={180} cols={COLS_A} rows={ROWS_A} w={250} h={39} />
+    <div style={{ fontSize: 22, color: C.muted, marginTop: 10 }}>
+      AIME／Arena 的 ρ 是逐檔「被偏好比例」的相關（G1）；天花板是 Bradley–Terry 留一系統算出來的，所以 Arena 最高只有 0.74。
     </div>
+    <Legend />
+  </Shell>
+);
+
+// 12b. 海選結果（二）：訊號／真實／歌唱 3 欄
+const ScreenHeatB: Page = () => (
+  <Shell>
+    <Title step="海選結果 2／2">訊號、真實錄音、歌唱</Title>
+    <MatrixGrid labelW={240} cols={COLS_B} rows={ROWS_B} w={430} h={39} />
+    <div style={{ fontSize: 22, color: C.muted, marginTop: 10 }}>
+      ODAQ 是同一個 trial 內的排序 ρ（G6a），尺度跟其他欄不同；SongEval 預測器三欄都還在 job 159 排隊中。
+    </div>
+    <Legend />
   </Shell>
 );
 
@@ -630,7 +738,7 @@ const Caveats: Page = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 56, marginTop: 20 }}>
       <Caveat n="1" head="寬標準偏寬鬆" text="看整組平均；逐對標準下失敗只會更多" />
       <Caveat n="2" head="S 是各指標自己的尺" text="通過率可以比，Δ/S 數值不要跨指標比" />
-      <Caveat n="3" head="沒有人類評分" text="介入的「該平」「該差」是我們定的；人類評分的海選還沒有指標過關" />
+      <Caveat n="3" head="沒有人類評分" text="介入的「該平」「該差」是我們定的，還沒有人類聽測驗證" />
     </div>
   </Shell>
 );
@@ -649,7 +757,8 @@ const Take = ({ color, bg, tag, text }: { color: string; bg: string; tag: string
 const Takeaway: Page = () => (
   <Shell>
     <Title step="結論">一句話帶走</Title>
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 52, marginTop: 20 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 40, marginTop: 20 }}>
+      <Take color={C.red} bg={C.redBg} tag="人類評分" text="9 個資料集，沒有指標在生成音樂上過關" />
       <Take color={C.red} bg={C.redBg} tag="沒有全能" text="12 個指標，沒有一個兩條要求全過" />
       <Take color={C.amber} bg={C.amberBg} tag="AES 的盲點" text="PQ 只看聲音乾不乾淨，聽不到彈錯" />
       <Take color={C.green} bg={C.greenBg} tag="最接近" text="MERT／MuQ，但要先修反相與移調" />
@@ -658,4 +767,4 @@ const Takeaway: Page = () => (
   </Shell>
 );
 
-export default [Cover, Goal, Ruler, Overall, Scatter, Heatmap, NoteBlind, TieFail, Kudos, ReportCard, ScreenIntro, ScreenHeat, ScreenVerdict, Caveats, Takeaway] satisfies Page[];
+export default [Cover, ScreenIntro, ScreenHeat, ScreenHeatB, ScreenVerdict, Goal, Ruler, Overall, Scatter, Heatmap, NoteBlind, TieFail, Kudos, ReportCard, Caveats, Takeaway] satisfies Page[];
