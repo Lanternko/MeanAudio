@@ -159,8 +159,9 @@ def agreement_matrices():
 def simulate_agreement(pool, M, n_values=(256, 512, 1024), B=C.BOOTSTRAP_B):
     rng = np.random.default_rng(C.SAMPLE_SEED)
     names = sorted(M)
-    acc = {n: {f'{m}/{k}': {'agreement': [], 'ambiguous': [], 'oob': []}
-               for m, k in names} for n in n_values}
+    label = {key: f'{key[0]}/{key[1]}' for key in names}
+    acc = {n: {label[key]: {'agreement': [], 'ambiguous': [], 'oob': []}
+               for key in names} for n in n_values}
     rep0 = None
     for b in range(B):
         perm = rng.permutation(len(pool))
@@ -174,18 +175,18 @@ def simulate_agreement(pool, M, n_values=(256, 512, 1024), B=C.BOOTSTRAP_B):
                 rates = P[:, ix].mean(axis=1)
                 sampled = rates >= C.PASS
                 full_pass = full >= C.PASS
-                acc[n][key]['agreement'].append(float(np.mean(sampled == full_pass)))
-                acc[n][key]['ambiguous'].append(float(np.sum(np.abs(rates - C.PASS) <= C.AMBIG_BAND)))
+                acc[n][label[key]]['agreement'].append(float(np.mean(sampled == full_pass)))
+                acc[n][label[key]]['ambiguous'].append(float(np.sum(np.abs(rates - C.PASS) <= C.AMBIG_BAND)))
                 oob = np.abs(rates - full)[np.abs(full - C.PASS) > C.AMBIG_BAND]
-                acc[n][key]['oob'].append(float(np.max(oob)) if oob.size else 0.0)
+                acc[n][label[key]]['oob'].append(float(np.max(oob)) if oob.size else 0.0)
         if (b + 1) % 25 == 0:
             log(f'agreement bootstrap {b + 1}/{B}')
     out = {}
     for n in n_values:
         out[str(n)] = {}
         for key in names:
-            a = acc[n][key]
-            out[str(n)][key] = {
+            a = acc[n][label[key]]
+            out[str(n)][label[key]] = {
                 'agreement': float(np.mean(a['agreement'])),
                 'ambiguous_mean': float(np.mean(a['ambiguous'])),
                 'ambiguous_max': float(np.max(a['ambiguous'])),
