@@ -604,18 +604,18 @@ const CeilRow = ({ labelW, cols, w, h }: { labelW: number; cols: MCol[]; w: numb
 );
 
 const ROWS_A: MRow[] = [
-  ['AES PQ', [[0.646, 'i'], [0.403, 'i'], [0.149, 'i'], [0.447, 'i'], [0.656, 'i'], 'p']],
-  ['AES CE', [[0.56, 'i'], [0.382, 'i'], [0.11, 'i'], [0.566, 'i'], [0.683, 'i'], 'p']],
-  ['AES CU', [[0.711, 'i'], [0.454, 'i'], [0.167, 'i'], [0.521, 'i'], [0.692, 'i'], 'p']],
-  ['AES PC', [[0.289, 'i'], [0.008, 'i'], [0.107, 'i'], [0.178, 'i'], [0.026, 'i'], 'p']],
-  ['PAM', [[0.609, 'i'], [0.473, 'i'], [-0.06, 'i'], [0.625, 'd'], [0.673, 'i'], 'p']],
-  ['MEva', [[0.533, 't'], [0.829, 't'], [0.252, 't'], [0.015, 'i'], [0.865, 't'], 'p']],
-  ['MuQ A1', [[0.753, 'i'], [0.54, 'i'], [0.221, 'i'], [0.508, 'i'], [0.893, 't'], 'p']],
-  ['MuQ A3a', [[0.794, 'i'], [0.637, 'i'], [0.22, 'i'], [0.58, 'i'], [0.847, 't'], 'p']],
-  ['CMI-RM', [[0.692, 'i'], [0.586, 'i'], [0.216, 'i'], [0.812, 'i'], [0.846, 't'], 'p']],
-  ['SongEval', [[0.5, 't'], 'p', 'p', 'p', 'p', 'p']],
-  ['SingMOS', ['p', [0.023, 'i'], 'p', 'p', 'p', 'p']],
-  ['CLAP', ['x', [0.307, 'i'], [0.037, 'i'], 'p', 'p', 'p']],
+  ['AES PQ', [[0.646, 'i'], [0.403, 'i'], [0.149, 'i'], [0.447, 'i'], [0.656, 'i'], [0.132, 'i']]],
+  ['AES CE', [[0.56, 'i'], [0.382, 'i'], [0.11, 'i'], [0.566, 'i'], [0.683, 'i'], [0.134, 'i']]],
+  ['AES CU', [[0.711, 'i'], [0.454, 'i'], [0.167, 'i'], [0.521, 'i'], [0.692, 'i'], [0.163, 'i']]],
+  ['AES PC', [[0.289, 'i'], [0.008, 'i'], [0.107, 'i'], [0.178, 'i'], [0.026, 'i'], [-0.01, 'i']]],
+  ['PAM', [[0.609, 'i'], [0.473, 'i'], [-0.06, 'i'], [0.625, 'd'], [0.673, 'i'], [0.206, 'i']]],
+  ['MEva', [[0.533, 't'], [0.829, 't'], [0.252, 't'], [0.015, 'i'], [0.865, 't'], [0.232, 't']]],
+  ['MuQ A1', [[0.753, 'i'], [0.54, 'i'], [0.221, 'i'], [0.508, 'i'], [0.893, 't'], [0.148, 'i']]],
+  ['MuQ A3a', [[0.794, 'i'], [0.637, 'i'], [0.22, 'i'], [0.58, 'i'], [0.847, 't'], [0.196, 'i']]],
+  ['CMI-RM', [[0.692, 'i'], [0.586, 'i'], [0.216, 'i'], [0.812, 'i'], [0.846, 't'], [0.151, 'i']]],
+  ['SongEval', [[0.501, 't'], [-0.048, 'i'], [-0.007, 'i'], [0.161, 'i'], [-0.071, 'i'], [-0.023, 'i']]],
+  ['SingMOS', [[0.003, 'i'], [0.023, 'i'], [-0.057, 'i'], [-0.239, 'i'], [0.14, 'i'], [0.086, 'i']]],
+  ['CLAP', ['x', [0.307, 'i'], [0.037, 'i'], [0.477, 'i'], [0.197, 'i'], [0.1, 'i']]],
 ];
 const COLS_A: MCol[] = [
   { head: 'SongEval', n: '800', ceil: '0.92', group: '生成音樂（整首）' },
@@ -623,7 +623,7 @@ const COLS_A: MCol[] = [
   { head: 'Arena', n: '4.0k', ceil: '0.74', group: '生成音樂（整首）' },
   { head: 'PAM400', n: '400', ceil: '—', group: '生成音樂（整首）' },
   { head: 'MusicEval', n: '2.7k', ceil: '—', group: '生成音樂（整首）' },
-  { head: 'MusicPrefs', n: '5.0k', ceil: '待算', group: '生成音樂（整首）' },
+  { head: 'MusicPrefs', n: '5.0k', ceil: '—', group: '生成音樂（整首）' },
 ];
 
 const ROWS_B: MRow[] = [
@@ -636,7 +636,7 @@ const ROWS_B: MRow[] = [
   ['MuQ A1', [[0.183, 'i'], [0.466, 'i'], [0.358, 'i']]],
   ['MuQ A3a', [[0.257, 'i'], [0.451, 'i'], [0.411, 'i']]],
   ['CMI-RM', [[0.103, 'i'], [0.372, 'i'], [0.278, 'i']]],
-  ['SongEval', ['p', 'p', 'p']],
+  ['SongEval', [[-0.19, 'i'], [0.098, 'i'], [-0.047, 'i']]],
   ['SingMOS', [[0.269, 'i'], [0.338, 'i'], [0.573, 't']]],
   ['CLAP', ['x', [0.095, 'i'], 'x']],
 ];
@@ -666,7 +666,7 @@ const Legend = () => (
     <Key sw={{ background: '#6da7ec' }} text="沒過（越深越高）" />
     <Key sw={{ background: C.green }} text="過 0.50" />
     <Key sw={{ outline: '3px dashed #c4c8cf', outlineOffset: -3 }} text="訓練過／設計用資料，不算" />
-    <Key sw={{ outline: '2px dotted #d7dade', outlineOffset: -3 }} text="排隊中" />
+    <span>沒評＝CLAP 只比對文字描述，不適用</span>
   </div>
 );
 
@@ -676,7 +676,7 @@ const ScreenHeat: Page = () => (
     <Title step="海選結果 1／2">生成音樂：六個資料集，一起看</Title>
     <MatrixGrid labelW={180} cols={COLS_A} rows={ROWS_A} w={250} h={39} />
     <div style={{ fontSize: 22, color: C.muted, marginTop: 10 }}>
-      AIME／Arena 的 ρ 是逐檔「被偏好比例」的相關（G1）；天花板是 Bradley–Terry 留一系統算出來的，所以 Arena 最高只有 0.74。
+      AIME／Arena／MusicPrefs 的 ρ 是逐檔「被偏好比例」的相關（G1）；天花板是 Bradley–Terry 留一系統算出來的，所以 Arena 最高只有 0.74。
     </div>
     <Legend />
   </Shell>
@@ -688,7 +688,7 @@ const ScreenHeatB: Page = () => (
     <Title step="海選結果 2／2">訊號、真實錄音、歌唱</Title>
     <MatrixGrid labelW={240} cols={COLS_B} rows={ROWS_B} w={430} h={39} />
     <div style={{ fontSize: 22, color: C.muted, marginTop: 10 }}>
-      ODAQ 是同一個 trial 內的排序 ρ（G6a），尺度跟其他欄不同；SongEval 預測器三欄都還在 job 159 排隊中。
+      ODAQ 是同一個 trial 內的排序 ρ（G6a），尺度跟其他欄不同；矩陣 108 格已補齊 105 格，剩 3 格是 CLAP 不適用。
     </div>
     <Legend />
   </Shell>
@@ -711,8 +711,8 @@ const ScreenVerdict: Page = () => (
     <Title step="海選結論">沒有指標過關，卡在生成音樂</Title>
     <div style={{ display: 'flex', flexDirection: 'column', gap: 50, marginTop: 10 }}>
       <Finding tag="AES／PAM" color={C.amber} bg={C.amberBg} head="訊號劣化過，到生成音樂就掉下來" text="AES PQ：ODAQ 0.55 → AIME 0.40 → Arena 0.15；PAM 在 Arena −0.06" />
-      <Finding tag="查核後" color={C.muted} bg="#f3f4f6" head="AIME 過的，到 Arena 都掉到 0.22" text="MuQ 0.54–0.64、CMI-RM 0.59 沒訓練過 AIME，算數；但 Arena 只剩 0.22。MEva 兩格都訓練過" />
-      <Finding tag="看勝負" color={C.green} bg={C.greenBg} head="改看「兩首誰比較好」，AES PQ 過了" text="勝負一致率 AIME 0.61、Arena 0.58（門檻 0.55）；Arena 標籤只有勝／負，ρ 本來就高不了" />
+      <Finding tag="查核後" color={C.muted} bg="#f3f4f6" head="AIME 過的，到 Arena／MusicPrefs 都只剩 ≤ 0.22" text="MuQ 0.54–0.64、CMI-RM 0.59 沒訓練過 AIME，算數；Arena 只剩 0.22、MusicPrefs 0.15–0.20。SongEval、SingMOS 預測器在沒訓練過的生成音樂全部 &lt; 0.20" />
+      <Finding tag="看勝負" color={C.green} bg={C.greenBg} head="改看「兩首誰比較好」，三個成對資料集都過 0.55" text="一致率 AIME／Arena／MusicPrefs：AES PQ 0.61／0.58／0.58、CMI-RM 0.67／0.63／0.60；成對標籤只有勝負，ρ 本來就高不了" />
     </div>
     <div style={{ fontSize: 28, color: C.muted, marginTop: 'auto' }}>預登錄的規則照原樣判；改看勝負屬於事後探索，要正式採用得另寫 round 3 預登錄</div>
   </Shell>

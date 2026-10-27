@@ -192,7 +192,9 @@ def extra_cell(ds, metric):
     for r in read_tsv(p):
         if r['metric'] != metric:
             continue
-        return dict(state='value', value=fnum(r['spearman']), ci=parse_ci(r['spearman']),
+        # analyze_extra_cells writes each stat as "[point, ci_lo, ci_hi]"
+        point, lo, hi = (float(x) for x in r['spearman'].strip('[]').split(','))
+        return dict(state='value', value=point, ci=[lo, hi],
                     n=int(r['n']), stat='ρ（round-1 協定）', src=str(p.relative_to(ROOT)),
                     cell=f"target {r['target']}")
     return None
