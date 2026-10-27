@@ -223,9 +223,12 @@ def contract(job, lname, lcontent):
         },
         'code_bindings': {},
         'commands': {
-            'preflight': [PY, '-I', str(DRIVER), '--job', str(job), '--preflight'],
-            'run': [PY, '-I', str(DRIVER), '--job', str(job)],
-            'postflight': [PY, '-I', str(DRIVER), '--job', str(job), '--validate-only'],
+            # The queue's accept_guest checks that commands.run[-1] is the bound action
+            # file, so run must end with the driver path; the driver reads the job number
+            # from GPU_QUEUE_CONTRACT (same convention as bench_r2 / autoresearch).
+            'preflight': [PY, '-I', str(DRIVER), '--preflight'],
+            'run': [PY, '-I', str(DRIVER)],
+            'postflight': [PY, '-I', str(DRIVER), '--validate-only'],
         },
         'completion_evidence': {
             'eval_only': True,

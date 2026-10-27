@@ -5,6 +5,7 @@ Design: docs/experiments/metric_coverage_completion_20261027.md §3, §4.4, §6.
 
   # queue jobs read their spec + bindings from the contract
   python -I score_coverage.py --job 164 [--preflight|--validate-only|--dry-run]
+  GPU_QUEUE_CONTRACT=<contract> python -I score_coverage.py [--preflight|--validate-only]  (queue form)
   # smoke / manual use (§3.2 primitive; <= 8 clips per model for the GPU smoke)
   python -I score_coverage.py --protocol 126a --model pam --clips 8 --out DIR
   python -I score_coverage.py --protocol 126b --model pam --clips 8 --out DIR
@@ -763,6 +764,9 @@ def main():
     ap.add_argument('--validate-only', action='store_true')
     ap.add_argument('--dry-run', action='store_true')
     a = ap.parse_args()
+    if a.job is None and not (a.protocol or a.model) and os.environ.get('GPU_QUEUE_CONTRACT'):
+        # queue launch: commands.run must end with this file, so the job comes from the contract
+        a.job = int(load_contract(None)['job'])
     C.OUT_ROOT.mkdir(parents=True, exist_ok=True)
     (C.OUT_ROOT / 'jobs').mkdir(parents=True, exist_ok=True)
 
