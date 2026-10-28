@@ -102,6 +102,7 @@
 | **NegMF N100 full recipe 結果**（120–122 收線 2026-10-15：CFG0 lvl30 PQ +0.956（三 seed +0.92～+0.99）、CLAP 非劣性過、無靜音逃逸；FAD 三 seed 都更差（CFG0 3.2→5.9）；不推論期負向就追平 control CFG3＋neg 的 PQ 但 CLAP −0.023；AES 不進排名） | `docs/experiments/results/negmf_full_120_results.md` |
 | **人類 JND pilot（126 分水嶺的地面真值）**（2026-10-19 設計登錄、未實作：A 組 4 段 TTM／真實 × 18 個訊號層檔位（noise／clip／dropout／clicks／gain／lead／polarity／mp3）、B 組 4 段鋼琴 MIDI × 12 個音符層檔位（錯音／jitter／blastnote／移調／速度／換 SoundFont）；同異＋好壞兩題、L1／L2 平衡表、6 人 × 76 試次；以相同配對假警報率為基準判聽得出／聽不出，對照 126 標籤分一致／盲點／過敏；聽者不可熟悉 MeanAudio） | `docs/experiments/human_jnd_pilot_20261019.md` |
 | **2026-10-21 會議用進度＋問題清單** | `docs/meetings/2026-10-21_progress_and_questions.md` |
+| **2026-10-27 會議**（Arena 改預測一致率、S 先沿用但傾向顯著性檢定、MERT-ref 要講清楚出處與方法、要實際數字不只通過率；新主線：觀察式找 MuQ 漏洞（不做對抗攻擊）→ 有弱點就攻擊＋簡單修補、沒有就寫分析；補 lowpass 8k／12k；RTX 5080 可用；目標三月投稿） | `docs/meetings/2026-10-27_metric_screening_mert_attack.md` |
 | **LALM 評審文獻定位**（MQAScore：Yes／No 逐概念、刻意排除音質；MRMAD：Qwen2.5-Omni 音樂劣化兩段比較 49.6%＝擲硬幣） | `docs/literature/lalm_judge_mqascore_mrmad_2026_10_15.md` |
 | **2026-10-14 會議**（控制實驗改用真實曲、紅綠燈、FAD 檢查、LALM 評審、「0.47」出處） | `docs/meetings/2026-10-14_metric_controls_real_pieces_fad_lalm.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
