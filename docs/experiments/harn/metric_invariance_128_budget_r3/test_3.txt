@@ -1,0 +1,1 @@
+PASS notification receipts /tmp/receipt-test-ofgb5xr4

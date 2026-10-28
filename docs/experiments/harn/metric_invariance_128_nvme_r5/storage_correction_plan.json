@@ -1,0 +1,35 @@
+{
+  "at": "2026-10-17T17:27:46.343112+00:00",
+  "operator_context": "User: \u9810\u4f30\u591a\u4e45\uff1f seagate \u4e0d\u662f\u653e\u820a\u8cc7\u6599\u800c\u5df2\u55ce\uff1f\u65b0\u8cc7\u6599\u90fd\u5728 nvme. Restore stated hot-NVMe/cold-Seagate policy; prior GO remains authorization to run study.",
+  "reason": "Agent routed fresh scoring audio to Seagate to avoid NVMe floor; correct storage placement while preserving scores and scientific protocol.",
+  "cold_sources": [
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicgen_medium/lvl23/audio",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicldm_fid8/lvl23/audio",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/meanaudio_cfg3_neg/lvl23/audio",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/meanaudio_cfg0/lvl23/audio",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicldm/lvl23/audio",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musiccaps_real/lvl23/audio"
+  ],
+  "cold_excluded_from_current_inputs": true,
+  "archive_destination": "/mnt/seagate/kojiek_data/cold_archive_20261018/ttm_metrics_115_20261009",
+  "archive_rule": "copy, fsync and verify every file SHA256; atomic directory/symlink exchange; only then remove verified former NVMe copy",
+  "new_output": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5",
+  "new_transient": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5_tmp",
+  "source_contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128b_20261017_claims_r4_contract.json",
+  "source_action_sha256": "672f090aeffcbca839826f245cdc9a533674e7e85654d2d4b6716bfbfed5c934",
+  "source_seat": {
+    "control_dir": "/home/kojiek/gpu_queue/p2/control/129_metric_invariance_table_b_claims_r4-20261017T171515Z",
+    "job_id": "129_metric_invariance_table_b_claims_r4",
+    "phase": "running",
+    "pid": 2349966,
+    "role": "p2",
+    "run_id": "129_metric_invariance_table_b_claims_r4-20261017T171515Z",
+    "seated_at": "2026-10-17T17:15:16Z",
+    "start_time": "57273129"
+  },
+  "reuse": "verified complete per-unit scores only; keep source run immutable; no re-scoring completed units",
+  "scientific_parameters": "unchanged",
+  "budget": "keep original r4 B start clock, including this storage correction; 17h value unchanged",
+  "hard_floor_bytes": 53687091200,
+  "queue_order": "replace this interrupted 129/130 with fresh 129/130 at tail; preserve all other entries"
+}

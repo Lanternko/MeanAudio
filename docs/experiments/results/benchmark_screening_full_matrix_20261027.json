@@ -1,0 +1,2995 @@
+{
+ "generated_at": "2026-10-27 19:09",
+ "seed_r2": 20261025,
+ "seed_r1": 20261020,
+ "nboot": 2000,
+ "root": "/mnt/seagate/benchmarks_r2",
+ "columns": [
+  {
+   "key": "odaq",
+   "head": "ODAQ",
+   "dom": "訊號劣化",
+   "human": "專家 MUSHRA（壓縮／分離瑕疵）",
+   "stat": "G6a within-trial ρ",
+   "ceil": {
+    "v": 0.993,
+    "how": "√SB"
+   },
+   "units": 960,
+   "src": "analysis/odaq_g6.tsv"
+  },
+  {
+   "key": "mc522",
+   "head": "MC522",
+   "dom": "真實錄音",
+   "human": "MusicCaps 522 首品質評分（10 人）",
+   "stat": "G1 ρ（human_PQ）",
+   "ceil": {
+    "v": 0.947,
+    "how": "√SB"
+   },
+   "units": 522,
+   "src": "analysis/mc522_corr.tsv"
+  },
+  {
+   "key": "songeval",
+   "head": "SongEval",
+   "dom": "生成音樂（整首）",
+   "human": "SongEval Musicality（4 標註者）",
+   "stat": "G1 ρ（Musicality, VFULL）",
+   "ceil": {
+    "v": 0.921,
+    "how": "√SB"
+   },
+   "units": 800,
+   "src": "analysis/songeval_corr.tsv"
+  },
+  {
+   "key": "singmos",
+   "head": "SingMOS-Pro",
+   "dom": "歌唱",
+   "human": "SingMOS MOS（官方 test）",
+   "stat": "G1 ρ（mos）",
+   "ceil": {
+    "v": 0.919,
+    "how": "√SB"
+   },
+   "units": 3101,
+   "src": "analysis/singmos_corr.tsv"
+  },
+  {
+   "key": "aime",
+   "head": "AIME",
+   "dom": "生成音樂",
+   "human": "13 系統成對偏好（12 票）",
+   "stat": "G1 ρ（逐檔勝率）",
+   "ceil": {
+    "v": 0.811,
+    "how": "√SB"
+   },
+   "units": 1300,
+   "src": "analysis/aime_pairwise.tsv"
+  },
+  {
+   "key": "arena",
+   "head": "Music Arena",
+   "dom": "生成音樂",
+   "human": "15 系統成對偏好",
+   "stat": "G1 ρ（逐檔勝率）",
+   "ceil": {
+    "v": 0.742,
+    "how": "G3 BT"
+   },
+   "units": 3998,
+   "src": "analysis/arena_pairwise.tsv"
+  },
+  {
+   "key": "pam400",
+   "head": "PAM400",
+   "dom": "生成音樂（5 s）",
+   "human": "PAM OVL（每檔 10 位 MTurk）",
+   "stat": "ρ（round-1 協定）",
+   "ceil": null,
+   "units": 400,
+   "src": "analysis_extra/pam400_extra_cells.tsv",
+   "ceiling_note": "n/a（每檔是 10 人平均，沒有逐位評分可算 reliability）"
+  },
+  {
+   "key": "me",
+   "head": "MusicEval",
+   "dom": "生成音樂",
+   "human": "MusicEval OVL（31 系統）",
+   "stat": "ρ（round-1 協定）",
+   "ceil": null,
+   "units": 2748,
+   "src": "analysis_extra/me_extra_cells.tsv",
+   "ceiling_note": "n/a（同上，只有平均值）"
+  },
+  {
+   "key": "musicprefs",
+   "head": "MusicPrefs",
+   "dom": "生成音樂（成對偏好）",
+   "human": "2,515 對偏好（7 系統、2 軸）",
+   "stat": "ρ（逐檔勝率）",
+   "ceil": null,
+   "units": 5030,
+   "src": "analysis_extra/musicprefs_pairwise.tsv",
+   "ceiling_note": "待 job 160 算 BT held-out"
+  }
+ ],
+ "rows": [
+  {
+   "metric": "aes_PQ",
+   "label": "AES PQ",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.554,
+     "ci": [
+      0.396,
+      0.7
+     ],
+     "n": 26,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.825,
+     "ci": [
+      0.792,
+      0.853
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.646,
+     "ci": [
+      0.604,
+      0.687
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.208,
+     "ci": [
+      0.172,
+      0.24
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.403,
+     "ci": [
+      0.356,
+      0.45
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.605,
+      "ci": [
+       0.596,
+       0.614
+      ],
+      "n_pairs": 7800,
+      "m": 0.464,
+      "forced": 0.628,
+      "tie_frac": 0.428
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.149,
+     "ci": [
+      0.112,
+      0.186
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.584,
+      "ci": [
+       0.57,
+       0.598
+      ],
+      "n_pairs": 1412,
+      "m": 0.505,
+      "forced": 0.598,
+      "tie_frac": 0.688
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.44747503430277114,
+     "ci": [
+      0.3709985737009695,
+      0.5185493544134414
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.6564053858505637,
+     "ci": [
+      0.6309345873834957,
+      0.6789538559894184
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.13205319991492256,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.579551000488043,
+      "ci": [
+       0.559120771319633,
+       0.600001217137293
+      ],
+      "n_pairs": 2049,
+      "m": 0.4659226179122925,
+      "forced": 0.5963884821864324,
+      "tie_frac": 0.45143972669594923,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.13205319991492256,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.579551000488043,
+        "ci": [
+         0.559120771319633,
+         0.600001217137293
+        ],
+        "n_pairs": 2049,
+        "m": 0.4659226179122925,
+        "forced": 0.5963884821864324,
+        "tie_frac": 0.45143972669594923,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.11461235739119167,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5696135521439916,
+        "ci": [
+         0.5485581732171143,
+         0.5909349531457398
+        ],
+        "n_pairs": 1889,
+        "m": 0.4659226179122925,
+        "forced": 0.5907887771307571,
+        "tie_frac": 0.45314981471678134,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "aes_CE",
+   "label": "AES CE",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.715,
+     "ci": [
+      0.573,
+      0.831
+     ],
+     "n": 26,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.633,
+     "ci": [
+      0.571,
+      0.689
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.56,
+     "ci": [
+      0.505,
+      0.612
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.233,
+     "ci": [
+      0.199,
+      0.267
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.382,
+     "ci": [
+      0.335,
+      0.428
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.612,
+      "ci": [
+       0.603,
+       0.622
+      ],
+      "n_pairs": 7800,
+      "m": 0.605,
+      "forced": 0.64,
+      "tie_frac": 0.461
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.11,
+     "ci": [
+      0.073,
+      0.147
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.564,
+      "ci": [
+       0.549,
+       0.579
+      ],
+      "n_pairs": 1412,
+      "m": 0.63,
+      "forced": 0.585,
+      "tie_frac": 0.654
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.565665090237045,
+     "ci": [
+      0.4907331321278975,
+      0.6344648594871131
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.682500134657246,
+     "ci": [
+      0.6578010072022995,
+      0.707287721048556
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.13434285351871286,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.584431429965837,
+      "ci": [
+       0.563934713934714,
+       0.6045072568360036
+      ],
+      "n_pairs": 2049,
+      "m": 0.6813685417175294,
+      "forced": 0.6037091264031235,
+      "tie_frac": 0.5031722791605662,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.13434285351871286,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.584431429965837,
+        "ci": [
+         0.563934713934714,
+         0.6045072568360036
+        ],
+        "n_pairs": 2049,
+        "m": 0.6813685417175294,
+        "forced": 0.6037091264031235,
+        "tie_frac": 0.5031722791605662,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.10274659197387011,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5722604552673373,
+        "ci": [
+         0.5524579709116747,
+         0.5925829578244199
+        ],
+        "n_pairs": 1889,
+        "m": 0.6813685417175294,
+        "forced": 0.5722604552673373,
+        "tie_frac": 0.5050291159343568,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "aes_CU",
+   "label": "AES CU",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.677,
+     "ci": [
+      0.538,
+      0.796
+     ],
+     "n": 26,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.803,
+     "ci": [
+      0.766,
+      0.836
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.711,
+     "ci": [
+      0.673,
+      0.746
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.116,
+     "ci": [
+      0.078,
+      0.151
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.454,
+     "ci": [
+      0.41,
+      0.5
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.612,
+      "ci": [
+       0.604,
+       0.621
+      ],
+      "n_pairs": 7800,
+      "m": 0.512,
+      "forced": 0.648,
+      "tie_frac": 0.515
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.167,
+     "ci": [
+      0.13,
+      0.203
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.565,
+      "ci": [
+       0.553,
+       0.577
+      ],
+      "n_pairs": 1412,
+      "m": 0.581,
+      "forced": 0.605,
+      "tie_frac": 0.771
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.520893300778706,
+     "ci": [
+      0.45800267029449804,
+      0.5801748718916523
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.6921533779666792,
+     "ci": [
+      0.6670582160545658,
+      0.7150673715182636
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.16281810110956568,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.5797950219619327,
+      "ci": [
+       0.5618921380120386,
+       0.597609734319138
+      ],
+      "n_pairs": 2049,
+      "m": 0.5565213203430176,
+      "forced": 0.623718887262079,
+      "tie_frac": 0.5797950219619327,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.16281810110956568,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.5797950219619327,
+        "ci": [
+         0.5618921380120386,
+         0.597609734319138
+        ],
+        "n_pairs": 2049,
+        "m": 0.5565213203430176,
+        "forced": 0.623718887262079,
+        "tie_frac": 0.5797950219619327,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.13190315904653768,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5661725780836422,
+        "ci": [
+         0.5466888232343088,
+         0.5866785276052533
+        ],
+        "n_pairs": 1889,
+        "m": 0.5565213203430176,
+        "forced": 0.5913181577554262,
+        "tie_frac": 0.5786130227633669,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "aes_PC",
+   "label": "AES PC",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": -0.465,
+     "ci": [
+      -0.712,
+      -0.192
+     ],
+     "n": 26,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": -0.086,
+     "ci": [
+      -0.178,
+      0.002
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.289,
+     "ci": [
+      0.221,
+      0.354
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": -0.25,
+     "ci": [
+      -0.281,
+      -0.215
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.008,
+     "ci": [
+      -0.05,
+      0.068
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.491,
+      "ci": [
+       0.481,
+       0.501
+      ],
+      "n_pairs": 7800,
+      "m": 0.538,
+      "forced": 0.491,
+      "tie_frac": 0.402
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.107,
+     "ci": [
+      0.071,
+      0.143
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.556,
+      "ci": [
+       0.539,
+       0.572
+      ],
+      "n_pairs": 1412,
+      "m": 0.573,
+      "forced": 0.575,
+      "tie_frac": 0.573
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.1783747645356472,
+     "ci": [
+      0.08316446184183332,
+      0.2694569076685655
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.02554806427287007,
+     "ci": [
+      -0.02159762251537234,
+      0.07357210758714534
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": -0.010089328168952028,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.4990239141044412,
+      "ci": [
+       0.4746448207582398,
+       0.5247188537769973
+      ],
+      "n_pairs": 2049,
+      "m": 0.5229162693023682,
+      "forced": 0.48316251830161056,
+      "tie_frac": 0.345046364080039,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": -0.010089328168952028,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.4990239141044412,
+        "ci": [
+         0.4746448207582398,
+         0.5247188537769973
+        ],
+        "n_pairs": 2049,
+        "m": 0.5229162693023682,
+        "forced": 0.48316251830161056,
+        "tie_frac": 0.345046364080039,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": -0.07105115734120332,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.45341450502911596,
+        "ci": [
+         0.43077866159163414,
+         0.47602505954485297
+        ],
+        "n_pairs": 1889,
+        "m": 0.5229162693023682,
+        "forced": 0.4319745897300159,
+        "tie_frac": 0.3446267866596083,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "pam",
+   "label": "PAM（零樣本 CLAP）",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.603,
+     "ci": [
+      0.46,
+      0.73
+     ],
+     "n": 30,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.61,
+     "ci": [
+      0.549,
+      0.663
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.609,
+     "ci": [
+      0.563,
+      0.654
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.257,
+     "ci": [
+      0.223,
+      0.29
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.473,
+     "ci": [
+      0.433,
+      0.515
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.621,
+      "ci": [
+       0.612,
+       0.63
+      ],
+      "n_pairs": 7800,
+      "m": 0.097,
+      "forced": 0.657,
+      "tie_frac": 0.496
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": -0.06,
+     "ci": [
+      -0.098,
+      -0.025
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.476,
+      "ci": [
+       0.456,
+       0.496
+      ],
+      "n_pairs": 1412,
+      "m": 0.095,
+      "forced": 0.472,
+      "tie_frac": 0.441
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.6254278080233664,
+     "ci": [
+      0.5574601309862773,
+      0.6867117052799371
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "d"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.6733485884660694,
+     "ci": [
+      0.6493700807208422,
+      0.6938933062307515
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.20595684400829092,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.6185944363103953,
+      "ci": [
+       0.5995074107335253,
+       0.6384039044443873
+      ],
+      "n_pairs": 2049,
+      "m": 0.09879471054300666,
+      "forced": 0.6373840897999024,
+      "tie_frac": 0.4797462176671547,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.20595684400829092,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.6185944363103953,
+        "ci": [
+         0.5995074107335253,
+         0.6384039044443873
+        ],
+        "n_pairs": 2049,
+        "m": 0.09879471054300666,
+        "forced": 0.6373840897999024,
+        "tie_frac": 0.4797462176671547,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.2105148750976526,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.6103758602435151,
+        "ci": [
+         0.5895428828884122,
+         0.6313965884861408
+        ],
+        "n_pairs": 1889,
+        "m": 0.09879471054300666,
+        "forced": 0.6405505558496559,
+        "tie_frac": 0.47856008470089995,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "meva",
+   "label": "MEva",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": -0.053,
+     "ci": [
+      -0.28,
+      0.167
+     ],
+     "n": 30,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.355,
+     "ci": [
+      0.276,
+      0.433
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.533,
+     "ci": [
+      0.478,
+      0.585
+     ],
+     "n": 795,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "t"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.138,
+     "ci": [
+      0.103,
+      0.173
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.829,
+     "ci": [
+      0.806,
+      0.852
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.714,
+      "ci": [
+       0.706,
+       0.724
+      ],
+      "n_pairs": 7800,
+      "m": 0.512,
+      "forced": 0.733,
+      "tie_frac": 0.289
+     },
+     "flag": "t"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.252,
+     "ci": [
+      0.216,
+      0.287
+     ],
+     "n": 2809,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.636,
+      "ci": [
+       0.618,
+       0.654
+      ],
+      "n_pairs": 1397,
+      "m": 0.447,
+      "forced": 0.665,
+      "tie_frac": 0.438
+     },
+     "flag": "t"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.014727098057791904,
+     "ci": [
+      -0.08381426055693666,
+      0.11115314730835038
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.8647820601548685,
+     "ci": [
+      0.8512716542762891,
+      0.8766561860729819
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "t"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.23243390669923927,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.6076134699853587,
+      "ci": [
+       0.5871054386449703,
+       0.6291598869808043
+      ],
+      "n_pairs": 2049,
+      "m": 0.5180824875831604,
+      "forced": 0.6305514885309907,
+      "tie_frac": 0.2996583699365544,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.23243390669923927,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.6076134699853587,
+        "ci": [
+         0.5871054386449703,
+         0.6291598869808043
+        ],
+        "n_pairs": 2049,
+        "m": 0.5180824875831604,
+        "forced": 0.6305514885309907,
+        "tie_frac": 0.2996583699365544,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.1593176520374598,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.58284806776072,
+        "ci": [
+         0.5625314626475617,
+         0.6038448970891949
+        ],
+        "n_pairs": 1889,
+        "m": 0.5180824875831604,
+        "forced": 0.5913181577554262,
+        "tie_frac": 0.2879830598200106,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "t"
+    }
+   }
+  },
+  {
+   "metric": "muqeval_A1_MI",
+   "label": "MuQ-Eval A1（MI）",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.183,
+     "ci": [
+      -0.05,
+      0.407
+     ],
+     "n": 30,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.466,
+     "ci": [
+      0.39,
+      0.529
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.753,
+     "ci": [
+      0.724,
+      0.777
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.358,
+     "ci": [
+      0.326,
+      0.388
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.54,
+     "ci": [
+      0.5,
+      0.58
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.641,
+      "ci": [
+       0.632,
+       0.65
+      ],
+      "n_pairs": 7800,
+      "m": 0.53,
+      "forced": 0.665,
+      "tie_frac": 0.376
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.221,
+     "ci": [
+      0.186,
+      0.258
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.605,
+      "ci": [
+       0.587,
+       0.623
+      ],
+      "n_pairs": 1412,
+      "m": 0.59,
+      "forced": 0.626,
+      "tie_frac": 0.497
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.508160181622035,
+     "ci": [
+      0.4314449796782755,
+      0.5777353547897158
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.8930906758823687,
+     "ci": [
+      0.8832293780250333,
+      0.9020368750333142
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "t"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.148452289335175,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.5829673011224987,
+      "ci": [
+       0.5627989932025137,
+       0.6027916225848972
+      ],
+      "n_pairs": 2049,
+      "m": 0.4271041810512543,
+      "forced": 0.5890678379697414,
+      "tie_frac": 0.3928745729624207,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.148452289335175,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.5829673011224987,
+        "ci": [
+         0.5627989932025137,
+         0.6027916225848972
+        ],
+        "n_pairs": 2049,
+        "m": 0.4271041810512543,
+        "forced": 0.5890678379697414,
+        "tie_frac": 0.3928745729624207,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.0902578282793282,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5524086818422446,
+        "ci": [
+         0.5331546437647233,
+         0.573638559424862
+        ],
+        "n_pairs": 1889,
+        "m": 0.4271041810512543,
+        "forced": 0.55214399152991,
+        "tie_frac": 0.3890947591318158,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "muqeval_A3a_MI",
+   "label": "MuQ-Eval A3a（MI）",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.257,
+     "ci": [
+      0.053,
+      0.457
+     ],
+     "n": 30,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.451,
+     "ci": [
+      0.375,
+      0.515
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.794,
+     "ci": [
+      0.768,
+      0.815
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.411,
+     "ci": [
+      0.381,
+      0.441
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.637,
+     "ci": [
+      0.604,
+      0.671
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.664,
+      "ci": [
+       0.655,
+       0.673
+      ],
+      "n_pairs": 7800,
+      "m": 0.294,
+      "forced": 0.685,
+      "tie_frac": 0.34
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.22,
+     "ci": [
+      0.183,
+      0.256
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.598,
+      "ci": [
+       0.583,
+       0.614
+      ],
+      "n_pairs": 1412,
+      "m": 0.346,
+      "forced": 0.667,
+      "tie_frac": 0.593
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.5798294628714543,
+     "ci": [
+      0.5100840840149627,
+      0.6464377130507782
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.8470740822902847,
+     "ci": [
+      0.8336864628360444,
+      0.8595479778758613
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "t"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.1963720639790165,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.6002928257686676,
+      "ci": [
+       0.5787917367639067,
+       0.6205561262863477
+      ],
+      "n_pairs": 2049,
+      "m": 0.2826619863510132,
+      "forced": 0.6076134699853587,
+      "tie_frac": 0.43826256710590533,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.1963720639790165,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.6002928257686676,
+        "ci": [
+         0.5787917367639067,
+         0.6205561262863477
+        ],
+        "n_pairs": 2049,
+        "m": 0.2826619863510132,
+        "forced": 0.6076134699853587,
+        "tie_frac": 0.43826256710590533,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.14849718750598012,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5767601905770249,
+        "ci": [
+         0.5573281981311733,
+         0.5960570141390132
+        ],
+        "n_pairs": 1889,
+        "m": 0.2826619863510132,
+        "forced": 0.5780836421386977,
+        "tie_frac": 0.43462149285336155,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "cmi_empty_quality",
+   "label": "CMI-RM（empty quality）",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.103,
+     "ci": [
+      -0.16,
+      0.373
+     ],
+     "n": 30,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.372,
+     "ci": [
+      0.298,
+      0.442
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.692,
+     "ci": [
+      0.657,
+      0.726
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.278,
+     "ci": [
+      0.246,
+      0.311
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.586,
+     "ci": [
+      0.549,
+      0.622
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.667,
+      "ci": [
+       0.658,
+       0.677
+      ],
+      "n_pairs": 7800,
+      "m": 0.68,
+      "forced": 0.684,
+      "tie_frac": 0.302
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.216,
+     "ci": [
+      0.18,
+      0.253
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.633,
+      "ci": [
+       0.615,
+       0.653
+      ],
+      "n_pairs": 1412,
+      "m": 0.692,
+      "forced": 0.654,
+      "tie_frac": 0.385
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.8121195850432765,
+     "ci": [
+      0.7797672027691316,
+      0.8395350913630136
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.845560630188085,
+     "ci": [
+      0.833447908913122,
+      0.8559372245238652
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "research/eval/newmodels_20261020/analysis_cells.json",
+     "cell": "target human_OVL",
+     "flag": "t"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.1511029247110665,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.5976085895558809,
+      "ci": [
+       0.5754738827232097,
+       0.6211734389458753
+      ],
+      "n_pairs": 2049,
+      "m": 0.6856915473937989,
+      "forced": 0.593460224499756,
+      "tie_frac": 0.3528550512445095,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.1511029247110665,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.5976085895558809,
+        "ci": [
+         0.5754738827232097,
+         0.6211734389458753
+        ],
+        "n_pairs": 2049,
+        "m": 0.6856915473937989,
+        "forced": 0.593460224499756,
+        "tie_frac": 0.3528550512445095,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.09714609367347085,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5629962943356274,
+        "ci": [
+         0.5424022469345854,
+         0.5851956168831168
+        ],
+        "n_pairs": 1889,
+        "m": 0.6856915473937989,
+        "forced": 0.5632609846479619,
+        "tie_frac": 0.3509793541556379,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "se_mus",
+   "label": "SongEval（se_mus）",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": -0.19,
+     "ci": [
+      -0.383,
+      0.013
+     ],
+     "n": 30,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.098,
+     "ci": [
+      0.014,
+      0.185
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.501,
+     "ci": [
+      0.45,
+      0.552
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "t"
+    },
+    "singmos": {
+     "state": "value",
+     "value": -0.047,
+     "ci": [
+      -0.082,
+      -0.011
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "i"
+    },
+    "aime": {
+     "state": "value",
+     "value": -0.048,
+     "ci": [
+      -0.101,
+      0.006
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.485,
+      "ci": [
+       0.475,
+       0.495
+      ],
+      "n_pairs": 7800,
+      "m": 0.089,
+      "forced": 0.483,
+      "tie_frac": 0.395
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": -0.007,
+     "ci": [
+      -0.046,
+      0.03
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.497,
+      "ci": [
+       0.479,
+       0.517
+      ],
+      "n_pairs": 1412,
+      "m": 0.097,
+      "forced": 0.508,
+      "tie_frac": 0.446
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.16135609332201334,
+     "ci": [
+      0.07021578417023812,
+      0.25791991694129796
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "analysis_extra/pam400_extra_cells.tsv",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": -0.0714001396479835,
+     "ci": [
+      -0.10946207493414578,
+      -0.0333537362416848
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "analysis_extra/me_extra_cells.tsv",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": -0.02299039422723669,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.486090775988287,
+      "ci": [
+       0.4661630756139675,
+       0.506895293425131
+      ],
+      "n_pairs": 2049,
+      "m": 0.0908139705657959,
+      "forced": 0.4899951195705222,
+      "tie_frac": 0.3923865300146413,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": -0.02299039422723669,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.486090775988287,
+        "ci": [
+         0.4661630756139675,
+         0.506895293425131
+        ],
+        "n_pairs": 2049,
+        "m": 0.0908139705657959,
+        "forced": 0.4899951195705222,
+        "tie_frac": 0.3923865300146413,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.012192438468238472,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5142932768660667,
+        "ci": [
+         0.4949433749044152,
+         0.5340792576749662
+        ],
+        "n_pairs": 1889,
+        "m": 0.0908139705657959,
+        "forced": 0.5119110640550556,
+        "tie_frac": 0.3965060878771837,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "singmos",
+   "label": "SingMOS predictor",
+   "cells": {
+    "odaq": {
+     "state": "value",
+     "value": 0.269,
+     "ci": [
+      0.008,
+      0.5
+     ],
+     "n": 26,
+     "stat": "G6a within-trial ρ",
+     "src": "analysis_extra/odaq_g6.tsv",
+     "cell": "native raw / 30 trials",
+     "flag": "i"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.338,
+     "ci": [
+      0.26,
+      0.409
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "value",
+     "value": 0.003,
+     "ci": [
+      -0.061,
+      0.069
+     ],
+     "n": 800,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/songeval_corr.tsv",
+     "cell": "VFULL raw / target Musicality",
+     "flag": "i"
+    },
+    "singmos": {
+     "state": "value",
+     "value": 0.573,
+     "ci": [
+      0.547,
+      0.599
+     ],
+     "n": 3101,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/singmos_corr.tsv",
+     "cell": "native raw / target mos",
+     "flag": "t"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.023,
+     "ci": [
+      -0.031,
+      0.081
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.5,
+      "ci": [
+       0.491,
+       0.509
+      ],
+      "n_pairs": 7800,
+      "m": 0.198,
+      "forced": 0.508,
+      "tie_frac": 0.528
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": -0.057,
+     "ci": [
+      -0.095,
+      -0.021
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.446,
+      "ci": [
+       0.431,
+       0.462
+      ],
+      "n_pairs": 1412,
+      "m": 0.367,
+      "forced": 0.451,
+      "tie_frac": 0.608
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": -0.23897016608267804,
+     "ci": [
+      -0.33623833456928265,
+      -0.14309663722318203
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "analysis_extra/pam400_extra_cells.tsv",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.1399997131730804,
+     "ci": [
+      0.10290014094904565,
+      0.17807853555360506
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "analysis_extra/me_extra_cells.tsv",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.0860103332334723,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.5339189848706686,
+      "ci": [
+       0.5196842844308891,
+       0.5480706876258543
+      ],
+      "n_pairs": 2049,
+      "m": 0.27949223518371585,
+      "forced": 0.5563689604685212,
+      "tie_frac": 0.7027818448023426,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.0860103332334723,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.5339189848706686,
+        "ci": [
+         0.5196842844308891,
+         0.5480706876258543
+        ],
+        "n_pairs": 2049,
+        "m": 0.27949223518371585,
+        "forced": 0.5563689604685212,
+        "tie_frac": 0.7027818448023426,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.11141530217122375,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5365272631021705,
+        "ci": [
+         0.5217579046353121,
+         0.5510527708159287
+        ],
+        "n_pairs": 1889,
+        "m": 0.27949223518371585,
+        "forced": 0.5622022233986236,
+        "tie_frac": 0.7024880889359449,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  },
+  {
+   "metric": "clap",
+   "label": "CLAP（只描述）",
+   "cells": {
+    "odaq": {
+     "state": "na",
+     "why": "此資料集沒有人類文字，CLAP 無法定義"
+    },
+    "mc522": {
+     "state": "value",
+     "value": 0.095,
+     "ci": [
+      0.007,
+      0.182
+     ],
+     "n": 522,
+     "stat": "G1 ρ",
+     "src": "analysis_extra/mc522_corr.tsv",
+     "cell": "V10 raw / target human_PQ",
+     "flag": "i"
+    },
+    "songeval": {
+     "state": "na",
+     "why": "此資料集沒有人類文字，CLAP 無法定義"
+    },
+    "singmos": {
+     "state": "na",
+     "why": "此資料集沒有人類文字，CLAP 無法定義"
+    },
+    "aime": {
+     "state": "value",
+     "value": 0.307,
+     "ci": [
+      0.256,
+      0.356
+     ],
+     "n": 1300,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/aime_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.586,
+      "ci": [
+       0.576,
+       0.595
+      ],
+      "n_pairs": 7800,
+      "m": 0.065,
+      "forced": 0.601,
+      "tie_frac": 0.382
+     },
+     "flag": "i"
+    },
+    "arena": {
+     "state": "value",
+     "value": 0.037,
+     "ci": [
+      0.001,
+      0.073
+     ],
+     "n": 2824,
+     "stat": "G1 ρ（逐檔勝率）",
+     "src": "analysis_extra/arena_pairwise.tsv",
+     "cell": "native raw",
+     "agree": {
+      "value": 0.521,
+      "ci": [
+       0.503,
+       0.539
+      ],
+      "n_pairs": 1412,
+      "m": 0.075,
+      "forced": 0.52,
+      "tie_frac": 0.488
+     },
+     "flag": "i"
+    },
+    "pam400": {
+     "state": "value",
+     "value": 0.4770189209141853,
+     "ci": [
+      0.4002619685337316,
+      0.5536043067691888
+     ],
+     "n": 400,
+     "stat": "ρ（round-1 協定）",
+     "src": "analysis_extra/pam400_extra_cells.tsv",
+     "cell": "target pam_OVL",
+     "flag": "i"
+    },
+    "me": {
+     "state": "value",
+     "value": 0.1968949007034024,
+     "ci": [
+      0.15491410563400065,
+      0.2412829556525801
+     ],
+     "n": 2748,
+     "stat": "ρ（round-1 協定）",
+     "src": "analysis_extra/me_extra_cells.tsv",
+     "cell": "target human_OVL",
+     "flag": "i"
+    },
+    "musicprefs": {
+     "state": "value",
+     "value": 0.10037533209979989,
+     "ci": null,
+     "n": 4098,
+     "stat": "ρ（逐檔勝率）",
+     "src": "analysis_extra/musicprefs_pairwise.tsv",
+     "cell": "musicality 軸 / 成對 2049",
+     "agree": {
+      "value": 0.5610053684724255,
+      "ci": [
+       0.5387452309251676,
+       0.5843059556008289
+      ],
+      "n_pairs": 2049,
+      "m": 0.06706621497869492,
+      "forced": 0.5724743777452416,
+      "tie_frac": 0.3665202537823328,
+      "within_sys": null
+     },
+     "axes": [
+      {
+       "state": "value",
+       "value": 0.10037533209979989,
+       "ci": null,
+       "n": 4098,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "musicality 軸 / 成對 2049",
+       "agree": {
+        "value": 0.5610053684724255,
+        "ci": [
+         0.5387452309251676,
+         0.5843059556008289
+        ],
+        "n_pairs": 2049,
+        "m": 0.06706621497869492,
+        "forced": 0.5724743777452416,
+        "tie_frac": 0.3665202537823328,
+        "within_sys": null
+       }
+      },
+      {
+       "state": "value",
+       "value": 0.08918995454813879,
+       "ci": null,
+       "n": 3778,
+       "stat": "ρ（逐檔勝率）",
+       "src": "analysis_extra/musicprefs_pairwise.tsv",
+       "cell": "fidelity 軸 / 成對 1889",
+       "agree": {
+        "value": 0.5510852302805718,
+        "ci": [
+         0.5295313012363262,
+         0.5736171707835307
+        ],
+        "n_pairs": 1889,
+        "m": 0.06706621497869492,
+        "forced": 0.5563790365272631,
+        "tie_frac": 0.35892006352567496,
+        "within_sys": null
+       }
+      }
+     ],
+     "flag": "i"
+    }
+   }
+  }
+ ],
+ "pairwise": {
+  "aime": [
+   {
+    "metric": "aes_PQ",
+    "label": "AES PQ",
+    "flag": "i",
+    "value": 0.605,
+    "ci": [
+     0.596,
+     0.614
+    ],
+    "n_pairs": 7800,
+    "m": 0.464,
+    "forced": 0.628,
+    "tie_frac": 0.428
+   },
+   {
+    "metric": "aes_CE",
+    "label": "AES CE",
+    "flag": "i",
+    "value": 0.612,
+    "ci": [
+     0.603,
+     0.622
+    ],
+    "n_pairs": 7800,
+    "m": 0.605,
+    "forced": 0.64,
+    "tie_frac": 0.461
+   },
+   {
+    "metric": "aes_CU",
+    "label": "AES CU",
+    "flag": "i",
+    "value": 0.612,
+    "ci": [
+     0.604,
+     0.621
+    ],
+    "n_pairs": 7800,
+    "m": 0.512,
+    "forced": 0.648,
+    "tie_frac": 0.515
+   },
+   {
+    "metric": "aes_PC",
+    "label": "AES PC",
+    "flag": "i",
+    "value": 0.491,
+    "ci": [
+     0.481,
+     0.501
+    ],
+    "n_pairs": 7800,
+    "m": 0.538,
+    "forced": 0.491,
+    "tie_frac": 0.402
+   },
+   {
+    "metric": "pam",
+    "label": "PAM（零樣本 CLAP）",
+    "flag": "i",
+    "value": 0.621,
+    "ci": [
+     0.612,
+     0.63
+    ],
+    "n_pairs": 7800,
+    "m": 0.097,
+    "forced": 0.657,
+    "tie_frac": 0.496
+   },
+   {
+    "metric": "meva",
+    "label": "MEva",
+    "flag": "t",
+    "value": 0.714,
+    "ci": [
+     0.706,
+     0.724
+    ],
+    "n_pairs": 7800,
+    "m": 0.512,
+    "forced": 0.733,
+    "tie_frac": 0.289
+   },
+   {
+    "metric": "muqeval_A1_MI",
+    "label": "MuQ-Eval A1（MI）",
+    "flag": "i",
+    "value": 0.641,
+    "ci": [
+     0.632,
+     0.65
+    ],
+    "n_pairs": 7800,
+    "m": 0.53,
+    "forced": 0.665,
+    "tie_frac": 0.376
+   },
+   {
+    "metric": "muqeval_A3a_MI",
+    "label": "MuQ-Eval A3a（MI）",
+    "flag": "i",
+    "value": 0.664,
+    "ci": [
+     0.655,
+     0.673
+    ],
+    "n_pairs": 7800,
+    "m": 0.294,
+    "forced": 0.685,
+    "tie_frac": 0.34
+   },
+   {
+    "metric": "cmi_empty_quality",
+    "label": "CMI-RM（empty quality）",
+    "flag": "i",
+    "value": 0.667,
+    "ci": [
+     0.658,
+     0.677
+    ],
+    "n_pairs": 7800,
+    "m": 0.68,
+    "forced": 0.684,
+    "tie_frac": 0.302
+   },
+   {
+    "metric": "se_mus",
+    "label": "SongEval（se_mus）",
+    "flag": "i",
+    "value": 0.485,
+    "ci": [
+     0.475,
+     0.495
+    ],
+    "n_pairs": 7800,
+    "m": 0.089,
+    "forced": 0.483,
+    "tie_frac": 0.395
+   },
+   {
+    "metric": "singmos",
+    "label": "SingMOS predictor",
+    "flag": "i",
+    "value": 0.5,
+    "ci": [
+     0.491,
+     0.509
+    ],
+    "n_pairs": 7800,
+    "m": 0.198,
+    "forced": 0.508,
+    "tie_frac": 0.528
+   },
+   {
+    "metric": "clap",
+    "label": "CLAP（只描述）",
+    "flag": "i",
+    "value": 0.586,
+    "ci": [
+     0.576,
+     0.595
+    ],
+    "n_pairs": 7800,
+    "m": 0.065,
+    "forced": 0.601,
+    "tie_frac": 0.382
+   }
+  ],
+  "arena": [
+   {
+    "metric": "aes_PQ",
+    "label": "AES PQ",
+    "flag": "i",
+    "value": 0.584,
+    "ci": [
+     0.57,
+     0.598
+    ],
+    "n_pairs": 1412,
+    "m": 0.505,
+    "forced": 0.598,
+    "tie_frac": 0.688
+   },
+   {
+    "metric": "aes_CE",
+    "label": "AES CE",
+    "flag": "i",
+    "value": 0.564,
+    "ci": [
+     0.549,
+     0.579
+    ],
+    "n_pairs": 1412,
+    "m": 0.63,
+    "forced": 0.585,
+    "tie_frac": 0.654
+   },
+   {
+    "metric": "aes_CU",
+    "label": "AES CU",
+    "flag": "i",
+    "value": 0.565,
+    "ci": [
+     0.553,
+     0.577
+    ],
+    "n_pairs": 1412,
+    "m": 0.581,
+    "forced": 0.605,
+    "tie_frac": 0.771
+   },
+   {
+    "metric": "aes_PC",
+    "label": "AES PC",
+    "flag": "i",
+    "value": 0.556,
+    "ci": [
+     0.539,
+     0.572
+    ],
+    "n_pairs": 1412,
+    "m": 0.573,
+    "forced": 0.575,
+    "tie_frac": 0.573
+   },
+   {
+    "metric": "pam",
+    "label": "PAM（零樣本 CLAP）",
+    "flag": "i",
+    "value": 0.476,
+    "ci": [
+     0.456,
+     0.496
+    ],
+    "n_pairs": 1412,
+    "m": 0.095,
+    "forced": 0.472,
+    "tie_frac": 0.441
+   },
+   {
+    "metric": "meva",
+    "label": "MEva",
+    "flag": "t",
+    "value": 0.636,
+    "ci": [
+     0.618,
+     0.654
+    ],
+    "n_pairs": 1397,
+    "m": 0.447,
+    "forced": 0.665,
+    "tie_frac": 0.438
+   },
+   {
+    "metric": "muqeval_A1_MI",
+    "label": "MuQ-Eval A1（MI）",
+    "flag": "i",
+    "value": 0.605,
+    "ci": [
+     0.587,
+     0.623
+    ],
+    "n_pairs": 1412,
+    "m": 0.59,
+    "forced": 0.626,
+    "tie_frac": 0.497
+   },
+   {
+    "metric": "muqeval_A3a_MI",
+    "label": "MuQ-Eval A3a（MI）",
+    "flag": "i",
+    "value": 0.598,
+    "ci": [
+     0.583,
+     0.614
+    ],
+    "n_pairs": 1412,
+    "m": 0.346,
+    "forced": 0.667,
+    "tie_frac": 0.593
+   },
+   {
+    "metric": "cmi_empty_quality",
+    "label": "CMI-RM（empty quality）",
+    "flag": "i",
+    "value": 0.633,
+    "ci": [
+     0.615,
+     0.653
+    ],
+    "n_pairs": 1412,
+    "m": 0.692,
+    "forced": 0.654,
+    "tie_frac": 0.385
+   },
+   {
+    "metric": "se_mus",
+    "label": "SongEval（se_mus）",
+    "flag": "i",
+    "value": 0.497,
+    "ci": [
+     0.479,
+     0.517
+    ],
+    "n_pairs": 1412,
+    "m": 0.097,
+    "forced": 0.508,
+    "tie_frac": 0.446
+   },
+   {
+    "metric": "singmos",
+    "label": "SingMOS predictor",
+    "flag": "i",
+    "value": 0.446,
+    "ci": [
+     0.431,
+     0.462
+    ],
+    "n_pairs": 1412,
+    "m": 0.367,
+    "forced": 0.451,
+    "tie_frac": 0.608
+   },
+   {
+    "metric": "clap",
+    "label": "CLAP（只描述）",
+    "flag": "i",
+    "value": 0.521,
+    "ci": [
+     0.503,
+     0.539
+    ],
+    "n_pairs": 1412,
+    "m": 0.075,
+    "forced": 0.52,
+    "tie_frac": 0.488
+   }
+  ],
+  "musicprefs": [
+   {
+    "metric": "aes_PQ",
+    "label": "AES PQ",
+    "flag": "i",
+    "value": 0.579551000488043,
+    "ci": [
+     0.559120771319633,
+     0.600001217137293
+    ],
+    "n_pairs": 2049,
+    "m": 0.4659226179122925,
+    "forced": 0.5963884821864324,
+    "tie_frac": 0.45143972669594923,
+    "within_sys": null
+   },
+   {
+    "metric": "aes_CE",
+    "label": "AES CE",
+    "flag": "i",
+    "value": 0.584431429965837,
+    "ci": [
+     0.563934713934714,
+     0.6045072568360036
+    ],
+    "n_pairs": 2049,
+    "m": 0.6813685417175294,
+    "forced": 0.6037091264031235,
+    "tie_frac": 0.5031722791605662,
+    "within_sys": null
+   },
+   {
+    "metric": "aes_CU",
+    "label": "AES CU",
+    "flag": "i",
+    "value": 0.5797950219619327,
+    "ci": [
+     0.5618921380120386,
+     0.597609734319138
+    ],
+    "n_pairs": 2049,
+    "m": 0.5565213203430176,
+    "forced": 0.623718887262079,
+    "tie_frac": 0.5797950219619327,
+    "within_sys": null
+   },
+   {
+    "metric": "aes_PC",
+    "label": "AES PC",
+    "flag": "i",
+    "value": 0.4990239141044412,
+    "ci": [
+     0.4746448207582398,
+     0.5247188537769973
+    ],
+    "n_pairs": 2049,
+    "m": 0.5229162693023682,
+    "forced": 0.48316251830161056,
+    "tie_frac": 0.345046364080039,
+    "within_sys": null
+   },
+   {
+    "metric": "pam",
+    "label": "PAM（零樣本 CLAP）",
+    "flag": "i",
+    "value": 0.6185944363103953,
+    "ci": [
+     0.5995074107335253,
+     0.6384039044443873
+    ],
+    "n_pairs": 2049,
+    "m": 0.09879471054300666,
+    "forced": 0.6373840897999024,
+    "tie_frac": 0.4797462176671547,
+    "within_sys": null
+   },
+   {
+    "metric": "meva",
+    "label": "MEva",
+    "flag": "t",
+    "value": 0.6076134699853587,
+    "ci": [
+     0.5871054386449703,
+     0.6291598869808043
+    ],
+    "n_pairs": 2049,
+    "m": 0.5180824875831604,
+    "forced": 0.6305514885309907,
+    "tie_frac": 0.2996583699365544,
+    "within_sys": null
+   },
+   {
+    "metric": "muqeval_A1_MI",
+    "label": "MuQ-Eval A1（MI）",
+    "flag": "i",
+    "value": 0.5829673011224987,
+    "ci": [
+     0.5627989932025137,
+     0.6027916225848972
+    ],
+    "n_pairs": 2049,
+    "m": 0.4271041810512543,
+    "forced": 0.5890678379697414,
+    "tie_frac": 0.3928745729624207,
+    "within_sys": null
+   },
+   {
+    "metric": "muqeval_A3a_MI",
+    "label": "MuQ-Eval A3a（MI）",
+    "flag": "i",
+    "value": 0.6002928257686676,
+    "ci": [
+     0.5787917367639067,
+     0.6205561262863477
+    ],
+    "n_pairs": 2049,
+    "m": 0.2826619863510132,
+    "forced": 0.6076134699853587,
+    "tie_frac": 0.43826256710590533,
+    "within_sys": null
+   },
+   {
+    "metric": "cmi_empty_quality",
+    "label": "CMI-RM（empty quality）",
+    "flag": "i",
+    "value": 0.5976085895558809,
+    "ci": [
+     0.5754738827232097,
+     0.6211734389458753
+    ],
+    "n_pairs": 2049,
+    "m": 0.6856915473937989,
+    "forced": 0.593460224499756,
+    "tie_frac": 0.3528550512445095,
+    "within_sys": null
+   },
+   {
+    "metric": "se_mus",
+    "label": "SongEval（se_mus）",
+    "flag": "i",
+    "value": 0.486090775988287,
+    "ci": [
+     0.4661630756139675,
+     0.506895293425131
+    ],
+    "n_pairs": 2049,
+    "m": 0.0908139705657959,
+    "forced": 0.4899951195705222,
+    "tie_frac": 0.3923865300146413,
+    "within_sys": null
+   },
+   {
+    "metric": "singmos",
+    "label": "SingMOS predictor",
+    "flag": "i",
+    "value": 0.5339189848706686,
+    "ci": [
+     0.5196842844308891,
+     0.5480706876258543
+    ],
+    "n_pairs": 2049,
+    "m": 0.27949223518371585,
+    "forced": 0.5563689604685212,
+    "tie_frac": 0.7027818448023426,
+    "within_sys": null
+   },
+   {
+    "metric": "clap",
+    "label": "CLAP（只描述）",
+    "flag": "i",
+    "value": 0.5610053684724255,
+    "ci": [
+     0.5387452309251676,
+     0.5843059556008289
+    ],
+    "n_pairs": 2049,
+    "m": 0.06706621497869492,
+    "forced": 0.5724743777452416,
+    "tie_frac": 0.3665202537823328,
+    "within_sys": null
+   }
+  ]
+ }
+}

@@ -1,0 +1,104 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "seed-robustness-136-20261021",
+ "job": "136",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "MusicGen-medium table-B comparator at inference seeds 101/202/303/404 (base_seed copy of the 113 generator, batch 16, PCM_16 FLAC as in 113). Starts with the seed-42 reproduction gate.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/seed_robustness_table_b_135_20261021.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-21",
+  "text": "Table B inference-seed robustness (135-138) and segment length (139) as in the pre-registered design document; thresholds, seed lists and verdict rules are not changed."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Generation 4 shares x 5,521 clips + lvl30 scoring. Output /mnt/seagate/meanaudio/seed_robustness_135 (~20 GB).",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/136_seed_robustness_musicgen.sh",
+  "launcher_sha256": "6f8d485cfd342b9e9454c0fae1844bcd973a0bc0a201816968e552efcfd6fc25",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+  "action_sha256": "932390d1dc866c2e8748fec298d27f5c8a2d5b683e2f268bf1633e8438a209ee",
+  "ttm_metrics_115": "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+  "ttm_metrics_115_sha256": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "generator": "/home/kojiek/MeanAudio/scripts/eval/ttm_external_generate_seeded.py",
+  "generator_sha256": "832497e060fc8471a3c35664fcab5e8cd827b7558fc3d41780ebdb639edf8a94",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "fixed_protocol": {
+  "job": "136",
+  "system": "musicgen_medium",
+  "inference_seeds": [
+   101,
+   202,
+   303,
+   404
+  ],
+  "thresholds_source": "docs/experiments/seed_robustness_table_b_135_20261021.md",
+  "min_free_bytes": 64424509440,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+ },
+ "storage": {
+  "path": "/mnt/seagate/meanaudio/seed_robustness_135",
+  "min_free_bytes": 64424509440
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "a share with a complete manifest and finished scoring is skipped; an incomplete share is regenerated whole (ours: single RNG stream)",
+  "pause_progress": "/mnt/seagate/meanaudio/seed_robustness_135/pause_progress.json",
+  "autoresume": "/mnt/seagate/meanaudio/seed_robustness_135/pause_progress.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "seed-42 runs 113/114/115/116/117/118 audio and lvl30 blocks"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/seed_robustness_136_summary.json"
+  }
+ ],
+ "queue_name": "136_seed_robustness_musicgen.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-21",
+   "note": "Written by dispatch task 20261021-024128-4f99f6; not queued."
+  }
+ ]
+}

@@ -1,0 +1,29 @@
+{
+  "source_contract": "docs/experiments/metric_invariance_128b_20261017_budget_r3_contract.json",
+  "source_contract_sha256": "a144d811d1c6e7d874866adcf9c31617183d7356555b5f165deca777b3ff2a46",
+  "source_manifest_sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1",
+  "action_sha256": "4316c50e1c9928ebf3b147c7ac7bdffe55b7345596a5a6946a3c8c6fb819b8d7",
+  "auditor_sha256": "32dec5da683b364ec761ed3da49e88b0399ffa9a7f5321f938ce489e995c8f85",
+  "files": {
+    "b_identity_done.json": "aec1a6a56babde85f79506966f422d78b333222f2c7ceee11bdb88755a689580",
+    "terminal_b.json": "e4442bddd6788f3fa5b5dd88fe4cd188ce26ede0df64cecfb9f8c188b5907c83",
+    "b_identity_provenance.json": "85bae2031ecca84212a861c39c36050770b6dcccba011c2f1ae470c5e14f45e4",
+    "score_unit_manifest.json": "bc3024da2b441c70e22464fdfa74c9e49a233eed67f56646f3f7b3e5bb1e725b",
+    "b_audio_replay.json": "9c7f1ba222edc466feee5a9e15b8f051f9bfb2958f70f75041779fecd4276ec6",
+    "b_identity_200.tsv": "16b2262495af4fd719170df4b6c596b17cf8a90d9fe3cc3ad6c7f7b04b0daa06",
+    "a_controller_ledger.json": "64bba327d274b2e8448b9c18fec4430bdc81697bd4f25ae6b20c5eff08ee46c9",
+    "host_log_terminal_excerpt.txt": "9eff540509d31ba684791b57c57b01ff451e7eda1c1736d1f2f10abd8a9772b0",
+    "a_summary.json": "2e8dacee5d46775473d7f5443590a39c034454744c6c030a0d6bb1deb69e4a23",
+    "terminal_snapshot.json": "b78401760b3fbfa36ced18d09d2888a0a69f9d41a55f97281c3a7c768fc3c510",
+    "calibration_rates.tsv": "b9d608b7f1c9800a45bc4677ce8777870c4b4b5f592498700fd9209314e225ff",
+    "terminal_c.json": "b75a0845b716d278caedaa11b31bb967748ee83a7e796a0f4e4c4a0a0200398f",
+    "c_controller_ledger.json": "96892cb5dfb2348088f68604d765a97b31b8e92d779e5ae3f8980e82c98d766f",
+    "midi_rates.tsv": "5f3b17530dbf0462aa8d4e43e3430121221d51926a0d7536e29d5d5435480f6a",
+    "c_monitor.json": "a744f0bacb8d14ea31aab456456f1ef98705a6054a2d255f3d80ec0e4f79ccc5",
+    "postflight_recheck.json": "22052f6137f31c7f8aa93178601fc353a948676c6e13f37829d6aa6f91167d6b",
+    "b_monitor.json": "c222747be3229f0a15e1060c9147c790f5701f62348fdfc01d4599457eb0facb",
+    "b_controller_ledger.json": "3e09003518e59de59e4f667c21d26e6bb39430ffbad902719005422a87bf4d5e",
+    "terminal_a.json": "4a81b32e5e1375cf5a04e38e80d9329f0e8647ff335a82904681aaa5b69746ea",
+    "a_monitor.json": "81bf207f73797f3767b4266a799e3c912128612353e981b411f990e72e0e5c35"
+  }
+}

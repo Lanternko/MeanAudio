@@ -1,0 +1,29 @@
+{
+  "document_kind": "preregistration_amendment_v1",
+  "experiment": "128_metric_invariance",
+  "amended_at_taipei": "2026-10-17",
+  "approved_by": "user (PR #2 conversation: 「go」 to the quiet-LUFS proposal plus two added conditions)",
+  "supersedes": "design §9 sentence: audio with undefined LUFS makes the gate invalid (for nonzero finite audio only)",
+  "trigger": "identity_r1: C1 hit MusicGen RDCXvJPzT5k_520 (peak 0.0033, RMS 1.07e-4), integrated LUFS -inf. Evidence: harn/metric_invariance_128_identity_r1/incident/lufs_audit.json",
+  "scope": "C1/C3 normalization only. Identity gate, input manifest, m, 80% pass rate, ladders, C* rule and K1-K4 decision rules unchanged.",
+  "rule": {
+    "finite_lufs": "unchanged: scale to -30 LUFS, no limiting",
+    "nonzero_finite_audio_with_lufs_minus_inf": "measure pyloudnorm on x / max|x|, scale that to -30 LUFS, no limiting; flag the clip (lufs_fallback) in every score unit",
+    "zero_empty_nonfinite_or_still_undefined": "invalid; run fails, no exclusion or raw substitution"
+  },
+  "condition_1_sensitivity": {
+    "registered_before_any_128_result": true,
+    "128a": "Rebuild every cell with the ids that used the fallback in any C1/C3 unit removed, in all four modes (same cohort), and re-run C* selection and the Q3 blastnote prediction. Any changed C* or Q3 -> lufs_fallback_sensitivity.robust_to_lufs_fallback = false.",
+    "128b_128c": "Re-judge each K claim without pairs where either side used the fallback in C1 or C3. verdict != verdict_excl -> robust_to_lufs_fallback = false for that claim.",
+    "reporting": "A decision that is not robust is reported as not robust and is not used as a 128 conclusion. Counts and ids always reported.",
+    "cost": "analysis only, no extra GPU"
+  },
+  "condition_2_cpu_scan": {
+    "command": "python scripts/eval/metric_invariance_128.py --scan-lufs <out.json>  (under each of the 128a/128b/128c contracts)",
+    "covers": "128a: calibration records up to the largest N_a candidate x all 35 variants, and all MIDI cases; 128b/128c: every clean cell record",
+    "gate": "any clip that stays invalid under the amended rule fails the scan; GPU work starts only after all three scans pass",
+    "report": "n_checked, n_fallback and ids per system/cell, written before launch"
+  },
+  "bias_risk": "Defined after observing the failure, before any 128 scientific result. It amplifies near-silent output (about +50 dB for the observed clip) so those clips are scored as boosted noise; condition 1 bounds the effect on conclusions.",
+  "relaunch": "New source hashes, re-registered contracts and a new run id on the host; identity_r1 and its records stay unchanged."
+}

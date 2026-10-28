@@ -1,0 +1,137 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "metric-coverage-20261027-161",
+ "job": "161",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "CPU prep: regenerate the sample manifest (must match the committed bytes), sample-vs-full agreement, the 126a render cache, and SongEval/MERT/MuQ rec+floor backfill.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_coverage_completion_20261027.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-27",
+  "text": "Run the preregistered metric coverage job; judging rules (m = 0.10*S, 80% tie/lose), sample sizes (512, PAM 256) and the OOD exclusion are frozen by the plan."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "CPU-only job 161 of the metric coverage line; no training, no checkpoint writes. Output /home/kojiek/eval_output_nvme/metric_coverage_20261027.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/161_coverage_prep.sh",
+  "launcher_sha256": "e6ed57b8f5674de6611b42a53a10ab10a8ab8818a3d2b886c2699b533887dc3f",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/metric_coverage_20261027_guest.py",
+  "harn_sha256": "70d1158c4f249ca2d814559343bfc020eb19f19cfdbe62a53b96f780cdef6a66",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/metric_coverage_20261027/score_coverage.py",
+  "action_sha256": "93d36c59b7ff7da3f9a09e5a05f499464b45b06f8f2dcb43ec14d2612945f1d3",
+  "prereg": "/home/kojiek/MeanAudio/docs/experiments/metric_coverage_completion_20261027.md",
+  "prereg_sha256": "8d74b0d8216aa354a4060e9717ab9c4036146e0382257a25708bf7489476a52d",
+  "sample_manifest": "/home/kojiek/MeanAudio/docs/experiments/metric_coverage_sample_manifest_20261027.json",
+  "sample_manifest_sha256": "ade998044d8e64ce4f2f773a4cc1cee048ea97ac7ccfb32642c228d7d04a2226"
+ },
+ "code_bindings": {
+  "scripts/eval/metric_coverage_20261027/common.py": "19b6d3419cb0be81d1481edc84d89edbcb31eb3b7d027af7148cf67293bfae3d",
+  "scripts/eval/metric_coverage_20261027/adapters.py": "d5e9c4206c4037bc0d37a5d47162eacd0bd6d058cd3fa97d7aa3343b9fd8e029",
+  "scripts/eval/metric_coverage_20261027/score_coverage.py": "93d36c59b7ff7da3f9a09e5a05f499464b45b06f8f2dcb43ec14d2612945f1d3",
+  "scripts/eval/metric_coverage_20261027/prep161.py": "2f8d2bfdfd4b46d2cba4c8d3d7a112bc8790c86dab2c5a9b82f9874a25e74023",
+  "scripts/eval/metric_coverage_20261027/prep162.py": "cc50e262b0bb6d5c047e535231b683746cc4c2bf6403b279341f542e79e07e70",
+  "scripts/eval/metric_coverage_20261027/mir_prep.py": "b51ab91b7038bc1c8bc802ace92c35b266bebbcae0fc5f4cca4a1d914c6ce27b",
+  "scripts/eval/metric_coverage_20261027/judge_coverage.py": "860a4599de658afc780718ebe6a08d9835bba186aa074c247028342959f665e6",
+  "scripts/eval/metric_coverage_20261027/make_artifacts.py": "e9478a9daa9d02cbe5b3269565f9171b409508fa6d394da9d8d66501374122d2",
+  "scripts/experiment_harness/metric_coverage_20261027_guest.py": "70d1158c4f249ca2d814559343bfc020eb19f19cfdbe62a53b96f780cdef6a66",
+  "scripts/eval/metric_win_tie_126d.py": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706",
+  "scripts/eval/metric_win_tie_133.py": "63508ed30cab14c291b2fed79118671ba4a28d2a837a91e63962046a2a31c8a5",
+  "scripts/eval/mir_metrics.py": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6",
+  "scripts/eval/newmetrics_common.py": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd",
+  "scripts/eval/newmetrics_muqeval.py": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66",
+  "scripts/eval/newmetrics_cmirm.py": "ab7528dd831ee111d634a980b4ca89b272f4e69c9e6875daf71beb46062d99f8",
+  "scripts/eval/newmetrics_pam.py": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4",
+  "docs/experiments/metric_coverage_completion_20261027.md": "8d74b0d8216aa354a4060e9717ab9c4036146e0382257a25708bf7489476a52d",
+  "docs/experiments/metric_coverage_sample_manifest_20261027.json": "ade998044d8e64ce4f2f773a4cc1cee048ea97ac7ccfb32642c228d7d04a2226",
+  "docs/experiments/metric_coverage_model_pins_20261027.json": "bca312ffc21d319d84c4187279a5ea5f1b5defacf21ad6afa55816203511f30b"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_coverage_20261027/score_coverage.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_coverage_20261027/score_coverage.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_coverage_20261027/score_coverage.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the first existing evidence file after --validate-only passes; evidence is /home/kojiek/eval_output_nvme/metric_coverage_20261027/prep_161.json"
+ },
+ "fixed_protocol": {
+  "mode": "prep",
+  "scratch": "/home/kojiek/eval_output_nvme/metric_coverage_20261027",
+  "models": [],
+  "protocols": [],
+  "sample_n": null,
+  "systems": null,
+  "progress_roots": [
+   "/home/kojiek/eval_output_nvme/metric_coverage_20261027/audio_cache",
+   "/home/kojiek/eval_output_nvme/metric_coverage_20261027/backfill"
+  ],
+  "progress_files": [
+   "/home/kojiek/eval_output_nvme/metric_coverage_20261027/cache_heartbeat.json"
+  ],
+  "evidence": [
+   "/home/kojiek/eval_output_nvme/metric_coverage_20261027/prep_161.json"
+  ],
+  "min_free_bytes": 107374182400
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/metric_coverage_20261027",
+  "min_free_bytes": 107374182400
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "every job skips keys that already carry a finite score row; 126a shards are append-only and compacted only after a completed run; a missing REPORT/run json forces a rerun",
+  "pause_progress": "/home/kojiek/eval_output_nvme/metric_coverage_20261027/pause_progress_161.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/metric_coverage_20261027/pause_progress_161.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "5 TTM systems lvl30 audio under /home/kojiek/eval_output_nvme/ttm_metrics_115_20261009",
+  "126b/126c/134 items.json",
+  "MusicCaps TSV",
+  "126a per-unit scores.tsv"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/metric_coverage_20261027/prep_161.json"
+  }
+ ],
+ "queue_name": "161_coverage_prep.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 1800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-27",
+   "note": "generated by make_contracts.py from docs/experiments/metric_coverage_completion_20261027.md"
+  },
+  {
+   "rev": "r2",
+   "date": "2026-10-27",
+   "note": "queue held \"action missing\": commands.run[-1] was the job number, not the bound action file. run/preflight/postflight now end with score_coverage.py, which reads the job from GPU_QUEUE_CONTRACT; action sha updated. Other bindings unchanged."
+  }
+ ]
+}

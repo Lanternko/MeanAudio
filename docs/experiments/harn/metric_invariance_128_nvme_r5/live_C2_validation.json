@@ -1,0 +1,12 @@
+{
+  "AES_CLAP_all_finite": true,
+  "MEva": "not scored under C2",
+  "export_sha256": "da8c7d251dd2b0a998354d221081d3fb3c18a5ccb0ec975e89b90a87f5939fd6",
+  "ids_match_frozen_manifest": true,
+  "members": 4,
+  "n": 1000,
+  "seconds": 77.07351270294748,
+  "source": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/table/meanaudio_s14159265_cfg0/chunk00000/C2/scores.npz",
+  "source_sha256": "92c339df540ca6d666712897782149e6ef24132b696c3e72f0671828f8f31b9a",
+  "status": "passed"
+}

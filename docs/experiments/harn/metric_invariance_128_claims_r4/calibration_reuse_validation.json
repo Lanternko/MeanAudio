@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "actual_completed_A": "passed",
+    "carried_time": {
+      "reason": "invalid carried calibration time",
+      "status": "rejected_as_required"
+    },
+    "evidence_hash": {
+      "reason": "reused calibration evidence changed: /mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/summary.json",
+      "status": "rejected_as_required"
+    },
+    "scoring_AST": {
+      "reason": "calibration/scoring functions changed since completed calibration",
+      "status": "rejected_as_required"
+    },
+    "wrong_manifest": {
+      "reason": "invalid completed calibration source",
+      "status": "rejected_as_required"
+    }
+  },
+  "source_report_sha256": "2e8dacee5d46775473d7f5443590a39c034454744c6c030a0d6bb1deb69e4a23",
+  "status": "passed"
+}
