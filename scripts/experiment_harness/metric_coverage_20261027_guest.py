@@ -80,11 +80,17 @@ def progress(c):
 
 
 def evidence(c):
+    # eval_only + reports is what gpu_queue's harn_completed_evidence_ok checks in
+    # accept mode; without it a successful run is classified held (161, 2026-10-28)
+    reports = [{'path': str(r['path']),
+                'sha256': (hashlib.sha256(Path(r['path']).read_bytes()).hexdigest()
+                           if Path(r['path']).is_file() else None)}
+               for r in c.get('reports') or [] if isinstance(r, dict) and r.get('path')]
     for p in (c.get('fixed_protocol') or {}).get('evidence') or []:
         p = Path(p)
         if p.is_file():
             return {'path': str(p), 'sha256': hashlib.sha256(p.read_bytes()).hexdigest(),
-                    'present': True}
+                    'present': True, 'eval_only': True, 'reports': reports}
     return {'path': None, 'sha256': None, 'present': False}
 
 
