@@ -401,7 +401,7 @@ def run(dry_run=False):
             'agreement_sha256': C.sha256_file(AGREEMENT),
             'cache': {k: v for k, v in cache.items() if k != 'per_unit'},
             'cache_manifest_sha256': (C.sha256_file(CACHE_MANIFEST)
-                                      if C.CACHE_MANIFEST.is_file() else None),
+                                      if CACHE_MANIFEST.is_file() else None),
             'backfill': {m: str(BACKFILL / f'rec_floor_{m}.json') for m in backfill},
             'expected': EXPECTED, 'elapsed_s': round(time.time() - t0, 1)}
     C.write_json_atomic(PREP, prep)
