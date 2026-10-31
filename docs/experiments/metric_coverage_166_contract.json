@@ -45,7 +45,7 @@
   "scripts/eval/mir_metrics.py": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6",
   "scripts/eval/newmetrics_common.py": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd",
   "scripts/eval/newmetrics_muqeval.py": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66",
-  "scripts/eval/newmetrics_cmirm.py": "ab7528dd831ee111d634a980b4ca89b272f4e69c9e6875daf71beb46062d99f8",
+  "scripts/eval/newmetrics_cmirm.py": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa",
   "scripts/eval/newmetrics_pam.py": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4",
   "docs/experiments/metric_coverage_completion_20261027.md": "8d74b0d8216aa354a4060e9717ab9c4036146e0382257a25708bf7489476a52d",
   "docs/experiments/metric_coverage_sample_manifest_20261027.json": "ade998044d8e64ce4f2f773a4cc1cee048ea97ac7ccfb32642c228d7d04a2226",

@@ -27,6 +27,15 @@ def _load(device, bf16):
         if (device, bf16) not in _m:
             # upstream code calls HfApi.model_info('xlm-roberta-base') -> needs hub reachability (weights are cached)
             setup_env(offline=False)
+            # transformers 4.57 _patch_mistral_regex calls huggingface_hub.model_info
+            # even under HF_HUB_OFFLINE (queue launchers export it) -> every clip errored
+            # in 167/168.  xlm-roberta-base is not a Mistral base, so "no tags" is the
+            # answer the hub would give; only stubbed when offline.
+            import huggingface_hub
+            from huggingface_hub import constants as hf_constants
+            if hf_constants.HF_HUB_OFFLINE:
+                from types import SimpleNamespace
+                huggingface_hub.model_info = lambda *a, **k: SimpleNamespace(tags=None)
             import sys
             sys.path.insert(0, str(REPOS / 'CMI-RewardBench'))
             from huggingface_hub import hf_hub_download
