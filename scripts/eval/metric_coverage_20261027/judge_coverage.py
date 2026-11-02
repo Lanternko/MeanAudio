@@ -186,6 +186,11 @@ def s_info(model, protocol, dim):
 
 # ── IO helpers ───────────────────────────────────────────────────────────────
 def read_unit_tsv(path, cols):
+    if isinstance(path, (list, tuple)):
+        merged = {}
+        for f in path:
+            merged.update(C.parse_score_tsv(f, cols))
+        return merged
     return C.parse_score_tsv(path, cols)
 
 
@@ -373,7 +378,8 @@ def floor_126b_tsv(model, path):
 def existing_126b():
     """AES/MEva/CLAP from the original 126b summary (at_m per case)."""
     summ = C.read_json(C.S_126B_SUMMARY, {})
-    cols = ('PQ', 'CE', 'CU', 'PC', 'meva', 'clap')
+    cols = ('PQ', 'CE', 'CU', 'PC', 'meva', 'clap',
+            'pulse_clarity', 'ibi_cv', 'key_cnn_conf', 'chroma_entropy')
     midi = {c: [] for c in cols}
     rec = {c: [] for c in cols}
     floor = {}
@@ -572,7 +578,11 @@ def evaluate(model, protocol):
         elif model in ('mert', 'muq'):
             res = mert_muq_126b(model)
         elif model == 'mir':
-            res = existing_126b()  # MIR is in the original 126b summary
+            res = existing_126b()  # MIR midi is in the original 126b summary
+            files = unit_files('mir', '126b')  # rec was scored by mir_rec_backfill.py
+            if files:
+                mir_rec = (tsv_126b('mir', files) or {}).get('rec') or {}
+                res['rec'] = {**res['rec'], **{c: u for c, u in mir_rec.items() if u}}
         else:
             res = None
     elif protocol == '126c':
@@ -602,7 +612,8 @@ def evaluate(model, protocol):
 
 def _single_path(model, protocol):
     files = unit_files(model, protocol)
-    return files[0] if files else OUT / model / protocol / 'missing.tsv'
+    # every shard, not only the first: 126b/126c/134 are sharded
+    return list(files) if files else OUT / model / protocol / 'missing.tsv'
 
 
 # ── matrix assembly ──────────────────────────────────────────────────────────
