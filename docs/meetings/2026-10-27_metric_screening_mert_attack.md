@@ -31,6 +31,7 @@
 - **Music Arena：所有指標都沒過**〔10:37〕。見下方指示 1。
 - 兩條要求（分出好壞／說得出平手）的進度：
   - MERT-ref 表現不錯。
+    - **2026-11-03 更正**：這個說法講過頭了。MERT-ref 是拿改版跟「同一段的乾淨原版」算餘弦距離，距離是對稱的，只知道兩段不一樣。「改版比較差」這個方向是我們指定哪段是原版給的，不是 MERT 判斷出來的。所以它不能當生成音樂（沒有原版）的錯音守門員，也沒有證明它分得出好壞。
   - MuQ 抓得到錯音（音高被破壞處）。
   - CMI 還沒跑完。
   - MEva 較差。
@@ -63,7 +64,7 @@
    - 要寫清楚：是否沒訓練、是誰提的（哪篇）、參考是什麼（「你的真實影響是誰」）。
    - 投影片上 chroma 怎麼算、key 模型是什麼等細節也不清楚。原話：「Claude 做得當然很漂亮，可是那怎麼做啊」〔21:50–22:07〕。
    - 對應 `../experiments/metric_win_tie_133_mert_20261020.md`、`../experiments/results/metric_win_tie_133_results.md`。
-7. **如果 MERT 這種用法真的沒人做過，本身就是發現**〔22:13–23:00、28:16–30:14〕。
+7. **如果 MERT 這種用法真的沒人做過，本身就是發現**（2026-11-03 註：見第 1 節的更正。「robustness 好」只在有乾淨原版、並由我們指定方向的前提下成立）〔22:13–23:00、28:16–30:14〕。
    - 發現內容：未訓練的 SSL embedding 跟真實音檔的相似度，robustness 反而好。
    - 合理的原因：預訓練見過大量真實音樂，錯音這種事不會出現在真實音檔裡。
    - Future work：與其在 task-specific data 上 fine-tune classification head，不如用 SSL 相似度／metric learning。
@@ -136,7 +137,7 @@
 | Lanternko | 申請並搬資料到 RTX 5080 機器，跑還在等 GPU 的格；環境請對面負責人處理 | `../experiments/metric_coverage_completion_20261027.md` |
 | Lanternko | Arena 一致率實算（事前登錄門檻），報實際值 | `../experiments/results/benchmark_screening_r3_candidate_datasets_20261027.md` |
 | Lanternko | 拿掉投影片的「勝率比例」分數調整 | 指示 2 |
-| Lanternko | 寫清楚 MERT-ref：方法（未訓練、cosine 對參考均值）、提出者／出處、參考集是什麼；chroma／key 模型等細節補說明 | `../experiments/metric_win_tie_133_mert_20261020.md` |
+| Lanternko | 寫清楚 MERT-ref：方法（未訓練；last_hidden_state 時間平均＋L2，對**同段乾淨原版**算 cosine，不是對參考均值；距離對稱、方向由我們給）、提出者／出處、參考集是什麼；chroma／key 模型等細節補說明 | `../experiments/metric_win_tie_133_mert_20261020.md` |
 | Lanternko | 文獻查核：「SSL embedding 對參考相似度」當評分是否已有人做 | 指示 7 |
 | Lanternko | 投影片改報實際數字（介入 × 指標的分數差與方向），不只通過率 | `../experiments/results/wide_fail_list_full_20261022.md` |
 | Lanternko | 定義分軌編輯、訊號小差／音樂小差的幅度、SNR 各級，並加註記 | `../experiments/results/metric_win_tie_126c_results.md` |
