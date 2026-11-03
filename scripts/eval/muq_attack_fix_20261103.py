@@ -328,6 +328,10 @@ def b_summary(rows):
         if r['part'] == 'B':
             idx[(r['sys'], r['item'], r['fix'])] = r
     items = sorted({k[1] for k in idx})
+    sel = OUT / 'part_b_selection.json'
+    if sel.exists():  # keep exactly the pre-registered seed-0 draw (smoke rows may add strays)
+        picked = set(json.loads(sel.read_text())['files'])
+        items = [i for i in items if i in picked]
     for s in SYS:
         fixes = ('F0', 'F1') if s == 'musicgen_medium' else ('F0',)
         for f in fixes:
