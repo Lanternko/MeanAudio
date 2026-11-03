@@ -107,3 +107,10 @@
   - **GPU 總計約 1–1.5 h**，走 p2 queue（> 30 min）。
 - **輸出**：`~/nvme_experiment_artifacts/meanaudio/wrongnote_probe_178/`。
 - **結果檔**：`results/wrongnote_probe_mert_178_results.md`、`results/wrongnote_probe_mert_178_summary.json`。
+
+## 7. 收線（2026-11-03，Lanternko 定）
+
+主判準不過（AUC 0.640、比規則只高 0.045），**MERT 錯音守門員線收線**，否證結果寫進指標分析。與 126d（SongEval）、133（MERT-ref）一致：現有神經指標對音符層錯誤沒感覺。
+
+- 不做成對差值版：要有原版，對生成音樂無用，且 133 已顯示 ≤10% 錯音無感。
+- 重啟條件：守門員改走「轉譜＋規則」等非 SSL-embedding 路線時，另寫新設計，不沿用本線。
