@@ -126,7 +126,13 @@ def part_a(W, lim):
     for gen in (base.musdb, base.odaqref, base.odaqlp, base.mc522):
         name = gen.__name__
         for st, item, x, sr, tfs, meta in islice(gen(), lim):
-            for tf in (ATK if name in ('musdb', 'odaqref') else tfs):
+            if name in ('musdb', 'odaqref'):
+                tfs_use = ATK
+            elif name == 'odaqlp':
+                tfs_use = tfs
+            else:
+                tfs_use = ('clean',)
+            for tf in tfs_use:
                 y = x if name == 'odaqlp' else base.transform(x, sr, tf)
                 if y is None:
                     continue

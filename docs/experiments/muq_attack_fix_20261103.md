@@ -65,7 +65,7 @@
 
 ## 實作註記（跑分前）
 
-- **F2 對判準 1 是退化通過**：F2 之後 lp4k 與 clean 送進評分器的訊號數值上相同（4 kHz 低通兩次 ≈ 一次），Δ 恆為 0。判準 1 對 F2 仍照記，但結果會標明這個通過沒有資訊量；F2 的成敗實際由判準 2、3 決定。
+- **F2 不是逐位退化**：F2(lp4k(x)) 與 F2(clean) 是「4 kHz 低通兩次」對「一次」，級聯後響應更陡，smoke run 上已看到 lp4k 有 ±0.1～0.26 的差。判準 1 照量、不假設為 0；F2 的成敗主要仍由判準 2、3 決定。
 - MusicEval 的 `human_OVL` 是 1–5 分的主觀整體分數，不是 MOS；只用 clip 層 Spearman。
 - ODAQ LP 每個 trial 只有 8 個點、trial 內 Spearman 的變異很大，判準 2 只看 pooled 與 LP50 vs reference。
 - Part C 的 stems 素材是 16 kHz mono（126c 快取），與 Part A 的 44.1／48 kHz 素材不同；候選 5 只判「分離重組的分數變化」，不與 Part A 的 Δ 直接比大小。
