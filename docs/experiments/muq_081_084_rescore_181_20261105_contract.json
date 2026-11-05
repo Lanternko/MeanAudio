@@ -1,0 +1,120 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "muq-081-084-rescore-181-20261105",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "181_muq_081_084_rescore.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [],
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "Inference-only regeneration of the 36 cells of 112 (081 arm / nmv2pair control / 084 N100, quarter x 3 seeds; MusicCaps 5521, MeanFlow 25 steps, seed 42, fp32, NoMask, original flags), identity gate vs the stored per_clip.tsv, per-clip gain to -30 LUFS, MuQ-Eval A1/A3a (MI/TA, raw and lvl30, batch 1) and AES PQ on lvl30, audio deleted after scoring, then contrasts/bootstrap summary. No training."
+ },
+ "question": "Do the training-time PQ-oriented methods 081 (quality-label prefix) and 084 (NegMF N100) also raise MuQ-Eval A1 MI (lvl30)?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_081_084_rescore_181_20261105.md",
+ "design_document_sha256": "f7579f664eb5b4b5b694bd38297eb0503bfe4c07a649002302d1fa4657c127fb",
+ "fixed_protocol": {
+  "prereg": "docs/experiments/muq_081_084_rescore_181_20261105.md (frozen; no criterion changed in this job)",
+  "cells": "arm081 & control x {cfg0, cfg3_neg, cfg3_lqneg, hqpos_cfg0, hqpos_cfg3_lqneg} + N100 x {cfg0, cfg3_neg}, x seeds 14159265/16180339/27182818",
+  "primary": "A1_MI_lvl30",
+  "margins": {
+   "A1": 0.055,
+   "A3a": 0.062
+  },
+  "contrasts": "C0 control cfg3_neg-cfg0 (harness check, 3/3 > 0); H1 081 E1; H2 081 E3; H3 N100 cfg0 - control cfg0",
+  "verdict": "follows: mean>=m & 3/3>0; does_not_follow: |mean|<m; opposite: mean<=-m & 3/3<0; else undecided; overall holds if >=2 follows, does_not_hold if all not-follow/opposite, else mixed",
+  "gates": "identity |dpeak|<=1e-4, |dLUFS|<=0.01, >=99.9% clips; lvl30 gain |d|<=0.01 dB vs stored gain_status where it exists"
+ },
+ "deviations": {
+  "D1": "MuQ-Eval scored per clip (batch 1), not batch 16: on 64 lvl30 clips batch 16 differed from batch 1 by up to 3.2e-3 (A1 MI) / 3.6e-3 (A3a MI), over the registered 1e-3 limit.",
+  "D2": "PQ_lvl30 (only for R and Spearman descriptions) is AES PQ recomputed on the regenerated lvl30 audio: 4 control cells (nmv2pair s16180339/s27182818 cfg0, cfg3_neg) never had a stored lvl30 copy; for those the gain cross-check is skipped (identity gate still applies). Where a stored copy exists, the gain gate and a recorded PQ cross-check still compare against it."
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/muq_081_084_rescore_181",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/muq_081_084_rescore_181/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/muq_081_084_rescore_181/pause_progress.json",
+  "note": "cell-level restart: cells with per_cell tsv + done.json passed are skipped; a partial cell is regenerated from scratch"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_081_084_rescore_181.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_081_084_rescore_181.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_081_084_rescore_181.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/muq_081_084_rescore_181/summary.json"
+  },
+  {
+   "path": "/home/kojiek/eval_output_nvme/muq_081_084_rescore_181/progress.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of summary.json and progress.json after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/181_muq_081_084_rescore.sh",
+  "launcher_sha256": "ced07bfdc9b28a4931c9879ad4a1f79d513eace8ef3ab5878b2e36416ecd2b07",
+  "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_081_084_rescore_181_guest.py",
+  "harn_sha256": "f3d2860b14036d066164307bef0a7660ba8fc66ae7b0900cdcb2c284a6fd63e2",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/muq_081_084_rescore_181.py",
+  "action_sha256": "a1c2e497359ef05c981656b6e27a8218c0ca9ca3148eaec96ed848ef21d0e218"
+ },
+ "code_bindings": [
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/meva_081_084_backfill.py",
+   "sha256": "ffe32c4ecf851e6f88fbeaa177ec3734db6afddcb37ec710ee61242285cf0071"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+   "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+   "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+   "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+   "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+   "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/eval.py",
+   "sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339"
+  }
+ ]
+}
