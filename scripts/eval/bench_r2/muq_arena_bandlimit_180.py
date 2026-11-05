@@ -79,8 +79,17 @@ def score():
         ws.writerow(['item_id', 'cond', *COLS])
         wb.writerow(['item_id', 'sr', 'b4_8k', 'b8_12k', 'b8k_up'])
     t0 = time.time()
+    def prefetched(ex, chunk=24):
+        # bounded look-ahead: ex.map over the whole list loads every clip up front (OOM-killed twice)
+        nxt = ex.map(lambda u: load(u[1]), us[:chunk])
+        for i in range(0, len(us), chunk):
+            cur = list(nxt)
+            if i + chunk < len(us):
+                nxt = ex.map(lambda u: load(u[1]), us[i + chunk:i + 2 * chunk])
+            yield from zip(us[i:i + chunk], cur)
+
     with ThreadPoolExecutor(6) as ex:
-        for k, ((item, _), (conds, bd)) in enumerate(zip(us, ex.map(lambda u: load(u[1]), us))):
+        for k, ((item, _), (conds, bd)) in enumerate(prefetched(ex)):
             # one item = all conds written together, so resume is item-granular
             rows = []
             for c in CONDS:
