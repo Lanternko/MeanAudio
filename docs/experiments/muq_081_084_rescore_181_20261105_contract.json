@@ -33,7 +33,8 @@
  },
  "deviations": {
   "D1": "MuQ-Eval scored per clip (batch 1), not batch 16: on 64 lvl30 clips batch 16 differed from batch 1 by up to 3.2e-3 (A1 MI) / 3.6e-3 (A3a MI), over the registered 1e-3 limit.",
-  "D2": "PQ_lvl30 (only for R and Spearman descriptions) is AES PQ recomputed on the regenerated lvl30 audio: 4 control cells (nmv2pair s16180339/s27182818 cfg0, cfg3_neg) never had a stored lvl30 copy; for those the gain cross-check is skipped (identity gate still applies). Where a stored copy exists, the gain gate and a recorded PQ cross-check still compare against it."
+  "D2": "PQ_lvl30 (only for R and Spearman descriptions) is AES PQ recomputed on the regenerated lvl30 audio: 4 control cells (nmv2pair s16180339/s27182818 cfg0, cfg3_neg) never had a stored lvl30 copy; for those the gain cross-check is skipped (identity gate still applies). Where a stored copy exists, the gain gate and a recorded PQ cross-check still compare against it.",
+  "D3": "2026-11-06 resume fix: run 1 failed at cell 19 (nmv2pair s16180339 cfg0, rc=1) after done.json was written, because the DONE log line read gain['n_match'], absent for D2 cells without a stored gain. Only that log line changed (.get fallback); no gate, scoring or criterion changed. The 18 completed cells are kept and skipped on resume."
  },
  "storage": {
   "path": "/home/kojiek/eval_output_nvme/muq_081_084_rescore_181",
@@ -85,7 +86,7 @@
   "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_081_084_rescore_181_guest.py",
   "harn_sha256": "f3d2860b14036d066164307bef0a7660ba8fc66ae7b0900cdcb2c284a6fd63e2",
   "action": "/home/kojiek/MeanAudio/scripts/eval/muq_081_084_rescore_181.py",
-  "action_sha256": "a1c2e497359ef05c981656b6e27a8218c0ca9ca3148eaec96ed848ef21d0e218"
+  "action_sha256": "58f74c49cbd2ab72086a4427a77c6d7d954a8cbdfcfd6bf2d7a282fa3379499c"
  },
  "code_bindings": [
   {

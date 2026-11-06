@@ -190,7 +190,7 @@ def run_cell(label):
     (d / 'done.json').write_text(json.dumps({'identity': ident, 'gain': ggate, 'pq_lvl30_vs_stored': pqx,
                                              'passed': True}, indent=1))
     a1 = statistics.fmean(float(r[PRIMARY]) for r in rows.values())
-    log(f'DONE {label}  {PRIMARY} {a1:.4f}  identity {ident["n_match"]}/{ROWS}  gain {ggate["n_match"]}/{ROWS}')
+    log(f'DONE {label}  {PRIMARY} {a1:.4f}  identity {ident["n_match"]}/{ROWS}  gain {ggate.get("n_match", "skipped(no stored gain)")}/{ROWS}')
 
 
 def pq_crosscheck(label, rows):
