@@ -1,0 +1,34 @@
+{
+  "calibration_fingerprints": {
+    "Scorer": "870589196e091899c02787890e6daa4cbdcb6786f12e44a77b0937f6496c8c5e",
+    "members": "3b6b95f610bdfcb38f71a8c546434fbe2cb9f689eafea3f71fb66479bbb7494d",
+    "normalize": "b3f5a722fc8a0ef29e063399fc9c218bf6cb4f43174c0945b2b213cf31c5abe2",
+    "prepare_one": "c6c23ddefdb9b40a8298c54da54fa876738a6f72abef0ee6a095a71855cd3710",
+    "rates": "63b9b0d33702b635430c7fd594694e453b0fafd0663429179442678d9e257c7e",
+    "run_a": "25f401868c65213ba2f9f7a970d77433a458d3f72ebbbf51081c764580634488",
+    "select_calibration_n": "753d16fc7c7fc80c2c73adfe9209e26921d5124895f40ae24bffc351702fc695",
+    "select_modes": "676aa138077bdfb6a37facad9cf76a873a1c62864e73fa9d34e20905d1b8d9d0",
+    "threshold": "d8744867b560b13f778f5f79a28c0e3f2a5adf7b65cd7aa7d1286a8cde64380c",
+    "variant_audio": "3f73ab03f1d36c8fdc98a474ed7185d97a6d9fa8c0b8ebf465663b0152858cfa"
+  },
+  "completed_calibration_seconds": 26762.69604897499,
+  "files": {
+    "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128a_20261017_budget_r3_contract.json": "80ad42a409cae1879e02c9ef06ae46fa98a738294ab0fea5876f69e88ec350da",
+    "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+    "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py": "1838b508c4583e42b27d877db9a4471016009799553ad884ee70e3ef89bbc6b7",
+    "/home/kojiek/MeanAudio/scripts/eval/meva_runtime.py": "3b509279b3e086a69395c2357883554f5a66f9d9c59f327219b9a76692b4fc2b",
+    "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+    "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/success.json": "371877b4621df288a32d4c55c943df118f3e6bca769717c92dc6605b885fc301",
+    "/home/kojiek/gpu_queue/p2/done/128_metric_invariance_calibration_budget_r3.terminal.json": "4a81b32e5e1375cf5a04e38e80d9329f0e8647ff335a82904681aaa5b69746ea",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/started.json": "d2b9f1cd6b5eb7ceb10da3a644a421ab945f08ac0b871b30257f5a0c75fe4283",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/summary.json": "2e8dacee5d46775473d7f5443590a39c034454744c6c030a0d6bb1deb69e4a23"
+  },
+  "job": "128_metric_invariance_calibration_budget_r3",
+  "report": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/summary.json",
+  "source_action_sha256": "4316c50e1c9928ebf3b147c7ac7bdffe55b7345596a5a6946a3c8c6fb819b8d7",
+  "source_contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128a_20261017_budget_r3_contract.json",
+  "source_revision": "f382650def17970d5771f2b9fd758900a7a96dfb",
+  "started": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/started.json",
+  "terminal": "/home/kojiek/gpu_queue/p2/done/128_metric_invariance_calibration_budget_r3.terminal.json"
+}

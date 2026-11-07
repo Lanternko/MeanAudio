@@ -1,0 +1,277 @@
+{
+ "schema_version": 1,
+ "document_kind": "autoresearch_preregistration",
+ "experiment_id": "autoresearch-inference-clap-20261027",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/autoresearch_inference_clap_20261027.md",
+ "written_at": "2026-10-27",
+ "status": "preregistered_not_started",
+ "scope": "inference-time search only; no retraining; no architecture change",
+ "fixed_model": {
+  "role": "TTM table-B 'ours' row (slot0clean nmv2matched noq full, Stage 2 200k ema_final)",
+  "primary_checkpoint": "/home/kojiek/exps_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_stage2_200000/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_stage2_200000_ema_final.pth",
+  "primary_checkpoint_sha256": "7cc14d093480ebf1728f1d72c4ec545a5a0885c7fd3f71751c9db32285b813b1",
+  "confirm_checkpoints": [
+   {"seed": "16180339", "sha256": "997077fbc3863cbf89db04ddcda738b7524ba8171d644240ba5e3e423088a483"},
+   {"seed": "27182818", "sha256": "4f98eefc7de465549a1c49896a10511007060ea3864a1a5262f4a33f0a52e053"}
+  ],
+  "eval_flags": "--variant meanaudio_s --use_meanflow --num_steps 25 --seed 42 --full_precision --no_text_attention_mask --no_q",
+  "renders": "eval.py verbatim through runpy; only MeanAudio.ode_wrapper / MeanFlow.run_t0_to_t1 are monkeypatched, and only for configs that change them"
+ },
+ "objective": {
+  "metric": "CLAP (laion_clap HTSAT-base, batch 1 via eval_metrics.score_clap)",
+  "audio": "lvl30: per-clip scalar gain to -30.0 LUFS, peak_cap 0.999, PCM_16 flac (scripts/eval/level_match_rescore.py)",
+  "why_lvl30": "CLAP rises with playback level (063); lvl30 removes level as a free lever while keeping every trial and every baseline on the same rendering path",
+  "baseline_numbers_lvl30_full5521": {
+   "s14159265": {"cfg0": {"clap": 0.1927, "PQ": 6.678, "LUFS": -30.00}, "cfg3_neg": {"clap": 0.2325, "PQ": 7.593, "LUFS": -30.00}},
+   "s16180339": {"cfg0": {"clap": 0.1949, "PQ": 6.676, "LUFS": -30.00}, "cfg3_neg": {"clap": 0.2365, "PQ": 7.603, "LUFS": -30.00}},
+   "s27182818": {"cfg0": {"clap": 0.1922, "PQ": 6.637, "LUFS": -30.01}, "cfg3_neg": {"clap": 0.2375, "PQ": 7.548, "LUFS": -30.01}}
+  },
+  "baseline_numbers_raw_full5521": {
+   "s14159265": {"cfg0": {"clap": 0.2148, "PQ": 6.445, "silent_n": 14, "clipped_n": 0, "crest": 6.206}, "cfg3_neg": {"clap": 0.2432, "PQ": 7.424, "silent_n": 9, "clipped_n": 0, "crest": 6.253}},
+   "s16180339": {"cfg0": {"clap": 0.2141, "PQ": 6.459, "silent_n": 22, "clipped_n": 0, "crest": 6.302}, "cfg3_neg": {"clap": 0.2497, "PQ": 7.439, "silent_n": 15, "clipped_n": 0, "crest": 5.839}},
+   "s27182818": {"cfg0": {"clap": 0.2130, "PQ": 6.414, "silent_n": 38, "clipped_n": 0, "crest": 6.433}, "cfg3_neg": {"clap": 0.2535, "PQ": 7.392, "silent_n": 35, "clipped_n": 0, "crest": 6.218}}
+  },
+  "baseline_fad_full5521_1924pairs": {"s14159265": {"cfg0": 3.2640, "cfg3_neg": 5.0836}, "s16180339": {"cfg0": 3.1927, "cfg3_neg": 5.4385}, "s27182818": {"cfg0": 3.3426, "cfg3_neg": 4.9986}},
+  "baseline_numbers_lvl30_dev256": {
+    "s14159265": {
+      "cfg0": {"clap": 0.1847, "PQ": 6.6368, "raw_crest": 6.3444, "raw_silent_n": 0, "raw_clipped_n": 0},
+      "cfg3_neg": {"clap": 0.2296, "PQ": 7.5786, "raw_crest": 6.3043, "raw_silent_n": 0, "raw_clipped_n": 0}
+    },
+    "note": "derived from the canonical full cells by selecting the first 256 ids; no new generation; the other two checkpoints are extracted the same way in Phase 0"
+  },
+  "reference_cfg3_minus_cfg0_lvl30_clap": 0.042,
+  "reference_cfg3_minus_cfg0_per_checkpoint": {"s14159265": 0.0398, "s16180339": 0.0415, "s27182818": 0.0453}
+ },
+ "splits": {
+  "rule": "contiguous csv-record slices of the canonical MusicCaps TSV; no shuffling; no reuse of older subset files",
+  "source_tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "source_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+  "n_records": 5521,
+  "dev1024": {"records": [0, 1024], "n": 1024, "sha256": "3bc818c81c826c9e63b6e39694f6c53574ef5ec18433c6e5e28490c5946f6497", "ids_sha256": "0e97f75b4bd07aba288213c5d87d4eea0aea44b8abafe253ff5f59323044b6f5"},
+  "heldout1024": {"records": [1024, 2048], "n": 1024, "sha256": "a87b20ad602b72c1c469a1caf968a08bc986d06051468caadd25e90f33fa13aa", "ids_sha256": "2106bc26c46fa84cff284fd32c5e547d8925997b24253e381c351c04b8915c36"},
+  "rest3473": {"records": [2048, 5521], "n": 3473, "sha256": "b230d5526c3bb0a6457c45e7082564ab0aa20ef177fdb727aec9c006e2f03f8f"},
+  "dev256": {"records": [0, 256], "n": 256, "sha256": "8723c3db6074cde373503396c4a1c0be9d208aea2722ee2baa28e1cf1accbad6", "ids_sha256": "818f234dad4dc07fec2623697746a66d9bca843ca815dd109523086a571e1e83", "measured_at": "2026-10-27", "note": "first 256 records of dev1024; rung-1 screening set; sha measured by split_subsets.py, the same writer as the other three splits"},
+  "writer": "scripts/eval/autoresearch_clap_20261027/split_subsets.py",
+  "selection_rule": "dev only (dev256 then dev1024); heldout1024 never used to choose a config; rest3473 only appears inside full-5521 reporting"
+ },
+ "rng_pairing": {
+  "property": "eval.py generates one row at a time (generate_mf([prompt], ...)), so a contiguous-prefix TSV reproduces the canonical full run's x0 bit-exactly for those rows",
+  "paired": ["dev256", "dev1024", "full5521"],
+  "not_paired": ["heldout1024"],
+  "consequence": "rungs 1-3 and 5 are per-clip paired against the canonical baseline at the same checkpoint; rung 4 is a two-sample comparison with sigma*sqrt(2)"
+ },
+ "noise_floor": {
+  "inference_seed_clap_full5521": 0.0003,
+  "inference_seed_pq_full5521": 0.142,
+  "confidence_note": "0.0003 is the measured |delta| of one seed pair (memory reference_inference_seed_noise_floor); treated as ~1 sigma, which is conservative for CLAP",
+  "sigma_seed_by_n": {"256": 0.0014, "1024": 0.0007, "5521": 0.0003},
+  "checkpoint_spread_lvl30_clap": {"cfg3_neg": 0.0050, "cfg0": 0.0027, "note": "3 checkpoints, full 5521; this is model-to-model spread, not inference noise"},
+  "fad_checkpoint_spread_full5521": {"cfg3_neg": 0.4399, "cfg0": 0.1499},
+  "measured_floor_rule": "sigma_used = max(sigma_seed_by_n[n], |delta CLAP of C1_null_seed7|, |delta CLAP of C2_null_seed161803|); both null controls are in the rung-1 grid"
+ },
+ "thresholds": {
+  "min_effect_lvl30_clap": 0.005,
+  "min_effect_heldout_lvl30_clap": 0.004,
+  "min_effect_combo_over_single": 0.002,
+  "min_effect_source": "12% of the stock cfg3-cfg0 gap (+0.042 mean; per checkpoint 0.0398/0.0415/0.0453); 3.6 sigma at n=256, 7.1 sigma at n=1024",
+  "promotion_rung1": "delta >= 0.005 on dev256 AND all rung-1 gates pass; top 8, at most 2 per family; if fewer than 3 pass, take the top 3 even if below threshold and mark the round underpowered",
+  "promotion_rung2": "delta >= 0.005 on dev1024 AND paired bootstrap 95% CI lower > 0 (10000 resamples, seed 20261027)",
+  "promotion_rung3": "best combo, or best single if no combo beats it by >= 0.002",
+  "adoption": "must pass rung 4 (heldout) and rung 5 (full, 3 checkpoints) per win_criterion"
+ },
+ "multiplicity": {
+  "rung1_real_configs": 35,
+  "rung1_expected_max_of_nulls_at_n256": 0.0031,
+  "rung1_familywise_alpha_at_0.005": 0.006,
+  "rung2_candidates": 10,
+  "rung2_expected_max_of_nulls_at_n1024": 0.0020,
+  "rung3_is_adaptive": true,
+  "bias_note": "rungs 1-3 deltas are upward-biased by selection; only heldout1024 (never used for selection) gives an unbiased estimate; full5521 contains 2048 records that were used for selection, so the full-set number is a paper number, not an independent test"
+ },
+ "prompt_leakage_audit": {
+  "rule": "no negative-prompt string may be a case-insensitive substring of any dev caption; prompts are hand-specified here and may not be mined from captions",
+  "checked_against": "dev1024 (first 1024 records)",
+  "results": {
+   "stock": 0, "short": 0, "poorq_noisy": 0, "ndm": 0, "ahc": 0, "pfld": 0, "extended": 0, "irrelevant": 0
+  },
+  "rejected_candidate": {"text": "low quality", "substring_hits_dev": 240, "reason": "appears inside 240 dev captions; dropped before registration"}
+ },
+ "prompts": {
+  "stock": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi",
+  "short": "low quality recording, noisy",
+  "poorq_noisy": "poor quality, noisy",
+  "ndm": "noisy, distorted, muffled",
+  "ahc": "amateur recording, hiss, clipping",
+  "pfld": "poor fidelity, lo-fi, distant",
+  "extended": "low quality recording, noisy, amateur, distorted, muffled, poor fidelity, hiss, lo-fi, clipping, room noise",
+  "irrelevant": "banana, submarine"
+ },
+ "search_space_rung1": {
+  "split": "dev256",
+  "seed": 42,
+  "n_trials": 38,
+  "families": {
+   "F1_cfg_scale": "cfg in {0.0,1.5,2.0,2.5,3.5,4.0,5.0}; stock prompt; 25 steps; uniform grid; 7 configs",
+   "F2_negative_prompt": "7 registered prompts at cfg 3.0; 25 steps; uniform grid",
+   "F3_guidance_interval": "guidance on only when lo < t <= hi at cfg 3.0; off steps take the conditional-only branch; 6 intervals",
+   "F4_guidance_schedule": "w(t) = 3.0 * s(t) / mean_t s(t) over the step start points the trial actually uses (uniform 25 -> linspace(1,0,26)[:-1]); s in {1-t, t, 4t(1-t), sqrt(1-t)}; steps with w < 1 take the conditional-only branch (w=0 at t=1 is algebraically vanilla c=1), so the mean guidance strength equals stock cfg3 (3.0), which supersedes the old c=1+2r text (r5); 4 configs",
+   "F5_geometry": "ADG gamma in {0.25,0.5,1.0} (ref A, global axis); APG eta in {0.0,0.5,1.0}; cfg 3.0; 6 configs (apg_e1.0 is a numeric control of the patch path)",
+   "F6_steps": "num_steps in {12,16,50}; cfg 3.0; stock prompt; 3 configs",
+   "F7_time_grid": "grid in {cos, smoothstep} at 25 steps; cfg 3.0; stock prompt; 2 configs",
+   "C_controls": "C0 duplicate of stock (seed 42, must match canonical audio bit-exactly); C1/C2 stock config at seeds 7 and 161803 (inference-seed noise floor)"
+  },
+  "configs": [
+   {"id": "F1_cfg0.0", "family": "F1", "cfg": 0.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F1_cfg1.5", "family": "F1", "cfg": 1.5, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F1_cfg2.0", "family": "F1", "cfg": 2.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F1_cfg2.5", "family": "F1", "cfg": 2.5, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F1_cfg3.5", "family": "F1", "cfg": 3.5, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F1_cfg4.0", "family": "F1", "cfg": 4.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F1_cfg5.0", "family": "F1", "cfg": 5.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F2_short", "family": "F2", "cfg": 3.0, "prompt": "short", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F2_poorq_noisy", "family": "F2", "cfg": 3.0, "prompt": "poorq_noisy", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F2_ndm", "family": "F2", "cfg": 3.0, "prompt": "ndm", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F2_ahc", "family": "F2", "cfg": 3.0, "prompt": "ahc", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F2_pfld", "family": "F2", "cfg": 3.0, "prompt": "pfld", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F2_extended", "family": "F2", "cfg": 3.0, "prompt": "extended", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F2_irrelevant", "family": "F2", "cfg": 3.0, "prompt": "irrelevant", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F3_early_third", "family": "F3", "cfg": 3.0, "prompt": "stock", "interval": [0.667, 1.0], "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F3_mid_third", "family": "F3", "cfg": 3.0, "prompt": "stock", "interval": [0.333, 0.667], "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F3_late_third", "family": "F3", "cfg": 3.0, "prompt": "stock", "interval": [0.0, 0.333], "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F3_early_two_thirds", "family": "F3", "cfg": 3.0, "prompt": "stock", "interval": [0.333, 1.0], "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F3_early_half", "family": "F3", "cfg": 3.0, "prompt": "stock", "interval": [0.5, 1.0], "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F3_late_half", "family": "F3", "cfg": 3.0, "prompt": "stock", "interval": [0.0, 0.5], "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F4_ramp_up", "family": "F4", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": "ramp_up", "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F4_ramp_dn", "family": "F4", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": "ramp_dn", "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F4_bump_mid", "family": "F4", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": "bump_mid", "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F4_sqrt_up", "family": "F4", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": "sqrt_up", "geometry": "vanilla", "steps": 25, "grid": "uniform"},
+   {"id": "F5_adg_g0.25", "family": "F5", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "adg", "adg_gamma": 0.25, "steps": 25, "grid": "uniform"},
+   {"id": "F5_adg_g0.5", "family": "F5", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "adg", "adg_gamma": 0.5, "steps": 25, "grid": "uniform"},
+   {"id": "F5_adg_g1.0", "family": "F5", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "adg", "adg_gamma": 1.0, "steps": 25, "grid": "uniform"},
+   {"id": "F5_apg_e0.0", "family": "F5", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "apg", "apg_eta": 0.0, "steps": 25, "grid": "uniform"},
+   {"id": "F5_apg_e0.5", "family": "F5", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "apg", "apg_eta": 0.5, "steps": 25, "grid": "uniform"},
+   {"id": "F5_apg_e1.0", "family": "F5", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "apg", "apg_eta": 1.0, "steps": 25, "grid": "uniform", "is_numeric_control": true},
+   {"id": "F6_steps12", "family": "F6", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 12, "grid": "uniform"},
+   {"id": "F6_steps16", "family": "F6", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 16, "grid": "uniform"},
+   {"id": "F6_steps50", "family": "F6", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 50, "grid": "uniform"},
+   {"id": "F7_grid_cos", "family": "F7", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "cos"},
+   {"id": "F7_grid_smoothstep", "family": "F7", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "smoothstep"},
+   {"id": "C0_dup_seed42", "family": "C", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform", "seed": 42, "control": "duplicate"},
+   {"id": "C1_null_seed7", "family": "C", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform", "seed": 7, "control": "seed_floor"},
+   {"id": "C2_null_seed161803", "family": "C", "cfg": 3.0, "prompt": "stock", "interval": null, "schedule": null, "geometry": "vanilla", "steps": 25, "grid": "uniform", "seed": 161803, "control": "seed_floor"}
+  ]
+ },
+ "gate_definitions": {
+  "G0_copy_gate": {"when": "phase 0", "rule": "stock config on dev256 at seed 42 must reproduce the canonical full-cell flac sha256 for all 256 ids", "on_fail": "stop, harness is not canonical"},
+  "G1_determinism": {"rule": "C0_dup_seed42 must reproduce the canonical flac sha256 for all 256 ids", "on_fail": "stop"},
+  "G2_fad": {"mandated": true, "rule": "FAD(trial) - FAD(same-subset baseline) > +0.30 -> not adopted", "note": "at rung 1 a config failing only G2 may be carried as FAD-pending (max 2 slots); final adoption still requires G2 at rung 5"},
+  "G3_pq": {"mandated": true, "rule": "AES PQ(lvl30 trial) - AES PQ(lvl30 baseline) < -0.10 -> not adopted", "note": "0.10 is 0.7x the inference-seed PQ floor 0.142, so the gate can only fire on a real degradation"},
+  "G4_silence": {"rule": "raw level_silent_n(trial) - level_silent_n(baseline) > max(3, 2*baseline) -> reject", "why": "CLAP scores pure silence above 39% of music (065); silence escape is the cheapest way to game CLAP"},
+  "G5_clipping": {"rule": "raw level_clipped_n(trial) > baseline -> reject; raw crest_mean(trial) < baseline - 0.5 -> reject", "why": "high-cfg saturation (2026-04-21 incident); crest is the waveform-collapse readout"},
+  "G6_loudness": {"rule": "lvl30 gain_status peak_capped_n > max(baseline+3, 0.005*n) -> reject; |LUFS + 30| > 0.05 on > 1% of clips -> reject", "why": "if level matching fails, CLAP's level sensitivity contaminates the objective"},
+  "G7_integrity": {"rule": "all metrics finite; audio count == n; ids match the split exactly; no duplicate ids", "on_fail": "reject"},
+  "G8_prompt_leak": {"rule": "any registered prompt that is a substring of a dev caption is removed before the run (audit passes now)"}
+ },
+ "win_criterion": {
+  "primary_unbiased_test": "heldout1024, 3 checkpoints x 3 inference seeds (42, 7, 161803)",
+  "rung4_requirements": [
+   "mean delta lvl30 CLAP over 9 cells >= +0.004",
+   "checkpoint means positive at >= 2 of 3 checkpoints",
+   "seed means positive at all 3 seeds",
+   "G2/G3/G4/G5/G6/G7 pass on the heldout subset at the primary checkpoint"
+  ],
+  "rung5_requirements": [
+   "full 5521, seed 42, 3 checkpoints: mean delta lvl30 CLAP >= +0.005",
+   "delta > 0 at >= 2 of 3 checkpoints",
+   "G2 (FAD <= +0.30 vs the same-checkpoint cfg3 baseline), G3, G4, G5, G6, G7 all pass"
+  ],
+  "claim_rules": {
+   "win": "rung4 and rung5 both pass",
+   "checkpoint_specific": "rung5 mean passes but < 2/3 checkpoints positive -> report as checkpoint-specific, not adopted",
+   "no_replication": "rung4 fails -> report as not replicated, regardless of dev deltas",
+   "gate_fail": "any mandated gate fails -> not adopted even if CLAP rises"
+  },
+  "reporting": "raw CLAP, lvl30 CLAP, AES CE/CU/PC/PQ (raw and lvl30), level (LUFS/RMS/crest/silent/clipped), FAD (full, 1924 pairs, --ref_dir /mnt/HDD/kojiek/musiccaps_reference), MEva (heldout1024, pinned f03 binding)"
+ },
+ "budget": {
+  "measured_cost_model": {
+   "eval_py_setup_s": 23.0,
+   "gen_cfg0_s_per_clip": 0.1962,
+   "gen_cfg_ge1_s_per_clip": 0.3142,
+   "eval_metrics_model_load_s": 27.0,
+   "metrics_s_per_clip_excl_load": 0.022,
+   "level_only_s_256": 0.74,
+   "level_gain_s_per_clip": 0.0064,
+   "fad_s_per_trial_estimate": {"256": 25, "1024": 71, "1924": 125},
+   "meva_s_per_clip": 0.163,
+   "scoring_scope": "rungs 1-4 score raw level only plus the full lvl30 cell; rung 5 adds raw CLAP/AES and MEva"
+  },
+  "per_trial_seconds": {"dev256": 163, "dev1024": 475, "heldout1024": 475, "full5521": 2215},
+  "stages": [
+   {"id": "P0", "mode": "queue", "job": "153", "work": "copy gate, FAD parity, split baseline scoring, noise calibration, sequential full-5521 lvl30 timing", "hours": 0.6, "reason": "gpu0.lock was held by 152_bench_r2_J5c_singmos (acquired 2026-10-26T20:54:46Z, about 1.5 h remaining); waiting for the lock would idle the GPU and exceed the dispatch window, so phase 0 runs as its own queue job and gates rung 1 (r5)"},
+   {"id": "R1", "mode": "queue", "work": "38 trials on dev256", "hours": 1.72},
+   {"id": "R2", "mode": "queue", "work": "<=10 trials on dev1024", "hours": 1.32},
+   {"id": "R3", "mode": "queue", "work": "<=6 combos on dev1024", "hours": 0.79},
+   {"id": "R4", "mode": "queue", "work": "9 trials on heldout1024 (3 ckpt x 3 seeds)", "hours": 1.19},
+   {"id": "R5", "mode": "queue", "work": "3 full-5521 runs + FAD + MEva on heldout", "hours": 2.13},
+   {"id": "analysis", "mode": "session", "work": "summaries, tables, docs", "hours": 0.4}
+  ],
+  "total_hours_estimate": 8.15,
+  "soft_target_hours": 8.25,
+  "hard_cap_hours": 15.0,
+  "early_stop": [
+   "E1 rung 1: no config passes G2/G4-G7 with delta >= 0.005 -> stop and report a null result",
+   "E2 rung 2: no config reaches delta >= 0.005 with CI lower > 0 -> stop",
+   "E3 rung 3: no combo beats the best single by >= 0.002 -> go to rung 4 with the best single",
+   "E4 rung 4: winner fails the heldout requirements -> stop, report not replicated",
+   "E5 wall clock > 8.25 h at a rung boundary -> skip rung 3; > 15 h -> abort after the current trial",
+   "E6 rung 5 gate failure -> report the gate failure, do not claim a win"
+  ]
+ },
+ "disk": {
+  "scratch_root": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027",
+  "bytes_per_clip_flac": 225882,
+  "per_trial_peak_gb": {"256": 0.13, "1024": 0.47, "5521": 2.5, "fad_tmp_1924": 1.23},
+  "worst_case_peak_gb": 3.8,
+  "retained_per_trial": "summary.json, per_clip.tsv, metrics.json (raw and lvl30), gain_status.tsv, fad.json; audio deleted after scoring",
+  "retained_total_estimate_mb": 20,
+  "guards": {"refuse_new_trial_free_bytes": 20000000000, "abort_run_free_bytes": 10000000000},
+  "nvme_free_at_registration": "64 GB",
+  "later_move_candidates_not_moved_this_round": [
+   "/home/kojiek/eval_output_nvme (110 GB) -> /mnt/seagate/nvme_archive/eval_output_nvme, keeping the six canonical full cells",
+   "/home/kojiek/nvme_experiment_artifacts (52 GB) -> /mnt/seagate/nvme_archive/nvme_experiment_artifacts",
+   "/home/kojiek/exps_nvme ckpt_last (about 163 x 2.4 GB) and ckpt_shadow (6) -> /mnt/seagate/nvme_archive/exps_nvme"
+  ]
+ },
+ "loop": {
+  "mechanism": "hybrid: phase 0 and every rung are p2 queue jobs, with an agent audit between them",
+  "phase0": "queue job 153 (r5: was a direct run); copy gate + determinism on dev256, FAD parity 5.0836, six baselines per split, C1/C2 seed floor and one sequential full-5521 lvl30 timing cell all run inside the job, and p0_summary.json gates rung 1",
+  "queue_jobs": "p2, numbering 153-158: 153 = phase 0, 154-158 = rungs 1-5 (152 is taken by 152_bench_r2_J5c_singmos); contract in docs/experiments/ before the launcher enters pending/, no dotfiles in pending/",
+  "wake": "python3 ~/.claude-dispatch/claude_dispatch.py after --wait '/home/kojiek/gpu_queue/p2/*/<JOB>.terminal.json' --task <task_id> --log <driver.log> --message '<next step>' --timeout-hours 6 --stall-minutes 45 --check-minutes 60",
+  "between_rungs": "run analyze.py, write round{N+1}_configs.json + contract, commit, stage launcher, submit",
+  "resume": "trial-level: a trial whose summary.json exists and whose config sha matches is skipped"
+ },
+ "predictions": [
+  "P1 F2 (prompt) is the strongest family: the short prompt (low quality recording, noisy) beats stock on lvl30 CLAP by +0.003 to +0.010, because 086/108 showed the single strongest term carries most of the gain",
+  "P2 the CLAP-vs-cfg curve is flat within 0.003 between 2.5 and 4.0 and falls at 5.0",
+  "P3 guidance restricted to the first third (t > 0.667) keeps >= 80% of the stock CLAP and raises PQ by >= 0.05, matching the 075 finding that 93-100% of the gain happens in the first 9/25 steps",
+  "P4 ADG/APG at cfg 3.0 are within 0.003 of vanilla on lvl30 CLAP (073: norm waste is only 2% of the fidelity gain)",
+  "P5 all three controls stay within 0.002 of baseline on dev256 and C0 reproduces the canonical flac sha256 exactly",
+  "P6 the final winner is a prompt or interval change worth +0.004 to +0.012 lvl30 CLAP on full 5521; if it survives heldout it is a real, reportable effect",
+  "P7 probability that some config passes every gate including heldout: about 40%; the most likely failure mode is a dev-only gain that does not replicate on heldout",
+  "P8 FAD and PQ gates will reject at least one high-CLAP config, because CLAP and fidelity have moved in opposite directions in earlier lines (064, 084)"
+ ],
+ "risks": [
+  "CLAP batch-1 on lvl30 audio is a new scale; all comparisons must stay inside this prereg and not be mixed with raw CLAP numbers",
+  "FAD on 256/1024-clip subsets is noisy; the noise is measured from three baseline checkpoints on the same subset before any gate is enforced",
+  "the 3-checkpoint confirmation uses checkpoints that are already on disk; a checkpoint that is not bit-identical to the registered sha invalidates the confirmation",
+  "any change to eval.py, eval_metrics.py, mc_mf25_eval.sh or level_match_rescore.py invalidates this prereg"
+ ],
+ "revision_history": [
+  {"rev": "r1", "date": "2026-10-27", "note": "initial registration; written by the dispatched design session; no GPU search executed"},
+  {"rev": "r2", "date": "2026-10-27", "note": "added the measured raw level-only cost (0.74 s at 256) and the dev256 baselines extracted from the canonical full cells; no threshold, config, gate, or budget changed"},
+  {"rev": "r3", "date": "2026-10-27", "note": "corrected reference_cfg3_minus_cfg0_lvl30_clap from 0.040 (single checkpoint rounded) to the exact 3-checkpoint mean 0.0422 (0.0398/0.0415/0.0453); thresholds unchanged, min_effect_source reworded to 12%"},
+  {"rev": "r4", "date": "2026-10-27", "note": "budget arithmetic: the rungs 1-4 per-trial formula now lists the measured raw level-only pass explicitly, so dev1024/heldout1024 go 473 -> 475 s and the total goes 7.73 -> 7.75 h; dev256, full5521, every threshold, config, gate and split unchanged; no trial executed"},
+  {"rev": "r5", "date": "2026-10-27", "note": "dispatch addendum: the F4 schedule scale is now w(t) = 3.0*s(t)/mean_t s(t) over the trial step points, giving the same mean guidance strength as stock cfg3 (the old c=1+2r text is superseded; w<1 steps take the conditional-only branch, which is algebraically vanilla c=1); phase 0 moves from a direct run to queue job 153 and rungs 1-5 shift to 154-158 because job 152 holds gpu0.lock, with the phase-0 estimate 0.2 -> 0.6 h and the soft target 8.0 -> 8.25 h (hard cap unchanged at 15 h); the dev256 split shas (8723c3db file / 818f234d ids) are recorded as measured. No threshold, gate, prompt, split boundary or search config changed"}
+ ]
+}

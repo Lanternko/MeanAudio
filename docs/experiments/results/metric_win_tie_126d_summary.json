@@ -1,0 +1,5971 @@
+{
+  "S_songeval": {
+    "se_coh": 0.18140970161761416,
+    "se_mem": 0.16201339368543577,
+    "se_nat": 0.13873503176768676,
+    "se_cla": 0.15122982186708,
+    "se_mus": 0.14980111654649075
+  },
+  "S_aes": {},
+  "system_means_songeval": {
+    "real": [
+      2.4092774679399716,
+      2.4683982913662055,
+      2.4274977908789666,
+      2.2719279407522928,
+      2.195148082245167
+    ],
+    "ours_cfg3neg": [
+      2.4598087458585165,
+      2.523421762424475,
+      2.422803646267782,
+      2.320690885207565,
+      2.2490709822646684
+    ],
+    "ours_cfg0": [
+      2.4625345630481346,
+      2.5204491972325123,
+      2.440998818748782,
+      2.3333666914831435,
+      2.2691977092184814
+    ],
+    "musicgen": [
+      2.5906871695575857,
+      2.6304116850516412,
+      2.555874303644519,
+      2.4231577626193728,
+      2.344949198791658
+    ],
+    "musicldm": [
+      2.431908979341259,
+      2.4835296070941375,
+      2.4171392718768323,
+      2.3043917750925744,
+      2.2367165349834224
+    ]
+  },
+  "126c": {
+    "bass_semi+1": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.18885307078039945,
+        "pass_pct": 0.0998185117967332,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2400079038112525,
+        "pass_pct": 0.07985480943738657,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18811343375680567,
+        "pass_pct": 0.14882032667876588,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24185539201451883,
+        "pass_pct": 0.050816696914700546,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16600759891107067,
+        "pass_pct": 0.12522686025408347,
+        "passed": false
+      }
+    },
+    "clicks5ps": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.20693276406533592,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.19383179673321255,
+        "pass_pct": 0.06533575317604355,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.15864440653357517,
+        "pass_pct": 0.10344827586206896,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.25533198548094355,
+        "pass_pct": 0.019963702359346643,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.20591572776769498,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      }
+    },
+    "clip6db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.19497808711433776,
+        "pass_pct": 0.09618874773139746,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2406164990925592,
+        "pass_pct": 0.07985480943738657,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18993571687840274,
+        "pass_pct": 0.1542649727767695,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24910868058076205,
+        "pass_pct": 0.043557168784029036,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16575611796733206,
+        "pass_pct": 0.12885662431941924,
+        "passed": false
+      }
+    },
+    "dmx_no_bass": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.18978487114337586,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.22198544101633413,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.16925497640653342,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.26024837931034467,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.17731047186932838,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      }
+    },
+    "dmx_no_drums": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.23517937386569893,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.26539746642468265,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.22607301633393814,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.30226661524500886,
+        "pass_pct": 0.009074410163339383,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.20755870054446451,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      }
+    },
+    "dmx_no_other": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.10407056261343033,
+        "pass_pct": 0.06352087114337568,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.11961860617059912,
+        "pass_pct": 0.05807622504537205,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.08215205444646083,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.17605697459165132,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.07981830308529937,
+        "pass_pct": 0.0544464609800363,
+        "passed": false
+      }
+    },
+    "dmx_no_vocals": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.17290214882032687,
+        "pass_pct": 0.05807622504537205,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.19524756079854833,
+        "pass_pct": 0.04900181488203267,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1202223811252267,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2340618221415606,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.12995805444646089,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      }
+    },
+    "dmx_resum": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.1922870399274049,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.22568798003629786,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18329312704174214,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2621433793103446,
+        "pass_pct": 0.007259528130671506,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1687956551724137,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      }
+    },
+    "drums_lag100ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.19478966424682415,
+        "pass_pct": 0.09618874773139746,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24971687295825792,
+        "pass_pct": 0.06896551724137931,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1824047640653356,
+        "pass_pct": 0.15789473684210525,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24623868602540813,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1751582159709618,
+        "pass_pct": 0.1161524500907441,
+        "passed": false
+      }
+    },
+    "drums_lag20ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.19166028493647932,
+        "pass_pct": 0.1088929219600726,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2494777477313977,
+        "pass_pct": 0.06896551724137931,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.194151230490018,
+        "pass_pct": 0.14882032667876588,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24735130852994536,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.17141223049001808,
+        "pass_pct": 0.11978221415607986,
+        "passed": false
+      }
+    },
+    "drums_lag250ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.16074291288566264,
+        "pass_pct": 0.14337568058076225,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.21743129582577153,
+        "pass_pct": 0.10163339382940109,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1385659854809436,
+        "pass_pct": 0.20326678765880218,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.21834766606170578,
+        "pass_pct": 0.08166969147005444,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.14523000362976396,
+        "pass_pct": 0.1560798548094374,
+        "passed": false
+      }
+    },
+    "drums_lag50ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.18058614882032686,
+        "pass_pct": 0.11796733212341198,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.23873019600725978,
+        "pass_pct": 0.07985480943738657,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.17851645372050798,
+        "pass_pct": 0.17422867513611615,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.23362707259528112,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1702474428312159,
+        "pass_pct": 0.11070780399274047,
+        "passed": false
+      }
+    },
+    "gain-1": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.1982160744101635,
+        "pass_pct": 0.043557168784029036,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.251201431941924,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19476297096188733,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.249305123411978,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16814384392014511,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      }
+    },
+    "gain-3": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.20104535027223247,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2554065226860256,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19675236842105245,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.25098153901996345,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.17052094010889285,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      }
+    },
+    "lead10ms": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19697900000000018,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25105239927404743,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19663248275862052,
+        "pass_pct": 0.012704174228675136,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24949838656987272,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16943149546279485,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      }
+    },
+    "lowpass4k": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.31999691470054464,
+        "pass_pct": 0.019963702359346643,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.3488661687840292,
+        "pass_pct": 0.010889292196007259,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.3317163629764064,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.36293974773139726,
+        "pass_pct": 0.007259528130671506,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.25295343920145186,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      }
+    },
+    "mix": {
+      "kind": "ref",
+      "se_coh": {
+        "mean_d": 0.19688749909255918,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2492225607985483,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1938383575317603,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24856247731397438,
+        "pass_pct": 0.019963702359346643,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16712192740471862,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      }
+    },
+    "mp3_64k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.32633207078039944,
+        "pass_pct": 0.0054446460980036296,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.401161600725953,
+        "pass_pct": 0.0018148820326678765,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.3244723303085298,
+        "pass_pct": 0.014519056261343012,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.3549815807622502,
+        "pass_pct": 0.003629764065335753,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.31761209255898354,
+        "pass_pct": 0.007259528130671506,
+        "passed": false
+      }
+    },
+    "no_bass": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.19742411252268624,
+        "pass_pct": 0.0544464609800363,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24796117967332143,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1827299128856623,
+        "pass_pct": 0.050816696914700546,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24929397822141536,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.17858374047186926,
+        "pass_pct": 0.043557168784029036,
+        "passed": false
+      }
+    },
+    "no_drums": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.23547121960072614,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2881701778584394,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.2394897912885661,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.28739728312159685,
+        "pass_pct": 0.012704174228675136,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.2060758711433756,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      }
+    },
+    "no_other": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.13544502359346663,
+        "pass_pct": 0.05989110707803993,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.1744524555353904,
+        "pass_pct": 0.045372050816696916,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.13344322323048988,
+        "pass_pct": 0.043557168784029036,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.18840932123411958,
+        "pass_pct": 0.045372050816696916,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.09465187295825762,
+        "pass_pct": 0.07441016333938294,
+        "passed": false
+      }
+    },
+    "no_vocals": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.16685797459165172,
+        "pass_pct": 0.06715063520871144,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.21604595099818533,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.12035707803992728,
+        "pass_pct": 0.05989110707803993,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.20378900181488183,
+        "pass_pct": 0.029038112522686024,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.10131721415607978,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      }
+    },
+    "noise_snr10": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.033220874773139925,
+        "pass_pct": 0.37568058076225047,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.05966956442831238,
+        "pass_pct": 0.3339382940108893,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.004561350272232152,
+        "pass_pct": 0.46098003629764067,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.12794441379310323,
+        "pass_pct": 0.18874773139745918,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.04033001996370228,
+        "pass_pct": 0.35934664246823955,
+        "passed": false
+      }
+    },
+    "noise_snr20": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.12202451905626151,
+        "pass_pct": 0.20326678765880218,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.15224658076225067,
+        "pass_pct": 0.17785843920145192,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.10286308348457335,
+        "pass_pct": 0.29945553539019965,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.20167482032667858,
+        "pass_pct": 0.07622504537205081,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.11125853176043549,
+        "pass_pct": 0.21415607985480944,
+        "passed": false
+      }
+    },
+    "noise_snr30": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.1634376388384757,
+        "pass_pct": 0.12704174228675136,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.198847989110708,
+        "pass_pct": 0.10344827586206896,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.15039884392014505,
+        "pass_pct": 0.19419237749546278,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.23444538656987274,
+        "pass_pct": 0.05989110707803993,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1456479437386569,
+        "pass_pct": 0.15970961887477314,
+        "passed": false
+      }
+    },
+    "noise_snr40": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.18313013248638857,
+        "pass_pct": 0.09618874773139746,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.22356556987295848,
+        "pass_pct": 0.08711433756805807,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1739213085299454,
+        "pass_pct": 0.16878402903811252,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24717098185117947,
+        "pass_pct": 0.047186932849364795,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16052150816696906,
+        "pass_pct": 0.132486388384755,
+        "passed": false
+      }
+    },
+    "only_bass": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.2663929655172415,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.3239725390199639,
+        "pass_pct": 0.010889292196007259,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.22467231578947353,
+        "pass_pct": 0.029038112522686024,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.31586965335753153,
+        "pass_pct": 0.010889292196007259,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.20009039019963692,
+        "pass_pct": 0.045372050816696916,
+        "passed": false
+      }
+    },
+    "only_drums": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.05971034119782233,
+        "pass_pct": 0.09437386569872959,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.09908206352087134,
+        "pass_pct": 0.07985480943738657,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.008060444646098161,
+        "pass_pct": 0.07622504537205081,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.12782392014519037,
+        "pass_pct": 0.05807622504537205,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.00014877132486397425,
+        "pass_pct": 0.06533575317604355,
+        "passed": false
+      }
+    },
+    "only_other": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.22458784392014539,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.29256177132486405,
+        "pass_pct": 0.023593466424682397,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.17327538294010875,
+        "pass_pct": 0.043557168784029036,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2798615571687838,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.18057220326678758,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      }
+    },
+    "only_vocals": {
+      "kind": "descriptive",
+      "se_coh": {
+        "mean_d": 0.07982624500907459,
+        "pass_pct": 0.10344827586206896,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.12669615245009094,
+        "pass_pct": 0.06352087114337568,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.07216962431941908,
+        "pass_pct": 0.05807622504537205,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.17389185299455517,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.10233625771324856,
+        "pass_pct": 0.06896551724137931,
+        "passed": false
+      }
+    },
+    "pcm16": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19653223230490036,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24840856805807648,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1932295789473683,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24875412704174207,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.166914504537205,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      }
+    },
+    "polarity": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19688749909255918,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2492225607985483,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1938383575317603,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24856247731397438,
+        "pass_pct": 0.019963702359346643,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16712192740471862,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      }
+    },
+    "rebal_bass_+1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.1975837731397461,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2505377132486391,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19500030671506335,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24909907441016307,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16750312341197815,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      }
+    },
+    "rebal_bass_+3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19936271506352105,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25359976406533596,
+        "pass_pct": 0.023593466424682397,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1971246533575316,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2503995807622502,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1688309437386569,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      }
+    },
+    "rebal_bass_+6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.2022371234119784,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.258084598911071,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.2013603375680579,
+        "pass_pct": 0.023593466424682397,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.25289374954627925,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.17118144464609794,
+        "pass_pct": 0.045372050816696916,
+        "passed": false
+      }
+    },
+    "rebal_bass_-1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19622074773139764,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24802578221415633,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19262365880217772,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24800466424682371,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16677583121597087,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      }
+    },
+    "rebal_bass_-3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.1951969564428314,
+        "pass_pct": 0.04900181488203267,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24617411978221437,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19013189473684194,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24707745009074392,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1664997205081669,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      }
+    },
+    "rebal_bass_-6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19456371324863905,
+        "pass_pct": 0.06170598911070781,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2447129927404721,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18696014882032652,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24668081306715045,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1665755117967331,
+        "pass_pct": 0.05989110707803993,
+        "passed": false
+      }
+    },
+    "rebal_drums_+1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19358911070780419,
+        "pass_pct": 0.032667876588021776,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24594684210526335,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19040002903811237,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2455719328493646,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16384279310344818,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      }
+    },
+    "rebal_drums_+3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.18703258620689675,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.23861894736842126,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18249316333938279,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.238997956442831,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1567184827586206,
+        "pass_pct": 0.056261343012704176,
+        "passed": false
+      }
+    },
+    "rebal_drums_+6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.17566012522686045,
+        "pass_pct": 0.047186932849364795,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.22548667513611634,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1670918765880216,
+        "pass_pct": 0.04900181488203267,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.22766853357531738,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.14410134482758613,
+        "pass_pct": 0.06352087114337568,
+        "passed": false
+      }
+    },
+    "rebal_drums_-1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.1999768384754993,
+        "pass_pct": 0.047186932849364795,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25231036479128877,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19704846098003614,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.25134789292195986,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1702651669691469,
+        "pass_pct": 0.047186932849364795,
+        "passed": false
+      }
+    },
+    "rebal_drums_-3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.2055425099818514,
+        "pass_pct": 0.056261343012704176,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25835904900181506,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.20261445009074391,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2565174029038111,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1759369382940108,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      }
+    },
+    "rebal_drums_-6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.213452711433757,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.26681101270417446,
+        "pass_pct": 0.029038112522686024,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.21089961161524484,
+        "pass_pct": 0.029038112522686024,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.26391642468239546,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.18338132486388375,
+        "pass_pct": 0.047186932849364795,
+        "passed": false
+      }
+    },
+    "rebal_other_+1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19751869147005463,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24986510707804016,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1928496025408347,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24847210889292173,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16805320871143364,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      }
+    },
+    "rebal_other_+3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19761803085299473,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24987745372050837,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18922190562613414,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24762567695099802,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1684984101633393,
+        "pass_pct": 0.04900181488203267,
+        "passed": false
+      }
+    },
+    "rebal_other_+6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19589091651542667,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24663664065335775,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18083619782214141,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24522519963702336,
+        "pass_pct": 0.012704174228675136,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16607379491833021,
+        "pass_pct": 0.043557168784029036,
+        "passed": false
+      }
+    },
+    "rebal_other_-1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19580395281306734,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24823877676951017,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1944840526315788,
+        "pass_pct": 0.029038112522686024,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24820360435571662,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16595608711433746,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      }
+    },
+    "rebal_other_-3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19220668602540852,
+        "pass_pct": 0.047186932849364795,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24477339564428335,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19368392377495447,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24603903629764046,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16283666424682386,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      }
+    },
+    "rebal_other_-6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.18619884029038128,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.23805582940108916,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18951230852994538,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24097815607985457,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.15607831941923767,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      }
+    },
+    "rebal_vocals_+1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19818252450090762,
+        "pass_pct": 0.050816696914700546,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2501420653357534,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19638596551724125,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2502875281306713,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16875167513611608,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      }
+    },
+    "rebal_vocals_+3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19918849546279513,
+        "pass_pct": 0.050816696914700546,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25068251905626154,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19981742105263142,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2524590018148818,
+        "pass_pct": 0.018148820326678767,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1714416878402903,
+        "pass_pct": 0.019963702359346643,
+        "passed": false
+      }
+    },
+    "rebal_vocals_+6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19876390925589854,
+        "pass_pct": 0.0544464609800363,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24865356805807637,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.20156893284936464,
+        "pass_pct": 0.029038112522686024,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2532976515426495,
+        "pass_pct": 0.014519056261343012,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.17299448094373857,
+        "pass_pct": 0.029038112522686024,
+        "passed": false
+      }
+    },
+    "rebal_vocals_-1dB": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19508084392014538,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2478369818511799,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19073645553539004,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2459597695099817,
+        "pass_pct": 0.014519056261343012,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16517989292196,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      }
+    },
+    "rebal_vocals_-3dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.18945401996370256,
+        "pass_pct": 0.02722323049001815,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24308312885662453,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18304577313974574,
+        "pass_pct": 0.045372050816696916,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24036407622504516,
+        "pass_pct": 0.010889292196007259,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16007357168784023,
+        "pass_pct": 0.0544464609800363,
+        "passed": false
+      }
+    },
+    "rebal_vocals_-6dB": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.1796875208711436,
+        "pass_pct": 0.041742286751361164,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.23258618693284958,
+        "pass_pct": 0.023593466424682397,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.16811517422867497,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.23012465698729556,
+        "pass_pct": 0.009074410163339383,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.14959870054446453,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      }
+    },
+    "stemsum": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.19688646823956463,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2492075226860256,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19385298366606155,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24853682032667854,
+        "pass_pct": 0.021778584392014518,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1670847223230489,
+        "pass_pct": 0.036297640653357534,
+        "passed": false
+      }
+    },
+    "swap_drums": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.19290314156079874,
+        "pass_pct": 0.05989110707803993,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.24308046642468262,
+        "pass_pct": 0.039927404718693285,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.15221089655172396,
+        "pass_pct": 0.16333938294010888,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.250372789473684,
+        "pass_pct": 0.025408348457350273,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.18681726497277668,
+        "pass_pct": 0.06352087114337568,
+        "passed": false
+      }
+    },
+    "swap_vocals": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.19599585480943757,
+        "pass_pct": 0.0998185117967332,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2390450381125229,
+        "pass_pct": 0.08166969147005444,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18020178221415592,
+        "pass_pct": 0.15063520871143377,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2522029600725951,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.17522079491833023,
+        "pass_pct": 0.1161524500907441,
+        "passed": false
+      }
+    },
+    "vocal_pv0": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.19804086932849385,
+        "pass_pct": 0.038112522686025406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25471047186932866,
+        "pass_pct": 0.034482758620689655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.18702091470054433,
+        "pass_pct": 0.030852994555353903,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24369960072595262,
+        "pass_pct": 0.016333938294010888,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16916573684210517,
+        "pass_pct": 0.047186932849364795,
+        "passed": false
+      }
+    },
+    "vocals_detune100c": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.1974080127041744,
+        "pass_pct": 0.11070780399274047,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25308685843920165,
+        "pass_pct": 0.06896551724137931,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1905530471869327,
+        "pass_pct": 0.14519056261343014,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.2493988566243192,
+        "pass_pct": 0.050816696914700546,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1723686878402903,
+        "pass_pct": 0.11433756805807622,
+        "passed": false
+      }
+    },
+    "vocals_detune25c": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.19969914700544483,
+        "pass_pct": 0.11070780399274047,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.254385099818512,
+        "pass_pct": 0.06352087114337568,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.19086144464609783,
+        "pass_pct": 0.147005444646098,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24629615063520852,
+        "pass_pct": 0.043557168784029036,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1696057168784028,
+        "pass_pct": 0.12341197822141561,
+        "passed": false
+      }
+    },
+    "vocals_detune50c": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.19796584936479147,
+        "pass_pct": 0.10707803992740472,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.25447530852994577,
+        "pass_pct": 0.0780399274047187,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.189840284936479,
+        "pass_pct": 0.15063520871143377,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.24586602540834826,
+        "pass_pct": 0.05263157894736842,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1684201597096188,
+        "pass_pct": 0.132486388384755,
+        "passed": false
+      }
+    },
+    "vocals_lag100ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.17412420508166987,
+        "pass_pct": 0.0998185117967332,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.22456285662431966,
+        "pass_pct": 0.09618874773139746,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.15685921778584377,
+        "pass_pct": 0.19600725952813067,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.22527546642468219,
+        "pass_pct": 0.06533575317604355,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1407352921960072,
+        "pass_pct": 0.15970961887477314,
+        "passed": false
+      }
+    },
+    "vocals_lag250ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.17688230308529962,
+        "pass_pct": 0.12341197822141561,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.2329211941923777,
+        "pass_pct": 0.08711433756805807,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.1585178711433755,
+        "pass_pct": 0.1869328493647913,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.22650224682395625,
+        "pass_pct": 0.06896551724137931,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.14796823774954615,
+        "pass_pct": 0.15245009074410162,
+        "passed": false
+      }
+    },
+    "vocals_lag50ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.18070777132486407,
+        "pass_pct": 0.10163339382940109,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.23647751179673346,
+        "pass_pct": 0.07078039927404718,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.16960293466424667,
+        "pass_pct": 0.15789473684210525,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.23889481488203243,
+        "pass_pct": 0.05807622504537205,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.15834693284936469,
+        "pass_pct": 0.12885662431941924,
+        "passed": false
+      }
+    }
+  },
+  "126b": {
+    "blastnote_x1": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.019080111940298503,
+        "pass_pct": 0.23756218905472637,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.012686871890547267,
+        "pass_pct": 0.2848258706467662,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.015612350746268662,
+        "pass_pct": 0.32213930348258707,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.022423839552238808,
+        "pass_pct": 0.24502487562189054,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.015095283582089544,
+        "pass_pct": 0.2960199004975124,
+        "passed": false
+      }
+    },
+    "blastnote_x10": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.002607793532338313,
+        "pass_pct": 0.40298507462686567,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0009422773631840748,
+        "pass_pct": 0.42039800995024873,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.002797330845771139,
+        "pass_pct": 0.4577114427860697,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.007010751243781092,
+        "pass_pct": 0.40671641791044777,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.0004144751243781091,
+        "pass_pct": 0.4465174129353234,
+        "passed": false
+      }
+    },
+    "blastnote_x3": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.013227772388059705,
+        "pass_pct": 0.35323383084577115,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.006594619402985074,
+        "pass_pct": 0.36318407960199006,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.00196350870646766,
+        "pass_pct": 0.458955223880597,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.018195184079602,
+        "pass_pct": 0.34950248756218905,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.005112641791044767,
+        "pass_pct": 0.40422885572139305,
+        "passed": false
+      }
+    },
+    "blockshuffle0.5s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.005827924129353238,
+        "pass_pct": 0.42039800995024873,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.01970238184079601,
+        "pass_pct": 0.39676616915422885,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.0018688855721392997,
+        "pass_pct": 0.47512437810945274,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.013005592039801001,
+        "pass_pct": 0.4079601990049751,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.03458942537313432,
+        "pass_pct": 0.35199004975124376,
+        "passed": false
+      }
+    },
+    "blockshuffle1.5s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0038008830845771197,
+        "pass_pct": 0.44029850746268656,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0037428893034825816,
+        "pass_pct": 0.43034825870646765,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.013451564676616908,
+        "pass_pct": 0.4900497512437811,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.011665563432835821,
+        "pass_pct": 0.40671641791044777,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.022309708955223873,
+        "pass_pct": 0.3656716417910448,
+        "passed": false
+      }
+    },
+    "blockshuffle3.0s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0054991318407960265,
+        "pass_pct": 0.3482587064676617,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.004100884328358213,
+        "pass_pct": 0.3743781094527363,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.008686196517412932,
+        "pass_pct": 0.42039800995024873,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.012804860696517411,
+        "pass_pct": 0.34577114427860695,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.014642670398009948,
+        "pass_pct": 0.32587064676616917,
+        "passed": false
+      }
+    },
+    "drop10pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.014229062189054733,
+        "pass_pct": 0.4116915422885572,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.01345271393034826,
+        "pass_pct": 0.4092039800995025,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.01675601990049751,
+        "pass_pct": 0.45149253731343286,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.010925043532338311,
+        "pass_pct": 0.4017412935323383,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.00902919527363184,
+        "pass_pct": 0.4141791044776119,
+        "passed": false
+      }
+    },
+    "drop30pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0028454950248756284,
+        "pass_pct": 0.4664179104477612,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.011839368159203986,
+        "pass_pct": 0.42786069651741293,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.004321953980099507,
+        "pass_pct": 0.4689054726368159,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.027472473880597013,
+        "pass_pct": 0.39552238805970147,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.028670944029850744,
+        "pass_pct": 0.38681592039800994,
+        "passed": false
+      }
+    },
+    "drop60pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0035548830845771083,
+        "pass_pct": 0.44402985074626866,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0560266393034826,
+        "pass_pct": 0.3308457711442786,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.045520406716417924,
+        "pass_pct": 0.36318407960199006,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.08540671517412934,
+        "pass_pct": 0.2997512437810945,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.09025420024875623,
+        "pass_pct": 0.2997512437810945,
+        "passed": false
+      }
+    },
+    "extra10pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.014389042288557214,
+        "pass_pct": 0.25870646766169153,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.011122077114427854,
+        "pass_pct": 0.30223880597014924,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.009094338308457718,
+        "pass_pct": 0.3208955223880597,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0006461007462686499,
+        "pass_pct": 0.35199004975124376,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.01063737935323383,
+        "pass_pct": 0.291044776119403,
+        "passed": false
+      }
+    },
+    "extra30pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.04548801243781094,
+        "pass_pct": 0.2562189054726368,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.041527687810945284,
+        "pass_pct": 0.2860696517412935,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.026915929104477626,
+        "pass_pct": 0.3644278606965174,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.016637633084577122,
+        "pass_pct": 0.36318407960199006,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.04648129104477612,
+        "pass_pct": 0.2599502487562189,
+        "passed": false
+      }
+    },
+    "jitter10ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.028703722636815924,
+        "pass_pct": 0.13681592039800994,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.04015764303482588,
+        "pass_pct": 0.12313432835820895,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0348291156716418,
+        "pass_pct": 0.14303482587064675,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.015263618159203986,
+        "pass_pct": 0.208955223880597,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.01666335945273631,
+        "pass_pct": 0.1865671641791045,
+        "passed": false
+      }
+    },
+    "jitter200ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.03678345024875622,
+        "pass_pct": 0.32213930348258707,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.06496798009950248,
+        "pass_pct": 0.26243781094527363,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.06107110074626867,
+        "pass_pct": 0.2873134328358209,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.043527412935323376,
+        "pass_pct": 0.32587064676616917,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.052991402985074626,
+        "pass_pct": 0.2898009950248756,
+        "passed": false
+      }
+    },
+    "jitter30ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.05392912562189055,
+        "pass_pct": 0.1927860696517413,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.07781987064676617,
+        "pass_pct": 0.15671641791044777,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.07540378606965174,
+        "pass_pct": 0.19029850746268656,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.04784518781094527,
+        "pass_pct": 0.22263681592039802,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.04645801368159204,
+        "pass_pct": 0.22263681592039802,
+        "passed": false
+      }
+    },
+    "jitter80ms": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.043922782338308444,
+        "pass_pct": 0.2860696517412935,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0721372935323383,
+        "pass_pct": 0.24004975124378108,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.07231876119402984,
+        "pass_pct": 0.26119402985074625,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.04913839552238805,
+        "pass_pct": 0.28233830845771146,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.05636410323383084,
+        "pass_pct": 0.2562189054726368,
+        "passed": false
+      }
+    },
+    "pitchshuffle2s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.017238314676616913,
+        "pass_pct": 0.48507462686567165,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.026687682835820903,
+        "pass_pct": 0.5124378109452736,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.04095492164179104,
+        "pass_pct": 0.5597014925373134,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.021134237562189052,
+        "pass_pct": 0.4900497512437811,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.014160671641791057,
+        "pass_pct": 0.47885572139303484,
+        "passed": false
+      }
+    },
+    "pitchshuffle_all": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.030512783582089545,
+        "pass_pct": 0.5248756218905473,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.046041557213930356,
+        "pass_pct": 0.5945273631840796,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.05979340671641792,
+        "pass_pct": 0.6480099502487562,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.03928768283582089,
+        "pass_pct": 0.5708955223880597,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.026944736318407967,
+        "pass_pct": 0.5062189054726368,
+        "passed": false
+      }
+    },
+    "posshuffle100pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.05706154975124377,
+        "pass_pct": 0.2960199004975124,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.08291976616915422,
+        "pass_pct": 0.2524875621890547,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0664875,
+        "pass_pct": 0.2935323383084577,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.06246269527363184,
+        "pass_pct": 0.30970149253731344,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.09064220646766169,
+        "pass_pct": 0.22885572139303484,
+        "passed": false
+      }
+    },
+    "posshuffle10pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.014160558457711444,
+        "pass_pct": 0.2960199004975124,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.00982413059701492,
+        "pass_pct": 0.32338308457711445,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0041613370646766176,
+        "pass_pct": 0.36691542288557216,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.004456094527363184,
+        "pass_pct": 0.35447761194029853,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.017679242537313428,
+        "pass_pct": 0.3034825870646766,
+        "passed": false
+      }
+    },
+    "posshuffle30pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.036629731343283574,
+        "pass_pct": 0.3345771144278607,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.045757268656716414,
+        "pass_pct": 0.31592039800995025,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.030855011194029853,
+        "pass_pct": 0.3706467661691542,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.031757144278606965,
+        "pass_pct": 0.376865671641791,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.057763514925373134,
+        "pass_pct": 0.2922885572139303,
+        "passed": false
+      }
+    },
+    "randpitch100pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.025929490049751244,
+        "pass_pct": 0.5223880597014925,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.031946815920398004,
+        "pass_pct": 0.5422885572139303,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.05369483084577114,
+        "pass_pct": 0.6057213930348259,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.027707966417910443,
+        "pass_pct": 0.5248756218905473,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.02297747014925374,
+        "pass_pct": 0.5223880597014925,
+        "passed": false
+      }
+    },
+    "randpitch10pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0047175074626865715,
+        "pass_pct": 0.3482587064676617,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.010019669154228847,
+        "pass_pct": 0.3793532338308458,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.012066452736318399,
+        "pass_pct": 0.4253731343283582,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.007070043532338306,
+        "pass_pct": 0.3718905472636816,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.008528749999999998,
+        "pass_pct": 0.38681592039800994,
+        "passed": false
+      }
+    },
+    "randpitch30pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.011481792288557214,
+        "pass_pct": 0.44776119402985076,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.0208132276119403,
+        "pass_pct": 0.49502487562189057,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.03210217164179104,
+        "pass_pct": 0.5559701492537313,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.015367483830845777,
+        "pass_pct": 0.47885572139303484,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.011820797263681595,
+        "pass_pct": 0.4564676616915423,
+        "passed": false
+      }
+    },
+    "retrograde": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.013588978855721398,
+        "pass_pct": 0.39552238805970147,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0029208445273631927,
+        "pass_pct": 0.4577114427860697,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.009329544776119398,
+        "pass_pct": 0.4651741293532338,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.018766879353233838,
+        "pass_pct": 0.39054726368159204,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.020604388059701478,
+        "pass_pct": 0.3818407960199005,
+        "passed": false
+      }
+    },
+    "tempo_x0.95": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": -0.004378021144278607,
+        "pass_pct": 0.23880597014925373,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.0011989291044776156,
+        "pass_pct": 0.20522388059701493,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.0020575398009950174,
+        "pass_pct": 0.15920398009950248,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0012783507462686547,
+        "pass_pct": 0.19900497512437812,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.006282154228855732,
+        "pass_pct": 0.1853233830845771,
+        "passed": false
+      }
+    },
+    "tempo_x0.98": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": -0.010236296019900502,
+        "pass_pct": 0.3756218905472637,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.009900031094527351,
+        "pass_pct": 0.32587064676616917,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.011607684079601983,
+        "pass_pct": 0.24751243781094528,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.007877935323383089,
+        "pass_pct": 0.30223880597014924,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.011734177860696518,
+        "pass_pct": 0.31840796019900497,
+        "passed": false
+      }
+    },
+    "tempo_x1.02": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.016435414179104473,
+        "pass_pct": 0.3656716417910448,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.014636521144278611,
+        "pass_pct": 0.3420398009950249,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.01819642164179104,
+        "pass_pct": 0.2537313432835821,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.020023659203980096,
+        "pass_pct": 0.2860696517412935,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.016223773631840792,
+        "pass_pct": 0.35199004975124376,
+        "passed": false
+      }
+    },
+    "tempo_x1.05": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.04309976741293533,
+        "pass_pct": 0.19154228855721392,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.03875097885572141,
+        "pass_pct": 0.20149253731343283,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.046591185323383084,
+        "pass_pct": 0.1318407960199005,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.046996531094527366,
+        "pass_pct": 0.1654228855721393,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.041451252487562186,
+        "pass_pct": 0.1791044776119403,
+        "passed": false
+      }
+    },
+    "transpose+1": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": -0.004069365671641787,
+        "pass_pct": 0.16666666666666666,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.002589358208955233,
+        "pass_pct": 0.1517412935323383,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.0020566144278606913,
+        "pass_pct": 0.09577114427860696,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.003029749999999997,
+        "pass_pct": 0.12437810945273632,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0045419800995024915,
+        "pass_pct": 0.12189054726368159,
+        "passed": false
+      }
+    },
+    "transpose-1": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.0034872139303482545,
+        "pass_pct": 0.15298507462686567,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.004387962686567169,
+        "pass_pct": 0.11691542288557213,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0017755136815920365,
+        "pass_pct": 0.13805970149253732,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0025266044776119405,
+        "pass_pct": 0.13557213930348258,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.007367073383084584,
+        "pass_pct": 0.11940298507462686,
+        "passed": false
+      }
+    },
+    "unsteady15pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0667289315920398,
+        "pass_pct": 0.18034825870646767,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.08938997512437812,
+        "pass_pct": 0.14427860696517414,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.09970387189054726,
+        "pass_pct": 0.1480099502487562,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0780039751243781,
+        "pass_pct": 0.1691542288557214,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.058452659203980094,
+        "pass_pct": 0.1927860696517413,
+        "passed": false
+      }
+    },
+    "unsteady30pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.06879515547263682,
+        "pass_pct": 0.20149253731343283,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.09123428606965173,
+        "pass_pct": 0.1865671641791045,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.10517296890547263,
+        "pass_pct": 0.1691542288557214,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.08921506343283582,
+        "pass_pct": 0.17537313432835822,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.07556011318407961,
+        "pass_pct": 0.19527363184079602,
+        "passed": false
+      }
+    },
+    "unsteady5pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.03962914552238806,
+        "pass_pct": 0.14676616915422885,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.05383889303482586,
+        "pass_pct": 0.14054726368159204,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.055826659203980104,
+        "pass_pct": 0.15547263681592038,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.03802878482587064,
+        "pass_pct": 0.16417910447761194,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.02889328606965174,
+        "pass_pct": 0.1691542288557214,
+        "passed": false
+      }
+    },
+    "vel_random": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.00545620771144279,
+        "pass_pct": 0.31343283582089554,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0024489253731343275,
+        "pass_pct": 0.3345771144278607,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.002146870646766174,
+        "pass_pct": 0.35199004975124376,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.008251955223880602,
+        "pass_pct": 0.31094527363184077,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.008025450248756215,
+        "pass_pct": 0.2860696517412935,
+        "passed": false
+      }
+    },
+    "vel_x0.85": {
+      "kind": "soft",
+      "se_coh": {
+        "mean_d": 0.007577960199004975,
+        "pass_pct": 0.695273631840796,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0058830808457711456,
+        "pass_pct": 0.6691542288557214,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.004684099502487571,
+        "pass_pct": 0.6106965174129353,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.004531176616915418,
+        "pass_pct": 0.6592039800995025,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.004088619402985071,
+        "pass_pct": 0.7213930348258707,
+        "passed": false
+      }
+    },
+    "wrong100pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.02241477487562189,
+        "pass_pct": 0.513681592039801,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.026827656716417906,
+        "pass_pct": 0.527363184079602,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.04033917910447761,
+        "pass_pct": 0.5497512437810945,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.02284764552238806,
+        "pass_pct": 0.5174129353233831,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.01957540920398011,
+        "pass_pct": 0.5099502487562189,
+        "passed": false
+      }
+    },
+    "wrong10pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0051161268656716415,
+        "pass_pct": 0.32960199004975127,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.006678138059701488,
+        "pass_pct": 0.35323383084577115,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.007814210199004976,
+        "pass_pct": 0.376865671641791,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.00431926865671641,
+        "pass_pct": 0.3482587064676617,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.003764308457711449,
+        "pass_pct": 0.3582089552238806,
+        "passed": false
+      }
+    },
+    "wrong1_semi": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0023892002487562207,
+        "pass_pct": 0.26741293532338306,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.0036594527363184126,
+        "pass_pct": 0.3308457711442786,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.0038298084577114344,
+        "pass_pct": 0.35945273631840796,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.001661670398009952,
+        "pass_pct": 0.31467661691542287,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0020381405472636883,
+        "pass_pct": 0.2972636815920398,
+        "passed": false
+      }
+    },
+    "wrong1_tritone": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0028872300995024898,
+        "pass_pct": 0.2947761194029851,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.005164679104477607,
+        "pass_pct": 0.3718905472636816,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.006821248756218896,
+        "pass_pct": 0.39427860696517414,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.004357960199004971,
+        "pass_pct": 0.34701492537313433,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0015130360696517437,
+        "pass_pct": 0.31218905472636815,
+        "passed": false
+      }
+    },
+    "wrong30pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.01221686815920399,
+        "pass_pct": 0.4614427860696517,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.017475927860696516,
+        "pass_pct": 0.5323383084577115,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.021905440298507457,
+        "pass_pct": 0.5323383084577115,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.009581399253731339,
+        "pass_pct": 0.4664179104477612,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.008817175373134326,
+        "pass_pct": 0.4564676616915423,
+        "passed": false
+      }
+    },
+    "wrong5pct": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0021603420398010015,
+        "pass_pct": 0.22885572139303484,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.0061875708955223836,
+        "pass_pct": 0.28233830845771146,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.005728685323383089,
+        "pass_pct": 0.30223880597014924,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0030414203980099457,
+        "pass_pct": 0.263681592039801,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.004360206467661694,
+        "pass_pct": 0.26990049751243783,
+        "passed": false
+      }
+    },
+    "bitcrush4": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.05514503721841332,
+        "pass_pct": 0.5954946131243879,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.04652534378060724,
+        "pass_pct": 0.5612144955925563,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.0359500264446621,
+        "pass_pct": 0.5680705190989226,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.02198440156709109,
+        "pass_pct": 0.5279138099902057,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0016028403525954996,
+        "pass_pct": 0.4730656219392752,
+        "passed": false
+      }
+    },
+    "bitcrush6": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.023125469147894227,
+        "pass_pct": 0.49853085210577863,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.03522524387855044,
+        "pass_pct": 0.5915768854064642,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.012369898139079334,
+        "pass_pct": 0.5279138099902057,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0029873330068560223,
+        "pass_pct": 0.4515181194906954,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0017271567091087204,
+        "pass_pct": 0.4622918707149853,
+        "passed": false
+      }
+    },
+    "bitcrush8": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.011341316356513217,
+        "pass_pct": 0.4250734573947111,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.02783860430950048,
+        "pass_pct": 0.5925563173359452,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.005849275220372185,
+        "pass_pct": 0.4838393731635651,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.007774119490695395,
+        "pass_pct": 0.33496571988246815,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.0031630362389813886,
+        "pass_pct": 0.3780607247796278,
+        "passed": false
+      }
+    },
+    "blast80ms_x1": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0002767855044074423,
+        "pass_pct": 0.2664054848188051,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0031372634671890387,
+        "pass_pct": 0.2948090107737512,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.002694479921645449,
+        "pass_pct": 0.31929480901077373,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0003615670910871689,
+        "pass_pct": 0.3281096963761019,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.00472036532810969,
+        "pass_pct": 0.2889324191968658,
+        "passed": false
+      }
+    },
+    "blast80ms_x3": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.01238825857002938,
+        "pass_pct": 0.2810969637610186,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.02204161900097944,
+        "pass_pct": 0.28697355533790403,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.016210571008814883,
+        "pass_pct": 0.34476003917727716,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.009225163565132222,
+        "pass_pct": 0.3535749265426053,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.02379948481880509,
+        "pass_pct": 0.2752203721841332,
+        "passed": false
+      }
+    },
+    "clean_shuf": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "clicks1ps": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.013649806072477975,
+        "pass_pct": 0.32517140058765914,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.018694872673849176,
+        "pass_pct": 0.33986287952987265,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.005233325171400588,
+        "pass_pct": 0.4015670910871694,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0024044799216454377,
+        "pass_pct": 0.41136141038197843,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.030442993143976485,
+        "pass_pct": 0.2781586679725759,
+        "passed": false
+      }
+    },
+    "clicks20ps": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.07459038589618021,
+        "pass_pct": 0.2722820763956905,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.07903299902056807,
+        "pass_pct": 0.2801175318315377,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.07678794221351617,
+        "pass_pct": 0.2713026444662096,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.024381607247796276,
+        "pass_pct": 0.3525954946131244,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.09513889324191968,
+        "pass_pct": 0.22820763956904996,
+        "passed": false
+      }
+    },
+    "clicks5ps": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.08963107345739472,
+        "pass_pct": 0.1802154750244858,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.08125036238981392,
+        "pass_pct": 0.23114593535749264,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.06489036043095005,
+        "pass_pct": 0.2566111655239961,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.057394215475024477,
+        "pass_pct": 0.24975514201762977,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.11630025759059745,
+        "pass_pct": 0.13907933398628794,
+        "passed": false
+      }
+    },
+    "clip12db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.04534988050930461,
+        "pass_pct": 0.6023506366307542,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.05205021547502449,
+        "pass_pct": 0.6356513222331048,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.04663594711067579,
+        "pass_pct": 0.6160626836434868,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0494511596474045,
+        "pass_pct": 0.6013712047012733,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.027716872673849174,
+        "pass_pct": 0.5288932419196866,
+        "passed": false
+      }
+    },
+    "clip20db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0884121057786484,
+        "pass_pct": 0.7492654260528894,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.10616121743388833,
+        "pass_pct": 0.7874632713026445,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.08967832419196865,
+        "pass_pct": 0.742409402546523,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.08421227424094024,
+        "pass_pct": 0.7179236043095005,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.05730308325171401,
+        "pass_pct": 0.66307541625857,
+        "passed": false
+      }
+    },
+    "clip3db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.00036653770812928205,
+        "pass_pct": 0.12830558276199805,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.001097618021547511,
+        "pass_pct": 0.13516160626836435,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0009439637610186098,
+        "pass_pct": 0.1772771792360431,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0015665210577864939,
+        "pass_pct": 0.1831537708129285,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.0036811508325171396,
+        "pass_pct": 0.12047012732615084,
+        "passed": false
+      }
+    },
+    "clip6db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0016595337904015735,
+        "pass_pct": 0.2722820763956905,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.005181828599412346,
+        "pass_pct": 0.2938295788442703,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.003165041136141032,
+        "pass_pct": 0.32908912830558273,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.00028529382957883927,
+        "pass_pct": 0.2987267384916748,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.011133461312438787,
+        "pass_pct": 0.2507345739471107,
+        "passed": false
+      }
+    },
+    "dropout20ms_x10": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.04088205484818805,
+        "pass_pct": 0.19196865817825662,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.051012341821743405,
+        "pass_pct": 0.1841332027424094,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.04035386287952987,
+        "pass_pct": 0.23702252693437806,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.037391105778648376,
+        "pass_pct": 0.22820763956904996,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.06965175710088148,
+        "pass_pct": 0.12047012732615084,
+        "passed": false
+      }
+    },
+    "dropout20ms_x3": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0017272448579823709,
+        "pass_pct": 0.25269343780607245,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.003656307541625865,
+        "pass_pct": 0.277179236043095,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.005454641527913808,
+        "pass_pct": 0.2683643486777669,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0018175083251713979,
+        "pass_pct": 0.2722820763956905,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.009103471106758078,
+        "pass_pct": 0.21253672869735554,
+        "passed": false
+      }
+    },
+    "dropout20ms_x30": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.11030244074436828,
+        "pass_pct": 0.0969637610186092,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.1291250362389814,
+        "pass_pct": 0.09500489715964741,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.09521407541625858,
+        "pass_pct": 0.14985308521057786,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.09753026248775709,
+        "pass_pct": 0.14005876591576885,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.16163627326150834,
+        "pass_pct": 0.043095004897159644,
+        "passed": false
+      }
+    },
+    "gain+1": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -2.054554358472045e-05,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.0003982164544564173,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.00023318217433887338,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.00035651126346718974,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 3.099706170420754e-05,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "gain+3": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.00013448971596473366,
+        "pass_pct": 0.9882468168462292,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.0012907375122428913,
+        "pass_pct": 0.960822722820764,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.0006094094025465194,
+        "pass_pct": 0.9275220372184133,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.0010998942213516197,
+        "pass_pct": 0.9755142017629774,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 7.67580803134187e-05,
+        "pass_pct": 0.9725759059745348,
+        "passed": true
+      }
+    },
+    "gain+6": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.0004998521057786549,
+        "pass_pct": 0.7688540646425074,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.002823642507345732,
+        "pass_pct": 0.7345739471106758,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0009583065621939228,
+        "pass_pct": 0.6101860920666013,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0022469627815866894,
+        "pass_pct": 0.7267384916748286,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 2.300097943192628e-05,
+        "pass_pct": 0.7463271302644466,
+        "passed": false
+      }
+    },
+    "gain-0.5": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -1.9823702252691517e-06,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.00018080411361411146,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.00012457982370225431,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.00016063956904994794,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -1.9779627815868935e-05,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "gain-1": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -1.8884427032323965e-05,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.00034550146914790115,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.0002836856023506409,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.00031667482859941155,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -6.372380019589003e-05,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "gain-10": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.0015921312438785464,
+        "pass_pct": 0.5905974534769833,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0015084407443682747,
+        "pass_pct": 0.555337904015671,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.00510284720861901,
+        "pass_pct": 0.41821743388834476,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.002804387855044072,
+        "pass_pct": 0.5465230166503428,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0014277277179236103,
+        "pass_pct": 0.5230166503428012,
+        "passed": false
+      }
+    },
+    "gain-15": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.003935922624877571,
+        "pass_pct": 0.4387855044074437,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.00024171106758081213,
+        "pass_pct": 0.39960822722820766,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.009667284035259554,
+        "pass_pct": 0.2693437806072478,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0035715788442703166,
+        "pass_pct": 0.4103819784524976,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.002475064642507348,
+        "pass_pct": 0.376101860920666,
+        "passed": false
+      }
+    },
+    "gain-2": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -6.109990205680278e-05,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0006554407443682766,
+        "pass_pct": 0.9970617042115573,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.0006076268364348669,
+        "pass_pct": 0.9911851126346719,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.0006203996082272281,
+        "pass_pct": 0.9990205680705191,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -0.00015482468168461955,
+        "pass_pct": 0.9980411361410382,
+        "passed": true
+      }
+    },
+    "gain-20": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.007494776689520079,
+        "pass_pct": 0.34476003917727716,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.00223802644466209,
+        "pass_pct": 0.3036238981390793,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.01562148090107737,
+        "pass_pct": 0.20959843290891284,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0036304378060724673,
+        "pass_pct": 0.32223310479921646,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0035605739471106803,
+        "pass_pct": 0.2791380999020568,
+        "passed": false
+      }
+    },
+    "gain-3": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.00014017238001958192,
+        "pass_pct": 0.9921645445641528,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0009289236043095125,
+        "pass_pct": 0.9696376101860921,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.0009952007835455532,
+        "pass_pct": 0.9196865817825661,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.0009195318315377061,
+        "pass_pct": 0.980411361410382,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -0.0002608188050930509,
+        "pass_pct": 0.9755142017629774,
+        "passed": true
+      }
+    },
+    "gain-30": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.01800375808031342,
+        "pass_pct": 0.22526934378060726,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.010284183153770813,
+        "pass_pct": 0.22135161606268364,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.03081713418217434,
+        "pass_pct": 0.14103819784524976,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 3.283643486777359e-05,
+        "pass_pct": 0.21057786483839372,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.006393975514201764,
+        "pass_pct": 0.1929480901077375,
+        "passed": false
+      }
+    },
+    "gain-6": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.0005717737512242927,
+        "pass_pct": 0.8188050930460333,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0014702673849167599,
+        "pass_pct": 0.7698334965719883,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.0024482380019588694,
+        "pass_pct": 0.6611165523996082,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0018179696376101817,
+        "pass_pct": 0.7453476983349657,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0006522017629774701,
+        "pass_pct": 0.7639569049951028,
+        "passed": false
+      }
+    },
+    "lead10ms": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.00016112144955925445,
+        "pass_pct": 0.5328109696376102,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.001557208619000984,
+        "pass_pct": 0.4720861900097943,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0008987884427032244,
+        "pass_pct": 0.3770812928501469,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.002240213516160628,
+        "pass_pct": 0.4701273261508325,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.0014763271302644424,
+        "pass_pct": 0.4573947110675808,
+        "passed": false
+      }
+    },
+    "lead200ms": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.007539971596474043,
+        "pass_pct": 0.346718903036239,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.008242222331048004,
+        "pass_pct": 0.33986287952987265,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.00871617238001958,
+        "pass_pct": 0.2615083251714006,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.010577050930460328,
+        "pass_pct": 0.32517140058765914,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.009089415279138091,
+        "pass_pct": 0.32125367286973555,
+        "passed": false
+      }
+    },
+    "lead50ms": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.011196395690499515,
+        "pass_pct": 0.3809990205680705,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.010897532810969642,
+        "pass_pct": 0.3232125367286974,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.01725702448579824,
+        "pass_pct": 0.2566111655239961,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.014869868756121446,
+        "pass_pct": 0.3525954946131244,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.012317724779627816,
+        "pass_pct": 0.33594515181194906,
+        "passed": false
+      }
+    },
+    "lowpass1k": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0780820097943193,
+        "pass_pct": 0.6297747306562194,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.021614861900097936,
+        "pass_pct": 0.4975514201762977,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.06357690989226249,
+        "pass_pct": 0.6376101860920667,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.025438843290891286,
+        "pass_pct": 0.5112634671890304,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.04593295102840353,
+        "pass_pct": 0.5896180215475024,
+        "passed": false
+      }
+    },
+    "lowpass2k": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.06290015475024485,
+        "pass_pct": 0.188050930460333,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.04920775808031343,
+        "pass_pct": 0.23506366307541626,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.04960022428991185,
+        "pass_pct": 0.24289911851126347,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.06562317531831538,
+        "pass_pct": 0.1841332027424094,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.02992646620959843,
+        "pass_pct": 0.2948090107737512,
+        "passed": false
+      }
+    },
+    "lowpass4k": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.056794544564152796,
+        "pass_pct": 0.12242899118511263,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.03053874240940255,
+        "pass_pct": 0.25857002938295787,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.07228375514201764,
+        "pass_pct": 0.11361410381978453,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.05158464152791381,
+        "pass_pct": 0.12830558276199805,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.03796166307541626,
+        "pass_pct": 0.1939275220372184,
+        "passed": false
+      }
+    },
+    "mp3_160k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.05729211557296769,
+        "pass_pct": 0.21155729676787463,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.06818239862879531,
+        "pass_pct": 0.12830558276199805,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0513963388834476,
+        "pass_pct": 0.19000979431929482,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0508916581782566,
+        "pass_pct": 0.15572967678746327,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.06970781292850149,
+        "pass_pct": 0.11949069539666993,
+        "passed": false
+      }
+    },
+    "mp3_32k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.05338889422135162,
+        "pass_pct": 0.15475024485798236,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.05384604113614105,
+        "pass_pct": 0.13222331047992164,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.047147518119490694,
+        "pass_pct": 0.11851126346718903,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0425357140058766,
+        "pass_pct": 0.16062683643486778,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.051870472086190014,
+        "pass_pct": 0.15279138099902057,
+        "passed": false
+      }
+    },
+    "mp3_64k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.059360262487757096,
+        "pass_pct": 0.16454456415279137,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.07011394809010774,
+        "pass_pct": 0.11459353574926542,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.05308279138099902,
+        "pass_pct": 0.13809990205680706,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.05236509108716944,
+        "pass_pct": 0.13809990205680706,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.07204571890303624,
+        "pass_pct": 0.11165523996082272,
+        "passed": false
+      }
+    },
+    "noise_snr0": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.22745172282076398,
+        "pass_pct": 0.8765915768854065,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.2490488873653281,
+        "pass_pct": 0.8893241919686582,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.1900729461312439,
+        "pass_pct": 0.8070519098922625,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.161972833496572,
+        "pass_pct": 0.7698334965719883,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.15954216552399605,
+        "pass_pct": 0.761998041136141,
+        "passed": false
+      }
+    },
+    "noise_snr10": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.11226215377081293,
+        "pass_pct": 0.7414299706170421,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.1299029265426053,
+        "pass_pct": 0.7698334965719883,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.08063311459353574,
+        "pass_pct": 0.6620959843290891,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.06330371890303625,
+        "pass_pct": 0.6003917727717923,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.07066154064642509,
+        "pass_pct": 0.6415279138099902,
+        "passed": false
+      }
+    },
+    "noise_snr15": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.07913296767874632,
+        "pass_pct": 0.6493633692458374,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.0949272556317336,
+        "pass_pct": 0.713026444662096,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.052808885406464265,
+        "pass_pct": 0.6160626836434868,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.03823920666013712,
+        "pass_pct": 0.5406464250734574,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.047616833496571996,
+        "pass_pct": 0.5759059745347699,
+        "passed": false
+      }
+    },
+    "noise_snr20": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.05876120470127325,
+        "pass_pct": 0.6033300685602351,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.07262711165523995,
+        "pass_pct": 0.6699314397649363,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.03678234573947111,
+        "pass_pct": 0.5690499510284035,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.024624057786483845,
+        "pass_pct": 0.5102840352595495,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.03461827815866798,
+        "pass_pct": 0.5465230166503428,
+        "passed": false
+      }
+    },
+    "noise_snr25": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.046919514201762984,
+        "pass_pct": 0.5788442703232125,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.060657552399608225,
+        "pass_pct": 0.6620959843290891,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.029751233104799216,
+        "pass_pct": 0.5563173359451518,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.017735944172380027,
+        "pass_pct": 0.49461312438785504,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.02819641038197845,
+        "pass_pct": 0.534769833496572,
+        "passed": false
+      }
+    },
+    "noise_snr30": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.03916518805093046,
+        "pass_pct": 0.5514201762977473,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.052700010773751214,
+        "pass_pct": 0.67384916748286,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.02665311557296767,
+        "pass_pct": 0.5475024485798237,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.013758690499510293,
+        "pass_pct": 0.46620959843290893,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.02395419490695397,
+        "pass_pct": 0.5034280117531832,
+        "passed": false
+      }
+    },
+    "noise_snr40": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.026142068560235068,
+        "pass_pct": 0.47600391772771794,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.04108837904015669,
+        "pass_pct": 0.6464250734573947,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.02015347992164545,
+        "pass_pct": 0.5122428991185113,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0079295847208619,
+        "pass_pct": 0.3780607247796278,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.019426592556317342,
+        "pass_pct": 0.44564152791381,
+        "passed": false
+      }
+    },
+    "noise_snr5": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.1601194329089128,
+        "pass_pct": 0.8001958863858962,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.18027393437806075,
+        "pass_pct": 0.8256611165523996,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.12492347012732617,
+        "pass_pct": 0.7257590597453477,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.1044666513222331,
+        "pass_pct": 0.6865817825661117,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.10638388344760037,
+        "pass_pct": 0.7002938295788442,
+        "passed": false
+      }
+    },
+    "noise_snr50": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.01368951028403526,
+        "pass_pct": 0.356513222331048,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.026788203721841323,
+        "pass_pct": 0.5269343780607247,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.009747065621939275,
+        "pass_pct": 0.3917727717923604,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.00023827717923604819,
+        "pass_pct": 0.2801175318315377,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.01308598041136141,
+        "pass_pct": 0.3633692458374143,
+        "passed": false
+      }
+    },
+    "pcm16": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.003486255631733592,
+        "pass_pct": 0.7874632713026445,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 9.20068560235118e-05,
+        "pass_pct": 0.7747306562193927,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.006630266405484811,
+        "pass_pct": 0.7110675808031341,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.005856564152791384,
+        "pass_pct": 0.7610186092066601,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.003421800195886385,
+        "pass_pct": 0.7884427032321254,
+        "passed": false
+      }
+    },
+    "polarity": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 4.897159647393092e-08,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -6.366307541602321e-08,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 1.7335945151799385e-07,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -9.794319294786184e-08,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 7.835455435637568e-09,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "resample44k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.008289332027424096,
+        "pass_pct": 0.8736532810969637,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.007467405484818814,
+        "pass_pct": 0.8687561214495593,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.005013422135161602,
+        "pass_pct": 0.8432908912830558,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.004233753183153768,
+        "pass_pct": 0.8540646425073457,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.007515538687561209,
+        "pass_pct": 0.8413320274240941,
+        "passed": true
+      }
+    },
+    "reverse": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.013232212536728695,
+        "pass_pct": 0.39960822722820766,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.01782873261508326,
+        "pass_pct": 0.40646425073457393,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.022489074436826628,
+        "pass_pct": 0.41821743388834476,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.01772322233104799,
+        "pass_pct": 0.41429970617042117,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.04378906268364349,
+        "pass_pct": 0.3339862879529873,
+        "passed": false
+      }
+    },
+    "shuffle0.25s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0577197140058766,
+        "pass_pct": 0.5857002938295789,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.0741423682664055,
+        "pass_pct": 0.6209598432908913,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.1561877845249755,
+        "pass_pct": 0.8021547502448579,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.068719833496572,
+        "pass_pct": 0.6072477962781586,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.019779509304603322,
+        "pass_pct": 0.4015670910871694,
+        "passed": false
+      }
+    },
+    "shuffle1.0s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.005840228207639569,
+        "pass_pct": 0.4534769833496572,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.012695043095004892,
+        "pass_pct": 0.4838393731635651,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.04586882957884426,
+        "pass_pct": 0.5582761998041136,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.006106607247796273,
+        "pass_pct": 0.4642507345739471,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.030903594515181196,
+        "pass_pct": 0.3633692458374143,
+        "passed": false
+      }
+    }
+  },
+  "126a": {
+    "clean_shuf": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "gain-0.5": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0009105557201325279,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0011494212434223358,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.0006829443383356062,
+        "pass_pct": 0.9999610212434223,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.0007285947378678618,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.000979997466380823,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "gain-1": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0018192353147534583,
+        "pass_pct": 0.9992983823816021,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0022983775482362115,
+        "pass_pct": 0.998947573572403,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.001364821945039954,
+        "pass_pct": 0.99766127460534,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.001463981329175598,
+        "pass_pct": 0.9986357435197817,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.0019732239329565385,
+        "pass_pct": 0.9968816994737868,
+        "passed": true
+      }
+    },
+    "gain-2": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0036321328785811737,
+        "pass_pct": 0.9778210875073086,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.004582469771974274,
+        "pass_pct": 0.9552913662054181,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.00271925172480998,
+        "pass_pct": 0.9310465796141103,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.002940206626388618,
+        "pass_pct": 0.9654648216721886,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.0039892928084194115,
+        "pass_pct": 0.9531475345936464,
+        "passed": true
+      }
+    },
+    "gain-3": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.005427884856753068,
+        "pass_pct": 0.9013447671019295,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.006845920054570259,
+        "pass_pct": 0.8312219840187098,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.004046568037419604,
+        "pass_pct": 0.7990645098421361,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.004428836601052425,
+        "pass_pct": 0.8723055934515689,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.006035956499707659,
+        "pass_pct": 0.8449814850906257,
+        "passed": true
+      }
+    },
+    "gain-6": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.010713976106022217,
+        "pass_pct": 0.5975053595790294,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.013440854804131748,
+        "pass_pct": 0.5061001754044046,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.007861062560904308,
+        "pass_pct": 0.4902358214772949,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.008944808146560124,
+        "pass_pct": 0.572403040343013,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.01231836047554083,
+        "pass_pct": 0.5390762034691093,
+        "passed": false
+      }
+    },
+    "gain-10": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.017228249230169558,
+        "pass_pct": 0.3837458585071136,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.021481672149678426,
+        "pass_pct": 0.3193139738842331,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.012246162151627363,
+        "pass_pct": 0.3129604365620737,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.014775905866302862,
+        "pass_pct": 0.3731826154745664,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.020674783317092185,
+        "pass_pct": 0.34094718378483724,
+        "passed": false
+      }
+    },
+    "gain-15": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.02384382108750731,
+        "pass_pct": 0.2622100954979536,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.02965054137595011,
+        "pass_pct": 0.22069771974274022,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.015979467706100176,
+        "pass_pct": 0.21765737672968233,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.021085976885597345,
+        "pass_pct": 0.2596374975638277,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.030325004677450793,
+        "pass_pct": 0.2333268368739037,
+        "passed": false
+      }
+    },
+    "gain-20": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0282842717209121,
+        "pass_pct": 0.20596374975638276,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.03537973872539466,
+        "pass_pct": 0.17723640615864353,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.017380382069771973,
+        "pass_pct": 0.17271487039563438,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.025819746131358408,
+        "pass_pct": 0.20124732021048528,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.038397223699084,
+        "pass_pct": 0.17899045020463847,
+        "passed": false
+      }
+    },
+    "gain-30": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.029711177587214973,
+        "pass_pct": 0.15688949522510232,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.039397725082829856,
+        "pass_pct": 0.1360748392126291,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.013046338023777042,
+        "pass_pct": 0.12976028064704737,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.02996000202689534,
+        "pass_pct": 0.1433638666926525,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.048885952835704544,
+        "pass_pct": 0.13018904696940167,
+        "passed": false
+      }
+    },
+    "gain+1": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.0018126900019489387,
+        "pass_pct": 0.999415318651335,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.0023010370687975043,
+        "pass_pct": 0.9989085948158254,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.001365219450399533,
+        "pass_pct": 0.9971935295264082,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.0014386166439290585,
+        "pass_pct": 0.998596764763204,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -0.0019282203469109351,
+        "pass_pct": 0.9969596569869421,
+        "passed": true
+      }
+    },
+    "gain+3": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.005423897641785228,
+        "pass_pct": 0.9000974468914441,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.0068766894172675895,
+        "pass_pct": 0.8333658156304814,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.004072477606704347,
+        "pass_pct": 0.801520171506529,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.00421459146365231,
+        "pass_pct": 0.8726174235041902,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -0.005613097914636524,
+        "pass_pct": 0.8525823426232704,
+        "passed": true
+      }
+    },
+    "gain+6": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": -0.010695301383745857,
+        "pass_pct": 0.6126680958877412,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.01361252403040343,
+        "pass_pct": 0.5157669070356655,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.007967320561294094,
+        "pass_pct": 0.5028649386084584,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.00808254067433249,
+        "pass_pct": 0.5916975248489573,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.010686606548431104,
+        "pass_pct": 0.5718183589943481,
+        "passed": false
+      }
+    },
+    "polarity": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "pcm16": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": 0.0,
+        "pass_pct": 1.0,
+        "passed": true
+      }
+    },
+    "resample44k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.005754794542974079,
+        "pass_pct": 0.8345351783278113,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": 0.01033728629896706,
+        "pass_pct": 0.7430130578834535,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.004300286026115766,
+        "pass_pct": 0.7666731631260962,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.004141518963165077,
+        "pass_pct": 0.7807055154940558,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.0037590985382966293,
+        "pass_pct": 0.7964529331514325,
+        "passed": false
+      }
+    },
+    "lead10ms": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.0018678312609627754,
+        "pass_pct": 0.45936464626778406,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.002118580744494251,
+        "pass_pct": 0.4031183005262132,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0024590331319430917,
+        "pass_pct": 0.3274215552523875,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0018702990060417075,
+        "pass_pct": 0.39064509842136036,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.0023785931397388425,
+        "pass_pct": 0.40206587409861627,
+        "passed": false
+      }
+    },
+    "lead50ms": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.013533756772558955,
+        "pass_pct": 0.36343792633015004,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.012922995283570451,
+        "pass_pct": 0.3115961800818554,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.021379238588969007,
+        "pass_pct": 0.2282985772753849,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.016958433209900606,
+        "pass_pct": 0.2905086727733385,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.014663903020853634,
+        "pass_pct": 0.30380042876632235,
+        "passed": false
+      }
+    },
+    "lead200ms": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.006439274644318845,
+        "pass_pct": 0.42288053011108945,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0083911250438511,
+        "pass_pct": 0.3572403040343013,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.010583121496784254,
+        "pass_pct": 0.2835314753459365,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.007613979731046578,
+        "pass_pct": 0.3435977392321185,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.006413622139933736,
+        "pass_pct": 0.355992983823816,
+        "passed": false
+      }
+    },
+    "mp3_160k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.061045454375365425,
+        "pass_pct": 0.2548431105047749,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.06863954250633404,
+        "pass_pct": 0.24541025141297992,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.05832855891639058,
+        "pass_pct": 0.25648021828103684,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.04008115887741181,
+        "pass_pct": 0.3121418826739427,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.07049589444552719,
+        "pass_pct": 0.22693432079516662,
+        "passed": false
+      }
+    },
+    "mp3_64k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.06310875638277139,
+        "pass_pct": 0.15002923406743324,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.07082418370687975,
+        "pass_pct": 0.12917559929838238,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.060923742779185344,
+        "pass_pct": 0.12827908789709608,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.04197575961800819,
+        "pass_pct": 0.19586825180276748,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.0725890216332099,
+        "pass_pct": 0.10898460339115182,
+        "passed": false
+      }
+    },
+    "mp3_32k": {
+      "kind": "tie",
+      "se_coh": {
+        "mean_d": 0.03137714145390762,
+        "pass_pct": 0.12235431689729098,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.039650485480413174,
+        "pass_pct": 0.09838238160202689,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.03232389011888521,
+        "pass_pct": 0.10107191580588579,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.015419657922432278,
+        "pass_pct": 0.14698889105437538,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.044553032703176766,
+        "pass_pct": 0.08633794581952836,
+        "passed": false
+      }
+    },
+    "noise_snr50": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.011567815981290199,
+        "pass_pct": 0.2636912882479049,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.017532510076008572,
+        "pass_pct": 0.4031183005262132,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.011857563359968817,
+        "pass_pct": 0.3255505749366595,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0014580786591307745,
+        "pass_pct": 0.17910738647437147,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.007733489729097642,
+        "pass_pct": 0.24989280841941142,
+        "passed": false
+      }
+    },
+    "noise_snr40": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.02850056343792633,
+        "pass_pct": 0.49152212044435784,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.03632048618203079,
+        "pass_pct": 0.6071720912102904,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.028690252192555055,
+        "pass_pct": 0.5418047164295459,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.01413509148314169,
+        "pass_pct": 0.3685441434418242,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.021826763866692654,
+        "pass_pct": 0.4628337556031963,
+        "passed": false
+      }
+    },
+    "noise_snr30": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.05390887230559345,
+        "pass_pct": 0.6711752095108166,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.06236427214967843,
+        "pass_pct": 0.730617813291756,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.053122620307932175,
+        "pass_pct": 0.6925355681153771,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0351528130189047,
+        "pass_pct": 0.563671798869616,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.04245094250633405,
+        "pass_pct": 0.6209705710387838,
+        "passed": false
+      }
+    },
+    "noise_snr25": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.07019868158253752,
+        "pass_pct": 0.7268758526603001,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.07779883040343014,
+        "pass_pct": 0.7611381796920679,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.06788409799259404,
+        "pass_pct": 0.7326447086337946,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.04887396484116157,
+        "pass_pct": 0.6374196063145585,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.05572798210875073,
+        "pass_pct": 0.6785032157474177,
+        "passed": false
+      }
+    },
+    "noise_snr20": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.09003626236601052,
+        "pass_pct": 0.7650360553498343,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.09595468762424478,
+        "pass_pct": 0.7789904502046384,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.08491071241473395,
+        "pass_pct": 0.7550574936659521,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0659417235236796,
+        "pass_pct": 0.6861040732800624,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.0719037871759891,
+        "pass_pct": 0.7122588189436757,
+        "passed": false
+      }
+    },
+    "noise_snr15": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.11641735396608849,
+        "pass_pct": 0.7931397388423309,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.11960377400116937,
+        "pass_pct": 0.7927889300331319,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.10607720982264665,
+        "pass_pct": 0.774157084389008,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.08822784084973691,
+        "pass_pct": 0.7305398557786007,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.09387518503215747,
+        "pass_pct": 0.7443773143636718,
+        "passed": false
+      }
+    },
+    "noise_snr10": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.15429959941531865,
+        "pass_pct": 0.8186708244007016,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.15337897279282792,
+        "pass_pct": 0.8090820502825959,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.13504916351588384,
+        "pass_pct": 0.7913467160397584,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.11953320019489379,
+        "pass_pct": 0.7713506139154162,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.1259281898655233,
+        "pass_pct": 0.7752484895731826,
+        "passed": false
+      }
+    },
+    "noise_snr5": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.21073046856363284,
+        "pass_pct": 0.8485675306957708,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.20253565714285715,
+        "pass_pct": 0.8337166244396804,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.17735655704541023,
+        "pass_pct": 0.8186708244007016,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.1654662130189047,
+        "pass_pct": 0.8129409471837848,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -0.17425429222373803,
+        "pass_pct": 0.8166049503020854,
+        "passed": true
+      }
+    },
+    "noise_snr0": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.29453651900214384,
+        "pass_pct": 0.879282790878971,
+        "passed": true
+      },
+      "se_mem": {
+        "mean_d": -0.2720186928084194,
+        "pass_pct": 0.8587020074059637,
+        "passed": true
+      },
+      "se_nat": {
+        "mean_d": -0.2403385417267589,
+        "pass_pct": 0.8489573182615474,
+        "passed": true
+      },
+      "se_cla": {
+        "mean_d": -0.23191972500487237,
+        "pass_pct": 0.8584291561099201,
+        "passed": true
+      },
+      "se_mus": {
+        "mean_d": -0.2466386869616059,
+        "pass_pct": 0.8631066068992399,
+        "passed": true
+      }
+    },
+    "clip3db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0037857692457610604,
+        "pass_pct": 0.04505944260378094,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0030525484700838048,
+        "pass_pct": 0.06891444162931203,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.0044799321379848,
+        "pass_pct": 0.07472227635938414,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.00480793268368739,
+        "pass_pct": 0.05772753849152212,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.004443870473591892,
+        "pass_pct": 0.056947963359968816,
+        "passed": false
+      }
+    },
+    "clip6db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.004305791931397388,
+        "pass_pct": 0.1833170921847593,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0030686323133892017,
+        "pass_pct": 0.251451958682518,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.005647159306178132,
+        "pass_pct": 0.24486454882089262,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0063630106801793014,
+        "pass_pct": 0.19582927304618983,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.005573414967842527,
+        "pass_pct": 0.2067043461313584,
+        "passed": false
+      }
+    },
+    "clip12db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.02307638090040928,
+        "pass_pct": 0.5025920873124148,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.026945054297407914,
+        "pass_pct": 0.5493665952056129,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.02043354613135841,
+        "pass_pct": 0.5230949132722666,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.019989232391346715,
+        "pass_pct": 0.5009160007795751,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.021163541375950105,
+        "pass_pct": 0.513155330344962,
+        "passed": false
+      }
+    },
+    "clip20db": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.07510703250828299,
+        "pass_pct": 0.6960826349639446,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.08161207694406548,
+        "pass_pct": 0.7131163515883844,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.0670584470473592,
+        "pass_pct": 0.6673552913662054,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0644111351783278,
+        "pass_pct": 0.678581173260573,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.06499115778600663,
+        "pass_pct": 0.6820113038394076,
+        "passed": false
+      }
+    },
+    "bitcrush8": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.03034655236795946,
+        "pass_pct": 0.5176378873513935,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.03809778994348081,
+        "pass_pct": 0.6188657181835899,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.02968726946014422,
+        "pass_pct": 0.5618397973104658,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.01480638530500877,
+        "pass_pct": 0.39618008185538883,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.022580836289222375,
+        "pass_pct": 0.48364841161566946,
+        "passed": false
+      }
+    },
+    "bitcrush6": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.06086546150847789,
+        "pass_pct": 0.6928863769245761,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.06794957092184759,
+        "pass_pct": 0.728396024166829,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.05741465573962191,
+        "pass_pct": 0.6974079126875853,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.03962256183979731,
+        "pass_pct": 0.5958292730461898,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.046277995946209315,
+        "pass_pct": 0.6440459949327616,
+        "passed": false
+      }
+    },
+    "bitcrush4": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.099224337711947,
+        "pass_pct": 0.74808029623855,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.09622149050867278,
+        "pass_pct": 0.7337361138179692,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.08434487511206393,
+        "pass_pct": 0.7157279282790879,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.07364422732410837,
+        "pass_pct": 0.6930422919508867,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.07656563605534983,
+        "pass_pct": 0.7015786396413954,
+        "passed": false
+      }
+    },
+    "clicks1ps": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.0375713771974274,
+        "pass_pct": 0.17283180666536738,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.04653422358214773,
+        "pass_pct": 0.17271487039563438,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.04699748142662249,
+        "pass_pct": 0.1840966673163126,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.0454753908399922,
+        "pass_pct": 0.17630091600077957,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.052463778054960046,
+        "pass_pct": 0.14589748587020074,
+        "passed": false
+      }
+    },
+    "clicks5ps": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.09818730060417073,
+        "pass_pct": 0.11564997076593257,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.11507424283765347,
+        "pass_pct": 0.11284350029234068,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.12645136219060613,
+        "pass_pct": 0.10953030598323914,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.11696710352757747,
+        "pass_pct": 0.1157279282790879,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.1278336743324888,
+        "pass_pct": 0.09027480023387253,
+        "passed": false
+      }
+    },
+    "clicks20ps": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.05156723535373222,
+        "pass_pct": 0.3078152406938219,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.08645360381991815,
+        "pass_pct": 0.24587799649191192,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.12359034387059054,
+        "pass_pct": 0.17092184759306178,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.07847666252192556,
+        "pass_pct": 0.24240888715649972,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.07655633416488014,
+        "pass_pct": 0.23823816020268954,
+        "passed": false
+      }
+    },
+    "dropout20ms_x3": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.004750817657376729,
+        "pass_pct": 0.16300916000779575,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.005442262677840579,
+        "pass_pct": 0.19177548236211264,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.006832817033716624,
+        "pass_pct": 0.2167998440849737,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.007334381524069381,
+        "pass_pct": 0.17867862015201716,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.008846887975053598,
+        "pass_pct": 0.1546677061001754,
+        "passed": false
+      }
+    },
+    "dropout20ms_x10": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.017202441473396998,
+        "pass_pct": 0.24155135451179108,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.02124226185928669,
+        "pass_pct": 0.24833365815630482,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.01998138316117716,
+        "pass_pct": 0.27897096082634965,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.024270298772169165,
+        "pass_pct": 0.2298577275384915,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.03163021333073475,
+        "pass_pct": 0.1842136035860456,
+        "passed": false
+      }
+    },
+    "dropout20ms_x30": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.044620830559345154,
+        "pass_pct": 0.22903917365036056,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.05764697115572014,
+        "pass_pct": 0.2023387253946599,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.04502339306178134,
+        "pass_pct": 0.26365230949132723,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.05789291315533034,
+        "pass_pct": 0.20498928084194115,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.07746920448255701,
+        "pass_pct": 0.1331904112258819,
+        "passed": false
+      }
+    },
+    "lowpass4k": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.028783279672578446,
+        "pass_pct": 0.2814266224907426,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.006289689066458781,
+        "pass_pct": 0.3955174429935685,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.04859567682712922,
+        "pass_pct": 0.2504774897680764,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.01438776597154551,
+        "pass_pct": 0.34207756772558956,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.001143195517442992,
+        "pass_pct": 0.4088091989865523,
+        "passed": false
+      }
+    },
+    "lowpass2k": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.03318535895536932,
+        "pass_pct": 0.30972519976612745,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.038668636484116156,
+        "pass_pct": 0.30972519976612745,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.029177327460534017,
+        "pass_pct": 0.34063535373221593,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.02198605320600273,
+        "pass_pct": 0.347495614889885,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.023203076866107966,
+        "pass_pct": 0.4779185343987527,
+        "passed": false
+      }
+    },
+    "lowpass1k": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.1552359767296823,
+        "pass_pct": 0.7595010719158058,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.0244250903917365,
+        "pass_pct": 0.49822646657571623,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.07586991705320602,
+        "pass_pct": 0.6219060611966478,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.07432311163515884,
+        "pass_pct": 0.6059637497563828,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.12036509023582147,
+        "pass_pct": 0.6857532644708634,
+        "passed": false
+      }
+    },
+    "blast80ms_x1": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.01569179189241863,
+        "pass_pct": 0.13326836873903722,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.014402298226466577,
+        "pass_pct": 0.17579419216526992,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.01869506856363282,
+        "pass_pct": 0.1772753849152212,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.019234072812317284,
+        "pass_pct": 0.14574157084389008,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.01738958678620152,
+        "pass_pct": 0.15248489573182616,
+        "passed": false
+      }
+    },
+    "blast80ms_x3": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.029387736542584295,
+        "pass_pct": 0.17657376729682323,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.030029005496004683,
+        "pass_pct": 0.19883063730267003,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": 0.03575991623465212,
+        "pass_pct": 0.19805106217111673,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.03604433178717599,
+        "pass_pct": 0.1755992983823816,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.03534445948158254,
+        "pass_pct": 0.17458585071136232,
+        "passed": false
+      }
+    },
+    "shuffle0.25s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.0431694981095303,
+        "pass_pct": 0.5694406548431105,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.03994691759890859,
+        "pass_pct": 0.5662833755603196,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.09474214028454493,
+        "pass_pct": 0.6736698499317871,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.0392677665172481,
+        "pass_pct": 0.5544728123172871,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.00048375899434807977,
+        "pass_pct": 0.4596374975638277,
+        "passed": false
+      }
+    },
+    "shuffle1.0s": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": 0.005497551471448059,
+        "pass_pct": 0.40611966478269346,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": 0.0003350330929643343,
+        "pass_pct": 0.42903917365036054,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.008314811810563242,
+        "pass_pct": 0.4646267784057689,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": 0.012958242252972131,
+        "pass_pct": 0.3970765932566751,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": 0.019416741492886375,
+        "pass_pct": 0.3785616838822842,
+        "passed": false
+      }
+    },
+    "reverse": {
+      "kind": "lose",
+      "se_coh": {
+        "mean_d": -0.038668545546677056,
+        "pass_pct": 0.5634379263301501,
+        "passed": false
+      },
+      "se_mem": {
+        "mean_d": -0.028851340401481195,
+        "pass_pct": 0.5341259013837458,
+        "passed": false
+      },
+      "se_nat": {
+        "mean_d": -0.034511443500292345,
+        "pass_pct": 0.5538881309686221,
+        "passed": false
+      },
+      "se_cla": {
+        "mean_d": -0.019590712102903918,
+        "pass_pct": 0.5078152406938219,
+        "passed": false
+      },
+      "se_mus": {
+        "mean_d": -0.02016725975443383,
+        "pass_pct": 0.513155330344962,
+        "passed": false
+      }
+    }
+  },
+  "partb": {
+    "b1_pv0_PQ_mean": -0.3614731,
+    "b1_pv_2xminus_PQ_mean": -0.46102493999999994,
+    "b1_pv_2x_cancel_PQ_mean": -0.41326309,
+    "b2_norm30_demucs_drums_off_PQ_mean": -0.19269481481481487,
+    "b2_norm30_demucs_vocals_off_PQ_mean": -0.35765529629629633,
+    "b2_unnorm_demucs_drums_off_PQ_mean": -0.1866859259259259,
+    "b2_unnorm_demucs_vocals_off_PQ_mean": -0.40413851851851845
+  },
+  "generated_at": "2026-10-20T03:22:27Z"
+}

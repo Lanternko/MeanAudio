@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-17T09:16:19Z",
+  "child_pid": 3797656,
+  "child_start_time": "51723207",
+  "filesystems": [
+    {
+      "free_bytes": 3261073903616,
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a",
+      "state": "ok"
+    },
+    {
+      "free_bytes": 61283610624,
+      "path": "/home/kojiek/MeanAudio",
+      "state": "warning"
+    }
+  ],
+  "progress": [
+    1792228575153941510,
+    1792201982783011038,
+    1792228575301901603
+  ]
+}

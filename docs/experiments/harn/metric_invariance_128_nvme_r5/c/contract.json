@@ -1,0 +1,175 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "b67e1335df832dd6347b557e82c62db39c198977d82adc0ecebc96c1276882d9",
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "runtime_sha256": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/130_metric_invariance_negmf_nvme_r5.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/130_metric_invariance_negmf_nvme_r5.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--preflight"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--validate-only"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128c_20261017_nvme_r5_contract.json",
+        "sha256": "a7e289f26c161da7fa4a7d3b0831b87e9be76e7ab7f50dd2d03a37730c3815db"
+      },
+      {
+        "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/inputs.json",
+        "sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_nvme_r5/operator_request.txt",
+        "sha256": "d4c211fdbbf4bb91314ab62184e641917fc3fd2fddfa78b842ed2f2a168aee1d"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_nvme_r5/acceptance.json",
+        "sha256": "e41e6870cd8df817513e38fc00378c68a85d8687d24e0a08bb50ef3c4b15be5e"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "metric-invariance-128c-20261017_nvme_r5",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/home/kojiek/MeanAudio",
+      "peak_additional_bytes": 7516192768,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 104857600,
+      "warning_floor_bytes": 64424509440
+    }
+  ],
+  "notification_events": [
+    "queue_handoff",
+    "start",
+    "preflight_pass",
+    "smoke_pass",
+    "calibration_gate",
+    "success",
+    "failure",
+    "held",
+    "interrupted",
+    "paused",
+    "preflight_invalid",
+    "postflight_invalid",
+    "disk_hard_stop",
+    "disk_warning",
+    "storage_recovered",
+    "stall",
+    "smoke_budget_invalid",
+    "budget_deferred",
+    "controller_incident",
+    "identity_warning_meanaudio_s14159265_cfg0",
+    "identity_warning_meanaudio_s16180339_cfg0",
+    "identity_warning_meanaudio_s27182818_cfg0",
+    "identity_warning_negmf_s14159265_cfg0",
+    "identity_warning_negmf_s16180339_cfg0",
+    "identity_warning_negmf_s27182818_cfg0"
+  ],
+  "phases": [
+    {
+      "action_id": "launch",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+          "sha256": "672f090aeffcbca839826f245cdc9a533674e7e85654d2d4b6716bfbfed5c934"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128c_20261017_nvme_r5_contract.json",
+          "sha256": "a7e289f26c161da7fa4a7d3b0831b87e9be76e7ab7f50dd2d03a37730c3815db"
+        },
+        {
+          "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/inputs.json",
+          "sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_nvme_r5/operator_request.txt",
+          "sha256": "d4c211fdbbf4bb91314ab62184e641917fc3fd2fddfa78b842ed2f2a168aee1d"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_nvme_r5/acceptance.json",
+          "sha256": "e41e6870cd8df817513e38fc00378c68a85d8687d24e0a08bb50ef3c4b15be5e"
+        }
+      ],
+      "output_paths": [
+        "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/c/summary.json"
+      ],
+      "phase_id": "readjudication",
+      "resume_action_id": "resume"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "acceptance",
+    "queue",
+    "watcher"
+  ],
+  "run_id": "run-20261018-130-metric-invariance_nvme_r5",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

@@ -1,0 +1,116 @@
+{
+  "cutpoints": [
+    0.493485,
+    0.815826
+  ],
+  "floor_entropy_range": [
+    0.239295,
+    0.739193
+  ],
+  "floor_like_outputs": {
+    "meanaudio_s14159265_cfg0": {
+      "fraction": 0.0007246376811594203,
+      "mean_pq": 6.3742965161800385,
+      "n_floor_like": 4,
+      "n_valid": 5520
+    },
+    "meanaudio_s14159265_cfg3_neg": {
+      "fraction": 0.003079152327476906,
+      "mean_pq": 7.189786581432118,
+      "n_floor_like": 17,
+      "n_valid": 5521
+    },
+    "meanaudio_s16180339_cfg0": {
+      "fraction": 0.0001811922449719152,
+      "mean_pq": 7.434929251670837,
+      "n_floor_like": 1,
+      "n_valid": 5519
+    },
+    "meanaudio_s16180339_cfg3_neg": {
+      "fraction": 0.0010869565217391304,
+      "mean_pq": 6.959319114685059,
+      "n_floor_like": 6,
+      "n_valid": 5520
+    },
+    "meanaudio_s27182818_cfg0": {
+      "fraction": 0.0018138944313440958,
+      "mean_pq": 6.622364270687103,
+      "n_floor_like": 10,
+      "n_valid": 5513
+    },
+    "meanaudio_s27182818_cfg3_neg": {
+      "fraction": 0.0014498006524102935,
+      "mean_pq": 6.813593253493309,
+      "n_floor_like": 8,
+      "n_valid": 5518
+    },
+    "musiccaps_real": {
+      "fraction": 0.004484304932735426,
+      "mean_pq": 7.603829549706501,
+      "n_floor_like": 23,
+      "n_valid": 5129
+    },
+    "musicgen_medium": {
+      "fraction": 0.0,
+      "mean_pq": null,
+      "n_floor_like": 0,
+      "n_valid": 5501
+    },
+    "musicldm": {
+      "fraction": 0.0007246376811594203,
+      "mean_pq": 7.045935809612274,
+      "n_floor_like": 4,
+      "n_valid": 5520
+    },
+    "musicldm_fid8": {
+      "fraction": 0.001267886252490491,
+      "mean_pq": 7.3746896130698065,
+      "n_floor_like": 7,
+      "n_valid": 5521
+    }
+  },
+  "mode": "C3",
+  "n_reference": 5131,
+  "overall": 0.13938176080140194,
+  "per_seed": [
+    {
+      "overall": 0.1528379213993509,
+      "seed": 14159265,
+      "strata": [
+        0.15015114566027107,
+        0.14874698463936298,
+        0.15961720511230112
+      ]
+    },
+    {
+      "overall": 0.15505980209308953,
+      "seed": 16180339,
+      "strata": [
+        0.12014208639106996,
+        0.18541969744085568,
+        0.15963804216412772
+      ]
+    },
+    {
+      "overall": 0.11024755891176535,
+      "seed": 27182818,
+      "strata": [
+        0.06544074066057322,
+        0.13661538006966575,
+        0.12871275882274782
+      ]
+    }
+  ],
+  "reading": "advantage_independent_of_reference_rhythm",
+  "status": "completed",
+  "stratum_counts": [
+    1711,
+    1710,
+    1710
+  ],
+  "stratum_means": [
+    0.11191132423730475,
+    0.15692735404996147,
+    0.14932266869972555
+  ]
+}

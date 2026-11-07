@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-17T17:46:09Z",
+  "child_pid": 2399315,
+  "child_start_time": "57421893",
+  "filesystems": [
+    {
+      "free_bytes": 69499453440,
+      "path": "/home/kojiek/MeanAudio",
+      "state": "ok"
+    }
+  ],
+  "progress": [
+    1792259145011959864,
+    0,
+    0
+  ]
+}

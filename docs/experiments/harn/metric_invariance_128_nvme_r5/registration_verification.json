@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "parts": [
+    {
+      "part": "b",
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128b_20261017_nvme_r5_contract.json",
+      "sha256": "9f9295d1edec59ff9c96220936e3159c2effd8a4c5559224f105e7c234d5fcfb",
+      "entire_scientific_protocol_unchanged": true,
+      "storage": {
+        "min_free_bytes": 53687091200,
+        "path": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b",
+        "transient_root": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5_tmp/b"
+      },
+      "original_B_clock_retained": true
+    },
+    {
+      "part": "c",
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128c_20261017_nvme_r5_contract.json",
+      "sha256": "a7e289f26c161da7fa4a7d3b0831b87e9be76e7ab7f50dd2d03a37730c3815db",
+      "entire_scientific_protocol_unchanged": true,
+      "storage": {
+        "min_free_bytes": 53687091200,
+        "path": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/c",
+        "transient_root": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5_tmp/c"
+      },
+      "original_B_clock_retained": true
+    }
+  ],
+  "score_units_reused": 4,
+  "formal_clips_reused": 3000,
+  "identity_clips_reused": 224
+}

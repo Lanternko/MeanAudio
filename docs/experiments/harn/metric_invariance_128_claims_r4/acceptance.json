@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-17T17:09:39.944812+00:00",
+  "bindings": {
+    "scripts/eval/metric_invariance_128.py": "672f090aeffcbca839826f245cdc9a533674e7e85654d2d4b6716bfbfed5c934",
+    "scripts/experiment_harness/metric_invariance_128_guest.py": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "scripts/experiment_harness/notification_receipts.py": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "scripts/experiment_harness/register_metric_invariance_128.py": "16cd1362218aa0dd7e0af96f7cb2268e2ea53635a1c5fa4ac3155fa8ef5a6d2a",
+    "scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050"
+  },
+  "scope": "30 scientific/supervisor CPU tests, queue 33/33, schema/notification/scheduler passed. Claim metrics block, ancillary warnings continue, actual old 200 score replay passes PQ/CLAP and warns CU; 224 real context rows compare only original 200. Completed A source/AST/evidence hash reuse and fresh B budget carry. Real GPU fixture skipped; full CPU scans and live B preflight remain separate required gates.",
+  "status": "passed",
+  "tests": [
+    {
+      "name": "scientific_and_supervisor",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/test_0.txt",
+      "output_sha256": "a229912dc3d73eed5bcefd4aedc83ef835e1c15c66486a06f1110e2cf04b2f28",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/test_metric_invariance_128.py",
+      "script_sha256": "a57f79d23482817baa19239b33cffef5709f6e991aef1bea24a8f48b2300a9db",
+      "status": "passed"
+    },
+    {
+      "name": "schemas",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/test_1.txt",
+      "output_sha256": "96a0628ea652b67a6fb10f7c1c804f9c3af6adff1352b2026b208968e1556750",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/selftest_experiment_harness_schemas.py",
+      "script_sha256": "9d85b5738d0ad55891763ce80ce739add13f2d4c608ec1e2c3da0274fd7363c7",
+      "status": "passed"
+    },
+    {
+      "name": "queue",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/test_2.txt",
+      "output_sha256": "59302ccb59da87f887f14c1add8fdc07e97b243c50ee3c3f4dda5bb1ada8421b",
+      "script": "/home/kojiek/MeanAudio/scripts/tests/run_loudness_queue_acceptance.py",
+      "script_sha256": "6cbe341cc09812aaab342748e087af2912434106d89a97a4411b61cfbfa8e5dd",
+      "status": "passed"
+    },
+    {
+      "name": "notification_receipts",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/test_3.txt",
+      "output_sha256": "bd9e581543c956d23daf775bb3fe59efe3feb8e60d07de98a300ee556171a8a1",
+      "script": "/home/kojiek/gpu_queue/tests/test_notification_receipts.py",
+      "script_sha256": "1e74a71128efff7fbc6429598ff111822d1569f2e4619d9e360da71970879b85",
+      "status": "passed"
+    },
+    {
+      "name": "scheduler",
+      "output": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/test_4.txt",
+      "output_sha256": "6d77b6c7040bb15af8ee9479e91fc98c7e3668b31818c2b9e203b5346302a9b4",
+      "script": "/home/kojiek/gpu_queue/tests/test_lib_scheduler.py",
+      "script_sha256": "c5c47ebe50f872f6941471b6da25e32c43f81b36acffdc0cc44915c491113254",
+      "status": "passed"
+    }
+  ]
+}

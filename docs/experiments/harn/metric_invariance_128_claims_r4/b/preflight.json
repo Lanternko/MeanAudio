@@ -1,0 +1,96 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "21ec44172c3d9f34e0881f66f9cb1d066fde8455327998729c8434b5bec0541f",
+      "contract_raw_sha256": "23ff85c497b1cec666dcd2890ba4d395726bc9e044131678fa66d9aa17614925",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-chat-run-20261018-129-metric-invariance_claims_r4",
+    "channel_record_sha256": "b379a75ec4291efbd09a15210460426e378583b42eb1e3981b9b87abe20a5a0c",
+    "evidence_id": "operator-start-run-20261018-129-metric-invariance_claims_r4",
+    "experiment_id": "metric-invariance-128b-20261017_claims_r4",
+    "expires_at": "2026-10-24T17:14:23.685438+00:00",
+    "issued_at": "2026-10-17T17:14:23.685438+00:00",
+    "run_id": "run-20261018-129-metric-invariance_claims_r4",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "3e4a8518a359964caf8e94be713867915916aff708879c44b75ec991a8d1ec26",
+      "observed_at": "2026-10-17T17:14:23.685438+00:00",
+      "valid_until": "2026-10-24T17:14:23.685438+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "3e4a8518a359964caf8e94be713867915916aff708879c44b75ec991a8d1ec26",
+      "observed_at": "2026-10-17T17:14:23.685438+00:00",
+      "valid_until": "2026-10-24T17:14:23.685438+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "3e4a8518a359964caf8e94be713867915916aff708879c44b75ec991a8d1ec26",
+      "observed_at": "2026-10-17T17:14:23.685438+00:00",
+      "valid_until": "2026-10-24T17:14:23.685438+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "93f38a5fe248fc0bcb5fa9443b4f9a18c457b1fb3ad03919f79c3283ce6fff90",
+      "observed_at": "2026-10-17T17:14:23.685438+00:00",
+      "valid_until": "2026-10-24T17:14:23.685438+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "3e4a8518a359964caf8e94be713867915916aff708879c44b75ec991a8d1ec26",
+      "observed_at": "2026-10-17T17:14:23.685438+00:00",
+      "valid_until": "2026-10-24T17:14:23.685438+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "93f38a5fe248fc0bcb5fa9443b4f9a18c457b1fb3ad03919f79c3283ce6fff90",
+      "observed_at": "2026-10-17T17:14:23.685438+00:00",
+      "valid_until": "2026-10-24T17:14:23.685438+00:00",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "23ff85c497b1cec666dcd2890ba4d395726bc9e044131678fa66d9aa17614925",
+  "created_at": "2026-10-17T17:14:23.685438+00:00",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "metric-invariance-128b-20261017_claims_r4",
+  "run_id": "run-20261018-129-metric-invariance_claims_r4",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 3261073764352,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-17T17:14:23.685438+00:00",
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b",
+      "peak_additional_bytes": 8589934592,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 6442450944,
+      "verdict": "pass"
+    },
+    {
+      "free_bytes": 59805265920,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-17T17:14:23.685438+00:00",
+      "path": "/home/kojiek/MeanAudio",
+      "peak_additional_bytes": 536870912,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 104857600,
+      "verdict": "pass"
+    }
+  ]
+}

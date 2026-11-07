@@ -1,0 +1,21 @@
+{
+  "received_date": "2026-10-20",
+  "timezone": "Asia/Taipei",
+  "meeting_date_confirmed": false,
+  "source_path": "/home/kojiek/.codex/attachments/3c363788-e7ad-432d-b397-caef45510143/Recording at 5-02 PM.wav",
+  "source_bytes": 800769286,
+  "source_sha256": "e25e77bee9c9c14af4aacd7bd94fe2a2587fc27950237aa3d4dc237ec324e6f8",
+  "saved_recording": "recording.flac",
+  "saved_bytes": 445372923,
+  "saved_sha256": "d296b41450aa24a138dd820cb12bd726a78bc6443668facb1ef64cf46be6032e",
+  "duration_seconds": 2780.4,
+  "sample_rate_hz": 48000,
+  "channels": 2,
+  "bits_per_sample": 24,
+  "lossless_verification": {
+    "method": "ffmpeg decode both files to pcm_s24le and hash SHA-256",
+    "source_decoded_pcm_sha256": "46ced6b1b9ce5126417a01bd9dc65ab51d3ede0562fc4fb1ee083140f930ed67",
+    "saved_decoded_pcm_sha256": "46ced6b1b9ce5126417a01bd9dc65ab51d3ede0562fc4fb1ee083140f930ed67",
+    "equal": true
+  }
+}

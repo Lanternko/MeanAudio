@@ -1,0 +1,178 @@
+{
+ "document_kind": "metric_coverage_model_pins_v1",
+ "written_at": "2026-10-27T20:39:31+0800",
+ "source": "/mnt/seagate/newmodels_20261020/weights_sha256.txt",
+ "models": {
+  "muqeval_A1": {
+   "hf_repo": "zhudi2825/MuQ-Eval-A1",
+   "revision": "b082e238827df51d99ac66bdd1b6f0d2406bc90e",
+   "weights": "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval-A1/snapshots/b082e238827df51d99ac66bdd1b6f0d2406bc90e/model_state_dict.pt",
+   "code": "/mnt/seagate/newmodels_20261020/repos/MuQ-Eval",
+   "weights_sha256_recorded": "4163ec9ba81bc0f7616611804414215220ae46fe1c8ae6fdff3f7919e7d21455",
+   "weights_present": true,
+   "weights_sha256": "4163ec9ba81bc0f7616611804414215220ae46fe1c8ae6fdff3f7919e7d21455",
+   "hf_snapshot_dirs": [
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval-A1/snapshots/b082e238827df51d99ac66bdd1b6f0d2406bc90e"
+   ],
+   "code_present": true,
+   "code_commit": "60a88f8ac0909ca1fd1a78af3660f1fc376977a1",
+   "file_sha256": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval-A1/snapshots/b082e238827df51d99ac66bdd1b6f0d2406bc90e/model_state_dict.pt": "4163ec9ba81bc0f7616611804414215220ae46fe1c8ae6fdff3f7919e7d21455"
+   },
+   "file_size": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval-A1/snapshots/b082e238827df51d99ac66bdd1b6f0d2406bc90e/model_state_dict.pt": 1336614308
+   },
+   "extra_weights": []
+  },
+  "muqeval_A3a": {
+   "hf_repo": "zhudi2825/MuQ-Eval",
+   "revision": "cc0cb22ea4026f7d3fb1bae384927b870a24319f",
+   "weights": "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval/snapshots/cc0cb22ea4026f7d3fb1bae384927b870a24319f/model_state_dict.pt",
+   "code": "/mnt/seagate/newmodels_20261020/repos/MuQ-Eval",
+   "weights_sha256_recorded": "aaec85582cbea0d726d0511f571c58435c251d08e1c3231bfc722343e6a30868",
+   "weights_present": true,
+   "weights_sha256": "aaec85582cbea0d726d0511f571c58435c251d08e1c3231bfc722343e6a30868",
+   "hf_snapshot_dirs": [
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval/snapshots/cc0cb22ea4026f7d3fb1bae384927b870a24319f"
+   ],
+   "code_present": true,
+   "code_commit": "60a88f8ac0909ca1fd1a78af3660f1fc376977a1",
+   "file_sha256": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval/snapshots/cc0cb22ea4026f7d3fb1bae384927b870a24319f/model_state_dict.pt": "aaec85582cbea0d726d0511f571c58435c251d08e1c3231bfc722343e6a30868"
+   },
+   "file_size": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--zhudi2825--MuQ-Eval/snapshots/cc0cb22ea4026f7d3fb1bae384927b870a24319f/model_state_dict.pt": 1341136958
+   },
+   "extra_weights": []
+  },
+  "cmirm": {
+   "hf_repo": "HaiwenXia/CMI-RM",
+   "revision": "704f2dc3a11a1d867cc9a683a49c17d9cc7d50e4",
+   "weights": "/mnt/seagate/newmodels_20261020/hf/hub/models--HaiwenXia--CMI-RM/snapshots/704f2dc3a11a1d867cc9a683a49c17d9cc7d50e4/model.safetensors",
+   "code": "/mnt/seagate/newmodels_20261020/repos/CMI-RewardBench",
+   "weights_sha256_recorded": "e816d99f854eef7d369a10ba375867ea50ae7645702a4b979a7ed3806eb03523",
+   "weights_present": true,
+   "weights_sha256": "e816d99f854eef7d369a10ba375867ea50ae7645702a4b979a7ed3806eb03523",
+   "hf_snapshot_dirs": [
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--HaiwenXia--CMI-RM/snapshots/704f2dc3a11a1d867cc9a683a49c17d9cc7d50e4"
+   ],
+   "code_present": true,
+   "code_commit": "9235ef5c34106b63669958adfaa2eab61bd0e2cd",
+   "file_sha256": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--HaiwenXia--CMI-RM/snapshots/704f2dc3a11a1d867cc9a683a49c17d9cc7d50e4/model.safetensors": "e816d99f854eef7d369a10ba375867ea50ae7645702a4b979a7ed3806eb03523"
+   },
+   "file_size": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--HaiwenXia--CMI-RM/snapshots/704f2dc3a11a1d867cc9a683a49c17d9cc7d50e4/model.safetensors": 2804919188
+   },
+   "extra_weights": []
+  },
+  "pam": {
+   "hf_repo": "soham97/PAM",
+   "revision": "ead6e7f9d907268e30c73b29526f50523a34b4aa",
+   "weights": "/mnt/seagate/newmodels_20261020/hf/hub/models--microsoft--msclap/snapshots/c47d441165daa21986ead0850660917636a81775/CLAP_weights_2023.pth",
+   "text_backbone": "openai-community/gpt2 @ 607a30d783dfa663caf39e06633721c8d4cfcd7e",
+   "extra_weights": [
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--openai-community--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/model.safetensors"
+   ],
+   "code": "/mnt/seagate/newmodels_20261020/repos/PAM",
+   "weights_sha256_recorded": "2cef4016d47d00eb28d153d522f397222057f95000e9bad6b9583c631284a1e6",
+   "weights_present": true,
+   "weights_sha256": "2cef4016d47d00eb28d153d522f397222057f95000e9bad6b9583c631284a1e6",
+   "hf_snapshot_dirs": [
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--microsoft--msclap/snapshots/c47d441165daa21986ead0850660917636a81775",
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--openai-community--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e"
+   ],
+   "code_present": true,
+   "code_commit": "ead6e7f9d907268e30c73b29526f50523a34b4aa",
+   "file_sha256": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--microsoft--msclap/snapshots/c47d441165daa21986ead0850660917636a81775/CLAP_weights_2023.pth": "2cef4016d47d00eb28d153d522f397222057f95000e9bad6b9583c631284a1e6",
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--openai-community--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/model.safetensors": "248dfc3911869ec493c76e65bf2fcf7f615828b0254c12b473182f0f81d3a707"
+   },
+   "file_size": {
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--microsoft--msclap/snapshots/c47d441165daa21986ead0850660917636a81775/CLAP_weights_2023.pth": 689950036,
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--openai-community--gpt2/snapshots/607a30d783dfa663caf39e06633721c8d4cfcd7e/model.safetensors": 548105171
+   }
+  },
+  "songeval": {
+   "repo": "848fb2ff3a2a9d64dcb20d46f07238c28abd7add",
+   "ckpt": "0cb1eb8be02b96e9949ca3a2b66997c5ac7d9da3567240df4dbfc2048eb98efd",
+   "backbone": "OpenMuQ/MuQ-large-msd-iter @ 0562a57814f6f8bbd9fdea0a25921a2fce1a841a",
+   "extra_weights": [
+    "/home/kojiek/.cache/huggingface/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors"
+   ],
+   "vendored_tree": "/home/kojiek/MeanAudio/scripts/eval/songeval_src",
+   "vendored_tree_present": true,
+   "vendored_tree_sha256": "9f853dc1c1bf835662fa6d39df6565bb78f03d437af9d94cdd2ebfd0da16fc08",
+   "weights": "/home/kojiek/MeanAudio/scripts/eval/songeval_src/ckpt/model.safetensors",
+   "weights_present": true,
+   "weights_sha256": "0cb1eb8be02b96e9949ca3a2b66997c5ac7d9da3567240df4dbfc2048eb98efd",
+   "file_sha256": {
+    "/home/kojiek/.cache/huggingface/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors": "273febab2be02872c37d2c37e48a9d6c52c1c9392f3eeeabd498efa281ccb7a6",
+    "/home/kojiek/MeanAudio/scripts/eval/songeval_src/ckpt/model.safetensors": "0cb1eb8be02b96e9949ca3a2b66997c5ac7d9da3567240df4dbfc2048eb98efd"
+   },
+   "file_size": {
+    "/home/kojiek/.cache/huggingface/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors": 1333825096,
+    "/home/kojiek/MeanAudio/scripts/eval/songeval_src/ckpt/model.safetensors": 100792276
+   }
+  },
+  "mert": {
+   "hf_repo": "m-a-p/MERT-v1-95M",
+   "revision": "12af15fef9d0ac838c3f475bfbbf26d2060dd4f5",
+   "weights": "/home/kojiek/.cache/huggingface/hub/models--m-a-p--MERT-v1-95M/snapshots/12af15fef9d0ac838c3f475bfbbf26d2060dd4f5/pytorch_model.bin",
+   "weights_present": true,
+   "weights_sha256": "a2b8b747f72c06e0595aeae41ae5473f4364938c6b39b2c58be38c48e6bd3fcd",
+   "hf_snapshot_dirs": [
+    "/home/kojiek/.cache/huggingface/hub/models--m-a-p--MERT-v1-95M/snapshots/12af15fef9d0ac838c3f475bfbbf26d2060dd4f5"
+   ],
+   "file_sha256": {
+    "/home/kojiek/.cache/huggingface/hub/models--m-a-p--MERT-v1-95M/snapshots/12af15fef9d0ac838c3f475bfbbf26d2060dd4f5/pytorch_model.bin": "a2b8b747f72c06e0595aeae41ae5473f4364938c6b39b2c58be38c48e6bd3fcd"
+   },
+   "file_size": {
+    "/home/kojiek/.cache/huggingface/hub/models--m-a-p--MERT-v1-95M/snapshots/12af15fef9d0ac838c3f475bfbbf26d2060dd4f5/pytorch_model.bin": 377552987
+   },
+   "extra_weights": []
+  },
+  "muq": {
+   "hf_repo": "OpenMuQ/MuQ-large-msd-iter",
+   "revision": "0562a57814f6f8bbd9fdea0a25921a2fce1a841a",
+   "weights": "/home/kojiek/.cache/huggingface/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors",
+   "extra_weights": [
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors"
+   ],
+   "weights_present": true,
+   "weights_sha256": "273febab2be02872c37d2c37e48a9d6c52c1c9392f3eeeabd498efa281ccb7a6",
+   "hf_snapshot_dirs": [
+    "/home/kojiek/.cache/huggingface/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a",
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a"
+   ],
+   "file_sha256": {
+    "/home/kojiek/.cache/huggingface/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors": "273febab2be02872c37d2c37e48a9d6c52c1c9392f3eeeabd498efa281ccb7a6",
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors": "273febab2be02872c37d2c37e48a9d6c52c1c9392f3eeeabd498efa281ccb7a6"
+   },
+   "file_size": {
+    "/home/kojiek/.cache/huggingface/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors": 1333825096,
+    "/mnt/seagate/newmodels_20261020/hf/hub/models--OpenMuQ--MuQ-large-msd-iter/snapshots/0562a57814f6f8bbd9fdea0a25921a2fce1a841a/model.safetensors": 1333825096
+   }
+  },
+  "singmos": {
+   "repo": "South-Twilight/SingMOS",
+   "tag": "v1.1.2",
+   "commit": "959691e5ca9465f774b2533f44a609536955d3ed",
+   "clone": "/home/kojiek/.cache/torch/hub/South-Twilight_SingMOS_v1.1.2",
+   "file_sha256": {},
+   "file_size": {},
+   "extra_weights": [],
+   "clone_present": true,
+   "clone_commit": "959691e5ca9465f774b2533f44a609536955d3ed"
+  },
+  "mir": {
+   "madmom": "/home/kojiek/venvs/madmom",
+   "librosa": "/home/kojiek/venvs/mir",
+   "file_sha256": {},
+   "file_size": {},
+   "extra_weights": []
+  }
+ },
+ "missing": [],
+ "note": "pins are read-only inputs; a missing weight is reported, never downloaded in this run"
+}

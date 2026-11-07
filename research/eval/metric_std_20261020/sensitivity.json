@@ -1,0 +1,2573 @@
+{
+ "flip_table": {
+  "126a|PQ|lose|D1": {
+   "n": 150,
+   "p0": 92,
+   "pD": 30,
+   "to_pass": 0,
+   "to_fail": 62
+  },
+  "126a|PQ|lose|D2": {
+   "n": 150,
+   "p0": 92,
+   "pD": 35,
+   "to_pass": 0,
+   "to_fail": 57
+  },
+  "126a|PQ|lose|D3": {
+   "n": 150,
+   "p0": 92,
+   "pD": 89,
+   "to_pass": 0,
+   "to_fail": 3
+  },
+  "126a|CE|lose|D1": {
+   "n": 150,
+   "p0": 76,
+   "pD": 24,
+   "to_pass": 0,
+   "to_fail": 52
+  },
+  "126a|CE|lose|D2": {
+   "n": 150,
+   "p0": 76,
+   "pD": 32,
+   "to_pass": 0,
+   "to_fail": 44
+  },
+  "126a|CE|lose|D3": {
+   "n": 150,
+   "p0": 76,
+   "pD": 76,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126a|CU|lose|D1": {
+   "n": 150,
+   "p0": 84,
+   "pD": 16,
+   "to_pass": 0,
+   "to_fail": 68
+  },
+  "126a|CU|lose|D2": {
+   "n": 150,
+   "p0": 84,
+   "pD": 17,
+   "to_pass": 0,
+   "to_fail": 67
+  },
+  "126a|CU|lose|D3": {
+   "n": 150,
+   "p0": 84,
+   "pD": 74,
+   "to_pass": 0,
+   "to_fail": 10
+  },
+  "126a|meva|lose|D1": {
+   "n": 150,
+   "p0": 1,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 1
+  },
+  "126a|meva|lose|D2": {
+   "n": 150,
+   "p0": 1,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 1
+  },
+  "126a|meva|lose|D3": {
+   "n": 150,
+   "p0": 1,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 1
+  },
+  "126a|clap|lose|D1": {
+   "n": 150,
+   "p0": 16,
+   "pD": 2,
+   "to_pass": 0,
+   "to_fail": 14
+  },
+  "126a|PQ|tie|D1": {
+   "n": 110,
+   "p0": 50,
+   "pD": 106,
+   "to_pass": 56,
+   "to_fail": 0
+  },
+  "126a|PQ|tie|D2": {
+   "n": 110,
+   "p0": 50,
+   "pD": 100,
+   "to_pass": 50,
+   "to_fail": 0
+  },
+  "126a|PQ|tie|D3": {
+   "n": 110,
+   "p0": 50,
+   "pD": 51,
+   "to_pass": 1,
+   "to_fail": 0
+  },
+  "126a|CE|tie|D1": {
+   "n": 110,
+   "p0": 47,
+   "pD": 96,
+   "to_pass": 49,
+   "to_fail": 0
+  },
+  "126a|CE|tie|D2": {
+   "n": 110,
+   "p0": 47,
+   "pD": 92,
+   "to_pass": 45,
+   "to_fail": 0
+  },
+  "126a|CE|tie|D3": {
+   "n": 110,
+   "p0": 47,
+   "pD": 47,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126a|CU|tie|D1": {
+   "n": 110,
+   "p0": 49,
+   "pD": 107,
+   "to_pass": 58,
+   "to_fail": 0
+  },
+  "126a|CU|tie|D2": {
+   "n": 110,
+   "p0": 49,
+   "pD": 106,
+   "to_pass": 57,
+   "to_fail": 0
+  },
+  "126a|CU|tie|D3": {
+   "n": 110,
+   "p0": 49,
+   "pD": 65,
+   "to_pass": 16,
+   "to_fail": 0
+  },
+  "126a|PC|tie|D1": {
+   "n": 110,
+   "p0": 31,
+   "pD": 97,
+   "to_pass": 66,
+   "to_fail": 0
+  },
+  "126a|PC|tie|D2": {
+   "n": 110,
+   "p0": 31,
+   "pD": 97,
+   "to_pass": 66,
+   "to_fail": 0
+  },
+  "126a|meva|tie|D1": {
+   "n": 110,
+   "p0": 5,
+   "pD": 96,
+   "to_pass": 91,
+   "to_fail": 0
+  },
+  "126a|meva|tie|D2": {
+   "n": 110,
+   "p0": 5,
+   "pD": 15,
+   "to_pass": 10,
+   "to_fail": 0
+  },
+  "126a|meva|tie|D3": {
+   "n": 110,
+   "p0": 5,
+   "pD": 14,
+   "to_pass": 9,
+   "to_fail": 0
+  },
+  "126a|clap|tie|D1": {
+   "n": 110,
+   "p0": 33,
+   "pD": 101,
+   "to_pass": 68,
+   "to_fail": 0
+  },
+  "126b|PQ|lose|D1": {
+   "n": 218,
+   "p0": 107,
+   "pD": 54,
+   "to_pass": 0,
+   "to_fail": 53
+  },
+  "126b|PQ|lose|D2": {
+   "n": 218,
+   "p0": 107,
+   "pD": 63,
+   "to_pass": 0,
+   "to_fail": 44
+  },
+  "126b|PQ|lose|D3": {
+   "n": 218,
+   "p0": 107,
+   "pD": 105,
+   "to_pass": 0,
+   "to_fail": 2
+  },
+  "126b|CE|lose|D1": {
+   "n": 218,
+   "p0": 100,
+   "pD": 41,
+   "to_pass": 0,
+   "to_fail": 59
+  },
+  "126b|CE|lose|D2": {
+   "n": 218,
+   "p0": 100,
+   "pD": 46,
+   "to_pass": 0,
+   "to_fail": 54
+  },
+  "126b|CE|lose|D3": {
+   "n": 218,
+   "p0": 100,
+   "pD": 96,
+   "to_pass": 0,
+   "to_fail": 4
+  },
+  "126b|CU|lose|D1": {
+   "n": 218,
+   "p0": 100,
+   "pD": 25,
+   "to_pass": 0,
+   "to_fail": 75
+  },
+  "126b|CU|lose|D2": {
+   "n": 218,
+   "p0": 100,
+   "pD": 27,
+   "to_pass": 0,
+   "to_fail": 73
+  },
+  "126b|CU|lose|D3": {
+   "n": 218,
+   "p0": 100,
+   "pD": 90,
+   "to_pass": 0,
+   "to_fail": 10
+  },
+  "126b|meva|lose|D1": {
+   "n": 218,
+   "p0": 3,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 3
+  },
+  "126b|meva|lose|D2": {
+   "n": 218,
+   "p0": 3,
+   "pD": 1,
+   "to_pass": 0,
+   "to_fail": 2
+  },
+  "126b|meva|lose|D3": {
+   "n": 218,
+   "p0": 3,
+   "pD": 3,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126b|clap|lose|D1": {
+   "n": 218,
+   "p0": 77,
+   "pD": 35,
+   "to_pass": 0,
+   "to_fail": 42
+  },
+  "126b|PQ|tie|D1": {
+   "n": 124,
+   "p0": 76,
+   "pD": 121,
+   "to_pass": 45,
+   "to_fail": 0
+  },
+  "126b|PQ|tie|D2": {
+   "n": 124,
+   "p0": 76,
+   "pD": 118,
+   "to_pass": 42,
+   "to_fail": 0
+  },
+  "126b|PQ|tie|D3": {
+   "n": 124,
+   "p0": 76,
+   "pD": 78,
+   "to_pass": 2,
+   "to_fail": 0
+  },
+  "126b|CE|tie|D1": {
+   "n": 124,
+   "p0": 85,
+   "pD": 122,
+   "to_pass": 37,
+   "to_fail": 0
+  },
+  "126b|CE|tie|D2": {
+   "n": 124,
+   "p0": 85,
+   "pD": 118,
+   "to_pass": 33,
+   "to_fail": 0
+  },
+  "126b|CE|tie|D3": {
+   "n": 124,
+   "p0": 85,
+   "pD": 92,
+   "to_pass": 7,
+   "to_fail": 0
+  },
+  "126b|CU|tie|D1": {
+   "n": 124,
+   "p0": 77,
+   "pD": 122,
+   "to_pass": 45,
+   "to_fail": 0
+  },
+  "126b|CU|tie|D2": {
+   "n": 124,
+   "p0": 77,
+   "pD": 122,
+   "to_pass": 45,
+   "to_fail": 0
+  },
+  "126b|CU|tie|D3": {
+   "n": 124,
+   "p0": 77,
+   "pD": 95,
+   "to_pass": 18,
+   "to_fail": 0
+  },
+  "126b|PC|tie|D1": {
+   "n": 124,
+   "p0": 53,
+   "pD": 120,
+   "to_pass": 67,
+   "to_fail": 0
+  },
+  "126b|PC|tie|D2": {
+   "n": 124,
+   "p0": 53,
+   "pD": 120,
+   "to_pass": 67,
+   "to_fail": 0
+  },
+  "126b|meva|tie|D1": {
+   "n": 124,
+   "p0": 6,
+   "pD": 108,
+   "to_pass": 102,
+   "to_fail": 0
+  },
+  "126b|meva|tie|D2": {
+   "n": 124,
+   "p0": 6,
+   "pD": 16,
+   "to_pass": 10,
+   "to_fail": 0
+  },
+  "126b|meva|tie|D3": {
+   "n": 124,
+   "p0": 6,
+   "pD": 13,
+   "to_pass": 7,
+   "to_fail": 0
+  },
+  "126b|clap|tie|D1": {
+   "n": 124,
+   "p0": 44,
+   "pD": 120,
+   "to_pass": 76,
+   "to_fail": 0
+  },
+  "126c|PQ|lose|D1": {
+   "n": 20,
+   "p0": 5,
+   "pD": 2,
+   "to_pass": 0,
+   "to_fail": 3
+  },
+  "126c|PQ|lose|D2": {
+   "n": 20,
+   "p0": 5,
+   "pD": 3,
+   "to_pass": 0,
+   "to_fail": 2
+  },
+  "126c|PQ|lose|D3": {
+   "n": 20,
+   "p0": 5,
+   "pD": 5,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|CE|lose|D1": {
+   "n": 20,
+   "p0": 3,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 3
+  },
+  "126c|CE|lose|D2": {
+   "n": 20,
+   "p0": 3,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 3
+  },
+  "126c|CE|lose|D3": {
+   "n": 20,
+   "p0": 3,
+   "pD": 3,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|CU|lose|D1": {
+   "n": 20,
+   "p0": 4,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 4
+  },
+  "126c|CU|lose|D2": {
+   "n": 20,
+   "p0": 4,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 4
+  },
+  "126c|CU|lose|D3": {
+   "n": 20,
+   "p0": 4,
+   "pD": 4,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|meva|lose|D1": {
+   "n": 20,
+   "p0": 0,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|meva|lose|D2": {
+   "n": 20,
+   "p0": 0,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|meva|lose|D3": {
+   "n": 20,
+   "p0": 0,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|clap|lose|D1": {
+   "n": 20,
+   "p0": 0,
+   "pD": 0,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|PQ|tie|D1": {
+   "n": 33,
+   "p0": 10,
+   "pD": 33,
+   "to_pass": 23,
+   "to_fail": 0
+  },
+  "126c|PQ|tie|D2": {
+   "n": 33,
+   "p0": 10,
+   "pD": 30,
+   "to_pass": 20,
+   "to_fail": 0
+  },
+  "126c|PQ|tie|D3": {
+   "n": 33,
+   "p0": 10,
+   "pD": 13,
+   "to_pass": 3,
+   "to_fail": 0
+  },
+  "126c|CE|tie|D1": {
+   "n": 33,
+   "p0": 14,
+   "pD": 33,
+   "to_pass": 19,
+   "to_fail": 0
+  },
+  "126c|CE|tie|D2": {
+   "n": 33,
+   "p0": 14,
+   "pD": 33,
+   "to_pass": 19,
+   "to_fail": 0
+  },
+  "126c|CE|tie|D3": {
+   "n": 33,
+   "p0": 14,
+   "pD": 14,
+   "to_pass": 0,
+   "to_fail": 0
+  },
+  "126c|CU|tie|D1": {
+   "n": 33,
+   "p0": 14,
+   "pD": 33,
+   "to_pass": 19,
+   "to_fail": 0
+  },
+  "126c|CU|tie|D2": {
+   "n": 33,
+   "p0": 14,
+   "pD": 33,
+   "to_pass": 19,
+   "to_fail": 0
+  },
+  "126c|CU|tie|D3": {
+   "n": 33,
+   "p0": 14,
+   "pD": 15,
+   "to_pass": 1,
+   "to_fail": 0
+  },
+  "126c|PC|tie|D1": {
+   "n": 33,
+   "p0": 11,
+   "pD": 33,
+   "to_pass": 22,
+   "to_fail": 0
+  },
+  "126c|PC|tie|D2": {
+   "n": 33,
+   "p0": 11,
+   "pD": 33,
+   "to_pass": 22,
+   "to_fail": 0
+  },
+  "126c|meva|tie|D1": {
+   "n": 33,
+   "p0": 0,
+   "pD": 33,
+   "to_pass": 33,
+   "to_fail": 0
+  },
+  "126c|meva|tie|D2": {
+   "n": 33,
+   "p0": 0,
+   "pD": 2,
+   "to_pass": 2,
+   "to_fail": 0
+  },
+  "126c|meva|tie|D3": {
+   "n": 33,
+   "p0": 0,
+   "pD": 2,
+   "to_pass": 2,
+   "to_fail": 0
+  },
+  "126c|clap|tie|D1": {
+   "n": 33,
+   "p0": 13,
+   "pD": 33,
+   "to_pass": 20,
+   "to_fail": 0
+  }
+ },
+ "ladders": {
+  "126a": {
+   "gain_down|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "gain-20",
+    "D2": null,
+    "D3": null
+   },
+   "gain_down|clap": {
+    "kind": "tie",
+    "D0": "gain-1",
+    "D1": "gain-20"
+   },
+   "gain_down|CE": {
+    "kind": "tie",
+    "D0": "gain-2",
+    "D1": "gain-10",
+    "D2": "gain-6",
+    "D3": "gain-2"
+   },
+   "gain_down|PQ": {
+    "kind": "tie",
+    "D0": "gain-3",
+    "D1": "gain-20",
+    "D2": "gain-15",
+    "D3": "gain-3"
+   },
+   "gain_down|CU": {
+    "kind": "tie",
+    "D0": "gain-2",
+    "D1": "gain-20",
+    "D2": "gain-20",
+    "D3": "gain-3"
+   },
+   "gain_down|PC": {
+    "kind": "tie",
+    "D0": "gain-1",
+    "D1": "gain-10",
+    "D2": "gain-10"
+   },
+   "gain_up|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "gain+6",
+    "D2": null,
+    "D3": null
+   },
+   "gain_up|clap": {
+    "kind": "tie",
+    "D0": "gain+1",
+    "D1": "gain+6"
+   },
+   "gain_up|CE": {
+    "kind": "tie",
+    "D0": "gain+1",
+    "D1": "gain+6",
+    "D2": "gain+6",
+    "D3": "gain+1"
+   },
+   "gain_up|PQ": {
+    "kind": "tie",
+    "D0": "gain+3",
+    "D1": "gain+6",
+    "D2": "gain+6",
+    "D3": "gain+3"
+   },
+   "gain_up|CU": {
+    "kind": "tie",
+    "D0": "gain+1",
+    "D1": "gain+6",
+    "D2": "gain+6",
+    "D3": "gain+3"
+   },
+   "gain_up|PC": {
+    "kind": "tie",
+    "D0": "gain+1",
+    "D1": "gain+6",
+    "D2": "gain+6"
+   },
+   "lead|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead50ms",
+    "D2": null,
+    "D3": null
+   },
+   "lead|clap": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms"
+   },
+   "lead|CE": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms",
+    "D2": "lead200ms",
+    "D3": null
+   },
+   "lead|PQ": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms",
+    "D2": "lead200ms",
+    "D3": null
+   },
+   "lead|CU": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms",
+    "D2": "lead200ms",
+    "D3": null
+   },
+   "lead|PC": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms",
+    "D2": "lead200ms"
+   },
+   "mp3|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "mp3_32k",
+    "D2": null,
+    "D3": null
+   },
+   "mp3|clap": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "mp3_32k"
+   },
+   "mp3|CE": {
+    "kind": "tie",
+    "D0": "mp3_64k",
+    "D1": "mp3_32k",
+    "D2": "mp3_32k",
+    "D3": "mp3_64k"
+   },
+   "mp3|PQ": {
+    "kind": "tie",
+    "D0": "mp3_64k",
+    "D1": "mp3_32k",
+    "D2": "mp3_32k",
+    "D3": "mp3_64k"
+   },
+   "mp3|CU": {
+    "kind": "tie",
+    "D0": "mp3_64k",
+    "D1": "mp3_32k",
+    "D2": "mp3_32k",
+    "D3": "mp3_64k"
+   },
+   "mp3|PC": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "mp3_32k",
+    "D2": "mp3_32k"
+   },
+   "noise|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "noise|clap": {
+    "kind": "lose",
+    "D0": "noise_snr5",
+    "D1": null
+   },
+   "noise|CE": {
+    "kind": "lose",
+    "D0": "noise_snr15",
+    "D1": "noise_snr5",
+    "D2": "noise_snr5",
+    "D3": "noise_snr15"
+   },
+   "noise|PQ": {
+    "kind": "lose",
+    "D0": "noise_snr30",
+    "D1": "noise_snr15",
+    "D2": "noise_snr15",
+    "D3": "noise_snr30"
+   },
+   "noise|CU": {
+    "kind": "lose",
+    "D0": "noise_snr25",
+    "D1": "noise_snr0",
+    "D2": "noise_snr0",
+    "D3": "noise_snr25"
+   },
+   "clip|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "clip|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "clip|CE": {
+    "kind": "lose",
+    "D0": "clip12db",
+    "D1": "clip20db",
+    "D2": "clip20db",
+    "D3": "clip12db"
+   },
+   "clip|PQ": {
+    "kind": "lose",
+    "D0": "clip12db",
+    "D1": "clip20db",
+    "D2": "clip20db",
+    "D3": "clip12db"
+   },
+   "clip|CU": {
+    "kind": "lose",
+    "D0": "clip12db",
+    "D1": "clip20db",
+    "D2": "clip20db",
+    "D3": "clip12db"
+   },
+   "bitcrush|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "bitcrush|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "bitcrush|CE": {
+    "kind": "lose",
+    "D0": "bitcrush4",
+    "D1": "bitcrush4",
+    "D2": "bitcrush4",
+    "D3": "bitcrush4"
+   },
+   "bitcrush|PQ": {
+    "kind": "lose",
+    "D0": "bitcrush6",
+    "D1": "bitcrush4",
+    "D2": "bitcrush4",
+    "D3": "bitcrush6"
+   },
+   "bitcrush|CU": {
+    "kind": "lose",
+    "D0": "bitcrush6",
+    "D1": null,
+    "D2": null,
+    "D3": "bitcrush4"
+   },
+   "clicks|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "clicks|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "clicks|CE": {
+    "kind": "lose",
+    "D0": "clicks5ps",
+    "D1": "clicks20ps",
+    "D2": "clicks20ps",
+    "D3": "clicks5ps"
+   },
+   "clicks|PQ": {
+    "kind": "lose",
+    "D0": "clicks5ps",
+    "D1": null,
+    "D2": "clicks20ps",
+    "D3": "clicks5ps"
+   },
+   "clicks|CU": {
+    "kind": "lose",
+    "D0": "clicks5ps",
+    "D1": "clicks20ps",
+    "D2": "clicks20ps",
+    "D3": "clicks5ps"
+   },
+   "dropout|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "dropout|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "dropout|CE": {
+    "kind": "lose",
+    "D0": "dropout20ms_x10",
+    "D1": null,
+    "D2": null,
+    "D3": "dropout20ms_x10"
+   },
+   "dropout|PQ": {
+    "kind": "lose",
+    "D0": "dropout20ms_x10",
+    "D1": null,
+    "D2": null,
+    "D3": "dropout20ms_x30"
+   },
+   "dropout|CU": {
+    "kind": "lose",
+    "D0": "dropout20ms_x30",
+    "D1": null,
+    "D2": null,
+    "D3": "dropout20ms_x30"
+   },
+   "lowpass|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "lowpass|clap": {
+    "kind": "lose",
+    "D0": "lowpass1k",
+    "D1": null
+   },
+   "lowpass|CE": {
+    "kind": "lose",
+    "D0": "lowpass1k",
+    "D1": null,
+    "D2": "lowpass1k",
+    "D3": "lowpass1k"
+   },
+   "lowpass|PQ": {
+    "kind": "lose",
+    "D0": "lowpass4k",
+    "D1": null,
+    "D2": null,
+    "D3": "lowpass4k"
+   },
+   "lowpass|CU": {
+    "kind": "lose",
+    "D0": "lowpass2k",
+    "D1": null,
+    "D2": null,
+    "D3": "lowpass2k"
+   },
+   "blast|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blast|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "blast|CE": {
+    "kind": "lose",
+    "D0": "blast80ms_x3",
+    "D1": null,
+    "D2": null,
+    "D3": "blast80ms_x3"
+   },
+   "blast|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blast|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "shuffle|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "shuffle|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "shuffle|CE": {
+    "kind": "lose",
+    "D0": "shuffle0.25s",
+    "D1": null,
+    "D2": null,
+    "D3": "shuffle0.25s"
+   },
+   "shuffle|PQ": {
+    "kind": "lose",
+    "D0": "shuffle0.25s",
+    "D1": null,
+    "D2": null,
+    "D3": "shuffle0.25s"
+   },
+   "shuffle|CU": {
+    "kind": "lose",
+    "D0": "shuffle0.25s",
+    "D1": null,
+    "D2": null,
+    "D3": "shuffle0.25s"
+   }
+  },
+  "126b": {
+   "wrong|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "wrong|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "wrong|pulse_clarity": {
+    "kind": "lose",
+    "D0": null
+   },
+   "wrong|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "wrong|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "wrong|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "wrong|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "wrong|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "wrong|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "randpitch|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "randpitch|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "randpitch|pulse_clarity": {
+    "kind": "lose",
+    "D0": null
+   },
+   "randpitch|key_cnn_conf": {
+    "kind": "lose",
+    "D0": "randpitch100pct"
+   },
+   "randpitch|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "randpitch|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "randpitch|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "randpitch|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "randpitch|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "posshuffle|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "posshuffle|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "posshuffle|pulse_clarity": {
+    "kind": "lose",
+    "D0": "posshuffle30pct"
+   },
+   "posshuffle|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "posshuffle|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "posshuffle|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "posshuffle|ibi_cv": {
+    "kind": "lose",
+    "D0": "posshuffle100pct"
+   },
+   "posshuffle|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "posshuffle|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "pitchshuffle|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "pitchshuffle|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "pitchshuffle|pulse_clarity": {
+    "kind": "lose",
+    "D0": null
+   },
+   "pitchshuffle|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "pitchshuffle|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "pitchshuffle|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "pitchshuffle|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "pitchshuffle|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "pitchshuffle|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "jitter|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "jitter|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "jitter|pulse_clarity": {
+    "kind": "lose",
+    "D0": "jitter30ms"
+   },
+   "jitter|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "jitter|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "jitter|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "jitter|ibi_cv": {
+    "kind": "lose",
+    "D0": "jitter30ms"
+   },
+   "jitter|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "jitter|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "unsteady|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "unsteady|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "unsteady|pulse_clarity": {
+    "kind": "lose",
+    "D0": "unsteady15pct"
+   },
+   "unsteady|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "unsteady|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "unsteady|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "unsteady|ibi_cv": {
+    "kind": "lose",
+    "D0": "unsteady15pct"
+   },
+   "unsteady|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "unsteady|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blockshuffle|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blockshuffle|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "blockshuffle|pulse_clarity": {
+    "kind": "lose",
+    "D0": "blockshuffle0.5s"
+   },
+   "blockshuffle|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "blockshuffle|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blockshuffle|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blockshuffle|ibi_cv": {
+    "kind": "lose",
+    "D0": "blockshuffle0.5s"
+   },
+   "blockshuffle|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "blockshuffle|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "drop|meva": {
+    "kind": "lose",
+    "D0": "drop60pct",
+    "D1": null,
+    "D2": "drop60pct",
+    "D3": "drop60pct"
+   },
+   "drop|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "drop|pulse_clarity": {
+    "kind": "lose",
+    "D0": "drop30pct"
+   },
+   "drop|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "drop|CE": {
+    "kind": "lose",
+    "D0": "drop60pct",
+    "D1": null,
+    "D2": null,
+    "D3": "drop60pct"
+   },
+   "drop|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "drop|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "drop|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "drop|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "extra|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "extra|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "extra|pulse_clarity": {
+    "kind": "lose",
+    "D0": null
+   },
+   "extra|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "extra|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "extra|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "extra|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "extra|chroma_entropy": {
+    "kind": "lose",
+    "D0": "extra30pct"
+   },
+   "extra|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blastnote|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blastnote|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "blastnote|pulse_clarity": {
+    "kind": "lose",
+    "D0": null
+   },
+   "blastnote|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "blastnote|CE": {
+    "kind": "lose",
+    "D0": "blastnote_x1",
+    "D1": "blastnote_x10",
+    "D2": "blastnote_x10",
+    "D3": "blastnote_x1"
+   },
+   "blastnote|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blastnote|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "blastnote|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "blastnote|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "transpose|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "transpose+1",
+    "D2": null,
+    "D3": null
+   },
+   "transpose|clap": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "transpose+1"
+   },
+   "transpose|pulse_clarity": {
+    "kind": "tie",
+    "D0": "transpose+1"
+   },
+   "transpose|key_cnn_conf": {
+    "kind": "tie",
+    "D0": null
+   },
+   "transpose|CE": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "transpose+1",
+    "D2": "transpose+1",
+    "D3": null
+   },
+   "transpose|PQ": {
+    "kind": "tie",
+    "D0": "transpose+1",
+    "D1": "transpose+1",
+    "D2": "transpose+1",
+    "D3": "transpose+1"
+   },
+   "transpose|ibi_cv": {
+    "kind": "tie",
+    "D0": null
+   },
+   "transpose|chroma_entropy": {
+    "kind": "tie",
+    "D0": null
+   },
+   "transpose|CU": {
+    "kind": "tie",
+    "D0": "transpose+1",
+    "D1": "transpose+1",
+    "D2": "transpose+1",
+    "D3": "transpose+1"
+   },
+   "transpose|PC": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "transpose+1",
+    "D2": "transpose+1"
+   },
+   "tempo|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "tempo_x1.05",
+    "D2": null,
+    "D3": null
+   },
+   "tempo|clap": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "tempo_x1.05"
+   },
+   "tempo|pulse_clarity": {
+    "kind": "tie",
+    "D0": "tempo_x1.02"
+   },
+   "tempo|key_cnn_conf": {
+    "kind": "tie",
+    "D0": null
+   },
+   "tempo|CE": {
+    "kind": "tie",
+    "D0": "tempo_x1.05",
+    "D1": "tempo_x1.05",
+    "D2": "tempo_x1.05",
+    "D3": "tempo_x1.05"
+   },
+   "tempo|PQ": {
+    "kind": "tie",
+    "D0": "tempo_x1.05",
+    "D1": "tempo_x1.05",
+    "D2": "tempo_x1.05",
+    "D3": "tempo_x1.05"
+   },
+   "tempo|ibi_cv": {
+    "kind": "tie",
+    "D0": null
+   },
+   "tempo|chroma_entropy": {
+    "kind": "tie",
+    "D0": "tempo_x1.02"
+   },
+   "tempo|CU": {
+    "kind": "tie",
+    "D0": "tempo_x1.05",
+    "D1": "tempo_x1.05",
+    "D2": "tempo_x1.05",
+    "D3": "tempo_x1.05"
+   },
+   "tempo|PC": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "tempo_x1.05",
+    "D2": "tempo_x1.05"
+   },
+   "gain_down|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "gain-20",
+    "D2": null,
+    "D3": null
+   },
+   "gain_down|clap": {
+    "kind": "tie",
+    "D0": "gain-2",
+    "D1": "gain-30"
+   },
+   "gain_down|CE": {
+    "kind": "tie",
+    "D0": "gain-3",
+    "D1": "gain-30",
+    "D2": "gain-20",
+    "D3": "gain-6"
+   },
+   "gain_down|PQ": {
+    "kind": "tie",
+    "D0": "gain-3",
+    "D1": "gain-20",
+    "D2": "gain-20",
+    "D3": "gain-3"
+   },
+   "gain_down|CU": {
+    "kind": "tie",
+    "D0": "gain-3",
+    "D1": "gain-30",
+    "D2": "gain-30",
+    "D3": "gain-6"
+   },
+   "gain_down|PC": {
+    "kind": "tie",
+    "D0": "gain-2",
+    "D1": "gain-20",
+    "D2": "gain-20"
+   },
+   "gain_up|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "gain+6",
+    "D2": null,
+    "D3": null
+   },
+   "gain_up|clap": {
+    "kind": "tie",
+    "D0": "gain+1",
+    "D1": "gain+6"
+   },
+   "gain_up|CE": {
+    "kind": "tie",
+    "D0": "gain+3",
+    "D1": "gain+6",
+    "D2": "gain+6",
+    "D3": "gain+6"
+   },
+   "gain_up|PQ": {
+    "kind": "tie",
+    "D0": "gain+3",
+    "D1": "gain+6",
+    "D2": "gain+6",
+    "D3": "gain+3"
+   },
+   "gain_up|CU": {
+    "kind": "tie",
+    "D0": "gain+3",
+    "D1": "gain+6",
+    "D2": "gain+6",
+    "D3": "gain+3"
+   },
+   "gain_up|PC": {
+    "kind": "tie",
+    "D0": "gain+1",
+    "D1": "gain+6",
+    "D2": "gain+6"
+   },
+   "lead|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead10ms",
+    "D2": null,
+    "D3": null
+   },
+   "lead|clap": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms"
+   },
+   "lead|CE": {
+    "kind": "tie",
+    "D0": "lead200ms",
+    "D1": "lead200ms",
+    "D2": "lead200ms",
+    "D3": "lead200ms"
+   },
+   "lead|PQ": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms",
+    "D2": "lead200ms",
+    "D3": null
+   },
+   "lead|CU": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms",
+    "D2": "lead200ms",
+    "D3": "lead200ms"
+   },
+   "lead|PC": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "lead200ms",
+    "D2": "lead200ms"
+   },
+   "mp3|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "mp3_32k",
+    "D2": null,
+    "D3": null
+   },
+   "mp3|clap": {
+    "kind": "tie",
+    "D0": "mp3_160k",
+    "D1": "mp3_32k"
+   },
+   "mp3|CE": {
+    "kind": "tie",
+    "D0": "mp3_32k",
+    "D1": "mp3_32k",
+    "D2": "mp3_32k",
+    "D3": "mp3_32k"
+   },
+   "mp3|PQ": {
+    "kind": "tie",
+    "D0": "mp3_64k",
+    "D1": "mp3_32k",
+    "D2": "mp3_32k",
+    "D3": "mp3_64k"
+   },
+   "mp3|CU": {
+    "kind": "tie",
+    "D0": "mp3_64k",
+    "D1": "mp3_32k",
+    "D2": "mp3_32k",
+    "D3": "mp3_32k"
+   },
+   "mp3|PC": {
+    "kind": "tie",
+    "D0": "mp3_160k",
+    "D1": "mp3_32k",
+    "D2": "mp3_32k"
+   },
+   "noise|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "noise|clap": {
+    "kind": "lose",
+    "D0": "noise_snr40",
+    "D1": "noise_snr15"
+   },
+   "noise|CE": {
+    "kind": "lose",
+    "D0": "noise_snr25",
+    "D1": "noise_snr10",
+    "D2": "noise_snr10",
+    "D3": "noise_snr20"
+   },
+   "noise|PQ": {
+    "kind": "lose",
+    "D0": "noise_snr40",
+    "D1": "noise_snr30",
+    "D2": "noise_snr30",
+    "D3": "noise_snr40"
+   },
+   "noise|CU": {
+    "kind": "lose",
+    "D0": "noise_snr40",
+    "D1": "noise_snr0",
+    "D2": "noise_snr5",
+    "D3": "noise_snr40"
+   },
+   "clip|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "clip|clap": {
+    "kind": "lose",
+    "D0": "clip20db",
+    "D1": null
+   },
+   "clip|CE": {
+    "kind": "lose",
+    "D0": "clip12db",
+    "D1": "clip20db",
+    "D2": "clip20db",
+    "D3": "clip12db"
+   },
+   "clip|PQ": {
+    "kind": "lose",
+    "D0": "clip12db",
+    "D1": "clip20db",
+    "D2": "clip20db",
+    "D3": "clip12db"
+   },
+   "clip|CU": {
+    "kind": "lose",
+    "D0": "clip12db",
+    "D1": null,
+    "D2": null,
+    "D3": "clip12db"
+   },
+   "bitcrush|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "bitcrush|clap": {
+    "kind": "lose",
+    "D0": "bitcrush8",
+    "D1": null
+   },
+   "bitcrush|CE": {
+    "kind": "lose",
+    "D0": "bitcrush8",
+    "D1": "bitcrush4",
+    "D2": "bitcrush4",
+    "D3": "bitcrush6"
+   },
+   "bitcrush|PQ": {
+    "kind": "lose",
+    "D0": "bitcrush8",
+    "D1": "bitcrush6",
+    "D2": "bitcrush6",
+    "D3": "bitcrush8"
+   },
+   "bitcrush|CU": {
+    "kind": "lose",
+    "D0": "bitcrush8",
+    "D1": "bitcrush4",
+    "D2": "bitcrush4",
+    "D3": "bitcrush8"
+   },
+   "clicks|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "clicks|clap": {
+    "kind": "lose",
+    "D0": "clicks5ps",
+    "D1": "clicks20ps"
+   },
+   "clicks|CE": {
+    "kind": "lose",
+    "D0": "clicks5ps",
+    "D1": "clicks20ps",
+    "D2": "clicks20ps",
+    "D3": "clicks5ps"
+   },
+   "clicks|PQ": {
+    "kind": "lose",
+    "D0": "clicks1ps",
+    "D1": "clicks20ps",
+    "D2": "clicks20ps",
+    "D3": "clicks1ps"
+   },
+   "clicks|CU": {
+    "kind": "lose",
+    "D0": "clicks1ps",
+    "D1": "clicks20ps",
+    "D2": "clicks20ps",
+    "D3": "clicks5ps"
+   },
+   "dropout|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "dropout|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "dropout|CE": {
+    "kind": "lose",
+    "D0": "dropout20ms_x10",
+    "D1": null,
+    "D2": null,
+    "D3": "dropout20ms_x10"
+   },
+   "dropout|PQ": {
+    "kind": "lose",
+    "D0": "dropout20ms_x10",
+    "D1": null,
+    "D2": null,
+    "D3": "dropout20ms_x10"
+   },
+   "dropout|CU": {
+    "kind": "lose",
+    "D0": "dropout20ms_x10",
+    "D1": null,
+    "D2": null,
+    "D3": "dropout20ms_x30"
+   },
+   "lowpass|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "lowpass|clap": {
+    "kind": "lose",
+    "D0": "lowpass1k",
+    "D1": null
+   },
+   "lowpass|CE": {
+    "kind": "lose",
+    "D0": "lowpass1k",
+    "D1": null,
+    "D2": null,
+    "D3": "lowpass1k"
+   },
+   "lowpass|PQ": {
+    "kind": "lose",
+    "D0": "lowpass2k",
+    "D1": null,
+    "D2": null,
+    "D3": "lowpass2k"
+   },
+   "lowpass|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blast|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blast|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "blast|CE": {
+    "kind": "lose",
+    "D0": "blast80ms_x3",
+    "D1": null,
+    "D2": null,
+    "D3": "blast80ms_x3"
+   },
+   "blast|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "blast|CU": {
+    "kind": "lose",
+    "D0": "blast80ms_x3",
+    "D1": null,
+    "D2": null,
+    "D3": "blast80ms_x3"
+   },
+   "shuffle|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "shuffle|clap": {
+    "kind": "lose",
+    "D0": "shuffle0.25s",
+    "D1": null
+   },
+   "shuffle|CE": {
+    "kind": "lose",
+    "D0": "shuffle0.25s",
+    "D1": null,
+    "D2": null,
+    "D3": "shuffle0.25s"
+   },
+   "shuffle|PQ": {
+    "kind": "lose",
+    "D0": "shuffle0.25s",
+    "D1": null,
+    "D2": null,
+    "D3": "shuffle0.25s"
+   },
+   "shuffle|CU": {
+    "kind": "lose",
+    "D0": "shuffle0.25s",
+    "D1": null,
+    "D2": null,
+    "D3": "shuffle0.25s"
+   }
+  },
+  "126c": {
+   "drums_lag|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "drums_lag|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "drums_lag|pulse_clarity": {
+    "kind": "lose",
+    "D0": "drums_lag100ms"
+   },
+   "drums_lag|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "drums_lag|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "drums_lag|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "drums_lag|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "drums_lag|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "drums_lag|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_lag|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_lag|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "vocals_lag|pulse_clarity": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_lag|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_lag|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_lag|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_lag|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_lag|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_lag|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_detune|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_detune|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "vocals_detune|pulse_clarity": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_detune|key_cnn_conf": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_detune|CE": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_detune|PQ": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "vocals_detune|ibi_cv": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_detune|chroma_entropy": {
+    "kind": "lose",
+    "D0": null
+   },
+   "vocals_detune|CU": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "rebal_vocals_up|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_vocals_+6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_vocals_up|clap": {
+    "kind": "tie",
+    "D0": "rebal_vocals_+1dB",
+    "D1": "rebal_vocals_+6dB"
+   },
+   "rebal_vocals_up|CE": {
+    "kind": "tie",
+    "D0": "rebal_vocals_+1dB",
+    "D1": "rebal_vocals_+6dB",
+    "D2": "rebal_vocals_+6dB",
+    "D3": "rebal_vocals_+1dB"
+   },
+   "rebal_vocals_up|PQ": {
+    "kind": "tie",
+    "D0": "rebal_vocals_+1dB",
+    "D1": "rebal_vocals_+6dB",
+    "D2": "rebal_vocals_+6dB",
+    "D3": "rebal_vocals_+1dB"
+   },
+   "rebal_vocals_up|CU": {
+    "kind": "tie",
+    "D0": "rebal_vocals_+1dB",
+    "D1": "rebal_vocals_+6dB",
+    "D2": "rebal_vocals_+6dB",
+    "D3": "rebal_vocals_+1dB"
+   },
+   "rebal_vocals_up|PC": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_vocals_+6dB",
+    "D2": "rebal_vocals_+6dB"
+   },
+   "rebal_drums_up|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_drums_+6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_drums_up|clap": {
+    "kind": "tie",
+    "D0": "rebal_drums_+1dB",
+    "D1": "rebal_drums_+6dB"
+   },
+   "rebal_drums_up|CE": {
+    "kind": "tie",
+    "D0": "rebal_drums_+1dB",
+    "D1": "rebal_drums_+6dB",
+    "D2": "rebal_drums_+6dB",
+    "D3": "rebal_drums_+1dB"
+   },
+   "rebal_drums_up|PQ": {
+    "kind": "tie",
+    "D0": "rebal_drums_+1dB",
+    "D1": "rebal_drums_+6dB",
+    "D2": "rebal_drums_+6dB",
+    "D3": "rebal_drums_+1dB"
+   },
+   "rebal_drums_up|CU": {
+    "kind": "tie",
+    "D0": "rebal_drums_+1dB",
+    "D1": "rebal_drums_+6dB",
+    "D2": "rebal_drums_+6dB",
+    "D3": "rebal_drums_+1dB"
+   },
+   "rebal_drums_up|PC": {
+    "kind": "tie",
+    "D0": "rebal_drums_+1dB",
+    "D1": "rebal_drums_+6dB",
+    "D2": "rebal_drums_+6dB"
+   },
+   "rebal_bass_up|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_bass_+6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_bass_up|clap": {
+    "kind": "tie",
+    "D0": "rebal_bass_+1dB",
+    "D1": "rebal_bass_+6dB"
+   },
+   "rebal_bass_up|CE": {
+    "kind": "tie",
+    "D0": "rebal_bass_+3dB",
+    "D1": "rebal_bass_+6dB",
+    "D2": "rebal_bass_+6dB",
+    "D3": "rebal_bass_+3dB"
+   },
+   "rebal_bass_up|PQ": {
+    "kind": "tie",
+    "D0": "rebal_bass_+1dB",
+    "D1": "rebal_bass_+6dB",
+    "D2": "rebal_bass_+6dB",
+    "D3": "rebal_bass_+1dB"
+   },
+   "rebal_bass_up|CU": {
+    "kind": "tie",
+    "D0": "rebal_bass_+3dB",
+    "D1": "rebal_bass_+6dB",
+    "D2": "rebal_bass_+6dB",
+    "D3": "rebal_bass_+3dB"
+   },
+   "rebal_bass_up|PC": {
+    "kind": "tie",
+    "D0": "rebal_bass_+1dB",
+    "D1": "rebal_bass_+6dB",
+    "D2": "rebal_bass_+6dB"
+   },
+   "rebal_other_up|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_other_+6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_other_up|clap": {
+    "kind": "tie",
+    "D0": "rebal_other_+1dB",
+    "D1": "rebal_other_+6dB"
+   },
+   "rebal_other_up|CE": {
+    "kind": "tie",
+    "D0": "rebal_other_+1dB",
+    "D1": "rebal_other_+6dB",
+    "D2": "rebal_other_+6dB",
+    "D3": "rebal_other_+1dB"
+   },
+   "rebal_other_up|PQ": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_other_+6dB",
+    "D2": "rebal_other_+3dB",
+    "D3": null
+   },
+   "rebal_other_up|CU": {
+    "kind": "tie",
+    "D0": "rebal_other_+1dB",
+    "D1": "rebal_other_+6dB",
+    "D2": "rebal_other_+6dB",
+    "D3": "rebal_other_+1dB"
+   },
+   "rebal_other_up|PC": {
+    "kind": "tie",
+    "D0": "rebal_other_+1dB",
+    "D1": "rebal_other_+6dB",
+    "D2": "rebal_other_+6dB"
+   },
+   "rebal_vocals_down|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_vocals_-6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_vocals_down|clap": {
+    "kind": "tie",
+    "D0": "rebal_vocals_-1dB",
+    "D1": "rebal_vocals_-6dB"
+   },
+   "rebal_vocals_down|CE": {
+    "kind": "tie",
+    "D0": "rebal_vocals_-1dB",
+    "D1": "rebal_vocals_-6dB",
+    "D2": "rebal_vocals_-6dB",
+    "D3": "rebal_vocals_-1dB"
+   },
+   "rebal_vocals_down|PQ": {
+    "kind": "tie",
+    "D0": "rebal_vocals_-1dB",
+    "D1": "rebal_vocals_-6dB",
+    "D2": "rebal_vocals_-6dB",
+    "D3": "rebal_vocals_-1dB"
+   },
+   "rebal_vocals_down|CU": {
+    "kind": "tie",
+    "D0": "rebal_vocals_-1dB",
+    "D1": "rebal_vocals_-6dB",
+    "D2": "rebal_vocals_-6dB",
+    "D3": "rebal_vocals_-1dB"
+   },
+   "rebal_vocals_down|PC": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_vocals_-6dB",
+    "D2": "rebal_vocals_-6dB"
+   },
+   "rebal_drums_down|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_drums_-6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_drums_down|clap": {
+    "kind": "tie",
+    "D0": "rebal_drums_-1dB",
+    "D1": "rebal_drums_-6dB"
+   },
+   "rebal_drums_down|CE": {
+    "kind": "tie",
+    "D0": "rebal_drums_-1dB",
+    "D1": "rebal_drums_-6dB",
+    "D2": "rebal_drums_-6dB",
+    "D3": "rebal_drums_-1dB"
+   },
+   "rebal_drums_down|PQ": {
+    "kind": "tie",
+    "D0": "rebal_drums_-1dB",
+    "D1": "rebal_drums_-6dB",
+    "D2": "rebal_drums_-6dB",
+    "D3": "rebal_drums_-1dB"
+   },
+   "rebal_drums_down|CU": {
+    "kind": "tie",
+    "D0": "rebal_drums_-1dB",
+    "D1": "rebal_drums_-6dB",
+    "D2": "rebal_drums_-6dB",
+    "D3": "rebal_drums_-1dB"
+   },
+   "rebal_drums_down|PC": {
+    "kind": "tie",
+    "D0": "rebal_drums_-1dB",
+    "D1": "rebal_drums_-6dB",
+    "D2": "rebal_drums_-6dB"
+   },
+   "rebal_bass_down|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_bass_-6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_bass_down|clap": {
+    "kind": "tie",
+    "D0": "rebal_bass_-3dB",
+    "D1": "rebal_bass_-6dB"
+   },
+   "rebal_bass_down|CE": {
+    "kind": "tie",
+    "D0": "rebal_bass_-3dB",
+    "D1": "rebal_bass_-6dB",
+    "D2": "rebal_bass_-6dB",
+    "D3": "rebal_bass_-3dB"
+   },
+   "rebal_bass_down|PQ": {
+    "kind": "tie",
+    "D0": "rebal_bass_-1dB",
+    "D1": "rebal_bass_-6dB",
+    "D2": "rebal_bass_-6dB",
+    "D3": "rebal_bass_-3dB"
+   },
+   "rebal_bass_down|CU": {
+    "kind": "tie",
+    "D0": "rebal_bass_-3dB",
+    "D1": "rebal_bass_-6dB",
+    "D2": "rebal_bass_-6dB",
+    "D3": "rebal_bass_-3dB"
+   },
+   "rebal_bass_down|PC": {
+    "kind": "tie",
+    "D0": "rebal_bass_-3dB",
+    "D1": "rebal_bass_-6dB",
+    "D2": "rebal_bass_-6dB"
+   },
+   "rebal_other_down|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_other_-6dB",
+    "D2": null,
+    "D3": null
+   },
+   "rebal_other_down|clap": {
+    "kind": "tie",
+    "D0": "rebal_other_-1dB",
+    "D1": "rebal_other_-6dB"
+   },
+   "rebal_other_down|CE": {
+    "kind": "tie",
+    "D0": "rebal_other_-1dB",
+    "D1": "rebal_other_-6dB",
+    "D2": "rebal_other_-6dB",
+    "D3": "rebal_other_-1dB"
+   },
+   "rebal_other_down|PQ": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "rebal_other_-6dB",
+    "D2": "rebal_other_-6dB",
+    "D3": "rebal_other_-1dB"
+   },
+   "rebal_other_down|CU": {
+    "kind": "tie",
+    "D0": "rebal_other_-1dB",
+    "D1": "rebal_other_-6dB",
+    "D2": "rebal_other_-6dB",
+    "D3": "rebal_other_-1dB"
+   },
+   "rebal_other_down|PC": {
+    "kind": "tie",
+    "D0": "rebal_other_-1dB",
+    "D1": "rebal_other_-6dB",
+    "D2": "rebal_other_-6dB"
+   },
+   "noise|meva": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null,
+    "D2": null,
+    "D3": null
+   },
+   "noise|clap": {
+    "kind": "lose",
+    "D0": null,
+    "D1": null
+   },
+   "noise|CE": {
+    "kind": "lose",
+    "D0": "noise_snr10",
+    "D1": null,
+    "D2": null,
+    "D3": "noise_snr10"
+   },
+   "noise|PQ": {
+    "kind": "lose",
+    "D0": "noise_snr30",
+    "D1": "noise_snr10",
+    "D2": "noise_snr20",
+    "D3": "noise_snr30"
+   },
+   "noise|CU": {
+    "kind": "lose",
+    "D0": "noise_snr20",
+    "D1": null,
+    "D2": null,
+    "D3": "noise_snr20"
+   },
+   "gain_down|meva": {
+    "kind": "tie",
+    "D0": null,
+    "D1": "gain-3",
+    "D2": null,
+    "D3": null
+   },
+   "gain_down|clap": {
+    "kind": "tie",
+    "D0": "gain-1",
+    "D1": "gain-3"
+   },
+   "gain_down|CE": {
+    "kind": "tie",
+    "D0": "gain-1",
+    "D1": "gain-3",
+    "D2": "gain-3",
+    "D3": "gain-1"
+   },
+   "gain_down|PQ": {
+    "kind": "tie",
+    "D0": "gain-1",
+    "D1": "gain-3",
+    "D2": "gain-3",
+    "D3": "gain-3"
+   },
+   "gain_down|CU": {
+    "kind": "tie",
+    "D0": "gain-1",
+    "D1": "gain-3",
+    "D2": "gain-3",
+    "D3": "gain-3"
+   },
+   "gain_down|PC": {
+    "kind": "tie",
+    "D0": "gain-1",
+    "D1": "gain-3",
+    "D2": "gain-3"
+   }
+  }
+ },
+ "monotone_violations": [],
+ "n_rows": 5510
+}

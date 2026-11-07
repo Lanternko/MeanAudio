@@ -1,0 +1,95 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "metric-win-tie-133-mert-20261020",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Does reference-based MERT/MuQ cosine distance pass the two-criteria requirement that all prior metrics failed, in particular for note-level errors in 126b?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_win_tie_133_mert_20261020.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-20",
+  "text": "Score 126c+126b with MERT and MuQ-embed cosine distance (reference-based), score 126a with MERT only, compute S from clean system means, judge win/tie/lose with m=0.10*S, pass=80%."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "MERT-v1-95M + MuQ-large cosine distance scoring: 126c (36,366 FLACs), 126b (87,653 FLACs), 126a (53 variants x 5 systems x 5,131 clips on-the-fly); S from clean system means; m=0.10*S; pass=80%; NVMe peak < 400 MB extra; wall time < 7h. No generation, no training.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/133_metric_win_tie_mert_r2.sh",
+  "launcher_sha256": "dbc7fcb6240104082b8f6f5458d42d3945def0ecfddf378f24838178693c6ad5",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_133.py",
+  "action_sha256": "63508ed30cab14c291b2fed79118671ba4a28d2a837a91e63962046a2a31c8a5",
+  "mert_revision": "12af15fef9d0ac838c3f475bfbbf26d2060dd4f5",
+  "muq_revision": "0562a57814f6f8bbd9fdea0a25921a2fce1a841a"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_133.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_133.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_133.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "fixed_protocol": {
+  "judgment": "pairwise: d = cosim(L2_norm(mean_pool(embed(case))), L2_norm(mean_pool(embed(clean_base)))) - 1 (126a: clean_base = same clip, same system, untransformed lvl30); tie if |d|<=m, lose-correct if d<-m; m=0.10*S per embedder; S = range over 5 TTM systems of mean cosim(clean clip, system centroid) (S_mert from r1 s_values_mert.json; S_muq same definition); pass=80%; 126b/126c items with base=='' and kinds soft/floor/descriptive/ref are descriptive only",
+  "mert": "m-a-p/MERT-v1-95M rev 12af15fef9d0ac838c3f475bfbbf26d2060dd4f5; 768-dim; 24kHz; ~98.6 clips/s@bs=16",
+  "muq": "OpenMuQ/MuQ-large-msd-iter rev 0562a57814f6f8bbd9fdea0a25921a2fce1a841a; 1024-dim; 24kHz",
+  "scope": "126c+126b: MERT+MuQ; 126a: MERT only",
+  "output_126c": "{OUT}/126c_mert_cosim.tsv, 126c_muq_cosim.tsv",
+  "output_126b": "{OUT}/126b_mert_cosim.tsv, 126b_muq_cosim.tsv",
+  "output_126a": "{OUT}/126a/{vname}/{system}/mert_cosim.tsv",
+  "output_s_values": "{OUT}/s_values_mert.json, {OUT}/s_values_muq.json"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/metric_win_tie_133_20261020",
+  "min_free_bytes": 5368709120
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "TSV-level autoresume: 126c/126b TSVs from r1 reused; s_values_muq.json skip if present; 126a unit-level: skip if {OUT}/126a/{vname}/{system}/mert_cosim.tsv exists (written via tmp+rename)",
+  "pause_progress": "/home/kojiek/eval_output_nvme/metric_win_tie_133_20261020/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/metric_win_tie_133_20261020/pause_progress.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "metric-win-tie-126c-musdb-20261019 (stimuli at /home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/stimuli/)",
+  "metric-win-tie-126b (stimuli at /home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/stimuli/)",
+  "metric-win-tie-126a (R115 source at /home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/)"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/metric_win_tie_133_summary.json"
+  }
+ ],
+ "queue_name": "133_metric_win_tie_mert_r2.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r2",
+   "date": "2026-10-20",
+   "note": "r1 crashed in score_126a (A.variants() returns dicts; ValueError unpack). r2: 126a pairwise vs same clean clip with CPU pool transforms; S_muq computed; analyze grouped by case, MuQ judged with m_muq."
+  }
+ ]
+}

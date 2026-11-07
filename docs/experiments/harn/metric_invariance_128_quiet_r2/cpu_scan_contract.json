@@ -1,0 +1,53 @@
+{
+  "action_sha256": "cc94d06706f86c6696758dbc53938e6f8b8570a0453c3917502cd54947b34a87",
+  "authorization": "operator_console: user supplied eff41ef, instructed host CPU scans of all three current contracts before new GPU run",
+  "commands": [
+    {
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--scan-lufs",
+        "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/a.json",
+        "--scan-workers",
+        "8"
+      ],
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128a_20261017_identity_r1_contract.json",
+      "contract_sha256": "1fefd80683e91d4178cc11bd530ebe4461ec6787cb3a5ced96bad9eb36d13b64",
+      "part": "a"
+    },
+    {
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--scan-lufs",
+        "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/b.json",
+        "--scan-workers",
+        "8"
+      ],
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128b_20261017_identity_r1_contract.json",
+      "contract_sha256": "7bd1969f7e52b6e45dc9590e7466a46eb15164576288535e2433540bfd4ee062",
+      "part": "b"
+    },
+    {
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--scan-lufs",
+        "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/c.json",
+        "--scan-workers",
+        "8"
+      ],
+      "contract": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128c_20261017_identity_r1_contract.json",
+      "contract_sha256": "84900d5c9757895f4873c73ba0e510187e73ac5d5be363059635cff9e4db32fa",
+      "part": "c"
+    }
+  ],
+  "cpu_workers": 8,
+  "driver_sha256": "f66ab351ac5750e965cb8be4a7f7b43683cedfb71d34399e74daf5e43c809e6c",
+  "gpu": false,
+  "hard_floor_bytes": 53687091200,
+  "manifest_sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1",
+  "repair": false,
+  "resume": "No GPU launch; retain all partial/failed evidence. New output directory required for rerun.",
+  "run_id": "128-quiet-r2-cpu-lufs-scans"
+}

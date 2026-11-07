@@ -1,0 +1,10 @@
+{
+  "control_dir": "/home/kojiek/gpu_queue/p2/control/129_metric_invariance_table_b_nvme_r5-20261017T173954Z",
+  "job_id": "129_metric_invariance_table_b_nvme_r5",
+  "phase": "running",
+  "pid": 2398229,
+  "role": "p2",
+  "run_id": "129_metric_invariance_table_b_nvme_r5-20261017T173954Z",
+  "seated_at": "2026-10-17T17:39:54Z",
+  "start_time": "57420975"
+}

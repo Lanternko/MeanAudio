@@ -1,0 +1,64 @@
+{
+  "status": "passed",
+  "checks": [
+    {
+      "case": "invalid",
+      "returncode": 1,
+      "report": {
+        "action_sha256": "cc94d06706f86c6696758dbc53938e6f8b8570a0453c3917502cd54947b34a87",
+        "fallback": [
+          {
+            "id": "quiet",
+            "system": "fixture",
+            "variant": "table"
+          }
+        ],
+        "fallback_ids_by_system": {
+          "fixture": [
+            "quiet"
+          ]
+        },
+        "invalid": [
+          {
+            "error": "ValueError: C1/C3 digital silence: LUFS undefined, refuse substituting raw audio",
+            "id": "zero",
+            "system": "fixture",
+            "variant": "table"
+          }
+        ],
+        "manifest_sha256": "ad8591eb85bd168959442390dae52879238589afb94c71b85cf927db67ec56f1",
+        "n_checked": 3,
+        "n_fallback": 1,
+        "n_invalid": 1,
+        "part": "b",
+        "status": "failed"
+      }
+    },
+    {
+      "case": "valid",
+      "returncode": 0,
+      "report": {
+        "action_sha256": "cc94d06706f86c6696758dbc53938e6f8b8570a0453c3917502cd54947b34a87",
+        "fallback": [
+          {
+            "id": "quiet",
+            "system": "fixture",
+            "variant": "table"
+          }
+        ],
+        "fallback_ids_by_system": {
+          "fixture": [
+            "quiet"
+          ]
+        },
+        "invalid": [],
+        "manifest_sha256": "f4e20d137557bc51c039d6189ca54d47687ec6bcf97f6799d082fe53e62a70c8",
+        "n_checked": 2,
+        "n_fallback": 1,
+        "n_invalid": 0,
+        "part": "b",
+        "status": "passed"
+      }
+    }
+  ]
+}

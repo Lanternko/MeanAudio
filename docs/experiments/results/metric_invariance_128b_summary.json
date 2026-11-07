@@ -1,0 +1,870 @@
+{
+  "c2_ensemble_sd_means": {
+    "meanaudio_s14159265_cfg0": {
+      "CE": 0.08321837540434929,
+      "CU": 0.059819494684412215,
+      "PC": 0.059613180647106224,
+      "PQ": 0.0657792337673049,
+      "clap": 0.015203476843847626
+    },
+    "meanaudio_s14159265_cfg3_neg": {
+      "CE": 0.05494588391511931,
+      "CU": 0.034522089917374474,
+      "PC": 0.044030312762516344,
+      "PQ": 0.04424969174980125,
+      "clap": 0.013991460659462059
+    },
+    "meanaudio_s16180339_cfg0": {
+      "CE": 0.08220742610181012,
+      "CU": 0.06033212131435056,
+      "PC": 0.05738602023096133,
+      "PQ": 0.06697995792553492,
+      "clap": 0.014861457248106991
+    },
+    "meanaudio_s16180339_cfg3_neg": {
+      "CE": 0.051101355795100646,
+      "CU": 0.03255855594713932,
+      "PC": 0.039655786672923736,
+      "PQ": 0.04218236655691651,
+      "clap": 0.01363280452211736
+    },
+    "meanaudio_s27182818_cfg0": {
+      "CE": 0.08211254622181914,
+      "CU": 0.060988994225862216,
+      "PC": 0.05682533577377012,
+      "PQ": 0.06766717822754857,
+      "clap": 0.015232725752523877
+    },
+    "meanaudio_s27182818_cfg3_neg": {
+      "CE": 0.051450948805948124,
+      "CU": 0.036481570570297835,
+      "PC": 0.03945482804254845,
+      "PQ": 0.042077687204830544,
+      "clap": 0.013770017073399959
+    },
+    "musiccaps_real": {
+      "CE": 0.0747113885578945,
+      "CU": 0.046885745690372814,
+      "PC": 0.05121929615226575,
+      "PQ": 0.04867563449562886,
+      "clap": 0.017469532604872624
+    },
+    "musicgen_medium": {
+      "CE": 0.08598621040582992,
+      "CU": 0.04683376788499758,
+      "PC": 0.06870238265634522,
+      "PQ": 0.047606852714522196,
+      "clap": 0.017445378256728223
+    },
+    "musicldm": {
+      "CE": 0.09146646327573554,
+      "CU": 0.0604132803851648,
+      "PC": 0.06974850574597667,
+      "PQ": 0.059589132598004746,
+      "clap": 0.01639331457164105
+    },
+    "musicldm_fid8": {
+      "CE": 0.08085905699380183,
+      "CU": 0.04471950385093426,
+      "PC": 0.055562698187862955,
+      "PQ": 0.05405709794580723,
+      "clap": 0.01724418038117212
+    }
+  },
+  "calibration_sha256": "2e8dacee5d46775473d7f5443590a39c034454744c6c030a0d6bb1deb69e4a23",
+  "claims": {
+    "K1": {
+      "above_2sd_fraction": [
+        0.861075892048542,
+        0.863068284731027,
+        0.8601702590110487
+      ],
+      "above_2sd_fraction_excl": [
+        0.8608490566037735,
+        0.8630261248185777,
+        0.8604862119013063
+      ],
+      "deltas": [
+        0.1551446440621058,
+        0.16426344257704353,
+        0.11502357631290203
+      ],
+      "deltas_excl": [
+        0.1522972538461706,
+        0.16147939908400674,
+        0.11289285246623444
+      ],
+      "eligible_as_conclusion": false,
+      "metric": "PQ",
+      "mode": "C3",
+      "n_pairs": [
+        5521,
+        5521,
+        5521
+      ],
+      "n_pairs_excl": [
+        5512,
+        5512,
+        5512
+      ],
+      "paired": [
+        {
+          "better": 0.5120449193986597,
+          "mean_delta": 0.1551446440621058,
+          "n": 5521,
+          "tie": 0.11320412968665097,
+          "worse": 0.37475095091468935
+        },
+        {
+          "better": 0.526535047998551,
+          "mean_delta": 0.16426344257704353,
+          "n": 5521,
+          "tie": 0.11103061039666727,
+          "worse": 0.3624343416047817
+        },
+        {
+          "better": 0.5015395761637385,
+          "mean_delta": 0.11502357631290203,
+          "n": 5521,
+          "tie": 0.1190001811266075,
+          "worse": 0.37946024270965406
+        }
+      ],
+      "paired_excl": [
+        {
+          "better": 0.5112481857764877,
+          "mean_delta": 0.1522972538461706,
+          "n": 5512,
+          "tie": 0.11338896952104499,
+          "worse": 0.37536284470246734
+        },
+        {
+          "better": 0.5259433962264151,
+          "mean_delta": 0.16147939908400674,
+          "n": 5512,
+          "tie": 0.11103047895500726,
+          "worse": 0.36302612481857766
+        },
+        {
+          "better": 0.5010885341074021,
+          "mean_delta": 0.11289285246623444,
+          "n": 5512,
+          "tie": 0.11883164005805515,
+          "worse": 0.3800798258345428
+        }
+      ],
+      "robust_to_lufs_fallback": true,
+      "sensitivity_only": true,
+      "verdict": "still_holds",
+      "verdict_excl": "still_holds"
+    },
+    "K2": {
+      "above_2sd_fraction": [
+        0.6103966672704221,
+        0.623075529795327,
+        0.6203586306828474
+      ],
+      "above_2sd_fraction_excl": [
+        0.6101233671988389,
+        0.622822931785196,
+        0.6202830188679245
+      ],
+      "deltas": [
+        0.016112542357144776,
+        0.019524790913011156,
+        0.021450263121122488
+      ],
+      "deltas_excl": [
+        0.015800495438741693,
+        0.019252320799448747,
+        0.021192410878677608
+      ],
+      "eligible_as_conclusion": false,
+      "metric": "clap",
+      "mode": "C3",
+      "n_pairs": [
+        5521,
+        5521,
+        5521
+      ],
+      "n_pairs_excl": [
+        5512,
+        5512,
+        5512
+      ],
+      "paired": [
+        {
+          "better": 0.5147618185111393,
+          "mean_delta": 0.016112542357144776,
+          "n": 5521,
+          "tie": 0.09092555696431806,
+          "worse": 0.39431262452454263
+        },
+        {
+          "better": 0.5319688462235103,
+          "mean_delta": 0.019524790913011156,
+          "n": 5521,
+          "tie": 0.08512950552436153,
+          "worse": 0.38290164825212825
+        },
+        {
+          "better": 0.5307009599710197,
+          "mean_delta": 0.021450263121122488,
+          "n": 5521,
+          "tie": 0.098532874479261,
+          "worse": 0.37076616554971925
+        }
+      ],
+      "paired_excl": [
+        {
+          "better": 0.5139695210449927,
+          "mean_delta": 0.015800495438741693,
+          "n": 5512,
+          "tie": 0.09107402031930334,
+          "worse": 0.39495645863570394
+        },
+        {
+          "better": 0.5313860667634253,
+          "mean_delta": 0.019252320799448747,
+          "n": 5512,
+          "tie": 0.08508708272859217,
+          "worse": 0.3835268505079826
+        },
+        {
+          "better": 0.5301161103047896,
+          "mean_delta": 0.021192410878677608,
+          "n": 5512,
+          "tie": 0.09869375907111756,
+          "worse": 0.3711901306240929
+        }
+      ],
+      "robust_to_lufs_fallback": true,
+      "sensitivity_only": true,
+      "verdict": "still_holds",
+      "verdict_excl": "still_holds"
+    },
+    "K3": {
+      "above_2sd_fraction": [
+        0.8755660206484333,
+        0.8719434884984604,
+        0.8723057417134578
+      ],
+      "above_2sd_fraction_excl": [
+        0.8755434782608695,
+        0.871897082804856,
+        0.8722826086956522
+      ],
+      "deltas": [
+        -0.030964374801340018,
+        -0.036230410350187384,
+        -0.07374901946224481
+      ],
+      "deltas_excl": [
+        -0.031229591067286504,
+        -0.03605763300710624,
+        -0.07406738967351291
+      ],
+      "eligible_as_conclusion": false,
+      "metric": "PQ",
+      "mode": "C3",
+      "n_pairs": [
+        5521,
+        5521,
+        5521
+      ],
+      "n_pairs_excl": [
+        5520,
+        5519,
+        5520
+      ],
+      "paired": [
+        {
+          "better": 0.4428545553341786,
+          "mean_delta": -0.030964374801340018,
+          "n": 5521,
+          "tie": 0.0632131860170259,
+          "worse": 0.49393225864879553
+        },
+        {
+          "better": 0.44702046730664735,
+          "mean_delta": -0.036230410350187384,
+          "n": 5521,
+          "tie": 0.06665459155950008,
+          "worse": 0.48632494113385255
+        },
+        {
+          "better": 0.4285455533417859,
+          "mean_delta": -0.07374901946224481,
+          "n": 5521,
+          "tie": 0.06248867958703133,
+          "worse": 0.5089657670711828
+        }
+      ],
+      "paired_excl": [
+        {
+          "better": 0.4427536231884058,
+          "mean_delta": -0.031229591067286504,
+          "n": 5520,
+          "tie": 0.06322463768115942,
+          "worse": 0.4940217391304348
+        },
+        {
+          "better": 0.4470012683457148,
+          "mean_delta": -0.03605763300710624,
+          "n": 5519,
+          "tie": 0.06667874614966479,
+          "worse": 0.4863199855046204
+        },
+        {
+          "better": 0.42844202898550726,
+          "mean_delta": -0.07406738967351291,
+          "n": 5520,
+          "tie": 0.0625,
+          "worse": 0.5090579710144928
+        }
+      ],
+      "robust_to_lufs_fallback": true,
+      "sensitivity_only": true,
+      "verdict": "tie",
+      "verdict_excl": "tie"
+    }
+  },
+  "identity_checks": {
+    "meanaudio_s14159265_cfg0": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "meanaudio_s14159265_cfg3_neg": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "meanaudio_s16180339_cfg0": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "meanaudio_s16180339_cfg3_neg": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "meanaudio_s27182818_cfg0": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "meanaudio_s27182818_cfg3_neg": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "musiccaps_real": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "musicgen_medium": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "musicldm": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    },
+    "musicldm_fid8": {
+      "blocking_metrics": [
+        "PQ",
+        "clap"
+      ],
+      "checked_n": 200,
+      "failed_blocking_metrics": [],
+      "kind": "historical_score_comparison",
+      "metrics": {
+        "CE": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "CU": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PC": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "PQ": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        },
+        "clap": {
+          "failures": [],
+          "max_abs": 0.0,
+          "mean_signed": 0.0,
+          "passed": true
+        }
+      },
+      "passed": true,
+      "scored_context_n": 224,
+      "warning_metrics": []
+    }
+  },
+  "lufs_fallback_counts": {
+    "meanaudio_s14159265_cfg0": 0,
+    "meanaudio_s14159265_cfg3_neg": 0,
+    "meanaudio_s16180339_cfg0": 1,
+    "meanaudio_s16180339_cfg3_neg": 0,
+    "meanaudio_s27182818_cfg0": 0,
+    "meanaudio_s27182818_cfg3_neg": 0,
+    "musiccaps_real": 0,
+    "musicgen_medium": 9,
+    "musicldm": 1,
+    "musicldm_fid8": 0
+  },
+  "lufs_fallback_ids": {
+    "meanaudio_s14159265_cfg0": [],
+    "meanaudio_s14159265_cfg3_neg": [],
+    "meanaudio_s16180339_cfg0": [
+      "vWiq7n4yTAw_30"
+    ],
+    "meanaudio_s16180339_cfg3_neg": [],
+    "meanaudio_s27182818_cfg0": [],
+    "meanaudio_s27182818_cfg3_neg": [],
+    "musiccaps_real": [],
+    "musicgen_medium": [
+      "Dv21JlCT4_k_40",
+      "Gj6etuzTWlQ_30",
+      "MHgPpImV7b4_20",
+      "RDCXvJPzT5k_520",
+      "Vy00ycBpqpc_0",
+      "XWj7nP7kfdQ_280",
+      "Zxyfhub6nV4_80",
+      "oNqBsQiNoAU_40",
+      "s1c8RF7lKv0_50"
+    ],
+    "musicldm": [
+      "Z6q5doznOcI_340"
+    ],
+    "musicldm_fid8": []
+  },
+  "part": "b",
+  "rankings": {
+    "PQ": {
+      "C0": {
+        "meanaudio_s14159265_cfg0": 6.680982451964884,
+        "meanaudio_s14159265_cfg3_neg": 7.595195833139501,
+        "meanaudio_s16180339_cfg0": 6.6800789567055725,
+        "meanaudio_s16180339_cfg3_neg": 7.606834882542051,
+        "meanaudio_s27182818_cfg0": 6.643784687195626,
+        "meanaudio_s27182818_cfg3_neg": 7.55450085703175,
+        "musiccaps_real": 6.986371606629022,
+        "musicgen_medium": 7.43034205093826,
+        "musicldm": 6.681906095731736,
+        "musicldm_fid8": 7.21552554357529
+      },
+      "Cstar": {
+        "meanaudio_s14159265_cfg0": 6.62348644932291,
+        "meanaudio_s14159265_cfg3_neg": 7.562033744247857,
+        "meanaudio_s16180339_cfg0": 6.618220413774063,
+        "meanaudio_s16180339_cfg3_neg": 7.571152542762794,
+        "meanaudio_s27182818_cfg0": 6.580701804662006,
+        "meanaudio_s27182818_cfg3_neg": 7.521912676498653,
+        "musiccaps_real": 6.958072549533342,
+        "musicgen_medium": 7.406889100185751,
+        "musicldm": 6.65445082412425,
+        "musicldm_fid8": 7.187481068696822
+      },
+      "kendall_tau": 0.9999999999999999
+    },
+    "clap": {
+      "C0": {
+        "meanaudio_s14159265_cfg0": 0.1945032653000035,
+        "meanaudio_s14159265_cfg3_neg": 0.23168834111344738,
+        "meanaudio_s16180339_cfg0": 0.19639752944231337,
+        "meanaudio_s16180339_cfg3_neg": 0.23535564268897533,
+        "meanaudio_s27182818_cfg0": 0.1944197236649352,
+        "meanaudio_s27182818_cfg3_neg": 0.23689888655434935,
+        "musiccaps_real": 0.29856894884579416,
+        "musicgen_medium": 0.22412679650502984,
+        "musicldm": 0.26655655136114986,
+        "musicldm_fid8": 0.2722032466125512
+      },
+      "Cstar": {
+        "meanaudio_s14159265_cfg0": 0.19392845494506247,
+        "meanaudio_s14159265_cfg3_neg": 0.22785786288804996,
+        "meanaudio_s16180339_cfg0": 0.19540130134834371,
+        "meanaudio_s16180339_cfg3_neg": 0.23127011144391635,
+        "meanaudio_s27182818_cfg0": 0.193851533885435,
+        "meanaudio_s27182818_cfg3_neg": 0.23319558365202767,
+        "musiccaps_real": 0.280024126021141,
+        "musicgen_medium": 0.2117453205309052,
+        "musicldm": 0.2527003480034451,
+        "musicldm_fid8": 0.25564215391339745
+      },
+      "kendall_tau": 0.9999999999999999
+    }
+  },
+  "status": "completed"
+}

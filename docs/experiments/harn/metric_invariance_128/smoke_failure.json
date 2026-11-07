@@ -1,0 +1,142 @@
+{
+  "status": "held_after_failed_smoke",
+  "recorded_at": "2026-10-16T18:22:37.117553+00:00",
+  "started_at_taipei": "2026-10-17T02:12:53+08:00",
+  "smoke_failed_at_taipei": "2026-10-17T02:13:36+08:00",
+  "registered_code_revision": "45bf011",
+  "phase": "first 50 MusicGen C0 clips",
+  "identity_tolerance": 0.0001,
+  "metrics": {
+    "PQ": {
+      "smoke_vs_126a_max": 0.00036084786987267137,
+      "smoke_vs_126a_over_1e4": 5,
+      "historical_126a_vs_115_max": 1.110168456719407e-06,
+      "historical_anchors_over_2e4": 0,
+      "example_id": "Rdwtr2IX8ek_30",
+      "example_126a": 8.219021,
+      "example_115": 8.219019889831543,
+      "historical_clean_vs_clean_shuf_max": 1.000000000139778e-06
+    },
+    "CE": {
+      "smoke_vs_126a_max": 0.00028885891723628987,
+      "smoke_vs_126a_over_1e4": 7,
+      "historical_126a_vs_115_max": 2.6661682133166664e-06,
+      "historical_anchors_over_2e4": 0,
+      "example_id": "eSsadT6mh7g_120",
+      "example_126a": 6.824055,
+      "example_115": 6.824052333831787,
+      "historical_clean_vs_clean_shuf_max": 3.000000000419334e-06
+    },
+    "CU": {
+      "smoke_vs_126a_max": 0.0004933236694339982,
+      "smoke_vs_126a_over_1e4": 3,
+      "historical_126a_vs_115_max": 9.179992677132987e-07,
+      "historical_anchors_over_2e4": 0,
+      "example_id": "l9vYSBR9nio_30",
+      "example_126a": 7.998692,
+      "example_115": 7.998691082000732,
+      "historical_clean_vs_clean_shuf_max": 1.000000000139778e-06
+    },
+    "PC": {
+      "smoke_vs_126a_max": 0.0005275080566402579,
+      "smoke_vs_126a_over_1e4": 6,
+      "historical_126a_vs_115_max": 7.30957030903312e-07,
+      "historical_anchors_over_2e4": 0,
+      "example_id": "Obtx-A9Lt5c_10",
+      "example_126a": 4.393914,
+      "example_115": 4.393913269042969,
+      "historical_clean_vs_clean_shuf_max": 1.000000000139778e-06
+    },
+    "clap": {
+      "smoke_vs_126a_max": 4.862070083627712e-07,
+      "smoke_vs_126a_over_1e4": 0,
+      "historical_126a_vs_115_max": 4.862070083627712e-07,
+      "historical_anchors_over_2e4": 0,
+      "example_id": "bl8PgmZ9iOc_30",
+      "example_126a": 0.036425,
+      "example_115": 0.03642548620700836,
+      "historical_clean_vs_clean_shuf_max": 0.0
+    },
+    "meva": {
+      "smoke_vs_126a_max": 4.89486694288388e-07,
+      "smoke_vs_126a_over_1e4": 0,
+      "historical_clean_vs_clean_shuf_max": 0.0
+    }
+  },
+  "batch_evidence": {
+    "PQ": {
+      "first_32_max": 1.0255432130179543e-06,
+      "last_18_max": 0.00036084786987267137,
+      "over_1e4_indices": [
+        34,
+        35,
+        36,
+        40,
+        46
+      ],
+      "historical_clean_vs_shuffled_all_5131_max": 0.0022570000000001755,
+      "historical_over_1e4_count": 16
+    },
+    "CE": {
+      "first_32_max": 2.6661682133166664e-06,
+      "last_18_max": 0.00028885891723628987,
+      "over_1e4_indices": [
+        34,
+        36,
+        37,
+        39,
+        40,
+        43,
+        49
+      ],
+      "historical_clean_vs_shuffled_all_5131_max": 0.00494899999999987,
+      "historical_over_1e4_count": 20
+    },
+    "CU": {
+      "first_32_max": 9.321899412384482e-07,
+      "last_18_max": 0.0004933236694339982,
+      "over_1e4_indices": [
+        35,
+        40,
+        46
+      ],
+      "historical_clean_vs_shuffled_all_5131_max": 0.0026929999999998344,
+      "historical_over_1e4_count": 17
+    },
+    "PC": {
+      "first_32_max": 8.570251468498213e-07,
+      "last_18_max": 0.0005275080566402579,
+      "over_1e4_indices": [
+        33,
+        34,
+        35,
+        41,
+        46,
+        47
+      ],
+      "historical_clean_vs_shuffled_all_5131_max": 0.005162000000000333,
+      "historical_over_1e4_count": 17
+    }
+  },
+  "cpu_audio_identity": {
+    "clips": 50,
+    "sample_mismatch_clips": 0,
+    "sample_max_abs_diff": 0.0,
+    "resample_thread_max_abs_diff": 0.0
+  },
+  "queue": {
+    "128": "failed; required failure receipt delivered",
+    "129": "held by unmet scientific dependency; receipt delivered",
+    "130": "held by unmet scientific dependency; receipt delivered"
+  },
+  "candidate": {
+    "revision": "3b1ead470c848948898e070f59623b8f84794e76",
+    "diff_sha256": "e03d5f9de389fca74fcef43a0728ab01b142503f1cacf739a4c79774a74b060e",
+    "branch": "codex/metric-invariance-128-tail-batch",
+    "cpu_tests_passed": 20,
+    "gpu_validation": "not run",
+    "applied_to_registered_run": false,
+    "method": "Pad AES final partial forwards to 32 by repeating the last existing path. Repeated context paths are discarded by the original per-path score mapping; original cohort and identity threshold retained."
+  },
+  "policy": "watcher_policy.md independent review and approval; current contracts automatic_repair=false; require operator approval before apply/resume. Preserve failed run contracts and register a separate retry."
+}

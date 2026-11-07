@@ -1,0 +1,43 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "23ff85c497b1cec666dcd2890ba4d395726bc9e044131678fa66d9aa17614925",
+        "ledger_raw_sha256": "3ee60274087b488d4f94f1fb56e5b0a5ce21d95244b00a7f4247992699d739ce",
+        "preflight_report_raw_sha256": "eb9e297f4096a5dac901a6a620c86c1ca26fa84969cdd3502cf71f1f18f184f4",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "129_metric_invariance_table_b_claims_r4",
+      "experiment_id": "metric-invariance-128b-20261017_claims_r4",
+      "position": 1,
+      "run_id": "run-20261018-129-metric-invariance_claims_r4",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    },
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "4d11ff308e10b6e3a21c35b537eca7ac032967ee43e561d40d73b8eb28e33d73",
+        "ledger_raw_sha256": "e7339466e58b0b297639f276a4ebddbbeb9985bd429a69e08d53a421554b4055",
+        "preflight_report_raw_sha256": "1989486e0ca593f6fc5d59d704d53cfd94a17c1e70482718524ad6ad55281d3d",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [
+        "129_metric_invariance_table_b_claims_r4"
+      ],
+      "entry_id": "130_metric_invariance_negmf_claims_r4",
+      "experiment_id": "metric-invariance-128c-20261017_claims_r4",
+      "position": 2,
+      "run_id": "run-20261018-130-metric-invariance_claims_r4",
+      "status": "blocked",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-run-20261018-129-metric-invariance_claims_r4",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-10-17T17:14:23.685438+00:00"
+}
