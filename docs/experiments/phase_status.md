@@ -44,6 +44,7 @@
 | **2026-10-27 會議定的下一步**（指標效度線） | **優先序調整**：先用觀察式 probe 找 MuQ（及 MERT／AES）的弱點，例如高頻增強、lowpass 8k／12k、補回二十幾項介入；不做對抗攻擊／訓練。有弱點 → 攻擊（可「刷」的反向效果）＋簡單修補（augmentation、pairwise／不變性訓練）；全過 → 寫分析型。Arena 改預測一致率；S 先沿用。161–177 未完成的格可改用 RTX 5080。目標三月投稿 | `../meetings/2026-10-27_metric_screening_mert_attack.md`、`metric_coverage_completion_20261027.md` |
 | **181 PQ 導向訓練 × MuQ 重評**（081 arm／nmv2pair control／084 N100 × 3 seed，36 格重生，MuQ-Eval A1／A3a） | **收線 2026-11-07**（p2 181）：成立。H1 081 E1 +0.30、H2 081 E3 +0.24、H3 N100 +0.30 A1 MI（m 0.055，三 seed 同號），漲幅約 PQ 的一半（R 0.47–0.53）；081 HQ＋LQ 在 1,000 共同 prompt 上仍輸 MusicGen／真實。攻擊段落有現成「訓練刷 MuQ」例子，MuQ 分級標籤重訓不需要做 | `muq_081_084_rescore_181_20261105.md`、`results/muq_081_084_rescore_181_results.md` |
 | **182 MuQ 疊加＋best-of-N**（A：081 HQ 前綴＋LQ／fid8 負向＋cfg4.5、N100 full 共 5 格 × 3 seed＋6 kHz 低通；B：最佳格 × 8 推論 seed、A1 挑 best-of-k；1,000 Part B prompt） | **收線 2026-11-08**（p2 182），3/5：不碰 MuQ 的疊加 A1 2.95→3.55（+0.59，比 181 最佳格 +0.08），PQ／CE 同漲、CLAP／FAD 背離；低通再 +0.15 只在 A1。best-of-N 在測試 prompt 上用 MuQ 挑 = 偷看且 8× 成本，不算攻擊（描述：+0.42、A3a 轉移 0.28、FAD 變差）。下一步候選：只在訓練 prompt 用 MuQ 的分級標籤重訓（未登錄） | `muq_stack_bestofn_182_20261108.md`、`results/muq_stack_bestofn_182_results.md` |
+| **183 訓練期攻擊 MuQ A1**（L 低通語料 S2 重訓＋R 可微 MuQ 獎勵微調，只用訓練 prompt） | 設計登錄 2026-11-08，未實作 | `docs/experiments/muq_train_exploit_183_20261108.md` |
 | 073 guidance 幾何 | 收線（結果 2026-09-27 補寫） | `results/guidance_geometry_adg_apg_20260922_results.md` |
 
 ---
