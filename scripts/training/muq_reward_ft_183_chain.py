@@ -37,7 +37,7 @@ PILOT_STEPS = 3000
 VAL_EVERY = 500
 MAX_LUFS_DRIFT = 3.0
 MAX_SILENT = 0.05
-NEED_FREE_MIB = 24 * 1024
+NEED_FREE_MIB = 16 * 1024  # measured R0 peak 13.5 GB at B_R 4 with checkpointed vocoder (D10)
 CONTROL = 'phase8_qwen_caption2p0_slot0clean_nmv2pair_noq_quarter_s{seed}'
 
 
@@ -60,7 +60,8 @@ def free_mib():
 
 def ft(mode, out_dir, extra, log):
     out_dir.mkdir(parents=True, exist_ok=True)
-    env = dict(os.environ, OMP_NUM_THREADS='2', OPENBLAS_NUM_THREADS='2')
+    env = dict(os.environ, OMP_NUM_THREADS='2', OPENBLAS_NUM_THREADS='2',
+               PYTORCH_CUDA_ALLOC_CONF='expandable_segments:True')
     env.pop('MKL_NUM_THREADS', None)
     cmd = [TORCHRUN, '--standalone', '--nproc_per_node=1', str(FT), '--mode', mode,
            '--out_dir', str(out_dir), *extra]
@@ -80,12 +81,16 @@ def stage_gate():
                     ROOT / 'gate' / f'gate_br{br}.log')
             if rc and not rep_p.is_file():
                 tried.append({'br': br, 'rc': rc, 'report': None})
-                continue
+                continue  # a crash (e.g. OOM) at B_R 4 still tries B_R 2
         rep = json.loads(rep_p.read_text())
         tried.append({'br': br, 'gates': rep['gates'], 'pass': rep['pass']})
         if rep['pass']:
             wjson(ROOT / 'gate.json', {'pass': True, 'br': br, 'tried': tried, 'time': now()})
             return
+    if not any('gates' in t for t in tried):
+        # No gate report at all = the gate never ran to its checks (crash / OOM from VRAM held
+        # by other processes). That is a failed job, not evidence R is infeasible (2026-11-10).
+        raise SystemExit(f'[FAIL] R0 gate crashed without a report at every B_R: {tried}')
     wjson(ROOT / 'R_infeasible.json', {'reason': 'R0 gate failed at B_R 4 and 2', 'tried': tried,
                                        'time': now()})
 

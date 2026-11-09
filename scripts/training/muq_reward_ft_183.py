@@ -160,8 +160,27 @@ class Decoder:
         """normalized latent [B, L, C] -> waveform [B, T] float32 (differentiable)."""
         z = x_norm.float() * self.std + self.mean
         mel = self.vae.decode(z.transpose(1, 2))
-        w = self.voc(mel)
+        w = voc_forward(self.voc, mel)
         return w.reshape(w.shape[0], -1).float()
+
+
+def voc_forward(voc, x):
+    """BigVGAN.forward, same ops in the same order, with each upsample layer, AMP resblock and
+    the post stage checkpointed when grad is on (2026-11-10: one fp32 10 s clip held every
+    Snake activation for backward and OOMed at ~25 GiB). Values are identical to voc(x)."""
+    if not torch.is_grad_enabled():
+        return voc(x)
+    ck = lambda f, *a: torch.utils.checkpoint.checkpoint(f, *a, use_reentrant=False)
+    x = voc.conv_pre(x)
+    for i in range(voc.num_upsamples):
+        for up in voc.ups[i]:
+            x = ck(up, x)
+        xs = None
+        for j in range(voc.num_kernels):
+            y = ck(voc.resblocks[i * voc.num_kernels + j], x)
+            xs = y if xs is None else xs + y
+        x = xs / voc.num_kernels
+    return ck(lambda t: torch.tanh(voc.conv_post(voc.activation_post(t))), x)
 
 
 def sample_1nfe(net, noise, text_f, text_f_c):
