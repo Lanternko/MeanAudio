@@ -30,7 +30,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "L_cfg3neg": {
    "dA1": [
@@ -55,7 +56,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "R_cfg0": {
    "dA1": [
@@ -80,7 +82,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "R_cfg3neg": {
    "dA1": [
@@ -105,7 +108,8 @@
    "PQ_down": false,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "not_success_CE_not_down"
   },
   "R_nfe1": {
    "dA1": [
@@ -130,7 +134,8 @@
    "PQ_down": false,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "success"
   },
   "posthoc_lp6k_control_cfg0": {
    "dA1": [
@@ -166,7 +171,8 @@
    "PQ_down": false,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "D020": {
    "dA1": [
@@ -191,7 +197,8 @@
    "PQ_down": false,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "not_success_CE_not_down"
   },
   "D040": {
    "dA1": [
@@ -216,7 +223,8 @@
    "PQ_down": false,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "not_success_CE_not_down"
   },
   "D060": {
    "dA1": [
@@ -241,7 +249,8 @@
    "PQ_down": false,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "not_success_CE_not_down"
   },
   "D080": {
    "dA1": [
@@ -266,7 +275,8 @@
    "PQ_down": false,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "not_success_CE_not_down"
   },
   "D160": {
    "dA1": [
@@ -291,7 +301,8 @@
    "PQ_down": false,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "not_success_CE_not_down"
   },
   "Z160": {
    "dA1": [
@@ -316,7 +327,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   }
  },
  "j188_partD": {
@@ -343,7 +355,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_click_r18": {
    "dA1": [
@@ -368,7 +381,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_music_r0": {
    "dA1": [
@@ -393,7 +407,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_music_r18": {
    "dA1": [
@@ -418,7 +433,8 @@
    "PQ_down": true,
    "CE_caught": false,
    "CE_beyond_tie": false,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_oR_r-6": {
    "dA1": [
@@ -443,7 +459,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_oR_r0": {
    "dA1": [
@@ -468,7 +485,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_oR_r12": {
    "dA1": [
@@ -493,7 +511,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_oR_r18": {
    "dA1": [
@@ -518,7 +537,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": false,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_oR_r6": {
    "dA1": [
@@ -543,7 +563,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_osynth_r-6": {
    "dA1": [
@@ -568,7 +589,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_osynth_r0": {
    "dA1": [
@@ -593,7 +615,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_osynth_r12": {
    "dA1": [
@@ -618,7 +641,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_osynth_r18": {
    "dA1": [
@@ -643,7 +667,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": false,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_osynth_r6": {
    "dA1": [
@@ -668,7 +693,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "real_pink_r0": {
    "dA1": [
@@ -693,7 +719,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_pink_r18": {
    "dA1": [
@@ -718,7 +745,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_sine1k_r0": {
    "dA1": [
@@ -743,7 +771,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "real_sine1k_r18": {
    "dA1": [
@@ -768,7 +797,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": false,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "gen_click_r0": {
    "dA1": [
@@ -793,7 +823,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_click_r18": {
    "dA1": [
@@ -818,7 +849,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_music_r0": {
    "dA1": [
@@ -843,7 +875,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_music_r18": {
    "dA1": [
@@ -868,7 +901,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "gen_oR_r-6": {
    "dA1": [
@@ -893,7 +927,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_oR_r0": {
    "dA1": [
@@ -918,7 +953,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_oR_r12": {
    "dA1": [
@@ -943,7 +979,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_oR_r18": {
    "dA1": [
@@ -968,7 +1005,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_oR_r6": {
    "dA1": [
@@ -993,7 +1031,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_osynth_r-6": {
    "dA1": [
@@ -1018,7 +1057,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_osynth_r0": {
    "dA1": [
@@ -1043,7 +1083,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "success_caught_by_CE"
+   "verdict": "success_caught_by_CE",
+   "verdict_ce": "success"
   },
   "gen_osynth_r12": {
    "dA1": [
@@ -1068,7 +1109,8 @@
    "PQ_down": false,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "success"
   },
   "gen_osynth_r18": {
    "dA1": [
@@ -1093,7 +1135,8 @@
    "PQ_down": false,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "success"
   },
   "gen_osynth_r6": {
    "dA1": [
@@ -1118,7 +1161,8 @@
    "PQ_down": false,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "not_success_PQ_not_down"
+   "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "success"
   },
   "gen_pink_r0": {
    "dA1": [
@@ -1143,7 +1187,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "gen_pink_r18": {
    "dA1": [
@@ -1168,7 +1213,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "gen_sine1k_r0": {
    "dA1": [
@@ -1193,7 +1239,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   },
   "gen_sine1k_r18": {
    "dA1": [
@@ -1218,7 +1265,8 @@
    "PQ_down": true,
    "CE_caught": true,
    "CE_beyond_tie": true,
-   "verdict": "no_effect"
+   "verdict": "no_effect",
+   "verdict_ce": "no_effect"
   }
  },
  "j188_multiscorer": {
@@ -1253,6 +1301,7 @@
    ],
    "PAM_caught": true,
    "verdict": "success_caught_by_CE",
+   "verdict_ce": "success",
    "dCMI_cap_quality": [
     -0.07102009124355387,
     -0.1305023514119966,
@@ -1297,6 +1346,7 @@
    ],
    "PAM_caught": true,
    "verdict": "no_effect",
+   "verdict_ce": "no_effect",
    "dCMI_cap_quality": [
     -0.12266330677084623,
     -0.21244629521388558,
@@ -1341,6 +1391,7 @@
    ],
    "PAM_caught": true,
    "verdict": "success_caught_by_CE",
+   "verdict_ce": "success",
    "dCMI_cap_quality": [
     -0.09721945430283083,
     -0.1474567310679049,
@@ -1385,6 +1436,7 @@
    ],
    "PAM_caught": true,
    "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "success",
    "dCMI_cap_quality": [
     -0.463390499840898,
     -0.5846233373332325,
@@ -1429,6 +1481,7 @@
    ],
    "PAM_caught": true,
    "verdict": "not_success_PQ_not_down",
+   "verdict_ce": "success",
    "dCMI_cap_quality": [
     -0.17039507871959358,
     -0.29751597181602846,

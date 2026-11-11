@@ -47,7 +47,7 @@
 | **183 訓練期攻擊 MuQ A1**（L 低通語料 S2 重訓＋R 可微 MuQ 獎勵微調，只用訓練 prompt） | **收線 2026-11-11（評 1/5，兩臂都不成立）**：L 臂 A1 +0.077 但 A3a 等幅跟漲（T 0.96）、PQ／FAD 變差，且只有事後低通的 53% → `general_improvement`；R 臂標準 25 步 CFG0 只有 +0.039 < m → `no_effect`，+8.5 只存在於訓練用的 1 步取樣路徑。結果 `docs/experiments/results/muq_train_exploit_183_results.md` | `docs/experiments/muq_train_exploit_183_20261108.md` |
 | **187 R 臂小劑量階梯**（A1 獎勵微調 λ0.1 只跑 160 步、每 10 步存點 × 3 seed＋λ=0 對照；主劑量 60 步評前凍結；1,000 Part B prompt、CFG0） | **收線 2026-11-10**（p2 187），2/5：主劑量 ΔA1 +0.231 全在量表內（夾住不變），但 A3a／PQ／CE 轉移比 0.55–0.72 → `general_shift`，不是 A1 專有漏洞；只有 FAD 反向；λ=0 對照不動 | `muq_reward_dose_ladder_187_20261110.md`、`results/muq_reward_dose_ladder_187_results.md` |
 | **188 MuQ A1 吸引子拆解／手工合成／疊加**（A 描述 R 臂吸引子、B 52 聲學版本、C 手工合成 190 刺激、D 疊加進真實／生成音樂、F 真實曲 A1 高端特徵；eval-only） | **收線 2026-11-11（3/5）**：得分綁在特定音高＋寬頻頻譜的組合，沒有單一屬性帶分；手工合成最高 A1 5.27（`simple_recipe_partial`）；小聲疊進真實音樂 ΔA1 +0.128 但 A3a 跟漲 → 主判定 `general_shift`；真實曲 `exaggerated_preference`。當分析結果，不當攻擊結果 | `docs/experiments/results/muq_attractor_probe_188_results.md`（設計 `docs/experiments/muq_attractor_probe_188_20261110.md`） |
-| **183／187／188 事後改判準重判**（A1 漲且 PQ 降＝成立；CE／PAM 守門；只重算既有分數） | **完成 2026-11-11（事後、非預登錄）**：183 L·CFG0 與 188 疊加 16/20 格成立、CE 全抓得到（小聲端幅度 < 平手帶）；187 與 183 R 不成立（PQ 也漲）；純循環音 PQ 也被推高 → 守門靠 CE／PAM 不靠 PQ；生成底須扣對照聲。見三份結果文件末段 |
+| **183／187／188 事後改判準重判**（A1 漲且 PQ 降＝成立；CE／PAM 守門；只重算既有分數） | **完成 2026-11-11（事後、非預登錄）**：183 L·CFG0 與 188 疊加 16/20 格成立、CE 全抓得到（小聲端幅度 < 平手帶）；187 與 183 R 不成立（PQ 也漲）；純循環音 PQ 也被推高 → 守門靠 CE／PAM 不靠 PQ；生成底須扣對照聲。**同日定版改用「A1 漲且 CE 降」**：188 疊加 19/20 格、183 R 1 步取樣格也成立，187 仍不成立；獨立守門只剩 PAM／CMI-RM caption。見三份結果文件末段 |
 | 073 guidance 幾何 | 收線（結果 2026-09-27 補寫） | `results/guidance_geometry_adg_apg_20260922_results.md` |
 
 ---

@@ -3,6 +3,8 @@
 
 Criterion (Lanternko 2026-11-11, post hoc, NOT pre-registered):
   success  = dA1 CI lower >= m_A1 (0.055)  AND  dPQ CI upper < 0
+  v2 (same day, after the PQ blind spot showed up): success_ce = dA1 CI lower >= m_A1 AND dCE CI upper < 0
+             (key `verdict_ce`; PQ only reported; PAM is the remaining guard where scored)
   guard    = AES CE (and PAM where scored): "caught" when the CI upper of the delta is < 0;
              "beyond tie band" when delta <= -0.10 * S_CE.
 Reads per-clip score tables only; scores nothing. CPU, a few seconds.
@@ -41,6 +43,7 @@ def judge(a1, pq, ce, pam=None):
         o['verdict'] = 'not_success_PQ_not_down'
     else:
         o['verdict'] = 'success_caught_by_CE' if ce_caught else 'success_not_caught'
+    o['verdict_ce'] = 'no_effect' if not up else ('success' if ce_caught else 'not_success_CE_not_down')
     return o
 
 
@@ -109,4 +112,4 @@ for job, cells in res.items():
             line += f" PQ {fmt(v['dPQ'])} CE {fmt(v['dCE'])}"
         if 'dPAM' in v:
             line += f" PAM {fmt(v['dPAM'])} CMIcap {fmt(v['dCMI_cap_quality'])}"
-        print(line, '->', v['verdict'])
+        print(line, '->', v['verdict'], '| CE rule:', v.get('verdict_ce', '-'))
