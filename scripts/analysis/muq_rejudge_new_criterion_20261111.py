@@ -89,6 +89,31 @@ for base in ('real', 'gen'):
         d = a[['A1_MI', 'PQ', 'CE']] - b.loc[a.index, ['A1_MI', 'PQ', 'CE']]
         res['j188_partD'][f.stem[2:]] = judge(ci(d['A1_MI']), ci(d['PQ']), ci(d['CE']))
 
+# v3 (2026-11-11, after the CE pain-point mining): CE falls when ANY sound is mixed in, so the
+# treatment must beat the control sounds on both halves.  Controls = 1 kHz sine and another
+# music clip at the same level (only r0 / r18 have controls; other levels -> 'no_control').
+#   specific success = verdict_ce success AND, vs each control,
+#                      (trt - ctl) dA1 CI lower >= m_A1  AND  (trt - ctl) dCE CI upper < 0
+CTLS = ('sine1k', 'music')
+for base in ('real', 'gen'):
+    for trt in ('osynth', 'oR'):
+        for r in ('r-6', 'r0', 'r6', 'r12', 'r18'):
+            cell = res['j188_partD'][f'{base}_{trt}_{r}']
+            if not (r188 / f'T_{base}_{CTLS[0]}_{r}.tsv').exists():
+                cell['verdict_ctl'] = 'no_control'
+                continue
+            a = pd.read_csv(r188 / f'T_{base}_{trt}_{r}.tsv', sep='\t').set_index('id')
+            cell['vs_ctl'] = {}
+            for ctl in CTLS:
+                c = pd.read_csv(r188 / f'T_{base}_{ctl}_{r}.tsv', sep='\t').set_index('id').loc[a.index]
+                cell['vs_ctl'][ctl] = {'dA1': ci(a['A1_MI'] - c['A1_MI']), 'dCE': ci(a['CE'] - c['CE'])}
+            a1_ok = all(v['dA1'][1] >= M_A1 for v in cell['vs_ctl'].values())
+            ce_ok = all(v['dCE'][2] < 0 for v in cell['vs_ctl'].values())
+            cell['verdict_ctl'] = (cell['verdict_ce'] if cell['verdict_ce'] != 'success' else
+                                   'success_specific' if a1_ok and ce_ok else
+                                   'A1_specific_CE_nonspecific' if a1_ok else
+                                   'CE_specific_A1_nonspecific' if ce_ok else 'nonspecific')
+
 ms = pd.read_csv(E / 'muq_attractor_probe_188/multiscorer/all_scores.tsv', sep='\t')
 ms['key'] = ms['id'].str.split('__').str[1]
 G = {g: x.set_index('key') for g, x in ms.groupby('group')}
