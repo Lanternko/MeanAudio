@@ -41,3 +41,27 @@ Part D 主表：MusicCaps test 500 筆，底是真實錄音或 control 的 CFG0 
 不可寫：沒有人類評分，不能寫「疊加後的音樂比較差／一樣好」或「MuQ 判錯」，只能寫「A1 漲、其他指標不跟（或下降）」。疊加聲與音量是用 A1 在 dev 200 筆上選的，不能寫成「不需要評分器」。R 素材是 Jamendo val、訓練 seed 14159265 的 1 步取樣輸出，不能代替 183 的正式評分，也不能寫「R 模型的標準輸出就是這個聲音」。Part B 的變速與移調用 librosa，有處理瑕疵（0 半音對照 ρ 1.00，瑕疵本身沒有扣分，但 ±2 半音以上的處理量不同）。Part F 是相關不是因果。A3a 與 A1 同骨幹，A3a 跟漲不代表品質改善。`exploit` 那一格是次要格，四個判定格之一，沒有做多重比較校正，只用一段 R 片段。與 182／183 的低通數字（+0.147）是跨 job 對照。設計 doc §5 寫的「186 尚未完成、第三個 seed 沒有 checkpoint」已過時（186 完成、三 seed 都訓完），但 188 仍只重生了有 checkpoint 快照的兩個 seed（D3）。
 
 事後偏差（不在設計 doc §6，該檔被 contract 綁 sha 不改）：p2 188 的所有評分階段都完成，最後的彙總步驟在 Part F 的線性回歸當掉——2,000 筆真實錄音裡有 25 筆的 `rms_cv` 是 NaN（數位靜音段上移動平均出現極小負值，開根號得 NaN）。動作腳本被 contract 綁住沒有改；另寫 `scripts/eval/muq_attractor_probe_188_resummarize.py`，只把這一個特徵在開根號前夾到 0（在 100 筆正常片段上與原值完全相同），補上那 25 筆，然後跑原腳本自己的 `--summary-only` 路徑。沒有重新評分任何音檔（評分函式被換成會直接報錯的版本）；`rms_cv` 不是判定用特徵，只進相關表與線性 R²。原始特徵檔留在 `F_feats.nan_orig.json`，修補紀錄在 `rescue_D1.json`。補救是 1 分鐘的純 CPU 工作，所以直接跑、沒走 queue；queue 紀錄上 188 仍是 failed（rc 1）。
+
+## 補充（2026-11-11 事後）：循環音能不能騙過其他評分器
+
+事後追加的 eval-only 小測（未預登錄、沒走 queue，GPU 約 10 分鐘），不改上面的判定。刺激全部 lvl30：R 臂 3,000 步的 1 步取樣輸出（兩個 seed 各 64 段）、control 64 段、Part C 190 個合成音、Part D test 前 64 筆真實 MusicCaps 與 CFG0 生成底，以及 r＝18 LU 的疊入（真實×O_synth、真實×O_R、生成×O_R）。評分器：AES、MuQ A1／A3a、SongEval（MuQ 骨幹，30 s 置中補零）、PAM、CMI-RM（empty／caption，fp32）、MEva f03。腳本與逐段分數在 `~/eval_output_nvme/muq_attractor_probe_188/multiscorer/`。
+
+R 循環音 vs control（逐段配對，95% bootstrap CI 兩 seed 都不跨零，除非註明）：
+
+| 評分器 | seed 14159265 | seed 16180339 | 讀法 |
+|---|---|---|---|
+| MuQ A1 | +8.10 | +10.64 | 漲 |
+| MuQ A3a | +1.46 | +1.39 | 漲 |
+| SongEval coh／mus（五維皆同向） | +0.10／+0.18 | +0.16／+0.23 | 漲（S_coh 0.181 → 約 0.5～0.9 S） |
+| AES PQ | +0.70 | +0.96 | 漲 |
+| AES CE | −2.56 | −2.54 | 降 |
+| PAM | −0.39 | −0.38 | 降（R 0.19、真實 0.76） |
+| CMI-RM caption quality | −0.46 | −0.17 | 降 |
+| CMI-RM empty quality | −0.36 | +0.26 | 兩 seed 反號 |
+| MEva | −0.24 | +0.36 | 兩 seed 反號 |
+
+- 漲的是 MuQ 骨幹三個頭（A1、A3a、SongEval）加 AES PQ；SongEval 與 MuQ-Eval 共用骨幹，不是獨立證據，真正獨立的只有 AES PQ。AES CE、PAM、CMI-RM（caption）三個方向一致地扣分。
+- 18 LU 小聲疊入：A1 +0.19（O_synth）／+0.09（O_R，真實底）／+0.15（O_R，生成底）；A3a 只在 O_synth 上 +0.11；O_R 疊入讓 SongEval +0.05～+0.07；PQ −0.06～−0.10、CE −0.09～−0.30、PAM −0.03～−0.04、CMI-RM caption −0.07～−0.12 全降，MEva 平（生成底 +0.08，CI 下界 0.002）。→ 小聲疊入只推得動 MuQ 骨幹的模型。
+- 合成音：A1 最高 5.27；CMI-RM 190 個全部負分（empty quality 最高 −0.002，真實 1.43）；PAM 對純正弦 0.77（高過真實平均 0.76）、白噪音 0.05 → PAM 對「乾淨但不是音樂」有盲點；PQ 最高 8.41。
+
+讀法：要寫「循環音騙過多個評分器」必須按骨幹分家族——MuQ 族＋AES PQ 有共同盲點，AES CE、PAM、CMI-RM（caption）可當守門員；MEva 與 CMI-RM empty 在 R 片段上不穩定。依 11-11 判準（A1 漲且 PQ 降），小聲疊入三格都成立，但只騙到 MuQ 族。限制：每格 64 段、只有兩個 R seed；R 素材是 Jamendo val 的 1 步取樣輸出；沒有人類評分；SongEval 把 10 s 補零到 30 s，與 126d 的協定相同但不是官方用法。
