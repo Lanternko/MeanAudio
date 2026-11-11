@@ -1,0 +1,2864 @@
+{
+ "S": {
+  "quality": 1.5058082322260797,
+  "alignment": 1.0635820935418403
+ },
+ "tie_band": {
+  "quality": 0.150580823222608,
+  "alignment": 0.10635820935418404
+ },
+ "prompt_mode": "empty only (no caption variant on disk)",
+ "clean_levels": {
+  "126a": {
+   "musicgen": 1.304,
+   "musicldm": 0.42,
+   "ours_cfg0": 0.079,
+   "ours_cfg3neg": 1.008,
+   "real": 1.57
+  },
+  "126b": {
+   "csd_real": 0.435,
+   "midi_fluidr3": 1.461,
+   "midi_generaluser": 2.038,
+   "poor": 2.462,
+   "poor_sing": -1.298,
+   "pro": 3.176
+  },
+  "126b_floor": {
+   "binary_01_fs": -1.77,
+   "binary_01_hold_fs": -1.688,
+   "binary_01_hold_lvl30": -1.883,
+   "binary_01_lvl30": -2.135,
+   "binary_pm1_fs": -1.41,
+   "binary_pm1_lvl30": -2.034,
+   "dc_fs": -1.8,
+   "dc_lvl30": -1.784,
+   "pulse10ps_fs": -2.155,
+   "pulse10ps_lvl30": -2.153,
+   "silence_fs": -1.602,
+   "silence_lvl30": -1.602,
+   "sine1k_fs": -1.751,
+   "sine1k_lvl30": -1.642,
+   "square100_fs": -1.673,
+   "square100_lvl30": -2.132,
+   "square1k_fs": -2.501,
+   "square1k_lvl30": -2.231,
+   "sweep_fs": -0.969,
+   "sweep_lvl30": -1.608,
+   "white_fs": -1.906,
+   "white_lvl30": -2.049
+  },
+  "126c": {
+   "musdb": 2.272
+  },
+  "134": {
+   "maestro": 1.901,
+   "piano126b": 2.609,
+   "ttm": 0.901
+  }
+ },
+ "by_set": {
+  "126a|lose": {
+   "n": 150,
+   "down_CI": 128,
+   "down_beyond_tie": 99,
+   "up_CI": 6,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 16
+  },
+  "126a|tie": {
+   "n": 110,
+   "down_CI": 64,
+   "down_beyond_tie": 12,
+   "up_CI": 29,
+   "up_beyond_tie": 4,
+   "within_tie_and_CI_cross0": 17
+  },
+  "126b_midi|lose": {
+   "n": 98,
+   "down_CI": 83,
+   "down_beyond_tie": 54,
+   "up_CI": 7,
+   "up_beyond_tie": 3,
+   "within_tie_and_CI_cross0": 8
+  },
+  "126b_midi|soft": {
+   "n": 14,
+   "down_CI": 2,
+   "down_beyond_tie": 0,
+   "up_CI": 6,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 6
+  },
+  "126b_midi|tie": {
+   "n": 22,
+   "down_CI": 12,
+   "down_beyond_tie": 5,
+   "up_CI": 7,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 3
+  },
+  "126b_rec|lose": {
+   "n": 120,
+   "down_CI": 85,
+   "down_beyond_tie": 73,
+   "up_CI": 21,
+   "up_beyond_tie": 14,
+   "within_tie_and_CI_cross0": 14
+  },
+  "126b_rec|tie": {
+   "n": 88,
+   "down_CI": 43,
+   "down_beyond_tie": 16,
+   "up_CI": 8,
+   "up_beyond_tie": 3,
+   "within_tie_and_CI_cross0": 37
+  },
+  "126c|descriptive": {
+   "n": 12,
+   "down_CI": 10,
+   "down_beyond_tie": 7,
+   "up_CI": 0,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 2
+  },
+  "126c|lose": {
+   "n": 20,
+   "down_CI": 20,
+   "down_beyond_tie": 10,
+   "up_CI": 0,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 0
+  },
+  "126c|soft": {
+   "n": 17,
+   "down_CI": 8,
+   "down_beyond_tie": 0,
+   "up_CI": 4,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 5
+  },
+  "126c|tie": {
+   "n": 16,
+   "down_CI": 8,
+   "down_beyond_tie": 0,
+   "up_CI": 4,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 4
+  },
+  "134|ctl": {
+   "n": 23,
+   "down_CI": 20,
+   "down_beyond_tie": 2,
+   "up_CI": 0,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 3
+  },
+  "134|lose": {
+   "n": 185,
+   "down_CI": 142,
+   "down_beyond_tie": 115,
+   "up_CI": 17,
+   "up_beyond_tie": 11,
+   "within_tie_and_CI_cross0": 26
+  },
+  "134|tie": {
+   "n": 53,
+   "down_CI": 24,
+   "down_beyond_tie": 4,
+   "up_CI": 7,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 22
+  },
+  "134|transition": {
+   "n": 25,
+   "down_CI": 10,
+   "down_beyond_tie": 0,
+   "up_CI": 5,
+   "up_beyond_tie": 0,
+   "within_tie_and_CI_cross0": 10
+  }
+ },
+ "lose_up_cells": [
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "lowpass1k",
+   "n": 290,
+   "quality": 0.449,
+   "quality_lo": 0.376,
+   "quality_hi": 0.524,
+   "frac_up": 0.783
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 290,
+   "quality": 0.438,
+   "quality_lo": 0.384,
+   "quality_hi": 0.491,
+   "frac_up": 0.848
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "lowpass1k",
+   "n": 63,
+   "quality": 0.421,
+   "quality_lo": 0.221,
+   "quality_hi": 0.622,
+   "frac_up": 0.683
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.40",
+   "n": 100,
+   "quality": 0.31,
+   "quality_lo": 0.235,
+   "quality_hi": 0.388,
+   "frac_up": 0.82
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.35",
+   "n": 100,
+   "quality": 0.301,
+   "quality_lo": 0.224,
+   "quality_hi": 0.372,
+   "frac_up": 0.85
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "clip6db",
+   "n": 290,
+   "quality": 0.297,
+   "quality_lo": 0.249,
+   "quality_hi": 0.347,
+   "frac_up": 0.728
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.60",
+   "n": 100,
+   "quality": 0.28,
+   "quality_lo": 0.196,
+   "quality_hi": 0.369,
+   "frac_up": 0.8
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 120,
+   "quality": 0.278,
+   "quality_lo": 0.222,
+   "quality_hi": 0.33,
+   "frac_up": 0.808
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.45",
+   "n": 100,
+   "quality": 0.276,
+   "quality_lo": 0.199,
+   "quality_hi": 0.349,
+   "frac_up": 0.79
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 120,
+   "quality": 0.272,
+   "quality_lo": 0.224,
+   "quality_hi": 0.318,
+   "frac_up": 0.867
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.65",
+   "n": 100,
+   "quality": 0.267,
+   "quality_lo": 0.178,
+   "quality_hi": 0.356,
+   "frac_up": 0.71
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.55",
+   "n": 100,
+   "quality": 0.261,
+   "quality_lo": 0.181,
+   "quality_hi": 0.339,
+   "frac_up": 0.78
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 120,
+   "quality": 0.256,
+   "quality_lo": 0.212,
+   "quality_hi": 0.3,
+   "frac_up": 0.867
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.30",
+   "n": 100,
+   "quality": 0.256,
+   "quality_lo": 0.197,
+   "quality_hi": 0.316,
+   "frac_up": 0.84
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.50",
+   "n": 100,
+   "quality": 0.232,
+   "quality_lo": 0.159,
+   "quality_hi": 0.302,
+   "frac_up": 0.76
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 146,
+   "quality": 0.226,
+   "quality_lo": 0.159,
+   "quality_hi": 0.29,
+   "frac_up": 0.747
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.70",
+   "n": 100,
+   "quality": 0.225,
+   "quality_lo": 0.128,
+   "quality_hi": 0.323,
+   "frac_up": 0.69
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 146,
+   "quality": 0.223,
+   "quality_lo": 0.164,
+   "quality_hi": 0.282,
+   "frac_up": 0.76
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 120,
+   "quality": 0.216,
+   "quality_lo": 0.153,
+   "quality_hi": 0.275,
+   "frac_up": 0.758
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.75",
+   "n": 100,
+   "quality": 0.196,
+   "quality_lo": 0.101,
+   "quality_hi": 0.297,
+   "frac_up": 0.66
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.25",
+   "n": 100,
+   "quality": 0.191,
+   "quality_lo": 0.135,
+   "quality_hi": 0.247,
+   "frac_up": 0.8
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 146,
+   "quality": 0.188,
+   "quality_lo": 0.116,
+   "quality_hi": 0.266,
+   "frac_up": 0.692
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 146,
+   "quality": 0.185,
+   "quality_lo": 0.122,
+   "quality_hi": 0.252,
+   "frac_up": 0.705
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 120,
+   "quality": 0.18,
+   "quality_lo": 0.149,
+   "quality_hi": 0.211,
+   "frac_up": 0.867
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "vel_random",
+   "n": 402,
+   "quality": 0.178,
+   "quality_lo": 0.16,
+   "quality_hi": 0.197,
+   "frac_up": 0.853
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 402,
+   "quality": 0.172,
+   "quality_lo": 0.123,
+   "quality_hi": 0.22,
+   "frac_up": 0.649
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 146,
+   "quality": 0.159,
+   "quality_lo": 0.108,
+   "quality_hi": 0.205,
+   "frac_up": 0.747
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 402,
+   "quality": 0.156,
+   "quality_lo": 0.103,
+   "quality_hi": 0.212,
+   "frac_up": 0.614
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.80",
+   "n": 100,
+   "quality": 0.143,
+   "quality_lo": 0.032,
+   "quality_hi": 0.25,
+   "frac_up": 0.62
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "bitcrush6",
+   "n": 402,
+   "quality": 0.136,
+   "quality_lo": 0.093,
+   "quality_hi": 0.182,
+   "frac_up": 0.602
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 402,
+   "quality": 0.133,
+   "quality_lo": 0.089,
+   "quality_hi": 0.179,
+   "frac_up": 0.612
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.85",
+   "n": 100,
+   "quality": 0.128,
+   "quality_lo": 0.023,
+   "quality_hi": 0.232,
+   "frac_up": 0.61
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.90",
+   "n": 100,
+   "quality": 0.126,
+   "quality_lo": 0.025,
+   "quality_hi": 0.236,
+   "frac_up": 0.6
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "posshuffle10pct",
+   "n": 402,
+   "quality": 0.12,
+   "quality_lo": 0.091,
+   "quality_hi": 0.148,
+   "frac_up": 0.595
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 290,
+   "quality": 0.117,
+   "quality_lo": 0.071,
+   "quality_hi": 0.158,
+   "frac_up": 0.548
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 290,
+   "quality": 0.115,
+   "quality_lo": 0.078,
+   "quality_hi": 0.153,
+   "frac_up": 0.61
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 1024,
+   "quality": 0.114,
+   "quality_lo": 0.085,
+   "quality_hi": 0.143,
+   "frac_up": 0.605
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "clip3db",
+   "n": 290,
+   "quality": 0.111,
+   "quality_lo": 0.075,
+   "quality_hi": 0.147,
+   "frac_up": 0.534
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "posshuffle30pct",
+   "n": 402,
+   "quality": 0.102,
+   "quality_lo": 0.055,
+   "quality_hi": 0.15,
+   "frac_up": 0.595
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.35",
+   "n": 100,
+   "quality": 0.097,
+   "quality_lo": 0.016,
+   "quality_hi": 0.181,
+   "frac_up": 0.52
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 146,
+   "quality": 0.087,
+   "quality_lo": 0.005,
+   "quality_hi": 0.175,
+   "frac_up": 0.527
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 1024,
+   "quality": 0.087,
+   "quality_lo": 0.05,
+   "quality_hi": 0.125,
+   "frac_up": 0.552
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "lose",
+   "case": "lowpass2k",
+   "n": 1024,
+   "quality": 0.085,
+   "quality_lo": 0.036,
+   "quality_hi": 0.133,
+   "frac_up": 0.583
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "bitcrush6",
+   "n": 120,
+   "quality": 0.084,
+   "quality_lo": 0.008,
+   "quality_hi": 0.161,
+   "frac_up": 0.608
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 290,
+   "quality": 0.062,
+   "quality_lo": 0.016,
+   "quality_hi": 0.111,
+   "frac_up": 0.531
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "lowpass2k",
+   "n": 120,
+   "quality": 0.06,
+   "quality_lo": 0.01,
+   "quality_hi": 0.111,
+   "frac_up": 0.492
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "pitch_midi_+2",
+   "n": 100,
+   "quality": 0.052,
+   "quality_lo": 0.002,
+   "quality_hi": 0.1,
+   "frac_up": 0.62
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "pitch_midi_+2",
+   "n": 150,
+   "quality": 0.051,
+   "quality_lo": 0.015,
+   "quality_hi": 0.088,
+   "frac_up": 0.573
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 1024,
+   "quality": 0.051,
+   "quality_lo": 0.026,
+   "quality_hi": 0.076,
+   "frac_up": 0.57
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 1024,
+   "quality": 0.029,
+   "quality_lo": 0.009,
+   "quality_hi": 0.049,
+   "frac_up": 0.53
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 1024,
+   "quality": 0.018,
+   "quality_lo": 0.008,
+   "quality_hi": 0.027,
+   "frac_up": 0.464
+  }
+ ],
+ "lose_not_detected": [
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "bitcrush6",
+   "n": 1024,
+   "quality": -0.0,
+   "quality_lo": -0.024,
+   "quality_hi": 0.024,
+   "frac_up": 0.528
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 1024,
+   "quality": 0.005,
+   "quality_lo": -0.014,
+   "quality_hi": 0.021,
+   "frac_up": 0.45
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 1024,
+   "quality": -0.016,
+   "quality_lo": -0.034,
+   "quality_hi": 0.0,
+   "frac_up": 0.436
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "lose",
+   "case": "lowpass2k",
+   "n": 1024,
+   "quality": 0.085,
+   "quality_lo": 0.036,
+   "quality_hi": 0.133,
+   "frac_up": 0.583
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "lose",
+   "case": "lowpass2k",
+   "n": 1024,
+   "quality": 0.008,
+   "quality_lo": -0.045,
+   "quality_hi": 0.06,
+   "frac_up": 0.531
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "lowpass2k",
+   "n": 1024,
+   "quality": 0.034,
+   "quality_lo": -0.009,
+   "quality_hi": 0.078,
+   "frac_up": 0.532
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 1024,
+   "quality": 0.087,
+   "quality_lo": 0.05,
+   "quality_hi": 0.125,
+   "frac_up": 0.552
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 1024,
+   "quality": -0.029,
+   "quality_lo": -0.063,
+   "quality_hi": 0.005,
+   "frac_up": 0.48
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 1024,
+   "quality": -0.001,
+   "quality_lo": -0.037,
+   "quality_hi": 0.034,
+   "frac_up": 0.49
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 1024,
+   "quality": 0.114,
+   "quality_lo": 0.085,
+   "quality_hi": 0.143,
+   "frac_up": 0.605
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 1024,
+   "quality": -0.002,
+   "quality_lo": -0.028,
+   "quality_hi": 0.028,
+   "frac_up": 0.528
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 1024,
+   "quality": 0.029,
+   "quality_lo": -0.001,
+   "quality_hi": 0.057,
+   "frac_up": 0.558
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 1024,
+   "quality": 0.015,
+   "quality_lo": -0.009,
+   "quality_hi": 0.039,
+   "frac_up": 0.55
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 1024,
+   "quality": 0.051,
+   "quality_lo": 0.026,
+   "quality_hi": 0.076,
+   "frac_up": 0.57
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 1024,
+   "quality": -0.01,
+   "quality_lo": -0.03,
+   "quality_hi": 0.01,
+   "frac_up": 0.452
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 1024,
+   "quality": 0.011,
+   "quality_lo": -0.01,
+   "quality_hi": 0.031,
+   "frac_up": 0.541
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 1024,
+   "quality": 0.029,
+   "quality_lo": 0.009,
+   "quality_hi": 0.049,
+   "frac_up": 0.53
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 1024,
+   "quality": 0.015,
+   "quality_lo": -0.0,
+   "quality_hi": 0.029,
+   "frac_up": 0.463
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg0",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 1024,
+   "quality": -0.015,
+   "quality_lo": -0.03,
+   "quality_hi": 0.0,
+   "frac_up": 0.437
+  },
+  {
+   "ds": "126a",
+   "source": "real",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 1024,
+   "quality": 0.001,
+   "quality_lo": -0.016,
+   "quality_hi": 0.019,
+   "frac_up": 0.499
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 1024,
+   "quality": 0.018,
+   "quality_lo": 0.008,
+   "quality_hi": 0.027,
+   "frac_up": 0.464
+  },
+  {
+   "ds": "126a",
+   "source": "real",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 1024,
+   "quality": 0.013,
+   "quality_lo": -0.002,
+   "quality_hi": 0.028,
+   "frac_up": 0.52
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "bitcrush6",
+   "n": 402,
+   "quality": 0.136,
+   "quality_lo": 0.093,
+   "quality_hi": 0.182,
+   "frac_up": 0.602
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "bitcrush6",
+   "n": 146,
+   "quality": 0.03,
+   "quality_lo": -0.066,
+   "quality_hi": 0.121,
+   "frac_up": 0.575
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "bitcrush6",
+   "n": 63,
+   "quality": -0.049,
+   "quality_lo": -0.116,
+   "quality_hi": 0.02,
+   "frac_up": 0.429
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "bitcrush6",
+   "n": 120,
+   "quality": 0.084,
+   "quality_lo": 0.008,
+   "quality_hi": 0.161,
+   "frac_up": 0.608
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 290,
+   "quality": 0.062,
+   "quality_lo": 0.016,
+   "quality_hi": 0.111,
+   "frac_up": 0.531
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 402,
+   "quality": 0.024,
+   "quality_lo": -0.008,
+   "quality_hi": 0.057,
+   "frac_up": 0.505
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 146,
+   "quality": 0.185,
+   "quality_lo": 0.122,
+   "quality_hi": 0.252,
+   "frac_up": 0.705
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 63,
+   "quality": -0.011,
+   "quality_lo": -0.053,
+   "quality_hi": 0.03,
+   "frac_up": 0.492
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "bitcrush8",
+   "n": 120,
+   "quality": 0.272,
+   "quality_lo": 0.224,
+   "quality_hi": 0.318,
+   "frac_up": 0.867
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "clicks5ps",
+   "n": 63,
+   "quality": -0.073,
+   "quality_lo": -0.25,
+   "quality_hi": 0.081,
+   "frac_up": 0.635
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "clip3db",
+   "n": 290,
+   "quality": 0.111,
+   "quality_lo": 0.075,
+   "quality_hi": 0.147,
+   "frac_up": 0.534
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "clip3db",
+   "n": 63,
+   "quality": -0.005,
+   "quality_lo": -0.022,
+   "quality_hi": 0.011,
+   "frac_up": 0.476
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "clip6db",
+   "n": 290,
+   "quality": 0.297,
+   "quality_lo": 0.249,
+   "quality_hi": 0.347,
+   "frac_up": 0.728
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "clip6db",
+   "n": 63,
+   "quality": -0.013,
+   "quality_lo": -0.054,
+   "quality_hi": 0.027,
+   "frac_up": 0.429
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "drop10pct",
+   "n": 402,
+   "quality": -0.01,
+   "quality_lo": -0.028,
+   "quality_hi": 0.01,
+   "frac_up": 0.425
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "extra10pct",
+   "n": 402,
+   "quality": -0.001,
+   "quality_lo": -0.023,
+   "quality_hi": 0.021,
+   "frac_up": 0.512
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "jitter10ms",
+   "n": 402,
+   "quality": 0.016,
+   "quality_lo": -0.002,
+   "quality_hi": 0.034,
+   "frac_up": 0.535
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "jitter10ms",
+   "n": 402,
+   "quality": -0.01,
+   "quality_lo": -0.024,
+   "quality_hi": 0.004,
+   "frac_up": 0.473
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "lowpass1k",
+   "n": 290,
+   "quality": 0.449,
+   "quality_lo": 0.376,
+   "quality_hi": 0.524,
+   "frac_up": 0.783
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "lowpass1k",
+   "n": 63,
+   "quality": 0.421,
+   "quality_lo": 0.221,
+   "quality_hi": 0.622,
+   "frac_up": 0.683
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "lowpass2k",
+   "n": 146,
+   "quality": 0.065,
+   "quality_lo": -0.005,
+   "quality_hi": 0.138,
+   "frac_up": 0.562
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "lowpass2k",
+   "n": 120,
+   "quality": 0.06,
+   "quality_lo": 0.01,
+   "quality_hi": 0.111,
+   "frac_up": 0.492
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 290,
+   "quality": 0.438,
+   "quality_lo": 0.384,
+   "quality_hi": 0.491,
+   "frac_up": 0.848
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 63,
+   "quality": -0.083,
+   "quality_lo": -0.181,
+   "quality_hi": 0.013,
+   "frac_up": 0.46
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "lowpass4k",
+   "n": 120,
+   "quality": -0.021,
+   "quality_lo": -0.058,
+   "quality_hi": 0.016,
+   "frac_up": 0.458
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "noise_snr15",
+   "n": 402,
+   "quality": -0.005,
+   "quality_lo": -0.062,
+   "quality_hi": 0.051,
+   "frac_up": 0.502
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 402,
+   "quality": 0.156,
+   "quality_lo": 0.103,
+   "quality_hi": 0.212,
+   "frac_up": 0.614
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 146,
+   "quality": 0.087,
+   "quality_lo": 0.005,
+   "quality_hi": 0.175,
+   "frac_up": 0.527
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 63,
+   "quality": -0.071,
+   "quality_lo": -0.153,
+   "quality_hi": 0.01,
+   "frac_up": 0.413
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr20",
+   "n": 120,
+   "quality": 0.058,
+   "quality_lo": -0.023,
+   "quality_hi": 0.133,
+   "frac_up": 0.625
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 402,
+   "quality": 0.172,
+   "quality_lo": 0.123,
+   "quality_hi": 0.22,
+   "frac_up": 0.649
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 146,
+   "quality": 0.188,
+   "quality_lo": 0.116,
+   "quality_hi": 0.266,
+   "frac_up": 0.692
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 63,
+   "quality": -0.026,
+   "quality_lo": -0.091,
+   "quality_hi": 0.038,
+   "frac_up": 0.46
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr25",
+   "n": 120,
+   "quality": 0.216,
+   "quality_lo": 0.153,
+   "quality_hi": 0.275,
+   "frac_up": 0.758
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 402,
+   "quality": 0.133,
+   "quality_lo": 0.089,
+   "quality_hi": 0.179,
+   "frac_up": 0.612
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 146,
+   "quality": 0.226,
+   "quality_lo": 0.159,
+   "quality_hi": 0.29,
+   "frac_up": 0.747
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 63,
+   "quality": -0.008,
+   "quality_lo": -0.063,
+   "quality_hi": 0.051,
+   "frac_up": 0.46
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr30",
+   "n": 120,
+   "quality": 0.278,
+   "quality_lo": 0.222,
+   "quality_hi": 0.33,
+   "frac_up": 0.808
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 290,
+   "quality": 0.117,
+   "quality_lo": 0.071,
+   "quality_hi": 0.158,
+   "frac_up": 0.548
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 146,
+   "quality": 0.223,
+   "quality_lo": 0.164,
+   "quality_hi": 0.282,
+   "frac_up": 0.76
+  },
+  {
+   "ds": "126b",
+   "source": "poor_sing",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 63,
+   "quality": -0.022,
+   "quality_lo": -0.057,
+   "quality_hi": 0.011,
+   "frac_up": 0.492
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr40",
+   "n": 120,
+   "quality": 0.256,
+   "quality_lo": 0.212,
+   "quality_hi": 0.3,
+   "frac_up": 0.867
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 290,
+   "quality": 0.115,
+   "quality_lo": 0.078,
+   "quality_hi": 0.153,
+   "frac_up": 0.61
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 146,
+   "quality": 0.159,
+   "quality_lo": 0.108,
+   "quality_hi": 0.205,
+   "frac_up": 0.747
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "lose",
+   "case": "noise_snr50",
+   "n": 120,
+   "quality": 0.18,
+   "quality_lo": 0.149,
+   "quality_hi": 0.211,
+   "frac_up": 0.867
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "posshuffle10pct",
+   "n": 402,
+   "quality": 0.12,
+   "quality_lo": 0.091,
+   "quality_hi": 0.148,
+   "frac_up": 0.595
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "posshuffle10pct",
+   "n": 402,
+   "quality": -0.012,
+   "quality_lo": -0.035,
+   "quality_hi": 0.011,
+   "frac_up": 0.425
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "posshuffle30pct",
+   "n": 402,
+   "quality": 0.102,
+   "quality_lo": 0.055,
+   "quality_hi": 0.15,
+   "frac_up": 0.595
+  },
+  {
+   "ds": "126b",
+   "source": "midi_fluidr3",
+   "kind": "lose",
+   "case": "vel_random",
+   "n": 402,
+   "quality": 0.178,
+   "quality_lo": 0.16,
+   "quality_hi": 0.197,
+   "frac_up": 0.853
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "lose",
+   "case": "vel_random",
+   "n": 402,
+   "quality": -0.003,
+   "quality_lo": -0.017,
+   "quality_hi": 0.011,
+   "frac_up": 0.505
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "pitch_midi_+12",
+   "n": 150,
+   "quality": -0.039,
+   "quality_lo": -0.082,
+   "quality_hi": 0.002,
+   "frac_up": 0.44
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "pitch_midi_+2",
+   "n": 150,
+   "quality": 0.051,
+   "quality_lo": 0.015,
+   "quality_hi": 0.088,
+   "frac_up": 0.573
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "pitch_midi_+2",
+   "n": 100,
+   "quality": 0.052,
+   "quality_lo": 0.002,
+   "quality_hi": 0.1,
+   "frac_up": 0.62
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "pitch_midi_+5",
+   "n": 150,
+   "quality": 0.004,
+   "quality_lo": -0.031,
+   "quality_hi": 0.037,
+   "frac_up": 0.513
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "pitch_midi_+5",
+   "n": 100,
+   "quality": -0.033,
+   "quality_lo": -0.085,
+   "quality_hi": 0.018,
+   "frac_up": 0.45
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "pitch_midi_-2",
+   "n": 100,
+   "quality": 0.031,
+   "quality_lo": -0.015,
+   "quality_hi": 0.077,
+   "frac_up": 0.57
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "pitch_midi_-5",
+   "n": 100,
+   "quality": 0.023,
+   "quality_lo": -0.028,
+   "quality_hi": 0.074,
+   "frac_up": 0.54
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "pitch_rb_-2",
+   "n": 100,
+   "quality": -0.043,
+   "quality_lo": -0.111,
+   "quality_hi": 0.026,
+   "frac_up": 0.42
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_0.65",
+   "n": 100,
+   "quality": -0.03,
+   "quality_lo": -0.109,
+   "quality_hi": 0.049,
+   "frac_up": 0.53
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_midi_0.70",
+   "n": 150,
+   "quality": -0.045,
+   "quality_lo": -0.1,
+   "quality_hi": 0.006,
+   "frac_up": 0.493
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_0.70",
+   "n": 100,
+   "quality": -0.017,
+   "quality_lo": -0.101,
+   "quality_hi": 0.062,
+   "frac_up": 0.51
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_midi_0.75",
+   "n": 150,
+   "quality": -0.04,
+   "quality_lo": -0.089,
+   "quality_hi": 0.006,
+   "frac_up": 0.48
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_0.75",
+   "n": 100,
+   "quality": -0.004,
+   "quality_lo": -0.069,
+   "quality_hi": 0.059,
+   "frac_up": 0.48
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_midi_0.80",
+   "n": 150,
+   "quality": -0.027,
+   "quality_lo": -0.068,
+   "quality_hi": 0.016,
+   "frac_up": 0.46
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_0.80",
+   "n": 100,
+   "quality": 0.014,
+   "quality_lo": -0.05,
+   "quality_hi": 0.074,
+   "frac_up": 0.53
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_midi_1.25",
+   "n": 150,
+   "quality": -0.011,
+   "quality_lo": -0.049,
+   "quality_hi": 0.026,
+   "frac_up": 0.433
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.25",
+   "n": 100,
+   "quality": 0.191,
+   "quality_lo": 0.135,
+   "quality_hi": 0.247,
+   "frac_up": 0.8
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_midi_1.30",
+   "n": 150,
+   "quality": -0.014,
+   "quality_lo": -0.055,
+   "quality_hi": 0.027,
+   "frac_up": 0.44
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.30",
+   "n": 100,
+   "quality": 0.256,
+   "quality_lo": 0.197,
+   "quality_hi": 0.316,
+   "frac_up": 0.84
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_midi_1.35",
+   "n": 150,
+   "quality": -0.021,
+   "quality_lo": -0.065,
+   "quality_hi": 0.023,
+   "frac_up": 0.42
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.35",
+   "n": 100,
+   "quality": 0.301,
+   "quality_lo": 0.224,
+   "quality_hi": 0.372,
+   "frac_up": 0.85
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.40",
+   "n": 100,
+   "quality": 0.31,
+   "quality_lo": 0.235,
+   "quality_hi": 0.388,
+   "frac_up": 0.82
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_midi_1.45",
+   "n": 150,
+   "quality": -0.051,
+   "quality_lo": -0.102,
+   "quality_hi": 0.0,
+   "frac_up": 0.46
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.45",
+   "n": 100,
+   "quality": 0.276,
+   "quality_lo": 0.199,
+   "quality_hi": 0.349,
+   "frac_up": 0.79
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.50",
+   "n": 100,
+   "quality": 0.232,
+   "quality_lo": 0.159,
+   "quality_hi": 0.302,
+   "frac_up": 0.76
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.55",
+   "n": 100,
+   "quality": 0.261,
+   "quality_lo": 0.181,
+   "quality_hi": 0.339,
+   "frac_up": 0.78
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.60",
+   "n": 100,
+   "quality": 0.28,
+   "quality_lo": 0.196,
+   "quality_hi": 0.369,
+   "frac_up": 0.8
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.65",
+   "n": 100,
+   "quality": 0.267,
+   "quality_lo": 0.178,
+   "quality_hi": 0.356,
+   "frac_up": 0.71
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.70",
+   "n": 100,
+   "quality": 0.225,
+   "quality_lo": 0.128,
+   "quality_hi": 0.323,
+   "frac_up": 0.69
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.75",
+   "n": 100,
+   "quality": 0.196,
+   "quality_lo": 0.101,
+   "quality_hi": 0.297,
+   "frac_up": 0.66
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.80",
+   "n": 100,
+   "quality": 0.143,
+   "quality_lo": 0.032,
+   "quality_hi": 0.25,
+   "frac_up": 0.62
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.85",
+   "n": 100,
+   "quality": 0.128,
+   "quality_lo": 0.023,
+   "quality_hi": 0.232,
+   "frac_up": 0.61
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.90",
+   "n": 100,
+   "quality": 0.126,
+   "quality_lo": 0.025,
+   "quality_hi": 0.236,
+   "frac_up": 0.6
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_1.95",
+   "n": 100,
+   "quality": 0.07,
+   "quality_lo": -0.033,
+   "quality_hi": 0.17,
+   "frac_up": 0.58
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_midi_2.00",
+   "n": 100,
+   "quality": -0.005,
+   "quality_lo": -0.113,
+   "quality_hi": 0.095,
+   "frac_up": 0.5
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "lose",
+   "case": "tempo_rb_0.80",
+   "n": 150,
+   "quality": -0.055,
+   "quality_lo": -0.114,
+   "quality_hi": 0.003,
+   "frac_up": 0.407
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.25",
+   "n": 100,
+   "quality": -0.006,
+   "quality_lo": -0.071,
+   "quality_hi": 0.057,
+   "frac_up": 0.45
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.30",
+   "n": 100,
+   "quality": 0.048,
+   "quality_lo": -0.026,
+   "quality_hi": 0.115,
+   "frac_up": 0.48
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.35",
+   "n": 100,
+   "quality": 0.097,
+   "quality_lo": 0.016,
+   "quality_hi": 0.181,
+   "frac_up": 0.52
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.40",
+   "n": 100,
+   "quality": 0.067,
+   "quality_lo": -0.014,
+   "quality_hi": 0.151,
+   "frac_up": 0.48
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.45",
+   "n": 100,
+   "quality": -0.006,
+   "quality_lo": -0.087,
+   "quality_hi": 0.086,
+   "frac_up": 0.44
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.55",
+   "n": 100,
+   "quality": -0.068,
+   "quality_lo": -0.159,
+   "quality_hi": 0.02,
+   "frac_up": 0.44
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "lose",
+   "case": "tempo_rb_1.60",
+   "n": 100,
+   "quality": -0.062,
+   "quality_lo": -0.15,
+   "quality_hi": 0.029,
+   "frac_up": 0.41
+  }
+ ],
+ "tie_beyond_band": [
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain-30",
+   "n": 290,
+   "quality": -1.149,
+   "quality_lo": -1.207,
+   "quality_hi": -1.091,
+   "frac_up": 0.003
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain-20",
+   "n": 290,
+   "quality": -1.024,
+   "quality_lo": -1.072,
+   "quality_hi": -0.977,
+   "frac_up": 0.0
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain-15",
+   "n": 290,
+   "quality": -0.841,
+   "quality_lo": -0.882,
+   "quality_hi": -0.797,
+   "frac_up": 0.0
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "tie",
+   "case": "gain-30",
+   "n": 402,
+   "quality": -0.636,
+   "quality_lo": -0.685,
+   "quality_hi": -0.586,
+   "frac_up": 0.1
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain-10",
+   "n": 290,
+   "quality": -0.569,
+   "quality_lo": -0.601,
+   "quality_hi": -0.54,
+   "frac_up": 0.0
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "tie",
+   "case": "gain-20",
+   "n": 402,
+   "quality": -0.533,
+   "quality_lo": -0.571,
+   "quality_hi": -0.493,
+   "frac_up": 0.077
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "tie",
+   "case": "gain-30",
+   "n": 120,
+   "quality": -0.47,
+   "quality_lo": -0.532,
+   "quality_hi": -0.413,
+   "frac_up": 0.042
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "tie",
+   "case": "gain-15",
+   "n": 402,
+   "quality": -0.418,
+   "quality_lo": -0.447,
+   "quality_hi": -0.39,
+   "frac_up": 0.052
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "tie",
+   "case": "gain-30",
+   "n": 146,
+   "quality": -0.398,
+   "quality_lo": -0.467,
+   "quality_hi": -0.33,
+   "frac_up": 0.144
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "tie",
+   "case": "gain-30",
+   "n": 1024,
+   "quality": -0.357,
+   "quality_lo": -0.389,
+   "quality_hi": -0.324,
+   "frac_up": 0.215
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "tie",
+   "case": "lead50ms",
+   "n": 1024,
+   "quality": -0.338,
+   "quality_lo": -0.355,
+   "quality_hi": -0.321,
+   "frac_up": 0.087
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain-6",
+   "n": 290,
+   "quality": -0.334,
+   "quality_lo": -0.352,
+   "quality_hi": -0.317,
+   "frac_up": 0.0
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "tie",
+   "case": "gain-20",
+   "n": 120,
+   "quality": -0.315,
+   "quality_lo": -0.368,
+   "quality_hi": -0.266,
+   "frac_up": 0.142
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "tie",
+   "case": "lead50ms",
+   "n": 146,
+   "quality": -0.309,
+   "quality_lo": -0.36,
+   "quality_hi": -0.263,
+   "frac_up": 0.137
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "mp3_160k",
+   "n": 290,
+   "quality": -0.307,
+   "quality_lo": -0.359,
+   "quality_hi": -0.251,
+   "frac_up": 0.266
+  },
+  {
+   "ds": "134",
+   "source": "ttm",
+   "kind": "tie",
+   "case": "pitch_rb_-1",
+   "n": 300,
+   "quality": -0.291,
+   "quality_lo": -0.346,
+   "quality_hi": -0.238,
+   "frac_up": 0.26
+  },
+  {
+   "ds": "126a",
+   "source": "real",
+   "kind": "tie",
+   "case": "lead50ms",
+   "n": 1024,
+   "quality": -0.287,
+   "quality_lo": -0.307,
+   "quality_hi": -0.267,
+   "frac_up": 0.176
+  },
+  {
+   "ds": "126a",
+   "source": "real",
+   "kind": "tie",
+   "case": "gain-30",
+   "n": 1024,
+   "quality": -0.274,
+   "quality_lo": -0.314,
+   "quality_hi": -0.235,
+   "frac_up": 0.32
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "tie",
+   "case": "gain-10",
+   "n": 402,
+   "quality": -0.273,
+   "quality_lo": -0.29,
+   "quality_hi": -0.257,
+   "frac_up": 0.032
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "tie",
+   "case": "gain-20",
+   "n": 146,
+   "quality": -0.269,
+   "quality_lo": -0.324,
+   "quality_hi": -0.212,
+   "frac_up": 0.205
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "tie",
+   "case": "lead200ms",
+   "n": 1024,
+   "quality": -0.257,
+   "quality_lo": -0.272,
+   "quality_hi": -0.241,
+   "frac_up": 0.121
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "tie",
+   "case": "gain-20",
+   "n": 1024,
+   "quality": -0.242,
+   "quality_lo": -0.263,
+   "quality_hi": -0.221,
+   "frac_up": 0.227
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "tie",
+   "case": "lead50ms",
+   "n": 120,
+   "quality": -0.235,
+   "quality_lo": -0.267,
+   "quality_hi": -0.202,
+   "frac_up": 0.1
+  },
+  {
+   "ds": "126b",
+   "source": "pro",
+   "kind": "tie",
+   "case": "gain-15",
+   "n": 120,
+   "quality": -0.224,
+   "quality_lo": -0.264,
+   "quality_hi": -0.183,
+   "frac_up": 0.175
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "tie",
+   "case": "lead50ms",
+   "n": 1024,
+   "quality": -0.211,
+   "quality_lo": -0.232,
+   "quality_hi": -0.189,
+   "frac_up": 0.275
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "tie",
+   "case": "lead50ms",
+   "n": 1024,
+   "quality": -0.205,
+   "quality_lo": -0.221,
+   "quality_hi": -0.19,
+   "frac_up": 0.19
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "tie",
+   "case": "pitch_rb_-1",
+   "n": 150,
+   "quality": -0.196,
+   "quality_lo": -0.252,
+   "quality_hi": -0.142,
+   "frac_up": 0.287
+  },
+  {
+   "ds": "126b",
+   "source": "poor",
+   "kind": "tie",
+   "case": "gain-15",
+   "n": 146,
+   "quality": -0.185,
+   "quality_lo": -0.236,
+   "quality_hi": -0.139,
+   "frac_up": 0.26
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "tie",
+   "case": "gain-15",
+   "n": 1024,
+   "quality": -0.184,
+   "quality_lo": -0.201,
+   "quality_hi": -0.169,
+   "frac_up": 0.226
+  },
+  {
+   "ds": "134",
+   "source": "piano126b",
+   "kind": "tie",
+   "case": "pitch_rb_+1",
+   "n": 100,
+   "quality": -0.171,
+   "quality_lo": -0.24,
+   "quality_hi": -0.103,
+   "frac_up": 0.33
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain-3",
+   "n": 290,
+   "quality": -0.163,
+   "quality_lo": -0.172,
+   "quality_hi": -0.154,
+   "frac_up": 0.01
+  },
+  {
+   "ds": "126a",
+   "source": "real",
+   "kind": "tie",
+   "case": "gain-20",
+   "n": 1024,
+   "quality": -0.163,
+   "quality_lo": -0.19,
+   "quality_hi": -0.137,
+   "frac_up": 0.33
+  },
+  {
+   "ds": "126a",
+   "source": "ours_cfg3neg",
+   "kind": "tie",
+   "case": "gain-30",
+   "n": 1024,
+   "quality": -0.158,
+   "quality_lo": -0.196,
+   "quality_hi": -0.119,
+   "frac_up": 0.382
+  },
+  {
+   "ds": "126b",
+   "source": "midi_generaluser",
+   "kind": "tie",
+   "case": "gain-6",
+   "n": 402,
+   "quality": -0.157,
+   "quality_lo": -0.167,
+   "quality_hi": -0.148,
+   "frac_up": 0.027
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "mp3_64k",
+   "n": 290,
+   "quality": -0.156,
+   "quality_lo": -0.223,
+   "quality_hi": -0.08,
+   "frac_up": 0.386
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "tie",
+   "case": "gain-20",
+   "n": 1024,
+   "quality": -0.155,
+   "quality_lo": -0.18,
+   "quality_hi": -0.131,
+   "frac_up": 0.318
+  },
+  {
+   "ds": "134",
+   "source": "maestro",
+   "kind": "tie",
+   "case": "pitch_rb_+1",
+   "n": 150,
+   "quality": -0.155,
+   "quality_lo": -0.213,
+   "quality_hi": -0.097,
+   "frac_up": 0.32
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "tie",
+   "case": "mp3_64k",
+   "n": 1024,
+   "quality": 0.156,
+   "quality_lo": 0.128,
+   "quality_hi": 0.184,
+   "frac_up": 0.577
+  },
+  {
+   "ds": "126a",
+   "source": "musicldm",
+   "kind": "tie",
+   "case": "mp3_32k",
+   "n": 1024,
+   "quality": 0.156,
+   "quality_lo": 0.12,
+   "quality_hi": 0.19,
+   "frac_up": 0.605
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain+3",
+   "n": 290,
+   "quality": 0.157,
+   "quality_lo": 0.149,
+   "quality_hi": 0.165,
+   "frac_up": 0.99
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "tie",
+   "case": "mp3_64k",
+   "n": 1024,
+   "quality": 0.263,
+   "quality_lo": 0.232,
+   "quality_hi": 0.295,
+   "frac_up": 0.707
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "gain+6",
+   "n": 290,
+   "quality": 0.309,
+   "quality_lo": 0.291,
+   "quality_hi": 0.325,
+   "frac_up": 0.99
+  },
+  {
+   "ds": "126a",
+   "source": "musicgen",
+   "kind": "tie",
+   "case": "mp3_32k",
+   "n": 1024,
+   "quality": 0.526,
+   "quality_lo": 0.487,
+   "quality_hi": 0.567,
+   "frac_up": 0.812
+  },
+  {
+   "ds": "126b",
+   "source": "csd_real",
+   "kind": "tie",
+   "case": "mp3_32k",
+   "n": 290,
+   "quality": 0.746,
+   "quality_lo": 0.69,
+   "quality_hi": 0.802,
+   "frac_up": 0.941
+  }
+ ],
+ "126a_case_by_system": {
+  "lose|bitcrush4": {
+   "musicgen": -0.764,
+   "musicldm": -0.463,
+   "ours_cfg0": -0.222,
+   "ours_cfg3neg": -0.557,
+   "real": -0.652
+  },
+  "lose|bitcrush6": {
+   "musicgen": -0.233,
+   "musicldm": -0.074,
+   "ours_cfg0": -0.0,
+   "ours_cfg3neg": -0.036,
+   "real": -0.155
+  },
+  "lose|bitcrush8": {
+   "musicgen": -0.124,
+   "musicldm": 0.005,
+   "ours_cfg0": -0.016,
+   "ours_cfg3neg": -0.048,
+   "real": -0.024
+  },
+  "lose|blast80ms_x1": {
+   "musicgen": -0.355,
+   "musicldm": -0.473,
+   "ours_cfg0": -0.369,
+   "ours_cfg3neg": -0.331,
+   "real": -0.369
+  },
+  "lose|blast80ms_x3": {
+   "musicgen": -0.729,
+   "musicldm": -0.875,
+   "ours_cfg0": -0.691,
+   "ours_cfg3neg": -0.7,
+   "real": -0.731
+  },
+  "lose|clicks1ps": {
+   "musicgen": -0.473,
+   "musicldm": -0.383,
+   "ours_cfg0": -0.261,
+   "ours_cfg3neg": -0.396,
+   "real": -0.571
+  },
+  "lose|clicks20ps": {
+   "musicgen": -0.98,
+   "musicldm": -1.092,
+   "ours_cfg0": -0.824,
+   "ours_cfg3neg": -1.035,
+   "real": -1.668
+  },
+  "lose|clicks5ps": {
+   "musicgen": -0.575,
+   "musicldm": -0.538,
+   "ours_cfg0": -0.299,
+   "ours_cfg3neg": -0.459,
+   "real": -0.857
+  },
+  "lose|clip12db": {
+   "musicgen": -0.52,
+   "musicldm": -0.414,
+   "ours_cfg0": -0.324,
+   "ours_cfg3neg": -0.378,
+   "real": -0.489
+  },
+  "lose|clip20db": {
+   "musicgen": -1.073,
+   "musicldm": -0.915,
+   "ours_cfg0": -0.681,
+   "ours_cfg3neg": -0.846,
+   "real": -1.169
+  },
+  "lose|clip3db": {
+   "musicgen": -0.053,
+   "musicldm": -0.037,
+   "ours_cfg0": -0.03,
+   "ours_cfg3neg": -0.03,
+   "real": -0.035
+  },
+  "lose|clip6db": {
+   "musicgen": -0.171,
+   "musicldm": -0.124,
+   "ours_cfg0": -0.098,
+   "ours_cfg3neg": -0.085,
+   "real": -0.13
+  },
+  "lose|dropout20ms_x10": {
+   "musicgen": -0.471,
+   "musicldm": -0.297,
+   "ours_cfg0": -0.242,
+   "ours_cfg3neg": -0.329,
+   "real": -0.412
+  },
+  "lose|dropout20ms_x3": {
+   "musicgen": -0.226,
+   "musicldm": -0.149,
+   "ours_cfg0": -0.114,
+   "ours_cfg3neg": -0.166,
+   "real": -0.173
+  },
+  "lose|dropout20ms_x30": {
+   "musicgen": -0.692,
+   "musicldm": -0.484,
+   "ours_cfg0": -0.401,
+   "ours_cfg3neg": -0.469,
+   "real": -0.672
+  },
+  "lose|lowpass1k": {
+   "musicgen": -0.243,
+   "musicldm": -0.366,
+   "ours_cfg0": -0.071,
+   "ours_cfg3neg": -0.198,
+   "real": -0.832
+  },
+  "lose|lowpass2k": {
+   "musicgen": 0.085,
+   "musicldm": 0.008,
+   "ours_cfg0": 0.034,
+   "ours_cfg3neg": -0.151,
+   "real": -0.418
+  },
+  "lose|lowpass4k": {
+   "musicgen": 0.087,
+   "musicldm": -0.029,
+   "ours_cfg0": -0.001,
+   "ours_cfg3neg": 0.114,
+   "real": -0.185
+  },
+  "lose|noise_snr0": {
+   "musicgen": -1.237,
+   "musicldm": -1.311,
+   "ours_cfg0": -0.965,
+   "ours_cfg3neg": -1.149,
+   "real": -1.818
+  },
+  "lose|noise_snr10": {
+   "musicgen": -0.414,
+   "musicldm": -0.473,
+   "ours_cfg0": -0.225,
+   "ours_cfg3neg": -0.221,
+   "real": -0.688
+  },
+  "lose|noise_snr15": {
+   "musicgen": -0.253,
+   "musicldm": -0.243,
+   "ours_cfg0": -0.064,
+   "ours_cfg3neg": -0.048,
+   "real": -0.375
+  },
+  "lose|noise_snr20": {
+   "musicgen": -0.185,
+   "musicldm": -0.107,
+   "ours_cfg0": -0.002,
+   "ours_cfg3neg": 0.029,
+   "real": -0.2
+  },
+  "lose|noise_snr25": {
+   "musicgen": -0.159,
+   "musicldm": -0.038,
+   "ours_cfg0": 0.015,
+   "ours_cfg3neg": 0.051,
+   "real": -0.104
+  },
+  "lose|noise_snr30": {
+   "musicgen": -0.139,
+   "musicldm": -0.01,
+   "ours_cfg0": 0.011,
+   "ours_cfg3neg": 0.029,
+   "real": -0.053
+  },
+  "lose|noise_snr40": {
+   "musicgen": -0.106,
+   "musicldm": 0.015,
+   "ours_cfg0": -0.015,
+   "ours_cfg3neg": -0.045,
+   "real": 0.001
+  },
+  "lose|noise_snr5": {
+   "musicgen": -0.735,
+   "musicldm": -0.835,
+   "ours_cfg0": -0.519,
+   "ours_cfg3neg": -0.57,
+   "real": -1.162
+  },
+  "lose|noise_snr50": {
+   "musicgen": -0.066,
+   "musicldm": 0.018,
+   "ours_cfg0": -0.025,
+   "ours_cfg3neg": -0.059,
+   "real": 0.013
+  },
+  "lose|reverse": {
+   "musicgen": -1.325,
+   "musicldm": -1.143,
+   "ours_cfg0": -0.897,
+   "ours_cfg3neg": -1.482,
+   "real": -1.875
+  },
+  "lose|shuffle0.25s": {
+   "musicgen": -1.825,
+   "musicldm": -1.322,
+   "ours_cfg0": -1.045,
+   "ours_cfg3neg": -1.39,
+   "real": -1.969
+  },
+  "lose|shuffle1.0s": {
+   "musicgen": -1.106,
+   "musicldm": -0.813,
+   "ours_cfg0": -0.622,
+   "ours_cfg3neg": -0.705,
+   "real": -1.16
+  },
+  "tie|clean_shuf": {
+   "musicgen": 0.0,
+   "musicldm": 0.0,
+   "ours_cfg0": 0.0,
+   "ours_cfg3neg": 0.0,
+   "real": 0.0
+  },
+  "tie|gain+1": {
+   "musicgen": 0.015,
+   "musicldm": 0.013,
+   "ours_cfg0": 0.004,
+   "ours_cfg3neg": 0.008,
+   "real": 0.008
+  },
+  "tie|gain+3": {
+   "musicgen": 0.047,
+   "musicldm": 0.038,
+   "ours_cfg0": 0.009,
+   "ours_cfg3neg": 0.024,
+   "real": 0.024
+  },
+  "tie|gain+6": {
+   "musicgen": 0.101,
+   "musicldm": 0.07,
+   "ours_cfg0": 0.01,
+   "ours_cfg3neg": 0.045,
+   "real": 0.05
+  },
+  "tie|gain-0.5": {
+   "musicgen": -0.007,
+   "musicldm": -0.006,
+   "ours_cfg0": -0.002,
+   "ours_cfg3neg": -0.004,
+   "real": -0.004
+  },
+  "tie|gain-1": {
+   "musicgen": -0.014,
+   "musicldm": -0.012,
+   "ours_cfg0": -0.004,
+   "ours_cfg3neg": -0.008,
+   "real": -0.008
+  },
+  "tie|gain-10": {
+   "musicgen": -0.126,
+   "musicldm": -0.106,
+   "ours_cfg0": -0.035,
+   "ours_cfg3neg": -0.068,
+   "real": -0.076
+  },
+  "tie|gain-15": {
+   "musicgen": -0.184,
+   "musicldm": -0.139,
+   "ours_cfg0": -0.035,
+   "ours_cfg3neg": -0.095,
+   "real": -0.116
+  },
+  "tie|gain-2": {
+   "musicgen": -0.028,
+   "musicldm": -0.025,
+   "ours_cfg0": -0.009,
+   "ours_cfg3neg": -0.016,
+   "real": -0.016
+  },
+  "tie|gain-20": {
+   "musicgen": -0.242,
+   "musicldm": -0.155,
+   "ours_cfg0": -0.019,
+   "ours_cfg3neg": -0.122,
+   "real": -0.163
+  },
+  "tie|gain-3": {
+   "musicgen": -0.042,
+   "musicldm": -0.037,
+   "ours_cfg0": -0.013,
+   "ours_cfg3neg": -0.024,
+   "real": -0.023
+  },
+  "tie|gain-30": {
+   "musicgen": -0.357,
+   "musicldm": -0.127,
+   "ours_cfg0": 0.076,
+   "ours_cfg3neg": -0.158,
+   "real": -0.274
+  },
+  "tie|gain-6": {
+   "musicgen": -0.079,
+   "musicldm": -0.07,
+   "ours_cfg0": -0.025,
+   "ours_cfg3neg": -0.044,
+   "real": -0.046
+  },
+  "tie|lead10ms": {
+   "musicgen": -0.112,
+   "musicldm": -0.054,
+   "ours_cfg0": -0.023,
+   "ours_cfg3neg": -0.065,
+   "real": -0.064
+  },
+  "tie|lead200ms": {
+   "musicgen": -0.257,
+   "musicldm": -0.131,
+   "ours_cfg0": -0.036,
+   "ours_cfg3neg": -0.107,
+   "real": -0.14
+  },
+  "tie|lead50ms": {
+   "musicgen": -0.338,
+   "musicldm": -0.211,
+   "ours_cfg0": -0.062,
+   "ours_cfg3neg": -0.205,
+   "real": -0.287
+  },
+  "tie|mp3_160k": {
+   "musicgen": -0.002,
+   "musicldm": 0.143,
+   "ours_cfg0": -0.028,
+   "ours_cfg3neg": 0.013,
+   "real": -0.011
+  },
+  "tie|mp3_32k": {
+   "musicgen": 0.526,
+   "musicldm": 0.156,
+   "ours_cfg0": 0.063,
+   "ours_cfg3neg": 0.139,
+   "real": -0.051
+  },
+  "tie|mp3_64k": {
+   "musicgen": 0.263,
+   "musicldm": 0.156,
+   "ours_cfg0": -0.016,
+   "ours_cfg3neg": 0.032,
+   "real": -0.015
+  },
+  "tie|pcm16": {
+   "musicgen": -0.005,
+   "musicldm": -0.0,
+   "ours_cfg0": -0.007,
+   "ours_cfg3neg": -0.012,
+   "real": 0.0
+  },
+  "tie|polarity": {
+   "musicgen": 0.0,
+   "musicldm": 0.0,
+   "ours_cfg0": 0.0,
+   "ours_cfg3neg": 0.0,
+   "real": 0.0
+  },
+  "tie|resample44k": {
+   "musicgen": 0.0,
+   "musicldm": 0.122,
+   "ours_cfg0": 0.021,
+   "ours_cfg3neg": 0.042,
+   "real": 0.057
+  }
+ }
+}
