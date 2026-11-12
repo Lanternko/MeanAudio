@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "muq-postproc-attack-190-20261112",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "190_muq_postproc_attack.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [
+    "189_muq_overlay_matrix.sh"
+  ],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only. Post-processing attacks on MuQ-Eval A1: F1 8-12 kHz band noise at 24 kHz (hf_snr30/20/10 vs mf control, ref up24), F2 noise outside the 10 s MuQ centre crop (side_snr20/10/0, ctr_snr10 control, ref ext), F4 quiet-frame dither (qd vs loudest-frame ld control), F5 htdemucs separate-and-resum (worker in karaoke-jp-align venv); 9 MusicCaps bases x1000 + MUSDB 551 windows; tiered scorers; stimuli on the fly; MuQ only scores. F3 not run."
+  },
+  "question": "Do post-processing edits that add no musical content (inaudible-band noise, noise outside the MuQ window, quiet-frame dither, demucs re-sum) move MuQ A1 specifically, or only get missed by it?",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_postproc_attack_190_20261112.md",
+  "design_document_sha256": "50fda91fe45f95ca4666e3f9db821c05f0301bdfede211a3bb117d49d85d675f",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/muq_postproc_attack_190_20261112.md",
+    "primary": "F1 hf_snr20 / F4 qd_-30 / F5 demucs: count of MusicCaps bases with success_specific (F5 success); F2 side_snr10: count of blind_spot",
+    "margins": {
+      "A1": 0.055,
+      "CE_tie": "0.10 x S_CE (S_CE 1.1905)"
+    },
+    "bootstrap": {
+      "n": 5000,
+      "seed": 20261112,
+      "musdb_cluster": "track"
+    },
+    "verdicts": {
+      "cell": [
+        "no_effect",
+        "success",
+        "not_success_CE_not_down"
+      ],
+      "vs_controls": [
+        "success_specific",
+        "A1_specific_CE_nonspecific",
+        "CE_specific_A1_nonspecific",
+        "nonspecific"
+      ],
+      "headline": [
+        "general",
+        "base_dependent",
+        "only_188_base"
+      ]
+    },
+    "selection": "none: dose grid is fixed in advance; no test-time selection",
+    "fifo": "GPU free < 20 GiB -> rc 75",
+    "headline": [
+      "general",
+      "base_dependent",
+      "not_established"
+    ],
+    "f2_assertion": "side_* vs ext MuQ columns |d| < 1e-6 else harness error (validate fails)"
+  },
+  "deviations": {
+    "see": "driver docstring and the smoke report: hf band is an 8th-order 8 kHz high-pass (12 kHz = Nyquist at 24 kHz); F2 noise covers [0,79000) and [L-79000,L) of the 319,200-sample stimulus (600-sample margin to the MuQ crop); demucs stems summed in the normalised domain; bases re-scored, 189 cache not reused"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/muq_postproc_attack_190",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/pause_progress_190_muq_postproc_attack.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/pause_progress_190_muq_postproc_attack.json",
+    "note": "stage-level restart: per-cell per_clip/*.tsv caches, demucs outputs per base; a partial cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/per_clip/*",
+      "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/*.json",
+      "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/*.log",
+      "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/demucs/*"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/summary.json"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/muq_postproc_attack_190/summary_table.md"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/190_muq_postproc_attack.sh",
+    "launcher_sha256": "e8c0d436619d422e9ff08d0c7c2f81feae11d6a92ac33c4d8c7bb12322e08c63",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190_guest.py",
+    "harn_sha256": "25873a354dab1d07baea19f93ada0a9515ef6dc7fc0ba841de34229e7907c1c0",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+    "action_sha256": "abdc18a35c2989a760c6246b3d975c426099700cea81f17d56411b2c501b1df4"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+      "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+      "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_pam.py",
+      "sha256": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_cmirm.py",
+      "sha256": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+      "sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+      "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+      "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    }
+  ]
+}
