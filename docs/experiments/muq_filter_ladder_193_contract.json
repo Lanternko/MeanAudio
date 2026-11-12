@@ -13,14 +13,14 @@
   ],
   "approval_required": true,
   "launch_authorization": {
-    "gpu_launch_allowed": false,
+    "gpu_launch_allowed": true,
     "queue_position": "p2",
-    "valid": false,
-    "scope": "Eval-only. MuQ A1 filter ladder: LP 7k..1k (order 8 sosfiltfilt), HP 100/200/500 (order 4), single-band RBJ peaking EQ +-10 dB at 125..4k (Q sqrt2); 9 MusicCaps bases x1000 + MUSDB 551 windows; 200 dev ids select lp_star/oneliner_star; tiered scorers; stimuli on the fly. STAGED: not authorised until the parent flips launch_allowed."
+    "valid": true,
+    "scope": "Eval-only. MuQ A1 filter ladder: LP 7k..1k (order 8 sosfiltfilt), HP 100/200/500 (order 4), single-band RBJ peaking EQ +-10 dB at 125..4k (Q sqrt2); 9 MusicCaps bases x1000 + MUSDB 551 windows; 200 dev ids select lp_star/oneliner_star; tiered scorers; stimuli on the fly."
   },
   "question": "Is the 6 kHz low-pass the top of a smooth dose curve, and does a one-line filter (HP or single-band EQ) reproduce the A1 gain?",
   "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_filter_ladder_193_20261113.md",
-  "design_document_sha256": "7360692fbc06b2bbe7b3199e5d176c61261cfbe16c1932005904c899cef406ae",
+  "design_document_sha256": "6227056b52b42d121174fe5217a974db215a1c724e8319cd99acce36c716ac39",
   "fixed_protocol": {
     "prereg": "docs/experiments/muq_filter_ladder_193_20261113.md",
     "primary": "E1 count of success among 6 listenable bases for dev-selected lp_star and oneliner_star; E2 lp_star vs lp6k paired A1",
