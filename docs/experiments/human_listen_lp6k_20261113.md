@@ -1,6 +1,6 @@
 # 人類聽測：原版 vs 事後 6 kHz 低通（預登錄設計，2026-11-13）
 
-狀態：2026-11-13 評分頁已發布、等聽者（https://claude.ai/artifact/E7FeXqifPe9PPNgdr65MTb，要以 Contributor 分享；db `ratings/<uid>`，聽者互相看不到答案）。刺激與評分頁由 `scripts/eval/human_listen_lp6k_20261113.py` 產生，作答前凍結；交付檔重評與 193 分數一致（A1 最大差 0.001）；指標預測已寫進 `predictions.json`（A1 判低通較好 67%、PQ 8%、CE 12%）。**2026-11-13 改版**：使用者回饋「太多題了」，在任何聽者作答前（db 為空）把 60 題縮成 30 題、重抽刺激與預測，舊版收到 `_v1_60trials_unused/` 不使用。key 在 `~/nvme_experiment_artifacts/meanaudio/human_listen_lp6k_20261113/`，不給聽者。
+狀態：2026-11-13 評分頁已發布；**同日收到 1 份作答但熟悉度答「是」→ 排除，有效聽者 0，未正式判讀**（描述見 `docs/experiments/results/human_listen_lp6k_20261113_results.md`），仍等不熟悉的聽者（https://claude.ai/artifact/E7FeXqifPe9PPNgdr65MTb，要以 Contributor 分享；db `ratings/<uid>`，聽者互相看不到答案）。刺激與評分頁由 `scripts/eval/human_listen_lp6k_20261113.py` 產生，作答前凍結；交付檔重評與 193 分數一致（A1 最大差 0.001）；指標預測已寫進 `predictions.json`（A1 判低通較好 67%、PQ 8%、CE 12%）。**2026-11-13 改版**：使用者回饋「太多題了」，在任何聽者作答前（db 為空）把 60 題縮成 30 題、重抽刺激與預測，舊版收到 `_v1_60trials_unused/` 不使用。key 在 `~/nvme_experiment_artifacts/meanaudio/human_listen_lp6k_20261113/`，不給聽者。
 授權：使用者 2026-11-13「做 6 kHz 低通的人類聽測」。上游：`docs/meetings/2026-11-10_muq_attack_simple_explainable.md` 第 1 點（「生成完只做事後 6 kHz 低通，分數就上去，而人類不覺得變好——這是最直接的證據」）；193 結果 `docs/experiments/results/muq_filter_ladder_193_results.md`。
 沿用：2026-10-15 聽測（`human_listen_real_vs_ours_20261015.md`）的頁面、儲存方式與排除規則。
 
