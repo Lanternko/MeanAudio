@@ -1,6 +1,6 @@
 # 下一階段長時間實驗：MuQ 說服力、CE 弱點、CMI-RM 弱點（設計，2026-11-11）
 
-> 狀態：**189 已於 2026-11-11 排入 p2**（預登錄 `muq_overlay_matrix_189_20261111.md`；慢的評分器分層後約 7.5 h，不是下面估的 20–24 h）。190–192 仍只有設計，未實作、未排 queue，編號暫定。
+> 狀態：**189 已於 2026-11-11 排入 p2**（預登錄 `muq_overlay_matrix_189_20261111.md`；慢的評分器分層後約 7.5 h，不是下面估的 20–24 h）。190 已排 p2 190；**191 B–E 已排 p2 195（`ce_weakness_195_20261113.md`）、192 A／C 已排 p2 194（`cmirm_weakness_194_20261113.md`），2026-11-13**。
 > **2026-11-11 已做零 GPU 兩項**：192 Part 0 → `results/cmirm_painpoint_mining_20261111_results.md`（既有 CMI-RM 分數只有 empty prompt，沒有 caption 版可分；輕度白噪／低通／mp3 低位元率反而加分，音符層大錯抓得到）；191 Part A → `results/ce_human_residual_20261111_results.md`（「音符密度計」假說不成立；生成音樂上 CE 殘差偏好貝斯占比、高頻能量、打擊成分，效果量小）。後果：191 Part B 優先序降低、192 Part B 可縮小、192 Part A（文字攻擊）仍未探。
 > 出處：188 收線後的缺口（`results/muq_attractor_probe_188_results.md`）、CE 痛點（`results/ce_painpoint_mining_20261111_results.md`）、10-28 候選清單（`muq_weakness_probe_candidates_20261028.md`）。
 > 共同規則：攻擊不在測試集偷看評分器（配方只在 dev 選、凍結後才評 test）；手法要簡單可解釋；疊加類成功判準沿用 2026-11-11 v3（A1 漲過 m 且 CE 降，兩者都要扣掉同音量對照聲）；無人類評分的結果不寫「變好／變差」。
