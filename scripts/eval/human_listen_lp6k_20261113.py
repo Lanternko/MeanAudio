@@ -22,9 +22,9 @@ E193 = Path('/home/kojiek/eval_output_nvme/muq_filter_ladder_193')
 SEL_SEED = 20261115
 NAME_SEED = 20261116
 BASES = ['real', 'ma_cfg3neg_s14159265', 'musicgen', 'musicldm']
-N_PER_BASE = 12
-N_CATCH = 6
-N_REPEATS = 6
+N_PER_BASE = 6
+N_CATCH = 3
+N_REPEATS = 3
 MAX_LU = 0.5
 PAGE_TEMPLATE = HERE / 'human_listen_lp6k_20261113_page.html'
 
@@ -89,14 +89,12 @@ def select():
     for c in catch:
         trials.append(dict(kind='catch', base=c['base'], id=c['id'], a_version='base', b_version='base'))
     rng.shuffle(trials)
-    # repeats: from main trials in the first half, each base >= 1, A/B flipped
+    # repeats: from main trials in the first half, distinct bases, A/B flipped
     half = len(trials) // 2
     first = [t for t in trials[:half] if t['kind'] == 'main']
     chosen = []
-    for b in BASES:
+    for b in rng.sample([b for b in BASES if any(t['base'] == b for t in first)], N_REPEATS):
         chosen.append(rng.choice([t for t in first if t['base'] == b]))
-    rest = [t for t in first if t not in chosen]
-    chosen += rng.sample(rest, N_REPEATS - len(chosen))
     reps = []
     for t in chosen:
         reps.append(dict(kind='repeat', base=t['base'], id=t['id'], a_version=t['b_version'],
