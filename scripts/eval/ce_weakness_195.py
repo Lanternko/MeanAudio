@@ -49,8 +49,23 @@ if len(sys.argv) > 1 and sys.argv[1] == '--demucs-stems-worker':
                 stats.append((float(m), float(s), len(w)))
             T = max(x.shape[-1] for x in xs)
             batch = torch.stack([torch.nn.functional.pad(x, (0, T - x.shape[-1])) for x in xs])
-            with torch.no_grad():
-                src = apply_model(model, batch, shifts=0, split=True, overlap=0.25, device='cuda', progress=False)
+            src = None
+            for att in range(8):   # OOM retry (2026-11-14: 195 died when other procs filled VRAM)
+                try:
+                    with torch.no_grad():
+                        if att == 0:
+                            src = apply_model(model, batch, shifts=0, split=True, overlap=0.25, device='cuda', progress=False)
+                        else:   # fall back to one clip at a time; same per-clip math
+                            src = torch.cat([apply_model(model, batch[q:q + 1], shifts=0, split=True, overlap=0.25,
+                                                         device='cuda', progress=False) for q in range(len(batch))])
+                    break
+                except torch.OutOfMemoryError:
+                    src = None
+                    torch.cuda.empty_cache()
+                    print(f'demucs stems worker: CUDA OOM at batch {k} attempt {att}, sleep {60 * (att + 1)}s', flush=True)
+                    _t.sleep(60 * (att + 1))
+            if src is None:
+                raise RuntimeError(f'demucs stems worker: CUDA OOM persisted at batch {k}')
             for j, p in enumerate(fs):
                 n = xs[j].shape[-1]
                 st = src[j, :, :, :n].float().cpu().numpy().mean(1) * stats[j][1]      # [4, n] mono, input domain (DC dropped)
@@ -578,7 +593,12 @@ def demucs_stems(base, ids):
     env = {k: v for k, v in os.environ.items() if k != 'MKL_NUM_THREADS'}
     env.update(OMP_NUM_THREADS='2')
     t0 = time.time()
-    r = subprocess.run([str(KJ_PY), '-I', str(SELF), '--demucs-stems-worker', str(din), str(dout)], cwd=REPO, env=env)
+    for att in range(4):   # worker skips stems already written, so a retry resumes
+        r = subprocess.run([str(KJ_PY), '-I', str(SELF), '--demucs-stems-worker', str(din), str(dout)], cwd=REPO, env=env)
+        if not r.returncode:
+            break
+        log(f'demucs stems {base}: worker rc={r.returncode} attempt {att}, retry in {300 * (att + 1)}s')
+        time.sleep(300 * (att + 1))
     wall = time.time() - t0
     shutil.rmtree(din, ignore_errors=True)
     if r.returncode or any(not (dout / f'{i}.npy').is_file() for i in need):
