@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "muq-overlay-matrix-189-20261111",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "189_muq_overlay_matrix.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [
+    "188_muq_attractor_probe.sh"
+  ],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only. Overlay matrix: 10 bases (MusicCaps real, MeanAudio 3 seeds x CFG0/CFG3+neg, MusicGen, MusicLDM: 1000 Part B ids each; MUSDB18-HQ 551 windows) x 7 overlays (osynth frozen from 188, osynth2/osynth3 dev-selected, controls sine1k/music/osynth_tr2/specnoise) x r in {24,18,12,6,0} LU, mix renormalised to -30 LUFS, stimuli generated on the fly. Scorers tiered (design doc D1): MuQ-Eval A1/A3a + AES + CLAP everywhere; PAM + CMI-RM caption on tier 2; SongEval + CMI-RM empty on tier 3; MEva and FAD on base and osynth cells. MuQ only scores; no training, no gradient through MuQ, no test-time selection. CLAP batch 1."
+  },
+  "question": "Does a quiet overlay of the synthesised loop raise MuQ A1 specifically (beyond level-matched control sounds, with AES CE down) across recipes, bases and levels?",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_overlay_matrix_189_20261111.md",
+  "design_document_sha256": "814d01b6cfd5f10bbbf505b25504747d618aed33fc68f68959b0271c1e9b7d4d",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/muq_overlay_matrix_189_20261111.md",
+    "primary": "A1_MI_lvl30, osynth, r=18, count of MusicCaps bases with success_specific",
+    "margins": {
+      "A1": 0.055,
+      "CE_tie": "0.10 x S_CE (S_CE 1.1905)"
+    },
+    "bootstrap": {
+      "n": 5000,
+      "seed": 20261111,
+      "musdb_cluster": "track"
+    },
+    "verdicts": {
+      "cell": [
+        "no_effect",
+        "success",
+        "not_success_CE_not_down"
+      ],
+      "vs_controls": [
+        "success_specific",
+        "A1_specific_CE_nonspecific",
+        "CE_specific_A1_nonspecific",
+        "nonspecific"
+      ],
+      "headline": [
+        "general",
+        "base_dependent",
+        "only_188_base"
+      ]
+    },
+    "selection": "osynth2/osynth3: per waveform family top-3 standalone A1 in 188 Part C, mixed at r=6 into the 188 dev 200 real clips, max dev dA1; frozen in selection.json (sha256+created_epoch) before any test scoring; validate checks every cell TSV mtime >= created_epoch",
+    "fifo": "GPU free < 16 GiB -> rc 75"
+  },
+  "deviations": {
+    "see": "design doc section 5 (D1-D10)"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/pause_progress_189_muq_overlay_matrix.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/pause_progress_189_muq_overlay_matrix.json",
+    "note": "stage-level restart: per-cell per_clip/*.tsv caches and selection.json (never rewritten once frozen); a partial cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/per_clip/*",
+      "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/*.json",
+      "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/*.log",
+      "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/meva/*",
+      "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/fad/*"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/summary.json"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/muq_overlay_matrix_189/selection.json"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/189_muq_overlay_matrix.sh",
+    "launcher_sha256": "1bdb698b6fd05f2a27d0de81f816d0de6c2b37bd7c79991433b3555248de83b1",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189_guest.py",
+    "harn_sha256": "06137b66b1d72972bcfefd85279a5ad738d322cd6a99515169a66a55d94a93a3",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+    "action_sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189_guest.py",
+      "sha256": "06137b66b1d72972bcfefd85279a5ad738d322cd6a99515169a66a55d94a93a3"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+      "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+      "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_pam.py",
+      "sha256": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_cmirm.py",
+      "sha256": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+      "sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+      "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+      "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    }
+  ]
+}

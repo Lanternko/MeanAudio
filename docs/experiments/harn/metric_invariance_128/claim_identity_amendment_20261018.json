@@ -1,0 +1,51 @@
+{
+  "document_kind": "preregistration_amendment_v1",
+  "approved_by": "operator_console: user GO on 2026-10-18 after proposing claim-specific identity blocking and ancillary warnings",
+  "scope": "Fresh 128b/128c only; completed 128a reused unchanged",
+  "identity": {
+    "blocking_b": [
+      "PQ",
+      "clap"
+    ],
+    "blocking_c": [
+      "PQ"
+    ],
+    "diagnostics_b": [
+      "CE",
+      "CU",
+      "PC"
+    ],
+    "diagnostics_c": [
+      "CE",
+      "CU",
+      "PC",
+      "clap"
+    ],
+    "bounds_unchanged": {
+      "aes_max_abs": 0.01,
+      "aes_abs_mean_signed": 0.001,
+      "other_max_abs": 0.0001
+    },
+    "all_diagnostics_persisted": true,
+    "missing_negmf_historical_reference": "explicitly labelled input-hash/normalization verification only; never claim a historical score match"
+  },
+  "context": {
+    "compared_n": 200,
+    "aes_batch_size": 32,
+    "scored_n": 224,
+    "extra": "24 subsequent real clips solely complete the last forward batch; excluded from identity comparisons and study sample counts",
+    "scoring_algorithm": "unchanged; no global padding or model modification"
+  },
+  "reuse": {
+    "source_contract": "docs/experiments/metric_invariance_128a_20261017_budget_r3_contract.json",
+    "verification": "completed terminal/report/receipt hashes, unchanged calibration and Scorer ASTs, unchanged transform/scoring dependencies"
+  },
+  "budget": {
+    "pre_c_limit_seconds": 61200,
+    "accounting": "verified completed A duration plus this fresh B run elapsed time; exclude old run terminal-to-restart idle",
+    "a_seconds": 26762.69604897499
+  },
+  "unchanged": "all audio, seeds, normalization, m, 80%, mode/variant sets, fallback exclusions, Cstar sensitivity-only status, K1-K4 decision rules",
+  "transparency": "Defined after observing CU tail failure; old failed run and thresholds remain recorded. No scientific result is discarded for being unfavorable.",
+  "storage": "fresh Seagate scratch per part; root safety floor remains 50 GiB"
+}

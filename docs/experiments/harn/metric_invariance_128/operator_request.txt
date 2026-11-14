@@ -1,0 +1,2 @@
+2026-10-17 operator_console: 使用者提供 PR #2 的 128a/b/c/d 設計，並指示「開始實驗」。
+範圍：補腳本與 contracts、smoke、通過 gate 後依 p2 128→129→130 執行；128c 遵守 17h 順延規則。

@@ -1,0 +1,118 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "autoresearch-clap-20261027-153",
+ "job": "153",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Phase 0 of the inference-time CLAP search: split/checkpoint sha verify, six subset baselines per split, copy gate + determinism on dev256, FAD parity 5.0836, and one sequential full-5521 lvl30 timing cell; p0_summary.json gates rung 1.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/autoresearch_inference_clap_20261027.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-27",
+  "text": "Run the preregistered inference-time CLAP search; the 38 rung-1 configs, gates, splits and thresholds are not changed. Phase 0 gates rung 1."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Eval-only inference of the three frozen checkpoints; no training, no checkpoint writes. Output /home/kojiek/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/153_autoresearch_p0.sh",
+  "launcher_sha256": "c165a7b6006a5600ec87a5bc050822a9ed148e41e4b1b1ffc33b04f11da8558e",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/autoresearch_clap_20261027_guest.py",
+  "harn_sha256": "85e8cdd27a0bf72a731c8a5efc9816292c911fb2d38b69e3430634edc0b45d43",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/autoresearch_clap_20261027/run_round.py",
+  "action_sha256": "3d3e4a7e3ba9949fbfbcd13f35aabc39eaa06ff948e8c74d5a6e47e015ae79c6",
+  "prereg": "/home/kojiek/MeanAudio/docs/experiments/autoresearch_clap_20261027_prereg.json",
+  "prereg_sha256": "67927a1705f5199a0ccac1d5e9f2d9418a38d70815597c4a05b779ec264a2ec7"
+ },
+ "code_bindings": {
+  "autoresearch_clap_20261027/common.py": "6c100a9129e51b1765946901473c8f425904577df9a0a0269ab70a0e31ec5271",
+  "autoresearch_clap_20261027/patch_meanflow.py": "e0ede4bdc7371791706301a5394bf9f0ae92708f380d7af993c04c6c55e06c99",
+  "autoresearch_clap_20261027/render.py": "d34859f513a1d9425152ff981a274ede65f235a0a0555a769ee1f455a966e594",
+  "autoresearch_clap_20261027/trial.py": "ecfd1dbea817fb61a53902ff40dfeb261a2c75bf7d561e4eea81f8ce9a0a7bd3",
+  "autoresearch_clap_20261027/fad_cache.py": "8aef078b688ccd7bc6fc84cdcd626446ed45b6766412a4a6624da47e5a317045",
+  "autoresearch_clap_20261027/baselines.py": "4b4eb8a69f910e74bfe994535d40fea2ce92368c24266300a58a437bbb5792c4",
+  "autoresearch_clap_20261027/phase0.py": "a92b9531e94536ccfc1569cf484b2d7fbef64fd372113a1ae72ef9c968bceec6",
+  "autoresearch_clap_20261027/driver.py": "5cdf93789fac020cc503396d10197f87758018b6256353d9282925f2f7e6376f",
+  "autoresearch_clap_20261027/analyze.py": "796f7250e2d5aebb4a1f99ab2c49bde8759a1f89ccedc88f682cc66e2174d6e9",
+  "autoresearch_clap_20261027/make_round_configs.py": "056c58af3936c2b8d13a6d53192f09bf59aaba982c6e271e6773aad9132748a1",
+  "autoresearch_clap_20261027/split_subsets.py": "e514f0d6d4f084b80d875ee16bd2dd1ce73c8741a4c2763c9b8768d2ffb44e69",
+  "autoresearch_clap_20261027/run_round.py": "3d3e4a7e3ba9949fbfbcd13f35aabc39eaa06ff948e8c74d5a6e47e015ae79c6",
+  "eval.py": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339",
+  "scripts/eval/eval_metrics.py": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "scripts/eval/level_match_rescore.py": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714",
+  "scripts/eval/mc_mf25_eval.sh": "e1e3013b3d18ce6d5204e60c688c13201f965c03127bcd6b3a6bb84b3508dc5e",
+  "meanaudio/model/networks.py": "5970fd615640c3d5a2b38aa025c3f3f26dee3412f5b8de810414c16d732cbe69",
+  "meanaudio/model/mean_flow.py": "31b3d7ee44c7929a451bb9c4d7251d4455f5e5ceb3e415043c2fdfa7e585b3ff",
+  "scripts/experiment_harness/autoresearch_clap_20261027_guest.py": "85e8cdd27a0bf72a731c8a5efc9816292c911fb2d38b69e3430634edc0b45d43",
+  "docs/experiments/autoresearch_clap_20261027_prereg.json": "67927a1705f5199a0ccac1d5e9f2d9418a38d70815597c4a05b779ec264a2ec7"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/autoresearch_clap_20261027/run_round.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/autoresearch_clap_20261027/run_round.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/autoresearch_clap_20261027/run_round.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the summary json after --validate-only passes (phase 0: p0_summary status pass; round: every planned trial summary carries the planned config_sha)"
+ },
+ "fixed_protocol": {
+  "mode": "phase0",
+  "scratch": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027",
+  "round": "p0",
+  "plan": null,
+  "prereg_sha256": "67927a1705f5199a0ccac1d5e9f2d9418a38d70815597c4a05b779ec264a2ec7",
+  "min_free_bytes": 20000000000
+ },
+ "storage": {
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027",
+  "min_free_bytes": 20000000000
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "trial-level resume: a trial whose summary.json carries the planned config_sha is skipped; audio is deleted after scoring and only audio_sha256.tsv is kept",
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027/pause_progress_153.json",
+  "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027/pause_progress_153.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "canonical cfg0/cfg3_neg full cells",
+  "three checkpoints"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/autoresearch_clap_20261027/phase0/p0_summary.json"
+  }
+ ],
+ "queue_name": "153_autoresearch_p0.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-27",
+   "note": "generated by make_queue_job.py from prereg r5; phase 0 is job 153, rungs 1-5 are 154-158"
+  }
+ ]
+}

@@ -1,0 +1,4 @@
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
+Reserved to runtime immediately before action: authenticity, independent raw-file rehashing, atomic fsync/rename persistence, locks, live process identity, full symlink/TOCTOU defenses, and execution.
+All four documents satisfy the offline structural and consistency checks.
+128 preflight passed

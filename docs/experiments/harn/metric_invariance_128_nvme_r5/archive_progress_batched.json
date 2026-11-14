@@ -1,0 +1,17 @@
+{
+  "system": "musiccaps_real",
+  "copied": 1,
+  "total": 5131,
+  "completed_systems": [
+    "musicgen_medium",
+    "musicldm_fid8",
+    "meanaudio_cfg3_neg",
+    "meanaudio_cfg0",
+    "musicldm"
+  ],
+  "free_bytes": {
+    "/home/kojiek/MeanAudio": 68738519040,
+    "/mnt/seagate": 3249318604800
+  },
+  "at": 1792258992.930918
+}

@@ -1,0 +1,27 @@
+{
+  "bindings": {
+    "contract_raw_sha256": "3d3dd3fca1089d96cfc80a5947290a77041ff3db7dd3bf3629a59ed350c27c19",
+    "preflight_report_raw_sha256": "4366228a5a19c708d204eff2ec165ea9ed8558b6a9d6181c06fbdcd600987a98",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "document_kind": "event_ledger",
+  "events": [
+    {
+      "event_id": "registered",
+      "event_kind": "contract_registered",
+      "event_sha256": "1fd7fcf3f667b8d777835aba6f56d9db3fbe46ccf4888c1deed57df8e30aa014",
+      "idempotency_key": "metric-invariance-128c-20261017_quiet_r2:registered",
+      "notification_status": "not_applicable",
+      "occurred_at": "2026-10-17T01:31:44.776365+00:00",
+      "phase": null,
+      "previous_event_sha256": null,
+      "relates_to_event_id": null,
+      "sequence": 1,
+      "verdict": "none"
+    }
+  ],
+  "experiment_id": "metric-invariance-128c-20261017_quiet_r2",
+  "run_id": "run-20261017-130-metric-invariance_quiet_r2",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

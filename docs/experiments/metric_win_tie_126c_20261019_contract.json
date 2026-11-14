@@ -1,0 +1,96 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "metric-win-tie-126c-musdb-20261019",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "131_metric_win_tie_musdb.sh",
+ "queue_role": "p2",
+ "dependencies": [
+  "126_metric_win_tie_signal (analyze reads S from docs/experiments/results/metric_win_tie_126a_summary.json)",
+  "127_metric_win_tie_pieces (scoring loop reused from scripts/eval/metric_win_tie_126b.py)"
+ ],
+ "approval_required": true,
+ "operator_instruction": {
+  "recorded_at": "2026-10-19",
+  "text": "Design and queue the MUSDB18-HQ stem-removal job left unscheduled in 126 (contract + p2 pending)."
+ },
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "score ~40k pre-built 10 s clips (metric_win_tie_126c_stimuli.py, CPU + htdemucs, already on NVMe): up to 4 windows per MUSDB18-HQ track (150 tracks, all four stems active) x 65 cases (mix ref; tie: stem sum, htdemucs re-sum, single-stem +-1 dB, 126a tie signal variants; soft: +-3/+-6 dB rebalance, vocal phase-vocoder round trip; lose: drums lag 20-250 ms, vocals lag 50-250 ms, vocals detune 25-100 cents, bass +1 semitone, vocals/drums swapped from another song, 126a lose signal variants; descriptive: true stem removal, solo stem, htdemucs stem removal), all at -30 LUFS; AES + MEva + CLAP(batch 1, caption \"music\") + VGGish frames per clip; MIR on a CPU subprocess. No generation, no training."
+ },
+ "question": "In a real multitrack mix, do the metrics tie mix-balance and stem-sum changes, rank misaligned / detuned / swapped stems below the original, and is the score drop for removing drums or vocals a content effect (true stem removal) or a separation-artifact effect (htdemucs removal)?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_win_tie_126c_musdb_20261019.md",
+ "fixed_protocol": {
+  "stimuli": "/home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/stimuli/items.json (36,366 rows, 551 windows, 145 tracks; built 2026-10-19 by scripts/eval/metric_win_tie_126c_stimuli.py --stage prep/demucs/build)",
+  "n_clips": 36366,
+  "n_units": 13,
+  "judgment": "delta = score(case) - score(mix, same window); tie if |delta| <= m, m = 0.10 S; S = 126a S for neural metrics, SD of 126c mix clips for MIR; pass = 80 % of pairs; ladders report tolerance (tie) / detection (lose) steps",
+  "cross": "separation artifact: dmx_no_<stem> vs no_<stem> per window; pitch error net of processing: vocals_detune vs vocal_pv0; by_group train/test (htdemucs trained on MUSDB train)",
+  "fad": "VGGish frames per clip (float16); FAD per case vs the mix clips of the same windows",
+  "reading": "human anchor is descriptive only: AES public MUSDB test mixture/stem ratings (full tracks, not our windows) vs mean d(only_<stem>); PC and MIR have no human validation here"
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019",
+  "min_free_bytes": 16106127360
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/pause_progress.json",
+  "note": "unit-level restart: a unit with matching keys, done.json and vggish_frames is skipped; a partial one is redone whole; mir.json skipped if present"
+ },
+ "watcher": {
+  "stall_seconds": 10800
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126c.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126c.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126c.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/metric_win_tie_126c_20261019/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/131_metric_win_tie_musdb.sh",
+  "launcher_sha256": "3077803fd3748f158cf00dea116a4b7ec426cb41c9dee00f9def722d85b36742",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126c.py",
+  "action_sha256": "91318dc1806cb400581b3dcae2b4fe5c6bdf5acb971c79a4d7675850d5f5b937",
+  "fad_module": "/home/kojiek/MeanAudio/scripts/eval/ttm_fad_lvl30.py",
+  "fad_module_sha256": "8bcc4115c261b9e375b5f4261872669ac93ecb49f4501d8d1ddd280822620b6b",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+  "action_dep": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py",
+  "action_dep_sha256": "1838b508c4583e42b27d877db9a4471016009799553ad884ee70e3ef89bbc6b7",
+  "action_dep_126b": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126b.py",
+  "mir_metrics": "/home/kojiek/MeanAudio/scripts/eval/mir_metrics.py",
+  "action_dep_126b_sha256": "e2478559e574647d9ab1db01c9a8bacc7e8acd1368a0d4bc75d52f205be7acce",
+  "mir_metrics_sha256": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6"
+ }
+}

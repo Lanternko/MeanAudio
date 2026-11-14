@@ -1,0 +1,123 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "muq-stack-bestofn-182-20261108",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "182_muq_stack_bestofn.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [],
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "Inference-only: Part A 5 cells x 3 training seeds (081 arm quarter HQ prefix + LQ / fid8 / LQ+fid8 cfg3 / LQ+fid8 cfg4.5; N100 full recipe cfg3+fid8) on the 1,000 Part B MusicCaps prompts, inference seed 42; Part B the best A cell on training seed 14159265 x 8 inference seeds; MuQ-Eval A1/A3a (raw/lvl30/lp6k, batch 1), AES PQ/CE lvl30, CLAP batch 1 vs original caption, FAD vs musiccaps_reference; best-of-k summary. No training."
+ },
+ "question": "How high can MuQ-Eval A1 MI (lvl30) go with stacked PQ-oriented levers and best-of-N by A1, and do held-out metrics follow?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_stack_bestofn_182_20261108.md",
+ "design_document_sha256": "4665cecb282af7b38efbce46a1871b3ace94c0768209c25d88a6a20a53c94376",
+ "fixed_protocol": {
+  "prereg": "docs/experiments/muq_stack_bestofn_182_20261108.md (commit b320bf4, frozen before scripts)",
+  "primary": "A1_MI_lvl30",
+  "margins": {
+   "A1": 0.055,
+   "A3a": 0.062
+  },
+  "harness": "A_ref 3-seed mean vs 181 same cell on the same 1,000 ids: |mean d|<=0.05 and each seed |d|<=0.10",
+  "Q1": "best A cell (no lowpass) - MusicGen 3.541: beats if >=m and 3/3 seeds >3.541; ties |d|<m; loses <=-m; else undetermined; lp6k judged separately",
+  "Q2": "bo-k - bo-1 prompt bootstrap 2000; bo-8 beats MusicGen if >=m and CI lower > 3.541",
+  "Q3": "T_X=(dX(8)/S_X)/(dA1(8)/S_A1); hacking_signature if T_A3a<0.5 or (T_PQ<0.25 and T_CLAP<0.25) or FAD worse; general if T_A3a>=0.8 and T_PQ,T_CLAP>=0.5; else partial"
+ },
+ "deviations": {
+  "D1": "Descriptive addition (not in any verdict): a random-seed-per-prompt pick among the 8 B seeds (rand_k8) with the same readings and FAD, to show the spread that any re-pick produces without selection. S for CE and CLAP is the 115 TTM5 range (CE lvl30, CLAP raw since CLAP is scored on raw audio)."
+ },
+ "storage": {
+  "path": "/home/kojiek/eval_output_nvme/muq_stack_bestofn_182",
+  "min_free_bytes": 21474836480
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/muq_stack_bestofn_182/pause_progress.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/muq_stack_bestofn_182/pause_progress.json",
+  "note": "cell-level restart: cells with per_cell tsv + json passed are skipped; a partial cell is regenerated from scratch; b_selection.json fixes the B cell once written"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_stack_bestofn_182.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_stack_bestofn_182.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_stack_bestofn_182.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/muq_stack_bestofn_182/summary.json"
+  },
+  {
+   "path": "/home/kojiek/eval_output_nvme/muq_stack_bestofn_182/progress.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of summary.json and progress.json after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/182_muq_stack_bestofn.sh",
+  "launcher_sha256": "ba2ec5bd99c1ba093364e495df526e4898f93e3f9f98b14fd5af15c1f14e3a53",
+  "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_stack_bestofn_182_guest.py",
+  "harn_sha256": "4a1e10bccd82bfe3ef909d86d52bef0b5daab931852ea6dfb8b46c0c0abb1361",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/muq_stack_bestofn_182.py",
+  "action_sha256": "4f243557c5d70c4dc4d6745c49ff2bcc516261762573acb1f05220d849f827b5"
+ },
+ "code_bindings": [
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/meva_081_084_backfill.py",
+   "sha256": "ffe32c4ecf851e6f88fbeaa177ec3734db6afddcb37ec710ee61242285cf0071"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+   "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+   "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+   "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+   "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+   "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/eval.py",
+   "sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+   "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+  }
+ ]
+}

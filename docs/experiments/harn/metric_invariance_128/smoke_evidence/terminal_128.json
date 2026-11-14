@@ -1,0 +1,10 @@
+{
+  "notification_receipt": {
+    "event": "failure",
+    "path": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017/failure.json",
+    "status": "failure"
+  },
+  "rc": 1,
+  "status": "failed",
+  "written_at": "2026-10-16T18:13:36Z"
+}

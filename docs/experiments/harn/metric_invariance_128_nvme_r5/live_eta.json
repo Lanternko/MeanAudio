@@ -1,0 +1,17 @@
+{
+  "status": "provisional",
+  "at": "2026-10-17T17:46:11.184380+00:00",
+  "B_forecast_hours": 5.512881607130956,
+  "C_forecast_hours": 3.598488196895533,
+  "combined_remaining_range_hours": [
+    8,
+    10
+  ],
+  "expected_finish_window_Taipei": "2026-10-18 about 10:00\u201312:00",
+  "point_forecast_finish_Taipei": "2026-10-18T10:46:34.931294+08:00",
+  "observed_NVMe_C1_1000_seconds": 10.489827635930851,
+  "observed_NVMe_C2_1000_seconds": 77.07351270294748,
+  "mode_C3_basis": "Actual completed A GPU timings plus measured ten-cell NVMe preparation; full r5 C3 batch not yet completed.",
+  "c_deferral_17h_retained": true,
+  "method": "25% reserve, chunk startup, identity and CPU-analysis allowance. No promise; update after more full batches."
+}

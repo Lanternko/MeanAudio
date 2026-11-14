@@ -1,0 +1,22 @@
+{
+  "action_sha256": "4316c50e1c9928ebf3b147c7ac7bdffe55b7345596a5a6946a3c8c6fb819b8d7",
+  "fallback": [
+    {
+      "id": "vWiq7n4yTAw_30",
+      "system": "meanaudio_s16180339_cfg0",
+      "variant": "table"
+    }
+  ],
+  "fallback_ids_by_system": {
+    "meanaudio_s16180339_cfg0": [
+      "vWiq7n4yTAw_30"
+    ]
+  },
+  "invalid": [],
+  "manifest_sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1",
+  "n_checked": 33126,
+  "n_fallback": 1,
+  "n_invalid": 0,
+  "part": "c",
+  "status": "passed"
+}

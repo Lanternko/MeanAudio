@@ -1,0 +1,107 @@
+P2_STARTING 128_metric_invariance_calibration_identity_r1 run=128_metric_invariance_calibration_identity_r1-20261017T004808Z 2026-10-17T00:48:08Z
+[NOTIFY OK] durable seat_attempt experiment=p2-seat-128_metric_invariance_calibration_identity_r1
+P2_SEAT 128_metric_invariance_calibration_identity_r1 run=128_metric_invariance_calibration_identity_r1-20261017T004808Z pid=2906879 2026-10-17T00:48:09Z
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
+Reserved to runtime immediately before action: authenticity, independent raw-file rehashing, atomic fsync/rename persistence, locks, live process identity, full symlink/TOCTOU defenses, and execution.
+All four documents satisfy the offline structural and consistency checks.
+128 preflight passed
+Some weights of RobertaModel were not initialized from the model checkpoint at roberta-base and are newly initialized: ['pooler.dense.bias', 'pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/home/kojiek/venvs/dac/lib/python3.12/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/home/kojiek/venvs/dac/lib/python3.12/site-packages/torch/nn/functional.py:6409: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  key_padding_mask = _canonical_mask(
+[08:48:57] smoke/musicgen/clean/C0 n=50 21.6s
+concurrent.futures.process._RemoteTraceback: 
+"""
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/concurrent/futures/process.py", line 263, in _process_worker
+    r = call_item.fn(*call_item.args, **call_item.kwargs)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/process.py", line 212, in _process_chunk
+    return [fn(*args) for args in chunk]
+            ^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 155, in prepare_one
+    for k, y in enumerate(members(x, sr, mode)):
+                          ^^^^^^^^^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 117, in members
+    y = normalize(x, sr) if mode in ('C1', 'C3') else x
+        ^^^^^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 109, in normalize
+    raise ValueError('C1/C3 LUFS undefined; refuse silently substituting raw audio')
+ValueError: C1/C3 LUFS undefined; refuse silently substituting raw audio
+"""
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 190, in unit
+    prepared = list(self.pool.map(prepare_one,
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/process.py", line 642, in _chain_from_iterable_of_lists
+    for element in iterable:
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+ValueError: C1/C3 LUFS undefined; refuse silently substituting raw audio
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 630, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 625, in main
+    if c['part']=='a':run_a(c,scorer,manifest)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 332, in run_a
+    got, meta = scorer.unit('smoke', system, 'clean', mode, records[:50])
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 259, in unit
+    shutil.rmtree(tmp)
+  File "/usr/lib/python3.12/shutil.py", line 796, in rmtree
+    onexc(os.rmdir, path, err)
+  File "/usr/lib/python3.12/shutil.py", line 794, in rmtree
+    os.rmdir(path, dir_fd=dir_fd)
+OSError: [Errno 39] Directory not empty: '/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_identity_r1_tmp/a/audio-i09eh20v'
+P2_CLASSIFY 128_metric_invariance_calibration_identity_r1 rc=1 dest=failed_notified 2026-10-17T00:49:07Z
+P2_STARTING 129_metric_invariance_table_b_identity_r1 run=129_metric_invariance_table_b_identity_r1-20261017T004907Z 2026-10-17T00:49:07Z
+[NOTIFY OK] durable seat_attempt experiment=p2-seat-129_metric_invariance_table_b_identity_r1
+P2_SEAT 129_metric_invariance_table_b_identity_r1 run=129_metric_invariance_table_b_identity_r1-20261017T004907Z pid=2908902 2026-10-17T00:49:08Z
+Traceback (most recent call last):
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 630, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 573, in main
+    if args.preflight:preflight(c);return
+                      ^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 529, in preflight
+    if not summary.is_file():raise RuntimeError('scientific dependency 128a not complete')
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: scientific dependency 128a not complete
+P2_CLASSIFY 129_metric_invariance_table_b_identity_r1 rc=2 dest=held_notified 2026-10-17T00:49:55Z
+P2_STARTING 130_metric_invariance_negmf_identity_r1 run=130_metric_invariance_negmf_identity_r1-20261017T004955Z 2026-10-17T00:49:55Z
+[NOTIFY OK] durable seat_attempt experiment=p2-seat-130_metric_invariance_negmf_identity_r1
+P2_SEAT 130_metric_invariance_negmf_identity_r1 run=130_metric_invariance_negmf_identity_r1-20261017T004955Z pid=2909592 2026-10-17T00:49:56Z
+Traceback (most recent call last):
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 630, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 573, in main
+    if args.preflight:preflight(c);return
+                      ^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 529, in preflight
+    if not summary.is_file():raise RuntimeError('scientific dependency 128a not complete')
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: scientific dependency 128a not complete
+P2_CLASSIFY 130_metric_invariance_negmf_identity_r1 rc=2 dest=held_notified 2026-10-17T00:50:09Z
+[NOTIFY OK] status=idle experiment=gpu-queue-idle
+QUEUE_IDLE_NOTIFIED 2026-10-17T00:50:10Z

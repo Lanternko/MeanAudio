@@ -1,0 +1,12 @@
+{
+  "status": "completed",
+  "at": "2026-10-16T18:09:40.735100+00:00",
+  "files": 89329,
+  "bytes": 25872793877,
+  "source": "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/stimuli",
+  "destination": "/mnt/seagate/kojiek_data/metric_invariance_128_inputs/126b_stimuli",
+  "preserved_original_path_symlink": true,
+  "manifest": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/input_relocation_manifest.json",
+  "manifest_sha256": "cc9e4cf21ed5f1c85eebec66fd5f455142a5d2ea1bfa0e7a1fbfddaa3454a7e6",
+  "root_free_bytes": 68725264384
+}

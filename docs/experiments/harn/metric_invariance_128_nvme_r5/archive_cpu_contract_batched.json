@@ -1,0 +1,14 @@
+{
+  "run_id": "128-nvme-r5-cold-archive-batched",
+  "at": "2026-10-17T17:28:44.687130+00:00",
+  "authorization": "Restore user stated new-data-NVMe / old-data-Seagate placement; current study data and thresholds unchanged.",
+  "driver_sha256": "d78a094ae49b9e0b5cb0e72bd2dbdeb8fae7206047a3a023358372c559517d82",
+  "plan_sha256": "e78c88f27599fb7d568bb87f4f17558e6ab08b8b31d8d6bed6daf3742ecc18ee",
+  "cpu_copy_workers": 4,
+  "gpu": false,
+  "hard_floor_bytes": 53687091200,
+  "commit": "Batch copying, then fsync every copied file before SHA256 recheck and atomic directory exchange; original copies remain until all durable.",
+  "cleanup": "only exact verified former NVMe source directory under audio.nvme_r5_exchange; all data retained in archive",
+  "failure": "retain copies and incident, block GPU restart",
+  "partial_copy_recovery": "Existing complete copies must match source hashes; interrupted partials retained in copy_attempt_1_partials."
+}

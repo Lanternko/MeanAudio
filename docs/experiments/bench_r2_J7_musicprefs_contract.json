@@ -1,0 +1,142 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "bench-r2-J7_musicprefs-20261027",
+ "job": "160",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Score the whole MusicPrefs column (HF i-need-sleep/musicprefs, 2,515 pairwise preferences, 7 systems, 120 prompts, 2 axes) with all nine metrics on native raw audio, and report pairwise agreement with the r2 G3 tie rule m = 0.10 * (max-min of the metric) plus the Bradley-Terry held-out human ceiling.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/results/benchmark_screening_full_matrix_20261027.md",
+ "preregistration": "/home/kojiek/MeanAudio/docs/experiments/benchmark_screening_r2_20261025.md",
+ "data_card": "/home/kojiek/MeanAudio/docs/experiments/results/benchmark_screening_r2_overlap_audit_20261027.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-27",
+  "text": "Dispatch task 20261027-062114-c2f6bf. MusicPrefs has NO license declaration: internal research use only, do not redistribute the audio or the derived cache; report it as internal-only."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Eval-only scoring of 5,030 unique clips x 9 metrics, estimate 2-3.5 h. Output /mnt/seagate/benchmarks_r2/{scores,analysis_extra}.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/160_bench_r2_J7_musicprefs.sh",
+  "launcher_sha256": "f5fae20d7523017d2f0dc46b67831af4259849f782db085bdb275f15abb75030",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/bench_r2_guest.py",
+  "harn_sha256": "4250ca29bebded705f9651a699402fc3168347f7a60d92573b0b516397e5c5ab",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_extra.py",
+  "action_sha256": "85d8bdcf14edc1c8bc3abd3cd7469775ea5d214eef5b19b3aaa9b6337dbe93e2",
+  "bench_datasets": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/bench_datasets.py",
+  "bench_datasets_sha256": "a29bfe6450a29d4cf74f9ea6bb8afba2e9217e0dba4757b76c8298b98103a8f4",
+  "extra_datasets": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/extra_datasets.py",
+  "extra_datasets_sha256": "659b1fbc9b7b698b45c128ffd65301dfae29679dcf717add6d5c8fcd31285a1d",
+  "score_r2": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/score_r2.py",
+  "score_r2_sha256": "e1d4b3ab9d5c7f60e6cd90f08c8e276e18204da6409c480b6bbb3b96dbfc8cca",
+  "score_extra": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/score_extra.py",
+  "score_extra_sha256": "cda1a861e6125a60d98f03d4a32a294bb1b867d18a41404c93d6a40dd9d7db69",
+  "analyze_r2": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/analyze_r2.py",
+  "analyze_r2_sha256": "f41bad1d341db89a0760e73cddf92151b60c2bc708f716122bb26bc12b6083b0",
+  "analyze_extra_cells": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/analyze_extra_cells.py",
+  "analyze_extra_cells_sha256": "39a0d607e860873cca180b21bf71fa09823d5bf43cab8ebe24375a66e890127b",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_extra.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_extra.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/bench_r2/run_extra.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the summary json after --validate-only passes (every unit scored or in .err.tsv, extra_cells.json present)"
+ },
+ "fixed_protocol": {
+  "job": "J7",
+  "cells": [
+   {
+    "dataset": "musicprefs",
+    "variant": "native",
+    "loud": "raw",
+    "models": [
+     "aes",
+     "pam",
+     "meva",
+     "muqeval_A1",
+     "muqeval_A3a",
+     "cmirm",
+     "songeval",
+     "singmos",
+     "clap"
+    ]
+   }
+  ],
+  "prep": [
+   "musicprefs"
+  ],
+  "analyze_datasets": [
+   "musicprefs"
+  ],
+  "nboot": 2000,
+  "seed_r2": 20261025,
+  "seed_r1": 20261020,
+  "min_free_bytes": 21474836480
+ },
+ "storage": {
+  "path": "/mnt/seagate/benchmarks_r2",
+  "min_free_bytes": 21474836480,
+  "note": "audio cache derived/musicprefs -> /home/kojiek/eval_output_nvme/bench_r2_derived/musicprefs (8.7 GB, symlink); parquet sources stay in downloads/musicprefs"
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "row-level resume on unit_id in scores/musicprefs/*.tsv",
+  "pause_progress": "/mnt/seagate/benchmarks_r2/pause_progress_J7_musicprefs.json",
+  "autoresume": "/mnt/seagate/benchmarks_r2/pause_progress_J7_musicprefs.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "downloads/musicprefs parquet (12 shards, 5.3 GB) + human_preference.csv (2,515 rows)",
+  "manifests/musicprefs.tsv (5,030 items) + derived/musicprefs/index.tsv (built 2026-10-27)"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/bench_r2_J7_musicprefs_summary.json"
+  }
+ ],
+ "queue_name": "160_bench_r2_J7_musicprefs.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 21600
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-27",
+   "note": "dispatch task 20261027-062114-c2f6bf; numbering per the 153-158 reservation"
+  },
+  {
+   "date": "2026-10-27",
+   "change": "run_extra.py: index_units uses last two unit_id fields (AIME item ids contain \"|\"); action_sha256 rebound, preflight/validate-only re-verified."
+  },
+  {
+   "date": "2026-10-27",
+   "change": "score_extra.py: unit_id parsing uses first/last fields (AIME item ids contain \"|\"); 1-unit CPU smoke of songeval-on-AIME ok; sha rebound."
+  }
+ ]
+}

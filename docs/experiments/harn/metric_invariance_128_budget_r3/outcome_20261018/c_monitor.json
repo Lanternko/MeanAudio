@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-17T09:16:59Z",
+  "child_pid": null,
+  "child_start_time": null,
+  "filesystems": [
+    {
+      "free_bytes": 3261073784832,
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/c",
+      "state": "ok"
+    },
+    {
+      "free_bytes": 61283409920,
+      "path": "/home/kojiek/MeanAudio",
+      "state": "warning"
+    }
+  ],
+  "progress": [
+    0,
+    0,
+    0
+  ]
+}

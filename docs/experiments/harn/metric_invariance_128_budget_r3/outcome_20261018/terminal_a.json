@@ -1,0 +1,18 @@
+{
+  "evidence": {
+    "eval_only": true,
+    "reports": [
+      {
+        "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/summary.json",
+        "sha256": "2e8dacee5d46775473d7f5443590a39c034454744c6c030a0d6bb1deb69e4a23"
+      }
+    ]
+  },
+  "notification_receipt": {
+    "event": "success",
+    "path": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_budget_r3/success.json",
+    "status": "success"
+  },
+  "status": "completed",
+  "written_at": "2026-10-17T09:16:20Z"
+}

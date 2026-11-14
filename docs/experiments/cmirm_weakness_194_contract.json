@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "cmirm-weakness-194-20261113",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "194_cmirm_weakness.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only. CMI-RM weakness: Part A 8 text variants x 9 MusicCaps bases x 1000 ids (no dev/test split); Part C 150 MUSDB 60 s tracks, base30/base60 consistency, noise/low-pass in first vs second 30 s, empty and fixed text. CMI-RM scored only."
+  },
+  "question": "Does CMI-RM quality react to text manipulation (cap/empty/irrelevant/HQ/LQ prefixes), and is it blind beyond its 30 s window?",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/cmirm_weakness_194_20261113.md",
+  "design_document_sha256": "0af7dd081cc7925e753b692e80a2e7f9270ccc2ee642ddf80679c2a329300747",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/cmirm_weakness_194_20261113.md",
+    "primary": "Part A E1/E2 counts over 9 bases (not_established/base_dependent/established); Part C verdicts blind_spot_beyond_30s vs sees_beyond_30s",
+    "margins": {
+      "m_q_cap": 0.0657,
+      "m_q_empty": 0.145
+    },
+    "bootstrap": {
+      "n": 5000,
+      "seed": 20261113
+    },
+    "seed": 20261113,
+    "consistency": "mean |dq| base30 vs base60 > 0.01 raises",
+    "fifo": "GPU free < 8 GiB -> rc 75"
+  },
+  "deviations": {
+    "see": "driver docstring and design section 3b"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/cmirm_weakness_194",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/cmirm_weakness_194/pause_progress_194_cmirm_weakness.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/cmirm_weakness_194/pause_progress_194_cmirm_weakness.json",
+    "note": "stage-level restart: per-cell per_clip/*.tsv caches; selection.json/split.json frozen once written; a partial cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/cmirm_weakness_194/per_clip/*",
+      "/home/kojiek/eval_output_nvme/cmirm_weakness_194/*.json",
+      "/home/kojiek/eval_output_nvme/cmirm_weakness_194/*.log"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/cmirm_weakness_194/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/cmirm_weakness_194.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/cmirm_weakness_194.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/cmirm_weakness_194.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/eval_output_nvme/cmirm_weakness_194/summary.json"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/cmirm_weakness_194/summary_table.md"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/194_cmirm_weakness.sh",
+    "launcher_sha256": "b81430d5affb4437a9577b8bc8a18478b090adda74fac7ba75e50f1d9aacfd24",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/cmirm_weakness_194_guest.py",
+    "harn_sha256": "505e240bcca42bb266cb29fa5fb1aa7d003b684f9dea7e7d2abae905c9fe69ad",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/cmirm_weakness_194.py",
+    "action_sha256": "f75ca31dc9e65ef1b41eac55647c6d277ff7b7cb791097f21e1fa6d9fc361288"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+      "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+      "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_pam.py",
+      "sha256": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_cmirm.py",
+      "sha256": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+      "sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+      "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+      "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "sha256": "abdc18a35c2989a760c6246b3d975c426099700cea81f17d56411b2c501b1df4"
+    }
+  ]
+}

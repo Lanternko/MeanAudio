@@ -1,0 +1,1 @@
+PASS: all 139 protected quiet_r2 files unchanged; protocol differs only by approved 25200→32400 second estimate budget. Same frozen input manifest, seeds, candidates and scientific rules; all three freshly regenerated scans bound to every contract; all immutable file hashes valid.

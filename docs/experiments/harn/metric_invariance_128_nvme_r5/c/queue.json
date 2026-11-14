@@ -1,0 +1,43 @@
+{
+  "document_kind": "queue_state",
+  "entries": [
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "f90841c6ab1399a2cf90d76cd7f8e805329a8f3fcb90c4e3fbb83924d33e4dd5",
+        "ledger_raw_sha256": "9b5cf10b45d66d38eaaa02a6fa753aa2dfb4cca0dea04da8b2e4aa032f76de26",
+        "preflight_report_raw_sha256": "1afaecec4464eab3b6db292a4b68415e3454a2face6c321cb19e5ad97f18e257",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [],
+      "entry_id": "129_metric_invariance_table_b_nvme_r5",
+      "experiment_id": "metric-invariance-128b-20261017_nvme_r5",
+      "position": 1,
+      "run_id": "run-20261018-129-metric-invariance_nvme_r5",
+      "status": "ready",
+      "terminal_notification_status": "not_applicable"
+    },
+    {
+      "assigned_resource": null,
+      "bindings": {
+        "contract_raw_sha256": "252fe15f93720c3dc80d298190a99348503353aeb706e0060973491334761734",
+        "ledger_raw_sha256": "29ac4408d129cd835b11927f1d831e9d08b6e96cc8112b545832d6cdfe72c265",
+        "preflight_report_raw_sha256": "013e8ce3cb3aec720dc476dd739627aa30ca34f09b470364c312baa43d6c0bb7",
+        "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+      },
+      "dependencies": [
+        "129_metric_invariance_table_b_nvme_r5"
+      ],
+      "entry_id": "130_metric_invariance_negmf_nvme_r5",
+      "experiment_id": "metric-invariance-128c-20261017_nvme_r5",
+      "position": 2,
+      "run_id": "run-20261018-130-metric-invariance_nvme_r5",
+      "status": "blocked",
+      "terminal_notification_status": "not_applicable"
+    }
+  ],
+  "queue_id": "p2-run-20261018-130-metric-invariance_nvme_r5",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "updated_at": "2026-10-17T17:37:15.629099+00:00"
+}

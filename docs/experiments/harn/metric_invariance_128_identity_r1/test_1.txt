@@ -1,0 +1,2 @@
+PASS: 2 positive modes, 31 semantic/schema abuse cases, 13 strict-loader rejections, 3 actual raw-byte mutation cases, explicit in-memory raw-hash gating, offline schema meta-validation, and CLI notice
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
