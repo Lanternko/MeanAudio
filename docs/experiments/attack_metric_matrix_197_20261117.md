@@ -165,3 +165,4 @@ CLAP 逐檔。表 2 沒有 caption：CLAP 欄留空。
 - **D9** 表 2 沒有 caption：CLAP 記 NaN，`CMI_q` 欄放空 prompt 的分數。
 - **D10** MIDI 讀回檢查用 `~/karaoke-jp` venv 的 pretty_midi；合成用 fluidsynth。
 - **D13** 189／190／193 的列只重整既有逐段分數，不重評。
+- **D14（2026-11-17，評分開始前）**：preflight 的 GPU 空顯存門檻由 20 GiB 降為 17 GiB。理由：同一組評分器、同 chunk 64 在 195／196 的實測峰值是 torch reserved 14.5 GiB、nvidia-smi 約 15.6 GiB；GPU 上另有一支占 13.9 GiB 的訓練，20 GiB 門檻讓 197 無限等待。只改等待條件，不改評分設定（chunk、評分器、刺激）；改動時 197 尚未產生任何評分輸出。

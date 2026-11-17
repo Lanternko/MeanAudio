@@ -608,7 +608,7 @@ def preflight(smoke, part):
             log(f'PREFLIGHT WAIT MemAvailable {Q.mem_available_gb():.1f} GiB < {need_mem} GiB')
             return 75
         f = P.free_mib()
-        need_gpu = (14 if smoke else 20) * 1024        # smoke: chunk 16, torch reserved peak ~15 GiB
+        need_gpu = (14 if smoke else 17) * 1024        # full: same scorer stack as 195/196, nvidia-smi peak ~15.6 GiB (D14)
         if f < need_gpu:
             log(f'PREFLIGHT WAIT GPU free {f} MiB < {need_gpu} MiB')
             return 75

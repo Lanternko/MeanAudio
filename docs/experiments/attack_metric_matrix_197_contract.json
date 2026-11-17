@@ -18,7 +18,7 @@
   },
   "question": "Which simple attacks does each metric catch / miss / get direction wrong on (Table 1 any-audio, Table 2 MIDI)?",
   "design_document": "/home/kojiek/MeanAudio/docs/experiments/attack_metric_matrix_197_20261117.md",
-  "design_document_sha256": "ec08e2b2a26289ea4fbe1b24f05c52c38d65fdca8c841fcdfadf15971305d2be",
+  "design_document_sha256": "e0352bc242de3a5e52490434e12de37542073b75969661f018a392829307181b",
   "fixed_protocol": {
     "prereg": "docs/experiments/attack_metric_matrix_197_20261117.md",
     "primary": "per design doc: Table 1 6 LISTEN bases equal weight; markers * CI excludes 0, ** CI outside +-m",
@@ -105,7 +105,7 @@
     "harn": "/home/kojiek/MeanAudio/scripts/eval/attack_metric_matrix_197_guest.py",
     "harn_sha256": "008b985f9cd5bf1ba1812c6022a4e853bc743e3bfcb750e743957da76453d438",
     "action": "/home/kojiek/MeanAudio/scripts/eval/attack_metric_matrix_197.py",
-    "action_sha256": "0c52abfa5e8fbe198c04a43e0d5f2a005b36e225f0442d5088b2549b459858e8"
+    "action_sha256": "18c74c9c4f192d9257f68cb8a694df6df1b5c24ffe56f62b089a8e4d6c0bf766"
   },
   "code_bindings": [
     {
