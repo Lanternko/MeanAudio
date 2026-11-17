@@ -132,6 +132,7 @@
 | **2026-10-21 會議用進度＋問題清單** | `docs/meetings/2026-10-21_progress_and_questions.md` |
 | **2026-10-27 會議**（Arena 改預測一致率、S 先沿用但傾向顯著性檢定、MERT-ref 要講清楚出處與方法、要實際數字不只通過率；新主線：觀察式找 MuQ 漏洞（不做對抗攻擊）→ 有弱點就攻擊＋簡單修補、沒有就寫分析；補 lowpass 8k／12k；RTX 5080 可用；目標三月投稿） | `docs/meetings/2026-10-27_metric_screening_mert_attack.md` |
 | **2026-11-17 會議**（攻擊 × 指標整理成兩張大表：表 1 任何音檔都能做的處理、表 2 MIDI；同一包資料、標顯著性、沒影響也要寫；不用 gradient、要一句話配方；移調／變速／低通只能不變或變差、變好＝錯；CE 追「調還是音高」（C4→C5、大小調分開）；CMI-RM 先讀懂分數定義；下一步修補：self-training 讓處理後分數＝原版、留一兩個攻擊當 held-out；簡報約 4 頁；週五 11/21 17:00 線上） | `docs/meetings/2026-11-17_attack_matrix_and_fix.md` |
+| **197 攻擊 × 指標兩張大表**（2026-11-17 排入 p2 197，eval-only，估 7.5–11 h：表 1＝任何音檔的處理，同一包 9 個 MusicCaps 底 × 1,000 id（主表 6 個能聽的底）——197 新評 14 列（±6 dB、前補 0.5 秒靜音、rubberband 移調 ±1／±2、變速 0.9／1.1 與處理底 `rb_id`、每 0.5 秒大鼓／隨機大鼓／喀噠、220 Hz 方波、噪音脈衝、同響度鋼琴琶音）＋重整 189／190／193 既有列；表 2＝MIDI：A 區 MAESTRO 150 × 2 SoundFont × 12 介入，B 區 384 段和弦進行（拆法 block／up／down／rep、o4／o5、大小調 × 12 主音）；欄＝A1／PQ／CE／CMI-RM；每列先登錄預期方向（移調／變速／低通只能不變或變差），`*` CI 不跨零、`**` 超出平手帶；R1＝方向錯格數、R2＝盲點格數） | `docs/experiments/attack_metric_matrix_197_20261117.md`、`docs/experiments/attack_metric_matrix_197_contract.json`、`scripts/analysis/attack_metric_matrix_tables.py` |
 | **LALM 評審文獻定位**（MQAScore：Yes／No 逐概念、刻意排除音質；MRMAD：Qwen2.5-Omni 音樂劣化兩段比較 49.6%＝擲硬幣） | `docs/literature/lalm_judge_mqascore_mrmad_2026_10_15.md` |
 | **2026-10-14 會議**（控制實驗改用真實曲、紅綠燈、FAD 檢查、LALM 評審、「0.47」出處） | `docs/meetings/2026-10-14_metric_controls_real_pieces_fad_lalm.md` |
 | 五首固定主觀 prompt + 下載指令 | `docs/eval/subjective_prompts.md` |
