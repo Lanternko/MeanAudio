@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "ce-overlay-interp-198-20261119",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "198_ce_overlay_interp.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": false,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only, AES only. CE overlay interpolation ladder: 9 MusicCaps bases x 196 dev 200 ids x 8 overlays x 9 r_rel (+base, +only), -30 LUFS; replication gate vs 196 e00 cells."
+  },
+  "question": "Do overlays land between base and overlay-alone CE, at the exact middle, and does CE rise monotonically with overlay level?",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/ce_overlay_interp_198_20261119.md",
+  "design_document_sha256": "b07b69a1e4ab3c60cf427995e7a32b14e923255beec2c9251bfa2facc837e524",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/ce_overlay_interp_198_20261119.md",
+    "primary": "pooled interpolation position p per overlay x r_rel; middle = CI contains 0.5; monotone tolerance 0.119 (CE)",
+    "margins": {
+      "PQ": 0.0914,
+      "CE": 0.119
+    },
+    "bootstrap": {
+      "n": 2000,
+      "seed": 198
+    },
+    "seed": 198,
+    "fifo": "GPU free < 8 GiB or MemAvailable < 14 GiB -> rc 75",
+    "hard_cap_hours": 6
+  },
+  "deviations": {
+    "see": "design doc section 5",
+    "D1": "overlay gain uncapped (196 capped peak at 0.999); +18 is info only, gate on -12..+12",
+    "D2": "real x music has delta_only == 0 -> p null",
+    "D3": "base rescored, not read from 196"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/ce_overlay_interp_198",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/pause_progress_198_ce_overlay_interp.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/pause_progress_198_ce_overlay_interp.json",
+    "note": "per-cell per_clip/*.tsv caches; partial cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/per_clip/*",
+      "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/*.json",
+      "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/*.log"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/ce_overlay_interp_198.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/ce_overlay_interp_198.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/ce_overlay_interp_198.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/summary.json"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/ce_overlay_interp_198/projection.json"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/198_ce_overlay_interp.sh",
+    "launcher_sha256": "bcb8425c29ade07c6b56178d19bcfbdb58f38d7dd3b011a06fa46c11e3890125",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/ce_overlay_interp_198_guest.py",
+    "harn_sha256": "62234a1e4437d76002358078f1d46075731c76b26bd486de54113ced76236ed4",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/ce_overlay_interp_198.py",
+    "action_sha256": "162fad65d5888ebe4c4be7c4016966f32ad54c16bc0d4aa538d3dec2331d18e4"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+      "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+      "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_pam.py",
+      "sha256": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_cmirm.py",
+      "sha256": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+      "sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+      "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+      "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "sha256": "abdc18a35c2989a760c6246b3d975c426099700cea81f17d56411b2c501b1df4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_stimuli.py",
+      "sha256": "a6ec0097f48b980e4daeded1c980806e2625bc6ba94e7a9ea123b33794552f1e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/ce_weakness_195.py",
+      "sha256": "ea9f88d9570ff07383b1bbeb35e1ed42ff5b754782f1023d4ad2a77b3b82ab6f"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/ce_push_196.py",
+      "sha256": "255cb9c1bd4ca9e1b4a6feef3692abda90fe9d33ff3bc7cdca75078f1e3ae24a"
+    }
+  ],
+  "gpu_launch_allowed": true
+}
