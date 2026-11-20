@@ -1,0 +1,177 @@
+{
+  "approval_requirement": {
+    "required": true,
+    "responsible_role": "responsible-operator",
+    "trusted_channels": [
+      "operator_console"
+    ]
+  },
+  "bindings": {
+    "command_set_sha256": "d38e625839f1836c5d25a07a9df788c9b22b305e41c4673f4caea2ee0ad37f9f",
+    "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+    "runtime_sha256": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+  },
+  "commands": [
+    {
+      "action_id": "launch",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/128_metric_invariance_calibration_identity_r1.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "resume",
+      "argv": [
+        "/bin/bash",
+        "/home/kojiek/gpu_queue/p2/pending/128_metric_invariance_calibration_identity_r1.sh"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "preflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--preflight"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    },
+    {
+      "action_id": "postflight",
+      "argv": [
+        "/home/kojiek/venvs/dac/bin/python",
+        "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+        "--validate-only"
+      ],
+      "environment": {
+        "CUDA_VISIBLE_DEVICES": "0",
+        "PYTHONUNBUFFERED": "1"
+      },
+      "working_directory": "/home/kojiek/MeanAudio"
+    }
+  ],
+  "corpus": {
+    "kind": "non_generated",
+    "source_artifacts": [
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128a_20261017_identity_r1_contract.json",
+        "sha256": "1fefd80683e91d4178cc11bd530ebe4461ec6787cb3a5ced96bad9eb36d13b64"
+      },
+      {
+        "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/inputs.json",
+        "sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/operator_request.txt",
+        "sha256": "f99f8fbf6bdc261a963d2ca10b4f8385edde1f3efadbe8ced4d7b7f9b3af0fe5"
+      },
+      {
+        "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/acceptance.json",
+        "sha256": "e4af342fdbfa55a5f84099669bed6d197f6e23bfe28633677085a2c5e22758de"
+      }
+    ]
+  },
+  "document_kind": "experiment_contract",
+  "experiment_id": "metric-invariance-128a-20261017_identity_r1",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_identity_r1/a",
+      "peak_additional_bytes": 2147483648,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 536870912,
+      "warning_floor_bytes": 85899345920
+    },
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/home/kojiek/MeanAudio",
+      "peak_additional_bytes": 6442450944,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 104857600,
+      "warning_floor_bytes": 64424509440
+    }
+  ],
+  "notification_events": [
+    "queue_handoff",
+    "start",
+    "preflight_pass",
+    "smoke_pass",
+    "calibration_gate",
+    "success",
+    "failure",
+    "held",
+    "interrupted",
+    "paused",
+    "preflight_invalid",
+    "postflight_invalid",
+    "disk_hard_stop",
+    "disk_warning",
+    "storage_recovered",
+    "stall",
+    "smoke_budget_invalid",
+    "budget_deferred",
+    "controller_incident"
+  ],
+  "phases": [
+    {
+      "action_id": "launch",
+      "completion_evidence": [
+        {
+          "path": "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+          "sha256": "04346f874a6888b7aa473d938c2c0b8e2b0921a33e80c9367d72a52e329bd30b"
+        }
+      ],
+      "input_artifacts": [
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128a_20261017_identity_r1_contract.json",
+          "sha256": "1fefd80683e91d4178cc11bd530ebe4461ec6787cb3a5ced96bad9eb36d13b64"
+        },
+        {
+          "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/inputs.json",
+          "sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/operator_request.txt",
+          "sha256": "f99f8fbf6bdc261a963d2ca10b4f8385edde1f3efadbe8ced4d7b7f9b3af0fe5"
+        },
+        {
+          "path": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_identity_r1/acceptance.json",
+          "sha256": "e4af342fdbfa55a5f84099669bed6d197f6e23bfe28633677085a2c5e22758de"
+        }
+      ],
+      "output_paths": [
+        "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_identity_r1/a/summary.json"
+      ],
+      "phase_id": "smoke-and-calibration",
+      "resume_action_id": "resume"
+    }
+  ],
+  "repair": {
+    "enabled": false
+  },
+  "required_preflight_checks": [
+    "policy",
+    "provenance",
+    "storage",
+    "acceptance",
+    "queue",
+    "watcher"
+  ],
+  "run_id": "run-20261017-128-metric-invariance_identity_r1",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0"
+}

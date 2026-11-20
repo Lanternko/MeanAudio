@@ -1,0 +1,622 @@
+{
+ "n_decided": 1412,
+ "n_wide_gap": 637,
+ "human_prefers_wider_in_wide_gap": 0.46938775510204084,
+ "cols": {
+  "A1_MI": {
+   "F0": {
+    "forced": 0.6260623229461756,
+    "forced_ci": [
+     0.5998406515580736,
+     0.6515580736543909
+    ],
+    "agree_m": 0.6048158640226629,
+    "m": 0.5900573000000001,
+    "forced_wide": 0.6640502354788069,
+    "forced_narrow": 0.5948387096774194,
+    "bt_tau": 0.5238095238095238,
+    "sys_mean": {
+     "musicgen-small": 3.2464920545454548,
+     "riffusion-fuzz-1-1": 4.521213623076924,
+     "preview-ocelot": 4.712032270833333,
+     "preview-jerboa": 4.723588818181819,
+     "magenta-rt-large": 3.86574694100295,
+     "acestep": 3.8116848421052634,
+     "riffusion-fuzz-1-0": 4.436451927083334,
+     "sonauto-v2-2": 4.255012531626506,
+     "elevenlabs-music-v1": 3.9931241258278147,
+     "musicgen-medium": 3.441281130597015,
+     "lyria-3-30s": 4.633561890173411,
+     "sonauto-v3-preview": 4.171278504347826,
+     "acestep-1.5-turbo-1.7b": 4.358966707373272,
+     "lyria-3-pro-preview": 4.79190635243553,
+     "magenta-rt-2-base": 3.6963845645161286
+    }
+   },
+   "sr16k": {
+    "forced": 0.6550991501416431,
+    "forced_ci": [
+     0.6288951841359773,
+     0.6813031161473088
+    ],
+    "agree_m": 0.6207507082152974,
+    "m": 0.5147202000000001,
+    "forced_wide": 0.6891679748822606,
+    "forced_narrow": 0.6270967741935484,
+    "bt_tau": 0.5047619047619049,
+    "sys_mean": {
+     "musicgen-small": 3.410381575757576,
+     "riffusion-fuzz-1-1": 4.7901195,
+     "preview-ocelot": 4.929996708333333,
+     "preview-jerboa": 4.978795945454546,
+     "magenta-rt-large": 3.9743204513274337,
+     "acestep": 4.09298105263158,
+     "riffusion-fuzz-1-0": 4.786222513888889,
+     "sonauto-v2-2": 4.3421637018072285,
+     "elevenlabs-music-v1": 4.261057441501104,
+     "musicgen-medium": 3.531229764925373,
+     "lyria-3-30s": 4.880015797687862,
+     "sonauto-v3-preview": 4.324989017391305,
+     "acestep-1.5-turbo-1.7b": 4.555041405529954,
+     "lyria-3-pro-preview": 5.006353859598853,
+     "magenta-rt-2-base": 3.790711290322581
+    },
+    "delta_forced": 0.02903682719546742,
+    "delta_forced_ci": [
+     0.009915014164305949,
+     0.04886685552407932
+    ],
+    "delta_forced_wide": 0.02511773940345369,
+    "delta_forced_wide_ci": [
+     -0.0015698587127158557,
+     0.05023547880690738
+    ],
+    "n_flipped": 195,
+    "sys_delta": {
+     "musicgen-small": 0.16388952121212125,
+     "riffusion-fuzz-1-1": 0.268905876923077,
+     "preview-ocelot": 0.21796443749999997,
+     "preview-jerboa": 0.25520712727272726,
+     "magenta-rt-large": 0.10857351032448379,
+     "acestep": 0.2812962105263158,
+     "riffusion-fuzz-1-0": 0.3497705868055555,
+     "sonauto-v2-2": 0.08715117018072287,
+     "elevenlabs-music-v1": 0.26793331567328915,
+     "musicgen-medium": 0.08994863432835823,
+     "lyria-3-30s": 0.2464539075144509,
+     "sonauto-v3-preview": 0.15371051304347833,
+     "acestep-1.5-turbo-1.7b": 0.19607469815668202,
+     "lyria-3-pro-preview": 0.2144475071633238,
+     "magenta-rt-2-base": 0.0943267258064516
+    },
+    "sys_delta_vs_8kup_spearman": 0.7321428571428571,
+    "sys_rank_spearman_vs_F0": 0.9964285714285712
+   },
+   "lp8k": {
+    "forced": 0.6494334277620396,
+    "forced_ci": [
+     0.623229461756374,
+     0.6749291784702549
+    ],
+    "agree_m": 0.6246458923512748,
+    "m": 0.4987093000000001,
+    "forced_wide": 0.6907378335949764,
+    "forced_narrow": 0.6154838709677419,
+    "bt_tau": 0.5047619047619049,
+    "sys_mean": {
+     "musicgen-small": 3.5035401939393935,
+     "riffusion-fuzz-1-1": 4.799544646153846,
+     "preview-ocelot": 4.9518979375,
+     "preview-jerboa": 4.990790109090908,
+     "magenta-rt-large": 4.016277259587021,
+     "acestep": 4.070219488721805,
+     "riffusion-fuzz-1-0": 4.784607194444444,
+     "sonauto-v2-2": 4.407003509036144,
+     "elevenlabs-music-v1": 4.266746479028697,
+     "musicgen-medium": 3.6341908470149256,
+     "lyria-3-30s": 4.879912676300578,
+     "sonauto-v3-preview": 4.414752860869565,
+     "acestep-1.5-turbo-1.7b": 4.5900487142857145,
+     "lyria-3-pro-preview": 4.987754618911175,
+     "magenta-rt-2-base": 3.82928395967742
+    },
+    "delta_forced": 0.023371104815864022,
+    "delta_forced_ci": [
+     0.004939801699716715,
+     0.04180240793201124
+    ],
+    "delta_forced_wide": 0.026687598116169546,
+    "delta_forced_wide_ci": [
+     0.0015698587127158557,
+     0.05180533751962323
+    ],
+    "n_flipped": 181,
+    "sys_delta": {
+     "musicgen-small": 0.2570481393939394,
+     "riffusion-fuzz-1-1": 0.2783310230769231,
+     "preview-ocelot": 0.23986566666666667,
+     "preview-jerboa": 0.2672012909090909,
+     "magenta-rt-large": 0.1505303185840708,
+     "acestep": 0.25853464661654135,
+     "riffusion-fuzz-1-0": 0.3481552673611111,
+     "sonauto-v2-2": 0.15199097740963854,
+     "elevenlabs-music-v1": 0.273622353200883,
+     "musicgen-medium": 0.19290971641791044,
+     "lyria-3-30s": 0.24635078612716768,
+     "sonauto-v3-preview": 0.24347435652173915,
+     "acestep-1.5-turbo-1.7b": 0.23108200691244243,
+     "lyria-3-pro-preview": 0.19584826647564474,
+     "magenta-rt-2-base": 0.1328993951612903
+    },
+    "sys_delta_vs_8kup_spearman": 0.5535714285714285,
+    "sys_rank_spearman_vs_F0": 0.9892857142857142
+   }
+  },
+  "A1_TA": {
+   "F0": {
+    "forced": 0.5694050991501416,
+    "forced_ci": [
+     0.5432011331444759,
+     0.5941926345609065
+    ],
+    "agree_m": 0.5527620396600567,
+    "m": 0.5111196,
+    "forced_wide": 0.598116169544741,
+    "forced_narrow": 0.5458064516129032,
+    "bt_tau": 0.3904761904761905,
+    "sys_mean": {
+     "musicgen-small": 3.051344224242424,
+     "riffusion-fuzz-1-1": 3.878721861538461,
+     "preview-ocelot": 4.1042391875,
+     "preview-jerboa": 4.0405123454545455,
+     "magenta-rt-large": 3.5828412241887904,
+     "acestep": 3.6353993458646614,
+     "riffusion-fuzz-1-0": 3.829496597222222,
+     "sonauto-v2-2": 3.891826609939759,
+     "elevenlabs-music-v1": 3.5881054746136867,
+     "musicgen-medium": 3.213151421641791,
+     "lyria-3-30s": 3.976099612716763,
+     "sonauto-v3-preview": 3.975170626086957,
+     "acestep-1.5-turbo-1.7b": 3.890141322580645,
+     "lyria-3-pro-preview": 4.062123146131805,
+     "magenta-rt-2-base": 3.4476129193548393
+    }
+   },
+   "sr16k": {
+    "forced": 0.5856940509915014,
+    "forced_ci": [
+     0.5609065155807366,
+     0.6112075070821529
+    ],
+    "agree_m": 0.5626770538243626,
+    "m": 0.6182539,
+    "forced_wide": 0.609105180533752,
+    "forced_narrow": 0.5664516129032258,
+    "bt_tau": 0.4666666666666667,
+    "sys_mean": {
+     "musicgen-small": 3.2409572969696967,
+     "riffusion-fuzz-1-1": 4.084739864102564,
+     "preview-ocelot": 4.216092770833334,
+     "preview-jerboa": 4.211975400000001,
+     "magenta-rt-large": 3.7052123805309733,
+     "acestep": 3.7222082105263157,
+     "riffusion-fuzz-1-0": 4.09341879513889,
+     "sonauto-v2-2": 3.9629147816265067,
+     "elevenlabs-music-v1": 3.8346074790286977,
+     "musicgen-medium": 3.366452328358209,
+     "lyria-3-30s": 4.170888005780347,
+     "sonauto-v3-preview": 4.008695086956521,
+     "acestep-1.5-turbo-1.7b": 4.100011811059908,
+     "lyria-3-pro-preview": 4.214636876790831,
+     "magenta-rt-2-base": 3.5532145080645168
+    },
+    "delta_forced": 0.016288951841359773,
+    "delta_forced_ci": [
+     -0.0035410764872521247,
+     0.03824362606232295
+    ],
+    "delta_forced_wide": 0.01098901098901099,
+    "delta_forced_wide_ci": [
+     -0.01887755102040816,
+     0.04081632653061224
+    ],
+    "n_flipped": 223,
+    "sys_delta": {
+     "musicgen-small": 0.18961307272727274,
+     "riffusion-fuzz-1-1": 0.20601800256410255,
+     "preview-ocelot": 0.11185358333333333,
+     "preview-jerboa": 0.17146305454545457,
+     "magenta-rt-large": 0.1223711563421829,
+     "acestep": 0.0868088646616541,
+     "riffusion-fuzz-1-0": 0.2639221979166667,
+     "sonauto-v2-2": 0.07108817168674697,
+     "elevenlabs-music-v1": 0.24650200441501102,
+     "musicgen-medium": 0.1533009067164179,
+     "lyria-3-30s": 0.1947883930635838,
+     "sonauto-v3-preview": 0.03352446086956522,
+     "acestep-1.5-turbo-1.7b": 0.20987048847926268,
+     "lyria-3-pro-preview": 0.1525137306590258,
+     "magenta-rt-2-base": 0.10560158870967745
+    },
+    "sys_delta_vs_8kup_spearman": 0.1928571428571428,
+    "sys_rank_spearman_vs_F0": 0.9392857142857142
+   },
+   "lp8k": {
+    "forced": 0.580028328611898,
+    "forced_ci": [
+     0.5545325779036827,
+     0.6062322946175638
+    ],
+    "agree_m": 0.5676345609065155,
+    "m": 0.45305320000000004,
+    "forced_wide": 0.609105180533752,
+    "forced_narrow": 0.5561290322580645,
+    "bt_tau": 0.48571428571428577,
+    "sys_mean": {
+     "musicgen-small": 3.3289775454545456,
+     "riffusion-fuzz-1-1": 4.128984446153846,
+     "preview-ocelot": 4.2992591875,
+     "preview-jerboa": 4.2656366181818175,
+     "magenta-rt-large": 3.7722504247787607,
+     "acestep": 3.680512052631579,
+     "riffusion-fuzz-1-0": 4.15230429861111,
+     "sonauto-v2-2": 4.030639685240964,
+     "elevenlabs-music-v1": 3.8697371258278146,
+     "musicgen-medium": 3.418060929104478,
+     "lyria-3-30s": 4.185228612716763,
+     "sonauto-v3-preview": 4.124835686956522,
+     "acestep-1.5-turbo-1.7b": 4.1315591589861755,
+     "lyria-3-pro-preview": 4.252862189111748,
+     "magenta-rt-2-base": 3.5626333225806452
+    },
+    "delta_forced": 0.010623229461756374,
+    "delta_forced_ci": [
+     -0.009915014164305949,
+     0.031179178470254858
+    ],
+    "delta_forced_wide": 0.01098901098901099,
+    "delta_forced_wide_ci": [
+     -0.01726844583987441,
+     0.0423861852433281
+    ],
+    "n_flipped": 205,
+    "sys_delta": {
+     "musicgen-small": 0.27763332121212125,
+     "riffusion-fuzz-1-1": 0.2502625846153846,
+     "preview-ocelot": 0.19501999999999997,
+     "preview-jerboa": 0.2251242727272727,
+     "magenta-rt-large": 0.18940920058997052,
+     "acestep": 0.04511270676691727,
+     "riffusion-fuzz-1-0": 0.3228077013888889,
+     "sonauto-v2-2": 0.13881307530120485,
+     "elevenlabs-music-v1": 0.28163165121412803,
+     "musicgen-medium": 0.20490950746268655,
+     "lyria-3-30s": 0.20912899999999998,
+     "sonauto-v3-preview": 0.14966506086956527,
+     "acestep-1.5-turbo-1.7b": 0.24141783640552994,
+     "lyria-3-pro-preview": 0.19073904297994268,
+     "magenta-rt-2-base": 0.11502040322580648
+    },
+    "sys_delta_vs_8kup_spearman": 0.08928571428571427,
+    "sys_rank_spearman_vs_F0": 0.9214285714285713
+   }
+  },
+  "A3a_MI": {
+   "F0": {
+    "forced": 0.6671388101983002,
+    "forced_ci": [
+     0.6423335694050991,
+     0.6926345609065155
+    ],
+    "agree_m": 0.5980878186968839,
+    "m": 0.3455285,
+    "forced_wide": 0.7189952904238619,
+    "forced_narrow": 0.6245161290322581,
+    "bt_tau": 0.48571428571428577,
+    "sys_mean": {
+     "musicgen-small": 3.550705515151516,
+     "riffusion-fuzz-1-1": 4.367936697435897,
+     "preview-ocelot": 4.498296291666667,
+     "preview-jerboa": 4.515695618181817,
+     "magenta-rt-large": 3.943430693215339,
+     "acestep": 4.035011052631579,
+     "riffusion-fuzz-1-0": 4.3109153437500005,
+     "sonauto-v2-2": 4.223777620481928,
+     "elevenlabs-music-v1": 4.087069123620309,
+     "musicgen-medium": 3.6913732462686575,
+     "lyria-3-30s": 4.484886959537572,
+     "sonauto-v3-preview": 4.204361443478261,
+     "acestep-1.5-turbo-1.7b": 4.31920059907834,
+     "lyria-3-pro-preview": 4.537688905444126,
+     "magenta-rt-2-base": 3.8251223225806448
+    }
+   },
+   "sr16k": {
+    "forced": 0.6635977337110481,
+    "forced_ci": [
+     0.636685552407932,
+     0.6890934844192634
+    ],
+    "agree_m": 0.6087110481586402,
+    "m": 0.34183700000000006,
+    "forced_wide": 0.7095761381475667,
+    "forced_narrow": 0.6258064516129033,
+    "bt_tau": 0.48571428571428577,
+    "sys_mean": {
+     "musicgen-small": 3.534005781818182,
+     "riffusion-fuzz-1-1": 4.417007538461538,
+     "preview-ocelot": 4.556358979166666,
+     "preview-jerboa": 4.571716836363637,
+     "magenta-rt-large": 3.9209941238938057,
+     "acestep": 4.098162045112782,
+     "riffusion-fuzz-1-0": 4.383668041666667,
+     "sonauto-v2-2": 4.208051356927711,
+     "elevenlabs-music-v1": 4.1437610838852095,
+     "musicgen-medium": 3.6613062313432834,
+     "lyria-3-30s": 4.526305485549133,
+     "sonauto-v3-preview": 4.242052591304348,
+     "acestep-1.5-turbo-1.7b": 4.322202880184332,
+     "lyria-3-pro-preview": 4.53656600286533,
+     "magenta-rt-2-base": 3.824576322580645
+    },
+    "delta_forced": -0.0035410764872521247,
+    "delta_forced_ci": [
+     -0.0169971671388102,
+     0.009206798866855524
+    ],
+    "delta_forced_wide": -0.009419152276295133,
+    "delta_forced_wide_ci": [
+     -0.0282574568288854,
+     0.009419152276295133
+    ],
+    "n_flipped": 89,
+    "sys_delta": {
+     "musicgen-small": -0.01669973333333335,
+     "riffusion-fuzz-1-1": 0.04907084102564101,
+     "preview-ocelot": 0.05806268750000007,
+     "preview-jerboa": 0.056021218181818176,
+     "magenta-rt-large": -0.022436569321533924,
+     "acestep": 0.06315099248120304,
+     "riffusion-fuzz-1-0": 0.07275269791666664,
+     "sonauto-v2-2": -0.015726263554216885,
+     "elevenlabs-music-v1": 0.05669196026490068,
+     "musicgen-medium": -0.030067014925373125,
+     "lyria-3-30s": 0.04141852601156072,
+     "sonauto-v3-preview": 0.037691147826086915,
+     "acestep-1.5-turbo-1.7b": 0.0030022811059907924,
+     "lyria-3-pro-preview": -0.0011229025787965808,
+     "magenta-rt-2-base": -0.0005459999999999964
+    },
+    "sys_delta_vs_8kup_spearman": 0.8607142857142854,
+    "sys_rank_spearman_vs_F0": 0.982142857142857
+   },
+   "lp8k": {
+    "forced": 0.6692634560906515,
+    "forced_ci": [
+     0.6437677053824362,
+     0.6947592067988668
+    ],
+    "agree_m": 0.6090651558073654,
+    "m": 0.3346624,
+    "forced_wide": 0.7221350078492935,
+    "forced_narrow": 0.6258064516129033,
+    "bt_tau": 0.48571428571428577,
+    "sys_mean": {
+     "musicgen-small": 3.5191296787878787,
+     "riffusion-fuzz-1-1": 4.393900412820513,
+     "preview-ocelot": 4.5210886875,
+     "preview-jerboa": 4.532598163636363,
+     "magenta-rt-large": 3.9139069174041303,
+     "acestep": 4.062635338345865,
+     "riffusion-fuzz-1-0": 4.354298538194445,
+     "sonauto-v2-2": 4.193408284638554,
+     "elevenlabs-music-v1": 4.104092249448123,
+     "musicgen-medium": 3.6447549291044776,
+     "lyria-3-30s": 4.480266393063584,
+     "sonauto-v3-preview": 4.2179908,
+     "acestep-1.5-turbo-1.7b": 4.291471156682028,
+     "lyria-3-pro-preview": 4.502254123209169,
+     "magenta-rt-2-base": 3.797967064516129
+    },
+    "delta_forced": 0.002124645892351275,
+    "delta_forced_ci": [
+     -0.012039660056657223,
+     0.014872521246458924
+    ],
+    "delta_forced_wide": 0.0031397174254317113,
+    "delta_forced_wide_ci": [
+     -0.015698587127158554,
+     0.02197802197802198
+    ],
+    "n_flipped": 91,
+    "sys_delta": {
+     "musicgen-small": -0.03157583636363639,
+     "riffusion-fuzz-1-1": 0.025963715384615362,
+     "preview-ocelot": 0.022792395833333357,
+     "preview-jerboa": 0.016902545454545413,
+     "magenta-rt-large": -0.02952377581120945,
+     "acestep": 0.027624285714285768,
+     "riffusion-fuzz-1-0": 0.04338319444444442,
+     "sonauto-v2-2": -0.030369335843373504,
+     "elevenlabs-music-v1": 0.017023125827814598,
+     "musicgen-medium": -0.0466183171641791,
+     "lyria-3-30s": -0.0046205664739883915,
+     "sonauto-v3-preview": 0.013629356521739102,
+     "acestep-1.5-turbo-1.7b": -0.027729442396313347,
+     "lyria-3-pro-preview": -0.03543478223495703,
+     "magenta-rt-2-base": -0.027155258064516137
+    },
+    "sys_delta_vs_8kup_spearman": 0.8107142857142855,
+    "sys_rank_spearman_vs_F0": 0.982142857142857
+   }
+  },
+  "A3a_TA": {
+   "F0": {
+    "forced": 0.6104815864022662,
+    "forced_ci": [
+     0.5849858356940509,
+     0.6359773371104815
+    ],
+    "agree_m": 0.5697592067988668,
+    "m": 0.3498574000000001,
+    "forced_wide": 0.6279434850863422,
+    "forced_narrow": 0.5961290322580645,
+    "bt_tau": 0.5047619047619049,
+    "sys_mean": {
+     "musicgen-small": 3.4972635151515146,
+     "riffusion-fuzz-1-1": 3.9930312923076925,
+     "preview-ocelot": 4.0783714375,
+     "preview-jerboa": 4.101500236363637,
+     "magenta-rt-large": 3.8721167551622413,
+     "acestep": 3.6514841729323306,
+     "riffusion-fuzz-1-0": 3.945381288194444,
+     "sonauto-v2-2": 3.9487978102409635,
+     "elevenlabs-music-v1": 3.7479867262693154,
+     "musicgen-medium": 3.6388734141791046,
+     "lyria-3-30s": 4.10853760115607,
+     "sonauto-v3-preview": 3.910215234782609,
+     "acestep-1.5-turbo-1.7b": 4.009892092165898,
+     "lyria-3-pro-preview": 4.208688934097421,
+     "magenta-rt-2-base": 3.587702629032258
+    }
+   },
+   "sr16k": {
+    "forced": 0.6203966005665722,
+    "forced_ci": [
+     0.5949008498583569,
+     0.6458923512747875
+    ],
+    "agree_m": 0.5694050991501416,
+    "m": 0.35181369999999995,
+    "forced_wide": 0.631083202511774,
+    "forced_narrow": 0.6116129032258064,
+    "bt_tau": 0.561904761904762,
+    "sys_mean": {
+     "musicgen-small": 3.5484008303030303,
+     "riffusion-fuzz-1-1": 4.065306187179487,
+     "preview-ocelot": 4.157442437499999,
+     "preview-jerboa": 4.166090563636363,
+     "magenta-rt-large": 3.880232884955752,
+     "acestep": 3.6966951729323303,
+     "riffusion-fuzz-1-0": 4.048228302083334,
+     "sonauto-v2-2": 3.9606074051204816,
+     "elevenlabs-music-v1": 3.857925958057395,
+     "musicgen-medium": 3.663850033582089,
+     "lyria-3-30s": 4.177836069364161,
+     "sonauto-v3-preview": 3.9172384260869566,
+     "acestep-1.5-turbo-1.7b": 4.03416835483871,
+     "lyria-3-pro-preview": 4.207816673352435,
+     "magenta-rt-2-base": 3.6435925564516123
+    },
+    "delta_forced": 0.009915014164305949,
+    "delta_forced_ci": [
+     -0.007790368271954674,
+     0.02762039660056657
+    ],
+    "delta_forced_wide": 0.0031397174254317113,
+    "delta_forced_wide_ci": [
+     -0.023547880690737835,
+     0.03139717425431711
+    ],
+    "n_flipped": 162,
+    "sys_delta": {
+     "musicgen-small": 0.051137315151515164,
+     "riffusion-fuzz-1-1": 0.07227489487179484,
+     "preview-ocelot": 0.079071,
+     "preview-jerboa": 0.06459032727272732,
+     "magenta-rt-large": 0.008116129793510313,
+     "acestep": 0.04521100000000002,
+     "riffusion-fuzz-1-0": 0.10284701388888888,
+     "sonauto-v2-2": 0.011809594879518081,
+     "elevenlabs-music-v1": 0.10993923178807949,
+     "musicgen-medium": 0.024976619402985085,
+     "lyria-3-30s": 0.06929846820809249,
+     "sonauto-v3-preview": 0.007023191304347827,
+     "acestep-1.5-turbo-1.7b": 0.02427626267281106,
+     "lyria-3-pro-preview": -0.0008722607449857033,
+     "magenta-rt-2-base": 0.05588992741935484
+    },
+    "sys_delta_vs_8kup_spearman": 0.575,
+    "sys_rank_spearman_vs_F0": 0.982142857142857
+   },
+   "lp8k": {
+    "forced": 0.6196883852691218,
+    "forced_ci": [
+     0.5949008498583569,
+     0.6444759206798867
+    ],
+    "agree_m": 0.5718838526912181,
+    "m": 0.3442268,
+    "forced_wide": 0.6326530612244898,
+    "forced_narrow": 0.6090322580645161,
+    "bt_tau": 0.5428571428571429,
+    "sys_mean": {
+     "musicgen-small": 3.5745139575757574,
+     "riffusion-fuzz-1-1": 4.075144164102564,
+     "preview-ocelot": 4.152480854166667,
+     "preview-jerboa": 4.1600166000000005,
+     "magenta-rt-large": 3.896331138643068,
+     "acestep": 3.680725834586466,
+     "riffusion-fuzz-1-0": 4.062962618055555,
+     "sonauto-v2-2": 3.9760413057228914,
+     "elevenlabs-music-v1": 3.861169331125828,
+     "musicgen-medium": 3.6794718320895523,
+     "lyria-3-30s": 4.156357947976879,
+     "sonauto-v3-preview": 3.9439566782608697,
+     "acestep-1.5-turbo-1.7b": 4.0472150460829495,
+     "lyria-3-pro-preview": 4.207169808022923,
+     "magenta-rt-2-base": 3.6235406048387095
+    },
+    "delta_forced": 0.009206798866855524,
+    "delta_forced_ci": [
+     -0.007790368271954674,
+     0.02551345609065146
+    ],
+    "delta_forced_wide": 0.004709576138147566,
+    "delta_forced_wide_ci": [
+     -0.01726844583987441,
+     0.026687598116169546
+    ],
+    "n_flipped": 145,
+    "sys_delta": {
+     "musicgen-small": 0.07725044242424242,
+     "riffusion-fuzz-1-1": 0.08211287179487178,
+     "preview-ocelot": 0.07410941666666672,
+     "preview-jerboa": 0.058516363636363686,
+     "magenta-rt-large": 0.02421438348082596,
+     "acestep": 0.029241661654135376,
+     "riffusion-fuzz-1-0": 0.11758132986111108,
+     "sonauto-v2-2": 0.02724349548192772,
+     "elevenlabs-music-v1": 0.11318260485651216,
+     "musicgen-medium": 0.04059841791044776,
+     "lyria-3-30s": 0.04782034682080925,
+     "sonauto-v3-preview": 0.0337414434782609,
+     "acestep-1.5-turbo-1.7b": 0.037322953917050684,
+     "lyria-3-pro-preview": -0.0015191260744986102,
+     "magenta-rt-2-base": 0.03583797580645161
+    },
+    "sys_delta_vs_8kup_spearman": 0.33571428571428563,
+    "sys_rank_spearman_vs_F0": 0.9785714285714284
+   }
+  }
+ },
+ "sys_8kup_median_db": {
+  "acestep": -18.002,
+  "acestep-1.5-turbo-1.7b": -22.2085,
+  "elevenlabs-music-v1": -21.073,
+  "lyria-3-30s": -19.325,
+  "lyria-3-pro-preview": -26.042,
+  "magenta-rt-2-base": -25.364,
+  "magenta-rt-large": -30.048,
+  "musicgen-medium": -30.332,
+  "musicgen-small": -33.274,
+  "preview-jerboa": -22.463,
+  "preview-ocelot": -19.8575,
+  "riffusion-fuzz-1-0": -22.179000000000002,
+  "riffusion-fuzz-1-1": -21.8935,
+  "sonauto-v2-2": -23.887,
+  "sonauto-v3-preview": -22.625
+ },
+ "F0_vs_r2_A1_MI_maxabs": 4.997863767286503e-07,
+ "F0_vs_r2_n": 3998
+}

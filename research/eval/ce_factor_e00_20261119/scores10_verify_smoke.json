@@ -1,0 +1,18 @@
+[
+ {
+  "cell": "noreverb",
+  "wav": "/home/kojiek/MeanAudio/research/eval/ce_factor_e00_20261119/r10_top_smoke/noreverb_CE8.30.wav",
+  "sr": 16000,
+  "stored_CE": 8.300699234008789,
+  "rescored_CE": 8.300698280334473,
+  "diff": -9.5367431640625e-07
+ },
+ {
+  "cell": "reverb",
+  "wav": "/home/kojiek/MeanAudio/research/eval/ce_factor_e00_20261119/r10_top_smoke/reverb_CE8.11.wav",
+  "sr": 16000,
+  "stored_CE": 8.114130973815918,
+  "rescored_CE": 8.114166259765625,
+  "diff": 3.528594970703125e-05
+ }
+]

@@ -1,0 +1,120 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "muq-gen-steer-179-20261103",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "179_muq_gen_steer.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [],
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "Inference-only generation of 6 steering arms x 1000 MusicCaps prompts on checkpoint 114 (MeanFlow 25 steps, cfg 3.0, seed 42, fp32, NoQ/NoMask), then band/centroid, MuQ-Eval A1/A3a, AES, CLAP (batch 1), level scoring, post-hoc lowpass reference of A0, paired bootstrap analysis. No training."
+ },
+ "question": "Can generation-time steering (negative/positive prompt or composable CFG vector) lower the 4-8 kHz band of MeanAudio output and thereby raise MuQ-Eval A1 MI without lowering AES PQ?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_gen_steer_179_20261103.md",
+ "design_document_sha256": "06db7cd12a6586e26909c2772bd8c844abb391afdbc900e2edf574d1efd2021e",
+ "fixed_protocol": {
+  "prereg": "docs/experiments/muq_gen_steer_179_20261103.md (frozen; no criterion changed in this job)",
+  "prompts": "first 1000 MusicCaps test records (csv record split)",
+  "arms": {
+   "A0": "neg=fidelity8",
+   "A1": "neg=bright",
+   "A2": "neg=fidelity8+bright",
+   "A3": "positive suffix 'warm, dark, muffled sound'",
+   "A4": "composable lam=1",
+   "A5": "composable lam=2"
+  },
+  "endpoints": "manipulation: dBand<=-3 dB & CI upper<0; attack: manipulation & dMI(A1)>=+0.10 & CI lower>0 & dPQ CI upper<+0.05; Holm over A1-A5"
+ },
+ "deviations": {
+  "D1": "Composable-guidance harness computes cfg*u(c)+(1-cfg)*u(neg) in the same call order as MeanAudio.ode_wrapper; the lam=0 smoke cell was verified bit-identical to A0 (max abs diff 0.0 on 4 clips) before queueing."
+ },
+ "storage": {
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/muq_gen_steer_179",
+  "min_free_bytes": 8589934592
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/muq_gen_steer_179/pause_progress.json",
+  "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/muq_gen_steer_179/pause_progress.json",
+  "note": "stage-level restart: complete arm directories are skipped (partial ones regenerated from scratch), per-arm score caches reused"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_run.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_run.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_run.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/muq_gen_steer_179/run.json"
+  },
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/muq_gen_steer_179/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered run.json and summary.json after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/179_muq_gen_steer.sh",
+  "launcher_sha256": "ac22deb0dd081326fb8dfdbf487e27b95ca88c65fc7c64647ceb6e412596a31c",
+  "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_guest.py",
+  "harn_sha256": "59e3e9583444b40d1bbad58234626efc0d7447e5c7e0205221b85e0b91af0964",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_run.py",
+  "action_sha256": "07a4742dfe18d827fe637c17ac6d66fb27cbcb6baca0787936d47624f71be7a3"
+ },
+ "code_bindings": [
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_common.py",
+   "sha256": "b0974f527749381d72f200cee004b8aa35e06bcd8c01e1ed10265b5bb26c0278"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_gen.py",
+   "sha256": "a4b2f032b0e682787dda8975dc58763aa9d1d1de14b379a8dad6f0203f9c8207"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+   "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+   "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+   "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+   "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+   "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+{
+  "status": "passed",
+  "reason": "Only registration/storage/cache routing changes; evaluator source and every study input unchanged. Source-bound completed full CPU scans remain current. Archived lvl23 paths are excluded from study input manifest.",
+  "source_action_sha256": "672f090aeffcbca839826f245cdc9a533674e7e85654d2d4b6716bfbfed5c934",
+  "reports": [
+    {
+      "part": "a",
+      "source": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/lufs_scans/a.json",
+      "sha256": "1a02367885dbecbe73374c255e26d68b6437ad76628dd88545bddcebe25f2524",
+      "n_checked": 179422,
+      "n_invalid": 0
+    },
+    {
+      "part": "b",
+      "source": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/lufs_scans/b.json",
+      "sha256": "7942ea8791a6326b1369ec2dc3f00e1b9a00f0653d4c553668ad02dd12100ba1",
+      "n_checked": 54820,
+      "n_invalid": 0
+    },
+    {
+      "part": "c",
+      "source": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/lufs_scans/c.json",
+      "sha256": "43feb4f20aaeb854d7239a616ec2cd73952d3cbffb64946a87cba08da0e75682",
+      "n_checked": 33126,
+      "n_invalid": 0
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
+Reserved to runtime immediately before action: authenticity, independent raw-file rehashing, atomic fsync/rename persistence, locks, live process identity, full symlink/TOCTOU defenses, and execution.
+All four documents satisfy the offline structural and consistency checks.
+/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128b_20261017_nvme_r5_contract.json
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
+Reserved to runtime immediately before action: authenticity, independent raw-file rehashing, atomic fsync/rename persistence, locks, live process identity, full symlink/TOCTOU defenses, and execution.
+All four documents satisfy the offline structural and consistency checks.
+/home/kojiek/MeanAudio/docs/experiments/metric_invariance_128c_20261017_nvme_r5_contract.json
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
+Reserved to runtime immediately before action: authenticity, independent raw-file rehashing, atomic fsync/rename persistence, locks, live process identity, full symlink/TOCTOU defenses, and execution.
+All four documents satisfy the offline structural and consistency checks.
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
+Reserved to runtime immediately before action: authenticity, independent raw-file rehashing, atomic fsync/rename persistence, locks, live process identity, full symlink/TOCTOU defenses, and execution.
+All four documents satisfy the offline structural and consistency checks.

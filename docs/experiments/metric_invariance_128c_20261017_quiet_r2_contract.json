@@ -1,0 +1,436 @@
+{
+  "approval_required": true,
+  "bindings": {
+    "action": "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+    "action_sha256": "cc94d06706f86c6696758dbc53938e6f8b8570a0453c3917502cd54947b34a87",
+    "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_128_guest.py",
+    "harn_sha256": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/130_metric_invariance_negmf_quiet_r2.sh",
+    "launcher_sha256": "b5c225e2943acd9480c22f1ee1716514b16c7978b7e2c6ed683b1bea034b4c1d"
+  },
+  "calibration_summary": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/a/summary.json",
+  "cleanup_authorization": {
+    "behavior": "Only this run temporary scoring audio; upstream raw, lvl30, stimuli and cached weights retained.",
+    "paths": [
+      "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_quiet_r2_tmp/c"
+    ]
+  },
+  "commands": {
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+      "--validate-only"
+    ],
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py"
+    ]
+  },
+  "completion_evidence": {
+    "eval_only": true,
+    "method": "validated registered reports, terminal hash evidence and delivered receipt"
+  },
+  "dependencies": [
+    "128_metric_invariance_calibration_quiet_r2",
+    "129_metric_invariance_table_b_quiet_r2"
+  ],
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_readjudication_128_20261017.md",
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "metric-invariance-128c-20261017_quiet_r2",
+  "filesystems": [
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/c",
+      "peak_additional_bytes": 2147483648,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 536870912,
+      "warning_floor_bytes": 85899345920
+    },
+    {
+      "hard_floor_bytes": 53687091200,
+      "path": "/home/kojiek/MeanAudio",
+      "peak_additional_bytes": 6442450944,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 104857600,
+      "warning_floor_bytes": 64424509440
+    }
+  ],
+  "harn_bundle": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/c",
+  "immutable_files": {
+    "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6/config.json": "0b8eabc5ced92cefed116a3aca8f1e59d2a33dc4d376b9e86dfb9c072e1d280d",
+    "/home/kojiek/.cache/huggingface/hub/models--facebook--audiobox-aesthetics/snapshots/9b1dd8e5df9af7216e836a98974fe3b82c56ded6/model.safetensors": "a5a3c2412649cc2384ec525ffd5180ce6c4778f43bed6108e0a1303de04d014e",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128/identity_gate_amendment_20261017.json": "fdba7817fa70aecf5eaedfc1d3397222bb8d718ffc1f381587a8a673baeea7f7",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128/quiet_lufs_amendment_20261017.json": "ad9e2caa6afa16e85c1b60c014889a4279810e841d30113d6e0d0dbdf7df9bd9",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/acceptance.json": "79818cb680b053f6a250693644b98539c737397ee42cbb6a98a5bc2597d2d986",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/a.json": "d4c10878c3564ce03edc06a740b0e179362e1fe3e536b1280755e6cdc43ec310",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/b.json": "918c369032eb52a28ae071698e85d185e6c29ac5758db2ae086da871b67b9ded",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/c.json": "b2169bbd3421abf5bff814aec5c5ef29a50576ea4341a2509aeb1b21067db889",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/operator_request.txt": "4785efb5c7aae72c77bf7cb6d33541d17f5fa67309015d9afcdfcc75ea8890be",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/negmf_full_120/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s14159265_contract.json": "eed0e52690e276f84f2ba1af4805a29d470b2a1a3ecc7b912603f917fd3d6e6a",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/negmf_full_120/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s16180339_contract.json": "fa971d6d5b31b1651a9f0d2b4b198709111d105cbd040d4d03c56534718e0075",
+    "/home/kojiek/MeanAudio/docs/experiments/harn/negmf_full_120/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s27182818_contract.json": "f1cc8c07542afb9fa5cf46b2c7d27c5fcbfe70eda5c8fe8b39d00e34fad48498",
+    "/home/kojiek/MeanAudio/docs/experiments/metric_invariance_readjudication_128_20261017.md": "bae557be2b6931a65e8909d0910ebf98f77af23da354f278d37bf0a36dbeb161",
+    "/home/kojiek/MeanAudio/docs/experiments/meva_095_model_lock.json": "bd31dbfc306a5a379a087a6f79d917849f81da0748f16b321701b03341b0e0da",
+    "/home/kojiek/MeanAudio/docs/experiments/results/metric_win_tie_126a_summary.json": "cda5084a86da416b01b8257171b2a3a18b2b77253dfa62330eb6494efd1a0887",
+    "/home/kojiek/MeanAudio/docs/experiments/ttm_metrics_115_20261009_contract.json": "ed6b8098749f56a07211de6b68f508069c5f9fd734c3aa41a904e8181c8d2baa",
+    "/home/kojiek/MeanAudio/docs/experiments/ttm_metrics_seeds_118_20261011_contract.json": "d154d9d0ecd1980a4561cbb5d3e895a460b1b7c3ba72a23e66f409b29804ab96",
+    "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+    "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py": "cc94d06706f86c6696758dbc53938e6f8b8570a0453c3917502cd54947b34a87",
+    "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126a.py": "1838b508c4583e42b27d877db9a4471016009799553ad884ee70e3ef89bbc6b7",
+    "/home/kojiek/MeanAudio/scripts/eval/meva_runtime.py": "3b509279b3e086a69395c2357883554f5a66f9d9c59f327219b9a76692b4fc2b",
+    "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84",
+    "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/metric_invariance_128_guest.py": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/register_metric_invariance_128.py": "0914a764e7c2dac4ff702cf120566d393cb6862ebb13173bdaf0932e4d0e5617",
+    "/home/kojiek/MeanAudio/scripts/experiment_harness/secondary_queue_controller.py": "4a1fff8c90c8f69f663f0d61c1fabfb8d136ec11ca2086eede6b49ec34195c67",
+    "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "/home/kojiek/MeanAudio/scripts/validate_experiment_harness_documents.py": "930f412761ed23561ec9dbb93ac4103a84979bd715655b4822dcfd3a122bd7dc",
+    "/home/kojiek/MeanAudio/weights/music_speech_audioset_epoch_15_esc_89.98.pt": "51c68f12f9d7ea25fdaaccf741ec7f81e93ee594455410f3bca4f47f88d8e006",
+    "/home/kojiek/eval_output_nvme/metric_win_tie_126b_20261016/mir.json": "890b55f94cd74bf1a8a635ed56ee0cddeeaf0e16cd489ae0cbe7df522a97a98c",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s14159265_mc_mf25_cfg0_REPORT.json": "9b07cefbf43ad7c97d9e45478433baf4f8200b73515c354e94c9dc5e7b3eabbc",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s16180339_mc_mf25_cfg0_REPORT.json": "5b3e1a6feb0f2931266807a9a18c38d007aa488ee235813564cd98e132c9cfdd",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_negmfn100_noq_full_s27182818_mc_mf25_cfg0_REPORT.json": "63f5d5f65e555602397cd83a384a9c4d05939a8bfc16303ba4d36e5e8ce6fd5a",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg0_REPORT.json": "ee1f53a6aed4eac07004ff3f7640325d8dba3514ab6fcb2d19273db3ba14c077",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s14159265_mc_mf25_cfg3_neg_REPORT.json": "5f59399be4f66a4617a476da795da40d7377cf0f81dd4af9b903d245bde7f375",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/mir_per_clip.tsv": "9ce471a0acab19f9e78dbff716c756afbfa2a9127417e3214bfdbd144c7e86b5",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg0_REPORT.json": "3391687d9d77cb436143c422c2e0bbb273f71106c24a7b64abe42e23bb92e003",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/mir_per_clip.tsv": "9130ea11810a5cab7fb318b75504b505485ea84d5209df516aaeca96d267e95a",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s16180339_mc_mf25_cfg3_neg_REPORT.json": "74d3656b434882d5b3586a89586969e35c68a0f3fe203eb303e8219b2a362aba",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0/mir_per_clip.tsv": "18a3a5a4ec11d3a131d8d4cc0ff60466a2f7a0d2954254def92c1f6e05b722e1",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg0_REPORT.json": "90e70ff7d9100811bc3a8ac0eb2120d771117407d58267286c594606117c57bf",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg/mir_per_clip.tsv": "2467f8b6049e5ffa0779cd73ff0026282ddf22bb274f1328961cdbd42194c32b",
+    "/home/kojiek/eval_output_nvme/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg/phase8_qwen_caption2p0_slot0clean_nmv2matched_noq_full_s27182818_mc_mf25_cfg3_neg_REPORT.json": "e393278a2c1756a6d6cf25ba55512c04e7a55b83ee00beb30f13787f0d0c6afb",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/meanaudio_cfg0/lvl30/scores/meanaudio_cfg0_lvl30/per_clip.tsv": "476ba68fa1ca83eaf8a0eb4863dd9f4367ac8b11c7893d22e17cffd7eaf69d99",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/meanaudio_cfg0/raw/mir/meanaudio_cfg0_raw/mir_per_clip.tsv": "c06a0059dd14348137ac4d9010a1efabbc0c083a662dfbb95c226d50e853d7dd",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/meanaudio_cfg3_neg/lvl30/scores/meanaudio_cfg3_neg_lvl30/per_clip.tsv": "c21fbc98935f54d600e9fa3aae4acfab7f6d19dce094c1b2105e94c252b07a18",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/meanaudio_cfg3_neg/raw/mir/meanaudio_cfg3_neg_raw/mir_per_clip.tsv": "7e5364db065deb81a6535ef48fa6667604e1f874d6bee7ddb5dedb5e26d67869",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musiccaps_real/lvl30/scores/musiccaps_real_lvl30/per_clip.tsv": "75ba6abe87705398e5c061c16d0ae7abc8c2790a953d6aab73b915a63c04677b",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musiccaps_real/raw/mir/musiccaps_real_raw/mir_per_clip.tsv": "c76e0f6132b0970c83a574010e060eb576373a2d8b36d60aa13838f273794b2f",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicgen_medium/lvl30/scores/musicgen_medium_lvl30/per_clip.tsv": "c1f21e6341a061beb5cfa10ae6861f162c0051964a5af05fe980d289c3a6d7a2",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicgen_medium/raw/mir/musicgen_medium_raw/mir_per_clip.tsv": "13762377c9cbc3652ec5458921dd6f9e4146994ac028016850f3414555e5c72a",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicldm/lvl30/scores/musicldm_lvl30/per_clip.tsv": "13db3a32043a325603167ccbfc61dc448a61ea346fb7b313172d3a1e5f3cf961",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicldm/raw/mir/musicldm_raw/mir_per_clip.tsv": "dca3335397e906dde6373bab60bb4185df391f23655a77a94c9176a43a87d65c",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicldm_fid8/lvl30/scores/musicldm_fid8_lvl30/per_clip.tsv": "16cf8e1f10088a97bf797f7e1c8ed2b1dc7d5cd85c2c2d9fae3f56fd769ce464",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicldm_fid8/raw/mir/musicldm_fid8_raw/mir_per_clip.tsv": "dee07dc821a13b97f2eea15a5880b21f8345d60f2e0ae51fc7c4af35a3eeb5af",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/selection.json": "9d0ce4331002cf097264fa512405ba4ae142d1be6249bc8ae1c9eeeea090384d",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/summary.json": "926373bb0222ac193b6ccbb141ac9b92cfc50b7326a3d13d3b0f2593f6730949",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/meanaudio_s16180339_cfg0/lvl30/scores/meanaudio_s16180339_cfg0_lvl30/per_clip.tsv": "bbec55113e60c6bc956769b70678c2454e003aeecd27e1f03bd8ae46f25b3965",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/meanaudio_s16180339_cfg3_neg/lvl30/scores/meanaudio_s16180339_cfg3_neg_lvl30/per_clip.tsv": "061599517b54cdfe4e6c5283f48281d4959691d3fb283da225f7bbde80f8bc91",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/meanaudio_s27182818_cfg0/lvl30/scores/meanaudio_s27182818_cfg0_lvl30/per_clip.tsv": "ab0102a8549991cc7a474ab0f3c3ca16b567063db57c7f26a844a40513d3c1a4",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/meanaudio_s27182818_cfg3_neg/lvl30/scores/meanaudio_s27182818_cfg3_neg_lvl30/per_clip.tsv": "e04223bd12e06232eb8dbe18853462031ae6e8ec2ec44e4b933e85909d54468f",
+    "/home/kojiek/eval_output_nvme/ttm_metrics_seeds_118_20261011/summary.json": "736a13e10a042c4ee613a83ff4594fac6a3cf00bc4cbe4c13566b2095bd165bd",
+    "/home/kojiek/gpu_queue/lib_scheduler.py": "f175e4126d1a521437e52661e89dfb5e6163efefa486b78b033192797295e917",
+    "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/inputs.json": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/__init__.py": "7ce608bedd5e192a90adee2e092dec256299d26c00b82f140faa9b6b9392f7f5",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/_cmp.py": "dcd9f54e3c659546225ff9c9a159c4917a0393484cd4360a8f90c4ec665ee22d",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/_compat.py": "c7483b88450e9c15490bbdb3c850a06f578aab2c52fbb7f62c69cdc99febf79b",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/_config.py": "746ab7c51e9f819105e9406dfcbd13f9e507201e22e37911987d0fdbcb09570f",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/_funcs.py": "231e481134dfcf9174d45fb5d8c17f0921689889f687c6faec4555cf6802b411",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/_make.py": "1fb387d9e592e429c1ccb5233451355b299f3eb985d6bf1fbf644f76df4cb980",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/_next_gen.py": "050b42525cf08368161d3617050beb118067cc152b0ef3b9eeed0fcba5023e17",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/_version_info.py": "c3847e1580b734afe43241945899583f87150251fd1d1682fae9b77dc8d89073",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/converters.py": "1a50de3b33de4c581e0412db8fd1b9ec4cf994093af2e85200b45827f7b17bce",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/exceptions.py": "6f8bcc6e7a10dd5a7059986aad88bfb2c5d508af28d9ce074124b4f5c49433da",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/filters.py": "64188a58ba774742df099b2aed7d75a67f565fc36c952db05cce23b272ce19cf",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/setters.py": "e7e75c4fadc640adf938d1334a07d70a46c1ee93e4691faabf5e669b83d54b34",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attr/validators.py": "9b7411cd94c036be1fd82e1e55d528160d753605d66a4f166ade2a4131a1bdcb",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attrs/__init__.py": "47168064dc1888487e7dcbc72d936943f0d62a78bbdccfe3c443c47ed8aad597",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attrs/converters.py": "f244258eb5707d24d1bbc20dc0493c488d1e1abce659fb6c4fbaccd04ab2a213",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attrs/exceptions.py": "0020829a0d7dfaf0c56833d8f6f165d7df523d709030dfdb10db380c02e3ce6b",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attrs/filters.py": "54e50c66e83db8453a754b80d1d1758c89d42b43cbddf2e03f45414b977e0831",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attrs/setters.py": "78bd5889d6105774f687dfd2608652651d4501c1c66f54ee093cb41342efd925",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/attrs/validators.py": "c5ccbac03e53b5391d086d5fe1759ba1c3d23b47da06393921f5497cfe92523d",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/__init__.py": "a7e470e134bfd0e3c76482722260d6b1d5a099de823d61cc5cbabb06e4314c67",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/__main__.py": "88bb197f6ba9501de294129394c9f22be1c7b760a79df930c318bf73a80bbd20",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/_format.py": "96bb3553b892076657f59d846a5b113987909b577d91e7f0d822e8d3c1bc3f8b",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/_keywords.py": "afcfc3aea01f9fa40bc109e65c4820bde89253e51a20bda9da7b8f20d7a57c57",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/_legacy_keywords.py": "dad5aec113d66d84bb10097cc01202feb69b1aebf527875f60ba8d10fa528610",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/_types.py": "7ff9e44c36eb8dadc4ddfb083530bbdf2fe03174d4db5d08fc7eea2b434ddf47",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/_typing.py": "a572e71b2de336d2144ead37ee451fab4c1ed7bd3ce5e1ed2700c9dadfbe9901",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/_utils.py": "5efebfc0a2ac941265c328fdfa3d9cf090c5c3ee33e1a5859d57b6a57f21ed4e",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/__init__.py": "034b10af10c15474b243ef2bbb72f5d613177f7abd815b81f71fd88076f847d3",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/const_vs_enum.py": "0d5162dd60ea05a95914e89b9e3a57d6e4d2af74716b670f805728c1ded492bb",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/contains.py": "81ec50a14ac23b0102a1f6edd7d05ea2c419ed614be8f0dd917e3d0d6c0194e8",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/import_benchmark.py": "d834483954baa7e6ea2e7ffcdb607f5f9164211bec2765750989d5d9daeecc3b",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/issue232.py": "dcb2d82c89411909d5bb2ca8da202ffb1932e4fe8f4451c0371e3ecc82103a81",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/json_schema_test_suite.py": "3ef7da6e9518705e3fedcb180d37136ae103f2b9c510661b758e51a935c3d3cb",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/nested_schemas.py": "9a8d3b771f82220992388eb608db38839c6ed45cc79252c1a644280f159870ab",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/subcomponents.py": "7c4ca2333b1678ada977b0c4182bae63ebf31ae9f08477334415849c144b288a",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/unused_registry.py": "87047038d73d71e7cfb58ce4a17fd36113b71b25288eb8afd3e61068adef9e3d",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/useless_applicator_schemas.py": "1159b9f84b4e105a0b3ff56dda3e12ac2c25c74e4d84fa8db9943a2c830fd437",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/useless_keywords.py": "6e3ff32abd6855cb4596ac9968e6c2b184e01638a23603f30b486bd58f3af261",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/benchmarks/validator_creation.py": "52451094b027bacb27aff29d08875a77ac71da95f140b998b6c5e88a2aca7964",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/cli.py": "6aff743ada52c6e8a4a37140c841edc6923e352b97dd632da10a48c74f686c96",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/exceptions.py": "6f8da150339f3c5729ac8e1994da630de2cabfc93dbce86059cb768f20e5c739",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/protocols.py": "960cabc951ea1628d2151033f79721dd5376173fa84c5ca18fd39b732e4ffc22",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/_suite.py": "da4d17f7537b74e1e141ce66ad8bf8d0e29fd707a2a23e91301a9680b4faf8f2",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/fuzz_validate.py": "7d403bc932488a1682c09a659147a165ec81f381dc5c472ab58e683c95c83bb2",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_cli.py": "03cf6be4b387cbea5e2cf640e580e439a3135aacd03bfc364eef16173fefa613",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_deprecations.py": "c86ea6911247a531db5a8c692c2e72e47edf93c7ab18eb3c7fff55e2d081121f",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_exceptions.py": "aec12a763927533ddd13225bebf0e232874f1d7b094c45b30ebc54b1c83c1b9a",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_format.py": "7959b948c69617694e3cedbc6cf03036f92242f1c240acbe327b808047217c47",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_jsonschema_test_suite.py": "b407f192733ae4e47d2f20cf1eed699046a899b2e08d12e727a14f8963ddc638",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_types.py": "705e752930e676cc74e8cac87387d72add17f5f22c560c39ba14fc09a9956bc5",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_utils.py": "b1aa3be28d4fc9833105fab07a8910378f021524baca1264e459027cc2793ec2",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/test_validators.py": "bb397e6a0c8ba193d3b9fa2e2074b114f7cf62b7487633708c7703ff93725381",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/typing/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/tests/typing/test_all_concrete_validators_match_protocol.py": "2395d4979658512668dc03e4175d25f0c9df934f685caaaf5d6b6d186777b039",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema/validators.py": "97f171b995b4b0ca05530a9366a1252fb1753f99f3cb7b1068b6d9aab1096fa5",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema_specifications/__init__.py": "aa84c1d83298eeabcdac684c3c7ea0b6600944b8a599543e7c56704faaf2ab0d",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema_specifications/_core.py": "b4585cd42325789dc024e2bf6e3c4ea4541376bb140a51467c5c4f054fc279b3",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema_specifications/tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/jsonschema_specifications/tests/test_jsonschema_specifications.py": "5a46d8456e80e85a19d2b8af4a17ea54b482b00887276c7c4f1a840894d73d36",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/__init__.py": "e4864a5da007fc55b20894646939f55dca6d2df83d72f78b6fdbb99d853124ab",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/_attrs.py": "6e04fe28c84354b786b56c4cfd218a61e2da6411734f691454574090e7178bc8",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/_core.py": "d923c67da4efcc0dec46a6e3ff8476c02fbe7e25e8942515a4b14b249eb3759f",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/exceptions.py": "cc581a120e9688a793e7c310b8a36c8060e71ecce9dba738a11782eac17d8073",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/jsonschema.py": "8d767ab7ac7da13bd31cc202d2d4726858d6e6bdaa78739b62ebbb52149f2b74",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/retrieval.py": "727f4478075a6936e7303742e094488621295c38df95174708e2c5af0d5984b0",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/tests/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/tests/test_core.py": "79aa74080688db7be33086d5c848fddaa2dd769de21c7dc0c42e7908a50de0b5",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/tests/test_exceptions.py": "ede39d1f2a1b5ccb7bfa1e409e71fbbbc8b0dae1cf687ed4e01b3d2612e08d6a",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/tests/test_jsonschema.py": "e109e35163803009f9c9e03c66d95d264848e78bf02962560742c3ccd771e717",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/tests/test_referencing_suite.py": "c03eaf78c7cbb14bb4b3830b8e6ee94bc720e1c21f2fb14c044367824ef7cc22",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/tests/test_retrieval.py": "bdc6e77c0e13a957aa5335b4ef7c0efa72dea9522fd2b41958d5afd33f649b8f",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/referencing/typing.py": "5a351b9d9ea33c0777d5c9c214069e588544373c87b47749c8e95e96fd4663bd",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/rpds/__init__.py": "c373205d6ee5a530880b0d0a5dbc36d105f9ef7fe46ec12758878cb0202e82f3",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/rpds/rpds.cpython-312-x86_64-linux-gnu.so": "1e3c483ab69b4b0637cbcbf0a7e3989e350f8195388724ce4f7d8efe4b6fe05e",
+    "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/python_dependencies/typing_extensions.py": "4040ca1a1ecbee00d1385c12a93084d1c5bd46f0b774f07e5ae7e91c4f55e696"
+  },
+  "launch_allowed": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "operator_instruction": "\u958b\u59cb\u5be6\u9a57",
+    "scope": "Implement and run PR2 design as explicitly labelled secondary historical-score invariance study; no training.",
+    "trusted_channel": "operator_console",
+    "valid": true
+  },
+  "lufs_scan_reports": {
+    "a": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/a.json",
+    "b": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/b.json",
+    "c": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_quiet_r2/lufs_scans/c.json"
+  },
+  "manifest": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017/inputs.json",
+  "notification_receipts": {
+    "helper": "/home/kojiek/MeanAudio/scripts/experiment_harness/notification_receipts.py",
+    "helper_sha256": "c9248455eca82e52231dbc41d666c4280504267ef98d3c50e4242ee372f97b4b",
+    "notifier": "/home/kojiek/MeanAudio/scripts/notify_experiment_webhook.py",
+    "notifier_sha256": "813a9a070408e2c17ec0e7d96eccb4314899946383a88165d4c3b2ff778c9050",
+    "required": true,
+    "root": "/home/kojiek/gpu_queue/notification_receipts"
+  },
+  "notifications": [
+    "queue_handoff",
+    "start",
+    "preflight_pass",
+    "smoke_pass",
+    "calibration_gate",
+    "success",
+    "failure",
+    "held",
+    "interrupted",
+    "paused",
+    "preflight_invalid",
+    "postflight_invalid",
+    "disk_hard_stop",
+    "disk_warning",
+    "storage_recovered",
+    "stall",
+    "smoke_budget_invalid",
+    "budget_deferred",
+    "controller_incident"
+  ],
+  "ordering_dependencies": [
+    "129_metric_invariance_table_b_quiet_r2"
+  ],
+  "part": "c",
+  "previous_summary": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/b/summary.json",
+  "priority": "P2",
+  "protocol": {
+    "budget_deferral_c_seconds": 61200,
+    "budget_seconds_a": 25200,
+    "clap_modes": [
+      "C0",
+      "C2",
+      "C3"
+    ],
+    "classification": "separately_named_secondary_historical_metric_sensitivity",
+    "degradation_ladders": {
+      "bitcrush": [
+        "bitcrush8",
+        "bitcrush6"
+      ],
+      "clicks": [
+        "clicks1ps",
+        "clicks5ps"
+      ],
+      "clip": [
+        "clip3db",
+        "clip6db",
+        "clip12db"
+      ],
+      "dropout": [
+        "dropout20ms_x3",
+        "dropout20ms_x10"
+      ],
+      "noise": [
+        "noise_snr40",
+        "noise_snr30",
+        "noise_snr20",
+        "noise_snr10"
+      ]
+    },
+    "ensemble_polarities": [
+      1,
+      -1,
+      1,
+      -1
+    ],
+    "ensemble_shifts_ms": [
+      0,
+      40,
+      80,
+      120
+    ],
+    "fallback": "C3 per metric; label sensitivity_only if no candidate passes",
+    "generation": false,
+    "historical_cfg0_label_preserved": true,
+    "identity_gate": {
+      "aes_abs_mean_signed": 0.001,
+      "aes_max_abs": 0.01,
+      "amendment": "docs/experiments/harn/metric_invariance_128/identity_gate_amendment_20261017.json",
+      "other_max_abs": 0.0001
+    },
+    "limiter": false,
+    "margins": {
+      "CE": 0.12004732543363864,
+      "CU": 0.08452304576106028,
+      "PC": 0.034474729506918766,
+      "PQ": 0.09189201662443987,
+      "clap": 0.010382564958097838,
+      "meva": 0.017236630871175197
+    },
+    "metrics": [
+      "PQ",
+      "CE",
+      "CU",
+      "PC",
+      "clap",
+      "meva"
+    ],
+    "meva_modes": [
+      "C0",
+      "C3"
+    ],
+    "n_a_candidates": [
+      1000,
+      600,
+      400
+    ],
+    "normalization_lufs": -30,
+    "peak_over_fs_recorded": true,
+    "quiet_lufs_rule": {
+      "amendment": "docs/experiments/harn/metric_invariance_128/quiet_lufs_amendment_20261017.json",
+      "fallback": "unit_peak_probe_then_-30_LUFS",
+      "invalid": "zero_empty_nonfinite_or_still_undefined",
+      "preflight_scan": "--scan-lufs",
+      "sensitivity": "exclude_fallback_ids_rejudge"
+    },
+    "sample_rng_seed": 20261017,
+    "threshold_max_regression_steps": 1,
+    "tie_pass": 0.8,
+    "tie_variants": [
+      "gain-1",
+      "gain+1",
+      "gain-3",
+      "gain+3",
+      "gain-6",
+      "gain+6",
+      "polarity",
+      "pcm16",
+      "resample44k",
+      "lead10ms",
+      "lead50ms",
+      "lead200ms"
+    ],
+    "variants": [
+      "clean",
+      "clean_shuf",
+      "gain-1",
+      "gain+1",
+      "gain-3",
+      "gain-6",
+      "gain-10",
+      "gain-20",
+      "gain+3",
+      "gain+6",
+      "polarity",
+      "pcm16",
+      "resample44k",
+      "lead10ms",
+      "lead50ms",
+      "lead200ms",
+      "mp3_160k",
+      "mp3_64k",
+      "noise_snr40",
+      "noise_snr30",
+      "noise_snr20",
+      "noise_snr10",
+      "clip3db",
+      "clip6db",
+      "clip12db",
+      "bitcrush8",
+      "bitcrush6",
+      "clicks1ps",
+      "clicks5ps",
+      "dropout20ms_x3",
+      "dropout20ms_x10",
+      "blast80ms_x1",
+      "blast80ms_x3",
+      "shuffle0.25s",
+      "reverse"
+    ],
+    "wrong_direction_max_increase": 0.05
+  },
+  "queue_name": "130_metric_invariance_negmf_quiet_r2.sh",
+  "queue_role": "p2",
+  "reports": [
+    {
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/c/summary.json"
+    }
+  ],
+  "resume": {
+    "autoresume": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/c/pause_progress.json",
+    "behavior": "Hash-bound completed unit skipped; incomplete own temporary audio removed and redone; no upstream deletion.",
+    "checkpoint": null,
+    "iteration": 0,
+    "kind": "from_scratch_with_autoresume",
+    "pause_progress": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/c/pause_progress.json"
+  },
+  "run_id": "run-20261017-130-metric-invariance_quiet_r2",
+  "schema_version": 1,
+  "scientific_dependencies": {
+    "128_metric_invariance_calibration_quiet_r2": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/a/summary.json",
+    "129_metric_invariance_table_b_quiet_r2": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/b/summary.json"
+  },
+  "status": "authorized_pending_preflight",
+  "storage": {
+    "min_free_bytes": 53687091200,
+    "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/c",
+    "transient_root": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_quiet_r2_tmp/c"
+  },
+  "watcher": {
+    "automatic_repair": false,
+    "healthy_poll_model_calls": 0,
+    "poll_seconds": 5,
+    "stall_seconds": 10800
+  }
+}

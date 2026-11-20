@@ -1,0 +1,2 @@
+PASS: old files unchanged; immutable bindings valid; frozen inputs and all scientific protocol values unchanged except approved identity gate.
+PASS: duplicate registration refused before replacing any contract.

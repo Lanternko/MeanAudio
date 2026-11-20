@@ -1,0 +1,13 @@
+{
+  "aes_clap_seconds": 4.828425832907669,
+  "identity": "396fdb9fa87ae7a8f5218a32c583df17146412f81074278fbae712856965832b",
+  "members": 1,
+  "meva_compute_seconds": 7.16803765296936,
+  "mode": "C0",
+  "n": 200,
+  "prepare_seconds": 1.055507123004645,
+  "scalable_seconds": 8.223544775974005,
+  "score_sha256": "521484d6a04f7394c00cbb39b67c30f146ce7f942af25ea51df15eab58228d1f",
+  "seconds": 14.871467749937437,
+  "setup_seconds": 6.647922973963432
+}

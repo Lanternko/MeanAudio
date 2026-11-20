@@ -1,0 +1,173 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "muq-reward-dose-ladder-187-20261110",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "187_muqreward_dose_ladder.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [
+  "185_muqreward_ft.sh",
+  "186_train_exploit_score.sh"
+ ],
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "Small-dose ladder for arm R: 160-step MuQ A1 reward fine-tune (lambda 0.1, LR 1e-5, B_R from the 183 gate) of the control S2 ema_final x 3 seeds with a checkpoint every 10 steps, plus a lambda 0 control (Z160) x 3 seeds; MuQ only on Jamendo training prompts. Primary dose frozen from Jamendo val before any MusicCaps scoring. Scoring: C, D010/D020/D040/D080/D160, the primary dose and Z160 x 3 seeds on the 1,000 Part B MusicCaps prompts, CFG0, MF 25 steps, inference seed 42; MuQ-Eval A1/A3a, AES PQ/CE lvl30, CLAP batch 1, FAD, band shares; harness gate vs 181."
+ },
+ "question": "Can a very short reward fine-tune raise MusicCaps A1 by an in-scale amount (>= m 0.055, still inside 1-5) while PQ/CE/CLAP/FAD/A3a stay within tie bands?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_reward_dose_ladder_187_20261110.md",
+ "design_document_sha256": "a9a4674b1d8d37c7fc187823fd17c447390c343692c3576f33fd8a7009fe9277",
+ "fixed_protocol": {
+  "prereg": "docs/experiments/muq_reward_dose_ladder_187_20261110.md",
+  "primary": "A1_MI_lvl30",
+  "margins": {
+   "A1": 0.055
+  },
+  "dose_rule": "smallest val-eligible step with 3-seed mean Jamendo val dA1 >= +0.5; else eligible max; else overall max flagged ineligible; frozen in dose_selection.json before MusicCaps",
+  "verdicts": [
+   "in_range_exploit",
+   "exploit_with_side_effects",
+   "general_shift",
+   "no_effect"
+  ],
+  "fifo": "185 -> 186 -> 187; needs 183 gate.json and the control S2 ema_final; GPU free < 16 GiB -> rc 75"
+ },
+ "deviations": {
+  "see": "design doc section 6 (D1-D6)"
+ },
+ "storage": {
+  "path": "/home/kojiek/exps_nvme/muq_reward_dose_187",
+  "min_free_bytes": 32212254720,
+  "also": "/home/kojiek/eval_output_nvme/muq_reward_dose_187"
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/eval_output_nvme/muq_reward_dose_187/pause_progress_187_muqreward_dose_ladder.json",
+  "autoresume": "/home/kojiek/eval_output_nvme/muq_reward_dose_187/pause_progress_187_muqreward_dose_ladder.json",
+  "note": "run-level restart for training (a run dir without DONE is wiped and retrained); cell-level restart for scoring (passed cells skipped, partial cell regenerated); dose_selection.json is never rewritten once frozen"
+ },
+ "watcher": {
+  "stall_seconds": 5400,
+  "progress_globs": [
+   "/home/kojiek/exps_nvme/muq_reward_dose_187/**/*.log",
+   "/home/kojiek/exps_nvme/muq_reward_dose_187/**/val_history.jsonl",
+   "/home/kojiek/exps_nvme/muq_reward_dose_187/**/train_log.jsonl",
+   "/home/kojiek/exps_nvme/muq_reward_dose_187/**/*.pth",
+   "/home/kojiek/eval_output_nvme/muq_reward_dose_187/cells/*",
+   "/home/kojiek/eval_output_nvme/muq_reward_dose_187/cells/*/*",
+   "/home/kojiek/eval_output_nvme/muq_reward_dose_187/per_cell/*",
+   "/home/kojiek/eval_output_nvme/muq_reward_dose_187/*.json"
+  ],
+  "done_globs": [
+   "/home/kojiek/exps_nvme/muq_reward_dose_187/**/DONE",
+   "/home/kojiek/eval_output_nvme/muq_reward_dose_187/per_cell/*.json"
+  ]
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_reward_dose_ladder_187.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_reward_dose_ladder_187.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/muq_reward_dose_ladder_187.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/eval_output_nvme/muq_reward_dose_187/summary.json"
+  },
+  {
+   "path": "/home/kojiek/eval_output_nvme/muq_reward_dose_187/dose_selection.json"
+  }
+ ],
+ "completion_evidence": {
+  "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/187_muqreward_dose_ladder.sh",
+  "launcher_sha256": "bae802da5a865ae195b173101140c3ca7298d01fc129c7e31e419c9959692d75",
+  "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_reward_dose_ladder_187_guest.py",
+  "harn_sha256": "b2a57b5e1f123fa39511ec36df0cc3dfe7befd5df2ea709fdbda30b9b3159937",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/muq_reward_dose_ladder_187.py",
+  "action_sha256": "5a7dd2800624d59e22bca798dc38fd57825844b44d0ddd9966f97b19c5440047"
+ },
+ "code_bindings": [
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_reward_dose_ladder_187.py",
+   "sha256": "5a7dd2800624d59e22bca798dc38fd57825844b44d0ddd9966f97b19c5440047"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_reward_dose_ladder_187_guest.py",
+   "sha256": "b2a57b5e1f123fa39511ec36df0cc3dfe7befd5df2ea709fdbda30b9b3159937"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/training/muq_reward_ft_183.py",
+   "sha256": "ba28cd194b1a26c72604f861de8edec3da83a45873d38f6da08ee08b78ecdd1d"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+   "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/meva_081_084_backfill.py",
+   "sha256": "ffe32c4ecf851e6f88fbeaa177ec3734db6afddcb37ec710ee61242285cf0071"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+   "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+   "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+   "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+   "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+   "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+   "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/eval.py",
+   "sha256": "ba66c66b2ca3b7db0a698338932f6ee474208c1302c4592724f1955f3ccb2339"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/train.py",
+   "sha256": "88e068488b75f3be9f895b0f35352000e3ca49026bf1c6a44723695a561a004f"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/meanaudio/data/extracted_audio.py",
+   "sha256": "21b27bc96edff379cd64ccb0af409912945fe279e276f1a0d7c6a097411c0ff8"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/set_training_stage.py",
+   "sha256": "2ceab7bc4e7805b734b7b69dbe83369ac1e664ca1e1e150ed2969182c81d0f00"
+  }
+ ]
+}

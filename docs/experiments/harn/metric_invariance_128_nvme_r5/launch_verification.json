@@ -1,0 +1,106 @@
+{
+  "at": "2026-10-17T17:46:11.136883+00:00",
+  "calibration_reused": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_budget_r3/a/summary.json",
+  "carried_calibration_seconds": 26762.69604897499,
+  "child_pid": 2399315,
+  "child_start_time": "57421893",
+  "completed_units": [
+    {
+      "done_sha256": "4e607e86cd78ce67c833d2609e81d56c517c083a594ca56bd6b02e94db62b19a",
+      "kind": "identity",
+      "n": 224,
+      "path": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/identity/meanaudio_s14159265_cfg0/clean/C0",
+      "scores_sha256": "c72e9163e003ab0c7159262bef6ba8a5a8e432734217b073821b8f19e94a10bc"
+    },
+    {
+      "done_sha256": "68cb877fe02ef0e16b6bf1be68b544b6535efbeaa054342a275b8591bdf69b75",
+      "kind": "first_formal_C1_chunk",
+      "n": 1000,
+      "path": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/table/meanaudio_s14159265_cfg0/chunk03000/C1",
+      "scores_sha256": "83a10458d2444d2594b0f038cc92a7f8c4a8fb94b2022f069c3b1d971f850f45"
+    }
+  ],
+  "contract_sha256": "9f9295d1edec59ff9c96220936e3159c2effd8a4c5559224f105e7c234d5fcfb",
+  "elapsed_budget_seconds": 28606.091287612915,
+  "final_scientific_results_available": false,
+  "formal_completed_scores_reused": 3000,
+  "hot_storage": "NVMe",
+  "identity": {
+    "blocking_metrics": [
+      "PQ",
+      "clap"
+    ],
+    "checked_n": 200,
+    "failed_blocking_metrics": [],
+    "kind": "historical_score_comparison",
+    "metrics": {
+      "CE": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "CU": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "PC": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "PQ": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      },
+      "clap": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      }
+    },
+    "passed": true,
+    "scored_context_n": 224,
+    "warning_metrics": []
+  },
+  "identity_reused": true,
+  "next_job_pending": "130_metric_invariance_negmf_nvme_r5",
+  "notification_receipts": [
+    {
+      "event": "preflight_pass",
+      "reason": "ok",
+      "sha256": "64296f99ff4b64e6ddf0373110a9035b3c594737e5ce21ddb7c45245076c0310",
+      "valid": true
+    },
+    {
+      "event": "queue_handoff",
+      "reason": "ok",
+      "sha256": "c9eea2e22a213a24e1b8b8cd5b6e71e2dfcce2e09967de47ea4a9b657082ce45",
+      "valid": true
+    },
+    {
+      "event": "start",
+      "reason": "ok",
+      "sha256": "b8c027bc6da63cfbe1d81207bbd8624e93b3a4ef36076d4de006d6e44c575f2c",
+      "valid": true
+    }
+  ],
+  "seat": {
+    "control_dir": "/home/kojiek/gpu_queue/p2/control/129_metric_invariance_table_b_nvme_r5-20261017T173954Z",
+    "job_id": "129_metric_invariance_table_b_nvme_r5",
+    "phase": "running",
+    "pid": 2398229,
+    "role": "p2",
+    "run_id": "129_metric_invariance_table_b_nvme_r5-20261017T173954Z",
+    "seated_at": "2026-10-17T17:39:54Z",
+    "start_time": "57420975"
+  },
+  "source_commit": "52ae691",
+  "status": "running_verified"
+}

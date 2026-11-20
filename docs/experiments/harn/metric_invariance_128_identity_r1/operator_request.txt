@@ -1,0 +1,2 @@
+2026-10-17 operator_console: 使用者提供 PR #2 commit 4830bd1 的身分門檻 amendment，並指示「開始實驗」。
+範圍：重新登錄三份 contract，以新的 run id 依 p2 128→129→130 執行；保留舊失敗 run。AES 每段最大差 0.01、各軸 signed mean 絕對值 0.001；CLAP/MEva 1e-4，m 與科學判定不變；不套用 optional padding 3b1ead4。128c 遵守 17h 順延規則。

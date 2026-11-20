@@ -1,0 +1,28 @@
+{
+  "parts": [
+    {
+      "n_checked": 179422,
+      "n_fallback": 100,
+      "n_invalid": 0,
+      "part": "a",
+      "status": "passed"
+    },
+    {
+      "n_checked": 54820,
+      "n_fallback": 11,
+      "n_invalid": 0,
+      "part": "b",
+      "status": "passed"
+    },
+    {
+      "n_checked": 33126,
+      "n_fallback": 1,
+      "n_invalid": 0,
+      "part": "c",
+      "status": "passed"
+    }
+  ],
+  "status": "passed",
+  "total_checked": 267368,
+  "unchanged_from_budget_r3_except_source_hash": true
+}

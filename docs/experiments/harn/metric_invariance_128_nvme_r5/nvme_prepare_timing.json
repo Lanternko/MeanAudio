@@ -1,0 +1,250 @@
+{
+  "action_sha256": "672f090aeffcbca839826f245cdc9a533674e7e85654d2d4b6716bfbfed5c934",
+  "gpu": false,
+  "manifest_sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1",
+  "notes": "Preparation only, no scoring or study decision; 32 spread IDs per cell/mode, warm worker pool; small batches make ETA provisional.",
+  "rows": [
+    {
+      "bytes": 20449792,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.10717581200879067,
+      "seconds_per_clip": 0.0033492441252747085,
+      "system": "meanaudio_s14159265_cfg0"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.14447761804331094,
+      "seconds_per_clip": 0.004514925563853467,
+      "system": "meanaudio_s14159265_cfg0"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.15630208305083215,
+      "seconds_per_clip": 0.004884440095338505,
+      "system": "meanaudio_s14159265_cfg0"
+    },
+    {
+      "bytes": 20449792,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.10517208406236023,
+      "seconds_per_clip": 0.003286627626948757,
+      "system": "meanaudio_s14159265_cfg3_neg"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.138813110999763,
+      "seconds_per_clip": 0.004337909718742594,
+      "system": "meanaudio_s14159265_cfg3_neg"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.1547699619550258,
+      "seconds_per_clip": 0.004836561311094556,
+      "system": "meanaudio_s14159265_cfg3_neg"
+    },
+    {
+      "bytes": 20449792,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.1039449319941923,
+      "seconds_per_clip": 0.0032482791248185094,
+      "system": "meanaudio_s16180339_cfg0"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.1358698339900002,
+      "seconds_per_clip": 0.004245932312187506,
+      "system": "meanaudio_s16180339_cfg0"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.15475891705136746,
+      "seconds_per_clip": 0.004836216157855233,
+      "system": "meanaudio_s16180339_cfg0"
+    },
+    {
+      "bytes": 20449792,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.10417186398990452,
+      "seconds_per_clip": 0.0032553707496845163,
+      "system": "meanaudio_s16180339_cfg3_neg"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.13859853893518448,
+      "seconds_per_clip": 0.004331204341724515,
+      "system": "meanaudio_s16180339_cfg3_neg"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.15658930502831936,
+      "seconds_per_clip": 0.00489341578213498,
+      "system": "meanaudio_s16180339_cfg3_neg"
+    },
+    {
+      "bytes": 20449792,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.10499059199355543,
+      "seconds_per_clip": 0.003280955999798607,
+      "system": "meanaudio_s27182818_cfg0"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.13946161908097565,
+      "seconds_per_clip": 0.004358175596280489,
+      "system": "meanaudio_s27182818_cfg0"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.1545780620072037,
+      "seconds_per_clip": 0.004830564437725116,
+      "system": "meanaudio_s27182818_cfg0"
+    },
+    {
+      "bytes": 20449792,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.10410916002001613,
+      "seconds_per_clip": 0.003253411250625504,
+      "system": "meanaudio_s27182818_cfg3_neg"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.13735432794783264,
+      "seconds_per_clip": 0.00429232274836977,
+      "system": "meanaudio_s27182818_cfg3_neg"
+    },
+    {
+      "bytes": 81799168,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.15231881104409695,
+      "seconds_per_clip": 0.00475996284512803,
+      "system": "meanaudio_s27182818_cfg3_neg"
+    },
+    {
+      "bytes": 20482560,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.08700530207715929,
+      "seconds_per_clip": 0.0027189156899112277,
+      "system": "musiccaps_real"
+    },
+    {
+      "bytes": 81930240,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.11796377901919186,
+      "seconds_per_clip": 0.0036863680943497457,
+      "system": "musiccaps_real"
+    },
+    {
+      "bytes": 81930240,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.1354879499413073,
+      "seconds_per_clip": 0.004233998435665853,
+      "system": "musiccaps_real"
+    },
+    {
+      "bytes": 40716800,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.21300317102577537,
+      "seconds_per_clip": 0.00665634909455548,
+      "system": "musicgen_medium"
+    },
+    {
+      "bytes": 162867200,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.2748652190202847,
+      "seconds_per_clip": 0.008589538094383897,
+      "system": "musicgen_medium"
+    },
+    {
+      "bytes": 162867200,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.32367122697178274,
+      "seconds_per_clip": 0.01011472584286821,
+      "system": "musicgen_medium"
+    },
+    {
+      "bytes": 20482560,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.10304502001963556,
+      "seconds_per_clip": 0.003220156875613611,
+      "system": "musicldm"
+    },
+    {
+      "bytes": 81930240,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.13610791589599103,
+      "seconds_per_clip": 0.00425337237174972,
+      "system": "musicldm"
+    },
+    {
+      "bytes": 81930240,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.15438401198480278,
+      "seconds_per_clip": 0.004824500374525087,
+      "system": "musicldm"
+    },
+    {
+      "bytes": 20482560,
+      "mode": "C1",
+      "n": 32,
+      "seconds": 0.10541033698245883,
+      "seconds_per_clip": 0.0032940730307018384,
+      "system": "musicldm_fid8"
+    },
+    {
+      "bytes": 81930240,
+      "mode": "C2",
+      "n": 32,
+      "seconds": 0.1375632779672742,
+      "seconds_per_clip": 0.004298852436477318,
+      "system": "musicldm_fid8"
+    },
+    {
+      "bytes": 81930240,
+      "mode": "C3",
+      "n": 32,
+      "seconds": 0.16050324705429375,
+      "seconds_per_clip": 0.00501572647044668,
+      "system": "musicldm_fid8"
+    }
+  ],
+  "status": "passed",
+  "workers": 4
+}

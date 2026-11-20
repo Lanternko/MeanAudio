@@ -1,0 +1,20 @@
+{
+  "exports": [
+    {
+      "export": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/live_identity_224.tsv",
+      "export_sha256": "256e3663e0e398c9278889801309cae6866bd528f0db47e61c74c44cdd085c71",
+      "n": 224,
+      "source": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/identity/meanaudio_s14159265_cfg0/clean/C0/scores.npz",
+      "source_sha256": "c72e9163e003ab0c7159262bef6ba8a5a8e432734217b073821b8f19e94a10bc"
+    },
+    {
+      "export": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_claims_r4/live_first_C1_1000.tsv",
+      "export_sha256": "8f95f71d32c55fe6a76a2ee283adaf8a97d3fc64991e5538c2a6651ad6f48fa7",
+      "n": 1000,
+      "source": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk00000/C1/scores.npz",
+      "source_sha256": "c48364738546336d7b1e78a41161805db78d95e0888e03af26df00716426276d"
+    }
+  ],
+  "notes": "Identity extra 24 rows marked compared=false. C1 computes AES only; uncomputed CLAP/MEva columns omitted from C1 export.",
+  "status": "passed"
+}

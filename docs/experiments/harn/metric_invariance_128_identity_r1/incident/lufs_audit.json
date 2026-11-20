@@ -1,0 +1,71 @@
+{
+  "at": "2026-10-17T00:50:06.397263+00:00",
+  "fresh_gpu_c0_status": "passed",
+  "fresh_gpu_c0_identity": {
+    "126a": {
+      "PQ": {
+        "max_abs": 0.00036084786987267137,
+        "mean_signed": 7.907263488684536e-06
+      },
+      "CE": {
+        "max_abs": 0.00028885891723628987,
+        "mean_signed": 2.7070892333824757e-06
+      },
+      "CU": {
+        "max_abs": 0.0004933236694339982,
+        "mean_signed": 1.1030395508093704e-06
+      },
+      "PC": {
+        "max_abs": 0.0005275080566402579,
+        "mean_signed": -3.3081533050576265e-05
+      },
+      "clap": {
+        "max_abs": 4.862070083627712e-07,
+        "mean_signed": 4.688056945707786e-08
+      },
+      "meva": {
+        "max_abs": 4.89486694288388e-07,
+        "mean_signed": -2.203399658728955e-08
+      }
+    },
+    "115": {
+      "PQ": {
+        "max_abs": 0.0003609657287597656,
+        "mean_signed": 7.8582763671875e-06
+      },
+      "CE": {
+        "max_abs": 0.00028896331787109375,
+        "mean_signed": 2.8133392333984377e-06
+      },
+      "CU": {
+        "max_abs": 0.0004930496215820312,
+        "mean_signed": 1.0776519775390624e-06
+      },
+      "PC": {
+        "max_abs": 0.0005278587341308594,
+        "mean_signed": -3.312587738037109e-05
+      },
+      "clap": {
+        "max_abs": 0.0,
+        "mean_signed": 0.0
+      }
+    }
+  },
+  "cpu_clean_smoke_clips_checked": 250,
+  "undefined_lufs": [
+    {
+      "system": "musicgen",
+      "id": "RDCXvJPzT5k_520",
+      "path": "/home/kojiek/eval_output_nvme/ttm_metrics_115_20261009/musicgen_medium/lvl30/audio/RDCXvJPzT5k_520.flac",
+      "sha256": "fec90405d6924c0848b05e3d7c7840c185d75b9f64981cd0d36de785a6a364ef",
+      "peak": 0.0032958984375,
+      "rms": 0.00010687651196332938,
+      "standard_lufs": null,
+      "proposed_peak_probe_lufs": -31.633418421957057,
+      "proposed_output_lufs": -29.999999999999993,
+      "proposed_output_peak": 1.2068989823535656,
+      "proposed_is_finite": true
+    }
+  ],
+  "scope": "Diagnostic CPU only. Peak probe normalization is an unapproved protocol proposal, not applied to production or scored on GPU."
+}

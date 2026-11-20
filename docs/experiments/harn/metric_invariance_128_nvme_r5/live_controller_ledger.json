@@ -1,0 +1,58 @@
+{
+  "document_kind": "resource_owning_preflight_controller_ledger_v1",
+  "events": [
+    {
+      "at": "2026-10-17T17:39:54Z",
+      "details": {
+        "controller_role": "resource_owning_preflight_controller",
+        "p2_job_id": "129_metric_invariance_table_b_nvme_r5",
+        "p2_run_id": "129_metric_invariance_table_b_nvme_r5-20261017T173954Z",
+        "pid": 2398229
+      },
+      "event": "resource_owner_recorded"
+    },
+    {
+      "at": "2026-10-17T17:40:02Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_nvme_r5/preflight_pass.json"
+      },
+      "event": "notification_preflight_pass_delivered"
+    },
+    {
+      "at": "2026-10-17T17:40:03Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_nvme_r5/queue_handoff.json"
+      },
+      "event": "notification_queue_handoff_delivered"
+    },
+    {
+      "at": "2026-10-17T17:40:03Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_nvme_r5/start.json"
+      },
+      "event": "notification_start_delivered"
+    },
+    {
+      "at": "2026-10-17T17:40:03Z",
+      "details": {},
+      "event": "evaluation_child_launch_authorized"
+    },
+    {
+      "at": "2026-10-17T17:40:03Z",
+      "details": {
+        "pid": 2399315,
+        "start_time": "57421893"
+      },
+      "event": "child_started"
+    },
+    {
+      "at": "2026-10-17T17:40:39Z",
+      "details": {
+        "receipt": "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_nvme_r5/disk_warning.json"
+      },
+      "event": "notification_disk_warning_delivered"
+    }
+  ],
+  "experiment_id": "metric-invariance-128b-20261017_nvme_r5",
+  "run_id": "run-20261018-129-metric-invariance_nvme_r5"
+}

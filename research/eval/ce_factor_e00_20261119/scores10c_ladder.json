@@ -1,0 +1,506 @@
+[
+ {
+  "name": "瑪麗原曲（鋼琴）",
+  "mean_CE": 6.670586585998535,
+  "max_CE": 6.670586585998535,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 0,
+   "rhythm": "mary",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 64,
+   "spread": 12,
+   "pdist": "mary",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": null,
+   "bass_db": 0.0,
+   "layers": [],
+   "pad": null,
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  }
+ },
+ {
+  "name": "音高種類多",
+  "mean_CE": 6.731992085774739,
+  "max_CE": 6.975017547607422,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 0,
+   "rhythm": "mary",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 64,
+   "spread": 12,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": null,
+   "bass_db": 0.0,
+   "layers": [],
+   "pad": null,
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.06140549977620443,
+  "dCE_ci": [
+   -0.03206919332345327,
+   0.14507336517175037
+  ]
+ },
+ {
+  "name": "大跳、音域寬",
+  "mean_CE": 7.252354145050049,
+  "max_CE": 7.439877510070801,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 0,
+   "rhythm": "mary",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": null,
+   "bass_db": 0.0,
+   "layers": [],
+   "pad": null,
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.5203620592753092,
+  "dCE_ci": [
+   0.42813306649525956,
+   0.6163470745086669
+  ]
+ },
+ {
+  "name": "短音、每秒 3.7 顆",
+  "mean_CE": 7.391765673955281,
+  "max_CE": 7.489864349365234,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 0,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": null,
+   "bass_db": 0.0,
+   "layers": [],
+   "pad": null,
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.13941152890523276,
+  "dCE_ci": [
+   0.08695306281248728,
+   0.19560852249463395
+  ]
+ },
+ {
+  "name": "疊一把小提琴",
+  "mean_CE": 7.2247048219045,
+  "max_CE": 7.398561000823975,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 0,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": null,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": -0.16706085205078125,
+  "dCE_ci": [
+   -0.1921238899230957,
+   -0.14316609700520835
+  ]
+ },
+ {
+  "name": "換主音色",
+  "mean_CE": 7.879644791285197,
+  "max_CE": 8.033778190612793,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": null,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.6549399693806967,
+  "dCE_ci": [
+   0.5481940656900406,
+   0.7544816742340722
+  ]
+ },
+ {
+  "name": "加低音線",
+  "mean_CE": 7.989374915758769,
+  "max_CE": 8.105509757995605,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.10973012447357178,
+  "dCE_ci": [
+   0.06494381527105966,
+   0.15938232541084282
+  ]
+ },
+ {
+  "name": "小聲的鼓",
+  "mean_CE": 8.018649021784464,
+  "max_CE": 8.130918502807617,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": "rock",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.0292741060256958,
+  "dCE_ci": [
+   0.013936834534009297,
+   0.04365826944510141
+  ]
+ },
+ {
+  "name": "鼓型換 trap",
+  "mean_CE": 8.179640531539917,
+  "max_CE": 8.27575397491455,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": "trap",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.16099150975545248,
+  "dCE_ci": [
+   0.14692652225494385,
+   0.17550066510836282
+  ]
+ },
+ {
+  "name": "力度隨機",
+  "mean_CE": 8.261508623758951,
+  "max_CE": 8.330711364746094,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 120.0,
+   "vel_sd": 25.0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": "trap",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.08186809221903484,
+  "dCE_ci": [
+   0.06646682620048523,
+   0.09929006695747374
+  ]
+ },
+ {
+  "name": "小聲和弦墊底",
+  "mean_CE": 8.301589171091715,
+  "max_CE": 8.343597412109375,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 120.0,
+   "vel_sd": 25.0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 91,
+    "db": -18.05078790473415,
+    "dur": 4,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "trap",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.04008054733276367,
+  "dCE_ci": [
+   0.02710198760032654,
+   0.05245623588562011
+  ]
+ },
+ {
+  "name": "小聲副旋律",
+  "mean_CE": 8.334932247797648,
+  "max_CE": 8.391051292419434,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 120.0,
+   "vel_sd": 25.0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 91,
+    "db": -18.05078790473415,
+    "dur": 4,
+    "mode": "prog"
+   },
+   "counter": {
+    "prog": 84,
+    "db": -19.858897886329633,
+    "mult": 0.5
+   },
+   "drums": "trap",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "dCE": 0.03334307670593262,
+  "dCE_ci": [
+   0.018735212087631226,
+   0.04492648045221964
+  ]
+ },
+ {
+  "name": "短殘響",
+  "mean_CE": 8.396194458007812,
+  "max_CE": 8.48258113861084,
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 97,
+   "rhythm": "grid",
+   "rate": 3.716001696055094,
+   "legato": 0.3,
+   "center": 61,
+   "spread": 36,
+   "pdist": "norep",
+   "vel_mean": 120.0,
+   "vel_sd": 25.0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -6.114226886575651,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 91,
+    "db": -18.05078790473415,
+    "dur": 4,
+    "mode": "prog"
+   },
+   "counter": {
+    "prog": 84,
+    "db": -19.858897886329633,
+    "mult": 0.5
+   },
+   "drums": "trap",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": {
+    "rt60": 0.2882266881611602,
+    "wet": 0.45131320230661287
+   },
+   "lp_fc": null
+  },
+  "dCE": 0.06126221021016439,
+  "dCE_ci": [
+   0.030377572774887087,
+   0.09329370260238647
+  ]
+ }
+]

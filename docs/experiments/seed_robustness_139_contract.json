@@ -1,0 +1,110 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "seed-robustness-139-20261021",
+ "job": "139",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Exploratory: do 5 s segments change the metric readings? first 5 s / last 5 s of the seed-42 lvl30 audio of ours (3 training seeds CFG3+neg), MusicGen, MusicLDM and the real recordings, re-gained to -30 LUFS; AES, CLAP, MEva, SongEval, pulse_clarity, key_cnn_conf. No claim, no threshold.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/seed_robustness_table_b_135_20261021.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-21",
+  "text": "Table B inference-seed robustness (135-138) and segment length (139) as in the pre-registered design document; thresholds, seed lists and verdict rules are not changed."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Eval-only scoring of ~6 entities x (full SongEval/MIR + 2 segment versions) ~ 33k clips x 3. Output /mnt/seagate/meanaudio/seed_robustness_135/seg139 (~25 GB).",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/139_segment_length.sh",
+  "launcher_sha256": "32823e35180a6b1de55162c664ff63d890c66d321729235b8cd00d7710d19d35",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/segment_length_139.py",
+  "action_sha256": "a45a1099d5e7d1d7ec1816bcd7f04bf6223e9ce44126a017aedb954c620c4282",
+  "ttm_metrics_115": "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+  "ttm_metrics_115_sha256": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "seed_robustness_135": "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+  "seed_robustness_135_sha256": "932390d1dc866c2e8748fec298d27f5c8a2d5b683e2f268bf1633e8438a209ee",
+  "mir_metrics": "/home/kojiek/MeanAudio/scripts/eval/mir_metrics.py",
+  "mir_metrics_sha256": "027e52a2237ac8b90314e14e0feb07297a9d5a3ae983548078d1a1d34f5d5de6",
+  "songeval_runner": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+  "songeval_runner_sha256": "7771a231b1d7cf5cd3c64ee9159a6e3e4a6b1578b9a391ce77d16cbd471fbdcc"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/segment_length_139.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/segment_length_139.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/segment_length_139.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "fixed_protocol": {
+  "job": "139",
+  "versions": [
+   "full",
+   "first5",
+   "last5",
+   "mean5"
+  ],
+  "segment_seconds": 5.0,
+  "exploratory": true,
+  "thresholds_source": "docs/experiments/seed_robustness_table_b_135_20261021.md",
+  "min_free_bytes": 64424509440,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+ },
+ "storage": {
+  "path": "/mnt/seagate/meanaudio/seed_robustness_135/seg139",
+  "min_free_bytes": 64424509440
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "a share with a complete manifest and finished scoring is skipped; an incomplete share is regenerated whole (ours: single RNG stream)",
+  "pause_progress": "/mnt/seagate/meanaudio/seed_robustness_135/seg139/pause_progress.json",
+  "autoresume": "/mnt/seagate/meanaudio/seed_robustness_135/seg139/pause_progress.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "seed-42 runs 113/114/115/116/117/118 audio and lvl30 blocks"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/segment_length_139_summary.json"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/segment_length_139_tables.md"
+  }
+ ],
+ "queue_name": "139_segment_length.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-21",
+   "note": "Written by dispatch task 20261021-024128-4f99f6; not queued."
+  }
+ ]
+}
