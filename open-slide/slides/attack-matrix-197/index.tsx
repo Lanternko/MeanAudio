@@ -1,6 +1,6 @@
 import type { DesignSystem, Page, SlideMeta } from '@open-slide/core';
-import { Step, Steps, useSlidePageNumber } from '@open-slide/core';
-import type { CSSProperties, ReactNode, RefObject } from 'react';
+import { Step, Steps, useIsActivePage, useSlidePageNumber } from '@open-slide/core';
+import type { CSSProperties, ReactNode, RefObject, SyntheticEvent } from 'react';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 // 197 攻擊 × 指標兩張大表（2026-11-21 會議用，8 頁）
@@ -181,11 +181,10 @@ const Shell = ({ section, children }: { section: string; children: ReactNode }) 
           right: 100,
           bottom: 40,
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr 1fr auto',
+          gridTemplateColumns: '1fr 1fr auto',
         }}
       >
         <span>{section}</span>
-        <span>D ＝ 處理後 − 同段原版</span>
         <span>無人類評分</span>
         <span>
           {String(current).padStart(2, '0')} / {String(total).padStart(2, '0')}
@@ -375,7 +374,7 @@ const FACTS: [string, string, ReactNode][] = [
 ];
 
 const Page1: Page = () => (
-  <Shell section="METHOD 1/2">
+  <Shell section="METHOD 1/3">
     <Title sub="同一包音檔、同一組評分器；每一格都是處理後減同一段原版">資料與處理</Title>
 
     <div>
@@ -426,64 +425,155 @@ const Page1: Page = () => (
   </Shell>
 );
 
-// ───────────────────────── 第 2 頁：判定規則 ─────────────────────────
+// ───────────────────────── 第 0 頁：實驗目的 ─────────────────────────
+
+const PagePurpose: Page = () => (
+  <Shell section="PURPOSE">
+    <Title sub="對同一段音檔做一句話就講得完的處理，跑之前先寫下分數「應該」怎麼動；評分器動錯方向，就是它會出錯的地方">
+      音樂評分器什麼時候會出錯？
+    </Title>
+
+    <Kicker>預期方向 × 實際 → 判讀</Kicker>
+    <div style={{ display: 'grid', gridTemplateColumns: '230px 1fr 1.25fr', fontSize: 28, alignItems: 'stretch', marginTop: 6 }}>
+      {(
+        [
+          ['該不變', '音量 ±6 dB、前面補 0.5 秒靜音、rubberband 原速原調、分離再相加', <>不到 m/2 <Swatch v="ok">做對</Swatch>　m/2～m <Swatch v="drift">做錯</Swatch>　超出 m <Swatch v="over">做錯嚴重</Swatch></>],
+          ['不變或變差', '移調、變速、低通、high pass、補某個頻段', <>不變或下降 <Swatch v="ok">做對</Swatch>　上升 m/2～m <Swatch v="drift">做錯</Swatch>　超出 m <Swatch v="wrong">做錯嚴重</Swatch></>],
+          ['該變差', '加噪音、加大鼓或喀噠聲、疊別的聲音、彈錯音', <>下降超出 m <Swatch v="hit">做對</Swatch>　帶內 <Swatch v="small">做錯</Swatch>　上升超出 m <Swatch v="wrong">做錯嚴重</Swatch></>],
+        ] as [string, string, ReactNode][]
+      ).map(([k, ex, d], i) => (
+        <div key={k} style={{ display: 'contents' }}>
+          <div style={{ display: 'flex', alignItems: 'center', fontWeight: 900, fontSize: 34, padding: '34px 0', borderTop: `${i > 0 ? 1 : 2}px solid ${i > 0 ? C.rule : C.ink}` }}>{k}</div>
+          <div style={{ display: 'flex', alignItems: 'center', color: C.muted, fontSize: 24, padding: '34px 24px 34px 0', borderTop: `${i > 0 ? 1 : 2}px solid ${i > 0 ? C.rule : C.ink}` }}>{ex}</div>
+          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', padding: '34px 0', borderTop: `${i > 0 ? 1 : 2}px solid ${i > 0 ? C.rule : C.ink}` }}>{d}</div>
+        </div>
+      ))}
+    </div>
+
+    <div style={{ marginTop: 'auto', paddingTop: 18, borderTop: `2px solid ${C.ink}`, fontSize: 26, lineHeight: 1.6 }}>
+      <div><B>做錯嚴重</B>：分數往反方向明顯移動（例：低通之後反而加分）</div>
+      <div><B>1 類錯誤＝誤報</B>：該不變卻偏移　　<B>2 類錯誤＝漏報</B>：該變差卻沒降超過 m</div>
+    </div>
+  </Shell>
+);
+
+// ───────────────────────── 第 2 頁：平手帶 m ─────────────────────────
+// 棒：197 同一包 1,000 id 的原版平均（~/eval_output_nvme/attack_metric_matrix_197/per_clip/T1_*_base.tsv；MeanAudio 為 3 seed 平均）
+// S：跑之前固定的系統間全距（A1 181、PQ／CE 183、CMI-RM 194 caption 模式）；m＝0.1 S
+
+const M_SYS = ['真實', 'MusicGen', 'MusicLDM', 'MA CFG3＋neg', 'MA CFG0'];
+const M_PANELS: { k: string; S: number; v: number[] }[] = [
+  { k: 'MuQ A1', S: 0.551, v: [3.764, 3.538, 3.072, 3.307, 2.963] },
+  { k: 'AES PQ', S: 0.914, v: [6.989, 7.355, 6.633, 7.554, 6.593] },
+  { k: 'AES CE', S: 1.19, v: [6.051, 6.391, 5.61, 6.852, 5.764] },
+  { k: 'CMI-RM', S: 0.657, v: [1.067, 0.929, 0.45, 0.88, 0.411] },
+];
+
+const MPanel = ({ k, S, v }: (typeof M_PANELS)[number]) => {
+  const W = 660, H = 330, L = 10, R = 170, T = 34, Bm = 58;
+  const lo = Math.min(...v) - 0.45 * S;
+  const hi = Math.max(...v) + 0.2 * S;
+  const y = (x: number) => T + ((hi - x) * (H - T - Bm)) / (hi - lo);
+  const n = v.length;
+  const slot = (W - L - R) / n;
+  const bw = slot * 0.66;
+  const ttm = v.slice(1);
+  const base = Math.min(...ttm);
+  const m = S / 10;
+  const bx = W - R + 34;
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', height: '100%' }}>
+      <line x1={L} x2={W - R + 10} y1={H - Bm} y2={H - Bm} stroke={C.ink} strokeWidth={2} />
+      {v.map((val, i) => {
+        const x = L + i * slot + (slot - bw) / 2;
+        const real = i === 0;
+        return (
+          <g key={i}>
+            <rect x={x} y={y(val)} width={bw} height={H - Bm - y(val)} fill={real ? 'none' : C.fill} stroke={real ? C.faint : C.ink} strokeWidth={1.5} strokeDasharray={real ? '5 4' : undefined} />
+            <text x={x + bw / 2} y={y(val) - 8} textAnchor="middle" fontSize={21} fontWeight={700} fontFamily={narrow} fill={real ? C.muted : C.ink}>{val.toFixed(2)}</text>
+            <text x={x + bw / 2} y={H - Bm + 22} textAnchor="middle" fontSize={17} fill={real ? C.muted : C.ink}>{M_SYS[i].split(' ').map((w, k) => <tspan key={k} x={x + bw / 2} dy={k ? 19 : 0}>{w}</tspan>)}</text>
+          </g>
+        );
+      })}
+      <line x1={L} x2={W - R + 10} y1={y(base)} y2={y(base)} stroke={C.ink} strokeWidth={1} strokeDasharray="4 5" />
+      <line x1={L} x2={W - R + 10} y1={y(base + S)} y2={y(base + S)} stroke={C.ink} strokeWidth={1} strokeDasharray="4 5" />
+      <g stroke={C.ink} strokeWidth={2.5}>
+        <line x1={bx} x2={bx} y1={y(base)} y2={y(base + S)} />
+        <line x1={bx - 8} x2={bx + 8} y1={y(base)} y2={y(base)} />
+        <line x1={bx - 8} x2={bx + 8} y1={y(base + S)} y2={y(base + S)} />
+      </g>
+      <rect x={bx - 7} y={y(base + m)} width={14} height={y(base) - y(base + m)} fill={C.red} />
+      <text x={bx + 14} y={(y(base) + y(base + S)) / 2 - 4} fontSize={20} fontWeight={900} fill={C.ink}>S</text>
+      <text x={bx + 14} y={(y(base) + y(base + S)) / 2 + 20} fontSize={18} fontFamily={narrow} fill={C.ink}>{S.toFixed(3)}</text>
+      <text x={bx + 14} y={y(base) - 2} fontSize={18} fontWeight={900} fill={C.red}>m {m.toFixed(3)}</text>
+    </svg>
+  );
+};
+
+const PageM: Page = () => (
+  <Shell section="METHOD 2/3">
+    <Title sub="差距小於「系統之間差距的一成」，就算平手">平手帶 m 是什麼</Title>
+    <div style={{ display: 'flex', gap: 56, flex: 1, minHeight: 0 }}>
+      <div style={{ flex: 2.3, display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', columnGap: 40, rowGap: 18, minHeight: 0 }}>
+        {M_PANELS.map((p) => (
+          <div key={p.k} style={{ display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div style={{ fontSize: 26, fontWeight: 900, borderBottom: `2px solid ${C.ink}`, paddingBottom: 4 }}>{p.k}</div>
+            <div style={{ flex: 1, minHeight: 0 }}>
+              <MPanel {...p} />
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ flex: 1 }}>
+        <Lines
+          size={24}
+          items={[
+            <><B>S</B>＝5 個 TTM 系統（MusicGen、MusicLDM、MusicLDM＋fid8、MeanAudio CFG0、CFG3＋neg）平均分數的<B>全距</B>，跑之前就固定</>,
+            <><B>m</B>＝S 的 <Red>10%</Red>；圖上紅色小段</>,
+            <>處理後 − 同段原版的 95% CI 整段超出 m＝<B>明顯變了</B>；超出 m/2＝有偵測到、但不明顯</>,
+          ]}
+        />
+        <div style={{ fontSize: 18, color: C.muted, marginTop: 16, lineHeight: 1.5 }}>
+          棒＝197 同一包 1,000 段原版的平均（MeanAudio 為 3 seed 平均；真實錄音虛線，只當參考）；縱軸不從 0 開始。S 取自先前的系統比較（A1 181、PQ／CE 183、CMI-RM 194），與這裡的棒不是同一批，全距略有出入。
+        </div>
+      </div>
+    </div>
+  </Shell>
+);
+
+// ───────────────────────── 第 3 頁：判定規則 ─────────────────────────
 
 const EXAMPLE: Row[] = [
   { label: '低通 6 kHz', group: '不變或變差', cells: [['+0.153**', 'wrong'], ['−0.338**', 'ok'], ['−0.195**', 'ok'], ['−0.133**', 'ok']] },
 ];
 
 const Page2: Page = () => (
-  <Shell section="METHOD 2/2">
+  <Shell section="METHOD 3/3">
     <Title sub="方向在跑之前登錄；移調、變速、低通只能不變或變差，變好就是錯">判定規則</Title>
 
     <div style={{ display: 'flex', gap: 64 }}>
       <div style={{ flex: 1 }}>
-        <Kicker>數字與平手帶</Kicker>
+        <Kicker>每一格的數字</Kicker>
         <Lines
           size={26}
           items={[
             <><B>d</B>＝處理後 − 同段原版，逐段配對；主表是 6 個底的等權平均</>,
-            <>95% CI 整段超出平手帶 m＝明顯變了；整段超出 m/2＝有偵測到、但不明顯</>,
+            <>和平手帶 m 比：95% CI 整段超出 m＝明顯變了；整段超出 m/2＝有偵測到、但不明顯</>,
             <>格子不標星號，顏色就是判定</>,
           ]}
         />
-        <div style={{ marginTop: 18, fontSize: 21, color: C.muted }}>平手帶 m＝5 個 TTM 系統（MusicGen、MusicLDM×2、MeanAudio×2）平均分數全距的 10%，即系統間差距的一成</div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', marginTop: 6, borderTop: `2px solid ${C.ink}` }}>
-          {[
-            ['A1', '0.055'],
-            ['PQ', '0.091'],
-            ['CE', '0.119'],
-            ['CMI', '0.066'],
-          ].map(([k, v], i) => (
-            <div key={k} style={{ paddingTop: 8, paddingLeft: i > 0 ? 18 : 0, borderLeft: i > 0 ? `1px solid ${C.rule}` : 'none' }}>
-              <div style={{ fontFamily: mono, fontSize: 16, letterSpacing: '0.12em', color: C.muted }}>{k}</div>
-              <div style={{ fontFamily: narrow, fontWeight: 700, fontSize: 52, lineHeight: 1.1 }}>{v}</div>
-            </div>
-          ))}
-        </div>
       </div>
 
-      <div style={{ flex: 1.2 }}>
-        <Kicker>預期方向 × 實際 → 判讀</Kicker>
-        <div style={{ display: 'grid', gridTemplateColumns: '170px 1fr', fontSize: 25, alignItems: 'center' }}>
-          {(
-            [
-              ['該不變', <>不到 m/2 <Swatch v="ok">做對</Swatch>　m/2～m <Swatch v="drift">做錯</Swatch>　超出 m <Swatch v="over">做錯嚴重</Swatch></>],
-              ['不變或變差', <>不變或下降 <Swatch v="ok">做對</Swatch>　上升 m/2～m <Swatch v="drift">做錯</Swatch>　超出 m <Swatch v="wrong">做錯嚴重</Swatch></>],
-              ['該變差', <>下降超出 m <Swatch v="hit">做對</Swatch>　帶內 <Swatch v="small">做錯</Swatch>　上升超出 m <Swatch v="wrong">做錯嚴重</Swatch></>],
-              ['無法判斷', <><Swatch v="na">只報讀數</Swatch>　表 2 末三列（沒有正確方向）</>],
-            ] as [string, ReactNode][]
-          ).map(([k, d], i) => (
-            <div key={k} style={{ display: 'contents' }}>
-              <div style={{ fontWeight: 900, padding: '20px 0', borderTop: i > 0 ? `1px solid ${C.rule}` : 'none' }}>{k}</div>
-              <div style={{ padding: '20px 0', borderTop: i > 0 ? `1px solid ${C.rule}` : 'none' }}>{d}</div>
-            </div>
-          ))}
-        </div>
-        <div style={{ marginTop: 14, paddingTop: 14, borderTop: `2px solid ${C.ink}`, fontSize: 23, lineHeight: 1.5 }}>
-          <B>嚴重錯誤</B>＝深紅格數　<B>1 類錯誤</B>＝誤報（該不變卻偏移）　<B>2 類錯誤</B>＝漏報（該變差沒降過 m）
-          <div style={{ color: C.muted, fontSize: 21 }}>k/6＝6 個底裡有幾個自己也過；主表平均會蓋掉逐底差異，引用時看附表</div>
-        </div>
+      <div style={{ flex: 1 }}>
+        <Kicker>表下方的計數</Kicker>
+        <Lines
+          size={26}
+          items={[
+            <><B>嚴重錯誤</B>＝深紅格數</>,
+            <><B>1 類錯誤（應該不變，卻變好）</B>＝誤報（該不變卻偏移）　<B>2 類錯誤（該退步，卻不變、甚至加分）</B>＝漏報（該變差沒降過 m）</>,
+            <><B>k/6</B>＝6 個底裡有幾個自己也過；主表平均會蓋掉逐底差異，引用時看附表</>,
+          ]}
+        />
       </div>
     </div>
 
@@ -513,13 +603,10 @@ const Page3: Page = () => (
           groupW={90}
           tallies={[
             { label: '嚴重錯誤', vals: countCol([...T1_LEFT, ...T1_RIGHT], ['wrong', 'over']), red: true },
-            { label: '1 類錯誤', vals: countCol([...T1_LEFT, ...T1_RIGHT], ['drift']) },
-            { label: '2 類錯誤', vals: countCol([...T1_LEFT, ...T1_RIGHT], ['small', 'smallup', 'flat']) },
+            { label: '1 類錯誤（該平手，卻加分）', vals: countCol([...T1_LEFT, ...T1_RIGHT], ['drift']) },
+            { label: '2 類錯誤（該扣分，卻平手或加分）', vals: countCol([...T1_LEFT, ...T1_RIGHT], ['small', 'smallup', 'flat']) },
           ]}
         />
-        <div style={{ fontSize: 17, color: C.muted, marginTop: 4 }}>
-          兩欄合計。1 類＝誤報：該不變卻偏移；2 類＝漏報：該變差卻沒降超過 m
-        </div>
         <div style={{ marginTop: 14, borderTop: `2px solid ${C.ink}` }}>
           <Lines
             size={21}
@@ -555,8 +642,8 @@ const Page4: Page = () => {
             groupW={120}
             tallies={[
               { label: '嚴重錯誤', vals: countCol(T2A, ['wrong', 'over']), red: true },
-              { label: '1 類錯誤', vals: countCol(T2A, ['drift']) },
-              { label: '2 類錯誤', vals: countCol(T2A, ['small', 'smallup', 'flat']) },
+              { label: '1 類錯誤（該平手，卻加分）', vals: countCol(T2A, ['drift']) },
+              { label: '2 類錯誤（該扣分，卻平手或加分）', vals: countCol(T2A, ['small', 'smallup', 'flat']) },
             ]}
           />
         </div>
@@ -940,7 +1027,7 @@ const MaryChart = () => {
                 {b.label ? (
                   <text x={x + bw / 2} y={H - Bm + 28} textAnchor="middle" fontSize={g.hot ? 17 : 21} fontFamily={g.hot ? undefined : narrow} fill={C.ink}>{b.label}</text>
                 ) : null}
-                <text x={x + bw / 2} y={H - Bm + 50} textAnchor="middle" fontSize={15} fontFamily={narrow} fill={C.muted}>n {b.n}</text>
+                <text x={x + bw / 2} y={H - Bm + 50} textAnchor="middle" fontSize={15} fontFamily={narrow} fill={C.muted}>{b.n} 段</text>
               </g>
             );
           })}
@@ -960,7 +1047,7 @@ const Page7: Page = () => (
           <MaryChart />
         </div>
         <div style={{ fontSize: 16, color: C.muted, marginTop: 4 }}>
-          AES CE；8 種音色 × 12 主音，−30 LUFS。柱高＝原版平均 5.78＋同段配對差，紅鬚＝95% CI；只算所有音都在樂器音域內的段（n）
+          AES CE；−30 LUFS。柱下的「段」＝納入的段數：8 種音色 × 12 主音＝96 段，打亂與隨機音高每段再抽 3 次（最多 288），扣掉有音超出樂器音域的段。柱高＝原版平均 5.78＋同段配對差，紅鬚＝95% CI
         </div>
       </div>
       <div style={{ flex: 1 }}>
@@ -1002,7 +1089,6 @@ const STACK: { name: string; how: string; v: number; d: number; note?: string }[
 const STACK_MARKS: { v: number; label: string; red?: boolean }[] = [
   { v: 6.03, label: 'MusicCaps 真實錄音平均' },
   { v: 8.09, label: 'e00 合成聲' },
-  { v: 8.5, label: '目標', red: true },
 ];
 
 const STACK_CSS = `
@@ -1071,6 +1157,110 @@ const StackMeter = ({ v }: { v: number }) => {
   );
 };
 
+// 每一步的試聽檔：ladderNN.wav＝原曲加到第 NN 張卡；seed 2006（12 個評分 seed 之一），
+// 由 −30 LUFS 的評分版本統一 +12.2 dB（約 −17.8 LUFS），12 段響度相同。產生方式見 run10f.py 的 steps
+const LADDER_AUDIO = Array.from({ length: 12 }, (_, i) =>
+  new URL(`./assets/ladder${String(i).padStart(2, '0')}.wav`, import.meta.url).href,
+);
+
+// 卡數變了就自動播那一步；離開本頁就停。按鈕只切換播放／暫停，不影響翻頁
+const StackAudio = ({ n }: { n: number }) => {
+  const active = useIsActivePage();
+  const audio = useRef<HTMLAudioElement | null>(null);
+  const [playing, setPlaying] = useState(false);
+  const [prog, setProg] = useState(0);
+  useEffect(() => {
+    const a = new Audio();
+    a.preload = 'auto';
+    const onPlay = () => setPlaying(true);
+    const onStop = () => setPlaying(false);
+    const onTime = () => setProg(a.duration ? a.currentTime / a.duration : 0);
+    a.addEventListener('play', onPlay);
+    a.addEventListener('pause', onStop);
+    a.addEventListener('ended', onStop);
+    a.addEventListener('timeupdate', onTime);
+    audio.current = a;
+    return () => {
+      a.pause();
+      a.removeAttribute('src');
+      audio.current = null;
+    };
+  }, []);
+  useEffect(() => {
+    const a = audio.current;
+    if (!a) return;
+    if (!active) {
+      a.pause();
+      return;
+    }
+    // 稍等一下再播：進頁時卡數可能先跳一次才定下來
+    const t = window.setTimeout(() => {
+      a.src = LADDER_AUDIO[n];
+      a.currentTime = 0;
+      setProg(0);
+      a.play().catch(() => setPlaying(false));
+    }, 180);
+    return () => window.clearTimeout(t);
+  }, [n, active]);
+  const toggle = (e: SyntheticEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const a = audio.current;
+    if (!a || !active) return;
+    if (a.paused) {
+      if (!a.src) a.src = LADDER_AUDIO[n];
+      if (a.ended) a.currentTime = 0;
+      a.play().catch(() => {});
+    } else a.pause();
+  };
+  const stop = (e: SyntheticEvent) => e.stopPropagation();
+  const label = n === 0 ? '瑪麗原曲' : `第 ${n} 張：${STACK[n - 1].name}`;
+  return (
+    <div data-ladder-audio={active ? 'on' : 'off'} style={{ display: 'flex', alignItems: 'center', gap: 18, marginTop: 6 }} onPointerDown={stop} onMouseDown={stop} onClick={stop}>
+      {/* 用 div 不用 button：縮圖本身是 button，裡面不能再放 button */}
+      <div
+        role="button"
+        tabIndex={-1}
+        onClick={toggle}
+        aria-label={playing ? '暫停' : '播放'}
+        style={{
+          width: 56,
+          height: 56,
+          borderRadius: 28,
+          border: `2px solid ${C.ink}`,
+          background: playing ? C.ink : 'transparent',
+          color: playing ? C.paper : C.ink,
+          display: 'grid',
+          placeItems: 'center',
+          cursor: 'pointer',
+          padding: 0,
+          boxSizing: 'border-box',
+          flex: 'none',
+        }}
+      >
+        <svg width={22} height={22} viewBox="0 0 22 22">
+          {playing ? (
+            <g fill="currentColor">
+              <rect x={4} y={3} width={5} height={16} />
+              <rect x={13} y={3} width={5} height={16} />
+            </g>
+          ) : (
+            <path d="M6 3 L19 11 L6 19 Z" fill="currentColor" />
+          )}
+        </svg>
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontSize: 20, color: C.muted, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          {playing ? '正在播' : '已暫停'}・{label}
+        </div>
+        <div style={{ height: 4, background: C.fill, marginTop: 8 }}>
+          <div style={{ height: 4, width: `${prog * 100}%`, background: C.ink }} />
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const Page8: Page = () => {
   const ref = useRef<HTMLDivElement>(null);
   const n = useRevealedCount(ref);
@@ -1078,9 +1268,9 @@ const Page8: Page = () => {
   const shownV = useTween(cur);
   const last = n === 0 ? null : STACK[n - 1];
   return (
-    <Shell section="CE · STACKING WITHOUT E00">
+    <Shell section="CE · STACKING">
       <style>{STACK_CSS}</style>
-      <Title sub={<>從瑪麗原曲出發，只用 SoundFont、不用 e00，一次加一項；每一項都讓 CE 往上，最後 <B>8.40</B>，<Red>沒到 8.5</Red></>}>一張一張疊上去</Title>
+      <Title sub={<>從瑪麗原曲出發，只用 SoundFont，一次加一項；每一項都讓 CE 往上，最後 <B>8.40</B></>}>一張一張疊上去</Title>
       <div className="stk" style={{ display: 'flex', gap: 64, flex: 1, minHeight: 0 }}>
         <div ref={ref} style={{ flex: 1.15, display: 'flex', flexDirection: 'column', gap: 7 }}>
           <div style={{ display: 'grid', gridTemplateColumns: '44px 1fr auto', alignItems: 'baseline', padding: '6px 16px', fontSize: 22, color: C.muted, borderBottom: `1px solid ${C.rule}` }}>
@@ -1134,6 +1324,9 @@ const Page8: Page = () => {
           <div style={{ marginTop: 26 }}>
             <StackMeter v={shownV} />
           </div>
+          <div style={{ marginTop: 18 }}>
+            <StackAudio n={n} />
+          </div>
           <div style={{ fontSize: 22, marginTop: 14, lineHeight: 1.5, minHeight: 66, visibility: n === STACK.length ? 'visible' : 'hidden' }}>
             單檔最高 <B>8.48</B>；全換原聲樂器 8.31；鎖 −23／−16 LUFS 不會更高
           </div>
@@ -1146,4 +1339,126 @@ const Page8: Page = () => {
   );
 };
 
-export default [Page1, Page2, Page3, Page4, Page6, Page7, Page8, Page5] satisfies Page[];
+// ───────────────────────── 階梯頁之後：加分最多的四項（對話框） ─────────────────────────
+// 數字取自 10f 順序（scores10f_ladder.json）；做法取自 run10.py render10 與 run2.py 鼓型
+const TOP4: Record<string, { what: ReactNode; note: ReactNode }> = {
+  低音線: {
+    what: <>約每 0.6 秒一顆 Synth Bass 2，音高在主旋律下 1～2 個八度內<B>隨機選</B>，跟主旋律一樣大聲。補上原曲沒有的低頻聲部</>,
+    note: <>不跟和弦走也加分；放在別的順序 +0.11～+1.57</>,
+  },
+  '換主音色＋疊小提琴': {
+    what: <>主旋律從鋼琴換成 GM 97 合成音色 FX 2，同一條旋律再疊一把小提琴（小 6 dB），音色變厚、音尾變長</>,
+    note: <>另一個順序裡拆開各自加都<Red>扣分</Red>（換音色 −0.54、疊小提琴 −0.17），兩個一起才加分</>,
+  },
+  '鼓型換 trap': {
+    what: <>鼓的音量不變（小 19 dB），只換打法：rock 110 BPM → trap 140 BPM，大鼓切分、hi-hat 多加 16 分音</>,
+    note: <>節奏層變密；鼓本身還是很小聲</>,
+  },
+  力度隨機: {
+    what: <>每顆音的力度從固定 100 改成 120 ± 25 隨機，很多音頂到 127。整段最後鎖 −30 LUFS，加的是<B>音頭起伏與大力度的音色</B>，不是音量</>,
+    note: <>樂器沒換、音也沒變，只動演奏的輕重</>,
+  },
+};
+
+const PageTop4: Page = () => {
+  const box = useRef<HTMLDivElement>(null);
+  const cardRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const tipRefs = useRef<Record<string, HTMLDivElement | null>>({});
+  const [paths, setPaths] = useState<{ k: string; x1: number; y1: number; x2: number; y2: number }[]>([]);
+  useLayoutEffect(() => {
+    const measure = () => {
+      const root = box.current;
+      if (!root) return;
+      const R = root.getBoundingClientRect();
+      const k = R.width / (root.offsetWidth || 1) || 1;
+      const out = Object.keys(TOP4).flatMap((name) => {
+        const c = cardRefs.current[name]?.getBoundingClientRect();
+        const t = tipRefs.current[name]?.getBoundingClientRect();
+        if (!c || !t) return [];
+        return [{ k: name, x1: (c.right - R.left) / k, y1: (c.top + c.height / 2 - R.top) / k, x2: (t.left - R.left) / k, y2: (t.top + t.height / 2 - R.top) / k }];
+      });
+      setPaths(out);
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    if (box.current) ro.observe(box.current);
+    return () => ro.disconnect();
+  }, []);
+  const topSum = STACK.filter((s) => s.name in TOP4).reduce((a, s) => a + s.d, 0);
+  const total = STACK[STACK.length - 1].v - STACK_BASE;
+  return (
+    <Shell section="CE · STACKING · TOP 4">
+      <Title sub={<>四項合計 <B>+{topSum.toFixed(2)}</B>，占整條階梯 +{total.toFixed(2)} 的 <B>{Math.round((topSum / total) * 100)}%</B></>}>
+        加分最多的四項在做什麼
+      </Title>
+      <div ref={box} style={{ position: 'relative', display: 'flex', gap: 130, flex: 1, minHeight: 0 }}>
+        <div style={{ flex: '0 0 760px', display: 'flex', flexDirection: 'column', gap: 7 }}>
+          <div style={{ display: 'grid', gridTemplateColumns: '44px 1fr auto', alignItems: 'baseline', padding: '6px 16px', fontSize: 22, color: C.muted, borderBottom: `1px solid ${C.rule}` }}>
+            <span style={{ fontFamily: mono }}>00</span>
+            <span>瑪麗有隻小綿羊：鋼琴、C4 附近</span>
+            <span style={{ fontFamily: narrow, fontWeight: 700 }}>{STACK_BASE.toFixed(2)}</span>
+          </div>
+          {STACK.map((s, i) => {
+            const hot = s.name in TOP4;
+            return (
+              <div
+                key={s.name}
+                ref={(el) => {
+                  cardRefs.current[s.name] = el;
+                }}
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '44px 1fr auto',
+                  alignItems: 'center',
+                  columnGap: 8,
+                  padding: '5px 16px',
+                  background: hot ? C.ink : 'transparent',
+                  color: hot ? C.paper : C.muted,
+                  border: `2px solid ${hot ? C.ink : C.rule}`,
+                }}
+              >
+                <span style={{ fontFamily: mono, fontSize: 18, opacity: 0.7 }}>{String(i + 1).padStart(2, '0')}</span>
+                <span style={{ fontSize: 25, fontWeight: hot ? 900 : 500, lineHeight: 1.2 }}>{s.name}</span>
+                <span style={{ fontFamily: narrow, fontSize: 25, fontWeight: 900 }}>{fmtD(s.d)}</span>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', paddingTop: 2 }}>
+          {STACK.filter((s) => s.name in TOP4).map((s) => (
+            <div
+              key={s.name}
+              ref={(el) => {
+                tipRefs.current[s.name] = el;
+              }}
+              style={{ border: `2px solid ${C.ink}`, borderRadius: 14, padding: '14px 22px 14px', background: C.paper, position: 'relative' }}
+            >
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 16 }}>
+                <span style={{ fontSize: 30, fontWeight: 900 }}>{s.name}</span>
+                <span style={{ fontFamily: narrow, fontSize: 30, fontWeight: 900 }}>{fmtD(s.d)}</span>
+              </div>
+              <div style={{ fontSize: 21, lineHeight: 1.45, marginTop: 4 }}>{TOP4[s.name].what}</div>
+              <div style={{ fontSize: 18, lineHeight: 1.4, marginTop: 6, color: C.muted }}>{TOP4[s.name].note}</div>
+            </div>
+          ))}
+        </div>
+        <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', overflow: 'visible' }}>
+          {paths.map(({ k, x1, y1, x2, y2 }) => {
+            const mx = x1 + 46;
+            return (
+              <g key={k} stroke={C.ink} strokeWidth={2.5} fill="none">
+                <path d={`M ${x1} ${y1} L ${mx} ${y1} L ${x2 - 14} ${y2} L ${x2} ${y2}`} />
+                <circle cx={x1} cy={y1} r={6} fill={C.ink} />
+              </g>
+            );
+          })}
+        </svg>
+      </div>
+      <div style={{ fontSize: 16, color: C.muted, marginTop: 10 }}>
+        Δ 是這條順序（低音 → 短音 → 音色 → 鼓 → …）下的值，同一項換順序 Δ 會差很多；12 seed 平均、−30 LUFS、AES CE。無人類評分
+      </div>
+    </Shell>
+  );
+};
+
+export default [PagePurpose, Page1, PageM, Page2, Page3, Page4, Page6, Page7, Page8, PageTop4, Page5] satisfies Page[];
