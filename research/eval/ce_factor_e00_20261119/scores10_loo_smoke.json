@@ -1,0 +1,547 @@
+[
+ {
+  "name": "B (full)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 8.266067504882812,
+  "CE_ci": [
+   8.231462478637695,
+   8.30067253112793
+  ],
+  "per_seed": [
+   8.30067253112793,
+   8.231462478637695
+  ]
+ },
+ {
+  "name": "-pitch variety (Mary pitch cycle)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "mary",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 7.867415904998779,
+  "CE_ci": [
+   7.799915313720703,
+   7.9349164962768555
+  ],
+  "per_seed": [
+   7.799915313720703,
+   7.9349164962768555
+  ],
+  "dCE": -0.3986515998840332,
+  "dCE_ci": [
+   -0.5007572174072266,
+   -0.29654598236083984
+  ]
+ },
+ {
+  "name": "-range (center64/spread12)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 64,
+   "spread": 12,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 7.9434638023376465,
+  "CE_ci": [
+   7.884702682495117,
+   8.002224922180176
+  ],
+  "per_seed": [
+   7.884702682495117,
+   8.002224922180176
+  ],
+  "dCE": -0.322603702545166,
+  "dCE_ci": [
+   -0.4159698486328125,
+   -0.22923755645751953
+  ]
+ },
+ {
+  "name": "-rhythm (Mary rhythm)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "mary",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 7.679093837738037,
+  "CE_ci": [
+   7.6169891357421875,
+   7.741198539733887
+  ],
+  "per_seed": [
+   7.741198539733887,
+   7.6169891357421875
+  ],
+  "dCE": -0.5869736671447754,
+  "dCE_ci": [
+   -0.6144733428955078,
+   -0.559473991394043
+  ]
+ },
+ {
+  "name": "-timbre (generaluser piano)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 0,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 7.999487400054932,
+  "CE_ci": [
+   7.968877792358398,
+   8.030097007751465
+  ],
+  "per_seed": [
+   8.030097007751465,
+   7.968877792358398
+  ],
+  "dCE": -0.26658010482788086,
+  "dCE_ci": [
+   -0.27057552337646484,
+   -0.2625846862792969
+  ]
+ },
+ {
+  "name": "-bass",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": null,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 8.044408082962036,
+  "CE_ci": [
+   7.983705043792725,
+   8.105111122131348
+  ],
+  "per_seed": [
+   8.105111122131348,
+   7.983705043792725
+  ],
+  "dCE": -0.22165942192077637,
+  "dCE_ci": [
+   -0.2477574348449707,
+   -0.19556140899658203
+  ]
+ },
+ {
+  "name": "-velocity (100/sd0)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 100,
+   "vel_sd": 0,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 8.188307285308838,
+  "CE_ci": [
+   8.174415588378906,
+   8.20219898223877
+  ],
+  "per_seed": [
+   8.20219898223877,
+   8.174415588378906
+  ],
+  "dCE": -0.07776021957397461,
+  "dCE_ci": [
+   -0.09847354888916016,
+   -0.05704689025878906
+  ]
+ },
+ {
+  "name": "-layer1 (prog 40, -3 dB, oct 0)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 7.6804070472717285,
+  "CE_ci": [
+   7.645442962646484,
+   7.715371131896973
+  ],
+  "per_seed": [
+   7.715371131896973,
+   7.645442962646484
+  ],
+  "dCE": -0.585660457611084,
+  "dCE_ci": [
+   -0.5860195159912109,
+   -0.585301399230957
+  ]
+ },
+ {
+  "name": "-pad",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 8.239307403564453,
+  "CE_ci": [
+   8.21548843383789,
+   8.263126373291016
+  ],
+  "per_seed": [
+   8.263126373291016,
+   8.21548843383789
+  ],
+  "dCE": -0.026760101318359375,
+  "dCE_ci": [
+   -0.03754615783691406,
+   -0.015974044799804688
+  ]
+ },
+ {
+  "name": "-drums",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": null,
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 8.091970920562744,
+  "CE_ci": [
+   8.080187797546387,
+   8.103754043579102
+  ],
+  "per_seed": [
+   8.103754043579102,
+   8.080187797546387
+  ],
+  "dCE": -0.17409658432006836,
+  "dCE_ci": [
+   -0.19691848754882812,
+   -0.1512746810913086
+  ]
+ },
+ {
+  "name": "-drum groove (->rock)",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "mean_CE": 8.231759071350098,
+  "CE_ci": [
+   8.198267936706543,
+   8.265250205993652
+  ],
+  "per_seed": [
+   8.265250205993652,
+   8.198267936706543
+  ],
+  "dCE": -0.034308433532714844,
+  "dCE_ci": [
+   -0.035422325134277344,
+   -0.033194541931152344
+  ]
+ }
+]
