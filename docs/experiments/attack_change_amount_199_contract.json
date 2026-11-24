@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "attack-change-amount-199-20261125",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "199_attack_change_amount.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": false,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only. Change amount (rho/mel/d_clap/d_mert/fd_clap) for all 197 table rows; 6 listenable bases x 1000 ids (T1) + MAESTRO 150 x 2 SoundFont (T2A); mix and white-noise ladders as yardsticks. No A1/PQ/CE/CMI re-scoring."
+  },
+  "question": "How large is each 197 attack objectively: small change, medium, or replaced music?",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/attack_change_amount_199_20261125.md",
+  "design_document_sha256": "854228b82d3f4f00217e98e54573a0e0567a030a84347b27ffce64b36f499a60",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/attack_change_amount_199_20261125.md",
+    "seed": 20261117,
+    "bootstrap": {
+      "n": 5000,
+      "seed": 20261117
+    },
+    "clap_batch": 8,
+    "fifo": "GPU free < 8 GiB or MemAvailable < 14 GiB -> rc 75",
+    "hard_cap_hours": 5
+  },
+  "deviations": {
+    "see": "design doc deviation log (end of file)"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/attack_change_amount_199",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/attack_change_amount_199/pause_progress_199_attack_change_amount.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/attack_change_amount_199/pause_progress_199_attack_change_amount.json",
+    "note": "per-cell per_clip/*.tsv caches; incomplete cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/attack_change_amount_199/per_clip/*",
+      "/home/kojiek/eval_output_nvme/attack_change_amount_199/*.json",
+      "/home/kojiek/eval_output_nvme/attack_change_amount_199/emb/*"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/attack_change_amount_199/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/attack_change_amount_199.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/attack_change_amount_199.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/attack_change_amount_199.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/results/attack_change_amount_199_summary.json"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/attack_change_amount_199/timing.json"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "gpu_launch_allowed": true,
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/199_attack_change_amount.sh",
+    "launcher_sha256": "f61d0c0cf179327de096856c01847604b8d09d5a61cd11e837cd161fa1d77643",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/attack_change_amount_199_guest.py",
+    "harn_sha256": "9c95ccf8a847e31249093173dd5e44a1bd9df4e87e2564047cc865a19b42e434",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/attack_change_amount_199.py",
+    "action_sha256": "5e7824522b5f436b7aeafc8565a537acb3a073c3c0cdf88134cb0ee9fd36e5d8"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/attack_metric_matrix_197.py",
+      "sha256": "18c74c9c4f192d9257f68cb8a694df6df1b5c24ffe56f62b089a8e4d6c0bf766"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "sha256": "abdc18a35c2989a760c6246b3d975c426099700cea81f17d56411b2c501b1df4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_filter_ladder_193.py",
+      "sha256": "fe8a03276e89a70412dc2fe3fe4760ff8b51071d1f16a90922f71643f59f094a"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_133.py",
+      "sha256": "63508ed30cab14c291b2fed79118671ba4a28d2a837a91e63962046a2a31c8a5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/ce_weakness_195.py",
+      "sha256": "ea9f88d9570ff07383b1bbeb35e1ed42ff5b754782f1023d4ad2a77b3b82ab6f"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/ce_push_196.py",
+      "sha256": "255cb9c1bd4ca9e1b4a6feef3692abda90fe9d33ff3bc7cdca75078f1e3ae24a"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_stimuli.py",
+      "sha256": "a6ec0097f48b980e4daeded1c980806e2625bc6ba94e7a9ea123b33794552f1e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/analysis/attack_change_amount_tables.py",
+      "sha256": "f469a025d5216afaad12324ac5effb8b603bb52347822c7e3b98c30a4576c352"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/analysis/attack_metric_matrix_tables.py",
+      "sha256": "b3632555f689c8e937c3dab7f5661da15808d4176839b42367123ac1352514d6"
+    }
+  ]
+}

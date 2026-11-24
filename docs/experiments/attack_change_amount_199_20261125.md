@@ -83,7 +83,7 @@ eval-only。不訓練、不重評 A1／PQ／CE／CMI-RM；評分器的 Δ 直接
 
 ## 8. 執行
 
-- 走 p2 queue（估 1–1.5 小時，超過 30 分鐘）。腳本 `scripts/eval/attack_change_amount_199.py`＋guest＋contract，照 198 的樣式。
+- 走 p2 queue（原估 1–1.5 小時；依 smoke 計時修正為約 2.5 小時，hard cap 5 小時）。腳本 `scripts/eval/attack_change_amount_199.py`＋guest＋contract，照 198 的樣式。
 - 統計：逐底中位數與平均；跨底彙總用 197 同一套 cluster bootstrap（NB 5000、seed 20261117）。
 - 偏差紀錄寫在本檔末段。
 
@@ -92,3 +92,9 @@ eval-only。不訓練、不重評 A1／PQ／CE／CMI-RM；評分器的 Δ 直接
 - 改變量小不代表人聽不出來；「主觀上變差」仍沒有人類證據。
 - CLAP／MERT 自己也有盲點（133：MERT 對極性、提前 10 ms 不具不變性），所以用兩個嵌入＋兩個訊號量並列，不單押一個。
 - 分類門檻（r12、r0）是事先指定的慣例，不是聽感閾值。
+
+## 偏差紀錄（實作時補，2026-11-25）
+
+- D1：CLAP 嵌入批次固定 8（批次 32 與逐檔差 0.082 cos、批次 8 差 3e-7），不用更大批次。
+- D2：smoke 只跑 16 id × 2 底（real、ma_cfg3neg_s14159265），不可判讀；驗收與分類程式在 smoke 輸出上跑通。
+- D3：contract 的 reports 為結果 summary.json 與 timing.json（projection.json 以 timing.json 取代）；sha 綁定用 `scripts/eval/attack_change_amount_199_contract_build.py` 重算。
