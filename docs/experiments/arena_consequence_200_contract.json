@@ -18,7 +18,7 @@
   },
   "question": "Arena 的八種處理只套在人類判輸的一段（L）、判贏的一段（W）、兩段（B）時，六個評分器與人類的一致率會不會下降（有後果／無後果／未定）？",
   "design_document": "/home/kojiek/MeanAudio/docs/experiments/paper_closing_evidence_200_202_20261125.md",
-  "design_document_sha256": "313b08441975cc548031adede32c62034cc1d25891ae850b29581ba3cf44f4ad",
+  "design_document_sha256": "d73f721edbc24eae23f6b21df7d5f05edc204bcb115fb1450314f2ac75e424e8",
   "fixed_protocol": {
     "prereg": "docs/experiments/paper_closing_evidence_200_202_20261125.md section 2 and 4",
     "margin": 0.03,
@@ -89,7 +89,7 @@
     "harn": "/home/kojiek/MeanAudio/scripts/eval/arena_consequence_200_guest.py",
     "harn_sha256": "48a27793a968b33f99ff6a470d4fea8f1a50fc71514a3a34c9c7072147e1f497",
     "action": "/home/kojiek/MeanAudio/scripts/eval/arena_consequence_200.py",
-    "action_sha256": "ece6256b933e5568b41636095587168df4fecfccf2b0b557b8efe48c6b4d07f7"
+    "action_sha256": "dbadd6314de270465d670c9d41caa0cf7d07a2f8ca2d21773d87e1efedf1956b"
   },
   "code_bindings": [
     {

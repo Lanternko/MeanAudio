@@ -366,14 +366,33 @@ def add_timing(cond, k, n, wall):
 
 
 def identity_gate(f0_rows):
-    """F0 A1 MI vs r2 whole-file score (centre 10 s of central 30 s == centre 10 s of the file)."""
+    """F0 A1 MI vs r2 whole-file score.
+
+    200-D7: MuQ-Eval resamples to 24 kHz before its centre crop, so a 30 s crop whose start is not a
+    multiple of sr/gcd(sr, 24000) lands on a sub-sample-shifted grid and cannot be bit-identical.
+    Gate: grid-aligned clips median |d| <= 1e-3; shifted clips median |d| <= 1e-2.
+    """
+    import soundfile as sf
     ref = {}
     with open(R2_A1, newline='') as f:
         for r in csv.DictReader(f, delimiter='\t'):
             ref[r['unit_id'].split('|')[1]] = float(r['muqeval_A1_MI'])
-    d = np.array([abs(v['A1_MI'] - ref[i]) for i, v in f0_rows.items() if i in ref])
-    g = {'n': int(len(d)), 'median_abs_diff': float(np.median(d)), 'max_abs_diff': float(d.max()),
-         'p95_abs_diff': float(np.percentile(d, 95)), 'ok': bool(np.median(d) <= 1e-3)}
+    idx = read_index()
+    al, mis = [], []
+    for i, v in f0_rows.items():
+        if i not in ref:
+            continue
+        info = sf.info(str(idx[i]['path']))
+        sr, n = info.samplerate, info.frames
+        s = (n - N30 * sr) // 2 if n > N30 * sr else 0
+        (al if s % (sr // math.gcd(sr, 24000)) == 0 else mis).append(abs(v['A1_MI'] - ref[i]))
+    d = np.array(al + mis)
+    med = lambda a: float(np.median(a)) if len(a) else 0.0
+    g = {'n': int(len(d)), 'median_abs_diff': med(d), 'max_abs_diff': float(d.max()),
+         'p95_abs_diff': float(np.percentile(d, 95)),
+         'n_aligned': len(al), 'median_abs_diff_aligned': med(al),
+         'n_shifted': len(mis), 'median_abs_diff_shifted': med(mis),
+         'ok': bool(med(al) <= 1e-3 and med(mis) <= 1e-2)}
     jdump(OUT / 'gate.json', g)
     return g
 
@@ -415,7 +434,7 @@ def run_shard(k, ids, idx, man):
             g = identity_gate(tsv_read(tsv_path('F0', k)))
             log(f'identity gate: {g}')
             if not g['ok']:
-                raise SystemExit(f'IDENTITY GATE FAILED: median |dA1| {g["median_abs_diff"]:.2e} > 1e-3 (see {OUT / "gate.json"})')
+                raise SystemExit(f'IDENTITY GATE FAILED: aligned {g["median_abs_diff_aligned"]:.2e} / shifted {g["median_abs_diff_shifted"]:.2e} (see {OUT / "gate.json"})')
     del data
 
 
