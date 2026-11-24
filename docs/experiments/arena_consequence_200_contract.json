@@ -1,0 +1,169 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "arena-consequence-200-20261125",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "200_arena_consequence.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": false,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only. Arena 3,998 clips x 8 treatments x 6 scorers (A1/A3a/PQ/CE/CMI-RM/PAM), F0 = central 30 s native sr; no audio kept. Identity gate vs r2 A1."
+  },
+  "question": "Arena 的八種處理只套在人類判輸的一段（L）、判贏的一段（W）、兩段（B）時，六個評分器與人類的一致率會不會下降（有後果／無後果／未定）？",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/paper_closing_evidence_200_202_20261125.md",
+  "design_document_sha256": "313b08441975cc548031adede32c62034cc1d25891ae850b29581ba3cf44f4ad",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/paper_closing_evidence_200_202_20261125.md section 2 and 4",
+    "margin": 0.03,
+    "bootstrap": {
+      "n": 5000,
+      "seed": 20261125
+    },
+    "seed": 20261125,
+    "fifo": "GPU free < 8 GiB or MemAvailable < 14 GiB -> rc 75",
+    "hard_cap_hours": 9
+  },
+  "deviations": {
+    "see": "design doc section 6 (200-D1..D6)"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/arena_consequence_200",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/arena_consequence_200/pause_progress_200_arena_consequence.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/arena_consequence_200/pause_progress_200_arena_consequence.json",
+    "note": "per-cell per_clip/*.tsv caches (treatment x 250-clip shard); partial cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/arena_consequence_200/per_clip/*",
+      "/home/kojiek/eval_output_nvme/arena_consequence_200/*.json",
+      "/home/kojiek/eval_output_nvme/arena_consequence_200/*.log"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/arena_consequence_200/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/arena_consequence_200.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/arena_consequence_200.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/arena_consequence_200.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/MeanAudio/docs/experiments/results/arena_consequence_200_summary.json"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/200_arena_consequence.sh",
+    "launcher_sha256": "c7a29b6d8e0a3164f8cda89e6b5e211ed80d505bc8c527436375f43c9fb3c616",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/arena_consequence_200_guest.py",
+    "harn_sha256": "48a27793a968b33f99ff6a470d4fea8f1a50fc71514a3a34c9c7072147e1f497",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/arena_consequence_200.py",
+    "action_sha256": "ece6256b933e5568b41636095587168df4fecfccf2b0b557b8efe48c6b4d07f7"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+      "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_pam.py",
+      "sha256": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_cmirm.py",
+      "sha256": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+      "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+      "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+      "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+      "sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "sha256": "abdc18a35c2989a760c6246b3d975c426099700cea81f17d56411b2c501b1df4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_stimuli.py",
+      "sha256": "a6ec0097f48b980e4daeded1c980806e2625bc6ba94e7a9ea123b33794552f1e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/ce_weakness_195.py",
+      "sha256": "ea9f88d9570ff07383b1bbeb35e1ed42ff5b754782f1023d4ad2a77b3b82ab6f"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/ce_push_196.py",
+      "sha256": "255cb9c1bd4ca9e1b4a6feef3692abda90fe9d33ff3bc7cdca75078f1e3ae24a"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/bench_r2/analyze_r2.py",
+      "sha256": "f41bad1d341db89a0760e73cddf92151b60c2bc708f716122bb26bc12b6083b0"
+    }
+  ],
+  "gpu_launch_allowed": true
+}
