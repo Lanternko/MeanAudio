@@ -1,0 +1,11 @@
+{
+  "estimates_reproduced": true,
+  "estimated_hours": {
+    "1000": 19.805292446012658,
+    "600": 12.397690465306756,
+    "400": 8.693889474953806
+  },
+  "hypothetical_budget_hours": 9.0,
+  "selected_n_under_this_budget": 400,
+  "note": "Offline calculation only. Registered quiet_r2 gate remains 7h; a different budget requires approval and a new contract."
+}

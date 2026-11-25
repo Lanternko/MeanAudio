@@ -1,0 +1,96 @@
+{
+  "approval_evidence": {
+    "approver_id": "responsible-operator",
+    "bindings": {
+      "command_set_sha256": "6205743c266c494ec14e7c169e3550f926e466d7cb2d7acfb0e00d4023ca2f12",
+      "contract_raw_sha256": "3d3dd3fca1089d96cfc80a5947290a77041ff3db7dd3bf3629a59ed350c27c19",
+      "policy_bundle_sha256": "5cdcdd72508f5bb886be37ad1a5754dc2a117b5ac64baaec99c2c6b45c2ad4ac",
+      "repair_envelope_sha256": null,
+      "runtime_sha256": "77be1538738850de8926874a1142b68f3055f35e2a7820d3f176d5905f16c775",
+      "schema_bundle_sha256": "effe68dc6c101df2b9abf1ef4b87e30b5e5ab1c74921f2b879cd7a333460d3a2"
+    },
+    "channel_record_id": "codex-chat-run-20261017-130-metric-invariance_quiet_r2",
+    "channel_record_sha256": "4785efb5c7aae72c77bf7cb6d33541d17f5fa67309015d9afcdfcc75ea8890be",
+    "evidence_id": "operator-start-run-20261017-130-metric-invariance_quiet_r2",
+    "experiment_id": "metric-invariance-128c-20261017_quiet_r2",
+    "expires_at": "2026-10-24T01:31:44.776365+00:00",
+    "issued_at": "2026-10-17T01:31:44.776365+00:00",
+    "run_id": "run-20261017-130-metric-invariance_quiet_r2",
+    "source_kind": "trusted_operator_record",
+    "trusted_channel": "operator_console"
+  },
+  "checks": [
+    {
+      "check_id": "policy",
+      "evidence_sha256": "0340bd7d8c6665995aa29c41f99929164b4350ef158d40a26711b141402f3fbf",
+      "observed_at": "2026-10-17T01:31:44.776365+00:00",
+      "valid_until": "2026-10-24T01:31:44.776365+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "provenance",
+      "evidence_sha256": "0340bd7d8c6665995aa29c41f99929164b4350ef158d40a26711b141402f3fbf",
+      "observed_at": "2026-10-17T01:31:44.776365+00:00",
+      "valid_until": "2026-10-24T01:31:44.776365+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "storage",
+      "evidence_sha256": "0340bd7d8c6665995aa29c41f99929164b4350ef158d40a26711b141402f3fbf",
+      "observed_at": "2026-10-17T01:31:44.776365+00:00",
+      "valid_until": "2026-10-24T01:31:44.776365+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "acceptance",
+      "evidence_sha256": "79818cb680b053f6a250693644b98539c737397ee42cbb6a98a5bc2597d2d986",
+      "observed_at": "2026-10-17T01:31:44.776365+00:00",
+      "valid_until": "2026-10-24T01:31:44.776365+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "queue",
+      "evidence_sha256": "0340bd7d8c6665995aa29c41f99929164b4350ef158d40a26711b141402f3fbf",
+      "observed_at": "2026-10-17T01:31:44.776365+00:00",
+      "valid_until": "2026-10-24T01:31:44.776365+00:00",
+      "verdict": "pass"
+    },
+    {
+      "check_id": "watcher",
+      "evidence_sha256": "79818cb680b053f6a250693644b98539c737397ee42cbb6a98a5bc2597d2d986",
+      "observed_at": "2026-10-17T01:31:44.776365+00:00",
+      "valid_until": "2026-10-24T01:31:44.776365+00:00",
+      "verdict": "pass"
+    }
+  ],
+  "contract_raw_sha256": "3d3dd3fca1089d96cfc80a5947290a77041ff3db7dd3bf3629a59ed350c27c19",
+  "created_at": "2026-10-17T01:31:44.776365+00:00",
+  "derived_verdict": "pass",
+  "document_kind": "preflight_report",
+  "experiment_id": "metric-invariance-128c-20261017_quiet_r2",
+  "run_id": "run-20261017-130-metric-invariance_quiet_r2",
+  "schema_bundle_id": "harn-schema-v1",
+  "schema_version": "1.0.0",
+  "storage": [
+    {
+      "free_bytes": 3261186416640,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-17T01:31:44.776365+00:00",
+      "path": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_quiet_r2/c",
+      "peak_additional_bytes": 2147483648,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 536870912,
+      "verdict": "pass"
+    },
+    {
+      "free_bytes": 63099174912,
+      "hard_floor_bytes": 53687091200,
+      "measured_at": "2026-10-17T01:31:44.776365+00:00",
+      "path": "/home/kojiek/MeanAudio",
+      "peak_additional_bytes": 6442450944,
+      "recovery_reserve_bytes": 2147483648,
+      "transient_bytes": 104857600,
+      "verdict": "pass"
+    }
+  ]
+}

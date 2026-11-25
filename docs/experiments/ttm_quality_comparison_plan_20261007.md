@@ -598,6 +598,7 @@ MeanAudio 的 canonical 設定（CFG3＋fidelity8）是在 MusicCaps 上以 AES 
 | ¶ | MEva | MusicEval 內含的系統（待 P0 解匿名核驗） | MEva 在 MusicEval 上訓練，該系統屬訓練域內 | 核驗後若成立，只作描述 |
 | — | AES PQ、CLAP | 所有候選 | 對響度敏感且方向相反（PQ 越小聲越高、CLAP 越大聲越高） | 跨系統比較前先看 LUFS；響度控制 block 為主要的客觀比較 block |
 | — | AES PQ（CFG3＋fidelity8 列） | MeanAudio 基線 canonical | 協議在評估集上以 PQ 選定（第 7.5 節） | 同時報 CFG0 列與 FAD |
+| ◊ | MuQ-Eval（A1／A3a） | 所有長於 10 秒的候選（Music Arena、MUSDB 窗、30 秒 MusicGen 等）；10 秒的 MusicCaps 列不受影響 | 官方協定只取中心 10 秒。190 F2：頭尾加白噪時 MuQ 輸入逐位元不變（ΔA1 = 0）；同樣噪音放進中心則 A1 −0.5～−0.9。視窗外的劣化對 MuQ 完全不可見（2026-11-13 新增） | 長音檔改用全長滑窗（10 秒窗取平均或最小值）評分，或同時報中心裁切與全長兩個版本；論文註明官方分數只代表中心 10 秒 |
 
 ### 7.7 響度規則（審閱新增，2026-10-07）
 

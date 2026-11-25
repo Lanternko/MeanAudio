@@ -1,0 +1,53 @@
+{
+  "legacy_rejection": "C0 identity failed: ['CU max 0.012891 > 0.01']; diffs={'PQ': {'max_abs': 0.00904083251953125, 'mean_signed': -5.6142807006835935e-05}, 'CE': {'max_abs': 0.0028862953186035156, 'mean_signed': -6.39200210571289e-06}, 'CU': {'max_abs': 0.012890815734863281, 'mean_signed': -5.950927734375e-05}, 'PC': {'max_abs': 0.0015366077423095703, 'mean_signed': -1.7503499984741212e-05}, 'clap': {'max_abs': 0.0, 'mean_signed': 0.0}}",
+  "n": 200,
+  "new_policy": {
+    "blocking_metrics": [
+      "PQ",
+      "clap"
+    ],
+    "failed_blocking_metrics": [],
+    "kind": "historical_score_comparison",
+    "metrics": {
+      "CE": {
+        "failures": [],
+        "max_abs": 0.0028862953186035156,
+        "mean_signed": -6.39200210571289e-06,
+        "passed": true
+      },
+      "CU": {
+        "failures": [
+          "CU max 0.012891 > 0.01"
+        ],
+        "max_abs": 0.012890815734863281,
+        "mean_signed": -5.950927734375e-05,
+        "passed": false
+      },
+      "PC": {
+        "failures": [],
+        "max_abs": 0.0015366077423095703,
+        "mean_signed": -1.7503499984741212e-05,
+        "passed": true
+      },
+      "PQ": {
+        "failures": [],
+        "max_abs": 0.00904083251953125,
+        "mean_signed": -5.6142807006835935e-05,
+        "passed": true
+      },
+      "clap": {
+        "failures": [],
+        "max_abs": 0.0,
+        "mean_signed": 0.0,
+        "passed": true
+      }
+    },
+    "passed": true,
+    "warning_metrics": [
+      "CU"
+    ]
+  },
+  "scope": "Offline re-adjudication of preserved actual scores; no new GPU inference.",
+  "source": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128_budget_r3/outcome_20261018/b_identity_200.tsv",
+  "source_sha256": "16b2262495af4fd719170df4b6c596b17cf8a90d9fe3cc3ad6c7f7b04b0daa06"
+}

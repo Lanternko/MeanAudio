@@ -1,0 +1,30 @@
+{
+  "document_kind": "preregistration_amendment_v1",
+  "experiment": "128_metric_invariance",
+  "amended_at_taipei": "2026-10-17",
+  "approved_by": "user (PR #2 conversation: 「同意」 to the proposal below)",
+  "scope": "C0 identity gate only (128a smoke vs 126a/115; 128b/128c 200-clip identity vs 115/118). Tie margin m, pass rate, ladders, C* rule and every K1-K4 decision rule are unchanged.",
+  "original_gate": {"all_metrics_max_abs": 0.0001},
+  "amended_gate": {
+    "aes_axes": ["PQ", "CE", "CU", "PC"],
+    "aes_max_abs": 0.01,
+    "aes_abs_mean_signed": 0.001,
+    "other_metrics": ["clap", "meva"],
+    "other_max_abs": 0.0001
+  },
+  "reason": "The gate is meant to catch pipeline bugs, not machine noise. AES output depends on the forward batch size: in 126a, clean (sorted order) vs clean_shuf (random.Random(126) order) differ by more than 1e-4 on exactly 22 of 5,131 MusicGen clips, and all 22 are the two 11-clip tail batches (max gap 0.0052); the other 5,109 clips agree to 3e-6 although their batch partners changed. A 1e-4 per-clip bound is therefore below the scorer's own reproducibility.",
+  "why_these_values": {
+    "aes_max_abs": "about 2x the largest observed batch-size noise (0.0052); 0.11 m_PQ, 0.29 m_PC",
+    "aes_abs_mean_signed": "catches a uniform small offset (e.g. a level or resampling error) that stays under the per-clip bound; observed smoke mean |signed| <= 3.3e-5",
+    "other_max_abs": "CLAP and MEva reproduce to about 5e-7 in the failed smoke, so their gate stays strict"
+  },
+  "evidence": [
+    "scripts/analysis/tail_batch_position_check_128.py",
+    "docs/experiments/harn/metric_invariance_128/smoke_evidence/historical_clean_vs_shuffled_5131.tsv",
+    "docs/experiments/harn/metric_invariance_128/smoke_evidence/smoke_50.tsv"
+  ],
+  "bias_risk": "Amended after the failed smoke but before any 128 scientific result exists; the threshold is derived from 126a historical scores only. The failed run and its records stay unchanged.",
+  "effect_on_failed_smoke": "Re-checked offline against smoke_50.tsv: passes vs 126a and vs 115 (AES max 5.3e-4, |mean signed| <= 3.3e-5; CLAP/MEva <= 4.9e-7).",
+  "tail_batch_candidate_3b1ead4": "Optional under the amended gate; not required to proceed.",
+  "relaunch": "New run id and re-registered contracts (register_metric_invariance_128.py binds script sha256) on the host; do not resume the failed run."
+}

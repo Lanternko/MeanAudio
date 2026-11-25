@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "muq-filter-ladder-193-20261113",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "193_muq_filter_ladder.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [
+    "190_muq_postproc_attack.sh"
+  ],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": true,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only. MuQ A1 filter ladder: LP 7k..1k (order 8 sosfiltfilt), HP 100/200/500 (order 4), single-band RBJ peaking EQ +-10 dB at 125..4k (Q sqrt2); 9 MusicCaps bases x1000 + MUSDB 551 windows; 200 dev ids select lp_star/oneliner_star; tiered scorers; stimuli on the fly."
+  },
+  "question": "Is the 6 kHz low-pass the top of a smooth dose curve, and does a one-line filter (HP or single-band EQ) reproduce the A1 gain?",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/muq_filter_ladder_193_20261113.md",
+  "design_document_sha256": "6227056b52b42d121174fe5217a974db215a1c724e8319cd99acce36c716ac39",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/muq_filter_ladder_193_20261113.md",
+    "primary": "E1 count of success among 6 listenable bases for dev-selected lp_star and oneliner_star; E2 lp_star vs lp6k paired A1",
+    "margins": {
+      "A1": 0.055,
+      "CE_tie": "0.10 x S_CE (S_CE 1.1905)",
+      "PQ": "0.10 x S_PQ_lvl30 (0.0914)"
+    },
+    "bootstrap": {
+      "n": 5000,
+      "seed": 20261113,
+      "musdb_cluster": "track"
+    },
+    "split": {
+      "seed": 20261113,
+      "dev_mc": 200,
+      "dev_musdb": "~20% of tracks"
+    },
+    "verdicts": {
+      "cell": [
+        "no_effect",
+        "success",
+        "not_success_CE_not_down"
+      ]
+    },
+    "selection": "dev only, frozen in selection.json before test aggregates",
+    "fifo": "GPU free < 20 GiB -> rc 75",
+    "headline": [
+      "established",
+      "base_dependent",
+      "not_established"
+    ]
+  },
+  "deviations": {
+    "see": "driver docstring and design section 3b"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/muq_filter_ladder_193",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/pause_progress_193_muq_filter_ladder.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/pause_progress_193_muq_filter_ladder.json",
+    "note": "stage-level restart: per-cell per_clip/*.tsv caches; selection.json and split.json frozen once written; a partial cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/per_clip/*",
+      "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/*.json",
+      "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/*.log"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_filter_ladder_193.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_filter_ladder_193.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/muq_filter_ladder_193.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/summary.json"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/muq_filter_ladder_193/summary_table.md"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/193_muq_filter_ladder.sh",
+    "launcher_sha256": "62b5f8b07c4227e420a0ffc7efa8de108410ee2dcd98e80a47c3f00edb2373da",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/muq_filter_ladder_193_guest.py",
+    "harn_sha256": "1bbdde0f99ae858d2122e486fc0f6ffa09c025c64f42a53d7df87a8e22aafa3d",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/muq_filter_ladder_193.py",
+    "action_sha256": "fe8a03276e89a70412dc2fe3fe4760ff8b51071d1f16a90922f71643f59f094a"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+      "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+      "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_pam.py",
+      "sha256": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_cmirm.py",
+      "sha256": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+      "sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+      "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+      "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "sha256": "abdc18a35c2989a760c6246b3d975c426099700cea81f17d56411b2c501b1df4"
+    }
+  ]
+}

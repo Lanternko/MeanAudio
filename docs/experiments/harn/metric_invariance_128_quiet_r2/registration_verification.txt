@@ -1,0 +1,1 @@
+PASS: identity_r1 55 files unchanged; source bindings valid; same frozen inputs; protocol differs only by approved quiet_lufs_rule; three successful complete source-bound CPU scans bound in every contract.

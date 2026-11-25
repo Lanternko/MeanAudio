@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "at": "2026-10-17T17:46:11.255199+00:00",
+  "n_files": 32736,
+  "archived_bytes": 13462978858,
+  "rows": [
+    {
+      "system": "musicgen_medium",
+      "n": 5521,
+      "bytes": 3549401274,
+      "manifest_sha256": "76ba150e0753fca645db42052d07deb0371f9d43f3ae4c862690db24d7bcdfd2",
+      "source_path_preserved": true
+    },
+    {
+      "system": "musicldm_fid8",
+      "n": 5521,
+      "bytes": 2032004936,
+      "manifest_sha256": "bd63c1a80ae1929d7d18533d38e2d9dd0072218d08a8dd515f7933beaf069761",
+      "source_path_preserved": true
+    },
+    {
+      "system": "meanaudio_cfg3_neg",
+      "n": 5521,
+      "bytes": 2023437598,
+      "manifest_sha256": "aeaf1f45a0bfcc14e3bfc7b83f718664e6a23292dce2a70cb9405b8ede55ddd2",
+      "source_path_preserved": true
+    },
+    {
+      "system": "meanaudio_cfg0",
+      "n": 5521,
+      "bytes": 2015020097,
+      "manifest_sha256": "e1040d0d94c746c70ebf14b50ec189fac84f46837c4e2cca5de9f44cb1452831",
+      "source_path_preserved": true
+    },
+    {
+      "system": "musicldm",
+      "n": 5521,
+      "bytes": 1977867853,
+      "manifest_sha256": "d8c541d2c87d572dec529d868c7bff4e809254f23db36344a2e059914a70d60a",
+      "source_path_preserved": true
+    },
+    {
+      "system": "musiccaps_real",
+      "n": 5131,
+      "bytes": 1865247100,
+      "manifest_sha256": "2d77a6c5392a47549b1ae87485534c10bdac8935dafd3e800731862df4bdbd34",
+      "source_path_preserved": true
+    }
+  ],
+  "NVMe_free_bytes_at_check": 69499166720,
+  "verification": "Each archive driver file SHA256 was checked before and after atomic exchange and fsync before removing old NVMe duplicate; final pointer/count/manifest check passed. Original waveform data retained."
+}

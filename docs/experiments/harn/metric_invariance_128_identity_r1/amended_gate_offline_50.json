@@ -1,0 +1,62 @@
+{
+  "status": "passed",
+  "scope": "Offline replay of old smoke; fresh GPU smoke remains mandatory.",
+  "n": 50,
+  "gate": {
+    "aes_max_abs": 0.01,
+    "aes_abs_mean_signed": 0.001,
+    "other_max_abs": 0.0001
+  },
+  "source": "/home/kojiek/MeanAudio/docs/experiments/harn/metric_invariance_128/smoke_evidence/smoke_50.tsv",
+  "source_sha256": "766a6e1830ef3e30e0e02f6b06b99c07c75038264b98ce807a3dfae93ff25e12",
+  "results": {
+    "126a": {
+      "PQ": {
+        "max_abs": 0.00036084786987267137,
+        "mean_signed": 7.907263488684536e-06
+      },
+      "CE": {
+        "max_abs": 0.00028885891723628987,
+        "mean_signed": 2.7070892333824757e-06
+      },
+      "CU": {
+        "max_abs": 0.0004933236694339982,
+        "mean_signed": 1.1030395508093704e-06
+      },
+      "PC": {
+        "max_abs": 0.0005275080566402579,
+        "mean_signed": -3.3081533050576265e-05
+      },
+      "clap": {
+        "max_abs": 4.862070083627712e-07,
+        "mean_signed": 4.688056945707786e-08
+      },
+      "meva": {
+        "max_abs": 4.89486694288388e-07,
+        "mean_signed": -2.203399658728955e-08
+      }
+    },
+    "115": {
+      "PQ": {
+        "max_abs": 0.0003609657287597656,
+        "mean_signed": 7.8582763671875e-06
+      },
+      "CE": {
+        "max_abs": 0.00028896331787109375,
+        "mean_signed": 2.8133392333984377e-06
+      },
+      "CU": {
+        "max_abs": 0.0004930496215820312,
+        "mean_signed": 1.0776519775390624e-06
+      },
+      "PC": {
+        "max_abs": 0.0005278587341308594,
+        "mean_signed": -3.312587738037109e-05
+      },
+      "clap": {
+        "max_abs": 0.0,
+        "mean_signed": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "new_NVMe_C1_unit": {
+    "AES_seconds": 6.91947964404244,
+    "export_sha256": "fbd2b3e4a5858e0ae8db26ab8e1e00a7f39ba57349942f042292a64cc7c5cd6d",
+    "n": 1000,
+    "prepare_seconds": 3.553774671978317,
+    "score_sha256": "83a10458d2444d2594b0f038cc92a7f8c4a8fb94b2022f069c3b1d971f850f45",
+    "seconds": 10.489827635930851,
+    "unit": "/home/kojiek/eval_output_nvme/metric_invariance_128_20261017_nvme_r5/b/table/meanaudio_s14159265_cfg0/chunk03000/C1"
+  },
+  "notes": "Different completed 1000-ID chunks of the same cell/mode; operational timing comparison, not a scientific score comparison. Evaluator/action source unchanged.",
+  "old_Seagate_C1_units": [
+    {
+      "AES_seconds": 6.278393979999237,
+      "n": 1000,
+      "prepare_seconds": 200.21117484301794,
+      "seconds": 206.50571694108658,
+      "unit": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk00000/C1"
+    },
+    {
+      "AES_seconds": 6.3218537860084325,
+      "n": 1000,
+      "prepare_seconds": 188.47234557091724,
+      "seconds": 194.81079498992767,
+      "unit": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk01000/C1"
+    },
+    {
+      "AES_seconds": 50.73025219293777,
+      "n": 1000,
+      "prepare_seconds": 201.7291900869459,
+      "seconds": 252.47254879400134,
+      "unit": "/mnt/seagate/kojiek_data/metric_invariance_128_20261017_claims_r4/b/table/meanaudio_s14159265_cfg0/chunk02000/C1"
+    }
+  ],
+  "status": "passed"
+}

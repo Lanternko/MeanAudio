@@ -1,0 +1,19 @@
+{
+  "document_kind": "preregistration_amendment_v1",
+  "approved_at": "2026-10-17T01:40:36.990084+00:00",
+  "approved_by": "operator_console: user replied 同意 to 128a 7h→9h / N=400 fresh-run proposal",
+  "scope": "128a smoke feasibility estimate ceiling only",
+  "old_budget_seconds_a": 25200,
+  "budget_seconds_a": 32400,
+  "n_a_candidates": [
+    1000,
+    600,
+    400
+  ],
+  "expected_selected_n": 400,
+  "reserve_factor_unchanged": 1.25,
+  "unchanged": "input manifest, seeds, m, 80%, variants, identity/quiet-LUFS rules, fallback sensitivity, K1-K4, 17h deferral",
+  "prior_proposal": "docs/experiments/harn/metric_invariance_128_quiet_r2/budget_incident/budget_amendment_proposal.json",
+  "prior_proposal_sha256": "2201d8ab2d249ccdb90ebd49b67376a90d9613be60f62d7c24380f4825c4dd76",
+  "relaunch": "new budget_r3 run and contracts; evaluator reads contract parameter; all three source-bound LUFS scans regenerated; preserve quiet_r2 records"
+}

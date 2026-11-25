@@ -1,0 +1,63 @@
+{
+  "at": "2026-10-17T00:50:52.246002+00:00",
+  "terminal_states": {
+    "a": "failed",
+    "b": "held",
+    "c": "held"
+  },
+  "p2_pending": [],
+  "p2_running": [],
+  "receipts": {
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_identity_r1/seat_attempt.json": {
+      "valid": true,
+      "sha256": "e7cb74cf80110175b581cbab71075e8b7943166e632e7c4ac4a9b0da71436bf9"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_identity_r1/preflight_pass.json": {
+      "valid": true,
+      "sha256": "426ecf8087e7deeec5a8257b32f1fd418f781be074cc735a7fa27da36d5540bb"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_identity_r1/queue_handoff.json": {
+      "valid": true,
+      "sha256": "937e093f2a1871d985da12f0169c0b1c5463e89c3a06bdcae329e781632e9068"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_identity_r1/failure.json": {
+      "valid": true,
+      "sha256": "3e256390baeadf8f68c2b7eb5622435aa3ef3ad49b700b085b3d468e73b5f93e"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_identity_r1/disk_warning.json": {
+      "valid": true,
+      "sha256": "0b406af6d461b582ae25108e42aea32d37b690937408cfc06b029468a463ea1d"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128a-20261017_identity_r1/start.json": {
+      "valid": true,
+      "sha256": "be8ce4a6df8ed9dd7b81ba7aff031b6917549cfbf68be895d617dc9484332226"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_identity_r1/seat_attempt.json": {
+      "valid": true,
+      "sha256": "d28cc43f277db40c56e5f812787bc1e6fe0912cef979ac54adbfc9abe1b1e36a"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_identity_r1/disk_warning.json": {
+      "valid": true,
+      "sha256": "e6f968d8355b29a58383132c802e69b5834f202894f6a98fd197abf2d7792753"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128b-20261017_identity_r1/held.json": {
+      "valid": true,
+      "sha256": "dad9ecbbd965550c26ab498ef890a4ccda88dddb688bfdbcf86422ef9e4b8b21"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_identity_r1/seat_attempt.json": {
+      "valid": true,
+      "sha256": "2c8cdb341013b30cd7ff256ca75e2ee24b65fb8cdc5c52aa2c2bef737b398946"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_identity_r1/disk_warning.json": {
+      "valid": true,
+      "sha256": "58ad3e7e00d2edf233a9acfa92b00a6389d57b88e102603e3df74c4d70466fad"
+    },
+    "/home/kojiek/gpu_queue/notification_receipts/metric-invariance-128c-20261017_identity_r1/held.json": {
+      "valid": true,
+      "sha256": "7e378d5b5900d15666247f8018c3fbedd05d484b8ca99bf0f6753ae998e6f6a4"
+    }
+  },
+  "fresh_c0_npz_sha256": "6c60acc1fa8482e891fc6795234b3315a9d71c0d75780ac730d26207c3158704",
+  "source_commit": "bd479db",
+  "source_note": "Cleanup race fixed only after all identity_r1 guests became terminal; LUFS behavior unchanged."
+}

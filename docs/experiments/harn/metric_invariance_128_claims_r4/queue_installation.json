@@ -1,0 +1,14 @@
+{
+  "status": "installed",
+  "at": "2026-10-17T17:15:14.114670+00:00",
+  "prior_p2_pending": [],
+  "order": [
+    "129_metric_invariance_table_b_claims_r4.sh",
+    "130_metric_invariance_negmf_claims_r4.sh"
+  ],
+  "launchers": {
+    "/home/kojiek/gpu_queue/p2/pending/129_metric_invariance_table_b_claims_r4.sh": "895020c62afa593888efd4d9dc2673bf1fbb64ae272182b4a980aeb4837ed0ad",
+    "/home/kojiek/gpu_queue/p2/pending/130_metric_invariance_negmf_claims_r4.sh": "fb05b3d37f223b9e2bad6fecdd88db4b87a783b09b9a3953ea8ba96dfb23579a"
+  },
+  "installation_guard": "exclusive shared GPU flock; empty P2 pending/running verified; exact launcher and duplicate checks; existing host retained"
+}

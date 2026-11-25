@@ -1,0 +1,10 @@
+{
+  "control_dir": "/home/kojiek/gpu_queue/p2/control/129_metric_invariance_table_b_claims_r4-20261017T171515Z",
+  "job_id": "129_metric_invariance_table_b_claims_r4",
+  "phase": "running",
+  "pid": 2349966,
+  "role": "p2",
+  "run_id": "129_metric_invariance_table_b_claims_r4-20261017T171515Z",
+  "seated_at": "2026-10-17T17:15:16Z",
+  "start_time": "57273129"
+}

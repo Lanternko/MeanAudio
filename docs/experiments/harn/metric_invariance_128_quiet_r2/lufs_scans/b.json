@@ -1,0 +1,86 @@
+{
+  "action_sha256": "cc94d06706f86c6696758dbc53938e6f8b8570a0453c3917502cd54947b34a87",
+  "fallback": [
+    {
+      "id": "vWiq7n4yTAw_30",
+      "system": "meanaudio_s16180339_cfg0",
+      "variant": "table"
+    },
+    {
+      "id": "Dv21JlCT4_k_40",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "Gj6etuzTWlQ_30",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "MHgPpImV7b4_20",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "RDCXvJPzT5k_520",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "Vy00ycBpqpc_0",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "XWj7nP7kfdQ_280",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "Zxyfhub6nV4_80",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "oNqBsQiNoAU_40",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "s1c8RF7lKv0_50",
+      "system": "musicgen_medium",
+      "variant": "table"
+    },
+    {
+      "id": "Z6q5doznOcI_340",
+      "system": "musicldm",
+      "variant": "table"
+    }
+  ],
+  "fallback_ids_by_system": {
+    "meanaudio_s16180339_cfg0": [
+      "vWiq7n4yTAw_30"
+    ],
+    "musicgen_medium": [
+      "Dv21JlCT4_k_40",
+      "Gj6etuzTWlQ_30",
+      "MHgPpImV7b4_20",
+      "RDCXvJPzT5k_520",
+      "Vy00ycBpqpc_0",
+      "XWj7nP7kfdQ_280",
+      "Zxyfhub6nV4_80",
+      "oNqBsQiNoAU_40",
+      "s1c8RF7lKv0_50"
+    ],
+    "musicldm": [
+      "Z6q5doznOcI_340"
+    ]
+  },
+  "invalid": [],
+  "manifest_sha256": "6b67e84c359924e7c30add5acc710c190281f1812f96c758fde50bfb6f7155b1",
+  "n_checked": 54820,
+  "n_fallback": 11,
+  "n_invalid": 0,
+  "part": "b",
+  "status": "passed"
+}

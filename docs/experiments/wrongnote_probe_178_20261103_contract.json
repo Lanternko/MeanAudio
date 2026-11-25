@@ -1,0 +1,154 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "wrongnote-probe-178-20261103",
+ "status": "authorized_p2_pending",
+ "launch_allowed": true,
+ "priority": "P2",
+ "queue_name": "178_wrongnote_probe_mert.sh",
+ "queue_role": "p2",
+ "dependencies": [],
+ "ordering_dependencies": [],
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "valid": true,
+  "scope": "CPU stimulus rendering (MAESTRO excerpts x 12 variants x 2 soundfonts), MERT-v1-95M + random-weight control + AES features, chroma/madmom rule baselines, linear/MLP heads and T1/T2/T3 test readout for 178. No generation, no training of the TTM systems."
+ },
+ "question": "Without being shown the original, can MERT features decide which of two rendered versions of the same 10 s MAESTRO excerpt had notes changed (wrong notes inside the MIDI distribution)?",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/wrongnote_probe_mert_178_20261103.md",
+ "design_document_sha256": "17f77124afcc86fb0c9ba3de0d1dc023be17b5da75ecfe6bc7f59ae4d8b400a1",
+ "fixed_protocol": {
+  "prereg": "docs/experiments/wrongnote_probe_mert_178_20261103.md (frozen; no criterion changed in this job)",
+  "participants": {
+   "train": {
+    "n": 800,
+    "font": "generaluser"
+   },
+   "val": {
+    "n": 150,
+    "font": "generaluser"
+   },
+   "test": {
+    "n": 250,
+    "fonts": [
+     "generaluser",
+     "fluidr3"
+    ]
+   }
+  },
+  "variants_per_excerpt": 12,
+  "variants_ok": [
+   "clean",
+   "transpose",
+   "tempo",
+   "gain_m6"
+  ],
+  "variants_wrong": [
+   "wrong_1_in",
+   "wrong_1_out",
+   "wrong_5_in",
+   "wrong_5_out",
+   "wrong_10_in",
+   "wrong_10_out",
+   "wrong_30_in",
+   "wrong_30_out"
+  ],
+  "variants_note": "4 ok + 8 wrong = 12 per excerpt-font. 'transpose' is +-1 randomly signed, 'tempo' is +-3% randomly signed, 'gain_m6' is the clean audio scaled -6 dB (no re-render). These are the on-disk manifest names; the manifest is the authority",
+  "audio": "16 kHz mono, -23 LUFS (peak <= 0.999), FLAC PCM_24",
+  "features": "MERT-v1-95M revision 12af15fef9d0ac838c3f475bfbbf26d2060dd4f5, 13 hidden-state means; random-weight MERT seed 0; AES CE/CU/PC/PQ; rule baselines chroma-cqt out-of-key ratio and madmom key_cnn_conf",
+  "heads": "per-layer L2 logistic (C chosen on val), best layer chosen on val, MLP secondary; test evaluated once",
+  "endpoints": "T1 AUC (2000-cluster bootstrap CI), T2 pairwise pick-original, T3 false alarms at p>=0.5"
+ },
+ "deviations": {
+  "D1": "prereg asks for 150 val / 250 test excerpts each from a distinct performance, but MAESTRO v3 has only 137 validation and 177 test performances with >= 20 notes in a 10 s window. The registered excerpt counts are kept: the shortfall is filled with a second non-overlapping window from a distinct performance, and the bootstrap clusters by performance (documented in the results deviations section).",
+  "D2": "T3 false-alarm threshold is p >= 0.5 on the head's predicted probability (prereg does not fix the operating point for T3; 0.5 is the only point used for every arm).",
+  "D3": "The 'best non-oracle control' is the control with the highest test AUC (max over controls), which is the strictest reading of 'best'.",
+  "D4": "The symbolic oracle out-of-scale ratio is computed against the key estimated once on the clean excerpt, so transpose variants carry a shifted key on purpose; the oracle is only used as a reference column, never for tuning.",
+  "D5": "madmom contributes key_cnn_conf only (no beat tracking), matching the 133/126d usage of mir_metrics.py.",
+  "D6": "The MLP secondary head is trained on the layer chosen for the linear head, not re-selected per head (one selection on val, no extra test peeking)."
+ },
+ "storage": {
+  "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/wrongnote_probe_178",
+  "min_free_bytes": 17179869184
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "checkpoint": null,
+  "iteration": 0,
+  "pause_progress": "/home/kojiek/nvme_experiment_artifacts/meanaudio/wrongnote_probe_178/pause_progress.json",
+  "autoresume": "/home/kojiek/nvme_experiment_artifacts/meanaudio/wrongnote_probe_178/pause_progress.json",
+  "note": "stage-level restart: stimuli skip FLACs already on disk, features skip finished chunks, rules skip scored paths"
+ },
+ "watcher": {
+  "stall_seconds": 3600
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_run.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "-I",
+   "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_run.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_run.py",
+   "--validate-only"
+  ]
+ },
+ "reports": [
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/wrongnote_probe_178/run.json"
+  },
+  {
+   "path": "/home/kojiek/nvme_experiment_artifacts/meanaudio/wrongnote_probe_178/summary.json"
+  }
+ ],
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered run.json and summary.json after --validate-only passes"
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/178_wrongnote_probe_mert.sh",
+  "launcher_sha256": "d9ab319eeb97a900c6c4572933b51bf5646abd545b42909ecd6e14d8a05fd7a7",
+  "harn": "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_guest.py",
+  "harn_sha256": "df43d54bf3ea509df8563c9ff98ec98cb064a9456298a5a3b66a83e9c050dca6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_run.py",
+  "action_sha256": "e41244b21ac74442ca3ed8fd520dd6574de3c4db2e6e047fc13bcd3ec45f27ed"
+ },
+ "code_bindings": [
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_common.py",
+   "sha256": "1b51f7567bf781c74bfd77ce5f8ed930c587e0f54d18c188ba99cf2acad3ec14"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_stimuli.py",
+   "sha256": "672d3e60ca5db73799666e1f9df3002e65928404070ea37fb12586e5847a438b"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_features.py",
+   "sha256": "4936cb17703ece23693038a1e22e639db1c7971db0e36c9c2b6908696853f98e"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_rules.py",
+   "sha256": "23efe4565fca73afe04f3211575c1f9dc0c6601f8b436a763b8ad44097d190d8"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/wrongnote_probe_178_analyze.py",
+   "sha256": "7ae9af4ca02c90549706df1fcf2b19c69cbe00d41ac811d2d6f5cee8ecde3f55"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_stimuli.py",
+   "sha256": "a6ec0097f48b980e4daeded1c980806e2625bc6ba94e7a9ea123b33794552f1e"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_133.py",
+   "sha256": "63508ed30cab14c291b2fed79118671ba4a28d2a837a91e63962046a2a31c8a5"
+  }
+ ]
+}

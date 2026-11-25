@@ -1,0 +1,173 @@
+{
+  "schema_version": 1,
+  "document_kind": "eval_only_metrics_contract",
+  "experiment_id": "ce-push-196-20261114",
+  "status": "authorized_p2_pending",
+  "launch_allowed": true,
+  "priority": "P2",
+  "queue_name": "196_ce_push.sh",
+  "queue_role": "p2",
+  "dependencies": [],
+  "ordering_dependencies": [],
+  "approval_required": true,
+  "launch_authorization": {
+    "gpu_launch_allowed": false,
+    "queue_position": "p2",
+    "valid": true,
+    "scope": "Eval-only. AES CE push: dev 200 x 9 MusicCaps bases x 15 stage-1 cells + stage-2 stacks (tier 1), freeze selection, test 800 x 9 bases x (base, star_any, star_keep, best_pno, best_filt, synonly) tier 2. AES CE endpoint; other axes descriptive; no controls."
+  },
+  "question": "How high can AES CE be pushed on the 9 MusicCaps bases by simple post-processing frozen on dev (key-matched piano arp, e00 synth overlay, low-pass, tilt, stacks), with no specificity requirement?",
+  "design_document": "/home/kojiek/MeanAudio/docs/experiments/ce_push_196_20261113.md",
+  "design_document_sha256": "9aed6f47eee4e6d8c4cfc0e063888d2df69116d0f87da6b19c723bc05246c46e",
+  "fixed_protocol": {
+    "prereg": "docs/experiments/ce_push_196_20261114.md",
+    "primary": "star_any dCE CI lower bound > m_CE on the 6 listenable bases (>=5 pushable, 2-4 base_dependent, <=1 not_pushable); star_keep reported with same rule",
+    "margins": {
+      "m_CE_frac_of_S": 0.1
+    },
+    "bootstrap": {
+      "n": 5000,
+      "seed": 20261114
+    },
+    "seed": 20261114,
+    "split": "195 split.json (seed 20261113)",
+    "fifo": "GPU free < 12 GiB -> rc 75"
+  },
+  "deviations": {
+    "see": "driver docstring and design doc",
+    "D1": "key via librosa chroma+Krumhansl, not madmom",
+    "D2": "synth tempo not beat-aligned",
+    "D3": "e00 from 195 black-box CE optimization",
+    "D4": "dev tier 1, test tier 2 (adds PAM, CMI-RM)",
+    "D5": "synonly is anchor; star_any may pick r<0 (overlay louder than base)",
+    "D6": "195 D base cells reused when id set and columns match; dev base for 3 CFG0 bases scored fresh"
+  },
+  "storage": {
+    "path": "/home/kojiek/eval_output_nvme/ce_push_196",
+    "min_free_bytes": 21474836480
+  },
+  "resume": {
+    "kind": "from_scratch_with_autoresume",
+    "checkpoint": null,
+    "iteration": 0,
+    "pause_progress": "/home/kojiek/eval_output_nvme/ce_push_196/pause_progress_196_ce_push.json",
+    "autoresume": "/home/kojiek/eval_output_nvme/ce_push_196/pause_progress_196_ce_push.json",
+    "note": "stage-level restart: per-cell per_clip/*.tsv caches; stage2_spec.json/selection.json/split.json frozen once written; a partial cell is rescored"
+  },
+  "watcher": {
+    "stall_seconds": 5400,
+    "progress_globs": [
+      "/home/kojiek/eval_output_nvme/ce_push_196/per_clip/*",
+      "/home/kojiek/eval_output_nvme/ce_push_196/*.json",
+      "/home/kojiek/eval_output_nvme/ce_push_196/*.log"
+    ],
+    "done_globs": [
+      "/home/kojiek/eval_output_nvme/ce_push_196/per_clip/*.tsv"
+    ]
+  },
+  "commands": {
+    "preflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/ce_push_196.py",
+      "--preflight"
+    ],
+    "run": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/ce_push_196.py"
+    ],
+    "postflight": [
+      "/home/kojiek/venvs/dac/bin/python",
+      "-I",
+      "/home/kojiek/MeanAudio/scripts/eval/ce_push_196.py",
+      "--validate-only"
+    ]
+  },
+  "reports": [
+    {
+      "path": "/home/kojiek/eval_output_nvme/ce_push_196/summary.json"
+    },
+    {
+      "path": "/home/kojiek/eval_output_nvme/ce_push_196/summary_table.md"
+    }
+  ],
+  "completion_evidence": {
+    "method": "guest writes terminal (eval_only) with sha256 of reports after postflight passes"
+  },
+  "bindings": {
+    "launcher": "/home/kojiek/gpu_queue/p2/pending/196_ce_push.sh",
+    "launcher_sha256": "bc89eccfbda8a39610e2de8e367be317295ada3abfbbd7aa8b82eff83f77190e",
+    "harn": "/home/kojiek/MeanAudio/scripts/eval/ce_push_196_guest.py",
+    "harn_sha256": "ddf7419bfacb98abd3fa53c852ad4f6ba14caa595104914ce86c88196104d0d8",
+    "action": "/home/kojiek/MeanAudio/scripts/eval/ce_push_196.py",
+    "action_sha256": "255cb9c1bd4ca9e1b4a6feef3692abda90fe9d33ff3bc7cdca75078f1e3ae24a"
+  },
+  "code_bindings": [
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_overlay_matrix_189.py",
+      "sha256": "08f28b9fccc85fce19560e06f71e5785836935796669a5d4d4a7e7ca7e028ee5"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_attractor_probe_188.py",
+      "sha256": "3a33e07d9762ae72d34e8e1f43335eb0429ef0b8c923f27f4ce32a4e9c6bd9dc"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_train_exploit_183.py",
+      "sha256": "fc7e320406bb641da7e0014b75f9532e3500bba41962d41faefbb09e7917d091"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_muqeval.py",
+      "sha256": "ae0fe490e0da699f27b31fac8121160f49cceed219d2a6ecdf98754d0629ed66"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_common.py",
+      "sha256": "69bdef451c238cf5e6bf80f215524a79f7feb32f2bc87072e2489bf421c5d3fd"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_pam.py",
+      "sha256": "84ca4ec79fa0cc554aac9f2ded46cf496b55e694100110794881924c23747ae4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/newmetrics_cmirm.py",
+      "sha256": "63cc55b4d2567472b56819f812d70b9edae739e777a28ac8af37d4931f93d2aa"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/metric_win_tie_126d.py",
+      "sha256": "8f193acdb488c24b191a03783085a30732361f26a2c346c464eab040c77d5706"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+      "sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+      "sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_gen_steer_179_score.py",
+      "sha256": "51b01a672f2f42d4f7859172350ac999f7b584009dcc084773b7f7cbec4ba483"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_lowpass_probe_20261028.py",
+      "sha256": "bf4f5ed1f332f0121bf5c36c447c58bb7e3b52cbd45ad2bfa2040c5b4cc7d2d6"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/level_match_rescore.py",
+      "sha256": "133ac816e3de21e732effd5a8f75a067029868aa589fa3f4d0c64ede4ca88714"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/muq_postproc_attack_190.py",
+      "sha256": "abdc18a35c2989a760c6246b3d975c426099700cea81f17d56411b2c501b1df4"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/midi_realpiece_stimuli.py",
+      "sha256": "a6ec0097f48b980e4daeded1c980806e2625bc6ba94e7a9ea123b33794552f1e"
+    },
+    {
+      "path": "/home/kojiek/MeanAudio/scripts/eval/ce_weakness_195.py",
+      "sha256": "ea9f88d9570ff07383b1bbeb35e1ed42ff5b754782f1023d4ad2a77b3b82ab6f"
+    }
+  ],
+  "gpu_launch_allowed": true
+}

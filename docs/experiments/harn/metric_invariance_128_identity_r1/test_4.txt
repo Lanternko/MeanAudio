@@ -1,0 +1,2 @@
+pause ack invalid: ack request_id mismatch
+PASS unit /tmp/sched-unit-vp0r4c6t

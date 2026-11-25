@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "completed_systems": [
+    "musicgen_medium",
+    "musicldm_fid8",
+    "meanaudio_cfg3_neg",
+    "meanaudio_cfg0",
+    "musicldm",
+    "musiccaps_real"
+  ],
+  "archived_bytes": 13462978858,
+  "free_bytes": {
+    "/home/kojiek/MeanAudio": 69500993536,
+    "/mnt/seagate": 3247444004864
+  },
+  "elapsed_seconds": 833.742490530014
+}

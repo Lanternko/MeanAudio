@@ -1,0 +1,113 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "seed-robustness-135-20261021",
+ "job": "135",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Does table B (ours vs MusicGen / MusicLDM) survive different inference seeds? Ours part: 3 S2 training seeds x CFG0/CFG3+neg x inference seeds 101/202/303/404, 5,521 MusicCaps prompts each (24 shares). Starts with the reproduction gates (seed 42 first-256 reproduce the existing audio; lvl30 scoring reproduces the 118 numbers).",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/seed_robustness_table_b_135_20261021.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-21",
+  "text": "Table B inference-seed robustness (135-138) and segment length (139) as in the pre-registered design document; thresholds, seed lists and verdict rules are not changed."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Generation 24 shares x 5,521 clips on the GPU (eval.py, MeanFlow 25 steps, fp32) + lvl30 scoring (AES, CLAP batch 1, MEva). Output /mnt/seagate/meanaudio/seed_robustness_135 (~75 GB). No training.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/135_seed_robustness_ours.sh",
+  "launcher_sha256": "edfcc8c0a7ac200e4c6ca35b3131b71977a90253f14bf6ed93cfa86faf2ddba9",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+  "action_sha256": "932390d1dc866c2e8748fec298d27f5c8a2d5b683e2f268bf1633e8438a209ee",
+  "ttm_metrics_115": "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+  "ttm_metrics_115_sha256": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "generator": "/home/kojiek/MeanAudio/scripts/eval/ttm_external_generate_seeded.py",
+  "generator_sha256": "832497e060fc8471a3c35664fcab5e8cd827b7558fc3d41780ebdb639edf8a94",
+  "meva_scorer": "/home/kojiek/MeanAudio/scripts/eval/meva_score_dir.py",
+  "meva_scorer_sha256": "af38f9b0757d7874a3f0d06bfb4f5541ce50aa28d61bf4357940496483232e84"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "fixed_protocol": {
+  "job": "135",
+  "train_seeds": {
+   "s14159265": 114,
+   "s27182818": 116,
+   "s16180339": 117
+  },
+  "cfgs": [
+   "cfg0",
+   "cfg3_neg"
+  ],
+  "inference_seeds": [
+   101,
+   202,
+   303,
+   404
+  ],
+  "gate": "first 256 prompts, seed 42, ours max abs diff <= 1e-4 or PQ diff within 0.01 median / 0.005 mean; plus lvl30 re-score of the 118 cell within 0.002 CLAP/PQ",
+  "thresholds_source": "docs/experiments/seed_robustness_table_b_135_20261021.md",
+  "min_free_bytes": 161061273600,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+ },
+ "storage": {
+  "path": "/mnt/seagate/meanaudio/seed_robustness_135",
+  "min_free_bytes": 161061273600
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "a share with a complete manifest and finished scoring is skipped; an incomplete share is regenerated whole (ours: single RNG stream)",
+  "pause_progress": "/mnt/seagate/meanaudio/seed_robustness_135/pause_progress.json",
+  "autoresume": "/mnt/seagate/meanaudio/seed_robustness_135/pause_progress.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "seed-42 runs 113/114/115/116/117/118 audio and lvl30 blocks"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/seed_robustness_135_summary.json"
+  }
+ ],
+ "queue_name": "135_seed_robustness_ours.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-21",
+   "note": "Written by dispatch task 20261021-024128-4f99f6; not queued."
+  }
+ ]
+}

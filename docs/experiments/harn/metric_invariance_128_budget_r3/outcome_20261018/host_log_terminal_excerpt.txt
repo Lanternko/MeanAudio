@@ -1,0 +1,50 @@
+P2_STARTING 129_metric_invariance_table_b_budget_r3 run=129_metric_invariance_table_b_budget_r3-20261017T091620Z 2026-10-17T09:16:21Z
+[NOTIFY OK] durable seat_attempt experiment=p2-seat-129_metric_invariance_table_b_budget_r3
+P2_SEAT 129_metric_invariance_table_b_budget_r3 run=129_metric_invariance_table_b_budget_r3-20261017T091620Z pid=1072881 2026-10-17T09:16:21Z
+STRUCTURAL VALIDATION ONLY — SUCCESS IS NOT AUTHORIZATION.
+Reserved to runtime immediately before action: authenticity, independent raw-file rehashing, atomic fsync/rename persistence, locks, live process identity, full symlink/TOCTOU defenses, and execution.
+All four documents satisfy the offline structural and consistency checks.
+128 preflight passed
+Some weights of RobertaModel were not initialized from the model checkpoint at roberta-base and are newly initialized: ['pooler.dense.bias', 'pooler.dense.weight']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+/home/kojiek/venvs/dac/lib/python3.12/site-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+/home/kojiek/venvs/dac/lib/python3.12/site-packages/torch/nn/functional.py:6409: UserWarning: Support for mismatched key_padding_mask and attn_mask is deprecated. Use same type for both instead.
+  key_padding_mask = _canonical_mask(
+[17:16:52] identity/meanaudio_s14159265_cfg0/clean/C0 n=200 14.9s
+Traceback (most recent call last):
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 805, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 801, in main
+    else:score_cells(c,scorer,manifest,c['part'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 516, in score_cells
+    check_c0(got, table(reference), ('PQ', 'CE', 'CU', 'PC', 'clap'))
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 369, in check_c0
+    raise RuntimeError(f'C0 identity failed: {failures}; diffs={diffs}')
+RuntimeError: C0 identity failed: ['CU max 0.012891 > 0.01']; diffs={'PQ': {'max_abs': 0.00904083251953125, 'mean_signed': -5.6142807006835935e-05}, 'CE': {'max_abs': 0.0028862953186035156, 'mean_signed': -6.39200210571289e-06}, 'CU': {'max_abs': 0.012890815734863281, 'mean_signed': -5.950927734375e-05}, 'PC': {'max_abs': 0.0015366077423095703, 'mean_signed': -1.7503499984741212e-05}, 'clap': {'max_abs': 0.0, 'mean_signed': 0.0}}
+P2_CLASSIFY 129_metric_invariance_table_b_budget_r3 rc=1 dest=failed_notified 2026-10-17T09:16:57Z
+P2_STARTING 130_metric_invariance_negmf_budget_r3 run=130_metric_invariance_negmf_budget_r3-20261017T091658Z 2026-10-17T09:16:58Z
+[NOTIFY OK] durable seat_attempt experiment=p2-seat-130_metric_invariance_negmf_budget_r3
+P2_SEAT 130_metric_invariance_negmf_budget_r3 run=130_metric_invariance_negmf_budget_r3-20261017T091658Z pid=1073705 2026-10-17T09:16:59Z
+Traceback (most recent call last):
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 805, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 748, in main
+    if args.preflight:preflight(c);return
+                      ^^^^^^^^^^^^
+  File "/home/kojiek/MeanAudio/scripts/eval/metric_invariance_128.py", line 703, in preflight
+    data=json.loads(terminal.read_text())
+                    ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1029, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/kojiek/gpu_queue/p2/done/129_metric_invariance_table_b_budget_r3.terminal.json'
+P2_CLASSIFY 130_metric_invariance_negmf_budget_r3 rc=2 dest=held_notified 2026-10-17T09:17:07Z
+[NOTIFY OK] status=idle experiment=gpu-queue-idle
+QUEUE_IDLE_NOTIFIED 2026-10-17T09:17:08Z

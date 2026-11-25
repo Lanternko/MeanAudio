@@ -1,0 +1,108 @@
+[
+ {
+  "cell": "noreverb",
+  "rank_in_cell": 0,
+  "tag": "X+all helpful",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.3,
+   "center": 59,
+   "spread": 35,
+   "pdist": "norep",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 12.602925663589964,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -3,
+     "oct": 0
+    }
+   ],
+   "pad": {
+    "prog": 48,
+    "db": -18,
+    "dur": 2,
+    "mode": "prog"
+   },
+   "counter": null,
+   "drums": "rock_16",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": null,
+   "lp_fc": null
+  },
+  "search_CE": 8.206360578536987,
+  "heldout_CE": 8.266043186187744,
+  "CE_ci": [
+   8.2313871383667,
+   8.300699234008789
+  ],
+  "best_clip_CE": 8.300699234008789,
+  "best_seed": 2000,
+  "per_seed": [
+   8.300699234008789,
+   8.2313871383667
+  ],
+  "mean_CU": 8.454252243041992,
+  "mean_PC": 5.237713813781738,
+  "mean_PQ": 8.402604103088379
+ },
+ {
+  "cell": "reverb",
+  "rank_in_cell": 0,
+  "tag": "r9top",
+  "cfg": {
+   "bank": "generaluser",
+   "prog": 46,
+   "rhythm": "grid",
+   "rate": 5.176918407636159,
+   "legato": 0.32145895492978294,
+   "center": 59,
+   "spread": 35,
+   "pdist": "major",
+   "vel_mean": 78.99297192265325,
+   "vel_sd": 11.699656547003748,
+   "poly": 1,
+   "bass": 39,
+   "bass_db": 0.0,
+   "layers": [
+    {
+     "prog": 40,
+     "db": -10.192996019638677,
+     "oct": 0
+    }
+   ],
+   "pad": null,
+   "counter": null,
+   "drums": "rock",
+   "drum_db": -18.655464897298696,
+   "drum_bank": "generaluser",
+   "reverb": {
+    "rt60": 2.4360468208556365,
+    "wet": 0.09734792559520374
+   },
+   "lp_fc": null
+  },
+  "search_CE": 8.074350595474243,
+  "heldout_CE": 8.095811367034912,
+  "CE_ci": [
+   8.077491760253906,
+   8.114130973815918
+  ],
+  "best_clip_CE": 8.114130973815918,
+  "best_seed": 2000,
+  "per_seed": [
+   8.114130973815918,
+   8.077491760253906
+  ],
+  "mean_CU": 8.43040943145752,
+  "mean_PC": 5.259108304977417,
+  "mean_PQ": 8.377859115600586
+ }
+]

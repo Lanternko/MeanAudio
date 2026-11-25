@@ -1,0 +1,104 @@
+{
+ "schema_version": 1,
+ "document_kind": "eval_only_metrics_contract",
+ "experiment_id": "seed-robustness-138-20261021",
+ "job": "138",
+ "status": "authorized_p2_pending",
+ "priority": "P2",
+ "question": "Pre-registered H1-H4 verdicts (hierarchical bootstrap 2000, Holm), variance decomposition, MDD, per-prompt tie floor and the distribution of all 75 / 45 differences, plus raw FAD of the 30 new shares. Needs the finished and scored shares of 135-137.",
+ "design_document": "/home/kojiek/MeanAudio/docs/experiments/seed_robustness_table_b_135_20261021.md",
+ "operator_instruction": {
+  "recorded_at": "2026-10-21",
+  "text": "Table B inference-seed robustness (135-138) and segment length (139) as in the pre-registered design document; thresholds, seed lists and verdict rules are not changed."
+ },
+ "approval_required": true,
+ "launch_authorization": {
+  "gpu_launch_allowed": true,
+  "queue_position": "p2",
+  "scope": "Raw FAD of 30 shares (GPU, ~1-2 min each) and CPU analysis. Output under /mnt/seagate/meanaudio/seed_robustness_135/analysis_138 and the registered summary.",
+  "valid": true
+ },
+ "bindings": {
+  "launcher": "/home/kojiek/gpu_queue/p2/pending/138_seed_robustness_analysis.sh",
+  "launcher_sha256": "8c97d98d6343f3acc46035657f52dfbe496aac94bb2f6a4438c685464b5b8965",
+  "harn": "/home/kojiek/MeanAudio/scripts/experiment_harness/ttm_metrics_115_guest.py",
+  "harn_sha256": "2bbf9c18fc9c5e9b7b2f8531fe17602f68cbecf924248fe239603a1c92d2fab6",
+  "action": "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_138_analysis.py",
+  "action_sha256": "ffbeb9c9738f40cc1e6b146bc00fc0f52b180c58340e8c3632decbaae3f0adb8",
+  "ttm_metrics_115": "/home/kojiek/MeanAudio/scripts/eval/ttm_metrics_115.py",
+  "ttm_metrics_115_sha256": "78d27f4ae395d4c4e3e21c9a340ebf85af72f5c80453f708b188f51c99b6140d",
+  "eval_metrics": "/home/kojiek/MeanAudio/scripts/eval/eval_metrics.py",
+  "eval_metrics_sha256": "47406ee5bf30c837733a00be306e813d8c27301a2a8ea30de9f8f28b1dfec67d",
+  "seed_robustness_135": "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_135.py",
+  "seed_robustness_135_sha256": "932390d1dc866c2e8748fec298d27f5c8a2d5b683e2f268bf1633e8438a209ee"
+ },
+ "commands": {
+  "preflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_138_analysis.py",
+   "--preflight"
+  ],
+  "run": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_138_analysis.py"
+  ],
+  "postflight": [
+   "/home/kojiek/venvs/dac/bin/python",
+   "/home/kojiek/MeanAudio/scripts/eval/seed_robustness_138_analysis.py",
+   "--validate-only"
+  ]
+ },
+ "completion_evidence": {
+  "eval_only": true,
+  "method": "guest writes terminal with sha256 of the registered summary after --validate-only passes"
+ },
+ "fixed_protocol": {
+  "job": "138",
+  "n_boot": 2000,
+  "boot_seed": 20261021,
+  "m0": {
+   "PQ": 0.0919,
+   "clap": 0.0104
+  },
+  "thresholds_source": "docs/experiments/seed_robustness_table_b_135_20261021.md",
+  "min_free_bytes": 32212254720,
+  "tsv": "/mnt/HDD/kojiek/phase4_jamendo_data/musiccaps_test.tsv",
+  "tsv_sha256": "de567b13c39b6e7f7b3666f257817322ea119bcdece82fb5e8700b4a7470e51f"
+ },
+ "storage": {
+  "path": "/mnt/seagate/meanaudio/seed_robustness_135",
+  "min_free_bytes": 32212254720
+ },
+ "resume": {
+  "kind": "from_scratch_with_autoresume",
+  "note": "a share with a complete manifest and finished scoring is skipped; an incomplete share is regenerated whole (ours: single RNG stream)",
+  "pause_progress": "/mnt/seagate/meanaudio/seed_robustness_135/pause_progress.json",
+  "autoresume": "/mnt/seagate/meanaudio/seed_robustness_135/pause_progress.json",
+  "checkpoint": null,
+  "iteration": 0
+ },
+ "dependencies": [
+  "135-137 finished and scored (138 only)"
+ ],
+ "reports": [
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/seed_robustness_138_summary.json"
+  },
+  {
+   "path": "/home/kojiek/MeanAudio/docs/experiments/results/seed_robustness_138_tables.md"
+  }
+ ],
+ "queue_name": "138_seed_robustness_analysis.sh",
+ "queue_role": "p2",
+ "watcher": {
+  "stall_seconds": 28800
+ },
+ "launch_allowed": true,
+ "revision_history": [
+  {
+   "rev": "r1",
+   "date": "2026-10-21",
+   "note": "Written by dispatch task 20261021-024128-4f99f6; not queued."
+  }
+ ]
+}
